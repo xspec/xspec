@@ -55,26 +55,6 @@
                                        xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                        xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
-                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-                     <dct:creator>
-                        <dct:Agent>
-                           <skos:prefLabel>Unknown</skos:prefLabel>
-                        </dct:Agent>
-                     </dct:creator>
-                     <dct:created>2000-01-01T00:00:00Z</dct:created>
-                     <dct:source>
-                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
-                           <dct:creator>
-                              <dct:Agent>
-                                 <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
-                              </dct:Agent>
-                           </dct:creator>
-                           <dct:created>2000-01-01T00:00:00Z</dct:created>
-                        </rdf:Description>
-                     </dct:source>
-                  </svrl:metadata>
                   <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
                                        documents="focus-vs-pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
@@ -170,26 +150,6 @@
                                        xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                        xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
-                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-                     <dct:creator>
-                        <dct:Agent>
-                           <skos:prefLabel>Unknown</skos:prefLabel>
-                        </dct:Agent>
-                     </dct:creator>
-                     <dct:created>2000-01-01T00:00:00Z</dct:created>
-                     <dct:source>
-                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
-                           <dct:creator>
-                              <dct:Agent>
-                                 <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
-                              </dct:Agent>
-                           </dct:creator>
-                           <dct:created>2000-01-01T00:00:00Z</dct:created>
-                        </rdf:Description>
-                     </dct:source>
-                  </svrl:metadata>
                   <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
                                        documents="focus-vs-pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>

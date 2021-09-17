@@ -16,6 +16,7 @@
   <xsl:key name="schxslt:properties" match="sch:property" use="@id"/>
 
   <xsl:param name="phase">#DEFAULT</xsl:param>
+  <xsl:param name="schxslt.compile.metadata" select="true()"/>
 
   <xsl:template match="/sch:schema">
 
@@ -93,12 +94,14 @@
       <template match="/">
 
         <variable name="schxslt:report">
-          <xsl:call-template name="schxslt-api:metadata">
-            <xsl:with-param name="schema" select="."/>
-            <xsl:with-param name="source">
-              <xsl:call-template name="schxslt:version"/>
-            </xsl:with-param>
-          </xsl:call-template>
+          <xsl:if test="$schxslt.compile.metadata">
+            <xsl:call-template name="schxslt-api:metadata">
+              <xsl:with-param name="schema" select="."/>
+              <xsl:with-param name="source">
+                <xsl:call-template name="schxslt:version"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:if>
           <xsl:choose>
             <xsl:when test="$effective-phase = '#ALL'">
               <xsl:for-each select="sch:pattern[sch:rule]">
@@ -215,11 +218,11 @@
   </xsl:template>
 
   <!-- Message templates -->
-  <xsl:template match="comment() | processing-instruction()" mode="schxslt:message-template">
+  <xsl:template match="comment() | processing-instruction()" mode="schxslt:message-template" priority="-10">
     <xsl:copy-of select="."/>
   </xsl:template>
 
-  <xsl:template match="*" mode="schxslt:message-template">
+  <xsl:template match="*" mode="schxslt:message-template" priority="-10">
     <element namespace="{namespace-uri(.)}" name="{local-name(.)}">
       <xsl:apply-templates select="node() | @*" mode="schxslt:message-template"/>
     </element>

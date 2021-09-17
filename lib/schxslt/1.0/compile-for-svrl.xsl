@@ -194,18 +194,9 @@
     <svrl:property-reference property="{$head}">
       <xsl:copy-of select="key('schxslt:properties', $head)/@role"/>
       <xsl:copy-of select="key('schxslt:properties', $head)/@schema"/>
-      <xsl:for-each select="key('schxslt:properties', $head)/node()">
-        <xsl:choose>
-          <xsl:when test="self::text() and normalize-space(.)">
-            <svrl:text>
-              <xsl:apply-templates select="." mode="schxslt:message-template"/>
-            </svrl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:copy-of select="."/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:for-each>
+      <svrl:text>
+        <xsl:apply-templates select="key('schxslt:properties', $head)/node()" mode="schxslt:message-template"/>
+      </svrl:text>
     </svrl:property-reference>
 
     <xsl:choose>

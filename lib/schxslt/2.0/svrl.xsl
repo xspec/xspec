@@ -9,6 +9,8 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:param name="schxslt.svrl.compact" as="xs:boolean" select="false()"/>
+
   <xsl:template name="schxslt-api:report">
     <xsl:param name="schema" as="element(sch:schema)" required="yes"/>
     <xsl:param name="phase" as="xs:string" required="yes"/>
@@ -18,21 +20,24 @@
       <xsl:if test="$phase ne '#ALL'">
         <xsl:attribute name="phase" select="$phase"/>
       </xsl:if>
-      <xsl:if test="$schema/sch:title">
-        <xsl:attribute name="title" select="$schema/sch:title"/>
-      </xsl:if>
-      <xsl:for-each select="$schema/sch:p">
-        <svrl:text>
-          <xsl:sequence select="(@id, @class, @icon)"/>
-          <xsl:apply-templates select="node()" mode="schxslt:message-template"/>
-        </svrl:text>
-      </xsl:for-each>
 
-      <xsl:for-each select="$schema/sch:ns">
-        <svrl:ns-prefix-in-attribute-values>
-          <xsl:sequence select="(@prefix, @uri)"/>
-        </svrl:ns-prefix-in-attribute-values>
-      </xsl:for-each>
+      <xsl:if test="$schxslt.svrl.compact eq false()">
+        <xsl:if test="$schema/sch:title">
+          <xsl:attribute name="title" select="$schema/sch:title"/>
+        </xsl:if>
+        <xsl:for-each select="$schema/sch:p">
+          <svrl:text>
+            <xsl:sequence select="(@id, @class, @icon)"/>
+            <xsl:apply-templates select="node()" mode="schxslt:message-template"/>
+          </svrl:text>
+        </xsl:for-each>
+
+        <xsl:for-each select="$schema/sch:ns">
+          <svrl:ns-prefix-in-attribute-values>
+            <xsl:sequence select="(@prefix, @uri)"/>
+          </svrl:ns-prefix-in-attribute-values>
+        </xsl:for-each>
+      </xsl:if>
 
       <sequence select="$schxslt:report"/>
 
@@ -41,34 +46,40 @@
 
   <xsl:template name="schxslt-api:active-pattern">
     <xsl:param name="pattern" as="element(sch:pattern)" required="yes"/>
-    <svrl:active-pattern>
-      <xsl:sequence select="($pattern/@id, $pattern/@role)"/>
-      <attribute name="documents" select="base-uri(.)"/>
-    </svrl:active-pattern>
+    <xsl:if test="$schxslt.svrl.compact eq false()">
+      <svrl:active-pattern>
+        <xsl:sequence select="($pattern/@id, $pattern/@role)"/>
+        <attribute name="documents" select="base-uri(.)"/>
+      </svrl:active-pattern>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="schxslt-api:fired-rule">
     <xsl:param name="rule" as="element(sch:rule)" required="yes"/>
-    <svrl:fired-rule>
-      <xsl:sequence select="($rule/@id, $rule/@role, $rule/@flag, $rule/@see, $rule/@icon, $rule/@fpi)"/>
-      <attribute name="context">
-        <xsl:value-of select="$rule/@context"/>
-      </attribute>
-    </svrl:fired-rule>
+    <xsl:if test="$schxslt.svrl.compact eq false()">
+      <svrl:fired-rule>
+        <xsl:sequence select="($rule/@id, $rule/@role, $rule/@flag, $rule/@see, $rule/@icon, $rule/@fpi)"/>
+        <attribute name="context">
+          <xsl:value-of select="$rule/@context"/>
+        </attribute>
+      </svrl:fired-rule>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="schxslt-api:suppressed-rule">
     <xsl:param name="rule" as="element(sch:rule)" required="yes"/>
-    <xsl:variable name="message">
-      WARNING: Rule <xsl:value-of select="normalize-space(@id)"/> for context "<xsl:value-of select="@context"/>" shadowed by preceding rule
-    </xsl:variable>
-    <comment> <xsl:sequence select="normalize-space($message)"/> </comment>
-    <svrl:suppressed-rule>
-      <xsl:sequence select="($rule/@id, $rule/@role, $rule/@flag, $rule/@see, $rule/@icon, $rule/@fpi)"/>
-      <attribute name="context">
-        <xsl:value-of select="$rule/@context"/>
-      </attribute>
-    </svrl:suppressed-rule>
+    <xsl:if test="$schxslt.svrl.compact eq false()">
+      <xsl:variable name="message">
+        WARNING: Rule <xsl:value-of select="normalize-space(@id)"/> for context "<xsl:value-of select="@context"/>" shadowed by preceding rule
+      </xsl:variable>
+      <comment> <xsl:sequence select="normalize-space($message)"/> </comment>
+      <svrl:suppressed-rule>
+        <xsl:sequence select="($rule/@id, $rule/@role, $rule/@flag, $rule/@see, $rule/@icon, $rule/@fpi)"/>
+        <attribute name="context">
+          <xsl:value-of select="$rule/@context"/>
+        </attribute>
+      </svrl:suppressed-rule>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="schxslt-api:failed-assert">
@@ -103,33 +114,35 @@
     <xsl:param name="schema" as="element(sch:schema)" required="yes"/>
     <xsl:param name="source" as="element(rdf:Description)" required="yes"/>
     <xsl:param name="xslt-version" as="xs:string" required="yes" tunnel="yes"/>
-    <svrl:metadata xmlns:dct="http://purl.org/dc/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-      <dct:creator>
-        <dct:Agent>
-          <skos:prefLabel>
-            <xsl:choose>
-              <xsl:when test="$xslt-version eq '3.0'">
-                <value-of separator="/" select="(system-property('Q{{http://www.w3.org/1999/XSL/Transform}}product-name'), system-property('Q{{http://www.w3.org/1999/XSL/Transform}}product-version'))"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <variable name="prefix" as="xs:string?" select="if (doc-available('')) then in-scope-prefixes(document('')/*[1])[namespace-uri-for-prefix(., document('')/*[1]) eq 'http://www.w3.org/1999/XSL/Transform'][1] else ()">
-                </variable>
-                <choose>
-                  <when test="empty($prefix)">Unknown</when>
-                  <otherwise>
-                    <value-of separator="/" select="(system-property(concat($prefix, ':product-name')), system-property(concat($prefix,':product-version')))"/>
-                  </otherwise>
-                </choose>
-              </xsl:otherwise>
-            </xsl:choose>
-          </skos:prefLabel>
-        </dct:Agent>
-      </dct:creator>
-      <dct:created><value-of select="current-dateTime()"/></dct:created>
-      <dct:source>
-        <xsl:sequence select="$source"/>
-      </dct:source>
-    </svrl:metadata>
+    <xsl:if test="$schxslt.svrl.compact eq false()">
+      <svrl:metadata xmlns:dct="http://purl.org/dc/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+        <dct:creator>
+          <dct:Agent>
+            <skos:prefLabel>
+              <xsl:choose>
+                <xsl:when test="$xslt-version eq '3.0'">
+                  <value-of separator="/" select="(system-property('Q{{http://www.w3.org/1999/XSL/Transform}}product-name'), system-property('Q{{http://www.w3.org/1999/XSL/Transform}}product-version'))"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <variable name="prefix" as="xs:string?" select="if (doc-available('')) then in-scope-prefixes(document('')/*[1])[namespace-uri-for-prefix(., document('')/*[1]) eq 'http://www.w3.org/1999/XSL/Transform'][1] else ()">
+                  </variable>
+                  <choose>
+                    <when test="empty($prefix)">Unknown</when>
+                    <otherwise>
+                      <value-of separator="/" select="(system-property(concat($prefix, ':product-name')), system-property(concat($prefix,':product-version')))"/>
+                    </otherwise>
+                  </choose>
+                </xsl:otherwise>
+              </xsl:choose>
+            </skos:prefLabel>
+          </dct:Agent>
+        </dct:creator>
+        <dct:created><value-of select="current-dateTime()"/></dct:created>
+        <dct:source>
+          <xsl:sequence select="$source"/>
+        </dct:source>
+      </svrl:metadata>
+    </xsl:if>
   </xsl:template>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -151,20 +164,9 @@
     <xsl:param name="property" as="element(sch:property)"/>
     <svrl:property-reference property="{.}">
       <xsl:sequence select="($property/@role, $property/@scheme)"/>
-      <xsl:for-each select="$property/node()">
-        <xsl:choose>
-          <xsl:when test="self::text()">
-            <xsl:if test="normalize-space()">
-              <svrl:text>
-                <xsl:apply-templates select="." mode="schxslt:message-template"/>
-              </svrl:text>
-            </xsl:if>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:sequence select="."/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:for-each>
+      <svrl:text>
+        <xsl:apply-templates select="$property/node()" mode="schxslt:message-template"/>
+      </svrl:text>
     </svrl:property-reference>
   </xsl:template>
 
