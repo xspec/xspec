@@ -150,6 +150,9 @@
       </template>
 
       <template match="text() | @*" mode="#all" priority="-10"/>
+      <template match="/" mode="#all" priority="-10">
+        <apply-templates mode="#current" select="node()"/>
+      </template>
       <template match="*" mode="#all" priority="-10">
         <apply-templates mode="#current" select="@*"/>
         <apply-templates mode="#current" select="node()"/>
