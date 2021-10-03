@@ -16,15 +16,7 @@
 		<xsl:context-item use="absent" />
 
 		<xsl:result-document>
-			<!--
-				xsl:document is for compatibility with all the Saxon versions.
-				Without xsl:document, Saxon 9.8.0.15 returns a document-node(element(secondary))
-				while 9.9.1.7, 9.9.1.8 and Saxon 10.3 return an element(secondary). I don't know
-				which behavior is correct.
-			-->
-			<xsl:document>
-				<secondary />
-			</xsl:document>
+			<secondary />
 		</xsl:result-document>
 	</xsl:template>
 

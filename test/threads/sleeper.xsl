@@ -14,16 +14,7 @@
 			<xsl:text expand-text="yes">Thread #{$tid} starts sleep</xsl:text>
 		</xsl:message>
 
-		<xsl:choose>
-			<xsl:when test="true()" use-when="element-available('saxon:do')">
-				<saxon:do action="Thread:sleep($ms)" />
-			</xsl:when>
-
-			<!-- TODO: Remove this xsl:when branch after abandoning Saxon 9.8 -->
-			<xsl:when test="Thread:sleep($ms)">
-				<xsl:message terminate="yes" />
-			</xsl:when>
-		</xsl:choose>
+		<saxon:do action="Thread:sleep($ms)" />
 
 		<xsl:message saxon:time="yes">
 			<xsl:text expand-text="yes">Thread #{$tid} ends sleep</xsl:text>
