@@ -78,13 +78,9 @@
             select="{$is-external}()" />
 
          <!-- $impl:thread-aware must be evaluated at run time static analysis -->
-         <variable name="{x:known-UQName('impl:thread-aware')}" as="xs:boolean"
+         <variable name="{x:known-UQName('impl:thread-aware')}" as="{x:known-UQName('xs:boolean')}"
             select="(system-property('{x:known-UQName('xsl:product-name')}') eq 'SAXON') and starts-with(system-property('{x:known-UQName('xsl:product-version')}'), 'EE ')"
-            static="yes">
-            <!-- Declare 'xs:' namespace for this element, because Saxon 9.8.0.15 does not recognize
-               URIQualifiedName in xsl:variable[@static="yes"]/@as. -->
-            <xsl:namespace name="xs" select="$x:xs-namespace" />
-         </variable>
+            static="yes" />
 
          <!-- $impl:logical-processor-count must be evaluated at run time -->
          <variable name="{x:known-UQName('impl:logical-processor-count')}"

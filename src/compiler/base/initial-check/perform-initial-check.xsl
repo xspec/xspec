@@ -10,12 +10,14 @@
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
-               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
-            </xsl:when>
             <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
-               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
+               <xsl:text>Saxon version 9.8 or less is not supported.</xsl:text>
             </xsl:when>
+            <!--
+            <xsl:when test="$x:saxon-version lt x:pack-version((10, 0))">
+               <xsl:text>Saxon version 9.9 is not recommended. Consider migrating to Saxon 10.</xsl:text>
+            </xsl:when>
+            -->
          </xsl:choose>
       </xsl:variable>
       <xsl:message>
