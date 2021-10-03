@@ -34,7 +34,12 @@
 					<x:expect label="err:column-number and its type"
 						test="($x:result?err?column-number treat as xs:integer) ge 1" />
 
-					<!-- TODO: $err:additional on XQuery -->
+					<!-- err:additional is only for XQuery and Saxon sets it empty:
+						https://saxonica.plan.io/issues/4133#note-1 -->
+					<x:expect label="err:additional is defined (XQuery)"
+						select="if ($x:result?err?module => ends-with('.xq')) then [()] else []"
+						test="$x:result?err => Q{http://www.w3.org/2005/xpath-functions/map}find('additional')"
+					 />
 				</x:scenario>
 
 				<x:scenario label="No error in SUT">

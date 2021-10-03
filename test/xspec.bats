@@ -2271,8 +2271,8 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
-        [ "${lines[2]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
+    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+        [ "${lines[2]}" = "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10." ]
     else
         [ "${lines[2]}" = " " ]
     fi
@@ -2286,8 +2286,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.8"
+    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+        skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -2307,8 +2307,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.8"
+    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+        skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -2328,8 +2328,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.8"
+    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+        skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
     ant_log="${work_dir}/ant.log"
