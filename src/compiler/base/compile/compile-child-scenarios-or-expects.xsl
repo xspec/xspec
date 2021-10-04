@@ -140,15 +140,12 @@
       Compile x:expect.
    -->
    <xsl:template match="x:expect" as="node()+" mode="local:compile-scenarios-or-expects">
-      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
 
       <xsl:variable name="reason-for-pending" as="xs:string?" select="x:reason-for-pending(.)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:compile-expect">
-         <xsl:with-param name="call" select="$call" tunnel="yes" />
-         <xsl:with-param name="context" select="$context" tunnel="yes" />
          <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
             <xsl:if test="empty($reason-for-pending)">
