@@ -16,15 +16,15 @@
 			* Update the changelog in xt:description
 		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/d84d3b3408a68f749795dcfbc8c7f793ee53d726.zip" />
+			href="https://github.com/xspec/xspec/archive/25364653fdf4831a6d42e847f6ba55f7e474c29f.zip" />
 
-		<xt:version>2.2.2</xt:version>
+		<xt:version>2.2.4</xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.
 			* oXygen framework cannot always be backward compatible. See
 			  https://github.com/TEIC/oxygen-tei/issues/30. -->
-		<xt:oxy_version>20.0+</xt:oxy_version>
+		<xt:oxy_version>22.0+</xt:oxy_version>
 
 		<xt:type>framework</xt:type>
 
