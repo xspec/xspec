@@ -59,7 +59,7 @@ $input as xs:string
 )
 as xs:string
 {
-	let $escaped as xs:string := replace($input, $x:apos, ($x:apos || $x:apos))
+	let $escaped as xs:string := replace($input, $x:apos, ($x:apos || $x:apos), 'q')
 	return
 		($x:apos || $escaped || $x:apos)
 };
