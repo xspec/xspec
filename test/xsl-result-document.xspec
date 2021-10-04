@@ -29,14 +29,8 @@
 			<x:expect label="line-number" select="
 					if ($x:saxon-version ge x:pack-version((10, 6))) then
 						18
-					else if ($x:saxon-version ge x:pack-version((9, 9))) then
-						25
-					else if (system-property('xsl:product-version') => starts-with('EE ')) then
-						(: Saxon-EE 9.8.0.15: xsl:call-template line in the compiled stylesheet :)
-						exactly-one($x:result?err?line-number)
 					else
-						(: Saxon-HE 9.8.0.15: An empty sequence. I don't know why. :)
-						()" test="?err?line-number" />
+						19" test="?err?line-number" />
 		</x:scenario>
 	</x:scenario>
 
