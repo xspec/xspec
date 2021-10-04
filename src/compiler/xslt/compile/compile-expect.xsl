@@ -15,8 +15,6 @@
    <xsl:template name="x:compile-expect" as="element(xsl:template)">
       <xsl:context-item as="element(x:expect)" use="required" />
 
-      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
-      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
 
       <!-- URIQualifiedNames of the (required) parameters of the template being generated -->

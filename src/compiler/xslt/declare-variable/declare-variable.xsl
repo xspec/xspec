@@ -82,9 +82,9 @@
             </xsl:otherwise>
          </xsl:choose>
 
-         <xsl:if test="$comment">
+         <xsl:where-populated>
             <xsl:comment select="$comment" />
-         </xsl:if>
+         </xsl:where-populated>
       </xsl:element>
    </xsl:template>
 
