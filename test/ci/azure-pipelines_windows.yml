@@ -1,8 +1,15 @@
 # Job template for Windows
 
 parameters:
-  jobName: ''
-  javaVersion: ''
+  - name: jobName
+    type: string
+    default: ''
+  - name: javaVersion
+    type: string
+    default: ''
+  - name: testOxygen
+    type: boolean
+    default: true
 
 jobs:
   - job: ${{ parameters.jobName }}
@@ -12,7 +19,7 @@ jobs:
       vmImage: windows-latest
 
     strategy:
-      maxParallel: 5
+      maxParallel: 0
 
       matrix:
         Saxon-10:
@@ -21,8 +28,9 @@ jobs:
         Saxon-9-9:
           XSPEC_TEST_ENV: saxon-9-9
 
-        Oxygen:
-          XSPEC_TEST_ENV: oxygen
+        ${{ if eq(parameters.testOxygen, true) }}:
+          Oxygen:
+            XSPEC_TEST_ENV: oxygen
 
     steps:
       - task: JavaToolInstaller@0
