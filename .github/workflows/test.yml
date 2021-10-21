@@ -24,6 +24,8 @@ jobs:
         exclude:
           - os: macos-latest
             env: saxon-9-9
+          - java: 8
+            env: oxygen
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -40,8 +42,7 @@ jobs:
       - name: Install Bats for macOS
         if: runner.os == 'macOS'
         run: >
-          brew uninstall bats
-          && brew install bats-core
+          test/ci/install-bats-macos.sh
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'
