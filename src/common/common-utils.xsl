@@ -58,7 +58,7 @@
 		<xsl:param as="xs:string" name="input" />
 
 		<xsl:variable as="xs:string" name="escaped"
-			select="replace($input, $x:apos, ($x:apos || $x:apos))" />
+			select="replace($input, $x:apos, ($x:apos || $x:apos), 'q')" />
 		<xsl:sequence select="$x:apos || $escaped || $x:apos" />
 	</xsl:function>
 

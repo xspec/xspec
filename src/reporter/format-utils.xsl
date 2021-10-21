@@ -132,7 +132,7 @@
          <xsl:variable name="display-value" as="xs:string"
             select="
                .
-               => replace('&quot;', '&amp;quot;')
+               => replace('&quot;', '&amp;quot;', 'q')
                => replace('\s(\s+)', '&#x0A;$1')" />
          <xsl:variable name="display-value-in-quot" as="xs:string"
             select="'&quot;' || $display-value || '&quot;'" />
@@ -479,7 +479,7 @@
                select="replace($formatted, '^/([A-Za-z]:)', '$1')" />
 
             <!-- Unescape whitespace -->
-            <xsl:sequence select="replace($formatted, '%20', ' ')" />
+            <xsl:sequence select="replace($formatted, '%20', ' ', 'q')" />
          </xsl:when>
 
          <xsl:otherwise>

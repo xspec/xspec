@@ -298,8 +298,8 @@
     </saxon-xslt>
   </target>
 
-  <!-- Converts Schematron into XSLT -->
-  <target name="preprocess-schematron-xslt"
+  <!-- Converts Schematron and Schematron XSpec into XSLT and XSLT XSpec -->
+  <target name="preprocess-schematron"
           if="${xspec.is.schematron}">
 
     <!-- Mark URI of preprocessors to be skipped -->
@@ -321,42 +321,41 @@
              file="${xspec.schematron.preprocessor.step3}"
              if:set="xspec.schematron.preprocessor.step3" />
 
-    <!-- Location of the generated XSLT file -->
+    <!-- Location and URI of the generated XSLT file -->
     <property name="xspec.schematron.preprocessed.xsl.file"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xsl" />
-
-    <saxon-xslt in="${xspec.xspecfile.original}"
-                out="${xspec.schematron.preprocessed.xsl.file}"
-                style="${xspec.project.dir}/src/schematron/schut-to-xslt.xsl">
-      <xslt-elements>
-        <param name="STEP1-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step1.url}"
-          if:set="xspec.schematron.preprocessor.step1.url" />
-        <param name="STEP2-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step2.url}"
-          if:set="xspec.schematron.preprocessor.step2.url" />
-        <param name="STEP3-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
-          if:set="xspec.schematron.preprocessor.step3.url" />
-      </xslt-elements>
-    </saxon-xslt>
-  </target>
-
-  <!-- Converts Schematron XSpec into XSLT XSpec -->
-  <target name="preprocess-schematron-xspec"
-          depends="preprocess-schematron-xslt"
-          if="${xspec.is.schematron}">
     <makeurl property="xspec.schematron.preprocessed.xsl.url"
-             file="${xspec.schematron.preprocessed.xsl.file}" />
+             file="${xspec.schematron.preprocessed.xsl.file}"
+             validate="false" />
 
-    <saxon-xslt in="${xspec.xspecfile.original}"
-                out="${xspec.xspecfile.preprocessed}"
-                style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl">
-      <xslt-elements>
-        <param name="stylesheet-uri" expression="${xspec.schematron.preprocessed.xsl.url}" />
-      </xslt-elements>
-    </saxon-xslt>
+    <parallel failonany="true" threadsPerProcessor="1">
+      <!-- Convert Schematron into XSLT -->
+      <saxon-xslt in="${xspec.xspecfile.original}"
+                  out="${xspec.schematron.preprocessed.xsl.file}"
+                  style="${xspec.project.dir}/src/schematron/schut-to-xslt.xsl">
+        <xslt-elements>
+          <param name="STEP1-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step1.url}"
+            if:set="xspec.schematron.preprocessor.step1.url" />
+          <param name="STEP2-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step2.url}"
+            if:set="xspec.schematron.preprocessor.step2.url" />
+          <param name="STEP3-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
+            if:set="xspec.schematron.preprocessor.step3.url" />
+        </xslt-elements>
+      </saxon-xslt>
+
+      <!-- Convert Schematron XSpec into XSLT XSpec -->
+      <saxon-xslt in="${xspec.xspecfile.original}"
+                  out="${xspec.xspecfile.preprocessed}"
+                  style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl">
+        <xslt-elements>
+          <param name="stylesheet-uri" expression="${xspec.schematron.preprocessed.xsl.url}" />
+        </xslt-elements>
+      </saxon-xslt>
+    </parallel>
   </target>
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="init, generate-catalog, preprocess-schematron-xspec">
+  <target name="compile" depends="init, generate-catalog, preprocess-schematron">
     <property name="xspec.compiler.dir"
               value="${xspec.project.dir}/src/compiler" />
 
