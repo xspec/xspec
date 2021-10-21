@@ -42,8 +42,7 @@ jobs:
       - name: Install Bats for macOS
         if: runner.os == 'macOS'
         run: >
-          brew uninstall bats
-          && brew install bats-core
+          test/ci/install-bats-macos.sh
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'

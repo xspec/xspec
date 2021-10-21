@@ -29,8 +29,7 @@ jobs:
 
     steps:
       - script: >
-          brew uninstall bats
-          && brew install bats-core
+          test/ci/install-bats-macos.sh
         displayName: Install Bats
 
       - script: >
