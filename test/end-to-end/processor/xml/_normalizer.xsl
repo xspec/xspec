@@ -46,56 +46,6 @@
 	</xsl:template>
 
 	<!--
-		Normalizes dct:created by copying another element text
-	-->
-	<xsl:template as="text()" match="
-			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
-			/svrl:schematron-output/svrl:metadata/dct:source/rdf:Description/dct:created/text()
-			[. castable as xs:dateTimeStamp]" mode="normalizer:normalize">
-		<xsl:value-of select="ancestor::svrl:metadata[1]/dct:created cast as xs:dateTimeStamp" />
-	</xsl:template>
-
-	<!--
-		Normalizes skos:prefLabel
-			Example:
-				in:  <skos:prefLabel>SchXslt/1.6.2 SAXON/EE 9.9.1.7</skos:prefLabel>
-				out: <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-				
-				in:  <skos:prefLabel>SAXON/HE 9.9.1.7</skos:prefLabel>
-				out: <skos:prefLabel>SAXON/product-version</skos:prefLabel>
-	-->
-	<xsl:template as="text()" match="
-			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
-			/svrl:schematron-output/svrl:metadata//dct:creator/dct:Agent/skos:prefLabel[. ne 'Unknown']/text()"
-		mode="normalizer:normalize">
-		<xsl:variable as="xs:string" name="regex">
-			<xsl:text>
-				^
-					(?:
-						(SchXslt/)	<!-- group 1 -->
-						[0-9.]+
-						([ ])		<!-- group 2 -->
-					)?
-					(SAXON/)		<!-- group 3 -->
-					[^/]+
-				$
-			</xsl:text>
-		</xsl:variable>
-
-		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string flags="x" regex="{$regex}" select=".">
-			<xsl:matching-substring>
-				<xsl:value-of>
-					<xsl:if test="regex-group(1)">
-						<xsl:value-of select="regex-group(1) || 'version' || regex-group(2)" />
-					</xsl:if>
-					<xsl:value-of select="regex-group(3) || 'product-version'" />
-				</xsl:value-of>
-			</xsl:matching-substring>
-		</xsl:analyze-string>
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files created dynamically by XSpec
 	-->
 	<xsl:template as="attribute(href)" match="
@@ -131,16 +81,14 @@
 				=> head()" />
 		<xsl:if test="$svrl">
 			<xsl:choose>
-				<xsl:when test="
-						$svrl/svrl:metadata/dct:source
-						/rdf:Description/dct:creator/dct:Agent/skos:prefLabel
-						=> starts-with('SchXslt/')">
-					<xsl:sequence select="'schxslt'" />
+				<xsl:when
+					test="namespace-uri-for-prefix('schold', $svrl) eq 'http://www.ascc.net/xml/schematron'">
+					<xsl:sequence select="'skeleton'" />
 				</xsl:when>
 
 				<xsl:otherwise>
-					<!-- Assume the "skeleton" Schematron implementation -->
-					<xsl:sequence select="'skeleton'" />
+					<!-- Assume SchXslt -->
+					<xsl:sequence select="'schxslt'" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
