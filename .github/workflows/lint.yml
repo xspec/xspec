@@ -28,7 +28,7 @@ jobs:
       - run: >
           source test/ci/npm-ci.sh
           && source test/ci/install-jing.sh
-          && bats --tap test/rnc.bats
+          && bats --print-output-on-failure --tap --trace test/rnc.bats
 
   prettier:
     runs-on: ubuntu-latest
