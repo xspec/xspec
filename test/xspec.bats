@@ -292,14 +292,9 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     # Verify message
-    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    mylines=()
-    while IFS= read -r line; do
-        mylines+=("$line")
-    done <<< "$output"
-    [ "${mylines[18]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${mylines[21]}" = "Report available at ${test_copy}/xspec/function-coverage.html" ]
-    [ "${mylines[22]}" = "Done." ]
+    [ "${lines[15]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[17]}" = "Report available at ${test_copy}/xspec/function-coverage.html" ]
+    [ "${lines[18]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -754,12 +749,7 @@ load bats-helper
     run ../bin/xspec.sh -c "${tutorial_copy}/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    mylines=()
-    while IFS= read -r line; do
-        mylines+=("$line")
-    done <<< "$output"
-    [ "${mylines[17]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
+    [ "${lines[13]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
@@ -780,12 +770,7 @@ load bats-helper
     run "${parent_dir_abs}/bin/xspec.sh" -c "${tutorial_copy}/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    mylines=()
-    while IFS= read -r line; do
-        mylines+=("$line")
-    done <<< "$output"
-    [ "${mylines[17]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
+    [ "${lines[13]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
