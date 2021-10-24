@@ -1,8 +1,7 @@
 #! /bin/bash
 
-# Uninstall stale one
 if brew list bats; then
     brew uninstall bats
+else
+    true
 fi
-
-brew install bats-core

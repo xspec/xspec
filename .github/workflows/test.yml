@@ -35,19 +35,15 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: zulu
 
-      - name: Install Bats for Linux
-        if: runner.os == 'Linux'
-        run: sudo npm install -g bats
-
-      - name: Install Bats for macOS
+      - name: Uninstall stale Bats for macOS
         if: runner.os == 'macOS'
-        run: >
-          test/ci/install-bats-macos.sh
+        run: test/ci/uninstall-bats-macos.sh
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'
         run: >
-          source test/ci/install-deps.sh
+          source test/ci/npm-ci.sh
+          && source test/ci/install-deps.sh
           && test/ci/print-env.sh
           && test/ci/run-core-tests.sh
           && test/ci/maven-package.sh -q

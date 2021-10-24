@@ -2,9 +2,6 @@
 
 echo "Run prettier"
 
-# Install dependencies, otherwise fail
-npm ci || exit
-
 # Check by prettier. Exit if fine.
 npm run prettier:check && exit
 
