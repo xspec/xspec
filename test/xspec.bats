@@ -25,8 +25,7 @@
 
 setup() {
     # Work directory
-    work_dir="${BATS_TMPDIR}/xspec/bats_work"
-    mkdir -p "${work_dir}"
+    work_dir="${BATS_TEST_TMPDIR}"
 
     # Full path to the parent directory
     parent_dir_abs=$(cd ..; pwd)
@@ -39,11 +38,6 @@ setup() {
     XMLRESOLVER_PROPERTIES="${work_dir}/xmlresolver.properties"
     echo "cache=${work_dir}/xmlcatalog-cache_${RANDOM}" > "${XMLRESOLVER_PROPERTIES}"
     export XMLRESOLVER_PROPERTIES="file:${XMLRESOLVER_PROPERTIES}"
-}
-
-teardown() {
-    # Remove the work directory
-    rm -r "${work_dir}"
 }
 
 #
