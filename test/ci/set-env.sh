@@ -1,6 +1,10 @@
 #! /bin/bash
 
 #
+# This script is executed as 'source'. Do not do 'exit'.
+#
+
+#
 # Select the mainstream by default
 #
 if [ -z "${XSPEC_TEST_ENV}" ]; then

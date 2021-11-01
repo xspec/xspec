@@ -45,3 +45,14 @@ assert_leaf_dir_not_exist() {
 
     return 1
 }
+
+myrun() {
+    run --keep-empty-lines -- "$@"
+    # To print $output, use --print-output-on-failure and/or --verbose-run Bats command line flags
+
+    # Revert a confusing behavior of --keep-empty-lines: https://github.com/bats-core/bats-core/blob/v1.5.0/test/run.bats#L21-L27
+    # shellcheck disable=SC2154
+    if [ ${#lines[@]} -ge 2 ] && [ "${lines[${#lines[@]} - 1]}" == "" ]; then
+        unset 'lines[${#lines[@]}-1]'
+    fi
+}

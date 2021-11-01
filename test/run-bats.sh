@@ -55,4 +55,4 @@ unset XML_CATALOG
 unset XSPEC_HOME
 
 # Run (in subshell for safer cd)
-(cd "${mydir}" && bats "$@" xspec.bats)
+(cd "${mydir}" && bats --print-output-on-failure --trace "$@" xspec.bats)
