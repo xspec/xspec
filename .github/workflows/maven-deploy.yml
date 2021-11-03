@@ -13,7 +13,7 @@ jobs:
     if: github.repository == 'xspec/xspec'
 
     steps:
-      - uses: actions/checkout@v2.3.5
+      - uses: actions/checkout@v2.4.0
 
       - run: gpg --version
 
