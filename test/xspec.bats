@@ -141,6 +141,14 @@ load bats-helper
     [ "${lines[0]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
 }
 
+@test "cd to bin dir and run CLI from there using implicit XSPEC_HOME #1568" {
+    cd ../bin
+    myrun ./xspec.sh ../tutorial/escape-for-regex.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[21]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+    [ "${lines[22]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+}
+
 #
 # SAXON_CP has precedence over SAXON_HOME
 #
