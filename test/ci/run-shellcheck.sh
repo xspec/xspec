@@ -13,5 +13,7 @@ find . \
     -or \
     \( -path './misc/archive/*' -prune \) \
     -or \
+    \( -path './node_modules/*' -prune \) \
+    -or \
     \( -type f \( -name '*.bash' -or -name '*.bats' -or -name '*.sh' \) -print0 \) \
     | xargs -0 -t shellcheck
