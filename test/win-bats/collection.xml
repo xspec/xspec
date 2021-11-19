@@ -96,6 +96,14 @@
     call :verify_line 1 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
 	</case>
 
+	<case name="cd to bin dir and run CLI from there using implicit XSPEC_HOME #1568">
+    cd ..\bin
+    call :run xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
+    call :verify_line 22 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
+    call :verify_line 23 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
+	</case>
+
 	<!--
 		SAXON_CP has precedence over SAXON_HOME
 	-->
