@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test //(x:call|x:context)/x:param[@name] without /x:description/x:param.
+-->
+<x:description query="x-urn:test:issue-1564" query-at="issue-1564.xqm" stylesheet="issue-1564.xsl"
+	xmlns:issue-1564="x-urn:test:issue-1564" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="x:call/x:param[@function]/@name">
+		<x:call function="issue-1564:get-g">
+			<!-- @name conflicts with global variable (XQuery) or global parameter (XSLT)
+				deliberately -->
+			<x:param name="issue-1564:g" select="'function-param value'" />
+		</x:call>
+		<x:expect label="should not affect global variable (XQuery) or global parameter (XSLT)"
+			select="'global default value'" />
+	</x:scenario>
+
+</x:description>

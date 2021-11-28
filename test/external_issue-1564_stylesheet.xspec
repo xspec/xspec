@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="issue-1564.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="issue-1564_stylesheet.xspec" />
+</x:description>
