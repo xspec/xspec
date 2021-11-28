@@ -228,7 +228,9 @@ result as parameter.
          <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
       </xsl:element>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-         <xsl:sequence select="Q{http://example.org/ns/my}f()"/>
+         <xsl:sequence xmlns:my="http://example.org/ns/my"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="Q{http://example.org/ns/my}f()"/>
       </xsl:variable>
 
       ... generate scenario data in the report ...
@@ -433,7 +435,9 @@ section "[Simple scenario](#simple-scenario)").
                  name="Q{}p2"
                  as="element()"
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
-   <xsl:sequence select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
+   <xsl:sequence xmlns:my="http://example.org/ns/my"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
 <!-- "call a named template (without x:context)" scenario -->
