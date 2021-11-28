@@ -420,9 +420,9 @@ section "[Simple scenario](#simple-scenario)").
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:my="http://example.org/ns/my"
-                 name="Q{urn:x-xspec:compile:impl}param-..."
+                 name="Q{urn:x-xspec:compile:impl}param-...1"
                  select="'val1'"/>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...2-doc" as="document-node()">
       <xsl:document>
          <xsl:element name="val2" namespace="">
             <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
@@ -432,48 +432,48 @@ section "[Simple scenario](#simple-scenario)").
    </xsl:variable>
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:my="http://example.org/ns/my"
-                 name="Q{}p2"
+                 name="Q{urn:x-xspec:compile:impl}param-...2"
                  as="element()"
-                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
+                 select="$Q{urn:x-xspec:compile:impl}param-...2-doc ! ( node() )"><!--$p2--></xsl:variable>
    <xsl:sequence xmlns:my="http://example.org/ns/my"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
+                 select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-...1, $Q{urn:x-xspec:compile:impl}param-...2)"/>
 </xsl:variable>
 
 <!-- "call a named template (without x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 name="Q{}p1"
-                 select="'val1'"/>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
+                 name="Q{urn:x-xspec:compile:impl}param-...1"
+                 select="'val1'"><!--$p1--></xsl:variable>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...2-doc" as="document-node()">
       <xsl:document>
          <xsl:element name="val2" namespace="">
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
          </xsl:element>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{}p2"
-                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...2"
+                 select="$Q{urn:x-xspec:compile:impl}param-...2-doc ! ( node() )"><!--$p2--></xsl:variable>
    <xsl:call-template name="Q{}t">
       <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       name="Q{}p1"
-                      select="$Q{}p1"/>
+                      select="$Q{urn:x-xspec:compile:impl}param-...1"/>
       <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       name="Q{}p2"
-                      select="$Q{}p2"/>
+                      select="$Q{urn:x-xspec:compile:impl}param-...2"/>
    </xsl:call-template>
 </xsl:variable>
 
 <!-- "call a named template (with x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  name="Q{}p1"
-                  select="'val1'"/>
+                 name="Q{urn:x-xspec:compile:impl}param-..."
+                 select="'val1'"><!--$p1--></xsl:variable>
    <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
       <xsl:call-template name="Q{}t">
          <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                           name="Q{}p1"
-                           select="$Q{}p1"/>
+                         name="Q{}p1"
+                         select="$Q{urn:x-xspec:compile:impl}param-..."/>
       </xsl:call-template>
    </xsl:for-each>
 </xsl:variable>
@@ -487,10 +487,10 @@ section "[Simple scenario](#simple-scenario)").
 ### Compiled query
 
 ```xquery
-let $Q{urn:x-xspec:compile:impl}param-... := (
+let $Q{urn:x-xspec:compile:impl}param-...1 := (
 'val1'
 )
-let $Q{urn:x-xspec:compile:impl}param-...-doc as document-node() := (
+let $Q{urn:x-xspec:compile:impl}param-...2-doc as document-node() := (
 document {
 element { QName('', 'val2') } {
 namespace { "my" } { 'http://example.org/ns/my' },
@@ -498,11 +498,11 @@ namespace { "x" } { 'http://www.jenitennison.com/xslt/xspec' }
 }
 }
 )
-let $p2 as element() := (
-$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )
+let $Q{urn:x-xspec:compile:impl}param-...2 as element() (:$p2:) := (
+$Q{urn:x-xspec:compile:impl}param-...2-doc ! ( node() )
 )
 let $Q{http://www.jenitennison.com/xslt/xspec}result as item()* := (
-Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
+Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-...1, $Q{urn:x-xspec:compile:impl}param-...2)
 )
 ```
 
@@ -1121,8 +1121,8 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   </xsl:if>
                   <xsl:map-entry key="'template-params'">
                      <xsl:map>
-                        <xsl:map-entry key="QName('', 'p1')" select="$Q{}p1"/>
-                        <xsl:map-entry key="QName('', 'p2')" select="$Q{}p2"/>
+                        <xsl:map-entry key="QName('', 'p1')" select="$Q{urn:x-xspec:compile:impl}param-...1"/>
+                        <xsl:map-entry key="QName('', 'p2')" select="$Q{urn:x-xspec:compile:impl}param-...2"/>
                      </xsl:map>
                   </xsl:map-entry>
                   <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
@@ -1149,7 +1149,7 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   </xsl:if>
                   <xsl:map-entry key="'template-params'">
                      <xsl:map>
-                        <xsl:map-entry key="QName('', 'p1')" select="$Q{}p1"/>
+                        <xsl:map-entry key="QName('', 'p1')" select="$Q{urn:x-xspec:compile:impl}param-..."/>
                      </xsl:map>
                   </xsl:map-entry>
                   <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
