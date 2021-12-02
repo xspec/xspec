@@ -165,7 +165,9 @@
     <svrl:property-reference property="{.}">
       <xsl:sequence select="($property/@role, $property/@scheme)"/>
       <svrl:text>
-        <xsl:apply-templates select="$property/node()" mode="schxslt:message-template"/>
+        <xsl:apply-templates select="$property/node()" mode="schxslt:message-template">
+          <xsl:with-param name="allow-xsl-copy-of" tunnel="yes" as="xs:boolean" select="true()"/>
+        </xsl:apply-templates>
       </svrl:text>
     </svrl:property-reference>
   </xsl:template>

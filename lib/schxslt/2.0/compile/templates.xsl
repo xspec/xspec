@@ -57,6 +57,18 @@
     </element>
   </xsl:template>
 
+  <xsl:template match="xsl:copy-of" mode="schxslt:message-template">
+    <xsl:param name="allow-xsl-copy-of" tunnel="yes" as="xs:boolean" select="false()"/>
+    <xsl:choose>
+      <xsl:when test="$allow-xsl-copy-of">
+        <xsl:sequence select="."/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:next-match/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="@*" mode="schxslt:variable-content schxslt:message-template">
     <attribute namespace="{namespace-uri(.)}" name="{local-name(.)}">
       <xsl:value-of select="."/>
