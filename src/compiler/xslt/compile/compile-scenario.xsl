@@ -186,8 +186,11 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <xsl:apply-templates select="($call, $context)[1]/x:param"
-                     mode="x:declare-variable" />
+                  <xsl:for-each select="($call, $context)[1]/x:param">
+                     <xsl:apply-templates select="." mode="x:declare-variable">
+                        <xsl:with-param name="comment" select="@name ! ('$' || .)" />
+                     </xsl:apply-templates>
+                  </xsl:for-each>
 
                   <xsl:variable name="invocation-type" as="xs:string">
                      <xsl:choose>

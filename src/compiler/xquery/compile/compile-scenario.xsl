@@ -132,7 +132,11 @@
 
          <xsl:if test="$run-sut-now">
             <!-- Set up variables containing the parameter values -->
-            <xsl:apply-templates select="$call/x:param" mode="x:declare-variable" />
+            <xsl:for-each select="$call/x:param">
+               <xsl:apply-templates select="." mode="x:declare-variable">
+                  <xsl:with-param name="comment" select="@name ! ('$' || .)" />
+               </xsl:apply-templates>
+            </xsl:for-each>
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} as item()* := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">

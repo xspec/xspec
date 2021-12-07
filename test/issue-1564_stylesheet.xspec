@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test //(x:call|x:context)/x:param[@name] with /x:description/x:param.
+	"Test 3" of https://github.com/xspec/xspec/issues/1564#issue-1051951370 is reproduced (in a
+	different form) when this test file is executed with @run-as="external".
+-->
+<x:description stylesheet="issue-1564.xsl" xmlns:issue-1564="x-urn:test:issue-1564"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="issue-1564:g" select="'global x:param value'" />
+
+	<x:scenario label="x:call/x:param/@name">
+		<x:call function="issue-1564:get-g">
+			<!-- @name conflicts with global parameter deliberately -->
+			<x:param name="issue-1564:g" select="'function-param value'" />
+		</x:call>
+		<x:expect label="should not affect global parameter" select="'global x:param value'" />
+	</x:scenario>
+
+	<x:scenario label="x:context/x:param/@name">
+		<x:context>
+			<!-- @name conflicts with global parameter deliberately -->
+			<x:param name="issue-1564:g" select="'context template-param value'" />
+			<get-g />
+		</x:context>
+		<x:expect label="should not affect global parameter" select="'global x:param value'" />
+	</x:scenario>
+
+	<x:scenario label="x:call[@template]/x:param/@name">
+		<x:call template="get-g">
+			<!-- @name conflicts with global parameter deliberately -->
+			<x:param name="issue-1564:g" select="'template-call template-param value'" tunnel="yes"
+			 />
+		</x:call>
+		<x:expect label="should not affect global parameter" select="'global x:param value'" />
+	</x:scenario>
+
+</x:description>

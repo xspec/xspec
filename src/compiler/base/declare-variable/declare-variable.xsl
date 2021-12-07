@@ -65,7 +65,7 @@
       <!-- xsl:for-each is not for iteration but for simplifying XPath -->
       <xsl:for-each select="$source-element">
          <xsl:choose>
-            <xsl:when test="@name">
+            <xsl:when test="@name and not(self::x:param[parent::x:call|parent::x:context])">
                <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
             </xsl:when>
 
