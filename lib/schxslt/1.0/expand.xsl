@@ -68,38 +68,40 @@
     <xsl:param name="source"/>
     <xsl:param name="params"/>
 
-    <xsl:variable name="param">
+    <xsl:if test="normalize-space($params) != ''">
+      <xsl:variable name="param">
+        <xsl:choose>
+          <xsl:when test="contains($params, ' ')">
+            <xsl:value-of select="substring-before($params, ' ')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$params"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="replacement" select="key('schxslt:params', $instanceId)[@name = substring($param, 2)]/@value"/>
+
+      <xsl:variable name="source-replaced">
+        <xsl:call-template name="schxslt:replace-single-param">
+          <xsl:with-param name="source" select="$source"/>
+          <xsl:with-param name="param" select="$param"/>
+          <xsl:with-param name="replacement" select="$replacement"/>
+        </xsl:call-template>
+      </xsl:variable>
+
       <xsl:choose>
         <xsl:when test="contains($params, ' ')">
-          <xsl:value-of select="substring-before($params, ' ')"/>
+          <xsl:call-template name="schxslt:replace-params">
+            <xsl:with-param name="instanceId" select="$instanceId"/>
+            <xsl:with-param name="source" select="$source-replaced"/>
+            <xsl:with-param name="params" select="substring-after($params, ' ')"/>
+          </xsl:call-template>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$params"/>
+          <xsl:value-of select="$source-replaced"/>
         </xsl:otherwise>
       </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="replacement" select="key('schxslt:params', $instanceId)[@name = substring($param, 2)]/@value"/>
-
-    <xsl:variable name="source-replaced">
-      <xsl:call-template name="schxslt:replace-single-param">
-        <xsl:with-param name="source" select="$source"/>
-        <xsl:with-param name="param" select="$param"/>
-        <xsl:with-param name="replacement" select="$replacement"/>
-      </xsl:call-template>
-    </xsl:variable>
-
-    <xsl:choose>
-      <xsl:when test="contains($params, ' ')">
-        <xsl:call-template name="schxslt:replace-params">
-          <xsl:with-param name="instanceId" select="$instanceId"/>
-          <xsl:with-param name="source" select="$source-replaced"/>
-          <xsl:with-param name="params" select="substring-after($params, ' ')"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$source-replaced"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    </xsl:if>
 
   </xsl:template>
 

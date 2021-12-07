@@ -49,7 +49,7 @@ externalize abstract rules for them to be used.
 This proposal extends Schematron with a top-level ```rules``` element to hold abstract rules that are globally
 referencable by the ```@rule``` attribute of ```extends```.
 
-### Addition XSLT elements
+### Additional XSLT elements
 
 [Proposal 4](https://github.com/Schematron/schematron-enhancement-proposals/issues/4)
 
