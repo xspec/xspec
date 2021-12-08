@@ -63,7 +63,7 @@ jobs:
           && call test\ci\last-git-status.cmd
           && call test\ci\test-maven-jar.cmd -silent
 
-      - uses: actions/upload-artifact@v2.2.4
+      - uses: actions/upload-artifact@v2.3.0
         if: env.MAVEN_PACKAGE_VERSION != ''
         with:
           name: maven-package_${{ env.MAVEN_PACKAGE_VERSION }}_${{ matrix.os }}_java-${{ matrix.java }}_${{ matrix.env }}
