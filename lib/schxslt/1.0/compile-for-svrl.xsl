@@ -47,6 +47,14 @@
       <xsl:if test="$pattern/@documents">
         <attribute name="documents"><value-of select="normalize-space()"/></attribute>
       </xsl:if>
+      <xsl:choose>
+        <xsl:when test="$pattern/sch:title">
+          <xsl:attribute name="name" select="$pattern/sch:title"/>
+        </xsl:when>
+        <xsl:when test="$pattern/@id">
+          <xsl:attribute name="name" select="$pattern/@id"/>
+        </xsl:when>
+      </xsl:choose>
     </svrl:active-pattern>
 
   </xsl:template>

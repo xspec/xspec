@@ -48,6 +48,9 @@
     <xsl:param name="pattern" as="element(sch:pattern)" required="yes"/>
     <xsl:if test="$schxslt.svrl.compact eq false()">
       <svrl:active-pattern>
+        <xsl:if test="exists($pattern/sch:title | $pattern/@id)">
+          <xsl:attribute name="name" select="($pattern/sch:title, $pattern/@id)[1]"/>
+        </xsl:if>
         <xsl:sequence select="($pattern/@id, $pattern/@role)"/>
         <attribute name="documents" select="base-uri(.)"/>
       </svrl:active-pattern>

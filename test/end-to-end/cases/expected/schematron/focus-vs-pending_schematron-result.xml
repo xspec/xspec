@@ -55,7 +55,8 @@
                                        xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                        xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                  <svrl:active-pattern name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
                                        documents="focus-vs-pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -150,7 +151,8 @@
                                        xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                        xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                  <svrl:active-pattern name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
                                        documents="focus-vs-pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
             </content-wrap>

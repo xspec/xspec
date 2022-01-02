@@ -23,7 +23,7 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -35,7 +35,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -46,7 +46,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -97,7 +97,7 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -109,7 +109,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -120,7 +120,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -181,7 +181,7 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -193,7 +193,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
@@ -204,7 +204,7 @@
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
+               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
                <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
