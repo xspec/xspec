@@ -6,7 +6,7 @@
     "@commitlint/cli": "^16.0.1",
     "@commitlint/config-angular": "^16.2.3",
     "bats": "^1.5.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.0"
   },
   "scripts": {
     "prettier:check": "prettier --check .",
