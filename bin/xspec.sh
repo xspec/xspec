@@ -101,8 +101,8 @@ fi
 #    OPEN=see
 #fi
 
-# the classpath delimiter (aka ':', except ';' on Cygwin)
-if uname | grep -i cygwin > /dev/null 2>&1; then
+# the classpath delimiter (aka ':', except ';' on Cygwin and MSYS)
+if uname | grep -i 'cygwin\|msys' > /dev/null 2>&1; then
     CP_DELIM=";"
 else
     CP_DELIM=":"
