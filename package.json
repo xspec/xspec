@@ -5,7 +5,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-angular": "^16.2.3",
-    "bats": "^1.5.0",
+    "bats": "^1.7.0",
     "prettier": "^2.7.1"
   },
   "scripts": {
