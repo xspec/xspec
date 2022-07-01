@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "This package is configured only for testing the XSpec repository",
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
+    "@commitlint/cli": "^17.0.3",
     "@commitlint/config-angular": "^16.2.3",
     "bats": "^1.7.0",
     "prettier": "^2.7.1"
