@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+    schematron="issue-1618.sch"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+    <x:scenario label="No errors when Schematron schema has {1,} in a test attribute">
+        <x:context>
+            <element />
+        </x:context>
+        <x:expect-not-assert
+            id="test1"
+            label="test1" />
+        <x:expect-not-assert
+            id="test2"
+            label="test2" />
+    </x:scenario>
+</x:description>
