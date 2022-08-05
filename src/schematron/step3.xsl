@@ -13,6 +13,7 @@
 		Import the original Schematron Step 3 preprocessor
 	-->
 	<xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
+	<xsl:include href="step3-override-process-assert.xsl"/>
 
 	<!--
 		Setting this parameter true activates the patch for @location containing text node
