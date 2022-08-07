@@ -13,7 +13,7 @@
     -->
     <xsl:param name="stylesheet-doc" as="document-node()?" />
 
-    <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
+    <xsl:param name="stylesheet-uri" as="xs:string" select="x:document-actual-uri($stylesheet-doc)" />
 
     <xsl:include href="../common/common-utils.xsl" />
     <xsl:include href="../common/namespace-vars.xsl" />
