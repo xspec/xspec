@@ -21,22 +21,9 @@
 
 	<!--
 		Returns the document actual URI (i.e. resolved with the currently enabled catalog),
-		working around an Apache XML Resolver bug. This doesn't work in Saxon 11 or later, so
-		go back to base-uri() in that case. Saxon 11 and later use a different resolver
-		so perhaps the resolver bug is no longer present.
+		working around an Apache XML Resolver bug
 	-->
-	<xsl:function use-when="system-property('xsl:product-name') = 'SAXON'
-                                and xs:integer(substring-before(substring-after(system-property('xsl:product-version'), ' '), '.')) gt 10"
-                      as="xs:anyURI" name="x:document-actual-uri">
-		<xsl:param as="document-node()" name="doc" />
-
-		<xsl:sequence
-			select="base-uri($doc)" />
-	</xsl:function>
-
-	<xsl:function use-when="system-property('xsl:product-name') != 'SAXON'
-                                or xs:integer(substring-before(substring-after(system-property('xsl:product-version'), ' '), '.')) le 10"
-                      as="xs:anyURI" name="x:document-actual-uri">
+	<xsl:function as="xs:anyURI" name="x:document-actual-uri">
 		<xsl:param as="document-node()" name="doc" />
 
 		<xsl:sequence
