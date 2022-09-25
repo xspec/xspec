@@ -28,9 +28,6 @@ jobs:
       XSPEC_TEST_ENV: saxon-9-9
 
     steps:
-      - script: test/ci/uninstall-bats-macos.sh
-        displayName: Uninstall stale Bats
-
       - script: >
           source test/ci/npm-ci.sh
           && source test/ci/install-deps.sh
