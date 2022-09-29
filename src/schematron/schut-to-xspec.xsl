@@ -13,7 +13,13 @@
     -->
     <xsl:param name="stylesheet-doc" as="document-node()?" />
 
-    <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
+    <!--
+        document-uri($stylesheet-doc) returns an empty sequence on Saxon 11 when $stylesheet-doc is
+        provided by the '+' command line parameter. (probably related to
+        https://saxonica.plan.io/issues/4837)
+        That's why base-uri() is used here in @select.
+    -->
+    <xsl:param name="stylesheet-uri" as="xs:string" select="base-uri($stylesheet-doc)" />
 
     <xsl:include href="../common/common-utils.xsl" />
     <xsl:include href="../common/namespace-vars.xsl" />

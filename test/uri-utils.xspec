@@ -30,19 +30,15 @@
 			<x:like label="Expect" />
 		</x:scenario>
 
-		<x:scenario catch="yes" label="Document created by xsl:document">
+		<x:scenario label="Document created by xsl:document">
 			<x:call>
 				<x:param as="document-node()" select="/">
 					<foo />
 				</x:param>
 			</x:call>
-			<x:expect label="XPTY0004"
-				select="QName('http://www.w3.org/2005/xqt-errors', 'err:XPTY0004')" test="?err?code" />
-			<x:expect label="Empty sequence from fn:document-node()"
-				select="'An empty sequence is not allowed as the first argument of x:resolve-xml-uri-with-catalog()'"
-				test="?err?description" />
-			<x:expect label="In the stylesheet being tested" select="$x:stylesheet-uri"
-				test="?err?module" />
+			<!-- TODO: Test to see if URI is resolved with catalog -->
+			<x:expect label="Compiled stylesheet"
+				test="ends-with($x:result, '/uri-utils-compiled.xsl')" />
 		</x:scenario>
 	</x:scenario>
 
