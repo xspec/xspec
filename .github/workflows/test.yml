@@ -35,10 +35,6 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: zulu
 
-      - name: Uninstall stale Bats for macOS
-        if: runner.os == 'macOS'
-        run: test/ci/uninstall-bats-macos.sh
-
       - name: Run tests for *nix
         if: runner.os != 'Windows'
         run: >
