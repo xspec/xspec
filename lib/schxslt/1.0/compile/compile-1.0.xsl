@@ -12,8 +12,8 @@
   <xsl:output indent="yes"/>
   <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
 
-  <xsl:key name="schxslt:diagnostics" match="sch:diagnostic" use="@id"/>
-  <xsl:key name="schxslt:properties" match="sch:property" use="@id"/>
+  <xsl:key name="schxslt:diagnostics" match="sch:schema/sch:diagnostics/sch:diagnostic" use="@id"/>
+  <xsl:key name="schxslt:properties" match="sch:schema/sch:properties/sch:property" use="@id"/>
 
   <xsl:param name="phase">#DEFAULT</xsl:param>
   <xsl:param name="schxslt.compile.metadata" select="true()"/>
@@ -226,6 +226,10 @@
     <element namespace="{namespace-uri(.)}" name="{local-name(.)}">
       <xsl:apply-templates select="node() | @*" mode="schxslt:message-template"/>
     </element>
+  </xsl:template>
+
+  <xsl:template match="xsl:copy-of[ancestor::sch:property]" mode="schxslt:message-template">
+    <xsl:copy-of select="."/>
   </xsl:template>
 
   <xsl:template match="@*" mode="schxslt:message-template">

@@ -3,6 +3,8 @@
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:key name="schxslt:properties"        match="sch:property"                    use="@id"/>
+  <xsl:key name="schxslt:diagnostics"       match="sch:diagnostic"                  use="@id"/>
   <xsl:key name="schxslt:abstract-patterns" match="sch:pattern[@abstract = 'true']" use="@id"/>
   <xsl:key name="schxslt:params"            match="sch:pattern/sch:param"           use="generate-id(..)"/>
 
@@ -22,17 +24,74 @@
       </xsl:message>
     </xsl:if>
     <xsl:copy-of select="(ancestor::sch:pattern|ancestor::sch:schema/sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()"/>
+    <xsl:apply-templates select="(ancestor::sch:pattern|ancestor::sch:schema/sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/sch:extends"/>
   </xsl:template>
 
   <xsl:template match="sch:pattern[@is-a]">
+    <xsl:variable name="instanceId" select="generate-id()"/>
     <xsl:copy>
-      <xsl:apply-templates select="@*" mode="schxslt:pattern-instance">
-        <xsl:with-param name="instanceId" select="generate-id()"/>
+      <xsl:apply-templates select="@* | key('schxslt:abstract-patterns', @is-a)/@documents" mode="schxslt:pattern-instance">
+        <xsl:with-param name="instanceId" select="$instanceId"/>
       </xsl:apply-templates>
       <xsl:apply-templates select="key('schxslt:abstract-patterns', @is-a)/node()" mode="schxslt:pattern-instance">
-        <xsl:with-param name="instanceId" select="generate-id()"/>
+        <xsl:with-param name="instanceId" select="$instanceId"/>
       </xsl:apply-templates>
+      <xsl:if test="key('schxslt:abstract-patterns', @is-a)/sch:rule/sch:*/@properties">
+        <sch:properties>
+          <xsl:for-each select="key('schxslt:abstract-patterns', @is-a)/sch:rule/sch:*[@properties]">
+            <xsl:call-template name="copy">
+              <xsl:with-param name="ids" select="string(@properties)"/>
+              <xsl:with-param name="index" select="'schxslt:properties'"/>
+              <xsl:with-param name="instanceId" select="$instanceId"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </sch:properties>
+      </xsl:if>
+      <xsl:if test="key('schxslt:abstract-patterns', @is-a)/sch:rule/sch:*/@diagnostics">
+        <sch:diagnostics>
+          <xsl:for-each select="key('schxslt:abstract-patterns', @is-a)/sch:rule/sch:*[@diagnostics]">
+            <xsl:call-template name="copy">
+              <xsl:with-param name="ids" select="string(@diagnostics)"/>
+              <xsl:with-param name="index" select="'schxslt:diagnostics'"/>
+              <xsl:with-param name="instanceId" select="$instanceId"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </sch:diagnostics>
+      </xsl:if>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template name="copy">
+    <xsl:param name="ids"/>
+    <xsl:param name="index"/>
+    <xsl:param name="instanceId"/>
+
+    <xsl:if test="normalize-space($ids) != ''">
+      <xsl:variable name="head">
+        <xsl:choose>
+          <xsl:when test="contains($ids, ' ')">
+            <xsl:value-of select="substring-before($ids, ' ')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$ids"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <xsl:apply-templates select="key($index, $head)" mode="schxslt:pattern-instance">
+        <xsl:with-param name="instanceId" select="$instanceId"/>
+      </xsl:apply-templates>
+
+      <xsl:if test="contains($ids, ' ')">
+        <xsl:call-template name="copy">
+          <xsl:with-param name="ids" select="substring-after($ids, ' ')"/>
+          <xsl:with-param name="index" select="$index"/>
+          <xsl:with-param name="instanceId" select="$instanceId"/>
+        </xsl:call-template>
+      </xsl:if>
+
+    </xsl:if>
+
   </xsl:template>
 
   <xsl:template match="node() | @*" mode="schxslt:pattern-instance">
@@ -46,7 +105,7 @@
 
   <xsl:template match="sch:pattern/@is-a" mode="schxslt:pattern-instance"/>
 
-  <xsl:template match="sch:assert/@test | sch:report/@test | sch:rule/@context | sch:value-of/@select | sch:pattern/@documents | sch:name/@path | sch:let/@value" mode="schxslt:pattern-instance">
+  <xsl:template match="sch:assert/@test | sch:report/@test | sch:rule/@context | sch:value-of/@select | sch:pattern/@documents | sch:name/@path | sch:let/@value | xsl:copy-of[ancestor::sch:property]/@select" mode="schxslt:pattern-instance">
     <xsl:param name="instanceId"/>
     <xsl:variable name="params">
       <xsl:for-each select="key('schxslt:params', $instanceId)">
