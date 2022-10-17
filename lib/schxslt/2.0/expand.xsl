@@ -33,7 +33,13 @@
 
   <!-- Instantiate an abstract rule -->
   <xsl:template match="sch:extends[@rule]" mode="schxslt:expand">
+    <xsl:if test="empty(ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule])">
+      <xsl:message terminate="yes">
+        The current pattern defines no abstract rule named '<xsl:value-of select="@rule"/>'.
+      </xsl:message>
+    </xsl:if>
     <xsl:sequence select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()"/>
+    <xsl:apply-templates select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/sch:extends" mode="#current"/>
   </xsl:template>
 
   <!-- Instantiate an abstract pattern -->
@@ -45,11 +51,29 @@
       <xsl:apply-templates select="(if (not(@documents)) then $is-a/@documents else (), $is-a/node())" mode="schxslt:expand">
         <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
       </xsl:apply-templates>
+      <xsl:if test="$is-a/sch:rule/sch:*/@properties">
+        <xsl:variable name="ids" as="xs:string*"
+                      select="for $prop in $is-a/sch:rule/sch:*/@properties return tokenize($prop, '\s+')"/>
+        <sch:properties>
+          <xsl:apply-templates select="../sch:properties/sch:property[@id = $ids]" mode="schxslt:expand">
+            <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
+          </xsl:apply-templates>
+        </sch:properties>
+      </xsl:if>
+      <xsl:if test="$is-a/sch:rule/sch:*/@diagnostics">
+        <xsl:variable name="ids" as="xs:string*"
+                      select="for $diag in $is-a/sch:rule/sch:*/@diagnostics return tokenize($diag, '\s+')"/>
+        <sch:diagnostics>
+          <xsl:apply-templates select="../sch:diagnostics/sch:diagnostic[@id = $ids]" mode="schxslt:expand">
+            <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
+          </xsl:apply-templates>
+        </sch:diagnostics>
+      </xsl:if>
     </xsl:copy>
   </xsl:template>
 
   <!-- Replace placeholders in abstract pattern instance -->
-  <xsl:template match="sch:assert/@test | sch:report/@test | sch:rule/@context | sch:value-of/@select | sch:pattern/@documents | sch:name/@path | sch:let/@value" mode="schxslt:expand">
+  <xsl:template match="sch:assert/@test | sch:report/@test | sch:rule/@context | sch:value-of/@select | sch:pattern/@documents | sch:name/@path | sch:let/@value | xsl:copy-of[ancestor::sch:property]/@select" mode="schxslt:expand">
     <xsl:param name="schxslt:params" as="element(sch:param)*" tunnel="yes"/>
     <xsl:attribute name="{name()}" select="schxslt:replace-params(., $schxslt:params)"/>
   </xsl:template>
@@ -63,9 +87,16 @@
         <xsl:value-of select="$src"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="value" select="replace(replace($params[1]/@value, '\\', '\\\\'), '\$', '\\\$')"/>
-        <xsl:variable name="src" select="replace($src, concat('(\W*)\$', $params[1]/@name, '(\W*)'), concat('$1', $value, '$2'))"/>
-        <xsl:value-of select="schxslt:replace-params($src, $params[position() > 1])"/>
+        <xsl:variable name="paramsSorted" as="element(sch:param)*">
+          <xsl:for-each select="$params">
+            <xsl:sort select="string-length(@name)" order="descending"/>
+            <xsl:sequence select="."/>
+          </xsl:for-each>
+        </xsl:variable>
+
+        <xsl:variable name="value" select="replace(replace($paramsSorted[1]/@value, '\\', '\\\\'), '\$', '\\\$')"/>
+        <xsl:variable name="src" select="replace($src, concat('(\W*)\$', $paramsSorted[1]/@name, '(\W*)'), concat('$1', $value, '$2'))"/>
+        <xsl:value-of select="schxslt:replace-params($src, $paramsSorted[position() > 1])"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>

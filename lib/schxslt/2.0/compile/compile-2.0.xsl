@@ -109,7 +109,7 @@
         <xsl:with-param name="typed-variables" as="xs:boolean" select="$schxslt.compile.typed-variables"/>
       </xsl:call-template>
 
-      <template match="/">
+      <template match="root()">
         <xsl:sequence select="$schematron/sch:phase[@id eq $effective-phase]/@xml:base"/>
 
         <variable name="metadata" as="element()?">
@@ -336,17 +336,17 @@
             <schxslt:document>
               <xsl:for-each select="current-group()">
                 <schxslt:pattern id="{generate-id()}">
-                  <if test="exists(base-uri(/))">
-                    <attribute name="documents" select="base-uri(/)"/>
+                  <if test="exists(base-uri(root()))">
+                    <attribute name="documents" select="base-uri(root())"/>
                   </if>
-                  <for-each select="/">
+                  <for-each select="root()">
                     <xsl:call-template name="schxslt-api:active-pattern">
                       <xsl:with-param name="pattern" as="element(sch:pattern)" select="."/>
                     </xsl:call-template>
                   </for-each>
                 </schxslt:pattern>
               </xsl:for-each>
-              <apply-templates mode="{$mode}" select="/"/>
+              <apply-templates mode="{$mode}" select="root()"/>
             </schxslt:document>
           </xsl:otherwise>
         </xsl:choose>
