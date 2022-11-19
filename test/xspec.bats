@@ -2110,7 +2110,7 @@ load bats-helper
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
 
-    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10." ]
     else
         [ "${lines[3]}" = " " ]
@@ -2125,7 +2125,7 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
@@ -2145,7 +2145,7 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
@@ -2165,7 +2165,7 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9.TODO" ]; then
+    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         skip "Always expect a deprecation warning on Saxon 9.9"
     fi
 
