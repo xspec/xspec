@@ -774,7 +774,7 @@
 
     rem Start BaseX server
     rem Run the batch file in a child process in order to localize various environment changes
-    call :run "%BASEX_HOME%\bin\basexhttp.bat" -S
+    call :run "%BASEX_HOME%\bin\basexhttp.bat" -S -U admin -c PASSWORD -h 8080
     call :verify_retval 0
 
     rem HTML report file
@@ -785,7 +785,7 @@
         -i source=report-sequence.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
-        -p endpoint=http://localhost:8984/rest ^
+        -p endpoint=http://localhost:8080/rest ^
         -p password=admin ^
         -p username=admin ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^

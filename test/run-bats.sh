@@ -16,6 +16,11 @@ if [ ! -f "${SAXON_JAR}" ]; then
     exit 1
 fi
 
+# If Java 8, unset BASEX_JAR because Java 8 is incompatible with BaseX 10
+if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
+    export BASEX_JAR=
+fi
+
 # Check capabilities
 if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9." > /dev/null; then
     export XSLT_SUPPORTS_COVERAGE=1

@@ -870,7 +870,7 @@ load bats-helper
     basex_home=$(dirname -- "${BASEX_JAR}")
 
     # Start BaseX server
-    "${basex_home}/bin/basexhttp" -S
+    "${basex_home}/bin/basexhttp" -S -U admin -c PASSWORD -h 8080
 
     # HTML report file
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
@@ -880,7 +880,7 @@ load bats-helper
         -i source=report-sequence.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
-        -p endpoint=http://localhost:8984/rest \
+        -p endpoint=http://localhost:8080/rest \
         -p password=admin \
         -p username=admin \
         -p xspec-home="file:${parent_dir_abs}/" \
