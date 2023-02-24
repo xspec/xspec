@@ -47,9 +47,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: sudo apt-get purge shellcheck
       - run: sudo snap install shellcheck
-      - run: >
-          source test/ci/npm-ci.sh
-          && test/ci/run-shellcheck.sh
+      - run: test/ci/run-shellcheck.sh
 
   shfmt:
     runs-on: ubuntu-latest
