@@ -8,5 +8,5 @@ echo "Clean install npm packages"
 
 npm ci || return
 
-npmbin="$(npm bin)" || return
-export PATH="${npmbin}:${PATH}"
+npmprefix="$(npm prefix)" || return
+export PATH="${npmprefix}/node_modules/.bin:${PATH}"
