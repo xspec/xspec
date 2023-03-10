@@ -47,6 +47,8 @@ assert_leaf_dir_not_exist() {
 }
 
 myrun() {
+    # run's non command parameters like --keep-empty-lines are only available since 1.5.0
+    bats_require_minimum_version 1.5.0
     run --keep-empty-lines -- "$@"
     # To print $output, use --print-output-on-failure and/or --verbose-run Bats command line flags
 
