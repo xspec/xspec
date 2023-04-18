@@ -274,7 +274,7 @@
       </mode>
     </xsl:if>
 
-    <xsl:for-each-group select="$patterns" group-by="string-join((base-uri(.), @documents), '~')">
+    <xsl:for-each-group select="$patterns" group-by="string(@documents)">
       <xsl:variable name="mode" as="xs:string" select="generate-id()"/>
 
       <xsl:if test="$xslt-version = '3.0'">
