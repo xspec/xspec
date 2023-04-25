@@ -795,6 +795,8 @@
 										<String>${oxygenHome}/lib/oxygen-editor-variables-parser.jar</String>
 										<String>${oxygenHome}/lib/xml-apis.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*11*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
@@ -1189,6 +1191,8 @@
 										<String>${oxygenHome}/lib/oxygen-editor-variables-parser.jar</String>
 										<String>${oxygenHome}/lib/xml-apis.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*11*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
