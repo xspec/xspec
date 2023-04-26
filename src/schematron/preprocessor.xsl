@@ -9,7 +9,7 @@
 				'stylesheets': [
 					resolve-uri('../../lib/iso-schematron/iso_dsdl_include.xsl'),
 					resolve-uri('../../lib/iso-schematron/iso_abstract_expand.xsl'),
-					resolve-uri('step3.xsl')
+					resolve-uri('../../lib/iso-schematron/iso_svrl_for_xslt2.xsl')
 				]
 			},
 			map {

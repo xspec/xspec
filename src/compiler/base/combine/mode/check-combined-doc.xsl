@@ -54,15 +54,6 @@
          <xsl:if test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
             <xsl:choose>
                <xsl:when test="
-                     self::x:param
-                     [parent::x:description]
-                     [local-name-from-QName($qname) eq 'enable-schematron-text-location']">
-                  <!-- Allow it -->
-                  <!-- This global x:param is a private parameter to enable text node @location
-                     in the "skeleton" Schematron implementation. -->
-               </xsl:when>
-
-               <xsl:when test="
                      self::x:variable
                      [$is-external]
                      [local-name-from-QName($qname) eq 'saxon-config']">
