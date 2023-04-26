@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    run-as="import"
+    stylesheet="default-mode-parent.xsl"
+    xslt-version="3.0">
+
+    <x:scenario label="x:context[not(@mode)]">
+        <x:context>
+            <element/>
+        </x:context>
+        <x:expect>
+            <x:label>Uses xsl:template[@mode='#unnamed']. When run-as='import', XSLT default-mode has no effect here.</x:label>
+            <unnamed-mode/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="x:context/@mode='implicit-default-mode'">
+        <x:context mode="implicit-default-mode">
+            <element/>
+        </x:context>
+        <x:expect>
+            <x:label>Uses xsl:template[not(@mode)], to which XSLT @default-mode applies</x:label>
+            <no-explicit-mode/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="x:call by name, to template with mode='#unnamed'">
+        <x:context>
+            <element/>
+        </x:context>
+        <x:call template="unnamed-mode-template"/>
+        <x:expect>
+            <x:label>Alternate way to reach xsl:template[@mode='#unnamed']</x:label>
+            <unnamed-mode/>
+        </x:expect>
+    </x:scenario>
+    
+</x:description>
