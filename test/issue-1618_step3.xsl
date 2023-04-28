@@ -12,6 +12,10 @@
         https://github.com/xspec/xspec/issues/1618
 -->
 
+    <xsl:include href="../src/schematron/preprocessor.xsl" />
+
+    <xsl:import _href="{$x:schematron-preprocessor?stylesheets?3}" />
+
     <!--
 Open Source Initiative OSI - The MIT License:Licensing
 [OSI Approved License]
