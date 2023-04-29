@@ -2,7 +2,7 @@ echo Compile Java
 
 setlocal
 
-javac -version 2>&1 | "%SYSTEMROOT%\system32\find" " 11."
+javac -version 2>&1 | "%SYSTEMROOT%\system32\find" " 17."
 if not errorlevel 1 (
     echo Skip compiling with incompatible JDK
     exit /b 0
