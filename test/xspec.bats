@@ -605,7 +605,11 @@ load bats-helper
     if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
         skip "Saxon bug 4696"
     fi
-
+    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
+        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
+            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+        fi
+    fi
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
@@ -621,6 +625,11 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-1.xspec
 @test "Skip Schematron Step 1 (CLI)" {
+    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
+        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
+            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+        fi
+    fi
     export SCHEMATRON_XSLT_INCLUDE="#none"
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
@@ -632,6 +641,11 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-2.xspec
 @test "Skip Schematron Step 2 (CLI)" {
+    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
+        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
+            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+        fi
+    fi
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
     export SCHEMATRON_XSLT_EXPAND="#none"
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
@@ -643,6 +657,11 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-1-2.xspec
 @test "Skip Schematron Step 1 and 2 (CLI)" {
+    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
+        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
+            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+        fi
+    fi
     export SCHEMATRON_XSLT_INCLUDE="#none"
     export SCHEMATRON_XSLT_EXPAND="#none"
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
@@ -1416,9 +1435,14 @@ load bats-helper
 
 #
 # Catalog resolver and SAXON_HOME (CLI)
+# Saxon 10 and earlier versions use resolver.jar in same directory as Saxon jar file.
+# Saxon 11 and later versions use xmlresolver*.jar in lib/ subdirectory.
 #
 
-@test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+@test "Saxon 10 and earlier: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+    if [ -z "${SEPARATE_XML_RESOLVER}" ]; then
+        skip "Saxon 10 and earlier only"
+    fi
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
@@ -1427,6 +1451,33 @@ load bats-helper
 
     # To avoid "No license file found" warning on commercial Saxon
     saxon_license="$(dirname -- "${SAXON_JAR}")/saxon-license.lic"
+    if [ -f "${saxon_license}" ]; then
+        cp "${saxon_license}" "${SAXON_HOME}"
+    fi
+
+    myrun ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_stylesheet.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "Saxon 11 and later: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+    if [ -z "${BUNDLED_XML_RESOLVER}" ]; then
+        skip "Saxon 11 and later only"
+    fi
+    export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
+    mkdir "${SAXON_HOME}"
+    mkdir "${SAXON_HOME}/lib"
+    cp "${SAXON_JAR}" "${SAXON_HOME}"
+    saxon_jar_dir="$(dirname -- "${SAXON_JAR}")"
+    ls "${saxon_jar_dir}"/lib
+    cp "${saxon_jar_dir}"/lib/xmlresolver* "${SAXON_HOME}"/lib/
+    cp "${saxon_jar_dir}"/lib/jline* "${SAXON_HOME}"/lib/
+    unset SAXON_CP
+
+    # To avoid "No license file found" warning on commercial Saxon
+    saxon_license="${saxon_jar_dir}/saxon-license.lic"
     if [ -f "${saxon_license}" ]; then
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
@@ -2117,7 +2168,7 @@ load bats-helper
     if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10." ]
     else
-        [ "${lines[3]}" = " " ]
+        assert_regex "${lines[3]}" '^.$'
     fi
 
     [ "${lines[5]}" = "Running Tests..." ]

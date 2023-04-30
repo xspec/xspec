@@ -535,6 +535,12 @@
 	-->
 
 	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)">
+    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
+        if exist ..\lib\iso-schematron (
+            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+            goto :EOF
+        )
+    )
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt_include.xsl
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt_expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_compile.xsl
@@ -550,6 +556,12 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-1.xspec -->
 	<case name="Skip Schematron Step 1 (CLI)">
+    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
+        if exist ..\lib\iso-schematron (
+            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+            goto :EOF
+        )
+    )
     set SCHEMATRON_XSLT_INCLUDE=#none
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt_include-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_compile.xsl
@@ -561,6 +573,12 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-2.xspec -->
 	<case name="Skip Schematron Step 2 (CLI)">
+    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
+        if exist ..\lib\iso-schematron (
+            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+            goto :EOF
+        )
+    )
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt_include.xsl
     set SCHEMATRON_XSLT_EXPAND=#none
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_expand-compile.xsl
@@ -572,6 +590,12 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-1-2.xspec -->
 	<case name="Skip Schematron Step 1 and 2 (CLI)">
+    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
+        if exist ..\lib\iso-schematron (
+            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
+            goto :EOF
+        )
+    )
     set SCHEMATRON_XSLT_INCLUDE=#none
     set SCHEMATRON_XSLT_EXPAND=#none
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_include-expand-compile.xsl
@@ -1310,13 +1334,34 @@
 
 	<!--
 		Catalog resolver and SAXON_HOME (CLI)
+		Saxon 10 and earlier versions use resolver.jar in same directory as Saxon jar file.
+		Saxon 11 and later versions use xmlresolver*.jar in lib/ subdirectory.
 	-->
 
-	<case name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
+	<case ifdef="SEPARATE_XML_RESOLVER" name="Saxon 10 and earlier: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
     set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
     call :mkdir "%SAXON_HOME%"
     call :copy "%SAXON_JAR%"        "%SAXON_HOME%"
     call :copy "%XML_RESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
+    set SAXON_CP=
+
+    rem To avoid "No license file found" warning on commercial Saxon
+    set "SAXON_LICENSE=%SAXON_JAR%\..\saxon-license.lic"
+    if exist "%SAXON_LICENSE%" call :copy "%SAXON_LICENSE%" "%SAXON_HOME%"
+
+    call :run ..\bin\xspec.bat ^
+        -catalog "catalog\01\catalog-public.xml;catalog\01\catalog-rewriteURI.xml" ^
+        catalog\catalog-01_stylesheet.xspec
+    call :verify_retval 0
+    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+	</case>
+
+	<case ifdef="BUNDLED_XML_RESOLVER" name="Saxon 11 and later: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
+    set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
+    call :mkdir "%SAXON_HOME%"
+    call :mkdir "%SAXON_HOME%\lib"
+    call :copy "%SAXON_JAR%"              "%SAXON_HOME%"
+    call :copy "%SAXON_JAR%\..\lib\*.jar" "%SAXON_HOME%\lib"
     set SAXON_CP=
 
     rem To avoid "No license file found" warning on commercial Saxon
@@ -1987,7 +2032,7 @@
     if "%SAXON_VERSION:~0,4%"=="9.9." (
         call :verify_line 4 x "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10."
     ) else (
-        call :verify_line 4 x " "
+        call :verify_line 4 r ".$"
     )
 
     call :verify_line 6 x "Running Tests..."
