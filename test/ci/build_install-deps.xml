@@ -17,12 +17,22 @@
 	<target name="saxon">
 		<echo message="Install Saxon ${env.SAXON_VERSION}" />
 
+		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="saxon_deleteonexit_"
+			property="saxon.zip" suffix=".zip" />
+		<loadresource property="saxon.version.with.hyphen.replacing.dot">
+			<propertyresource name="env.SAXON_VERSION" />
+			<filterchain>
+				<tokenfilter>
+					<replaceregex flags="g" pattern="\." replace="-" />
+				</tokenfilter>
+			</filterchain>
+		</loadresource>
+		<download dest="${saxon.zip}"
+			src="${env.SAXON_URL}/SaxonHE${saxon.version.with.hyphen.replacing.dot}J.zip" />
+
 		<dirname file="${env.SAXON_JAR}" property="saxon.jar.dir" />
 		<mkdir dir="${saxon.jar.dir}" />
-
-		<download dest="${env.SAXON_JAR}"
-			src="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
-		 />
+		<unzip dest="${saxon.jar.dir}" src="${saxon.zip}" />
 	</target>
 
 	<target name="xml-resolver">
