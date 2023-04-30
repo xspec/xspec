@@ -23,7 +23,7 @@
       <xsl:param name="input" as="xs:string?" />
 
       <xsl:sequence select="
-         doc('')
+         doc(static-base-uri())
          /xsl:*
          /xsl:character-map[@name eq 'x:disable-escaping']
          /translate(
