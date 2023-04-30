@@ -1,7 +1,7 @@
 rem
 rem Select the mainstream by default
 rem
-if not defined XSPEC_TEST_ENV set XSPEC_TEST_ENV=saxon-9-9
+if not defined XSPEC_TEST_ENV set XSPEC_TEST_ENV=saxon-10
 echo Setting up %XSPEC_TEST_ENV%
 
 rem
