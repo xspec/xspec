@@ -34,7 +34,7 @@
 
 	<xsl:template as="empty-sequence()" match="document-node()">
 		<!-- Absolute URI of input document -->
-		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
+		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="base-uri(/)" />
 
 		<xsl:message>
 			<xsl:text>Comparing&#x0A;</xsl:text>
