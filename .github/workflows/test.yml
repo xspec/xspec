@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java }}
-          distribution: zulu
+          distribution: temurin
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'
