@@ -39,7 +39,6 @@ jobs:
           versionSpec: ${{ parameters.javaVersion }}
           jdkArchitectureOption: x64
           jdkSourceOption: PreInstalled
-          cleanDestinationDirectory: false
 
       - task: BatchScript@1
         displayName: Install test dependencies
