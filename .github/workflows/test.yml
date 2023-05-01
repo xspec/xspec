@@ -19,7 +19,7 @@ jobs:
 
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [8, 11]
+        java: [8, 17]
         env: [saxon-10, saxon-9-9, oxygen]
         exclude:
           - os: macos-latest
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java }}
-          distribution: zulu
+          distribution: temurin
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'

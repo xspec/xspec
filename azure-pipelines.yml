@@ -15,8 +15,8 @@ jobs:
 
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java11
-      javaVersion: 11
+      jobName: Win_Java17
+      javaVersion: 17
 
   - job: macOS
 
