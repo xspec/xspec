@@ -27,10 +27,8 @@
                </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-               <!-- Always write a single non-empty line to help Bats tests to predict line numbers.
-               Saxon 11 suppresses a message whose content is a space character alone, so use
-               nonbreaking space instead. -->
-               <xsl:text>&#160;</xsl:text>
+               <!-- Always write a single non-empty line to help Bats tests to predict line numbers. -->
+               <xsl:text>Checking for deprecated Saxon versions: Passed</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:message>

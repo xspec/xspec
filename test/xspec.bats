@@ -2168,7 +2168,7 @@ load bats-helper
     if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10." ]
     else
-        assert_regex "${lines[3]}" '^.$'
+        [ "${lines[3]}" = "Checking for deprecated Saxon versions: Passed" ]
     fi
 
     [ "${lines[5]}" = "Running Tests..." ]

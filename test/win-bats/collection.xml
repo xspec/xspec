@@ -2032,7 +2032,7 @@
     if "%SAXON_VERSION:~0,4%"=="9.9." (
         call :verify_line 4 x "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10."
     ) else (
-        call :verify_line 4 r ".$"
+        call :verify_line 4 x "Checking for deprecated Saxon versions: Passed"
     )
 
     call :verify_line 6 x "Running Tests..."
