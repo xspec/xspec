@@ -13,12 +13,13 @@
             test="?err?code"
             select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
         />
+        <!--  Exclusion for processing instruction is because Saxon 10 and some earlier
+        versions insert the PI that https://saxonica.plan.io/issues/4376#note-2 mentions,
+        but Saxon 11 does not. The XSLT spec does not require such a PI. -->
         <x:expect
-            label="err:value should contain xsl:message body preceded by Saxon-specific processing instruction"
-            test="?err?value"
-            select="/"
+            label="err:value should contain xsl:message body"
+            test="?err?value/node()[not(self::processing-instruction())]"
             expand-text="yes"
-            xml:space="preserve"
-        ><?error-code Q{http://www.w3.org/2005/xqt-errors}XTMM9000?>{$x:xspec-uri}: error: Abbreviations without title: AbbreviationWithoutExpansion</x:expect>
+        >{$x:xspec-uri}: error: Abbreviations without title: AbbreviationWithoutExpansion</x:expect>
     </x:scenario>
 </x:description>
