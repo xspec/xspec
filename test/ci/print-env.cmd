@@ -32,7 +32,7 @@ java -cp "%XML_RESOLVER_JAR%" org.apache.xml.resolver.Version
 
 echo:
 echo === Check BaseX
-java -cp "%BASEX_JAR%" org.basex.BaseX -h 2> NUL
+java -cp "%BASEX_JAR%" org.basex.BaseX -h
 
 echo:
 echo === Check BaseX server start and stop
