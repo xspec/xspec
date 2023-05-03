@@ -1739,7 +1739,7 @@
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
     call :verify_retval 1
     call :verify_line -3 r "..*err:XPDY0002:"
-    call :verify_line -1 r "ERROR:"
+    call :verify_line -1 r "\[main\] ERROR "
 	</case>
 
 	<case ifdef="XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
@@ -1749,7 +1749,7 @@
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
     call :verify_retval 1
     call :verify_line  * r "..*[: ]XPDY0002[: ]"
-    call :verify_line -1 r "ERROR:"
+    call :verify_line -1 r "\[main\] ERROR "
 	</case>
 
 	<case name="XSLT selecting nodes without context should be error (Ant) #423">

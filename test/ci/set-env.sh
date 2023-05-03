@@ -93,13 +93,13 @@ else
 fi
 
 #
-# Log4j
+# SLF4J
 #
-if [ -n "${LOG4J_VERSION}" ]; then
-    export LOG4J_DIR="${XSPEC_TEST_DEPS}/log4j-${LOG4J_VERSION}"
+if [ -n "${SLF4J_VERSION}" ]; then
+    export SLF4J_DIR="${XSPEC_TEST_DEPS}/slf4j-${SLF4J_VERSION}"
 else
-    echo "Log4j will not be installed"
-    unset LOG4J_DIR
+    echo "SLF4J will not be installed"
+    unset SLF4J_DIR
 fi
 
 #
@@ -110,8 +110,8 @@ if [ -n "${XMLCALABASH_JAR}" ]; then
 else
     unset XMLCALABASH_CP
 fi
-if [ -n "${XMLCALABASH_CP}" ] && [ -n "${LOG4J_DIR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_CP}:${LOG4J_DIR}/*"
+if [ -n "${XMLCALABASH_CP}" ] && [ -n "${SLF4J_DIR}" ]; then
+    export XMLCALABASH_CP="${XMLCALABASH_CP}:${SLF4J_DIR}/*:${mydir}/slf4j-simple"
 fi
 
 #

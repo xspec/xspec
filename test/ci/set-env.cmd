@@ -72,13 +72,13 @@ if defined XMLCALABASH_VERSION (
 )
 
 rem
-rem Log4j
+rem SLF4J
 rem
-if defined LOG4J_VERSION (
-    set "LOG4J_DIR=%XSPEC_TEST_DEPS%\log4j-%LOG4J_VERSION%"
+if defined SLF4J_VERSION (
+    set "SLF4J_DIR=%XSPEC_TEST_DEPS%\slf4j-%SLF4J_VERSION%"
 ) else (
-    echo Log4j will not be installed
-    set LOG4J_DIR=
+    echo SLF4J will not be installed
+    set SLF4J_DIR=
 )
 
 rem
@@ -89,8 +89,8 @@ if defined XMLCALABASH_JAR (
 ) else (
     set XMLCALABASH_CP=
 )
-if defined XMLCALABASH_CP if defined LOG4J_DIR (
-    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%LOG4J_DIR%\*"
+if defined XMLCALABASH_CP if defined SLF4J_DIR (
+    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%SLF4J_DIR%\*;%~dp0slf4j-simple"
 )
 
 rem
