@@ -35,8 +35,8 @@ java -cp "${BASEX_JAR}" org.basex.BaseX -h
 echo
 echo "=== Check BaseX server start and stop"
 basex_home=$(dirname -- "${BASEX_JAR}")
-"${basex_home}/bin/basexhttp" -S 2> /dev/null
-"${basex_home}/bin/basexhttpstop" 2> /dev/null
+"${basex_home}/bin/basexhttp" -S
+"${basex_home}/bin/basexhttpstop"
 
 echo
 echo "=== Print Bats version"

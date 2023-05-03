@@ -36,8 +36,8 @@ java -cp "%BASEX_JAR%" org.basex.BaseX -h
 
 echo:
 echo === Check BaseX server start and stop
-call "%BASEX_JAR%\..\bin\basexhttp.bat" -S 2> NUL
-call "%BASEX_JAR%\..\bin\basexhttpstop.bat" 2> NUL
+call "%BASEX_JAR%\..\bin\basexhttp.bat" -S
+call "%BASEX_JAR%\..\bin\basexhttpstop.bat"
 
 echo:
 echo === Print environment variables
