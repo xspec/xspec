@@ -1862,7 +1862,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" '.+err:XPDY0002:'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^ERROR:'
+    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
@@ -1876,7 +1876,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''.+[: ]XPDY0002[: ]'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^ERROR:'
+    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
