@@ -16,10 +16,6 @@ if not exist "%SAXON_JAR%" (
     exit /b 1
 )
 
-rem If Java 8, unset BASEX_JAR because Java 8 is incompatible with BaseX 10
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
-if not errorlevel 1 set BASEX_JAR=
-
 rem Check capabilities
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" " 9." > NUL
 if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1

@@ -117,6 +117,12 @@ fi
 #
 # BaseX
 #
+
+# BaseX 10 requires Java 11
+if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
+    unset BASEX_VERSION
+fi
+
 if [ -n "${BASEX_VERSION}" ]; then
     # Depends on the archive file structure
     export BASEX_JAR="${XSPEC_TEST_DEPS}/basex-${BASEX_VERSION}/basex/BaseX.jar"
