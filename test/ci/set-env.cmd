@@ -96,6 +96,11 @@ if defined XMLCALABASH_CP if defined SLF4J_DIR (
 rem
 rem BaseX
 rem
+
+rem BaseX 10 requires Java 11
+java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
+if not errorlevel 1 set BASEX_VERSION=
+
 if defined BASEX_VERSION (
     rem Depends on the archive file structure
     set "BASEX_JAR=%XSPEC_TEST_DEPS%\basex-%BASEX_VERSION%\basex\BaseX.jar"

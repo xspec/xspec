@@ -32,12 +32,12 @@ java -cp "%XML_RESOLVER_JAR%" org.apache.xml.resolver.Version
 
 echo:
 echo === Check BaseX
-java -cp "%BASEX_JAR%" org.basex.BaseX -h 2> NUL
+java -cp "%BASEX_JAR%" org.basex.BaseX -h
 
 echo:
 echo === Check BaseX server start and stop
-call "%BASEX_JAR%\..\bin\basexhttp.bat" -S 2> NUL
-call "%BASEX_JAR%\..\bin\basexhttpstop.bat" 2> NUL
+call "%BASEX_JAR%\..\bin\basexhttp.bat" -S
+call "%BASEX_JAR%\..\bin\basexhttpstop.bat"
 
 echo:
 echo === Print environment variables

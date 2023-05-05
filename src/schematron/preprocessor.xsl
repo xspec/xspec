@@ -7,18 +7,18 @@
 			map {
 				'name': 'skeleton',
 				'stylesheets': [
-					resolve-uri('../../lib/iso-schematron/iso_dsdl_include.xsl'),
-					resolve-uri('../../lib/iso-schematron/iso_abstract_expand.xsl'),
-					resolve-uri('step3.xsl')
+					resolve-uri('iso-schematron/iso_dsdl_include.xsl'),
+					resolve-uri('iso-schematron/iso_abstract_expand.xsl'),
+					resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')
 				]
 			},
 			map {
 				'name': 'schxslt',
 				'stylesheets': [
-					resolve-uri('../../lib/schxslt/2.0/include.xsl'),
-					resolve-uri('../../lib/schxslt/2.0/expand.xsl'),
-					resolve-uri('../../lib/schxslt/2.0/compile-for-svrl.xsl')
+					resolve-uri('schxslt/2.0/include.xsl'),
+					resolve-uri('schxslt/2.0/expand.xsl'),
+					resolve-uri('schxslt/2.0/compile-for-svrl.xsl')
 				]
 			}
-			)[doc-available(?stylesheets?1)]" static="yes" />
+			)[doc-available(?stylesheets?1)]" static="yes" xml:base="../../lib/" />
 </xsl:stylesheet>
