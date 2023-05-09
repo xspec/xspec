@@ -772,9 +772,15 @@
     rem BaseX dir
     set "BASEX_HOME=%BASEX_JAR%\.."
 
+    rem Set BaseX password
+    rem Run the batch file in a child process in order to localize various environment changes
+    set BASEX_PASSWORD=%RANDOM%
+    call :run ""%BASEX_HOME%\bin\basex.bat" -c"PASSWORD %BASEX_PASSWORD%""
+    call :verify_retval 0
+
     rem Start BaseX server
     rem Run the batch file in a child process in order to localize various environment changes
-    call :run "%BASEX_HOME%\bin\basexhttp.bat" -S -U admin -c PASSWORD -h 8080
+    call :run "%BASEX_HOME%\bin\basexhttp.bat" -S
     call :verify_retval 0
 
     rem HTML report file
@@ -786,7 +792,7 @@
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
         -p endpoint=http://localhost:8080/rest ^
-        -p password=admin ^
+        -p password="%BASEX_PASSWORD%" ^
         -p username=admin ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
