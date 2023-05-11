@@ -869,8 +869,12 @@ load bats-helper
     # BaseX dir
     basex_home=$(dirname -- "${BASEX_JAR}")
 
+    # Set BaseX password
+    basex_password=${RANDOM}
+    "${basex_home}/bin/basex" -c"PASSWORD ${basex_password}"
+
     # Start BaseX server
-    "${basex_home}/bin/basexhttp" -S -U admin -c PASSWORD -h 8080
+    "${basex_home}/bin/basexhttp" -S
 
     # HTML report file
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
@@ -881,7 +885,7 @@ load bats-helper
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
         -p endpoint=http://localhost:8080/rest \
-        -p password=admin \
+        -p password="${basex_password}" \
         -p username=admin \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
@@ -1862,7 +1866,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" '.+err:XPDY0002:'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^ERROR:'
+    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
@@ -1876,7 +1880,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''.+[: ]XPDY0002[: ]'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^ERROR:'
+    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {

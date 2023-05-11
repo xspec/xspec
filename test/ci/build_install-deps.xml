@@ -36,7 +36,7 @@
 		 />
 	</target>
 
-	<target depends="log4j" if="env.XMLCALABASH_VERSION" name="xml-calabash">
+	<target depends="slf4j" if="env.XMLCALABASH_VERSION" name="xml-calabash">
 		<echo message="Install XML Calabash ${env.XMLCALABASH_VERSION}" />
 
 		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash_deleteonexit_"
@@ -61,18 +61,16 @@
 		</delete>
 	</target>
 
-	<target if="env.LOG4J_VERSION" name="log4j">
-		<echo message="Install Log4j ${env.LOG4J_VERSION}" />
+	<target if="env.SLF4J_VERSION" name="slf4j">
+		<echo message="Install SLF4J ${env.SLF4J_VERSION}" />
 
-		<mkdir dir="${env.LOG4J_DIR}" />
+		<mkdir dir="${env.SLF4J_DIR}" />
 
-		<download dest="${env.LOG4J_DIR}/log4j-api.jar"
-			src="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/${env.LOG4J_VERSION}/log4j-api-${env.LOG4J_VERSION}.jar" />
-		<download dest="${env.LOG4J_DIR}/log4j-core.jar"
-			src="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/${env.LOG4J_VERSION}/log4j-core-${env.LOG4J_VERSION}.jar" />
-		<download dest="${env.LOG4J_DIR}/log4j-slf4j-impl.jar"
-			src="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-slf4j-impl/${env.LOG4J_VERSION}/log4j-slf4j-impl-${env.LOG4J_VERSION}.jar"
-		 />
+		<!-- XML Calabash has slf4j-api jar file in its lib directory -->
+		<!--<download dest="${env.SLF4J_DIR}/slf4j-api.jar"
+			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/${env.SLF4J_VERSION}/slf4j-api-${env.SLF4J_VERSION}.jar" />-->
+		<download dest="${env.SLF4J_DIR}/slf4j-simple.jar"
+			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar" />
 	</target>
 
 	<target if="env.BASEX_VERSION" name="basex">
