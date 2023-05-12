@@ -3,8 +3,7 @@
 <?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/end-to-end/cases/xml-1-1_config_runtime.xml"?>
 <?xspec-test xml-version=1.1?>
 <x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
-	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- This scenario deliberately uses control characters directly in user-content and labels. -->
 	<x:scenario label="Return &#x07;">
@@ -25,7 +24,7 @@
 	<x:scenario label="Use XInclude to return U+0007">
 		<x:call function="mirror:param-mirror">
 			<x:param>
-				<xi:include href="xml-1-1_0007.xml" />
+				<xi:include href="xml-1-1_0007.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 			</x:param>
 		</x:call>
 		<x:expect label="Expect U+0007">
