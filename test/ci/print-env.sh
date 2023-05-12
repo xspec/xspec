@@ -36,6 +36,7 @@ echo
 echo "=== Check BaseX server start and stop"
 basex_home=$(dirname -- "${BASEX_JAR}")
 "${basex_home}/bin/basexhttp" -S
+sleep 5
 "${basex_home}/bin/basexhttpstop"
 
 echo

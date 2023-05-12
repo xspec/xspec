@@ -876,6 +876,9 @@ load bats-helper
     # Start BaseX server
     "${basex_home}/bin/basexhttp" -S
 
+    # Wait for the server to start up
+    sleep 5
+
     # HTML report file
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
 
