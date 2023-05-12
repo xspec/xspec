@@ -869,6 +869,9 @@ load bats-helper
     # BaseX dir
     basex_home=$(dirname -- "${BASEX_JAR}")
 
+    # Stop BaseX server, in case it's running
+    myrun "${basex_home}/bin/basexhttpstop"
+
     # Set BaseX password
     basex_password=${RANDOM}
     "${basex_home}/bin/basex" -c"PASSWORD ${basex_password}"
