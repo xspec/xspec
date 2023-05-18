@@ -3,12 +3,12 @@
     xmlns:myv="http://example.org/ns/my/variable"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    stylesheet="../src/compiler/compile-xslt-tests.xsl"
+    stylesheet="../../src/compiler/compile-xslt-tests.xsl"
     xslt-version="3.0">
 
     <x:scenario label="Tests for 'stacked-explicit-pending' accumulator">
         <x:scenario label="Pending scenarios that use @pending and nest">
-            <x:variable name="myv:context" href="end-to-end/cases/focus-vs-pending-attribute.xspec"/>
+            <x:variable name="myv:context" href="../end-to-end/cases/focus-vs-pending-attribute.xspec"/>
             <x:call function="true"/>
             <x:expect label="Prior to any pending markup, accumulator is an empty sequence"
                 test="$myv:context/x:description/accumulator-before('stacked-explicit-pending')"
@@ -36,7 +36,7 @@
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[@label]">
-            <x:variable name="myv:context" href="end-to-end/cases/pending.xspec"/>
+            <x:variable name="myv:context" href="../end-to-end/cases/pending.xspec"/>
             <x:call function="true"/>
             <x:expect label="At start of x:pending[@label], accumulator has pending reason"
                 test="$myv:context//x:pending[@label='testing x:pending']/accumulator-before('stacked-explicit-pending')"
@@ -54,7 +54,7 @@
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[x:label]">
-            <x:variable name="myv:context" href="end-to-end/cases/pending.xspec"/>
+            <x:variable name="myv:context" href="../end-to-end/cases/pending.xspec"/>
             <x:call function="true"/>
             <x:expect label="At start of x:pending[x:label], accumulator has pending reason"
                 test="$myv:context//x:pending[x:label]/accumulator-before('stacked-explicit-pending')"
