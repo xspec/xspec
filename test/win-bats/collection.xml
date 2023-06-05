@@ -796,6 +796,10 @@
     rem BaseX dir
     set "BASEX_HOME=%BASEX_JAR%\.."
 
+    rem Stop BaseX server, in case it's running
+    rem Run the batch file in a child process in order to localize various environment changes
+    call :run "%BASEX_HOME%\bin\basexhttpstop.bat"
+
     rem Set BaseX password
     rem Run the batch file in a child process in order to localize various environment changes
     set BASEX_PASSWORD=%RANDOM%
@@ -806,6 +810,9 @@
     rem Run the batch file in a child process in order to localize various environment changes
     call :run "%BASEX_HOME%\bin\basexhttp.bat" -S
     call :verify_retval 0
+
+    rem Wait for the server to start up
+    ping -n 6 localhost > NUL
 
     rem HTML report file
     set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"

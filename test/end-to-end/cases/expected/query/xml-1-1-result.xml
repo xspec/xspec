@@ -8,7 +8,6 @@
       <label>Return &#x7;</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xi="http://www.w3.org/2001/XInclude"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
             <x:param>
@@ -19,8 +18,7 @@
       <result select="/element()">
          <content-wrap xmlns="">
             <test xmlns:mirror="x-urn:test:mirror"
-                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xi="http://www.w3.org/2001/XInclude">&#x7;</test>
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec">&#x7;</test>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
@@ -28,8 +26,7 @@
          <expect select="/element()">
             <content-wrap xmlns="">
                <test xmlns:mirror="x-urn:test:mirror"
-                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xi="http://www.w3.org/2001/XInclude">&#x8;</test>
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec">&#x8;</test>
             </content-wrap>
          </expect>
       </test>
@@ -38,7 +35,6 @@
       <label>Use XInclude to return U+0007</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xi="http://www.w3.org/2001/XInclude"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
             <x:param>
@@ -50,7 +46,6 @@
          <content-wrap xmlns="">
             <test xmlns:mirror="x-urn:test:mirror"
                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xi="http://www.w3.org/2001/XInclude"
                   xml:base="xml-1-1_0007.xml">&#x7;</test>
          </content-wrap>
       </result>
@@ -60,7 +55,6 @@
             <content-wrap xmlns="">
                <test xmlns:mirror="x-urn:test:mirror"
                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xi="http://www.w3.org/2001/XInclude"
                      xml:base="xml-1-1_0007.xml">&#x7;</test>
             </content-wrap>
          </expect>
@@ -70,7 +64,6 @@
       <label>Use a query parameter in @href to return U+0007</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xi="http://www.w3.org/2001/XInclude"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
             <x:param href="../../xml-1-1_0007.xml?strip-space=true"/>
@@ -86,8 +79,7 @@
          <expect select="/self::document-node()">
             <content-wrap xmlns="">
                <test xmlns:mirror="x-urn:test:mirror"
-                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xi="http://www.w3.org/2001/XInclude">&#x7;</test>
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec">&#x7;</test>
             </content-wrap>
          </expect>
       </test>

@@ -37,6 +37,7 @@ java -cp "%BASEX_JAR%" org.basex.BaseX -h
 echo:
 echo === Check BaseX server start and stop
 call "%BASEX_JAR%\..\bin\basexhttp.bat" -S
+ping -n 6 localhost > NUL
 call "%BASEX_JAR%\..\bin\basexhttpstop.bat"
 
 echo:
