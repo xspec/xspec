@@ -27,6 +27,14 @@
 				</tokenfilter>
 			</filterchain>
 		</loadresource>
+		<!--
+			Download Saxon from GitHub, not Maven repository. Starting with
+			version 11, Saxon needs xmlresolver*.jar on classpath. The
+			GitHub download includes xmlresolver*.jar in the ZIP-file and
+			in the classpath part of the manifest. In the same-version jar
+			file from the Maven repository, the manifest does not include
+			xmlresolver*.jar (Maven manages dependencies itself).
+		-->
 		<download dest="${saxon.zip}"
 			src="${env.SAXON_URL}/SaxonHE${saxon.version.with.hyphen.replacing.dot}J.zip" />
 
