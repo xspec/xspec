@@ -1365,10 +1365,10 @@
 
 	<case ifdef="BUNDLED_XML_RESOLVER" name="Saxon 11 and later: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
     set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
-    call :mkdir "%SAXON_HOME%"
     call :mkdir "%SAXON_HOME%\lib"
-    call :copy "%SAXON_JAR%"              "%SAXON_HOME%"
-    call :copy "%SAXON_JAR%\..\lib\*.jar" "%SAXON_HOME%\lib"
+    call :copy "%SAXON_JAR%"        "%SAXON_HOME%"
+	rem Copy all required dependencies to SAXON_HOME location, too
+    call :copy "%SAXON_JAR%\..\lib" "%SAXON_HOME%\lib"
     set SAXON_CP=
 
     rem To avoid "No license file found" warning on commercial Saxon

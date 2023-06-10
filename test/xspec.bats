@@ -1492,13 +1492,14 @@ load bats-helper
         skip "Saxon 11 and later only"
     fi
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
-    mkdir "${SAXON_HOME}"
-    mkdir "${SAXON_HOME}/lib"
+    mkdir -p "${SAXON_HOME}/lib"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
     saxon_jar_dir="$(dirname -- "${SAXON_JAR}")"
+    # Copy all required dependencies to SAXON_HOME location, too.
+    # ls command is for troubleshooting in case cp command ever
+    # fails due to future Saxon restructuring or other reason.
     ls "${saxon_jar_dir}"/lib
-    cp "${saxon_jar_dir}"/lib/xmlresolver* "${SAXON_HOME}"/lib/
-    cp "${saxon_jar_dir}"/lib/jline* "${SAXON_HOME}"/lib/
+    cp "${saxon_jar_dir}"/lib/* "${SAXON_HOME}/lib/"
     unset SAXON_CP
 
     # To avoid "No license file found" warning on commercial Saxon
