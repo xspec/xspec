@@ -28,7 +28,7 @@
             </xsl:when>
             <xsl:otherwise>
                <!-- Always write a single non-empty line to help Bats tests to predict line numbers. -->
-               <xsl:text> </xsl:text>
+               <xsl:text>Checking for deprecated Saxon versions: Passed</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:message>

@@ -28,6 +28,13 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+export XMLRESOLVER_BUG_FIXED_IN_4_5_2=1
+case "${SAXON_VERSION}" in
+    "11.4")
+        unset XMLRESOLVER_BUG_FIXED_IN_4_5_2
+        ;;
+esac
+
 if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F "SAXON-EE " > /dev/null; then
     export XSLT_SUPPORTS_THREADS=1
 fi

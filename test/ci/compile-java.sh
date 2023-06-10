@@ -7,7 +7,7 @@ if javac -version 2>&1 | grep -F ' 17.'; then
     exit
 fi
 
-if [ "${SAXON_VERSION:0:3}" = "10." ]; then
+if [ "${SAXON_VERSION:0:3}" = "10." ] || [ "${SAXON_VERSION:0:3}" = "11." ]; then
     echo "Skip compiling with incompatible Saxon"
     exit
 fi

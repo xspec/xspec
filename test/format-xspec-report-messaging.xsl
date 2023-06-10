@@ -32,7 +32,15 @@
 				<xsl:message select="string()" />
 			</xsl:for-each>
 			<xsl:for-each select="xhtml:pre">
-				<xsl:message select="string() => parse-xml-fragment()" />
+				<xsl:message>
+					<!--
+						copy-namespaces="false" is because Saxon 10 puts namespaces on one line
+						of the message, while Saxon 11 includes a line break between successive
+						namespace declarations. The namespace declarations are not relevant for
+						this test, so suppress them.
+					-->
+					<xsl:copy-of select="string() => parse-xml-fragment()" copy-namespaces="false"/>
+				</xsl:message>
 			</xsl:for-each>
 		</xsl:for-each>
 	</xsl:template>

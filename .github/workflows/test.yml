@@ -20,7 +20,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         java: [8, 17]
-        env: [saxon-10, saxon-9-9, oxygen]
+        env: [saxon-11, saxon-10, saxon-9-9, oxygen]
         exclude:
           - os: macos-latest
             env: saxon-9-9

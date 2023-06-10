@@ -4,11 +4,11 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="Scenario for testing variable saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.9 to 10.x">
+		<x:scenario label="Assume we test this on Saxon versions from 9.9 to 11.x">
 			<x:context />
 			<x:expect label="Greater than or equal to 9.9.0.0"
 				test="$x:saxon-version ge x:pack-version((9, 9))" />
-			<x:expect label="Less than 11.0" test="$x:saxon-version lt x:pack-version(11)" />
+			<x:expect label="Less than 12.0" test="$x:saxon-version lt x:pack-version(12)" />
 			<x:expect
 				label="Lower uint32 should be zero on Saxon 10+ (two-part version numbers rather than four-part)"
 				test="
@@ -121,6 +121,20 @@
 					<x:param select="'SAXON-HE 10.0J from Saxonica (build 31609)'" />
 				</x:call>
 				<x:expect label="Extracted, stripping platform suffix ('J')" select="10, 0, 0, 0" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Saxon 11">
+			<!--
+				Typical xsl:product-version uses the same pattern as in Saxon 10, so
+				the Saxon 10 scenario suffices for testing xsl:product-version in Saxon 11.
+				The net.sf.saxon.Version pattern is different in Saxon 11, so test that here.
+			-->
+			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+				<x:call>
+					<x:param select="'SAXON-J-HE 11.5 from Saxonica (build 20809)'" />
+				</x:call>
+				<x:expect label="Extracted" select="11, 5, 0, 0" />
 			</x:scenario>
 		</x:scenario>
 
