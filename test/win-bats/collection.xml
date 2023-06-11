@@ -535,12 +535,6 @@
 	-->
 
 	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)">
-    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
-        if exist ..\lib\iso-schematron (
-            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-            goto :EOF
-        )
-    )
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt_include.xsl
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt_expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_compile.xsl
@@ -556,12 +550,6 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-1.xspec -->
 	<case name="Skip Schematron Step 1 (CLI)">
-    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
-        if exist ..\lib\iso-schematron (
-            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-            goto :EOF
-        )
-    )
     set SCHEMATRON_XSLT_INCLUDE=#none
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt_include-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_compile.xsl
@@ -573,12 +561,6 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-2.xspec -->
 	<case name="Skip Schematron Step 2 (CLI)">
-    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
-        if exist ..\lib\iso-schematron (
-            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-            goto :EOF
-        )
-    )
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt_include.xsl
     set SCHEMATRON_XSLT_EXPAND=#none
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_expand-compile.xsl
@@ -590,12 +572,6 @@
 
 	<!-- Ant is tested by schematron-xslt_skip-1-2.xspec -->
 	<case name="Skip Schematron Step 1 and 2 (CLI)">
-    if "%SAXON_DOCUMENT_URI_FIXED%"=="true" (
-        if exist ..\lib\iso-schematron (
-            call :skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-            goto :EOF
-        )
-    )
     set SCHEMATRON_XSLT_INCLUDE=#none
     set SCHEMATRON_XSLT_EXPAND=#none
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_include-expand-compile.xsl
