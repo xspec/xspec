@@ -19,7 +19,7 @@
 	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
 		select="$x:schematron-preprocessor?stylesheets?2" />
 	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
-		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
+		select="base-uri($STEP3-PREPROCESSOR-DOC)" />
 
 	<xsl:param as="xs:boolean" name="CACHE" select="false()" />
 
