@@ -605,11 +605,6 @@ load bats-helper
     if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
         skip "Saxon bug 4696"
     fi
-    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
-        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
-            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-        fi
-    fi
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
@@ -625,11 +620,6 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-1.xspec
 @test "Skip Schematron Step 1 (CLI)" {
-    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
-        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
-            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-        fi
-    fi
     export SCHEMATRON_XSLT_INCLUDE="#none"
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
@@ -641,11 +631,6 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-2.xspec
 @test "Skip Schematron Step 2 (CLI)" {
-    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
-        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
-            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-        fi
-    fi
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
     export SCHEMATRON_XSLT_EXPAND="#none"
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
@@ -657,11 +642,6 @@ load bats-helper
 
 # Ant is tested by schematron-xslt_skip-1-2.xspec
 @test "Skip Schematron Step 1 and 2 (CLI)" {
-    if [ "${SAXON_DOCUMENT_URI_FIXED}" = "true" ]; then
-        if [ -f "${parent_dir_abs}/lib/iso-schematron/readme.txt" ]; then
-            skip "Schematron skeleton implementation relies on a document-uri bug that Saxon 11 fixes."
-        fi
-    fi
     export SCHEMATRON_XSLT_INCLUDE="#none"
     export SCHEMATRON_XSLT_EXPAND="#none"
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
