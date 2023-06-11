@@ -77,9 +77,9 @@ else
 fi
 
 #
-# XML Resolver
+# Apache XML Resolver
 #
-export XML_RESOLVER_JAR="${XSPEC_TEST_DEPS}/xml-resolver-${XML_RESOLVER_VERSION}/resolver.jar"
+export APACHE_XMLRESOLVER_JAR="${XSPEC_TEST_DEPS}/apache-xmlresolver-${APACHE_XMLRESOLVER_VERSION}/resolver.jar"
 
 #
 # XML Calabash jar
