@@ -10,12 +10,12 @@
 				test="normalize-space($x:result)" />
 		</x:scenario>
 
-		<x:scenario label="?strip-space=yes">
+		<x:scenario label="strip-space=yes and xinclude=yes">
 			<x:call function="exactly-one">
 				<!-- ws-only-text-copy.xml is identical to ws-only-text.xml. In Saxon 11,
 				the test fails if the same XML file is read with and without the URI
 				query parameter in the same test session.-->
-				<x:param href="ws-only-text-copy.xml?strip-space=yes" />
+				<x:param href="ws-only-text-copy.xml?strip-space=yes;xinclude=yes" />
 			</x:call>
 			<x:expect label="Whitespace-only text nodes are stripped" select="'AB'"
 				test="string($x:result)" />
