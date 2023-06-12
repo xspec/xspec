@@ -29,7 +29,7 @@
 		</loadresource>
 		<!--
 			Download Saxon from GitHub, not Maven repository. Starting with
-			version 11, Saxon needs xmlresolver*.jar on classpath. The
+			version 11, Saxon needs XMLResolver.org XML Resolver on classpath. The
 			GitHub download includes xmlresolver*.jar in the ZIP-file and
 			in the classpath part of the manifest. In the same-version jar
 			file from the Maven repository, the manifest does not include
