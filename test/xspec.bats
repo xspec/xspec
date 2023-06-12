@@ -2424,8 +2424,8 @@ load bats-helper
     export HTML_REPORTER_XSL=format-xspec-report-messaging.xsl
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "--- Actual Result ---" ]
-    [ "${lines[${#lines[@]} - 9]}" = "--- Expected Result ---" ]
+    assert_regex "${output}" $'\n''--- Actual Result ---'$'\n'
+    assert_regex "${output}" $'\n''--- Expected Result ---'$'\n'
 }
 
 #
