@@ -1260,10 +1260,10 @@ load bats-helper
 #
 
 @test "CLI with -catalog file path (XSLT)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1277,10 +1277,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (XQuery)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1295,10 +1295,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (Schematron)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1354,11 +1354,10 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file path (XSLT)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
-
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1372,10 +1371,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1389,10 +1388,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
-        skip "Saxon uses XML Resolver with a bug that is fixed in 4.5.2"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"

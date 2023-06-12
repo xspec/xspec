@@ -1155,8 +1155,9 @@
 			Test -catalog specifying multiple file paths (relative and absolute)
 	-->
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with -catalog file path (XSLT)">
+	<case name="CLI with -catalog file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -1169,8 +1170,9 @@
     call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with -catalog file path (XQuery)">
+	<case name="CLI with -catalog file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -1184,8 +1186,9 @@
     call :verify_line 9 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with -catalog file path (Schematron)">
+	<case name="CLI with -catalog file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -1240,8 +1243,9 @@
 			Test XML_CATALOG containing multiple file paths (relative and absolute)
 	-->
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with XML_CATALOG file path (XSLT)">
+	<case name="CLI with XML_CATALOG file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -1254,8 +1258,9 @@
     call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with XML_CATALOG file path (XQuery)">
+	<case name="CLI with XML_CATALOG file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -1268,8 +1273,9 @@
     call :verify_line 9 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
-	<case ifdef="XMLRESOLVER_BUG_FIXED_IN_4_5_2" name="CLI with XML_CATALOG file path (Schematron)">
+	<case name="CLI with XML_CATALOG file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVER_BUG_FIXED_IN_4_5_2 set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
