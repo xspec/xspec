@@ -17,6 +17,9 @@
 	<target name="saxon">
 		<echo message="Install Saxon ${env.SAXON_VERSION}" />
 
+		<!--
+			Download ZIP file
+		-->
 		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="saxon_deleteonexit_"
 			property="saxon.zip" suffix=".zip" />
 		<loadresource property="saxon.version.with.hyphen.replacing.dot">
@@ -30,17 +33,50 @@
 		<!--
 			Download Saxon from GitHub, not Maven repository. Starting with
 			version 11, Saxon needs XMLResolver.org XML Resolver on classpath. The
-			GitHub download includes xmlresolver*.jar in the ZIP-file and
+			GitHub download includes xmlresolver-*.jar in the ZIP-file and
 			in the classpath part of the manifest. In the same-version jar
 			file from the Maven repository, the manifest does not include
-			xmlresolver*.jar (Maven manages dependencies itself).
+			xmlresolver-*.jar (Maven manages dependencies itself).
+			
+			This build script deletes xmlresolver-*.jar in Saxon lib/ subdirectory.
+			But it still downloads the ZIP-file version, as Saxon may have some
+			other dependencies in the future.
 		-->
 		<download dest="${saxon.zip}"
 			src="${env.SAXON_URL}/SaxonHE${saxon.version.with.hyphen.replacing.dot}J.zip" />
 
+		<!--
+			Extract ZIP file
+		-->
 		<dirname file="${env.SAXON_JAR}" property="saxon.jar.dir" />
 		<mkdir dir="${saxon.jar.dir}" />
 		<unzip dest="${saxon.jar.dir}" src="${saxon.zip}" />
+
+		<!--
+			Find and delete XMLResolver.org XML Resolver files in lib/ subdirectory
+		-->
+		<condition else="2" property="saxon.xmlresolverorg-xmlresolver.jar.count.expected" value="0">
+			<!-- Saxon 9 and 10 have no target files -->
+			<matches pattern="^(9|10)\." string="${env.SAXON_VERSION}" />
+		</condition>
+		<condition property="saxon.has.lib">
+			<!-- Saxon 9 has no lib/ subdirectory -->
+			<not>
+				<matches pattern="^9\." string="${env.SAXON_VERSION}" />
+			</not>
+		</condition>
+		<condition property="saxon.xmlresolverorg-xmlresolver.jar.count.ok">
+			<resourcecount count="${saxon.xmlresolverorg-xmlresolver.jar.count.expected}">
+				<fileset dir="${saxon.jar.dir}/lib/" erroronmissingdir="${saxon.has.lib}"
+					id="saxon.xmlresolverorg-xmlresolver.jar" includes="xmlresolver-*.jar" />
+			</resourcecount>
+		</condition>
+		<fail message="Failed to identify XMLResolver.org XML Resolver jar in Saxon lib dir"
+			unless="saxon.xmlresolverorg-xmlresolver.jar.count.ok" />
+		<delete verbose="true">
+			<fileset erroronmissingdir="${saxon.has.lib}"
+				refid="saxon.xmlresolverorg-xmlresolver.jar" />
+		</delete>
 	</target>
 
 	<target name="apache-xmlresolver">
@@ -54,18 +90,51 @@
 		 />
 	</target>
 
+	<target name="xmlresolverorg-xmlresolver">
+		<echo
+			message="Install XMLResolver.org XML Resolver ${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}" />
+
+		<!--
+			Download ZIP file
+		-->
+		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}"
+			prefix="xmlresolverorg-xmlresolver_deleteonexit_"
+			property="xmlresolverorg-xmlresolver.zip" suffix=".zip" />
+		<download dest="${xmlresolverorg-xmlresolver.zip}"
+			src="https://github.com/xmlresolver/xmlresolver/releases/download/${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}/xmlresolver-${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}.zip" />
+
+		<!--
+			Extract ZIP file
+		-->
+		<dirname file="${env.XMLRESOLVERORG_XMLRESOLVER_LIB}"
+			property="xmlresolverorg-xmlresolver.dir" />
+		<dirname file="${xmlresolverorg-xmlresolver.dir}"
+			property="xmlresolverorg-xmlresolver.unzip.dest" />
+		<unzip dest="${xmlresolverorg-xmlresolver.unzip.dest}"
+			src="${xmlresolverorg-xmlresolver.zip}" />
+	</target>
+
 	<target depends="slf4j" if="env.XMLCALABASH_VERSION" name="xml-calabash">
 		<echo message="Install XML Calabash ${env.XMLCALABASH_VERSION}" />
 
+		<!--
+			Download ZIP file
+		-->
 		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash_deleteonexit_"
 			property="xmlcalabash.zip" suffix=".zip" />
 		<download dest="${xmlcalabash.zip}"
 			src="https://github.com/ndw/xmlcalabash1/releases/download/${env.XMLCALABASH_VERSION}/xmlcalabash-${env.XMLCALABASH_VERSION}.zip" />
 
+		<!--
+			Extract ZIP file
+		-->
 		<dirname file="${env.XMLCALABASH_JAR}" property="xmlcalabash.jar.dir" />
 		<dirname file="${xmlcalabash.jar.dir}" property="xmlcalabash.unzip.dest" />
 		<unzip dest="${xmlcalabash.unzip.dest}" src="${xmlcalabash.zip}" />
 
+		<!--
+			Find and delete Saxon jar file in lib/ subdirectory
+		-->
 		<condition property="xmlcalabash.saxon.jar.count.ok">
 			<resourcecount count="1">
 				<fileset dir="${xmlcalabash.jar.dir}/lib/" id="xmlcalabash.saxon.jar"
@@ -76,6 +145,31 @@
 			unless="xmlcalabash.saxon.jar.count.ok" />
 		<delete verbose="true">
 			<fileset refid="xmlcalabash.saxon.jar" />
+		</delete>
+
+		<!--
+			Find and delete XMLResolver.org XML Resolver file(s) in lib/ subdirectory
+		-->
+		<condition property="xmlcalabash.xmlresolverorg-xmlresolver.jar.count.ok">
+			<!--
+				There are one or two jar files:
+				- xmlresolver-[version].jar (always)
+				- xmlresolver-[version]-data.jar (not found in xmlcalabash-1.3.2-99.zip)
+			-->
+			<and>
+				<resourcecount count="1" when="ge">
+					<fileset dir="${xmlcalabash.jar.dir}/lib/"
+						id="xmlcalabash.xmlresolverorg-xmlresolver.jar" includes="xmlresolver-*.jar"
+					 />
+				</resourcecount>
+				<resourcecount count="2" refid="xmlcalabash.xmlresolverorg-xmlresolver.jar"
+					when="le" />
+			</and>
+		</condition>
+		<fail message="Failed to identify XMLResolver.org XML Resolver jar in XML Calabash lib dir"
+			unless="xmlcalabash.xmlresolverorg-xmlresolver.jar.count.ok" />
+		<delete verbose="true">
+			<fileset refid="xmlcalabash.xmlresolverorg-xmlresolver.jar" />
 		</delete>
 	</target>
 
@@ -95,6 +189,9 @@
 	<target if="env.BASEX_VERSION" name="basex">
 		<echo message="Install BaseX ${env.BASEX_VERSION}" />
 
+		<!--
+			Download ZIP file
+		-->
 		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="basex_deleteonexit_"
 			property="basex.zip" suffix=".zip" />
 		<loadresource property="basex.version.without.dot">
@@ -108,10 +205,16 @@
 		<download dest="${basex.zip}"
 			src="https://files.basex.org/releases/${env.BASEX_VERSION}/BaseX${basex.version.without.dot}.zip" />
 
+		<!--
+			Extract ZIP file
+		-->
 		<dirname file="${env.BASEX_JAR}" property="basex.jar.dir" />
 		<dirname file="${basex.jar.dir}" property="basex.unzip.dest" />
 		<unzip dest="${basex.unzip.dest}" src="${basex.zip}" />
 
+		<!--
+			Mark *nix script files as executable
+		-->
 		<chmod dir="${basex.unzip.dest}/basex/bin" excludes="*.bat" includes="*" perm="+x"
 			verbose="true" />
 	</target>
@@ -120,6 +223,7 @@
 		<parallel failonany="true">
 			<antcall target="saxon" />
 			<antcall target="apache-xmlresolver" />
+			<antcall target="xmlresolverorg-xmlresolver" />
 			<antcall target="xml-calabash" />
 			<antcall target="basex" />
 		</parallel>
