@@ -5,7 +5,7 @@
 
 	<!--
 		Resolves URI (of an XML document) with the currently enabled catalog,
-		working around an XML resolver bug
+		working around an Apache XML Resolver bug
 	-->
 	<xsl:function as="xs:anyURI" name="x:resolve-xml-uri-with-catalog">
 		<xsl:param as="xs:string" name="xml-uri" />
@@ -21,9 +21,9 @@
 
 	<!--
 		Returns the document actual URI (i.e. resolved with the currently enabled catalog),
-		working around an XML resolver bug. This doesn't work in Saxon 11 or later, so
-                go back to base-uri() in that case. Saxon 11 and later use a different resolver
-                so perhaps the resolver bug is no longer present.
+		working around an Apache XML Resolver bug. This doesn't work in Saxon 11 or later, so
+		go back to base-uri() in that case. Saxon 11 and later use a different resolver
+		so perhaps the resolver bug is no longer present.
 	-->
 	<xsl:function use-when="system-property('xsl:product-name') = 'SAXON'
                                 and xs:integer(substring-before(substring-after(system-property('xsl:product-version'), ' '), '.')) gt 10"
@@ -47,7 +47,7 @@
 	</xsl:function>
 
 	<!--
-		Performs fn:base-uri(), working around an XML resolver bug
+		Performs fn:base-uri(), working around an Apache XML Resolver bug
 	-->
 	<xsl:function as="xs:anyURI" name="x:base-uri">
 		<xsl:param as="node()" name="node" />

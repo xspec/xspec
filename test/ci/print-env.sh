@@ -25,8 +25,8 @@ echo "=== Check XML Calabash"
 java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main 2> /dev/null
 
 echo
-echo "=== Print XML Resolver version"
-java -cp "${XML_RESOLVER_JAR}" org.apache.xml.resolver.Version
+echo "=== Print Apache XML Resolver version"
+java -cp "${APACHE_XMLRESOLVER_JAR}" org.apache.xml.resolver.Version
 
 echo
 echo "=== Check BaseX"
