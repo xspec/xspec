@@ -12,8 +12,11 @@ if "%SAXON_VERSION:~0,3%"=="10." (
     echo Skip compiling with incompatible Saxon
     exit /b 0
 )
-
 if "%SAXON_VERSION:~0,3%"=="11." (
+    echo Skip compiling with incompatible Saxon
+    exit /b 0
+)
+if "%SAXON_VERSION:~0,3%"=="12." (
     echo Skip compiling with incompatible Saxon
     exit /b 0
 )
