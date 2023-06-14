@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test additional-classpath=${env.XML_RESOLVER_JAR}?>
+<?xspec-test additional-classpath=${env.APACHE_XMLRESOLVER_JAR}?>
 <?xspec-test saxon-custom-options=-catalog:"${xspec.project.dir}/test/catalog/01/catalog-public.xml;${xspec.project.dir}/test/catalog/01/catalog-rewriteURI.xml"?>
 <x:description stylesheet="../src/common/uri-utils.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">

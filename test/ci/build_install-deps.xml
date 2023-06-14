@@ -29,7 +29,7 @@
 		</loadresource>
 		<!--
 			Download Saxon from GitHub, not Maven repository. Starting with
-			version 11, Saxon needs xmlresolver*.jar on classpath. The
+			version 11, Saxon needs XMLResolver.org XML Resolver on classpath. The
 			GitHub download includes xmlresolver*.jar in the ZIP-file and
 			in the classpath part of the manifest. In the same-version jar
 			file from the Maven repository, the manifest does not include
@@ -43,14 +43,14 @@
 		<unzip dest="${saxon.jar.dir}" src="${saxon.zip}" />
 	</target>
 
-	<target name="xml-resolver">
-		<echo message="Install XML Resolver ${env.XML_RESOLVER_VERSION}" />
+	<target name="apache-xmlresolver">
+		<echo message="Install Apache XML Resolver ${env.APACHE_XMLRESOLVER_VERSION}" />
 
-		<dirname file="${env.XML_RESOLVER_JAR}" property="xml-resolver.jar.dir" />
-		<mkdir dir="${xml-resolver.jar.dir}" />
+		<dirname file="${env.APACHE_XMLRESOLVER_JAR}" property="apache-xmlresolver.jar.dir" />
+		<mkdir dir="${apache-xmlresolver.jar.dir}" />
 
-		<download dest="${env.XML_RESOLVER_JAR}"
-			src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.XML_RESOLVER_VERSION}/xml-resolver-${env.XML_RESOLVER_VERSION}.jar"
+		<download dest="${env.APACHE_XMLRESOLVER_JAR}"
+			src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.APACHE_XMLRESOLVER_VERSION}/xml-resolver-${env.APACHE_XMLRESOLVER_VERSION}.jar"
 		 />
 	</target>
 
@@ -88,7 +88,8 @@
 		<!--<download dest="${env.SLF4J_DIR}/slf4j-api.jar"
 			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/${env.SLF4J_VERSION}/slf4j-api-${env.SLF4J_VERSION}.jar" />-->
 		<download dest="${env.SLF4J_DIR}/slf4j-simple.jar"
-			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar" />
+			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar"
+		 />
 	</target>
 
 	<target if="env.BASEX_VERSION" name="basex">
@@ -118,7 +119,7 @@
 	<target name="install">
 		<parallel failonany="true">
 			<antcall target="saxon" />
-			<antcall target="xml-resolver" />
+			<antcall target="apache-xmlresolver" />
 			<antcall target="xml-calabash" />
 			<antcall target="basex" />
 		</parallel>

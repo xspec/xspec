@@ -25,8 +25,8 @@ if "%SAXON_VERSION%"=="10.0" set SAXON_BUG_4696_FIXED=
 if "%SAXON_VERSION%"=="10.1" set SAXON_BUG_4696_FIXED=
 if "%SAXON_VERSION%"=="10.2" set SAXON_BUG_4696_FIXED=
 
-set XMLRESOLVER_BUG_FIXED_IN_4_5_2=1
-if "%SAXON_VERSION%"=="11.4" set XMLRESOLVER_BUG_FIXED_IN_4_5_2=
+set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
+if "%SAXON_VERSION%"=="11.4" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
 
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "SAXON-EE " > NUL
 if not errorlevel 1 set XSLT_SUPPORTS_THREADS=1
@@ -35,7 +35,7 @@ rem Unset Ant environment variables
 set ANT_ARGS=
 set ANT_OPTS=
 
-rem Unset XML Resolver (of XML Calabash) environment variable
+rem Unset XMLResolver.org XML Resolver environment variable
 set XMLRESOLVER_PROPERTIES=
 
 rem Reset public environment variables

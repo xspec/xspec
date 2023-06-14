@@ -37,7 +37,7 @@ setup() {
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
 
-    # Invalidate XML Resolver (of XML Calabash) cache
+    # Invalidate XMLResolver.org XML Resolver cache
     XMLRESOLVER_PROPERTIES="${work_dir}/xmlresolver.properties"
     echo "cache=${work_dir}/xmlcatalog-cache_${RANDOM}" > "${XMLRESOLVER_PROPERTIES}"
     export XMLRESOLVER_PROPERTIES="file:${XMLRESOLVER_PROPERTIES}"
@@ -1047,7 +1047,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
@@ -1059,7 +1059,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
@@ -1072,7 +1072,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
@@ -1091,7 +1091,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
@@ -1104,7 +1104,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
         -Dtest.type=q \
@@ -1118,7 +1118,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
         -Dtest.type=s \
@@ -1261,14 +1261,15 @@ load bats-helper
 
 @test "CLI with -catalog file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
@@ -1278,14 +1279,15 @@ load bats-helper
 
 @test "CLI with -catalog file path (XQuery)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -q \
@@ -1296,14 +1298,15 @@ load bats-helper
 
 @test "CLI with -catalog file path (Schematron)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -s \
@@ -1319,7 +1322,7 @@ load bats-helper
 #
 
 @test "CLI with -catalog file URI (XSLT)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
@@ -1328,7 +1331,7 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -q \
@@ -1338,7 +1341,7 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -s \
@@ -1355,14 +1358,15 @@ load bats-helper
 
 @test "CLI with XML_CATALOG file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
@@ -1372,14 +1376,15 @@ load bats-helper
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
@@ -1389,14 +1394,15 @@ load bats-helper
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
-    if [ -z "${XMLRESOLVER_BUG_FIXED_IN_4_5_2}" ]; then
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
@@ -1411,7 +1417,7 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file URI (XSLT)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
@@ -1420,7 +1426,7 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
@@ -1429,7 +1435,7 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
-    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
@@ -1439,46 +1445,38 @@ load bats-helper
 
 #
 # Catalog resolver and SAXON_HOME (CLI)
-# Saxon 10 and earlier versions use resolver.jar in same directory as Saxon jar file.
-# Saxon 11 and later versions use xmlresolver*.jar in lib/ subdirectory.
+#
+#     After setting up the test environment, Saxon should use these resolvers:
+#     * Saxon 10 and earlier: Apache XML Resolver jar in same directory as Saxon jar file
+#     * Saxon 11 and later: XMLResolver.org XML Resolver jar in lib/ subdirectory
 #
 
-@test "Saxon 10 and earlier: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    if [ -z "${SEPARATE_XML_RESOLVER}" ]; then
-        skip "Saxon 10 and earlier only"
-    fi
+@test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+    # Dir of source Saxon jar
+    saxon_jar_dir="$(dirname -- "${SAXON_JAR}")"
+
+    # Set up SAXON_HOME
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
-    cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
-    unset SAXON_CP
 
-    # To avoid "No license file found" warning on commercial Saxon
-    saxon_license="$(dirname -- "${SAXON_JAR}")/saxon-license.lic"
-    if [ -f "${saxon_license}" ]; then
-        cp "${saxon_license}" "${SAXON_HOME}"
-    fi
-
-    myrun ../bin/xspec.sh \
-        -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
-        catalog/catalog-01_stylesheet.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
-}
-
-@test "Saxon 11 and later: invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    if [ -z "${BUNDLED_XML_RESOLVER}" ]; then
-        skip "Saxon 11 and later only"
-    fi
-    export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
-    mkdir -p "${SAXON_HOME}/lib"
-    cp "${SAXON_JAR}" "${SAXON_HOME}"
-    saxon_jar_dir="$(dirname -- "${SAXON_JAR}")"
     # Copy all required dependencies to SAXON_HOME location, too.
-    # ls command is for troubleshooting in case cp command ever
-    # fails due to future Saxon restructuring or other reason.
-    ls "${saxon_jar_dir}"/lib
-    cp "${saxon_jar_dir}"/lib/* "${SAXON_HOME}/lib/"
+    if [ "${SAXON_VERSION:0:2}" != "9." ] && [ "${SAXON_VERSION:0:3}" != "10." ]; then
+        unset APACHE_XMLRESOLVER_JAR
+    fi
+    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
+        cp "${APACHE_XMLRESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
+    else
+        mkdir "${SAXON_HOME}/lib"
+
+        # ls command is for troubleshooting in case cp command ever
+        # fails due to future Saxon restructuring or other reason.
+        ls "${saxon_jar_dir}"/lib
+
+        cp "${saxon_jar_dir}"/lib/* "${SAXON_HOME}/lib/"
+    fi
+
+    # Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     unset SAXON_CP
 
     # To avoid "No license file found" warning on commercial Saxon
@@ -1487,6 +1485,7 @@ load bats-helper
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
 
+    # Run
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
@@ -1501,7 +1500,7 @@ load bats-helper
 #
 
 @test "Catalog Saxon bug 3025 (CLI)" {
-    export SAXON_CP="${SAXON_JAR}:${XML_RESOLVER_JAR}"
+    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "${PWD}/catalog/02/catalog.xml" \
         catalog/catalog-02.xspec
@@ -1513,7 +1512,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="${PWD}/catalog/02/catalog.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-02.xspec"
     [ "$status" -eq 0 ]

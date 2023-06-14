@@ -28,10 +28,10 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
-export XMLRESOLVER_BUG_FIXED_IN_4_5_2=1
+export XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
 case "${SAXON_VERSION}" in
     "11.4")
-        unset XMLRESOLVER_BUG_FIXED_IN_4_5_2
+        unset XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED
         ;;
 esac
 
@@ -47,7 +47,7 @@ unset JAVA_TOOL_OPTIONS
 unset ANT_ARGS
 unset ANT_OPTS
 
-# Unset XML Resolver (of XML Calabash) environment variable
+# Unset XMLResolver.org XML Resolver environment variable
 unset XMLRESOLVER_PROPERTIES
 
 # Reset public environment variables
