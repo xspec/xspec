@@ -1866,6 +1866,10 @@ load bats-helper
 }
 
 @test "Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)" {
+    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
+        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
+    fi
+
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
     [ "$status" -eq 1 ]
     assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison$"
@@ -1920,6 +1924,9 @@ load bats-helper
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
+    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
+        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
+    fi
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -1964,6 +1971,10 @@ load bats-helper
 }
 
 @test "XQuery selecting nodes without context should be error (CLI) #423" {
+    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
+        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
+    fi
+
     myrun ../bin/xspec.sh -q issue-423/test.xspec
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -2126,6 +2137,10 @@ load bats-helper
 }
 
 @test "x:variable should be evaluated only once (XSLT)" {
+    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
+        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
+    fi
+
     myrun ../bin/xspec.sh ../tutorial/under-the-hood/compilation-variables-scope.xspec
     [ "$status" -eq 0 ]
     [ "${lines[5]}" = "Running Tests..." ]
@@ -2308,6 +2323,10 @@ load bats-helper
 }
 
 @test "Error in SUT should not be caught by default (XQuery)" {
+    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
+        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
+    fi
+
     myrun ../bin/xspec.sh -q catch/no-by-default.xspec
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  my-error-code[: ] Error signalled '
