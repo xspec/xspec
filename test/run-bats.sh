@@ -22,6 +22,11 @@ if [ "${SAXON_VERSION:0:2}" != "9." ]; then
     unset export XSLT_SUPPORTS_COVERAGE
 fi
 
+export XSLT_SUPPORTS_THREADS=1
+if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F -- "-EE " > /dev/null; then
+    unset XSLT_SUPPORTS_THREADS
+fi
+
 export SAXON_BUG_4696_FIXED=1
 case "${SAXON_VERSION}" in
     "10.0" | "10.1" | "10.2")
@@ -36,9 +41,10 @@ case "${XMLRESOLVERORG_XMLRESOLVER_VERSION}" in
         ;;
 esac
 
-export XSLT_SUPPORTS_THREADS=1
-if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F -- "-EE " > /dev/null; then
-    unset XSLT_SUPPORTS_THREADS
+# TODO: Resolve these issues!
+export SAXON12_INITIAL_ISSUES_FIXED=1
+if [ "${SAXON_VERSION:0:3}" == "12." ]; then
+    unset SAXON12_INITIAL_ISSUES_FIXED
 fi
 
 # Unset JVM environment variables which make output line numbers unpredictable

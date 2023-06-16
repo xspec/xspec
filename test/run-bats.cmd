@@ -20,6 +20,10 @@ rem Check capabilities
 set XSLT_SUPPORTS_COVERAGE=1
 if not "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
 
+set XSLT_SUPPORTS_THREADS=1
+java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
+if errorlevel 1 set XSLT_SUPPORTS_THREADS=
+
 set SAXON_BUG_4696_FIXED=1
 if "%SAXON_VERSION%"=="10.0" set SAXON_BUG_4696_FIXED=
 if "%SAXON_VERSION%"=="10.1" set SAXON_BUG_4696_FIXED=
@@ -28,9 +32,9 @@ if "%SAXON_VERSION%"=="10.2" set SAXON_BUG_4696_FIXED=
 set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
 if "%XMLRESOLVERORG_XMLRESOLVER_VERSION%"=="4.5.0" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
 
-set XSLT_SUPPORTS_THREADS=1
-java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
-if errorlevel 1 set XSLT_SUPPORTS_THREADS=
+rem TODO: Resolve these issues!
+set SAXON12_INITIAL_ISSUES_FIXED=1
+if "%SAXON_VERSION:~0,3%"=="12." set SAXON12_INITIAL_ISSUES_FIXED=
 
 rem Unset Ant environment variables
 set ANT_ARGS=
