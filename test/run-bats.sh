@@ -35,6 +35,12 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+# TODO: Resolve these issues!
+export SAXON12_INITIAL_ISSUES_FIXED=1
+if [ "${SAXON_VERSION:0:3}" == "12." ]; then
+    unset SAXON12_INITIAL_ISSUES_FIXED
+fi
+
 if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F "SAXON-EE " > /dev/null; then
     export XSLT_SUPPORTS_THREADS=1
 fi

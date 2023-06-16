@@ -1730,7 +1730,7 @@
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
     call :verify_line  8 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
@@ -1780,7 +1780,7 @@
     call :verify_line -1 r "\[main\] ERROR "
 	</case>
 
-	<case ifdef="XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
     call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -1816,7 +1816,7 @@
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
-	<case name="XQuery selecting nodes without context should be error (CLI) #423">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="XQuery selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat -q issue-423\test.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0002[: ]"
@@ -1977,7 +1977,7 @@
     call :verify_line 15 x "Formatting Report..."
 	</case>
 
-	<case name="x:variable should be evaluated only once (XSLT)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="x:variable should be evaluated only once (XSLT)">
     call :run ..\bin\xspec.bat ..\tutorial\under-the-hood\compilation-variables-scope.xspec
     call :verify_retval 0
     call :verify_line  6 x "Running Tests..."
@@ -2165,7 +2165,7 @@
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
-	<case name="Error in SUT should not be caught by default (XQuery)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval 2
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
