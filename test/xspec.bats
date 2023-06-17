@@ -1260,10 +1260,11 @@ load bats-helper
 #
 
 @test "CLI with -catalog file path (XSLT)" {
-    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1277,10 +1278,11 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (XQuery)" {
-    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1295,10 +1297,11 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (Schematron)" {
-    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1354,11 +1357,11 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file path (XSLT)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
+        space_dir="${work_dir}/catalog${RANDOM}"
     fi
 
-    space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1372,10 +1375,11 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
-    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
@@ -1389,10 +1393,11 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
-    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
-        skip "Saxon uses XMLResolver.org XML Resolver with bug #117"
-    fi
     space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
