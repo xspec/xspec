@@ -56,9 +56,9 @@ if "%SAXON_VERSION:~0,2%"=="9." (
 )
 
 rem
-rem XML Resolver
+rem Apache XML Resolver
 rem
-set "XML_RESOLVER_JAR=%XSPEC_TEST_DEPS%\xml-resolver-%XML_RESOLVER_VERSION%\resolver.jar"
+set "APACHE_XMLRESOLVER_JAR=%XSPEC_TEST_DEPS%\apache-xmlresolver-%APACHE_XMLRESOLVER_VERSION%\resolver.jar"
 
 rem
 rem XML Calabash jar

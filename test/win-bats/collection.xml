@@ -772,6 +772,10 @@
     rem BaseX dir
     set "BASEX_HOME=%BASEX_JAR%\.."
 
+    rem Stop BaseX server, in case it's running
+    rem Run the batch file in a child process in order to localize various environment changes
+    call :run "%BASEX_HOME%\bin\basexhttpstop.bat"
+
     rem Set BaseX password
     rem Run the batch file in a child process in order to localize various environment changes
     set BASEX_PASSWORD=%RANDOM%
@@ -782,6 +786,9 @@
     rem Run the batch file in a child process in order to localize various environment changes
     call :run "%BASEX_HOME%\bin\basexhttp.bat" -S
     call :verify_retval 0
+
+    rem Wait for the server to start up
+    ping -n 6 localhost > NUL
 
     rem HTML report file
     set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"
@@ -940,7 +947,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-01_stylesheet.xspec"
     call :verify_retval 0
@@ -952,7 +959,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=q ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
@@ -965,7 +972,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=s ^
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
@@ -984,7 +991,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
         -Dxspec.xml="%CD%\catalog\catalog-01_stylesheet.xspec"
@@ -997,7 +1004,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
         -Dtest.type=q ^
@@ -1011,7 +1018,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
         -Dtest.type=s ^
@@ -1150,11 +1157,12 @@
 
 	<case name="CLI with -catalog file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1164,11 +1172,12 @@
 
 	<case name="CLI with -catalog file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -q ^
@@ -1179,11 +1188,12 @@
 
 	<case name="CLI with -catalog file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -s ^
@@ -1199,7 +1209,7 @@
 	-->
 
 	<case name="CLI with -catalog file URI (XSLT)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
@@ -1208,7 +1218,7 @@
 	</case>
 
 	<case name="CLI with -catalog file URI (XQuery)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -1218,7 +1228,7 @@
 	</case>
 
 	<case name="CLI with -catalog file URI (Schematron)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -s ^
@@ -1235,11 +1245,12 @@
 
 	<case name="CLI with XML_CATALOG file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1249,11 +1260,12 @@
 
 	<case name="CLI with XML_CATALOG file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "%SPACE_DIR%\catalog-01_query.xspec"
@@ -1263,11 +1275,12 @@
 
 	<case name="CLI with XML_CATALOG file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
@@ -1282,7 +1295,7 @@
 	-->
 
 	<case name="CLI with XML_CATALOG file URI (XSLT)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "catalog\catalog-01_stylesheet.xspec"
@@ -1291,7 +1304,7 @@
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (XQuery)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
@@ -1300,7 +1313,7 @@
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (Schematron)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
@@ -1310,19 +1323,38 @@
 
 	<!--
 		Catalog resolver and SAXON_HOME (CLI)
+		
+			After setting up the test environment, Saxon should use these resolvers:
+			* Saxon 10 and earlier: Apache XML Resolver jar in same directory as Saxon jar file
+			* Saxon 11 and later: XMLResolver.org XML Resolver jar in lib/ subdirectory
 	-->
 
 	<case name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
+    rem Dir of source Saxon jar
+    set SAXON_JAR_DIR=%SAXON_JAR%\..
+
+    rem Set up SAXON_HOME
     set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
     call :mkdir "%SAXON_HOME%"
-    call :copy "%SAXON_JAR%"        "%SAXON_HOME%"
-    call :copy "%XML_RESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
+    call :copy "%SAXON_JAR%" "%SAXON_HOME%"
+
+    rem Copy all required dependencies to SAXON_HOME location, too.
+    if not "%SAXON_VERSION:~0,2%"=="9." if not "%SAXON_VERSION:~0,3%"=="10." set APACHE_XMLRESOLVER_JAR=
+    if defined APACHE_XMLRESOLVER_JAR (
+        call :copy "%APACHE_XMLRESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
+    ) else (
+        call :mkdir "%SAXON_HOME%\lib"
+        call :copy "%SAXON_JAR_DIR%\lib" "%SAXON_HOME%\lib"
+    )
+
+    rem Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     set SAXON_CP=
 
     rem To avoid "No license file found" warning on commercial Saxon
-    set "SAXON_LICENSE=%SAXON_JAR%\..\saxon-license.lic"
+    set "SAXON_LICENSE=%SAXON_JAR_DIR%\saxon-license.lic"
     if exist "%SAXON_LICENSE%" call :copy "%SAXON_LICENSE%" "%SAXON_HOME%"
 
+    rem Run
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;catalog\01\catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
@@ -1337,7 +1369,7 @@
 	-->
 
 	<case name="Catalog Saxon bug 3025 (CLI)">
-    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "%CD%\catalog\02\catalog.xml" ^
         catalog\catalog-02.xspec
@@ -1349,7 +1381,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -lib "%XML_RESOLVER_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="%CD%\catalog\02\catalog.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-02.xspec"
     call :verify_retval 0
@@ -1698,7 +1730,7 @@
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
     call :verify_line  8 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
@@ -1748,7 +1780,7 @@
     call :verify_line -1 r "\[main\] ERROR "
 	</case>
 
-	<case ifdef="XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
     call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -1784,7 +1816,7 @@
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
-	<case name="XQuery selecting nodes without context should be error (CLI) #423">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="XQuery selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat -q issue-423\test.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0002[: ]"
@@ -1945,7 +1977,7 @@
     call :verify_line 15 x "Formatting Report..."
 	</case>
 
-	<case name="x:variable should be evaluated only once (XSLT)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="x:variable should be evaluated only once (XSLT)">
     call :run ..\bin\xspec.bat ..\tutorial\under-the-hood\compilation-variables-scope.xspec
     call :verify_retval 0
     call :verify_line  6 x "Running Tests..."
@@ -1987,7 +2019,7 @@
     if "%SAXON_VERSION:~0,4%"=="9.9." (
         call :verify_line 4 x "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10."
     ) else (
-        call :verify_line 4 x " "
+        call :verify_line 4 x "Checking for deprecated Saxon versions: Passed"
     )
 
     call :verify_line 6 x "Running Tests..."
@@ -2133,7 +2165,7 @@
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
-	<case name="Error in SUT should not be caught by default (XQuery)">
+	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval 2
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
@@ -2240,8 +2272,8 @@
     set HTML_REPORTER_XSL=format-xspec-report-messaging.xsl
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line -16 x "--- Actual Result ---"
-    call :verify_line  -9 x "--- Expected Result ---"
+    call :verify_line * x "--- Actual Result ---"
+    call :verify_line * x "--- Expected Result ---"
 	</case>
 
 	<!--

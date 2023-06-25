@@ -11,6 +11,7 @@ jobs:
     parameters:
       jobName: Win_Java8
       javaVersion: 8
+      testSaxon12: false
       testOxygen: false
 
   - template: test/ci/azure-pipelines_windows.yml

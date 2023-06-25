@@ -7,6 +7,9 @@ parameters:
   - name: javaVersion
     type: string
     default: ''
+  - name: testSaxon12
+    type: boolean
+    default: true
   - name: testOxygen
     type: boolean
     default: true
@@ -22,6 +25,13 @@ jobs:
       maxParallel: 0
 
       matrix:
+        ${{ if eq(parameters.testSaxon12, true) }}:
+          Saxon-12:
+            XSPEC_TEST_ENV: saxon-12
+
+        Saxon-11:
+          XSPEC_TEST_ENV: saxon-11
+
         Saxon-10:
           XSPEC_TEST_ENV: saxon-10
 

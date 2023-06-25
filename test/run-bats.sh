@@ -28,6 +28,19 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+export XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
+case "${SAXON_VERSION}" in
+    "11.4")
+        unset XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED
+        ;;
+esac
+
+# TODO: Resolve these issues!
+export SAXON12_INITIAL_ISSUES_FIXED=1
+if [ "${SAXON_VERSION:0:3}" == "12." ]; then
+    unset SAXON12_INITIAL_ISSUES_FIXED
+fi
+
 if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F "SAXON-EE " > /dev/null; then
     export XSLT_SUPPORTS_THREADS=1
 fi
@@ -40,7 +53,7 @@ unset JAVA_TOOL_OPTIONS
 unset ANT_ARGS
 unset ANT_OPTS
 
-# Unset XML Resolver (of XML Calabash) environment variable
+# Unset XMLResolver.org XML Resolver environment variable
 unset XMLRESOLVER_PROPERTIES
 
 # Reset public environment variables

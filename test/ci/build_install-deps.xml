@@ -17,22 +17,40 @@
 	<target name="saxon">
 		<echo message="Install Saxon ${env.SAXON_VERSION}" />
 
+		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="saxon_deleteonexit_"
+			property="saxon.zip" suffix=".zip" />
+		<loadresource property="saxon.version.with.hyphen.replacing.dot">
+			<propertyresource name="env.SAXON_VERSION" />
+			<filterchain>
+				<tokenfilter>
+					<replaceregex flags="g" pattern="\." replace="-" />
+				</tokenfilter>
+			</filterchain>
+		</loadresource>
+		<!--
+			Download Saxon from GitHub, not Maven repository. Starting with
+			version 11, Saxon needs XMLResolver.org XML Resolver on classpath. The
+			GitHub download includes xmlresolver*.jar in the ZIP-file and
+			in the classpath part of the manifest. In the same-version jar
+			file from the Maven repository, the manifest does not include
+			xmlresolver*.jar (Maven manages dependencies itself).
+		-->
+		<download dest="${saxon.zip}"
+			src="${env.SAXON_URL}/SaxonHE${saxon.version.with.hyphen.replacing.dot}J.zip" />
+
 		<dirname file="${env.SAXON_JAR}" property="saxon.jar.dir" />
 		<mkdir dir="${saxon.jar.dir}" />
-
-		<download dest="${env.SAXON_JAR}"
-			src="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
-		 />
+		<unzip dest="${saxon.jar.dir}" src="${saxon.zip}" />
 	</target>
 
-	<target name="xml-resolver">
-		<echo message="Install XML Resolver ${env.XML_RESOLVER_VERSION}" />
+	<target name="apache-xmlresolver">
+		<echo message="Install Apache XML Resolver ${env.APACHE_XMLRESOLVER_VERSION}" />
 
-		<dirname file="${env.XML_RESOLVER_JAR}" property="xml-resolver.jar.dir" />
-		<mkdir dir="${xml-resolver.jar.dir}" />
+		<dirname file="${env.APACHE_XMLRESOLVER_JAR}" property="apache-xmlresolver.jar.dir" />
+		<mkdir dir="${apache-xmlresolver.jar.dir}" />
 
-		<download dest="${env.XML_RESOLVER_JAR}"
-			src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.XML_RESOLVER_VERSION}/xml-resolver-${env.XML_RESOLVER_VERSION}.jar"
+		<download dest="${env.APACHE_XMLRESOLVER_JAR}"
+			src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.APACHE_XMLRESOLVER_VERSION}/xml-resolver-${env.APACHE_XMLRESOLVER_VERSION}.jar"
 		 />
 	</target>
 
@@ -70,7 +88,8 @@
 		<!--<download dest="${env.SLF4J_DIR}/slf4j-api.jar"
 			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/${env.SLF4J_VERSION}/slf4j-api-${env.SLF4J_VERSION}.jar" />-->
 		<download dest="${env.SLF4J_DIR}/slf4j-simple.jar"
-			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar" />
+			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar"
+		 />
 	</target>
 
 	<target if="env.BASEX_VERSION" name="basex">
@@ -100,7 +119,7 @@
 	<target name="install">
 		<parallel failonany="true">
 			<antcall target="saxon" />
-			<antcall target="xml-resolver" />
+			<antcall target="apache-xmlresolver" />
 			<antcall target="xml-calabash" />
 			<antcall target="basex" />
 		</parallel>

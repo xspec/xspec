@@ -27,8 +27,8 @@ echo === Check XML Calabash
 java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main 2> NUL
 
 echo:
-echo === Print XML Resolver version
-java -cp "%XML_RESOLVER_JAR%" org.apache.xml.resolver.Version
+echo === Print Apache XML Resolver version
+java -cp "%APACHE_XMLRESOLVER_JAR%" org.apache.xml.resolver.Version
 
 echo:
 echo === Check BaseX
@@ -37,6 +37,7 @@ java -cp "%BASEX_JAR%" org.basex.BaseX -h
 echo:
 echo === Check BaseX server start and stop
 call "%BASEX_JAR%\..\bin\basexhttp.bat" -S
+ping -n 6 localhost > NUL
 call "%BASEX_JAR%\..\bin\basexhttpstop.bat"
 
 echo:

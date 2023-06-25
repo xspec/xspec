@@ -159,7 +159,7 @@ rem
     set ANT_ARGS=-Dxspec.dir="%TEST_DIR%"
 
     rem
-    rem Invalidate XML Resolver (of XML Calabash) cache
+    rem Invalidate XMLResolver.org XML Resolver cache
     rem
     set "XMLRESOLVER_PROPERTIES=%WORK_DIR%\xmlresolver.properties"
     echo cache=%WORK_DIR:\=\\%\\xmlcatalog-cache_%RANDOM% > "%XMLRESOLVER_PROPERTIES%"
