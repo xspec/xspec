@@ -191,14 +191,16 @@ load bats-helper
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
 
     # Check the coverage trace XML file contents
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${special_chars_dir}/xspec/demo-coverage.xml" \
         -xsl:check-coverage-xml.xsl
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 
     # Coverage report HTML file is created and contains CSS inline #194
-    myrun java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:check-html-css.xsl
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${special_chars_dir}/xspec/demo-coverage.html" \
+        -xsl:check-html-css.xsl
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
@@ -251,7 +253,7 @@ load bats-helper
     [ "${lines[2]}" = "function-result.xml" ]
 
     # HTML report file contains CSS inline #135
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${test_copy}/xspec/function-result.html" \
         -xsl:check-html-css.xsl
     [ "$status" -eq 0 ]
@@ -469,14 +471,14 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
 
     # Verify HTML report including #72
-    java -jar "${SAXON_JAR}" \
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
@@ -494,21 +496,21 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
 
     # Verify HTML report including #72
-    java -jar "${SAXON_JAR}" \
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
     # Run again (ndw/xmlcalabash1#322)
-    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -520,7 +522,7 @@ load bats-helper
         skip "XMLCALABASH_CP is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -838,7 +840,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
@@ -852,7 +854,9 @@ load bats-helper
     [ -f "${compiled_file}" ]
 
     # HTML report file should be created and its charset should be UTF-8 #72
-    myrun java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${expected_report}" \
+        -xsl:check-html-charset.xsl
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
@@ -885,7 +889,7 @@ load bats-helper
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
 
     # Run (also test with various types in report)
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=report-sequence.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
@@ -899,7 +903,9 @@ load bats-helper
     assert_regex "${lines[1]}" '.+:passed: 132 / pending: 0 / failed: 0 / total: 132'
 
     # HTML report file should be created and its charset should be UTF-8 #72
-    myrun java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${expected_report}" \
+        -xsl:check-html-charset.xsl
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 
@@ -915,7 +921,7 @@ load bats-helper
         skip "XMLCALABASH_CP is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=no-prefix.xspec \
         -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
         -p basex-jar="${BASEX_JAR}" \
@@ -943,7 +949,7 @@ load bats-helper
     # Run
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.xml="${tutorial_copy}/escape-for-regex.xspec"
 
     # Default xspec.fail is true
@@ -963,7 +969,7 @@ load bats-helper
     [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
         -xsl:check-html-css.xsl
     [ "$status" -eq 0 ]
@@ -982,7 +988,7 @@ load bats-helper
     # Run
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
         -Dxspec.xml="${tutorial_copy}/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
@@ -1017,7 +1023,7 @@ load bats-helper
     # * Should work without phase #168
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=s \
         -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
     [ "$status" -eq 0 ]
@@ -1046,7 +1052,7 @@ load bats-helper
 @test "Ant with catalog file path (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
@@ -1058,7 +1064,7 @@ load bats-helper
 @test "Ant with catalog file path (XQuery)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=q \
@@ -1071,7 +1077,7 @@ load bats-helper
 @test "Ant with catalog file path (Schematron)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=s \
@@ -1090,7 +1096,7 @@ load bats-helper
 @test "Ant with catalog file URI (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
@@ -1103,7 +1109,7 @@ load bats-helper
 @test "Ant with catalog file URI (XQuery)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
@@ -1117,7 +1123,7 @@ load bats-helper
 @test "Ant with catalog file URI (Schematron)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
@@ -1135,7 +1141,7 @@ load bats-helper
 @test "Ant catalog.is.uri=true without setting catalog" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dcatalog.is.uri=true \
         -Dxspec.fail=false \
         -Dxspec.xml="tutorial/escape-for-regex.xspec"
@@ -1158,7 +1164,7 @@ load bats-helper
 @test "Ant with xspec.fail=false continues on test failure (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     [ "$status" -eq 0 ]
@@ -1169,7 +1175,7 @@ load bats-helper
 @test "Ant with xspec.fail=true makes the build fail on test failure before cleanup (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dclean.output.dir=true \
         -Dxspec.fail=true \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
@@ -1190,7 +1196,7 @@ load bats-helper
 @test "Ant verbose test.type (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=xslT \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
@@ -1199,7 +1205,7 @@ load bats-helper
 @test "Ant verbose test.type (XQuery)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=xquerY \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
@@ -1208,7 +1214,7 @@ load bats-helper
 @test "Ant verbose test.type (Schematron)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dclean.output.dir=true \
         -Dtest.type=schematroN \
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
@@ -1237,7 +1243,7 @@ load bats-helper
     # Run
     myrun ant \
         -buildfile "${build_xml}" \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dclean.output.dir=true \
         -Dxspec.project.dir="${PWD}/.." \
         -Dxspec.properties="${PWD}/schematron/schematron.properties" \
@@ -1269,7 +1275,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
@@ -1287,7 +1293,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -q \
@@ -1306,7 +1312,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -s \
@@ -1322,7 +1328,7 @@ load bats-helper
 #
 
 @test "CLI with -catalog file URI (XSLT)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
@@ -1331,7 +1337,7 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -q \
@@ -1341,7 +1347,7 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -s \
@@ -1366,7 +1372,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
@@ -1384,7 +1390,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
@@ -1402,7 +1408,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
@@ -1417,7 +1423,7 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file URI (XSLT)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
@@ -1426,7 +1432,7 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
@@ -1435,7 +1441,7 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
@@ -1444,43 +1450,31 @@ load bats-helper
 }
 
 #
-# Catalog resolver and SAXON_HOME (CLI)
+# SAXON_HOME (CLI)
 #
-#     After setting up the test environment, Saxon should use these resolvers:
-#     * Saxon 10 and earlier: Apache XML Resolver jar in same directory as Saxon jar file
-#     * Saxon 11 and later: XMLResolver.org XML Resolver jar in lib/ subdirectory
+#     * Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.
+#     * Saxon 11 and later: XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
 #
 
-@test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    # Dir of source Saxon jar
-    saxon_jar_dir="$(dirname -- "${SAXON_JAR}")"
-
+@test "invoking xspec using SAXON_HOME finds Saxon jar and Apache XML Resolver jar" {
     # Set up SAXON_HOME
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
 
-    # Copy all required dependencies to SAXON_HOME location, too.
+    # Apache XML Resolver
     if [ "${SAXON_VERSION:0:2}" != "9." ] && [ "${SAXON_VERSION:0:3}" != "10." ]; then
         unset APACHE_XMLRESOLVER_JAR
     fi
     if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
         cp "${APACHE_XMLRESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
-    else
-        mkdir "${SAXON_HOME}/lib"
-
-        # ls command is for troubleshooting in case cp command ever
-        # fails due to future Saxon restructuring or other reason.
-        ls "${saxon_jar_dir}"/lib
-
-        cp "${saxon_jar_dir}"/lib/* "${SAXON_HOME}/lib/"
     fi
 
     # Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     unset SAXON_CP
 
     # To avoid "No license file found" warning on commercial Saxon
-    saxon_license="${saxon_jar_dir}/saxon-license.lic"
+    saxon_license="$(dirname -- "${SAXON_JAR}")/saxon-license.lic"
     if [ -f "${saxon_license}" ]; then
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
@@ -1489,8 +1483,18 @@ load bats-helper
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
+        [ "$status" -eq 0 ]
+        [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    else
+        # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
+        # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
+        # from SAXON_HOME/lib/ subdirectory deliberately.
+        [ "$status" -eq 1 ]
+        assert_regex "${output}" $'\n''Creating Test Stylesheet\.\.\.'$'\n''Exception in thread '
+        assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
+        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver'$'\n'
+    fi
 }
 
 #
@@ -1500,7 +1504,7 @@ load bats-helper
 #
 
 @test "Catalog Saxon bug 3025 (CLI)" {
-    export SAXON_CP="${SAXON_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "${PWD}/catalog/02/catalog.xml" \
         catalog/catalog-02.xspec
@@ -1511,7 +1515,7 @@ load bats-helper
 @test "Catalog Saxon bug 3025 (Ant)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="${PWD}/catalog/02/catalog.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-02.xspec"
@@ -1535,7 +1539,7 @@ load bats-helper
 
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     [ "$status" -eq 0 ]
@@ -1557,7 +1561,7 @@ load bats-helper
 
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
@@ -1612,7 +1616,7 @@ load bats-helper
 
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.coverage.enabled=true \
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     [ "$status" -eq 0 ]
@@ -1624,7 +1628,7 @@ load bats-helper
     [ -f "${TEST_DIR}/demo-result.html" ]
 
     # Coverage report HTML file is created and contains CSS inline
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${TEST_DIR}/demo-coverage.html" \
         -xsl:check-html-css.xsl
     [ "$status" -eq 0 ]
@@ -1634,7 +1638,7 @@ load bats-helper
 @test "Ant for XQuery with coverage fails" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
         -Dxspec.coverage.enabled=true \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
@@ -1646,7 +1650,7 @@ load bats-helper
 @test "Ant for Schematron with coverage fails" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=s \
         -Dxspec.coverage.enabled=true \
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
@@ -1662,7 +1666,7 @@ load bats-helper
 @test "Ant for XSLT with JUnit creates report files" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.junit.enabled=true \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     [ "$status" -eq 1 ]
@@ -1703,7 +1707,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-185/import-1.xspec"
 
@@ -1747,7 +1751,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_child.xspec"
 
@@ -1766,7 +1770,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_parent.xspec"
 
@@ -1919,7 +1923,7 @@ load bats-helper
         skip "XMLCALABASH_CP is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -1936,7 +1940,7 @@ load bats-helper
         skip "XMLCALABASH_CP is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
@@ -1949,7 +1953,7 @@ load bats-helper
     # Should be error even when xspec.fail=false
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../test/issue-423/test.xspec"
     [ "$status" -eq 2 ]
@@ -2011,12 +2015,12 @@ load bats-helper
 @test "report-css-uri for HTML report file" {
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.fail=false \
         -Dxspec.result.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
 
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${TEST_DIR}/escape-for-regex-result.html" \
         -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
@@ -2031,12 +2035,12 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.coverage.enabled=true \
         -Dxspec.coverage.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
 
-    myrun java -jar "${SAXON_JAR}" \
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${TEST_DIR}/demo-coverage.html" \
         -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
@@ -2110,7 +2114,7 @@ load bats-helper
 # x:variable in XSpec namespace
 #
 
-@test "Error on x:variable in XSpec namespace (global x:variable with lexical QName in )" {
+@test "Error on x:variable in XSpec namespace (global x:variable with lexical QName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/variable/global-variable_lexical-qname.xspec
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:variable (named u:global-variable): Name u:global-variable must not use the XSpec namespace." ]
@@ -2207,7 +2211,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=t \
@@ -2227,7 +2231,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=q \
@@ -2247,7 +2251,7 @@ load bats-helper
 
     ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=s \
@@ -2344,7 +2348,7 @@ load bats-helper
 @test "Importing Ant build file" {
     myrun ant \
         -buildfile ant-import/build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 15]}" = "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6" ]
@@ -2402,7 +2406,7 @@ load bats-helper
 @test "Override ID generation (XSLT)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dxspec.xslt.compiler.xsl="${PWD}/override-id/compile-xslt-tests.xsl" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
@@ -2418,7 +2422,7 @@ load bats-helper
 @test "Override ID generation (XQuery)" {
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
+        -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
         -Dxspec.xquery.compiler.xsl="${PWD}/override-id/compile-xquery-tests.xsl" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"

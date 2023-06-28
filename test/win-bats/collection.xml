@@ -139,14 +139,16 @@
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.html"
 
     rem Check the coverage trace XML file contents
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.xml" ^
         -xsl:check-coverage-xml.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
 
     rem Coverage report HTML file is created and contains CSS inline #194
-    call :run java -jar "%SAXON_JAR%" -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html" -xsl:check-html-css.xsl
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html" ^
+        -xsl:check-html-css.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
 	</case>
@@ -199,7 +201,7 @@
     call :verify_line 3 x function-result.xml
 
     rem HTML report file contains CSS inline #135
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%TEST_COPY%\xspec\function-result.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
@@ -409,7 +411,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -417,7 +419,7 @@
     call :verify_retval 0
 
     rem Verify HTML report including #72
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_REPORT%" ^
         -xsl:end-to-end\processor\html\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/serialize-result.html" ^
@@ -432,7 +434,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -440,7 +442,7 @@
     call :verify_retval 0
 
     rem Verify HTML report including #72
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_REPORT%" ^
         -xsl:end-to-end\processor\html\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
@@ -448,7 +450,7 @@
     call :verify_retval 0
 
     rem Run again (ndw/xmlcalabash1#322)
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -457,7 +459,7 @@
 	</case>
 
 	<case ifdef="XMLCALABASH_CP" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -749,7 +751,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -763,7 +765,9 @@
     call :verify_exist "%COMPILED_FILE%"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
-    call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:check-html-charset.xsl
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%EXPECTED_REPORT%" ^
+        -xsl:check-html-charset.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
 	</case>
@@ -794,7 +798,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"
 
     rem Run (also test with various types in report)
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=report-sequence.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
@@ -808,7 +812,9 @@
     call :verify_line 2 r "..*:passed: 132 / pending: 0 / failed: 0 / total: 132"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
-    call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:check-html-charset.xsl
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%EXPECTED_REPORT%" ^
+        -xsl:check-html-charset.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
 
@@ -819,7 +825,7 @@
 	</case>
 
 	<case ifdef="BASEX_JAR XMLCALABASH_CP" name="BaseX with no-prefix.xspec">
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=no-prefix.xspec ^
         -o result="file:///%WORK_DIR:\=/%/no-prefix-result_%RANDOM%.html" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -847,7 +853,7 @@
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.xml="%TUTORIAL_COPY%\escape-for-regex.xspec"
 
     rem Default xspec.fail is true
@@ -867,7 +873,7 @@
     call :verify_line 4 x escape-for-regex-result.xml
 
     rem HTML report file contains CSS inline
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
@@ -886,7 +892,7 @@
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
         -Dxspec.xml="%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
@@ -917,7 +923,7 @@
     rem * Should work without phase #168
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=s ^
         -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
@@ -946,7 +952,7 @@
 	<case name="Ant with catalog file path (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-01_stylesheet.xspec"
@@ -958,7 +964,7 @@
 	<case name="Ant with catalog file path (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=q ^
@@ -971,7 +977,7 @@
 	<case name="Ant with catalog file path (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=s ^
@@ -990,7 +996,7 @@
 	<case name="Ant with catalog file URI (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
@@ -1003,7 +1009,7 @@
 	<case name="Ant with catalog file URI (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
@@ -1017,7 +1023,7 @@
 	<case name="Ant with catalog file URI (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
@@ -1035,7 +1041,7 @@
 	<case name="Ant catalog.is.uri=true without setting catalog">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dcatalog.is.uri=true ^
         -Dxspec.fail=false ^
         -Dxspec.xml="tutorial\escape-for-regex.xspec"
@@ -1058,7 +1064,7 @@
 	<case name="Ant with xspec.fail=false continues on test failure (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
@@ -1069,7 +1075,7 @@
 	<case name="Ant with xspec.fail=true makes the build fail on test failure before cleanup (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dclean.output.dir=true ^
         -Dxspec.fail=true ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
@@ -1090,7 +1096,7 @@
 	<case name="Ant verbose test.type (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=xslT ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_line * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
@@ -1099,7 +1105,7 @@
 	<case name="Ant verbose test.type (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=xquerY ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -1108,7 +1114,7 @@
 	<case name="Ant verbose test.type (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dclean.output.dir=true ^
         -Dtest.type=schematroN ^
         -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
@@ -1133,7 +1139,7 @@
     rem Run
     call :run ant ^
         -buildfile "%BUILD_XML%" ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dclean.output.dir=true ^
         -Dxspec.project.dir="%CD%\.." ^
         -Dxspec.properties="%CD%\schematron\schematron.properties" ^
@@ -1162,7 +1168,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1177,7 +1183,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -q ^
@@ -1193,7 +1199,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -s ^
@@ -1209,7 +1215,7 @@
 	-->
 
 	<case name="CLI with -catalog file URI (XSLT)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
@@ -1218,7 +1224,7 @@
 	</case>
 
 	<case name="CLI with -catalog file URI (XQuery)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -1228,7 +1234,7 @@
 	</case>
 
 	<case name="CLI with -catalog file URI (Schematron)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -s ^
@@ -1250,7 +1256,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1265,7 +1271,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "%SPACE_DIR%\catalog-01_query.xspec"
@@ -1280,7 +1286,7 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
@@ -1295,7 +1301,7 @@
 	-->
 
 	<case name="CLI with XML_CATALOG file URI (XSLT)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "catalog\catalog-01_stylesheet.xspec"
@@ -1304,7 +1310,7 @@
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (XQuery)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
@@ -1313,7 +1319,7 @@
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (Schematron)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
@@ -1322,44 +1328,48 @@
 	</case>
 
 	<!--
-		Catalog resolver and SAXON_HOME (CLI)
+		SAXON_HOME (CLI)
 		
-			After setting up the test environment, Saxon should use these resolvers:
-			* Saxon 10 and earlier: Apache XML Resolver jar in same directory as Saxon jar file
-			* Saxon 11 and later: XMLResolver.org XML Resolver jar in lib/ subdirectory
+			* Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.
+			* Saxon 11 and later: XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
 	-->
 
 	<case name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
-    rem Dir of source Saxon jar
-    set SAXON_JAR_DIR=%SAXON_JAR%\..
-
     rem Set up SAXON_HOME
     set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
     call :mkdir "%SAXON_HOME%"
     call :copy "%SAXON_JAR%" "%SAXON_HOME%"
 
-    rem Copy all required dependencies to SAXON_HOME location, too.
+    rem Apache XML Resolver
     if not "%SAXON_VERSION:~0,2%"=="9." if not "%SAXON_VERSION:~0,3%"=="10." set APACHE_XMLRESOLVER_JAR=
     if defined APACHE_XMLRESOLVER_JAR (
         call :copy "%APACHE_XMLRESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
-    ) else (
-        call :mkdir "%SAXON_HOME%\lib"
-        call :copy "%SAXON_JAR_DIR%\lib" "%SAXON_HOME%\lib"
     )
 
     rem Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     set SAXON_CP=
 
     rem To avoid "No license file found" warning on commercial Saxon
-    set "SAXON_LICENSE=%SAXON_JAR_DIR%\saxon-license.lic"
+    set "SAXON_LICENSE=%SAXON_JAR%\..\saxon-license.lic"
     if exist "%SAXON_LICENSE%" call :copy "%SAXON_LICENSE%" "%SAXON_HOME%"
 
     rem Run
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;catalog\01\catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
-    call :verify_retval 0
-    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    if defined APACHE_XMLRESOLVER_JAR (
+        call :verify_retval 0
+        call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    ) else (
+        rem If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
+        rem ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
+        rem from SAXON_HOME/lib/ subdirectory deliberately.
+        call :verify_retval 1
+        call :verify_line * x "Creating Test Stylesheet..."
+        call :verify_line * r "Exception in thread "
+        call :verify_line * r "	at net\.sf\.saxon\.Transform\.main\("
+        call :verify_line * r "Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver"
+    )
 	</case>
 
 	<!--
@@ -1369,7 +1379,7 @@
 	-->
 
 	<case name="Catalog Saxon bug 3025 (CLI)">
-    set "SAXON_CP=%SAXON_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "%CD%\catalog\02\catalog.xml" ^
         catalog\catalog-02.xspec
@@ -1380,7 +1390,7 @@
 	<case name="Catalog Saxon bug 3025 (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dcatalog="%CD%\catalog\02\catalog.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-02.xspec"
@@ -1400,7 +1410,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
     call :verify_retval 0
@@ -1418,7 +1428,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" ^
         -Dtest.type=q ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
@@ -1469,7 +1479,7 @@
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant for XSLT with coverage creates report files">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.coverage.enabled=true ^
         -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
     call :verify_retval 0
@@ -1481,7 +1491,7 @@
     call :verify_exist "%TEST_DIR%\demo-result.html"
 
     rem Coverage report HTML file is created and contains CSS inline
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%TEST_DIR%\demo-coverage.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
@@ -1491,7 +1501,7 @@
 	<case name="Ant for XQuery with coverage fails">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
         -Dxspec.coverage.enabled=true ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
@@ -1503,7 +1513,7 @@
 	<case name="Ant for Schematron with coverage fails">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=s ^
         -Dxspec.coverage.enabled=true ^
         -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
@@ -1519,7 +1529,7 @@
 	<case name="Ant for XSLT with JUnit creates report files">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.junit.enabled=true ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 1
@@ -1560,7 +1570,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -Dxspec.xml="%CD%\issue-185\import-1.xspec"
     call :verify_retval 0
@@ -1605,7 +1615,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -Dxspec.xml="%CD%\issue-987_child.xspec"
     call :verify_retval 0
@@ -1625,7 +1635,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -Dxspec.xml="%CD%\issue-987_parent.xspec"
     call :verify_retval 0
@@ -1771,7 +1781,7 @@
 	-->
 
 	<case ifdef="XMLCALABASH_CP" name="XSLT selecting nodes without context should be error (XProc) #423">
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
@@ -1781,7 +1791,7 @@
 	</case>
 
 	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
-    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
@@ -1794,7 +1804,7 @@
     rem Should be error even when xspec.fail=false
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\test\issue-423\test.xspec"
     call :verify_retval 2
@@ -1849,13 +1859,13 @@
 	<case name="report-css-uri for HTML report file">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.fail=false ^
         -Dxspec.result.html.css="%CD%\check-html-css.css" ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
 
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%TEST_DIR%\escape-for-regex-result.html" ^
         -xsl:check-html-css.xsl ^
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
@@ -1866,13 +1876,13 @@
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report HTML file">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.coverage.enabled=true ^
         -Dxspec.coverage.html.css="%CD%\check-html-css.css" ^
         -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
     call :verify_retval 0
 
-    call :run java -jar "%SAXON_JAR%" ^
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%TEST_DIR%\demo-coverage.html" ^
         -xsl:check-html-css.xsl ^
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
@@ -2040,7 +2050,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -verbose ^
         -Dtest.type=t ^
@@ -2062,7 +2072,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -verbose ^
         -Dtest.type=q ^
@@ -2084,7 +2094,7 @@
 
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -logfile "%ANT_LOG%" ^
         -verbose ^
         -Dtest.type=s ^
@@ -2178,7 +2188,7 @@
 	<case name="Importing Ant build file">
     call :run ant ^
         -buildfile ant-import\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
     call :verify_line -15 x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
@@ -2233,7 +2243,7 @@
 	<case name="Override ID generation (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dxspec.xslt.compiler.xsl="%CD%\override-id\compile-xslt-tests.xsl" ^
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
@@ -2249,7 +2259,7 @@
 	<case name="Override ID generation (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
+        -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
         -Dxspec.xquery.compiler.xsl="%CD%\override-id\compile-xquery-tests.xsl" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"

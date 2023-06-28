@@ -44,7 +44,7 @@ rem Clean up
 set ANT_BIN=
 
 rem
-rem Saxon
+rem Saxon jar
 rem
 set "SAXON_JAR=%XSPEC_TEST_DEPS%\saxon-%SAXON_VERSION%"
 
@@ -56,9 +56,15 @@ if "%SAXON_VERSION:~0,2%"=="9." (
 )
 
 rem
-rem Apache XML Resolver
+rem Apache XML Resolver jar
 rem
 set "APACHE_XMLRESOLVER_JAR=%XSPEC_TEST_DEPS%\apache-xmlresolver-%APACHE_XMLRESOLVER_VERSION%\resolver.jar"
+
+rem
+rem XMLResolver.org XML Resolver lib directory
+rem
+rem Depends on the archive file structure
+set "XMLRESOLVERORG_XMLRESOLVER_LIB=%XSPEC_TEST_DEPS%\xmlresolver-%XMLRESOLVERORG_XMLRESOLVER_VERSION%\lib"
 
 rem
 rem XML Calabash jar
@@ -72,25 +78,13 @@ if defined XMLCALABASH_VERSION (
 )
 
 rem
-rem SLF4J
+rem SLF4J directory
 rem
 if defined SLF4J_VERSION (
     set "SLF4J_DIR=%XSPEC_TEST_DEPS%\slf4j-%SLF4J_VERSION%"
 ) else (
     echo SLF4J will not be installed
     set SLF4J_DIR=
-)
-
-rem
-rem XML Calabash classpath
-rem
-if defined XMLCALABASH_JAR (
-    set "XMLCALABASH_CP=%XMLCALABASH_JAR%;%SAXON_JAR%"
-) else (
-    set XMLCALABASH_CP=
-)
-if defined XMLCALABASH_CP if defined SLF4J_DIR (
-    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%SLF4J_DIR%\*;%~dp0slf4j-simple"
 )
 
 rem
@@ -107,4 +101,21 @@ if defined BASEX_VERSION (
 ) else (
     echo BaseX will not be installed
     set BASEX_JAR=
+)
+
+rem
+rem Classpath
+rem
+
+rem XMLResolver.org XML Resolver
+set "XMLRESOLVERORG_XMLRESOLVER_CP=%XMLRESOLVERORG_XMLRESOLVER_LIB%\*"
+
+rem XML Calabash
+rem Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
+set XMLCALABASH_CP=
+if defined XMLCALABASH_JAR (
+    set "XMLCALABASH_CP=%XMLCALABASH_JAR%;%XMLRESOLVERORG_XMLRESOLVER_CP%"
+)
+if defined XMLCALABASH_CP if defined SLF4J_DIR (
+    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%SLF4J_DIR%\*;%~dp0slf4j-simple"
 )
