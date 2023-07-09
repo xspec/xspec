@@ -268,14 +268,6 @@
 							)">
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
-
-					<!-- TODO: Resolve these issues! -->
-					<xsl:when test="
-							($pis = 'require-saxon-12-initial-issues-fixed')
-							and ($x:saxon-version ge x:pack-version(12))
-							and ($x:saxon-version lt x:pack-version(13))">
-						<xsl:text>Saxon 12 initial issues</xsl:text>
-					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
