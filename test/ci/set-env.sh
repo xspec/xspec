@@ -65,7 +65,7 @@ PATH="${PATH%:}"
 export PATH="${ant_bin}:${PATH}"
 
 #
-# Saxon
+# Saxon jar
 #
 SAXON_JAR="${XSPEC_TEST_DEPS}/saxon-${SAXON_VERSION}"
 
@@ -77,9 +77,15 @@ else
 fi
 
 #
-# Apache XML Resolver
+# Apache XML Resolver jar
 #
 export APACHE_XMLRESOLVER_JAR="${XSPEC_TEST_DEPS}/apache-xmlresolver-${APACHE_XMLRESOLVER_VERSION}/resolver.jar"
+
+#
+# XMLResolver.org XML Resolver lib directory
+#
+# Depends on the archive file structure
+export XMLRESOLVERORG_XMLRESOLVER_LIB="${XSPEC_TEST_DEPS}/xmlresolver-${XMLRESOLVERORG_XMLRESOLVER_VERSION}/lib"
 
 #
 # XML Calabash jar
@@ -93,25 +99,13 @@ else
 fi
 
 #
-# SLF4J
+# SLF4J directory
 #
 if [ -n "${SLF4J_VERSION}" ]; then
     export SLF4J_DIR="${XSPEC_TEST_DEPS}/slf4j-${SLF4J_VERSION}"
 else
     echo "SLF4J will not be installed"
     unset SLF4J_DIR
-fi
-
-#
-# XML Calabash classpath
-#
-if [ -n "${XMLCALABASH_JAR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_JAR}:${SAXON_JAR}"
-else
-    unset XMLCALABASH_CP
-fi
-if [ -n "${XMLCALABASH_CP}" ] && [ -n "${SLF4J_DIR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_CP}:${SLF4J_DIR}/*:${mydir}/slf4j-simple"
 fi
 
 #
@@ -129,4 +123,21 @@ if [ -n "${BASEX_VERSION}" ]; then
 else
     echo "BaseX will not be installed"
     unset BASEX_JAR
+fi
+
+#
+# Classpath
+#
+
+# XMLResolver.org XML Resolver
+export XMLRESOLVERORG_XMLRESOLVER_CP="${XMLRESOLVERORG_XMLRESOLVER_LIB}/*"
+
+# XML Calabash
+# Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
+unset XMLCALABASH_CP
+if [ -n "${XMLCALABASH_JAR}" ]; then
+    export XMLCALABASH_CP="${XMLCALABASH_JAR}:${XMLRESOLVERORG_XMLRESOLVER_CP}"
+fi
+if [ -n "${XMLCALABASH_CP}" ] && [ -n "${SLF4J_DIR}" ]; then
+    export XMLCALABASH_CP="${XMLCALABASH_CP}:${SLF4J_DIR}/*:${mydir}/slf4j-simple"
 fi

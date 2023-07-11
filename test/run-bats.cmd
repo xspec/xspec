@@ -17,8 +17,12 @@ if not exist "%SAXON_JAR%" (
 )
 
 rem Check capabilities
-java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" " 9." > NUL
-if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
+set XSLT_SUPPORTS_COVERAGE=1
+if not "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
+
+set XSLT_SUPPORTS_THREADS=1
+java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
+if errorlevel 1 set XSLT_SUPPORTS_THREADS=
 
 set SAXON_BUG_4696_FIXED=1
 if "%SAXON_VERSION%"=="10.0" set SAXON_BUG_4696_FIXED=
@@ -26,14 +30,11 @@ if "%SAXON_VERSION%"=="10.1" set SAXON_BUG_4696_FIXED=
 if "%SAXON_VERSION%"=="10.2" set SAXON_BUG_4696_FIXED=
 
 set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
-if "%SAXON_VERSION%"=="11.4" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
+if "%XMLRESOLVERORG_XMLRESOLVER_VERSION%"=="4.5.0" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
 
 rem TODO: Resolve these issues!
 set SAXON12_INITIAL_ISSUES_FIXED=1
 if "%SAXON_VERSION:~0,3%"=="12." set SAXON12_INITIAL_ISSUES_FIXED=
-
-java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "SAXON-EE " > NUL
-if not errorlevel 1 set XSLT_SUPPORTS_THREADS=1
 
 rem Unset Ant environment variables
 set ANT_ARGS=
@@ -43,7 +44,7 @@ rem Unset XMLResolver.org XML Resolver environment variable
 set XMLRESOLVER_PROPERTIES=
 
 rem Reset public environment variables
-set "SAXON_CP=%SAXON_JAR%"
+set "SAXON_CP=%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_CP%"
 set SAXON_CUSTOM_OPTIONS=
 set SAXON_HOME=
 set SCHEMATRON_XSLT_COMPILE=
@@ -52,6 +53,10 @@ set SCHEMATRON_XSLT_INCLUDE=
 set TEST_DIR=
 set XML_CATALOG=
 set XSPEC_HOME=
+
+rem Saxon path for Ant -lib command line option
+rem  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.
+set "SAXON_ANT_LIB=%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_LIB%"
 
 rem Full path
 set "MERGED_BAT=%TEMP%\%~n0_%RANDOM%.cmd"
@@ -62,7 +67,7 @@ copy "%BAT_SOURCES%\stub.cmd" "%MERGED_BAT%" > NUL
 if errorlevel 1 exit /b
 
 rem Append
-java -jar "%SAXON_JAR%" ^
+java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
     -s:"%BAT_SOURCES%\collection.xml" ^
     -xsl:"%BAT_SOURCES%\generate.xsl" ^
     filter="%FILTER%" ^

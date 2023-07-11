@@ -24,11 +24,15 @@ java -cp "%SAXON_JAR%" net.sf.saxon.Version
 
 echo:
 echo === Check XML Calabash
-java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main 2> NUL
+java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main 2> NUL
 
 echo:
 echo === Print Apache XML Resolver version
 java -cp "%APACHE_XMLRESOLVER_JAR%" org.apache.xml.resolver.Version
+
+echo:
+echo === Print XMLResolver.org XML Resolver files
+where $XMLRESOLVERORG_XMLRESOLVER_LIB:*
 
 echo:
 echo === Check BaseX
