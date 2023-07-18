@@ -2146,25 +2146,22 @@ load bats-helper
 }
 
 @test "x:variable should be evaluated only once (XSLT)" {
-    if [ -z "${SAXON12_INITIAL_ISSUES_FIXED}" ]; then
-        skip "SAXON12_INITIAL_ISSUES_FIXED is not defined"
-    fi
+    ant_log="${work_dir}/ant.log"
 
-    myrun ../bin/xspec.sh ../tutorial/under-the-hood/compilation-variables-scope.xspec
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -logfile "${ant_log}" \
+        -Dxspec.xml="${PWD}/../tutorial/under-the-hood/compilation-variables-scope.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "Running Tests..." ]
-    assert_regex "${lines[6]}" '^Testing with SAXON '
-    [ "${lines[7]}" = "outer scenario" ]
-    [ "${lines[8]}" = "* [1]: xs:string: value-2" ]
-    [ "${lines[9]}" = "..inner scenario" ]
-    [ "${lines[10]}" = "* [1]: xs:string: value-3" ]
-    [ "${lines[11]}" = "* [1]: xs:string: value-4" ]
-    [ "${lines[12]}" = "1st expect" ]
-    [ "${lines[13]}" = "* [1]: xs:string: value-1" ]
-    [ "${lines[14]}" = "* [1]: xs:string: value-5" ]
-    [ "${lines[15]}" = "2nd expect" ]
-    [ "${lines[16]}" = "" ]
-    [ "${lines[17]}" = "Formatting Report..." ]
+
+    myrun grep -F "* [1]: xs:string: value-" "${ant_log}"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "     [java] * [1]: xs:string: value-2" ]
+    [ "${lines[1]}" = "     [java] * [1]: xs:string: value-3" ]
+    [ "${lines[2]}" = "     [java] * [1]: xs:string: value-4" ]
+    [ "${lines[3]}" = "     [java] * [1]: xs:string: value-1" ]
+    [ "${lines[4]}" = "     [java] * [1]: xs:string: value-5" ]
 }
 
 @test "x:variable should be evaluated only once (XQuery)" {
