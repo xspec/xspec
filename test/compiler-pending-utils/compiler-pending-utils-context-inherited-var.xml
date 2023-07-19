@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file provides sample XSpec markup for compiler-pending-utils.xspec.
+    This file is not a complete XSpec test and is not designed to be
+    run as a test. -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="">
+    <x:scenario pending="pending-reason" label="outer">
+        <x:param name="param"/>
+        <x:variable name="var"/>
+        <x:scenario label="middle1"/>
+        <x:scenario label="middle2">
+            <x:scenario label="inner" focus="focus-reason"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>
