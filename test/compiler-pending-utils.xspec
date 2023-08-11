@@ -3,12 +3,12 @@
     xmlns:myv="http://example.org/ns/my/variable"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    stylesheet="../../src/compiler/compile-xslt-tests.xsl"
+    stylesheet="../src/compiler/compile-xslt-tests.xsl"
     xslt-version="3.0">
 
-    <x:scenario label="Tests for 'stacked-explicit-pending' accumulator">
+    <x:scenario label="Tests for 'stacked-explicit-pending' accumulator" xml:base="end-to-end/cases/">
         <x:scenario label="Pending scenarios that use @pending and nest">
-            <x:variable name="myv:context" href="../end-to-end/cases/focus-vs-pending-attribute.xspec"/>
+            <x:variable name="myv:context" href="focus-vs-pending-attribute.xspec"/>
             <x:call function="true"/>
             <x:expect label="Prior to any pending markup, accumulator is an empty sequence"
                 test="$myv:context/x:description/accumulator-before('stacked-explicit-pending')"
@@ -36,7 +36,7 @@
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[@label]">
-            <x:variable name="myv:context" href="../end-to-end/cases/pending.xspec"/>
+            <x:variable name="myv:context" href="pending.xspec"/>
             <x:call function="true"/>
             <x:expect label="At start of x:pending[@label], accumulator has pending reason"
                 test="$myv:context//x:pending[@label='testing x:pending']/accumulator-before('stacked-explicit-pending')"
@@ -54,7 +54,7 @@
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[x:label]">
-            <x:variable name="myv:context" href="../end-to-end/cases/pending.xspec"/>
+            <x:variable name="myv:context" href="pending.xspec"/>
             <x:call function="true"/>
             <x:expect label="At start of x:pending[x:label], accumulator has pending reason"
                 test="$myv:context//x:pending[x:label]/accumulator-before('stacked-explicit-pending')"
@@ -71,60 +71,60 @@
         </x:scenario>
     </x:scenario>
 
-    <x:scenario label="Tests for x:reason-for-pending function">
+    <x:scenario label="Tests for x:reason-for-pending function" xml:base="compiler-pending-utils/reason-for-pending/">
         <x:call function="x:reason-for-pending"/>
         <x:scenario label="No focus or pending">
             <x:call>
-                <x:param select="//x:scenario[@label='inner']" href="compiler-pending-utils-context-simple.xml"/>
+                <x:param select="//x:scenario[@label='inner']" href="simple.xspec"/>
             </x:call>
             <x:expect label="Empty sequence" select="()"/>
         </x:scenario>
         <x:scenario label="@focus on ancestor scenario">
             <x:call>
-                <x:param select="//x:scenario[@label='inner']" href="compiler-pending-utils-context-focus-ancestor.xml"/>
+                <x:param select="//x:scenario[@label='inner']" href="focus-ancestor.xspec"/>
             </x:call>
             <x:expect label="Empty sequence, because ancestor's @focus overrides pending reason" select="()"/>
         </x:scenario>
         <x:scenario label="Parameter located in pending scenario and inherited by scenario with @focus">
             <x:call>
-                <x:param select="//x:param[@name='param']" href="compiler-pending-utils-context-inherited-var.xml"/>
+                <x:param select="//x:param[@name='param']" href="inherited-var.xspec"/>
             </x:call>
             <x:expect label="Empty sequence, because inheritance overrides pending reason" select="()"/>
         </x:scenario>
         <x:scenario label="Variable located in pending scenario and inherited by scenario with @focus">
             <x:call>
-                <x:param select="//x:variable[@name='var']" href="compiler-pending-utils-context-inherited-var.xml"/>
+                <x:param select="//x:variable[@name='var']" href="inherited-var.xspec"/>
             </x:call>
             <x:expect label="Empty sequence, because inheritance overrides pending reason" select="()"/>
         </x:scenario>
         <x:scenario label="@focus elsewhere makes a scenario pending (implicit reason)">
             <x:call>
-                <x:param select="//x:scenario[@label='not-explicitly-pending']" href="compiler-pending-utils-context-focus-pending.xml"/>
+                <x:param select="//x:scenario[@label='not-explicitly-pending']" href="focus-pending.xspec"/>
             </x:call>
             <x:expect label="Reason from first @focus" select="'focus-reason1'"/>
         </x:scenario>
         <x:scenario label="@focus irrelevant for element outside scenarios">
             <x:call>
-                <x:param select="//x:param[@name='global-param']" href="compiler-pending-utils-context-focus-ancestor.xml"/>
+                <x:param select="//x:param[@name='global-param']" href="focus-ancestor.xspec"/>
             </x:call>
             <x:expect label="Empty sequence, because @focus does not make this context pending" select="()"/>
         </x:scenario>
         <x:scenario label="@focus and @pending both affect context, ">
             <x:scenario label="where pending scenario is before focused scenario">
                 <x:call>
-                    <x:param select="//x:scenario[@label='pending1']" href="compiler-pending-utils-context-focus-pending.xml"/>
+                    <x:param select="//x:scenario[@label='pending1']" href="focus-pending.xspec"/>
                 </x:call>
                 <x:expect label="@pending reason is preferred" select="'pending-reason1'"/>
             </x:scenario>
             <x:scenario label="where pending scenario is after focused scenario">
                 <x:call>
-                    <x:param select="//x:scenario[@label='pending2']" href="compiler-pending-utils-context-focus-pending.xml"/>
+                    <x:param select="//x:scenario[@label='pending2']" href="focus-pending.xspec"/>
                 </x:call>
                 <x:expect label="@pending reason is preferred" select="'pending-reason2'"/>
             </x:scenario>
             <x:scenario label="where child of scenario[@pending] is deeper than focused scenario">
                 <x:call>
-                    <x:param select="//x:scenario[@label='inner']" href="compiler-pending-utils-context-focus-pending.xml"/>
+                    <x:param select="//x:scenario[@label='inner']" href="focus-pending.xspec"/>
                 </x:call>
                 <x:expect label="@pending reason is preferred" select="'pending-reason3'"/>
             </x:scenario>
