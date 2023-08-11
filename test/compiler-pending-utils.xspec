@@ -11,10 +11,10 @@
         <x:scenario label="Pending scenarios that use @pending and nest">
             <x:context href="focus-vs-pending-attribute.xspec"/>
             <x:expect label="Prior to any pending markup, accumulator is an empty sequence"
-                test="$x:context/x:description/accumulator-before('stacked-explicit-pending')"
+                test="exactly-one($x:context/x:description)/accumulator-before('stacked-explicit-pending')"
                 select="()"/>
             <x:expect label="Prior to start of Pending #1 scenario, accumulator is still an empty sequence"
-                test="$x:context//x:scenario[@pending='Pending #1']/preceding-sibling::*[1]/accumulator-before('stacked-explicit-pending')"
+                test="exactly-one($x:context//x:scenario[@pending='Pending #1']/preceding-sibling::*[1])/accumulator-before('stacked-explicit-pending')"
                 select="()"/>
             <x:expect label="At start of Pending #1 scenario, accumulator has first pending reason"
                 test="$x:context//x:scenario[@pending='Pending #1']/accumulator-before('stacked-explicit-pending')"
@@ -32,7 +32,7 @@
                 test="$x:context//x:scenario[@pending='Pending #2']/accumulator-after('stacked-explicit-pending')"
                 select="'Pending #1'"/>
             <x:expect label="At end of Pending #1 scenario, accumulator is an empty sequence"
-                test="$x:context//x:scenario[@pending='Pending #1']/accumulator-after('stacked-explicit-pending')"
+                test="exactly-one($x:context//x:scenario[@pending='Pending #1'])/accumulator-after('stacked-explicit-pending')"
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[@label]">
@@ -49,7 +49,7 @@
                 test="$x:context//x:pending[@label='testing x:pending']/x:scenario[1]/accumulator-after('stacked-explicit-pending')"
                 select="'testing x:pending'"/>
             <x:expect label="At end of x:pending[@label], accumulator no longer has pending reason"
-                test="$x:context//x:pending[@label='testing x:pending']/accumulator-after('stacked-explicit-pending')"
+                test="exactly-one($x:context//x:pending[@label='testing x:pending'])/accumulator-after('stacked-explicit-pending')"
                 select="()"/>
         </x:scenario>
         <x:scenario label="Pending scenario that uses x:pending[x:label]">
@@ -64,7 +64,7 @@
                 test="$x:context//x:pending[x:label]/x:scenario[1]/accumulator-after('stacked-explicit-pending')"
                 select="''"/>
             <x:expect label="At end of x:pending[x:label], accumulator no longer has pending reason"
-                test="$x:context//x:pending[x:label]/accumulator-after('stacked-explicit-pending')"
+                test="exactly-one($x:context//x:pending[x:label])/accumulator-after('stacked-explicit-pending')"
                 select="()"/>
         </x:scenario>
     </x:scenario>
