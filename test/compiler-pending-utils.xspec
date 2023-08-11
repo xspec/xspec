@@ -3,8 +3,10 @@
     xmlns:myv="http://example.org/ns/my/variable"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    stylesheet="../src/compiler/compile-xslt-tests.xsl"
+    stylesheet="../src/compiler/base/util/compiler-pending-utils.xsl"
     xslt-version="3.0">
+
+    <x:helper stylesheet="../src/compiler/base/util/compiler-misc-utils.xsl" />
 
     <x:scenario label="Tests for 'stacked-explicit-pending' accumulator" xml:base="end-to-end/cases/">
         <x:scenario label="Pending scenarios that use @pending and nest">
