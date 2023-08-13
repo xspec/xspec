@@ -10,40 +10,28 @@
 	<xsl:function as="xs:anyURI" name="x:resolve-xml-uri-with-catalog">
 		<xsl:param as="xs:string" name="xml-uri" />
 
-		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
-			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
-			the actual document location after catalog resolution." -->
 		<xsl:sequence select="
 				$xml-uri
 				=> doc()
-				=> x:base-uri()" />
+				=> x:document-actual-uri()" />
 	</xsl:function>
 
 	<!--
 		Returns the document actual URI (i.e. resolved with the currently enabled catalog),
-		working around an Apache XML Resolver bug. This doesn't work in Saxon 11 or later, so
-		go back to base-uri() in that case. Saxon 11 and later use a different resolver
-		so perhaps the resolver bug is no longer present.
+		working around an Apache XML Resolver bug.
+		
+		This function is now just redirected to x:base-uri(). But this function is still here for
+		the purpose of clarifying the caller's intention. i.e. The caller of this function wants to
+		retrieve the document actual URI after catalog resolution (not some cryptic URI before
+		catalog resolution).
 	-->
-	<xsl:function use-when="system-property('xsl:product-name') = 'SAXON'
-                                and xs:integer(substring-before(substring-after(system-property('xsl:product-version'), ' '), '.')) gt 10"
-                      as="xs:anyURI" name="x:document-actual-uri">
+	<xsl:function as="xs:anyURI" name="x:document-actual-uri">
 		<xsl:param as="document-node()" name="doc" />
 
-		<xsl:sequence
-			select="base-uri($doc)" />
-	</xsl:function>
-
-	<xsl:function use-when="system-property('xsl:product-name') != 'SAXON'
-                                or xs:integer(substring-before(substring-after(system-property('xsl:product-version'), ' '), '.')) le 10"
-                      as="xs:anyURI" name="x:document-actual-uri">
-		<xsl:param as="document-node()" name="doc" />
-
-		<xsl:sequence
-			select="
-				$doc
-				=> document-uri()
-				=> x:resolve-xml-uri-with-catalog()" />
+		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
+			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
+			the actual document location after catalog resolution." -->
+		<xsl:sequence select="x:base-uri($doc)" />
 	</xsl:function>
 
 	<!--
@@ -54,13 +42,11 @@
 
 		<!-- Fix invalid URI such as 'file:C:/dir/file'
 			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
-		<xsl:sequence
-			select="
+		<xsl:sequence select="
 				$node
 				=> base-uri()
 				=> replace('^(file:)([^/])', '$1/$2')
-				=> xs:anyURI()"
-		 />
+				=> xs:anyURI()" />
 	</xsl:function>
 
 </xsl:stylesheet>

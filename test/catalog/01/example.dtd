@@ -1,5 +1,6 @@
 
 <!ELEMENT title ( #PCDATA ) >
+<!ATTLIST title xml:base CDATA #FIXED "relative/" >
 
 <!ELEMENT root ( title )>
 <!ATTLIST root dtd-version CDATA #FIXED "1.0" >
