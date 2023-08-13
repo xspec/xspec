@@ -5,7 +5,6 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:mode use-accumulators="stacked-explicit-pending" />
    <!-- Push and pop explicit reasons for code to be pending. -->
    <xsl:accumulator name="stacked-explicit-pending" as="xs:string*" initial-value="()">
       <!-- Start phase: Prepend string value of @pending, x:pending/@label,
