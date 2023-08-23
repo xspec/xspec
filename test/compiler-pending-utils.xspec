@@ -9,6 +9,8 @@
 
     <x:scenario label="Tests for 'stacked-explicit-pending' accumulator" xml:base="end-to-end/cases/">
         <x:scenario label="Pending scenarios that use @pending and nest">
+            <!-- Applying templates via <x:context> is not actually needed for checking
+                accumulator values but makes the $x:context variable available. -->
             <x:context href="focus-vs-pending-attribute.xspec"/>
             <x:expect label="Prior to any pending markup, accumulator is an empty sequence"
                 test="exactly-one($x:context/x:description)/accumulator-before('stacked-explicit-pending')"
