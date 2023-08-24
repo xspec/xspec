@@ -11,17 +11,14 @@
       <!-- Start phase: Prepend string value of @pending, x:pending/@label,
          or x:pending/x:label to stack. Prepending instead of appending
          makes LIFO behavior convenient via tail() function. -->
-      <xsl:accumulator-rule match="(x:scenario | x:expect)[@pending]" phase="start">
-         <xsl:sequence select="(string(@pending), $value)" />
-      </xsl:accumulator-rule>
-      <xsl:accumulator-rule match="x:pending" phase="start">
-         <xsl:sequence select="(string(x:label(.)), $value)" />
-      </xsl:accumulator-rule>
+      <xsl:accumulator-rule match="(x:scenario | x:expect)[@pending]" phase="start"
+         select="@pending, $value" />
+      <xsl:accumulator-rule match="x:pending" phase="start"
+         select="x:label(.), $value" />
 
       <!-- End phase: Remove newest string from stack. -->
-      <xsl:accumulator-rule match="(x:scenario | x:expect)[@pending] | x:pending" phase="end">
-         <xsl:sequence select="tail($value)" />
-      </xsl:accumulator-rule>
+      <xsl:accumulator-rule match="(x:scenario | x:expect)[@pending] | x:pending" phase="end"
+         select="tail($value)" />
    </xsl:accumulator>
 
 

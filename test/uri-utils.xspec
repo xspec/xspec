@@ -2,38 +2,124 @@
 <?xspec-test additional-classpath=${env.APACHE_XMLRESOLVER_JAR}?>
 <?xspec-test saxon-custom-options=-catalog:"${xspec.project.dir}/test/catalog/01/catalog-public.xml;${xspec.project.dir}/test/catalog/01/catalog-rewriteURI.xml"?>
 <x:description stylesheet="../src/common/uri-utils.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<x:scenario label="Expect" shared="yes">
-		<x:expect as="xs:anyURI"
-			label="Resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			select="resolve-uri('catalog/01/example.xml', $x:xspec-uri)[starts-with(., 'file:/')]"
-		 />
-	</x:scenario>
+	<!--
+		TODO: Add tests with a document loaded by Saxon '-s' command line option or Saxon '+'
+		command line parameter.
+	-->
+
+	<!-- URI whose private scheme needs to be resolved with catalog -->
+	<x:variable name="myv:uri-with-private-scheme" select="'catalog-01:/example.xml'" />
+
+	<!-- Document node loaded by doc() and catalog -->
+	<x:variable as="document-node(element(root))"
+		name="myv:document-node-loaded-by-fn-doc-and-catalog"
+		select="doc($myv:uri-with-private-scheme)[document-uri() => starts-with('catalog-01:')]" />
+
+	<!-- URI resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
+	<x:variable as="xs:anyURI" name="myv:uri-resolved-with-catalog-working-around-xmlcommons-24"
+		select="resolve-uri('catalog/01/example.xml', $x:xspec-uri)[starts-with(., 'file:/')]" />
+
+	<!-- Document node created by xsl:document and catalog -->
+	<!-- TODO: Involve catalog -->
+	<x:variable as="document-node(element(foo))"
+		name="myv:document-node-created-by-xsl-document-and-catalog" select="/">
+		<foo />
+	</x:variable>
 
 	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
 		<x:call function="x:resolve-xml-uri-with-catalog">
-			<x:param select="'catalog-01:/example.xml'" />
+			<x:param select="$myv:uri-with-private-scheme" />
 		</x:call>
-		<x:like label="Expect" />
+		<x:expect
+			label="Resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+			select="$myv:uri-resolved-with-catalog-working-around-xmlcommons-24" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function document-actual-uri">
-		<x:call function="x:document-actual-uri">
-			<x:param as="document-node()"
-				select="doc('catalog-01:/example.xml')[document-uri() => starts-with('catalog-01:')]"
-			 />
-		</x:call>
-		<x:like label="Expect" />
+		<x:call function="x:document-actual-uri" />
+
+		<x:scenario label="Document node loaded by doc() and catalog">
+			<x:call>
+				<x:param select="$myv:document-node-loaded-by-fn-doc-and-catalog" />
+			</x:call>
+			<x:expect
+				label="Resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+				select="$myv:uri-resolved-with-catalog-working-around-xmlcommons-24" />
+		</x:scenario>
+
+		<x:scenario label="Document node created by xsl:document and catalog">
+			<!-- TODO: Test with catalog -->
+			<x:call>
+				<x:param select="$myv:document-node-created-by-xsl-document-and-catalog" />
+			</x:call>
+			<x:expect label="Compiled stylesheet URI"
+				test="ends-with($x:result, '/uri-utils-compiled.xsl')" />
+			<x:expect
+				label="Resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+				test="starts-with($x:result, 'file:/')" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function base-uri">
-		<x:call function="x:base-uri">
-			<x:param as="element()"
-				select="doc('catalog-01:/example.xml')/element()[document-uri(/) => starts-with('catalog-01:')]"
-			 />
-		</x:call>
-		<x:like label="Expect" />
+		<x:call function="x:base-uri" />
+
+		<x:scenario label="Document node loaded by doc() and catalog">
+			<x:call>
+				<x:param select="$myv:document-node-loaded-by-fn-doc-and-catalog" />
+			</x:call>
+			<x:expect
+				label="URI either before or after catalog resolution. If after, URI should work around https://issues.apache.org/jira/browse/XMLCOMMONS-24."
+				test="
+				$x:result = (
+					$myv:uri-with-private-scheme,
+					$myv:uri-resolved-with-catalog-working-around-xmlcommons-24
+				)" />
+		</x:scenario>
+
+		<x:scenario label="Document node created by xsl:document and catalog">
+			<!-- TODO: Test with catalog -->
+			<x:call>
+				<x:param select="$myv:document-node-created-by-xsl-document-and-catalog" />
+			</x:call>
+			<x:expect label="Compiled stylesheet URI"
+				test="ends-with($x:result, '/uri-utils-compiled.xsl')" />
+			<x:expect
+				label="URI either before or after catalog resolution. If after, URI should work around https://issues.apache.org/jira/browse/XMLCOMMONS-24."
+				test="starts-with($x:result, 'file:/')" />
+		</x:scenario>
+
+		<x:scenario label="Element loaded by doc() and catalog, without effective xml:base">
+			<x:call>
+				<x:param as="element(root)"
+					select="$myv:document-node-loaded-by-fn-doc-and-catalog/root[ancestor-or-self::element()/@xml:base => empty()]"
+				 />
+			</x:call>
+			<x:expect
+				label="Document URI either before or after catalog resolution. If after, URI should work around https://issues.apache.org/jira/browse/XMLCOMMONS-24."
+				test="
+					$x:result = (
+						$myv:uri-with-private-scheme,
+						$myv:uri-resolved-with-catalog-working-around-xmlcommons-24
+					)" />
+		</x:scenario>
+
+		<x:scenario label="Element loaded by doc() and catalog, with effective relative xml:base">
+			<x:call>
+				<x:param as="element(title)"
+					select="$myv:document-node-loaded-by-fn-doc-and-catalog/root/title[@xml:base]"
+				 />
+			</x:call>
+			<x:expect
+				label="@xml:base resolved on document URI either before or after catalog resolution. If after, URI should work around https://issues.apache.org/jira/browse/XMLCOMMONS-24."
+				test="
+					$x:result = (
+						resolve-uri('relative/', $myv:uri-with-private-scheme)[starts-with(., 'catalog-01:')],
+						resolve-uri('relative/', $myv:uri-resolved-with-catalog-working-around-xmlcommons-24)[starts-with(., 'file:/')]
+					)" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
