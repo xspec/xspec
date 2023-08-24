@@ -3,7 +3,7 @@
     This file is not a complete XSpec test and is not designed to be
     run as a test. -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="">
-    <x:param name="global-param"></x:param>
+    <x:param name="global-param"/>
     <x:scenario focus="focus-reason" label="outer">
         <x:scenario label="inner" pending="pending-reason"/>
     </x:scenario>
