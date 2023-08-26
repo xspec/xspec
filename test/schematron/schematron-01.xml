@@ -9,6 +9,6 @@
         <p>This is an example.</p>
     </section>
     <section>
-        <p>Scenario excpect's can specify a location in the context XML that an assert or report is expected to identify.</p>
+        <p>Scenario expect elements can specify a location in the context XML that an assert or report is expected to identify.</p>
     </section>
 </article>
