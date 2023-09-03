@@ -116,7 +116,7 @@
       Local templates
    -->
 
-   <xsl:template name="local:avt-or-tvt" as="node()+">
+   <xsl:template name="local:avt-or-tvt" as="element(x:dummy)">
       <xsl:context-item as="node()" use="required" />
 
       <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
@@ -131,9 +131,8 @@
             xs:QName('foo') -->
          <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
 
-         <xsl:attribute name="vt" select="." />
+         <xsl:value-of select="." />
       </xsl:element>
-      <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>
