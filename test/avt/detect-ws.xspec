@@ -5,18 +5,22 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Detect if reformatting interfered with whitespace characters that are important">
+		<!-- Use unparsed-text instead of doc() to avoid having
+			attribute value normalization convert the tabs and
+			line feeds to spaces. -->
 		<x:call function="mirror:param-mirror">
-			<x:param select="$x:xspec-uri => doc() => string()" />
+			<x:param select="$x:xspec-uri => unparsed-text()" />
 		</x:call>
+		<!-- Use || to avoid tokenizing on the tokenize() function call itself. -->
 		<x:variable name="myv:function-calls"
-			select="tokenize($x:result,'myfn:false')" />
+			select="tokenize($x:result,'myfn:' || 'false')" />
 		<x:variable name="myv:function-calls-with-ws"
-			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:false')" />
+			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:' || 'false')" />
 		<!-- Separating the two x:expect tests makes it easier to distinguish
 			between ad hoc mistakes and reformatting of the entire file. -->
-		<x:expect label="At least one function call in a text node is preceded by expected whitespace"
+		<x:expect label="At least one function call in an attribute value is preceded by expected whitespace"
 			test="count($myv:function-calls-with-ws) gt 1" />
-		<x:expect label="Every function call in a text node is preceded by expected whitespace"
+		<x:expect label="Every function call in an attribute value is preceded by expected whitespace"
 			test="count($myv:function-calls) eq count($myv:function-calls-with-ws)" />
 	</x:scenario>
 

@@ -4,13 +4,12 @@
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-    <!-- This file is similar to tvt.xspec, except that text value templates
-    	include linefeeds, space characters, and tabs. If reformatting this
-    	file, maintain the whitespace characters. Do not replace all those
-        whitespace characters with numeric character references, because
-        XQuery treats whitespace and corresponding character references
-        differently in this context.
-    -->
+	<!-- This file is similar to tvt.xspec, except that text value templates
+		include linefeeds, space characters, and tabs. If reformatting this
+		file, maintain the whitespace characters. Do not replace all those
+		whitespace characters with numeric character references, because
+		XQuery treats whitespace and corresponding character references
+		differently in this context. -->
 	<!-- Each TVT starts with two spaces, one line feed, and multiple tabs. -->
 
 	<x:import href="tvt/shared-ws.xspec" />
