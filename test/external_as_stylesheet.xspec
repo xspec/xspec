@@ -9,7 +9,7 @@
 		<x:param as="local-xs:double" name="scenario-param" select="xs:integer(0)"
 			xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="@as takes effect" test="$scenario-param instance of xs:double" />
 	</x:scenario>

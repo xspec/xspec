@@ -9,7 +9,7 @@
 
 	<x:scenario label="Scenario for testing variable deq-namespace">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="xs:anyURI of 'deq' namespace URI" select="
 				namespace-uri-for-prefix(
@@ -20,7 +20,7 @@
 
 	<x:scenario label="Scenario for testing variable rep-namespace">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="xs:anyURI of 'rep' namespace URI" select="
 				namespace-uri-for-prefix(
@@ -31,7 +31,7 @@
 
 	<x:scenario label="Scenario for testing variable saxon-namespace">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="xs:anyURI of 'saxon' namespace URI" select="
 				namespace-uri-for-prefix(
@@ -42,7 +42,7 @@
 
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="xs:anyURI of 'xs' namespace URI" select="
 				namespace-uri-for-prefix(
@@ -53,7 +53,7 @@
 
 	<x:scenario label="Scenario for testing variable xsl-namespace">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="xs:anyURI of 'xsl' namespace URI"
 			select="doc('')/element() => namespace-uri()" test="$x:xsl-namespace treat as xs:anyURI"

@@ -56,7 +56,7 @@
 	<x:param as="local-xs:double" name="global-param" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
 	<x:scenario label="In global-param (i.e. /x:description/x:param), when @as uses a prefix defined in x:param,">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="@as takes effect" test="$global-param instance of xs:double" />
 	</x:scenario>
@@ -64,7 +64,7 @@
 	<x:variable as="local-xs:double" name="myv:global-var" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
 	<x:scenario label="In global variable (i.e. /x:description/x:variable), when @as uses a prefix defined in x:variable,">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="@as takes effect" test="$myv:global-var instance of xs:double" />
 	</x:scenario>
@@ -72,7 +72,7 @@
 	<x:scenario label="In scenario-level variable (i.e. //x:scenario/x:variable), when @as uses a prefix defined in x:variable,">
 		<x:variable as="local-xs:double" name="myv:local-var" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="@as takes effect" test="$myv:local-var instance of xs:double" />
 	</x:scenario>

@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="x:context">
 		<x:context>
-		   <foo />
+			<foo />
 		</x:context>
 		<x:expect label="should be error" test="true()" />
 	</x:scenario>
