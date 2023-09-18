@@ -6,7 +6,9 @@
    <scenario id="scenario1" xspec="../../external_issue-450-451_stylesheet.xspec">
       <label>scenario-level global-param containing curly brackets</label>
       <input-wrap xmlns="">
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
       </input-wrap>
       <result select="()"/>
       <test id="scenario1-expect1" successful="true">
@@ -106,7 +108,9 @@
       <input-wrap xmlns="">
          <x:context xmlns:mirror="x-urn:test:mirror"
                     xmlns:myv="http://example.org/ns/my/variable"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
       </input-wrap>
       <result select="()"/>
       <test id="scenario5-expect1" successful="true">
