@@ -2831,7 +2831,7 @@
     <case name="x:context/@href file does not exist (call-template)">
         call :run ..\bin\xspec.bat bad-context\call-template\href-broken.xspec
         call :verify_retval 2
-        call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing$"
+        call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing"
         call :verify_line -1 x "*** Error running the test suite"
     </case>
     
@@ -2891,7 +2891,7 @@
     <case name="x:context/@href file does not exist (apply-templates)">
         call :run ..\bin\xspec.bat bad-context\apply-templates\href-broken.xspec
         call :verify_retval 2
-        call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing$"
+        call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing"
         call :verify_line -1 x "*** Error running the test suite"
     </case>
 
