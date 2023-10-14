@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="do-nothing.sch">
-
-    <!-- $x:xspec-uri should be accessible to a global XSpec variable. -->
-    <x:variable name="this-test-uri" select="$x:xspec-uri" />
-
-</x:description>

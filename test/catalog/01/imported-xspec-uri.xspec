@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description expand-text="1"
+	query="x-urn:test:do-nothing"
+	query-at="do-nothing.xqm"
+	schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl"
+	xml:base="../../"
+	xmlns:im="x-urn:test:imported-xspec-uri"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<t:variable name="im:xspec-uri-in-global-var"
+		select="$t:xspec-uri"/>
+
+	<t:scenario label="$x:xspec-uri defined and checked in imported file">
+		<t:call function="true" />
+		<!-- Assertion fails when this test file runs and
+			passes when the importing file, xspec-uri.xspec, runs.
+			The regular expression is designed to match files named
+			catalog-01_xspec-uri.xspec and xspec-uri.xspec.
+		-->
+		<t:expect label="should be top-level .xspec file that is running"
+			test="matches($im:xspec-uri-in-global-var, '[_/]xspec-uri\.xspec$')" />
+	</t:scenario>
+
+	<t:scenario label="Store $x:xspec-uri in variable in imported file" shared="yes">
+		<t:variable name="im:xspec-uri-in-local-var"
+			select="$t:xspec-uri"/>
+	</t:scenario>
+
+</t:description>
