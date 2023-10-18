@@ -405,12 +405,12 @@ common-schematron-assert-report-expect-attributes =
     attribute label { text }?,
 
     ## Identify a specific <assert> or <report> using its id attribute or 
-    ## the id attribute of the parent <rule>.
+    ## the id attribute of the ancestor <rule> or <pattern>.
     attribute id { xsd:NCName }?,
 
     ## Match a specific role attribute value of an <assert> or <report> or 
-    ## the parent <rule>. Role attribute values are often used to specify 
-    ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
+    ## the ancestor <rule> or <pattern>. Role attribute values are often
+    ## used to specify 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
     attribute role { text }?,
 
     ## XPath of a location in the context XML that the <assert> or <report> 
