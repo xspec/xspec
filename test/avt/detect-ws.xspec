@@ -11,9 +11,8 @@
 		<x:call function="mirror:param-mirror">
 			<x:param select="$x:xspec-uri => unparsed-text()" />
 		</x:call>
-		<!-- Use || to avoid tokenizing on the tokenize() function call itself. -->
 		<x:variable name="myv:function-calls"
-			select="tokenize($x:result,'myfn:' || 'false')" />
+			select="tokenize($x:result,'myfn:false')" />
 		<x:variable name="myv:function-calls-with-ws"
 			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:' || 'false')" />
 		<!-- Separating the two x:expect tests makes it easier to distinguish
