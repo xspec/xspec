@@ -14,7 +14,7 @@
 		<x:variable name="myv:function-calls"
 			select="tokenize($x:result,'myfn:false')" />
 		<x:variable name="myv:function-calls-with-ws"
-			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:' || 'false')" />
+			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:false')" />
 		<!-- Separating the two x:expect tests makes it easier to distinguish
 			between ad hoc mistakes and reformatting of the entire file. -->
 		<x:expect label="At least one function call in an attribute value is preceded by expected whitespace"
