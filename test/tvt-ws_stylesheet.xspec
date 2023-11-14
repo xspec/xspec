@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to tvt_stylesheet.xspec, except that text
+		value templates include linefeeds, space characters, and tabs.
+		If reformatting this file, maintain the whitespace characters. -->
+
+	<x:import href="tvt/shared-ws.xspec" />
+	<x:import href="tvt/detect-ws.xspec" />
+
+	<x:scenario label="context template-param">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<!-- TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:context mode="mirror:param-mirror">
+					<x:param name="param-items">
+						<template-param-child x:expand-text="yes"
+							>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</template-param-child>
+					</x:param>
+					<context-child />
+				</x:context>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<!-- Each TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:context mode="mirror:param-mirror">
+					<x:param expand-text="yes" name="param-items">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<template-param-child>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</template-param-child></x:param>
+					<context-child />
+				</x:context>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="context">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<!-- TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:context mode="mirror:context-mirror">
+					<context-child x:expand-text="yes">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</context-child>
+				</x:context>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:context">
+				<!-- Each TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:context expand-text="yes" mode="mirror:context-mirror">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<context-child>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</context-child></x:context>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="template-call template-param">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<!-- TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:call template="mirror:param-mirror">
+					<x:param name="param-items">
+						<template-param-child x:expand-text="yes">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</template-param-child>
+					</x:param>
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<!-- Each TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:call template="mirror:param-mirror">
+					<x:param expand-text="yes" name="param-items">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<template-param-child>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</template-param-child></x:param>
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!-- TVT starts with two spaces, one line feed, and three tabs. -->
+	<x:param name="global-param-user-content">
+		<global-param-child x:expand-text="yes">}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</global-param-child>
+	</x:param>
+	<!-- Each TVT starts with two spaces, one line feed, and two tabs. -->
+	<x:param expand-text="yes" name="global-param-user-content-indirect">}}{  
+		myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<global-param-child>}}{  
+		myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</global-param-child></x:param>
+
+	<x:scenario label="global-param">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-param-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-param-user-content-indirect" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
