@@ -64,6 +64,13 @@
 				-->
 				<xsl:element name="{x:xspec-name('description', .)}"
 					namespace="{$x:xspec-namespace}">
+					<!-- Define $x:xspec-uri in case global params or variables references it -->
+					<xsl:element name="{x:xspec-name('variable', .)}" namespace="{$x:xspec-namespace}">
+						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
+						<xsl:attribute name="name" select="x:known-UQName('x:xspec-uri')" />
+						<xsl:value-of select="x:document-actual-uri(/)" />
+					</xsl:element>
+					
 					<!-- Resolve x:import and gather only the user-provided global params and
 						variables -->
 					<xsl:sequence select="x:resolve-import(.)" />
