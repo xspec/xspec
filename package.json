@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "description": "This package is configured only for testing the XSpec repository",
   "devDependencies": {
-    "@commitlint/cli": "^17.7.2",
-    "@commitlint/config-angular": "^17.7.0",
+    "@commitlint/cli": "^18.4.1",
+    "@commitlint/config-angular": "^18.4.0",
     "bats": "^1.10.0",
-    "prettier": "^3.0.3"
+    "prettier": "^3.1.0"
   },
   "scripts": {
     "prettier:check": "prettier --check .",

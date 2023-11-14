@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to avt.xspec, except that attribute value templates
+    	include linefeeds, space characters, and tabs. If reformatting this
+    	file, maintain the whitespace characters. -->
+	<!-- Each AVT starts with two spaces, one line feed, and multiple tabs. -->
+
+	<x:import href="avt/detect-ws.xspec" />
+
+	<x:scenario label="In //x:call[@function]/x:param/node(),">
+		<x:call function="mirror:param-mirror">
+			<x:param>
+				<function-param-child attr="}}{  
+					myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+			</x:param>
+		</x:call>
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result/self::function-param-child/@attr/string()" />
+	</x:scenario>
+
+
+	<x:variable name="myv:global-var-no-href">
+		<global-var-child attr="}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+	</x:variable>
+	<x:scenario label="In /x:description/x:variable/node(),">
+		<x:call function="mirror:false" />
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$myv:global-var-no-href/self::global-var-child/@attr/string()" />
+	</x:scenario>
+
+	<x:variable name="myv:var-no-href">
+		<variable-child attr="}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+	</x:variable>
+	<x:scenario label="In //x:scenario/x:variable/node(),">
+		<x:call function="mirror:false" />
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$myv:var-no-href/self::variable-child/@attr/string()" />
+	</x:scenario>
+
+	<x:scenario label="In //x:expect/node(),">
+		<x:call function="mirror:false" />
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="assertion-child/@attr/string()"
+			test="'}false{'">
+			<assertion-child attr="}}{  
+				myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+		</x:expect>
+	</x:scenario>
+
+</x:description>

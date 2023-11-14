@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4696-fixed?>
+<x:description schematron="avt.sch" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to avt_schematron.xspec, except that attribute
+		value template includes linefeeds, space characters, and tabs. If
+		reformatting this file, maintain the whitespace characters. -->
+
+	<x:import href="avt/detect-ws.xspec" />
+	<x:helper stylesheet="mirror.xsl"/>
+
+	<x:scenario label="In //x:context/node(),">
+		<!-- AVT starts with two spaces, one line feed, and multiple tabs. -->
+		<x:context>
+			<context-child attr="}}{  
+				myfn:false()}{{" />
+		</x:context>
+		<x:expect-report id="context-child-attr-ok"
+			label="result of evaluating AVT does not preserve insignificant whitespace" />
+	</x:scenario>
+
+</x:description>

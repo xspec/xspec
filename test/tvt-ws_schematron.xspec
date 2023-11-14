@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4696-fixed?>
+<x:description schematron="tvt-ws.sch" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to tvt_schematron.xspec, except that text value templates
+    	include linefeeds, space characters, and tabs. If reformatting this
+    	file, maintain the whitespace characters. -->
+
+	<x:import href="tvt/detect-ws.xspec" />
+	<x:helper stylesheet="mirror.xsl"/>
+
+	<x:scenario label="expect TVT evaluation not to preserve insignificant whitespace" shared="yes">
+		<x:expect-report id="no-insignificant-ws" />
+		<x:expect-report count="1" />
+	</x:scenario>
+
+	<x:scenario label="context">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:scenario label="@x:expand-text=yes">
+					<!-- TVT starts with two spaces, one line feed, and seven tabs. -->
+					<x:context>
+						<context-child x:expand-text="yes">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</context-child>
+					</x:context>
+					<x:like label="expect TVT evaluation not to preserve insignificant whitespace"
+					 />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:context">
+				<!-- TVT starts with two spaces, one line feed, and seven tabs. -->
+				<x:context expand-text="yes">
+					<context-child>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT evaluation not to preserve insignificant whitespace" />
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
