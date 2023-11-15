@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to external_tvt_stylesheet.xspec, except that
+		text value templates include linefeeds, space characters, and tabs.
+		If reformatting this file, maintain the whitespace characters. -->
+
+	<x:import href="tvt-ws_stylesheet.xspec" />
+
+	<x:scenario label="scenario-level global-param">
+		<x:param name="scenario-param-user-content">
+			<scenario-param-child x:expand-text="yes">}}{  
+				myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</scenario-param-child>
+		</x:param>
+		<x:param expand-text="yes" name="scenario-param-user-content-indirect">}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<scenario-param-child>}}{  
+				myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</scenario-param-child></x:param>
+
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$scenario-param-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$scenario-param-user-content-indirect" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

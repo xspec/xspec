@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Shared scenarios
+	-->
+
+	<x:scenario label="user-content expect" shared="yes">
+		<x:expect label="Result of evaluating TVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result/string()" />
+	</x:scenario>
+
+	<x:scenario label="user-content expect (indirect)" shared="yes">
+		<x:expect label="Result of evaluating TVT for child text node does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result[1]/self::text()/string()" />
+		<x:expect label="Result of evaluating TVT for descendant text node does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result[2]/self::element()/string()" />
+	</x:scenario>
+
+</x:description>
