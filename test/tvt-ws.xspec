@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to tvt.xspec, except that text value templates
+		include linefeeds, space characters, and tabs. If reformatting this
+		file, maintain the whitespace characters. Do not replace all those
+		whitespace characters with numeric character references, because
+		XQuery treats whitespace and corresponding character references
+		differently in this context. -->
+	<!-- Each TVT starts with two spaces, one line feed, and multiple tabs. -->
+
+	<x:import href="tvt/shared-ws.xspec" />
+	<x:import href="tvt/detect-ws.xspec" />
+
+	<x:scenario label="function-param">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param>
+						<function-param-child x:expand-text="yes">}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</function-param-child>
+					</x:param>
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<x:call function="mirror:param-mirror">
+					<x:param expand-text="yes">}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<function-param-child>}}{  
+							myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</function-param-child>
+					</x:param>
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+	<x:variable name="global-variable-user-content">
+		<global-variable-child x:expand-text="yes">}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</global-variable-child>
+	</x:variable>
+	<x:variable expand-text="yes" name="global-variable-user-content-indirect">}}{  
+		myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<global-variable-child>}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</global-variable-child>
+	</x:variable>
+
+	<x:scenario label="global variable">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-variable-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:variable">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-variable-user-content-indirect" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="local variable">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:variable name="local-variable-user-content">
+					<local-variable-child x:expand-text="yes">}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</local-variable-child>
+				</x:variable>
+				<x:call function="mirror:param-mirror">
+					<x:param select="$local-variable-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:variable">
+				<x:variable expand-text="yes" name="local-variable-user-content">}}{  
+					myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{<local-variable-child>}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</local-variable-child>
+				</x:variable>
+				<x:call function="mirror:param-mirror">
+					<x:param select="$local-variable-user-content" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="assertion">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:false" />
+				<x:expect label="Result of evaluating TVT does not preserve insignificant whitespace"
+					select="assertion-child/string()" test="'}false{'">
+					<assertion-child x:expand-text="yes">}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</assertion-child>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:expect">
+				<x:call function="mirror:false" />
+				<x:expect expand-text="yes"
+					label="Result of evaluating TVT for child text node does not preserve insignificant whitespace"
+					select="text()/string()" test="'}false{'">}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</x:expect>
+				<x:expect expand-text="yes"
+					label="Result of evaluating TVT for descendant text node does not preserve insignificant whitespace"
+					select="assertion-child/string()" test="'}false{'">
+					<assertion-child>}}{  
+						myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{</assertion-child>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

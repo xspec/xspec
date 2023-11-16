@@ -17,7 +17,7 @@
    -->
 
    <!-- Returns true if the given x:description or x:scenario wants to enable multi-threading.
-      Whether multi-threading is actually enabled or not depends on language (XLST or XQuery) and
+      Whether multi-threading is actually enabled or not depends on language (XSLT or XQuery) and
       its runtime processor. -->
    <xsl:function name="x:wants-to-enable-threads" as="xs:boolean">
       <!-- x:description or x:scenario -->

@@ -116,7 +116,7 @@
       Local templates
    -->
 
-   <xsl:template name="local:avt-or-tvt" as="node()+">
+   <xsl:template name="local:avt-or-tvt" as="element(x:vt)">
       <xsl:context-item as="node()" use="required" />
 
       <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
@@ -125,15 +125,14 @@
          as equal to attr="&gt; false &lt; true". -->
       <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
          created element does not pollute the namespaces copied for AVT/TVT. -->
-      <xsl:element name="{x:xspec-name('dummy', parent::element())}"
+      <xsl:element name="{x:xspec-name('vt', parent::element())}"
          namespace="{$x:xspec-namespace}">
          <!-- AVT/TVT may use namespace prefixes and/or the default namespace such as
             xs:QName('foo') -->
          <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
 
-         <xsl:attribute name="vt" select="." />
+         <xsl:value-of select="." />
       </xsl:element>
-      <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>
