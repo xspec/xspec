@@ -38,7 +38,7 @@
 
       <!--
          Focused scenarios
-         - force-focus_focus-without-pending.xspec removes focus from these scenarios
+         - force-focus_focus-without-pending.xspec and force-focus_none.xspec remove focus from these scenarios
       -->
       <t:scenario label="a focused Success scenario"
                   focus="testing @focus of a Success scenario">

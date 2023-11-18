@@ -65,6 +65,7 @@ You are also encouraged to use a scope to highlight which functionality is affec
 | `schema`     | Schema for .xspec files  |
 | `maven`      | Maven                    |
 | `cli`        | `bin/xspec.*`            |
+| `ant`        | Ant                      |
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
 

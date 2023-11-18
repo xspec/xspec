@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Remove focus from all the scenarios -->
+<?xspec-test force-focus=#none?>
+
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
+	schematron="../../do-nothing.sch" stylesheet="../../do-nothing.xsl"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="focus-without-pending.xspec" />
+</x:description>
