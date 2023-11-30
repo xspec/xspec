@@ -41,9 +41,9 @@ case "${XMLRESOLVERORG_XMLRESOLVER_VERSION}" in
         ;;
 esac
 
-# TODO: Resolve these issues!
+# TODO: Stop skipping these tests once Oxygen picks up Saxon 12.4+
 export SAXON12_INITIAL_ISSUES_FIXED=1
-if [ "${SAXON_VERSION:0:3}" == "12." ]; then
+if [ "${SAXON_VERSION}" == "12.3" ]; then
     unset SAXON12_INITIAL_ISSUES_FIXED
 fi
 
