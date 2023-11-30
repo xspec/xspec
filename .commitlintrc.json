@@ -16,7 +16,8 @@
         "xproc",
         "schema",
         "maven",
-        "cli"
+        "cli",
+        "ant"
       ]
     ]
   }
