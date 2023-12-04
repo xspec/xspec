@@ -8,7 +8,7 @@
 # Select the mainstream by default
 #
 if [ -z "${XSPEC_TEST_ENV}" ]; then
-    export XSPEC_TEST_ENV=saxon-10
+    export XSPEC_TEST_ENV=saxon-12
 fi
 echo "Setting up ${XSPEC_TEST_ENV}"
 

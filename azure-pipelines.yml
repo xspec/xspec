@@ -26,7 +26,7 @@ jobs:
 
     variables:
       # Non-mainstream jobs are not included in favor of GitHub Actions
-      XSPEC_TEST_ENV: saxon-10
+      XSPEC_TEST_ENV: saxon-12
 
     steps:
       - script: >
