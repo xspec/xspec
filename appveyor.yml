@@ -9,7 +9,7 @@ skip_branch_with_pr: true
 environment:
   matrix:
     # Non-mainstream jobs are not included in favor of GitHub Actions and Azure Pipelines
-    - XSPEC_TEST_ENV: saxon-10
+    - XSPEC_TEST_ENV: saxon-12
 
 install:
   - cmd: test\ci\install-deps.cmd
