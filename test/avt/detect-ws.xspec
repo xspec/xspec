@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Detect if reformatting interfered with whitespace characters that are important">
+		<!-- Use unparsed-text instead of doc() to avoid having
+			attribute value normalization convert the tabs and
+			line feeds to spaces. -->
+		<x:call function="mirror:param-mirror">
+			<x:param select="$x:xspec-uri => unparsed-text()" />
+		</x:call>
+		<x:variable name="myv:function-calls"
+			select="tokenize($x:result,'myfn:false')" />
+		<x:variable name="myv:function-calls-with-ws"
+			select="tokenize($x:result,'\{  [&#xD;]?\n\t+myfn:false')" />
+		<!-- Separating the two x:expect tests makes it easier to distinguish
+			between ad hoc mistakes and reformatting of the entire file. -->
+		<x:expect label="At least one function call in an attribute value is preceded by expected whitespace"
+			test="count($myv:function-calls-with-ws) gt 1" />
+		<x:expect label="Every function call in an attribute value is preceded by expected whitespace"
+			test="count($myv:function-calls) eq count($myv:function-calls-with-ws)" />
+	</x:scenario>
+
+</x:description>

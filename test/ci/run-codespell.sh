@@ -6,5 +6,8 @@ pip3 install \
     --user \
     --requirement requirements-dev.txt
 
-echo "Run codespell"
-~/.local/bin/codespell "$@"
+echo "Run codespell with default dictionaries"
+~/.local/bin/codespell "$@" || exit
+
+echo "Run codespell with custom dictionary"
+~/.local/bin/codespell --dictionary test/ci/codespell-dic.txt "$@"

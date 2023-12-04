@@ -23,7 +23,7 @@ jobs:
         env: [saxon-12, saxon-11, saxon-10, saxon-9-9, oxygen]
         exclude:
           - os: macos-latest
-            env: saxon-12
+            env: saxon-10
           - os: macos-latest
             env: saxon-9-9
           - java: 8
@@ -32,9 +32,9 @@ jobs:
             env: oxygen
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: temurin

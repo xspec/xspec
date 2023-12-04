@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file is similar to avt_stylesheet.xspec, except that attribute value
+		templates include linefeeds, space characters, and tabs. If reformatting
+		this file, maintain the whitespace characters. -->
+	<!-- Each AVT starts with two spaces, one line feed, and multiple tabs. -->
+
+	<x:import href="avt/detect-ws.xspec" />
+
+	<x:scenario label="In //x:context/x:param/node(),">
+		<x:context mode="mirror:param-mirror">
+			<x:param name="param-items">
+				<template-param-child attr="}}{  
+					myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+			</x:param>
+			<context-child />
+		</x:context>
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result/self::template-param-child/@attr/string()" />
+	</x:scenario>
+
+	<x:scenario label="In //x:context/node(),">
+		<x:context mode="mirror:context-mirror">
+			<context-child attr="}}{  
+				myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+		</x:context>
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result/self::context-child/@attr/string()" />
+	</x:scenario>
+
+	<x:scenario label="In //x:call[@template]/x:param/node(),">
+		<x:call template="mirror:param-mirror">
+			<x:param name="param-items">
+				<template-param-child attr="}}{  
+					myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+			</x:param>
+		</x:call>
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$x:result/self::template-param-child/@attr/string()" />
+	</x:scenario>
+
+	<x:param name="global-param-no-href">
+		<global-param-child attr="}}{  
+			myfn:false(&#x9;&#xA;&#x20;)&#x9;&#xA;&#x20;}{{" />
+	</x:param>
+	<x:scenario label="In /x:description/x:param/node(),">
+		<x:call function="mirror:false" />
+		<x:expect label="result of evaluating AVT does not preserve insignificant whitespace"
+			select="'}false{'"
+			test="$global-param-no-href/self::global-param-child/@attr/string()" />
+	</x:scenario>
+
+</x:description>

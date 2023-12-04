@@ -27,7 +27,7 @@
 			<x:call template="no-href" />
 			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
 			<x:expect label="line-number" select="
-					if ($x:saxon-version eq x:pack-version((10, 6))) then
+					if (($x:saxon-version eq x:pack-version((10, 6))) or ($x:saxon-version ge x:pack-version((12, 4)))) then
 						18
 					else
 						19" test="?err?line-number" />
