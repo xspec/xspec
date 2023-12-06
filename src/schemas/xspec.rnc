@@ -348,20 +348,22 @@ expect-valid =
 expect-assert = 
     ## In a Schematron test, verify that an <assert> is thrown.
     ## 
-    ## The attributes id, role, and location can be used in combination to 
-    ## identify a specific <assert>. 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <assert>. 
     element expect-assert {
         common-schematron-assert-report-expect-attributes,
-        schematron-expect-count-attribute
+        schematron-expect-count-attribute,
+        text
     }
 expect-report = 
     ## In a Schematron test, verify that a <report> is thrown.
     ## 
-    ## The attributes id, role, and location can be used in combination to 
-    ## identify a specific <report>. 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <report>. 
     element expect-report {
         common-schematron-assert-report-expect-attributes,
-        schematron-expect-count-attribute
+        schematron-expect-count-attribute,
+        text
     }
 
 expect-not-assert = 
