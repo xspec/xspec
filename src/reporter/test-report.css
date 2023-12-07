@@ -160,15 +160,6 @@ table {
 	font-size: 12px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: sans-serif;
-}
-
 h1 {
 	font-size: 1.7em;
 	font-weight: bold;
@@ -262,14 +253,8 @@ h2 {
 	width: auto;
 }
 
-h1 {
-	background: #606;
-	color: #6f6;
-}
-
 h2 {
 	color: #606;
-	background: #cfc;
 }
 
 hr {
@@ -288,28 +273,18 @@ a:active img,
 	background: transparent;
 }
 
-a:link {
-	color: #636;
-	background: transparent;
-	border: 0px none white;
-}
-
+a,
 a:visited {
-	color: #606;
-	background: transparent;
-	border: 0px none white;
+	color:rgb(0, 0, 150);
+	background-color:inherit;
+	font-weight: bold;
 }
-
-a:active {
-	color: #6f6;
-	background: #606;
-	border: 0px none white;
+a:link,
+a:visited {
+	text-decoration:none; 
 }
-
 a:hover {
-	color: #636;
-	background: #9f9;
-	border: 0px none white;
+	text-decoration:underline;
 }
 
 a.img:hover,
@@ -475,17 +450,6 @@ div > table > tbody > tr > th:first-child {
 	font-weight: initial;
 }
 
-.successful {
-	background-color: #cfc;
-}
-.pending {
-	background-color: #eee;
-	color: #666;
-}
-.failed {
-	background-color: #fcc;
-}
-
 .successful td:first-child:before,
 body > table:first-of-type tr.successful th:first-child:before {
 	margin-right: 5px;
@@ -530,6 +494,36 @@ body > table:first-of-type tr.pending th:first-child:before {
 span.scenario-totals {
 	float: right;
 	text-align: right;
+}
+
+h2.failed {
+	background-color: #FCC;
+}
+
+h1,
+h2 {
+	margin-left: 3%;
+	font-size:1.4em;
+	font-weight:bold;
+	text-align:left;
+	margin-top:1.4em;
+	margin-bottom:0.7em;
+	color:#333333;
+	background-color:inherit;
+}
+
+h1 {
+	font-size:1.7em;
+}
+
+div > h3 {
+	font-weight:bold;
+	margin-left: 3%;
+}
+
+div > h4 {
+	font-weight:normal;
+	margin-left: 4%;
 }
 
 /* highlight the link target */
