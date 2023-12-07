@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+    query="x-urn:tutorial:namespaces:namespace-demo"
+    query-at="namespace-demo.xqm"
+    xmlns="http://docbook.org/ns/docbook"
+    xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:ns-demo="x-urn:tutorial:namespaces:namespace-demo"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+        Default element namespace is for DocBook, except where
+        overridden by xmlns="http://www.w3.org/1999/xhtml".
+
+        File declares prefixes for XSpec, DocBook, XHTML, and
+        XLink namespaces on <x:description>. Prefix 'xml' is
+        special and needs no declaration.
+    -->
+
+    <x:scenario label="Context in DocBook namespace, result in XHTML namespace">
+        <x:scenario label="Element content in DocBook and XHTML uses default namespace">
+            <x:call function="ns-demo:link">
+               <x:param select="/db:section/db:para/db:link[@xlink:href]">
+                   <section xml:id="s1">
+                       <para>Working link: <link xlink:href="https://github.com/xspec">XSpec</link></para>
+                       <para>Degenerate link: <link>Null</link></para>
+                   </section>
+               </x:param>
+            </x:call>
+            <x:expect label="XHTML link uses override of default element namespace"
+                xmlns="http://www.w3.org/1999/xhtml">
+                <a href="https://github.com/xspec">XSpec</a>
+            </x:expect>
+            <x:expect label="Boolean @test uses namespace prefix"
+                test="$x:result/self::h:a/@href ne ''" />
+            <x:expect label="Boolean @test uses Q notation"
+                test="$x:result/self::Q{http://www.w3.org/1999/xhtml}a/@href ne ''" />
+        </x:scenario>
+        <x:scenario label="Content and XPath use namespace prefixes or Q notation">
+            <x:call function="ns-demo:link">
+                <x:param select="/db:section/db:para/db:link[@xlink:href]">
+                    <db:section xml:id="s1">
+                        <db:para>Working link: <db:link xlink:href="https://github.com/xspec">XSpec</db:link></db:para>
+                        <db:para>Degenerate link: <db:link>Null</db:link></db:para>
+                    </db:section>
+                </x:param>
+            </x:call>
+            <x:expect label="XHTML link uses namespace prefix">
+                <h:a href="https://github.com/xspec">XSpec</h:a>
+            </x:expect>
+            <x:expect label="Boolean @test uses namespace prefix"
+                test="$x:result/self::h:a/@href ne ''" />
+            <x:expect label="Boolean @test uses Q notation"
+                test="$x:result/self::Q{http://www.w3.org/1999/xhtml}a/@href ne ''" />
+        </x:scenario>
+    </x:scenario>
+</x:description>
