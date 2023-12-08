@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description expand-text="1"
+<t:description
 	query="x-urn:test:do-nothing"
 	query-at="do-nothing.xqm"
 	schematron="do-nothing.sch"
@@ -20,7 +20,8 @@
 			catalog-01_xspec-uri.xspec and xspec-uri.xspec.
 		-->
 		<t:expect label="should be top-level .xspec file that is running"
-			test="matches($im:xspec-uri-in-global-var, '[_/]xspec-uri\.xspec$')" />
+			test="ends-with($im:xspec-uri-in-global-var, '/catalog-01_xspec-uri.xspec')
+			or ends-with($im:xspec-uri-in-global-var, '/xspec-uri.xspec')" />
 	</t:scenario>
 
 	<t:scenario label="Store $x:xspec-uri in variable in imported file" shared="yes">

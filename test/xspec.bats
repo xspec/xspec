@@ -1457,7 +1457,7 @@ load bats-helper
 
 @test "$x:xspec-uri with file imported via XML Catalog (XSLT)" {
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
-    export XML_CATALOG="file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
@@ -1466,7 +1466,7 @@ load bats-helper
 
 @test "$x:xspec-uri with file imported via XML Catalog (XQuery)" {
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
-    export XML_CATALOG="file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
@@ -1475,7 +1475,7 @@ load bats-helper
 
 @test "$x:xspec-uri with file imported via XML Catalog (Schematron)" {
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
-    export XML_CATALOG="file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
