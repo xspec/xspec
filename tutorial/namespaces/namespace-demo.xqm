@@ -1,7 +1,6 @@
 module namespace ns-demo = "x-urn:tutorial:namespaces:namespace-demo";
 declare namespace db = "http://docbook.org/ns/docbook";
 declare default element namespace "http://www.w3.org/1999/xhtml";
-declare namespace h = "http://www.w3.org/1999/xhtml";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 
 (:
