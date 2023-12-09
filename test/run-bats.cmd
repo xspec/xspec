@@ -18,7 +18,10 @@ if not exist "%SAXON_JAR%" (
 
 rem Check capabilities
 set XSLT_SUPPORTS_COVERAGE=1
-if not "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,3%"=="10." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,3%"=="11." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION%"=="12.3" set XSLT_SUPPORTS_COVERAGE=
 
 set XSLT_SUPPORTS_THREADS=1
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
