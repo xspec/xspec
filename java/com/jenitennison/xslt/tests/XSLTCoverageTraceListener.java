@@ -9,27 +9,27 @@
 
 package com.jenitennison.xslt.tests;
 
-import net.sf.saxon.lib.TraceListener;
-import net.sf.saxon.trace.InstructionInfo;
-import net.sf.saxon.trace.LocationKind;
-import net.sf.saxon.Controller;
-import net.sf.saxon.expr.XPathContext;
-import net.sf.saxon.functions.ResolveURI;
-import net.sf.saxon.om.Item;
-import net.sf.saxon.om.StandardNames;
-import java.lang.String;
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.io.File;
-import net.sf.saxon.lib.Logger;
 
 import javax.xml.stream.XMLStreamException;
+
+import net.sf.saxon.Controller;
 import net.sf.saxon.event.StreamWriterToReceiver;
+import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.functions.ResolveURI;
+import net.sf.saxon.lib.Logger;
+import net.sf.saxon.lib.TraceListener;
+import net.sf.saxon.om.Item;
+import net.sf.saxon.om.StandardNames;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
+import net.sf.saxon.trace.InstructionInfo;
+import net.sf.saxon.trace.LocationKind;
 
 /**
  * A Simple trace listener for XSLT that writes messages to XML file
