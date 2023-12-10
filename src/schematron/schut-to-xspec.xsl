@@ -235,13 +235,8 @@
     <xsl:template match="@count | @label | @pending" as="empty-sequence()" mode="make-predicate" />
 
     <xsl:template match="x:expect-assert | x:expect-report" as="text()" mode="make-text-predicate">
-        <xsl:variable name="x-expect-text-space-normalized" as="xs:string"
-            select="normalize-space(.)"/>
-        <xsl:variable name="apos-char" as="xs:string">'</xsl:variable>
-        <xsl:variable name="x-expect-text-apos-adjusted" as="xs:string"
-            select="replace($x-expect-text-space-normalized, $apos-char, $apos-char || $apos-char)"/>
         <xsl:variable name="x-expect-text-content-wrapped" as="xs:string"
-            select="$apos-char || $x-expect-text-apos-adjusted || $apos-char"/>
+            select="normalize-space(.) => x:quote-with-apos()"/>
         <!-- Note: Skeleton uses svrl:text for main message and no svrl:text for diagnostics.
             SchXslt uses svrl:text for main message and inside svrl:diagnostic-reference.
             If XSpec stops supporting skeleton implementation of Schematron, we can
