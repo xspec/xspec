@@ -1450,6 +1450,39 @@ load bats-helper
 }
 
 #
+# $x:xspec-uri with usage of catalog file (XML_CATALOG)
+#
+#     Test value of $x:xspec-uri with file imported via XML Catalog
+#
+
+@test "$x:xspec-uri with file imported via XML Catalog (XSLT)" {
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
+
+    myrun ../bin/xspec.sh "catalog/catalog-01_xspec-uri.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "$x:xspec-uri with file imported via XML Catalog (XQuery)" {
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
+
+    myrun ../bin/xspec.sh -q "catalog/catalog-01_xspec-uri.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[8]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "$x:xspec-uri with file imported via XML Catalog (Schematron)" {
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
+
+    myrun ../bin/xspec.sh -s "catalog/catalog-01_xspec-uri.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[23]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+#
 # SAXON_HOME (CLI)
 #
 #     * Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.

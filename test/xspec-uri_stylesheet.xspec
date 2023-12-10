@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description expand-text="1"
+	stylesheet="mirror.xsl"
+	xmlns:local="x-urn:test:xspec-uri_stylesheet"
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<t:variable name="local:end-of-uri" as="xs:string"
+		select="'/test/xspec-uri_stylesheet.xspec'" />
+
+	<t:scenario label="$x:xspec-uri in x:context/x:param">
+		<t:context mode="mirror:param-mirror">
+			<t:param name="param-items" select="$t:xspec-uri" />
+			<element />
+		</t:context>
+		<t:expect label="should be this .xspec file"
+			test="$t:result => ends-with($local:end-of-uri)" />
+	</t:scenario>
+
+	<t:scenario label="$x:xspec-uri in x:context user-content">
+		<t:context mode="mirror:context-mirror">
+			<element attr="{$t:xspec-uri}">{$t:xspec-uri}</element>
+		</t:context>
+		<t:expect label="in attribute value, should be this .xspec file"
+			test="$t:result/@attr => ends-with($local:end-of-uri)" />
+		<t:expect label="in text node, should be this .xspec file"
+			test="$t:result/text() => ends-with($local:end-of-uri)" />
+	</t:scenario>
+
+	<t:scenario label="$x:xspec-uri in x:context/@select">
+		<t:context mode="mirror:context-mirror"
+			select="$t:xspec-uri[. ne ''] => doc()" />
+		<t:expect label="should be this .xspec file"
+			test="$t:result => base-uri() => ends-with($local:end-of-uri)" />
+	</t:scenario>
+
+	<t:helper stylesheet="global-override.xsl" />
+	<t:param name="global-x-param_vs_xsl-param" select="$t:xspec-uri" />
+	<t:scenario label="$x:xspec-uri in x:description/x:param">
+		<t:context select="'global-x-param_vs_xsl-param'" />
+		<t:expect label="should be this .xspec file"
+			test="$t:result => ends-with($local:end-of-uri)" />
+	</t:scenario>
+</t:description>
