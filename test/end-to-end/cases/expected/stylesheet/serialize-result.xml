@@ -364,7 +364,7 @@
             <result select="/element()">
                <content-wrap xmlns="">
                   <looooooooooooooooooooooooooooooooooong xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                     <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
+                     <test xmlns="ns" xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3">
                         <a/>
                      </test>
                   </looooooooooooooooooooooooooooooooooong>
@@ -397,7 +397,7 @@
                <expect select="/element()">
                   <content-wrap xmlns="">
                      <looooooooooooooooooooooooooooooooooong xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                        <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
+                        <test xmlns="ns" xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3">
                            <a/>
                         </test>
                      </looooooooooooooooooooooooooooooooooong>
@@ -713,7 +713,7 @@
             <label>both in [Result] and [Expected Result] with diff,</label>
             <result select="/element()">
                <content-wrap xmlns="">
-                  <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <foo xmlns="default-ns" xmlns:x="http://www.jenitennison.com/xslt/xspec">
                      <bar xmlns=""/>
                   </foo>
                </content-wrap>
@@ -722,7 +722,7 @@
                <label>the 2nd-level element should have xmlns="".</label>
                <expect select="/element()">
                   <content-wrap xmlns="">
-                     <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                     <foo xmlns="default-ns" xmlns:x="http://www.jenitennison.com/xslt/xspec">
                         <baz xmlns=""/>
                      </foo>
                   </content-wrap>
@@ -733,7 +733,7 @@
             <label>in [Result] without diff,</label>
             <result select="/element()">
                <content-wrap xmlns="">
-                  <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <foo xmlns="default-ns" xmlns:x="http://www.jenitennison.com/xslt/xspec">
                      <bar xmlns=""/>
                   </foo>
                </content-wrap>

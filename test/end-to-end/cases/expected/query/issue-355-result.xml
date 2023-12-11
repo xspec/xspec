@@ -7,8 +7,8 @@
    <scenario id="scenario1" xspec="../../issue-355.xspec">
       <label>xs:integer()</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="function(*)" select="function-lookup(xs:QName('xs:integer'), 1)"/>
          </x:call>
@@ -26,8 +26,8 @@
    <scenario id="scenario2" xspec="../../issue-355.xspec">
       <label>Anonymous</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="function(*)" select="function($x){$x+1}"/>
          </x:call>

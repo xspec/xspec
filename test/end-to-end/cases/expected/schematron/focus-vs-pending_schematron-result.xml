@@ -48,13 +48,13 @@
          <label>Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                                        xmlns:saxon="http://saxon.sf.net/"
                                        xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                        title=""
                                        schemaVersion=""><!--   
 		   
@@ -149,13 +149,13 @@
          <label>Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous)</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                                        xmlns:saxon="http://saxon.sf.net/"
                                        xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                        title=""
                                        schemaVersion=""><!--   
 		   
