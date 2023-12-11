@@ -223,9 +223,6 @@
                            <xsl:when test="
                                  ($invocation-type = ('call-function', 'call-template'))
                                  and $context">
-                              <xsl:call-template name="local:check-for-empty-context">
-                                 <xsl:with-param name="context" select="$context" />
-                              </xsl:call-template>
                               <for-each select="${x:variable-UQName($context)}">
                                  <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
                                     <xsl:attribute name="select">
@@ -236,11 +233,6 @@
                               </for-each>
                            </xsl:when>
                            <xsl:otherwise>
-                              <xsl:if test="exists($context)">
-                                 <xsl:call-template name="local:check-for-empty-context">
-                                    <xsl:with-param name="context" select="$context" />
-                                 </xsl:call-template>
-                              </xsl:if>
                               <xsl:sequence select="$enter-sut" />
                            </xsl:otherwise>
                         </xsl:choose>
@@ -274,9 +266,6 @@
                         <xsl:choose>
                            <xsl:when test="$context">
                               <!-- Switch to the context and call the template -->
-                              <xsl:call-template name="local:check-for-empty-context">
-                                 <xsl:with-param name="context" select="$context" />
-                              </xsl:call-template>
                               <for-each select="${x:variable-UQName($context)}">
                                  <xsl:sequence select="$template-call" />
                               </for-each>
@@ -303,9 +292,6 @@
                      </xsl:when>
 
                      <xsl:when test="$invocation-type eq 'apply-templates'">
-                        <xsl:call-template name="local:check-for-empty-context">
-                           <xsl:with-param name="context" select="$context" />
-                        </xsl:call-template>
                         <!-- Create the apply templates instruction -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
@@ -370,35 +356,39 @@
       Local templates
    -->
 
-   <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
-      <xsl:context-item use="absent" />
+   <xsl:template name="local:set-up-context" as="element()+">
+      <!-- Template output is sequence of xsl:variable+, xsl:if, xsl:variable -->
+      <!-- Context item is x:context or x:scenario -->
+      <xsl:context-item as="element()" use="required"/>
 
       <xsl:param name="context" as="element(x:context)" required="yes" tunnel="yes"/>
 
       <!-- Set up the variable of x:context -->
       <xsl:apply-templates select="$context" mode="x:declare-variable"/>
 
-      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
-      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
-         <xsl:attribute name="as" select="'item()*'" />
-         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
-      </xsl:element>
-   </xsl:template>
-
-   <!-- If x:context exists but evaluates to empty at runtime, the
-      test does not execute any code from the SUT. Assume it was
-      a user mistake and issue an error message. -->
-   <xsl:template name="local:check-for-empty-context" as="element(xsl:if)">
-      <xsl:param name="context" as="element(x:context)" />
+      <!-- If x:context exists but evaluates to empty at runtime, the
+         test does not execute any code from the SUT. Assume it was
+         a user mistake and issue an error message. -->
       <if test="empty(${x:variable-UQName($context)})">
          <message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
-                <xsl:with-param name="message"
-                   select="'Context is an empty sequence.'"/>
+               <xsl:with-param name="message"
+                  select="'Context is an empty sequence.'"/>
             </xsl:call-template>
          </message>
       </if>
+
+      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
+      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+
+         <!-- Actually, @as is 'item()+'.
+            But it is loosened to 'item()*', otherwise the static type checking can ruin the runtime
+            empty sequence checking written above. -->
+         <xsl:attribute name="as" select="'item()*'" />
+
+         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
+      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>
