@@ -12,7 +12,7 @@
                  function="mirror:param-mirror">
             <x:param>
                <e1 xmlns="ns1">
-                  <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
+                  <e2 xmlns="ns2" xmlns:ns3="ns3" xmlns:ns4="ns4">
                      <ns3:e3>
                         <e4/>
                      </ns3:e3>
@@ -23,10 +23,10 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <e1 xmlns:mirror="x-urn:test:mirror"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns="ns1">
-               <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
+            <e1 xmlns="ns1"
+                xmlns:mirror="x-urn:test:mirror"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <e2 xmlns="ns2" xmlns:ns3="ns3" xmlns:ns4="ns4">
                   <ns3:e3>
                      <e4/>
                   </ns3:e3>
@@ -38,10 +38,10 @@
          <label>Expecting the same structure but in different namespaces</label>
          <expect select="/element()">
             <content-wrap xmlns="">
-               <e1 xmlns:mirror="x-urn:test:mirror"
-                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns="ns1">
-                  <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2!">
+               <e1 xmlns="ns1"
+                   xmlns:mirror="x-urn:test:mirror"
+                   xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <e2 xmlns="ns2!" xmlns:ns3="ns3" xmlns:ns4="ns4">
                      <ns3:e3 xmlns:ns3="ns3!">
                         <e4 xmlns=""/>
                      </ns3:e3>

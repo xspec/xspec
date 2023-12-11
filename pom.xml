@@ -43,6 +43,12 @@
       </roles>
     </developer>
     <developer>
+      <name>Amanda Galtman</name>
+      <roles>
+        <role>current maintainer</role>
+      </roles>
+    </developer>
+    <developer>
       <name>Florent George</name>
       <email>fgeorges@fgeorges.org</email>
       <roles>
