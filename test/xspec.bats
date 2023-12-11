@@ -2956,42 +2956,56 @@ load bats-helper
 @test "x:context has no attributes and no children (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/no-attr.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing at child level (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited-augmented.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but @select computation finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (call-template; external)" {
     myrun ../bin/xspec.sh bad-context/call-template/external_child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but @select computation finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/child-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -3016,42 +3030,56 @@ load bats-helper
 @test "x:context has no attributes and no children (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/no-attr.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing at child level (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited-augmented.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but @select computation finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (apply-templates; external)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/external_child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but @select computation finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/child-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:scenario ('x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
