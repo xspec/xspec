@@ -92,6 +92,12 @@
 					]]>should be Success</x:label>
 				<elem x:other="..." />
 			</x:expect>
+			<x:expect as="element(elem)">
+				<x:label>expecting<![CDATA[
+					 <elem @x:other="..." attrib2="val2" />
+					]]>should be Failure</x:label>
+				<elem x:other="..." attrib2="val2" />
+			</x:expect>
 			<x:expect as="text()" label="expecting ... should be Success">...</x:expect>
 
 			<x:expect as="element(elem)">
@@ -174,6 +180,12 @@
 					 @x:other="..."
 					]]>should be Success</x:label>
 				<elem x:other="..." />
+			</x:expect>
+			<x:expect as="attribute()+" select="elem/@*">
+				<x:label>expecting<![CDATA[
+					 @x:other="..." attrib2="val2"
+					]]>should be Failure</x:label>
+				<elem x:other="..." attrib2="val2" />
 			</x:expect>
 			<x:expect as="text()" label="expecting ... should be Success">...</x:expect>
 		</x:scenario>
