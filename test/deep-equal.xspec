@@ -90,6 +90,42 @@
          <t:expect label="the result" select="true()"/>
       </t:scenario>
 
+      <t:scenario>
+         <t:label>Using @x:other to indicate missing attribute nodes</t:label>
+         <t:scenario label="works when value is ...">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" t:other="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="true()" />
+         </t:scenario>
+         <t:scenario label="fails when the special attribute name or value is incorrect">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" t:other="ignore" other="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="false()" />
+         </t:scenario>
+         <t:scenario label="fails when an expected attribute in seq1 is missing from seq2">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" t:other="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="false()" />
+         </t:scenario>
+      </t:scenario>
    </t:scenario>
 
    <!--
