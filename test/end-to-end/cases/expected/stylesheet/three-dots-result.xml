@@ -169,12 +169,37 @@
             </expect>
          </test>
          <test id="scenario2-scenario1-expect2" successful="true">
+            <label>expecting
+					 &lt;elem @x:other="..." /&gt;
+					should be Success</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        x:other="..."/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario2-scenario1-expect3" successful="false">
+            <label>expecting
+					 &lt;elem @x:other="..." attrib2="val2" /&gt;
+					should be Failure</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        x:other="..."
+                        attrib2="val2"/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario2-scenario1-expect4" successful="true">
             <label>expecting ... should be Success</label>
             <expect select="/text()">
                <content-wrap xmlns="">...</content-wrap>
             </expect>
          </test>
-         <test id="scenario2-scenario1-expect3" successful="false">
+         <test id="scenario2-scenario1-expect5" successful="false">
             <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Failure</label>
@@ -320,6 +345,31 @@
             </expect>
          </test>
          <test id="scenario4-scenario1-expect2" successful="true">
+            <label>expecting
+					 @x:other="..."
+					should be Success</label>
+            <expect select="/*/@*">
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec"
+                                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                                    x:other="..."/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario4-scenario1-expect3" successful="false">
+            <label>expecting
+					 @x:other="..." attrib2="val2"
+					should be Failure</label>
+            <expect select="/*/@*">
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec"
+                                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                                    x:other="..."/>
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib2="val2"/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario4-scenario1-expect4" successful="true">
             <label>expecting ... should be Success</label>
             <expect select="/text()">
                <content-wrap xmlns="">...</content-wrap>
@@ -354,6 +404,18 @@
                </content-wrap>
             </expect>
          </test>
+         <test id="scenario4-scenario2-expect2" successful="true">
+            <label>expecting
+					 @x:other="..."
+					should be Success</label>
+            <expect select="/*/@*">
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec"
+                                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                                    x:other="..."/>
+               </content-wrap>
+            </expect>
+         </test>
       </scenario>
       <scenario id="scenario4-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
@@ -384,12 +446,24 @@
             </expect>
          </test>
          <test id="scenario4-scenario3-expect2" successful="true">
+            <label>expecting
+					 @x:other="..."
+					should be Success</label>
+            <expect select="/*/@*">
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec"
+                                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                                    x:other="..."/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario4-scenario3-expect3" successful="true">
             <label>expecting ... should be Success</label>
             <expect select="/text()">
                <content-wrap xmlns="">...</content-wrap>
             </expect>
          </test>
-         <test id="scenario4-scenario3-expect3" successful="false">
+         <test id="scenario4-scenario3-expect4" successful="false">
             <label>expecting
 					 @attrib="val"
 					should be Failure</label>
