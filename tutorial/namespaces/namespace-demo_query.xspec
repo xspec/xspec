@@ -21,12 +21,12 @@
     <x:scenario label="Context in DocBook namespace, result in XHTML namespace">
         <x:scenario label="Element content in DocBook and XHTML uses default namespace">
             <x:call function="ns-demo:link">
-               <x:param select="/db:section/db:para/db:link[@xlink:href]">
-                   <section xml:id="s1">
-                       <para>Working link: <link xlink:href="https://github.com/xspec">XSpec</link></para>
-                       <para>Degenerate link: <link>Null</link></para>
-                   </section>
-               </x:param>
+                <x:param select="/db:section/db:para/db:link[@xlink:href]">
+                    <section xml:id="s1">
+                        <para>Working link: <link xlink:href="https://github.com/xspec">XSpec</link></para>
+                        <para>Degenerate link: <link>Null</link></para>
+                    </section>
+                </x:param>
             </x:call>
             <x:expect label="XHTML link uses override of default element namespace"
                 xmlns="http://www.w3.org/1999/xhtml">
