@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description run-as="external" stylesheet="external_global-context.xsl"
+	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:test="x-urn:test:external_global-context" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:helper stylesheet="test-utils.xsl" />
@@ -15,6 +16,12 @@
 			test="$x:result?err?module => x:filename-and-extension()" />
 	</x:scenario>
 
+	<x:scenario label="Global context can be stored in a variable" shared="yes">
+		<x:variable name="myv:context-variable" select="$x:context" />
+		<x:expect label="User variable accesses $x:context correctly"
+			test="$myv:context-variable" select="$x:context" />
+	</x:scenario>
+
 	<x:scenario label="apply-templates invocation and call-template invocation">
 
 		<x:scenario label="x:context is a node">
@@ -23,6 +30,7 @@
 					<context-grandchild />
 				</context-child>
 			</x:context>
+			<x:like label="Global context can be stored in a variable" />
 
 			<x:scenario label="apply-templates invocation">
 				<x:context mode="test:get-global-context" />
@@ -33,8 +41,10 @@
 
 			<x:scenario label="call-template invocation">
 				<x:call template="test:get-global-context" />
-				<x:expect label="Global context item should be identical with x:context node"
+				<x:expect label="Global context item should be identical with $x:context node"
 					test="$x:result is $x:context" />
+				<x:expect label="which is the expected node from x:context"
+					test="$x:context instance of element(context-grandchild)" />
 			</x:scenario>
 		</x:scenario>
 
@@ -43,13 +53,18 @@
 
 			<x:scenario catch="yes" label="apply-templates invocation">
 				<x:context mode="test:get-global-context" />
+				<x:like label="Global context can be stored in a variable" />
 				<x:like label="Global context item should be absent" />
 			</x:scenario>
 
 			<x:scenario label="call-template invocation">
 				<x:call template="test:get-global-context" />
-				<x:expect label="Global context item should be the same as x:context value"
+				<x:like label="Global context can be stored in a variable" />
+				<x:expect label="Global context item should be the same as $x:context value"
 					select="$x:context" />
+				<x:expect label="which is the expected atomic value from x:context"
+					test="$x:context"
+					select="'context-string'" />
 			</x:scenario>
 		</x:scenario>
 
@@ -73,14 +88,21 @@
 					<context-grandchild />
 				</context-child>
 			</x:context>
-			<x:expect label="Global context item should be identical with x:context node"
+			<x:like label="Global context can be stored in a variable" />
+			<x:expect label="Global context item should be identical with $x:context node"
 				test="$x:result is $x:context" />
+			<x:expect label="which is the expected node from x:context"
+				test="$x:context instance of element(context-grandchild)" />
 		</x:scenario>
 
 		<x:scenario label="x:context is an atomic value">
 			<x:context select="'context-string'" />
-			<x:expect label="Global context item should be the same as x:context value"
+			<x:like label="Global context can be stored in a variable" />
+			<x:expect label="Global context item should be the same as $x:context value"
 				select="$x:context" />
+			<x:expect label="which is the expected atomic value from x:context"
+				test="$x:context"
+				select="'context-string'" />
 		</x:scenario>
 
 		<x:scenario catch="yes" label="No x:context">
