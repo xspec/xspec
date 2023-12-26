@@ -24,7 +24,7 @@
             (x:param | x:variable)[following-sibling::x:call or following-sibling::x:context]
             | x:param[$run-sut-now]
             | x:variable[following-sibling::x:param][$run-sut-now]" />
-      <xsl:variable name="local-vardecls-inheriting-context" as="element()*"
+      <xsl:variable name="local-vardecl-inheriting-context" as="element()?"
          select="x:variable[ancestor::x:scenario/x:context][not(../child::x:context)][1]" />
 
       <!-- We have to create these error messages at this stage because before now
@@ -140,7 +140,7 @@
 
             <!-- Handle local preceding variable declarations and x:call/x:context in document
                order, instead of x:call/x:context first and variable declarations second. -->
-            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context | $local-vardecls-inheriting-context">
+            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context | $local-vardecl-inheriting-context">
                <xsl:choose>
                   <xsl:when test="self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
@@ -168,7 +168,7 @@
                         mode="x:declare-variable" />
                   </xsl:when>
 
-                  <xsl:when test=". intersect $local-vardecls-inheriting-context">
+                  <xsl:when test=". intersect $local-vardecl-inheriting-context">
                      <xsl:if test="empty($reason-for-pending)">
                         <!-- This xsl:if condition does not prevent build failures (other checks
                            of $reason-for-pending accomplish that) but reduces unnecessary
