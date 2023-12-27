@@ -24,8 +24,6 @@
             (x:param | x:variable)[following-sibling::x:call or following-sibling::x:context]
             | x:param[$run-sut-now]
             | x:variable[following-sibling::x:param][$run-sut-now]" />
-      <xsl:variable name="local-vardecl-inheriting-context" as="element()?"
-         select="x:variable[ancestor::x:scenario/x:context][not(../child::x:context)][1]" />
 
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
@@ -140,7 +138,7 @@
 
             <!-- Handle local preceding variable declarations and x:call/x:context in document
                order, instead of x:call/x:context first and variable declarations second. -->
-            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context | $local-vardecl-inheriting-context">
+            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
@@ -166,17 +164,6 @@
                         in invoke-compiled-child-scenarios-or-expects.xsl. -->
                      <xsl:apply-templates select=".[x:reason-for-pending(.) => empty()]"
                         mode="x:declare-variable" />
-                  </xsl:when>
-
-                  <xsl:when test=". intersect $local-vardecl-inheriting-context">
-                     <xsl:if test="empty($reason-for-pending)">
-                        <!-- This xsl:if condition does not prevent build failures (other checks
-                           of $reason-for-pending accomplish that) but reduces unnecessary
-                           context variable declarations in the compiled test. -->
-                        <!-- Set up context, still in document order with respect to x:variable siblings.
-                             Pass $context through as tunnel parameter. -->
-                        <xsl:call-template name="local:set-up-context"/>
-                     </xsl:if>
                   </xsl:when>
 
                   <xsl:otherwise>
@@ -391,17 +378,6 @@
          </message>
       </if>
 
-      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
-      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
-
-         <!-- Actually, @as is 'item()+'.
-            But it is loosened to 'item()*', otherwise the static type checking can ruin the runtime
-            empty sequence checking written above. -->
-         <xsl:attribute name="as" select="'item()*'" />
-
-         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
-      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>
