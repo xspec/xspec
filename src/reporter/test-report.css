@@ -14,7 +14,8 @@ body {
 	margin-left: 5%;
 }
 
-h1 {
+h1,
+p.alert {
 	padding: 0.3em 0.5em 0.3em 0.5em;
 	position: relative;
 }
@@ -178,6 +179,10 @@ h3 {
 h4 {
 	font-size: 100%;
 	font-weight: bold;
+}
+
+p.alert {
+	font-size:120%;
 }
 
 dt {
@@ -458,6 +463,7 @@ body > table:first-of-type tr.successful th:first-child:before {
 	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABcUlEQVR42m1SPUsDQRB9661BIoEQDBqJnRhE1BD8CP4AgwhWEbQIKIhi6Q/QwspCtBBs/CBG1Fb9AWK0iBosLCQgYmGQEFARRUguezfuLeZygsWbmZ037zEMyxZ2W0IgHBIoIjPoF6q2QQYIWVlPcxmS3mYt4vFpjmEpd4pNaJ9vRvS9ILa57Aw2ejUYBtVcTdsZPnc7Qk0juNQ3QC/o55JkhnAO19wDnjAmIkkcZBMwBVmci1uEoR5Od4K73o94eAuZpx3kX+9U35TgVjAqVWdmZUWOhldQrnwhnduEELD7dVYhdMJY9zom+/ZAgqOnNY7OQAynt0sol3TFSyiRWklUCKXyN8Jt40gM7SPo68VDIY1c/ly5KlBtJaU+vlmEpyGArmBMkiZOrpdV3yFQ4PJBkmBkCqTO5jE3fITixyOei/dy0L5aVSjY7Jo/w10sqnFmn9VU+e+ZhW7BvGAzq/4O2UiBMCBJRv9/DyHDFQFTPwI/IlPYPLYnAAAAAElFTkSuQmCC");
 }
 
+p.alert:before,
 .failed td:first-child:before,
 body > table:first-of-type tr.failed th:first-child:before {
 	margin-right: 5px;
@@ -496,7 +502,8 @@ span.scenario-totals {
 	text-align: right;
 }
 
-h2.failed {
+h2.failed,
+p.alert {
 	background-color: #FCC;
 }
 

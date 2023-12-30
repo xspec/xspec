@@ -263,6 +263,13 @@
             <xsl:call-template name="x:report-elapsed" />
          </p>
       </xsl:where-populated>
+      <xsl:variable name="summary-stats"
+         select="x:descendant-tests(.) => x:test-stats()" />
+      <xsl:where-populated>
+         <xsl:call-template name="x:failure-alert">
+            <xsl:with-param name="failure-count" select="$summary-stats[@label='failed']/@count" />
+         </xsl:call-template>
+      </xsl:where-populated>
       <h2>Contents</h2>
       <table class="xspec">
          <colgroup>
@@ -275,7 +282,7 @@
          <thead>
             <tr>
                <th/>
-               <xsl:for-each select="x:descendant-tests(.) => x:test-stats()">
+               <xsl:for-each select="$summary-stats">
                   <th class="totals">
                      <xsl:text expand-text="yes">{@label}:&#xA0;{@count}</xsl:text>
                   </th>
@@ -533,6 +540,20 @@
                <xsl:text>) </xsl:text>
             </xsl:if>
          </span>
+      </xsl:if>
+   </xsl:template>
+
+   <xsl:template name="x:failure-alert" as="element(xhtml:p)?">
+      <xsl:param name="failure-count" as="xs:integer?" />
+      <xsl:if test="$failure-count gt 0">
+         <p class="alert">
+            <strong>Alert: </strong>
+            <xsl:value-of select="concat(
+               $failure-count,
+               if ($failure-count eq 1) then ' test ' else ' tests ',
+               'failed'
+               )"/>
+         </p>         
       </xsl:if>
    </xsl:template>
 
