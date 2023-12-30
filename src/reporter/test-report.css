@@ -182,7 +182,7 @@ h4 {
 }
 
 p.alert {
-	font-size:120%;
+	font-size: 120%;
 }
 
 dt {
@@ -280,16 +280,16 @@ a:active img,
 
 a,
 a:visited {
-	color:rgb(0, 0, 150);
-	background-color:inherit;
+	color: rgb(0, 0, 150);
+	background-color: inherit;
 	font-weight: bold;
 }
 a:link,
 a:visited {
-	text-decoration:none; 
+	text-decoration: none;
 }
 a:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 }
 
 a.img:hover,
@@ -504,32 +504,32 @@ span.scenario-totals {
 
 h2.failed,
 p.alert {
-	background-color: #FCC;
+	background-color: #fcc;
 }
 
 h1,
 h2 {
 	margin-left: 3%;
-	font-size:1.4em;
-	font-weight:bold;
-	text-align:left;
-	margin-top:1.4em;
-	margin-bottom:0.7em;
-	color:#333333;
-	background-color:inherit;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: left;
+	margin-top: 1.4em;
+	margin-bottom: 0.7em;
+	color: #333333;
+	background-color: inherit;
 }
 
 h1 {
-	font-size:1.7em;
+	font-size: 1.7em;
 }
 
 div > h3 {
-	font-weight:bold;
+	font-weight: bold;
 	margin-left: 3%;
 }
 
 div > h4 {
-	font-weight:normal;
+	font-weight: normal;
 	margin-left: 4%;
 }
 
