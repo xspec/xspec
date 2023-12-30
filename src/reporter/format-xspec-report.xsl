@@ -265,11 +265,9 @@
       </xsl:where-populated>
       <xsl:variable name="summary-stats"
          select="x:descendant-tests(.) => x:test-stats()" />
-      <xsl:where-populated>
-         <xsl:call-template name="x:failure-alert">
-            <xsl:with-param name="failure-count" select="$summary-stats[@label='failed']/@count" />
-         </xsl:call-template>
-      </xsl:where-populated>
+      <xsl:call-template name="x:failure-alert">
+         <xsl:with-param name="failure-count" select="$summary-stats[@label='failed']/@count" />
+      </xsl:call-template>
       <h2>Contents</h2>
       <table class="xspec">
          <colgroup>
