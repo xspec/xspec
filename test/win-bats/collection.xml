@@ -1328,6 +1328,39 @@
 	</case>
 
 	<!--
+		$x:xspec-uri with usage of catalog file (XML_CATALOG)
+		
+			Test value of $x:xspec-uri with file imported via XML Catalog
+	-->
+
+	<case name="$x:xspec-uri with file imported via XML Catalog (XSLT)">
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat "catalog\catalog-01_xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
+	</case>
+
+	<case name="$x:xspec-uri with file imported via XML Catalog (XQuery)">
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -q "catalog\catalog-01_xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_line 9 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
+	</case>
+
+	<case name="$x:xspec-uri with file imported via XML Catalog (Schematron)">
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -s "catalog\catalog-01_xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_line 24 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
+	</case>
+
+	<!--
 		SAXON_HOME (CLI)
 		
 			* Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.

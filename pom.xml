@@ -43,6 +43,12 @@
       </roles>
     </developer>
     <developer>
+      <name>Amanda Galtman</name>
+      <roles>
+        <role>current maintainer</role>
+      </roles>
+    </developer>
+    <developer>
       <name>Florent George</name>
       <email>fgeorges@fgeorges.org</email>
       <roles>
@@ -124,7 +130,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.1</version>
         <configuration>
           <source>8</source>
           <target>8</target>

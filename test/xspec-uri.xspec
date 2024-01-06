@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
-	schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
-	xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<t:description expand-text="1"
+	query="x-urn:test:do-nothing"
+	query-at="do-nothing.xqm"
+	schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl"
+	xmlns:im="x-urn:test:imported-xspec-uri"
+	xmlns:local="x-urn:test:xspec-uri"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<t:variable name="local:end-of-uri" as="xs:string"
+		select="'/test/xspec-uri.xspec'" />
 
 	<t:scenario label="$x:xspec-uri in x:call/x:param">
 		<t:call function="exactly-one">
@@ -9,8 +18,87 @@
 		</t:call>
 		<t:expect label="should be xs:anyURI" test="$t:result instance of xs:anyURI" />
 		<t:expect label="should be this .xspec file"
-			test="ends-with($t:result, '/test/xspec-uri.xspec')" />
+			test="$t:result => ends-with($local:end-of-uri)" />
 		<t:expect label="should be the same as the one in x:expect" select="$t:xspec-uri" />
+	</t:scenario>
+
+	<t:scenario label="$x:xspec-uri in x:expect">
+		<t:call function="true" />
+		<t:expect label="in @select, should be this .xspec file"
+			select="$t:xspec-uri => ends-with($local:end-of-uri)" />
+		<t:expect label="in Boolean @test, should be this .xspec file"
+			test="$t:xspec-uri => ends-with($local:end-of-uri)" />
+		<t:expect label="in user-content attribute, should be this .xspec file"
+			select="/*/@attr/xs:anyURI(.) => ends-with($local:end-of-uri)">
+			<element attr="{$t:xspec-uri}" />
+		</t:expect>
+		<t:expect label="in user-content text node, should be this .xspec file"
+			select="xs:anyURI(.) => ends-with($local:end-of-uri)">
+			<element>{$t:xspec-uri}</element>
+		</t:expect>
+		<t:scenario label="in filter @test">
+			<t:call function="one-or-more">
+				<t:param select="('/test/xspec-uri.xspec', 'non-match')"/>
+			</t:call>
+			<t:expect label="should be this .xspec file"
+				test="$t:result[ends-with($t:xspec-uri, .)]"
+				select="'/test/xspec-uri.xspec'" />
+		</t:scenario>
+	</t:scenario>
+
+	<t:variable name="local:xspec-uri-in-global-var"
+		select="$t:xspec-uri"/>
+	<t:variable name="local:xspec-uri-in-global-var-user-content">
+		<element attr="{$t:xspec-uri}">{$t:xspec-uri}</element>
+	</t:variable>
+	<t:scenario label="$x:xspec-uri in global x:variable">
+		<t:call function="true" />
+		<t:expect label="in @select, should be this .xspec file"
+			test="$local:xspec-uri-in-global-var => ends-with($local:end-of-uri)" />
+		<t:expect label="in user-content attribute, should be this .xspec file"
+			test="$local:xspec-uri-in-global-var-user-content/@attr/string()
+			=> xs:anyURI() => ends-with($local:end-of-uri)" />
+		<t:expect label="in user-content text node, should be this .xspec file"
+			test="$local:xspec-uri-in-global-var-user-content/string()
+			=> xs:anyURI() => ends-with($local:end-of-uri)" />
+	</t:scenario>
+
+	<t:scenario label="$x:xspec-uri in scenario-level x:variable">
+		<t:variable name="local:xspec-uri-in-scenario-var"
+			select="$t:xspec-uri"/>
+		<t:variable name="local:xspec-uri-in-scenario-var-user-content">
+			<element attr="{$t:xspec-uri}">{$t:xspec-uri}</element>
+		</t:variable>
+		<t:call function="true" />
+		<t:expect label="in @select, should be this .xspec file"
+			test="$local:xspec-uri-in-scenario-var => ends-with($local:end-of-uri)" />
+		<t:expect label="in user-content attribute, should be this .xspec file"
+			test="$local:xspec-uri-in-scenario-var-user-content/@attr/string()
+			=> xs:anyURI() => ends-with($local:end-of-uri)" />
+		<t:expect label="in user-content text node, should be this .xspec file"
+			test="$local:xspec-uri-in-scenario-var-user-content/string()
+			=> xs:anyURI() => ends-with($local:end-of-uri)" />
+	</t:scenario>
+
+	<!-- Import XSpec file here using relative path in @href.
+		test/catalog/catalog-01_xspec-uri.xspec will import the same
+		file using an XML Catalog reference in @href. -->
+	<t:import href="catalog/01/imported-xspec-uri.xspec"/>
+	<t:scenario label="$x:xspec-uri accessed from code in imported XSpec file">
+		<t:call function="true" />
+		<t:scenario label="in global variable">
+			<t:expect label="should be the importing .xspec file, not the imported one"
+				select="$im:xspec-uri-in-global-var => ends-with($local:end-of-uri)" />
+			<t:expect label="should equal the value defined in importing file"
+				test="$im:xspec-uri-in-global-var eq $t:xspec-uri" />
+		</t:scenario>
+		<t:scenario label="in variable brought into importing file via x:like">
+			<t:like label="Store $x:xspec-uri in variable in imported file" />
+			<t:expect label="should be the importing .xspec file, not the imported one"
+				select="$im:xspec-uri-in-local-var => ends-with($local:end-of-uri)" />
+			<t:expect label="should equal the value defined in importing file"
+				test="$im:xspec-uri-in-local-var eq $t:xspec-uri" />
+		</t:scenario>
 	</t:scenario>
 
 </t:description>

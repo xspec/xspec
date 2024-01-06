@@ -7,8 +7,8 @@
       <label>In a failure report HTML</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="mirror:true"/>
       </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>

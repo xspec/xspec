@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description
+	query="x-urn:test:do-nothing"
+	query-at="do-nothing.xqm"
+	schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl"
+	xml:base="../"
+	xmlns:im="x-urn:test:imported-xspec-uri"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<t:import href="catalog-01:/imported-xspec-uri.xspec" />
+	<t:scenario label="$x:xspec-uri accessed from code in XSpec files imported via XML Catalog">
+		<t:call function="true" />
+		<t:scenario label="in global variable">
+			<t:expect label="should use file:/, not catalog-01:/"
+				select="$im:xspec-uri-in-global-var => starts-with('file:')" />
+			<t:expect label="should equal the value defined in this importing file"
+				test="$im:xspec-uri-in-global-var eq $t:xspec-uri" />
+		</t:scenario>
+		<t:scenario label="in variable brought into importing file via x:like">
+			<t:like label="Store $x:xspec-uri in variable in imported file" />
+			<t:expect label="should use file:/, not catalog-01:/"
+				select="$im:xspec-uri-in-local-var => starts-with('file:')" />
+			<t:expect label="should equal the value defined in this importing file"
+				test="$im:xspec-uri-in-local-var eq $t:xspec-uri" />
+		</t:scenario>
+	</t:scenario>
+
+</t:description>
