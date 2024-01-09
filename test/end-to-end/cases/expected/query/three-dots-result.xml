@@ -11,8 +11,8 @@
 					&lt;elem&gt;text&lt;/elem&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(elem)">
                   <elem>text</elem>
@@ -48,8 +48,8 @@
 					&lt;elem /&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(elem)">
                   <elem/>
@@ -91,8 +91,8 @@
 					&lt;elem&gt;...&lt;/elem&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(elem)">
                   <elem>...</elem>
@@ -142,8 +142,8 @@
 					&lt;elem attrib="val" /&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(elem)">
                   <elem attrib="val"/>
@@ -195,8 +195,8 @@
 					&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(outer)">
                   <outer>text<inner1/>
@@ -247,8 +247,8 @@
 					&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="element(outer)">
                   <outer>
@@ -297,8 +297,8 @@
 						 @attrib="val"
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="attribute(attrib)" select="elem/@*">
                   <elem attrib="val"/>
@@ -332,8 +332,8 @@
 						 @attrib=""
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="attribute(attrib)" select="elem/@*">
                   <elem attrib=""/>
@@ -361,8 +361,8 @@
 						 @attrib="..."
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="attribute(attrib)" select="elem/@*">
                   <elem attrib="..."/>
@@ -407,8 +407,8 @@
       <scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <label>When result is usual text node</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="text()">text</x:param>
             </x:call>
@@ -430,8 +430,8 @@
       <scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
          <label>When result is whitespace-only text node</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="text()">	
 &#xD; </x:param>
@@ -459,8 +459,8 @@
       <scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
          <label>When result is zero-length text node</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
             </x:call>
@@ -486,8 +486,8 @@
       <scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
          <label>When result is three-dot text node</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="text()">...</x:param>
             </x:call>
@@ -520,8 +520,8 @@
 					&lt;!--comment--&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="comment()"><!--comment--></x:param>
             </x:call>
@@ -549,8 +549,8 @@
 					&lt;!----&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="comment()"><!----></x:param>
             </x:call>
@@ -572,8 +572,8 @@
 					&lt;!--...--&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="comment()"><!--...--></x:param>
             </x:call>
@@ -612,8 +612,8 @@
 					&lt;?pi data?&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="processing-instruction(pi)"><?pi data?></x:param>
             </x:call>
@@ -641,8 +641,8 @@
 					&lt;?pi?&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="processing-instruction(pi)"><?pi?></x:param>
             </x:call>
@@ -664,8 +664,8 @@
 					&lt;?pi ...?&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
             </x:call>
@@ -704,8 +704,8 @@
 														 &lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="document-node()" select="/"><?pi?><!--comment-->
                   <elem/>
@@ -734,8 +734,8 @@
       <scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
          <label>When result is document node containing nothing</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="document-node()"
                         select="$Q{x-urn:test:three-dots}document-node_empty"/>
@@ -760,8 +760,8 @@
       <scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
          <label>When result is document node containing ...</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="document-node()" select="/">...</x:param>
             </x:call>
@@ -796,8 +796,8 @@
 				xmlns:prefix="namespace-uri"
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="Q{x-urn:test:three-dots}namespace-node">
                <x:param select="'prefix'"/>
                <x:param select="'namespace-uri'"/>
@@ -805,7 +805,7 @@
          </input-wrap>
          <result select="/*/namespace::*">
             <content-wrap xmlns="">
-               <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="namespace-uri"/>
             </content-wrap>
          </result>
          <test id="scenario9-scenario1-expect1" successful="true">
@@ -814,7 +814,7 @@
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
-                  <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+                  <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
                </content-wrap>
             </expect>
          </test>
@@ -830,8 +830,8 @@
 				xmlns="namespace-uri"
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="Q{x-urn:test:three-dots}namespace-node">
                <x:param select="''"/>
                <x:param select="'namespace-uri'"/>
@@ -864,8 +864,8 @@
 				xmlns:prefix="..."
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="Q{x-urn:test:three-dots}namespace-node">
                <x:param select="'prefix'"/>
                <x:param select="'...'"/>
@@ -873,7 +873,7 @@
          </input-wrap>
          <result select="/*/namespace::*">
             <content-wrap xmlns="">
-               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
             </content-wrap>
          </result>
          <test id="scenario9-scenario3-expect1" successful="true">
@@ -882,7 +882,7 @@
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
-                  <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+                  <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
                </content-wrap>
             </expect>
          </test>
@@ -898,7 +898,7 @@
 					should be Failure</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
-                  <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+                  <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="namespace-uri"/>
                </content-wrap>
             </expect>
          </test>
@@ -911,8 +911,8 @@
 					&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="one-or-more">
                <x:param as="element()+">
                   <elem1/>
@@ -967,8 +967,8 @@
    <scenario id="scenario11" xspec="../../three-dots.xspec">
       <label>When result is empty sequence</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="zero-or-one">
             <x:param as="empty-sequence()"/>
          </x:call>
@@ -986,8 +986,8 @@
       <scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <label>When result is 'string'</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="xs:string" select="'string'"/>
             </x:call>
@@ -1011,8 +1011,8 @@
       <scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
          <label>When result is '...'</label>
          <input-wrap xmlns="">
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
                <x:param as="xs:string" select="'...'"/>
             </x:call>
@@ -1037,8 +1037,8 @@
    <scenario id="scenario13" xspec="../../three-dots.xspec">
       <label>For any resultant item</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="exactly-one">
             <x:param as="text()">item</x:param>
          </x:call>
