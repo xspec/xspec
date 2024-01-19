@@ -190,7 +190,7 @@ like =
 	## this one, and any tests in the shared scenario are run in addition to the
 	## ones in this scenario. This allows for modular, reusable sets of tests which
 	## can be applied in multiple contexts.
-	element like { common-attributes, label }
+	element like { xml-ns-attributes, label }
 
 ## A matching scenario is one based on the application of templates to a
 ## particular item. The <context> element defines <xsl:apply-templates> used to
@@ -310,7 +310,8 @@ assertion =
 
 test = attribute test { xpath }
 
-common-attributes = attribute xml:* { text }*,
+xml-ns-attributes = attribute xml:* { text }*
+common-attributes = xml-ns-attributes,
 	## Works like XSLT @expand-text
 	attribute expand-text { boolean.datatype }?
 
