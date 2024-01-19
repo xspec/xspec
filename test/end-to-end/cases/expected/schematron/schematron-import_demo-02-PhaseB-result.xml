@@ -13,14 +13,14 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:local="local"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    xmlns:local="local"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     title=""
                                     schemaVersion=""
                                     phase="PhaseB"><!--   
@@ -96,14 +96,14 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:local="local"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    xmlns:local="local"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     title=""
                                     schemaVersion=""
                                     phase="PhaseB"><!--   
@@ -167,8 +167,8 @@
       <label>XSpec function scenario imported</label>
       <input-wrap xmlns="">
          <x:call xmlns:local="local"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="local:add">
             <x:param name="a" select="5" as="xs:integer"/>
             <x:param name="b" select="2" as="xs:integer"/>
@@ -189,14 +189,14 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:local="local"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    xmlns:local="local"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     title=""
                                     schemaVersion=""
                                     phase="PhaseB"><!--   

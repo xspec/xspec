@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron/schematron-text.sch">
+
+    <x:scenario label="Context with one assert and one report">
+        <x:context>
+            <section xml:id="s1"/>
+        </x:context>
+        <x:like label="Ignore message and diagnostics"/>
+        <x:like label="Check s1 message text"/>
+        <x:like label="Check s1 diagnostic text"/>
+    </x:scenario>
+
+    <x:scenario label="Context with multiple asserts and multiple reports">
+        <x:context>
+            <section xml:id="s1"/>
+            <section xml:id="s2"/>
+            <section xml:id="s2"/>
+        </x:context>
+        <x:like label="Ignore message and diagnostics"/>
+        <x:like label="Check s1 message text"/>
+        <x:like label="Check s1 diagnostic text"/>
+        <x:scenario label="Check for matching text of main message for s2">
+            <x:expect-assert id="a001" count="3" label="(3 without text constraint)"/>
+            <x:expect-assert id="a001" label="(2 with text constraint)" count="2">
+                section with id 's2' should have a title
+            </x:expect-assert>
+            <x:expect-report id="r001" count="3" label="(3 without text constraint)"/>
+            <x:expect-report id="r001" label="(2 with text constraint)" count="2">
+                Found untitled section with id 's2'
+            </x:expect-report>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Ignore message and diagnostics">
+        <x:scenario label="No constraint on text">
+            <x:expect-assert id="a001"/>
+            <x:expect-report id="r001"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Check s1 message text">
+        <x:scenario label="Check for matching text of main message for s1">
+           <x:expect-assert id="a001">
+               section with id 's1' should have a title
+           </x:expect-assert>
+           <x:expect-report id="r001">
+               Found untitled section with id 's1'
+           </x:expect-report>
+        </x:scenario>
+        <x:scenario label="Check that non-matching text is not counted as a match">
+            <x:expect-assert count="0">non-match</x:expect-assert>
+            <x:expect-report count="0">non-match</x:expect-report>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Check s1 diagnostic text">
+        <x:scenario label="Check for matching text of diagnostics">
+            <x:scenario label="of assert">
+                <x:expect-assert id="a001">
+                    rtl text in dir element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    ltr text in dir element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in emph element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in span element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in span element followed by text in emph element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text with 'apostrophe' and "double quotation mark"
+                </x:expect-assert>
+            </x:scenario>
+            <x:scenario label="of report">
+                <x:expect-report id="r001">
+                    rtl text in dir element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    ltr text in dir element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in emph element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in span element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in span element followed by text in emph element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text with 'apostrophe' and "double quotation mark"
+                </x:expect-report>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+</x:description>
