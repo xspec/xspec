@@ -19,7 +19,7 @@
                label="assertions">
       <x:scenario xslt-version="3"
                   xspec="%TEST_BASE%/schematron-012.xspec"
-                  label="without attributes">
+                  label="without attributes or text">
          <x:scenario xslt-version="3"
                      xspec="%TEST_BASE%/schematron-012.xspec"
                      label="not thrown">
@@ -38,6 +38,15 @@
             <x:expect label="report"
                       test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
          </x:scenario>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+         xspec="%TEST_BASE%/schematron-012.xspec"
+         label="with text">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert text: A section inside a div is usually superfluous"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'A section inside a div is usually superfluous'&#xA;            ])"/>
+         <x:expect label="report text: text is longer than 10 characters"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'text is longer than 10 characters'&#xA;            ])"/>
       </x:scenario>
       <x:scenario xslt-version="3"
                   xspec="%TEST_BASE%/schematron-012.xspec"
@@ -77,6 +86,24 @@
                    test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[$Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) => Q{http://www.jenitennison.com/xslt/xspec}node-or-error('/article[1]/div[3]', 'x:expect-report/@location') is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3) => Q{http://www.jenitennison.com/xslt/xspec}node-or-error(@location, name() || '/@location')])" />
          <x:expect label="not report /article[1]/div[4]"
                    test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[$Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) => Q{http://www.jenitennison.com/xslt/xspec}node-or-error('/article[1]/div[4]', 'x:expect-not-report/@location') is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3) => Q{http://www.jenitennison.com/xslt/xspec}node-or-error(@location, name() || '/@location')])" />
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with text, id">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert a1 text: A section inside a div is usually superfluous"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'][&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'A section inside a div is usually superfluous'&#xA;            ])"/>
+         <x:expect label="report r1 text: text is longer than 10 characters"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'][&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'text is longer than 10 characters'&#xA;            ])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with text, location">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert /article[1]/div[1] text: A section inside a div is usually superfluous"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[$Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) =&gt; Q{http://www.jenitennison.com/xslt/xspec}node-or-error('/article[1]/div[1]', 'x:expect-assert/@location') is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3) =&gt; Q{http://www.jenitennison.com/xslt/xspec}node-or-error(@location, name() || '/@location')][&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'A section inside a div is usually superfluous'&#xA;            ])"/>
+         <x:expect label="report /article[1]/div[3] text: text is longer than 10 characters"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[$Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) =&gt; Q{http://www.jenitennison.com/xslt/xspec}node-or-error('/article[1]/div[3]', 'x:expect-report/@location') is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3) =&gt; Q{http://www.jenitennison.com/xslt/xspec}node-or-error(@location, name() || '/@location')][&#xA;            (Q{http://purl.oclc.org/dsdl/svrl}text, Q{http://purl.oclc.org/dsdl/svrl}diagnostic-reference) ! normalize-space(.)&#xA;            = 'text is longer than 10 characters'&#xA;            ])"/>
       </x:scenario>
       <x:scenario xslt-version="3"
                   xspec="%TEST_BASE%/schematron-012.xspec"
