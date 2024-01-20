@@ -2725,89 +2725,6 @@
     call :verify_line 10 r "  FOER0000[: ] /Q{http://www.jenitennison.com/xslt/xspec}description\[1\]/Q{http://www.jenitennison.com/xslt/xspec}scenario\[1\]/@threads is not an integer"
 	</case>
 
-	<!--
-		Bad Schematron @location
-	-->
-
-	<case name="@location selects an atomic value">
-    cd schematron\bad-location\atomic
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression 1 should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression true() should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-	</case>
-
-	<case name="@location selects an empty sequence">
-    cd schematron\bad-location\empty
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression () should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression () should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression () should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression () should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-	</case>
-
-	<case name="@location selects 2+ nodes">
-    cd schematron\bad-location\multiple
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-
-    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-	</case>
-
-	<case name="SVRL @location fails to select text node #396">
-    call :run ..\bin\xspec.bat -s schematron\bad-location\issue-396.xspec
-    call :verify_retval 2
-    call :verify_line -3 x "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node."
-    call :verify_line -1 x "*** Error running the test suite"
-	</case>
-
     <!--
 		Bad x:context when calling named template
 	-->
@@ -2955,5 +2872,88 @@
         call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing"
         call :verify_line -1 x "*** Error running the test suite"
     </case>
+    
+	<!--
+		Bad Schematron @location
+	-->
+
+	<case name="@location selects an atomic value">
+    cd schematron\bad-location\atomic
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression 1 should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression true() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="@location selects an empty sequence">
+    cd schematron\bad-location\empty
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="@location selects 2+ nodes">
+    cd schematron\bad-location\multiple
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="SVRL @location fails to select text node #396">
+    call :run ..\bin\xspec.bat -s schematron\bad-location\issue-396.xspec
+    call :verify_retval 2
+    call :verify_line -3 x "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
 
 </collection>
