@@ -256,9 +256,7 @@
 	</x:param>
 	<x:scenario
 		label="In global-param, whitespace-only text nodes in user-content are removed by default.">
-		<x:context>
-			<foo />
-		</x:context>
+		<x:context />
 
 		<x:scenario>
 			<x:label>So, in

@@ -6,9 +6,7 @@
 
 	<x:scenario label="In scenario-level global-param (i.e. //x:scenario/x:param),">
 		<x:param href="test.xml" name="scenario-param" xml:base="node-selection/" />
-		<x:context>
-			<foo />
-		</x:context>
+		<x:context />
 		<x:expect label="@href is resolved with @xml:base"
 			test="$scenario-param instance of document-node(element(testing-xml-base))" />
 	</x:scenario>

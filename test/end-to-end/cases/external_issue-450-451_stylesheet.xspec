@@ -6,9 +6,7 @@
 
 	<x:scenario label="scenario-level global-param containing curly brackets">
 		<x:param name="scenario-param">}{<elem attr="}}{{">}{</elem></x:param>
-		<x:context>
-			<foo />
-		</x:context>
+		<x:context />
 		<x:expect as="node()+" href="issue-450-451.xml" label="should work" select="wrap/node()"
 			test="$scenario-param" />
 	</x:scenario>
