@@ -206,9 +206,7 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable capture-NCName">
-		<x:context>
-			<foo />
-		</x:context>
+		<x:context />
 		<x:expect label="Captured" select="'bar'" test="
 				replace(
 					'foo:bar[baz]',

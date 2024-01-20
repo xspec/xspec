@@ -31,7 +31,7 @@
 		<x:scenario label="no corresponding xsl:param,">
 			<x:param name="scenario-x-param_vs_none"
 				select="'scenario-level x:param without corresponding xsl:param'" />
-			<x:context select="'scenario-x-param_vs_none'" />
+			<x:context />
 			<x:expect label="the declared param takes effect only in XSpec"
 				select="'scenario-level x:param without corresponding xsl:param'"
 				test="$scenario-x-param_vs_none" />

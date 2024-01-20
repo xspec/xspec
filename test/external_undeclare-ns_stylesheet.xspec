@@ -12,9 +12,7 @@
 				</scenario-param-grandchild>
 			</scenario-param-child>
 		</param>
-		<context>
-			<foo xmlns="" />
-		</context>
+		<context />
 		<expect label="scenario-param-child"
 			select="
 				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)

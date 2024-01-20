@@ -30,7 +30,7 @@
 		</x:scenario>
 
 		<x:scenario label="no corresponding xsl:param,">
-			<x:context select="'global-x-param_vs_none'" />
+			<x:context />
 			<x:expect label="the declared param takes effect only in XSpec"
 				select="'global x:param without corresponding xsl:param'"
 				test="$global-x-param_vs_none" />

@@ -22,9 +22,6 @@
 		<xsl:sequence select="$scenario-x-param_vs_xsl-variable" />
 	</xsl:template>
 
-	<!-- No XSLT parameter or variable -->
-	<xsl:template as="empty-sequence()" match=".[. eq 'scenario-x-param_vs_none']" />
-
 	<!--
 		Scenario-level x:param (empty) versus
 	-->

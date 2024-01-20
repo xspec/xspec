@@ -5,9 +5,7 @@
 
 	<x:scenario label="Scenario for testing variable saxon-version">
 		<x:scenario label="Assume we test this on Saxon versions from 9.9 to 12.x">
-			<x:context>
-				<foo />
-			</x:context>
+			<x:context />
 			<x:expect label="Greater than or equal to 9.9.0.0"
 				test="$x:saxon-version ge x:pack-version((9, 9))" />
 			<x:expect label="Less than 13.0" test="$x:saxon-version lt x:pack-version(13)" />
