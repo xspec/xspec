@@ -2900,89 +2900,6 @@ load bats-helper
 }
 
 #
-# Bad Schematron @location
-#
-
-@test "@location selects an atomic value" {
-    cd schematron/bad-location/atomic
-
-    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression 1 should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression true() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
-@test "@location selects an empty sequence" {
-    cd schematron/bad-location/empty
-
-    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression () should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression () should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression () should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression () should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
-@test "@location selects 2+ nodes" {
-    cd schematron/bad-location/multiple
-
-    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-
-    myrun ../../../../bin/xspec.sh -s expect-report.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
-@test "SVRL @location fails to select text node #396" {
-    myrun ../bin/xspec.sh -s schematron/bad-location/issue-396.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
-#
 # Bad x:context when calling named template
 #
 
@@ -3127,5 +3044,88 @@ load bats-helper
     myrun ../bin/xspec.sh bad-context/apply-templates/href-broken.xspec
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  FODC0002[: ] I/O error reported by XML parser processing'$'\n'
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+#
+# Bad Schematron @location
+#
+
+@test "@location selects an atomic value" {
+    cd schematron/bad-location/atomic
+
+    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression 1 should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression true() should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "@location selects an empty sequence" {
+    cd schematron/bad-location/empty
+
+    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "@location selects 2+ nodes" {
+    cd schematron/bad-location/multiple
+
+    myrun ../../../../bin/xspec.sh -s expect-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-not-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+
+    myrun ../../../../bin/xspec.sh -s expect-report.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "SVRL @location fails to select text node #396" {
+    myrun ../bin/xspec.sh -s schematron/bad-location/issue-396.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]} - 3]}" = "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
