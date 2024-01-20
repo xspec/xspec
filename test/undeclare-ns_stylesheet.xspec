@@ -173,7 +173,9 @@
 		</global-param-child>
 	</param>
 	<scenario label="global-param">
-		<context />
+		<context>
+			<foo xmlns="" />
+		</context>
 		<expect label="global-param-child"
 			select="
 				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
