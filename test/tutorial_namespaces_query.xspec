@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+	query="x-urn:tutorial:namespaces:namespace-demo"
+	query-at="namespace-demo.xqm"
+	xml:base="../tutorial/namespaces/"
+	xmlns:db="http://docbook.org/ns/docbook"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<x:import href="namespace-demo_query.xspec" />
+</x:description>
