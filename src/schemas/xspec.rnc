@@ -194,7 +194,7 @@ like =
 
 ## A matching scenario is one based on the application of templates to a
 ## particular item. The <context> element defines <xsl:apply-templates> used to
-## process the item, and the <assertion> elements define the tests on that item.
+## process the item, and the <expect> elements define the tests on that item.
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
@@ -207,7 +207,7 @@ matching-scenario = (global-param | variable)*, context?, variable*,
 
 ## A function scenario is one based on a call to a stylesheet function. The
 ## <call> element defines the function call and the parameters passed to it
-## and the <assertion> elements test the result of the function. Child scenarios
+## and the <expect> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
 function-scenario = (global-param | variable)*, context?, variable*, function-call?, variable*,
                     like*,
@@ -218,7 +218,7 @@ function-scenario = (global-param | variable)*, context?, variable*, function-ca
 
 ## A named scenario is one based on a call to a named template. The <call>
 ## element defines the template call and the parameters passed to it and the
-## <assertion> elements test the result of the template call. Child scenarios
+## <expect> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
 named-scenario = (global-param | variable)*, context?, variable*, template-call?, variable*,
                  like*,
@@ -232,7 +232,7 @@ context =
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
-		## The mode in which templates are applied to it, and any parameters included in the apply templates.
+		## The mode in which templates are applied to the context.
 		attribute mode { eqname.datatype }?,
 		template-param*,
 		selection
@@ -312,7 +312,7 @@ test = attribute test { xpath }
 
 xml-ns-attributes = attribute xml:* { text }*
 common-attributes = xml-ns-attributes,
-	## Works like XSLT @expand-text
+	## Works like XSLT @expand-text.
 	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
