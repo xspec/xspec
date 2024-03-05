@@ -64,7 +64,7 @@ helper =
 	## set up by SAXON_CUSTOM_OPTIONS (CLI) or saxon.custom.options (Ant).
 	## XSLT ignores query modules. XQuery ignores stylesheets and packages.
 	element helper {
-		common-attributes,
+		xml-ns-attributes,
 		(
 			(
 				attribute stylesheet { xsd:anyURI }
@@ -88,7 +88,7 @@ import =
 	## XSpec will be run on the stylesheet that this XSpec document describes.
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
-	element import { common-attributes,
+	element import { xml-ns-attributes,
 	## The document URI (location) of the imported document.
 	attribute href { xsd:anyURI } }
 
@@ -190,11 +190,11 @@ like =
 	## this one, and any tests in the shared scenario are run in addition to the
 	## ones in this scenario. This allows for modular, reusable sets of tests which
 	## can be applied in multiple contexts.
-	element like { common-attributes, label }
+	element like { xml-ns-attributes, label }
 
 ## A matching scenario is one based on the application of templates to a
 ## particular item. The <context> element defines <xsl:apply-templates> used to
-## process the item, and the <assertion> elements define the tests on that item.
+## process the item, and the <expect> elements define the tests on that item.
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
@@ -207,7 +207,7 @@ matching-scenario = (global-param | variable)*, context?, variable*,
 
 ## A function scenario is one based on a call to a stylesheet function. The
 ## <call> element defines the function call and the parameters passed to it
-## and the <assertion> elements test the result of the function. Child scenarios
+## and the <expect> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
 function-scenario = (global-param | variable)*, context?, variable*, function-call?, variable*,
                     like*,
@@ -218,7 +218,7 @@ function-scenario = (global-param | variable)*, context?, variable*, function-ca
 
 ## A named scenario is one based on a call to a named template. The <call>
 ## element defines the template call and the parameters passed to it and the
-## <assertion> elements test the result of the template call. Child scenarios
+## <expect> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
 named-scenario = (global-param | variable)*, context?, variable*, template-call?, variable*,
                  like*,
@@ -232,7 +232,7 @@ context =
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
-		## The mode in which templates are applied to it, and any parameters included in the apply templates.
+		## The mode in which templates are applied to the context.
 		attribute mode { eqname.datatype }?,
 		template-param*,
 		selection
@@ -310,8 +310,9 @@ assertion =
 
 test = attribute test { xpath }
 
-common-attributes = attribute xml:* { text }*,
-	## Works like XSLT @expand-text
+xml-ns-attributes = attribute xml:* { text }*
+common-attributes = xml-ns-attributes,
+	## Works like XSLT @expand-text.
 	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
@@ -348,20 +349,22 @@ expect-valid =
 expect-assert = 
     ## In a Schematron test, verify that an <assert> is thrown.
     ## 
-    ## The attributes id, role, and location can be used in combination to 
-    ## identify a specific <assert>. 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <assert>. 
     element expect-assert {
         common-schematron-assert-report-expect-attributes,
-        schematron-expect-count-attribute
+        schematron-expect-count-attribute,
+        text
     }
 expect-report = 
     ## In a Schematron test, verify that a <report> is thrown.
     ## 
-    ## The attributes id, role, and location can be used in combination to 
-    ## identify a specific <report>. 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <report>. 
     element expect-report {
         common-schematron-assert-report-expect-attributes,
-        schematron-expect-count-attribute
+        schematron-expect-count-attribute,
+        text
     }
 
 expect-not-assert = 

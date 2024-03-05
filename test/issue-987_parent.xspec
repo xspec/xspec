@@ -6,7 +6,9 @@
 	<x:import href="issue-987_child.xspec" />
 
 	<x:scenario label="Scenario in parent">
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 		<x:expect label="Expect in parent" test="true()" />
 	</x:scenario>
 
