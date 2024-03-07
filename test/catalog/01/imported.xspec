@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description xmlns:catalog-01-helper="x-urn:test:catalog-01:helper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Catalog for function-call param URI and DOCTYPE">
 		<x:call function="exactly-one">
 			<x:param href="catalog-01:/example.xml" />
@@ -13,5 +14,11 @@
 			<x:param href="example.xml" />
 		</x:call>
 		<x:expect href="example.xml" label="x:expect with href should be Success" />
+	</x:scenario>
+
+	<x:scenario label="Catalog for helper file URI">
+		<x:call function="true"/>
+		<x:expect label="Found variable defined in helper file"
+			test="$catalog-01-helper:globalvar" select="'global-variable-value'"/>
 	</x:scenario>
 </x:description>
