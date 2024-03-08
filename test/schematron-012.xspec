@@ -5,7 +5,7 @@
         <x:expect-valid/>
     </x:scenario>
     <x:scenario label="assertions">
-        <x:scenario label="without attributes">
+        <x:scenario label="without attributes or text">
             <x:scenario label="not thrown">
                 <x:context href="schut-to-xspec-012-01.xml"/>
                 <x:expect-not-assert/>
@@ -16,6 +16,11 @@
                 <x:expect-assert/>
                 <x:expect-report/>
             </x:scenario>
+        </x:scenario>
+        <x:scenario label="with text">
+            <x:context href="schut-to-xspec-012-02.xml"/>
+            <x:expect-assert>A section inside a div is usually superfluous</x:expect-assert>
+            <x:expect-report>text is longer than 10 characters</x:expect-report>
         </x:scenario>
         <x:scenario label="with id">
             <x:context href="schut-to-xspec-012-02.xml"/>
@@ -37,6 +42,16 @@
             <x:expect-not-assert location="/article[1]/div[2]"/>
             <x:expect-report location="/article[1]/div[3]"/>
             <x:expect-not-report location="/article[1]/div[4]"/>
+        </x:scenario>
+        <x:scenario label="with text, id">
+            <x:context href="schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="a1">A section inside a div is usually superfluous</x:expect-assert>
+            <x:expect-report id="r1">text is longer than 10 characters</x:expect-report>
+        </x:scenario>
+        <x:scenario label="with text, location">
+            <x:context href="schut-to-xspec-012-02.xml"/>
+            <x:expect-assert location="/article[1]/div[1]">A section inside a div is usually superfluous</x:expect-assert>
+            <x:expect-report location="/article[1]/div[3]">text is longer than 10 characters</x:expect-report>
         </x:scenario>
         <x:scenario label="with id, location">
             <x:context href="schut-to-xspec-012-02.xml"/>
