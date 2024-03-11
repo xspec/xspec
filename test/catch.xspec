@@ -52,6 +52,13 @@
 			</x:scenario>
 
 		</x:scenario>
+		<x:scenario label="function-scenario with error in SUT">
+			<x:scenario label="The need for catch=yes is not triggered by x:call itself">
+				<x:like label="call-error" />
+				<x:expect label="or pending x:expect"
+					test="false()" pending="skip" />
+			</x:scenario>
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
