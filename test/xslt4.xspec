@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test saxon-custom-options=--allowSyntaxExtensions:on?>
+<?xspec-test require-xslt-to-support-v4?>
+<x:description stylesheet="xslt4.xsl"
+  xslt-version="4.0"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+  <x:scenario label="XSLT 4.0 xsl:switch instruction">
+    <x:call template="xsl-switch-v4">
+      <x:param name="f" select="'jpg'" />
+    </x:call>
+    <x:expect label="Must work" select="'bitmap'" />
+    <x:expect label="Compiled stylesheet has version=4.0" select="'4.0'"
+      test="document('')/xsl:stylesheet/@version/string()"
+      xmlns:xsl="http://www.w3.org/1999/XSL/Transform" />
+  </x:scenario>
+</x:description>

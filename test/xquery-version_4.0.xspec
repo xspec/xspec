@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-v4?>
+<x:description query="x-urn:test:xquery-version_4" query-at="xquery-version_4.0.xqm"
+	xquery-version="4.0"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xq4="x-urn:test:xquery-version_4">
+	<x:scenario label="xq4:switch-v4 function">
+		<x:call function="xq4:switch-v4">
+			<x:param select="'jpg'" />
+		</x:call>
+		<x:expect label="Must work"
+			select="'bitmap'" />
+		<x:variable name="compiled-query-version" as="text()"
+			expand-text="yes">{unparsed-text-lines('')[1]}</x:variable>
+		<x:expect label="Compiled query has version 4.0" as="text()"
+			test="$compiled-query-version">xquery version "4.0";</x:expect>
+	</x:scenario>
+</x:description>
