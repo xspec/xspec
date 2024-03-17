@@ -14,5 +14,7 @@
 			expand-text="yes">{unparsed-text-lines('')[1]}</x:variable>
 		<x:expect label="Compiled query has version 4.0" as="text()"
 			test="$compiled-query-version">xquery version "4.0";</x:expect>
+		<x:expect label="XPath 4.0 in the XSpec test also works"
+			test="'A'" select="'A'" as="enum('A','B','C')"/>
 	</x:scenario>
 </x:description>
