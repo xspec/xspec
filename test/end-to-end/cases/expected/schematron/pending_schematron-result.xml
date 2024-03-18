@@ -80,21 +80,6 @@
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../pending_schematron.xspec">
          <label>Schematron-specific x:expect-* elements with @pending must be Pending</label>
-         <result select="/element()">
-            <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
-                                       xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:active-pattern name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       documents="pending_schematron-compiled.xsl"/>
-               </svrl:schematron-output>
-            </content-wrap>
-         </result>
          <test id="scenario1-scenario2-expect1"
                pending="testing @pending on x:expect-assert">
             <label>assert</label>
@@ -122,21 +107,6 @@
       </scenario>
       <scenario id="scenario1-scenario3" xspec="../../pending_schematron.xspec">
          <label>Schematron-specific x:expect-* elements with zero-length @pending must be Pending</label>
-         <result select="/element()">
-            <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
-                                       xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
-                  <svrl:active-pattern name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       documents="pending_schematron-compiled.xsl"/>
-               </svrl:schematron-output>
-            </content-wrap>
-         </result>
          <test id="scenario1-scenario3-expect1" pending="">
             <label>assert</label>
          </test>
