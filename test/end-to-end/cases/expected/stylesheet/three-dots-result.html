@@ -256,11 +256,11 @@
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <td>expecting &lt;elem @x:other="..." /&gt; should be Success</td>
+                  <td>expecting &lt;elem @x:attrs="..." /&gt; should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario2-scenario1-expect3">expecting &lt;elem @x:other="..." attrib2="val2" /&gt; should be Failure</a></td>
+                  <td><a href="#scenario2-scenario1-expect3">expecting &lt;elem @x:attrs="..." attrib2="val2" /&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -276,7 +276,7 @@
          <div id="scenario2-scenario1">
             <h3>For resultant element (with attribute) When result is &lt;elem attrib="val" /&gt;</h3>
             <div id="scenario2-scenario1-expect3" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting &lt;elem @x:other="..." attrib2="val2" /&gt; should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting &lt;elem @x:attrs="..." attrib2="val2" /&gt; should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -297,7 +297,7 @@
                            <p>XPath <code class="same">/element()</code> from:</p>
                            <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
-      <span class="same">x:other</span>=<span class="same">"..."</span>
+      <span class="same">x:attrs</span>=<span class="same">"..."</span>
       <span class="diff">attrib2</span>=<span class="diff">"val2"</span> /&gt;</pre>
                         </td>
                      </tr>
@@ -429,11 +429,11 @@
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <td>expecting @x:other="..." should be Success</td>
+                  <td>expecting @x:attrs="..." should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario4-scenario1-expect3">expecting @x:other="..." attrib2="val2" should be Failure</a></td>
+                  <td><a href="#scenario4-scenario1-expect3">expecting @x:attrs="..." attrib2="val2" should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -449,7 +449,7 @@
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <td>expecting @x:other="..." should be Success</td>
+                  <td>expecting @x:attrs="..." should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
@@ -461,7 +461,7 @@
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <td>expecting @x:other="..." should be Success</td>
+                  <td>expecting @x:attrs="..." should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
@@ -477,7 +477,7 @@
          <div id="scenario4-scenario1">
             <h3>For resultant attribute When result is @attrib="val"</h3>
             <div id="scenario4-scenario1-expect3" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting @x:other="..." attrib2="val2" should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting @x:attrs="..." attrib2="val2" should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -497,7 +497,7 @@
                            <p>XPath <code class="same">/*/@*</code> from:</p>
                            <pre>&lt;<span class="same">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
                   <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
-                  <span class="same">x:other</span>=<span class="same">"..."</span> /&gt;
+                  <span class="same">x:attrs</span>=<span class="same">"..."</span> /&gt;
 &lt;<span class="diff">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
                   <span class="diff">attrib2</span>=<span class="diff">"val2"</span> /&gt;</pre>
                         </td>

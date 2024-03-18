@@ -128,7 +128,7 @@
          <xsl:variable name="attribute-to-compare-with" as="attribute()?"
             select="(
             $node-to-compare-with/attribute()[node-name(.) eq node-name(current())],
-            $node-to-compare-with/@x:other[string(.) = '...']
+            $node-to-compare-with/@x:attrs[string(.) = '...']
             )[1]" />
 
          <!-- Attribute value adjusted for display -->
@@ -375,7 +375,7 @@
          else deq:deep-equal($node-to-compare-with, $node, 'w')" />
 
       <xsl:choose>
-         <xsl:when test="$equal or $node-to-compare-with instance of attribute(x:other)">
+         <xsl:when test="$equal or $node-to-compare-with instance of attribute(x:attrs)">
             <xsl:sequence select="'same'"/>
          </xsl:when>
 

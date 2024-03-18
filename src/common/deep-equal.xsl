@@ -39,10 +39,10 @@
             </xsl:when>
 
             <xsl:when test="($seq1 instance of attribute()+) and
-               (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:other') and string($att) eq '...'))">
-               <!-- Support attribute x:other="..." in $seq1 -->
+               (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:attrs') and string($att) eq '...'))">
+               <!-- Support attribute x:attrs="..." in $seq1 -->
                <xsl:variable name="seq1-without-x-other" as="attribute()*"
-                  select="$seq1[not(node-name(.) = QName($x:xspec-namespace,'x:other'))]" />
+                  select="$seq1[not(node-name(.) = QName($x:xspec-namespace,'x:attrs'))]" />
                <xsl:variable name="seq2-without-extras" as="attribute()*"
                   select="$seq2[node-name(.) = $seq1/node-name()]" />
                <xsl:sequence

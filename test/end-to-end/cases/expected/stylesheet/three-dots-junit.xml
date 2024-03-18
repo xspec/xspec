@@ -25,9 +25,9 @@
               failures="2">
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;...&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &lt;elem @x:other=&#34;...&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &lt;elem @x:attrs=&#34;...&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &lt;elem @x:other=&#34;...&#34; attrib2=&#34;val2&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &lt;elem @x:attrs=&#34;...&#34; attrib2=&#34;val2&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -57,9 +57,9 @@
    <testsuite name="For resultant attribute" tests="10" failures="2">
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:other=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:attrs=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:other=&#34;...&#34; attrib2=&#34;val2&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:attrs=&#34;...&#34; attrib2=&#34;val2&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -67,11 +67,11 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:other=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:attrs=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:other=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @x:attrs=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>

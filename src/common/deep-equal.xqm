@@ -13,8 +13,8 @@ declare function deq:deep-equal(
     deq:deep-equal-v1($seq1, $seq2, $flags)
 
   else if (($seq1 instance of attribute()+) and
-   (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:other') and string($att) eq '...'))) then
-   let $seq1-without-x-other as attribute()* := $seq1[not(node-name(.) = QName($x:xspec-namespace,'x:other'))]
+   (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:attrs') and string($att) eq '...'))) then
+   let $seq1-without-x-other as attribute()* := $seq1[not(node-name(.) = QName($x:xspec-namespace,'x:attrs'))]
    let $seq2-without-extras as attribute()* := $seq2[node-name(.) = $seq1/node-name()]
    return deq:deep-equal(
      $seq1-without-x-other,
