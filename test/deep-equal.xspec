@@ -103,6 +103,17 @@
             </t:call>
             <t:expect label="the result" select="true()" />
          </t:scenario>
+         <t:scenario label="works when value is ... even if there are no attributes to match">
+            <t:call>
+               <t:param as="element(foo)">
+                  <foo t:attrs="..." />
+               </t:param>
+               <t:param as="element(foo)">
+                  <foo />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="true()" />
+         </t:scenario>
          <t:scenario label="fails when the special attribute name or value is incorrect">
             <t:call>
                <t:param select="/foo/@*" as="attribute()+">
