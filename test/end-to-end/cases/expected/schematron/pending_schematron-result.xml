@@ -107,7 +107,6 @@
       </scenario>
       <scenario id="scenario1-scenario3" xspec="../../pending_schematron.xspec">
          <label>Schematron-specific x:expect-* elements with zero-length @pending must be Pending</label>
-
          <test id="scenario1-scenario3-expect1" pending="">
             <label>assert</label>
          </test>
