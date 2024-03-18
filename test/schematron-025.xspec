@@ -3,8 +3,6 @@
 
 	<!-- Based on https://github.com/xspec/xspec-maven-plugin-1/issues/22#issuecomment-616780084 -->
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:scenario
 		label="Test sch:report which depends on a function included by a relative URI in a foreign (non Schematron) element">
 		<x:context>
