@@ -2,9 +2,6 @@
 <x:description run-as="external" schematron="external_scenario-param.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- Enable /sch:schema/xsl:include -->
-	<x:param name="allow-foreign">true</x:param>
-
 	<!-- This $phase (/x:description/x:param) takes effect at both compile time and run time -->
 	<x:param name="phase">A</x:param>
 

@@ -132,7 +132,8 @@
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
          <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
-         <xsl:with-param name="run-sut-now" select="empty($reason-for-pending) and x:expect" />
+         <xsl:with-param name="run-sut-now"
+            select="empty($reason-for-pending) and x:expect[empty(x:reason-for-pending(.))]" />
       </xsl:call-template>
    </xsl:template>
 
