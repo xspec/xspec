@@ -44,17 +44,19 @@
    -->
 
    <!-- Push and pop variable declaration elements based on node identity. Pending variable
-      declaration elements are considered as if they did not exist. -->
+      declaration elements are considered as if they did not exist. Treat <x:context> like a
+      variable here because <x:context> causes the compiler to generate $x:context.
+   -->
    <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
       <xsl:accumulator-rule
-         match="(x:scenario/x:param | x:scenario/x:variable)[x:reason-for-pending(.) => empty()]"
+         match="(x:scenario/x:param | x:scenario/x:variable | x:context)[x:reason-for-pending(.) => empty()]"
          select="
             (: Append this scenario-level variable declaration element :)
-            $value, (self::x:param | self::x:variable)" />
+            $value, (self::x:param | self::x:variable | self::x:context)" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             (: Remove child variable declaration elements of this scenario :)
-            $value except (child::x:param | child::x:variable)" />
+            $value except (child::x:param | child::x:variable | child::x:context)" />
    </xsl:accumulator>
 
    <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable).
@@ -64,7 +66,7 @@
          template for XQuery requires the order to be stable. -->
       <!-- No need to explicitly exclude pending variable declarations. They're already excluded
          from the 'stacked-vardecls' accumulator. -->
-      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
+      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable | x:context"
          select="
             x:distinct-strings-stable(
                accumulator-before('stacked-vardecls') ! x:variable-UQName(.)
