@@ -69,6 +69,10 @@
                <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
             </xsl:when>
 
+            <xsl:when test="self::x:context">
+               <xsl:sequence select="x:known-UQName('x:context')" />
+            </xsl:when>
+
             <xsl:otherwise>
                <xsl:sequence
                   select="x:known-UQName('impl:' || local-name() || '-' || generate-id())" />
