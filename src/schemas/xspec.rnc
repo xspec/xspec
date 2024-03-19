@@ -323,9 +323,9 @@ text-element =
 	## Text in this element is not ignored even when it's whitespace-only.
 	element text { common-attributes, text }
 
-schematron-scenario = global-param*, context?,
+schematron-scenario = (global-param | variable)*, context?, variable*,
                     like*,
-                    (pending-element | schematron-expect | assertion)*, 
+                    (pending-element | schematron-expect | assertion | variable)*,
                     (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, schematron-scenario })*
