@@ -151,10 +151,12 @@
                         </xsl:with-param>
                      </xsl:call-template>
 
-                     <xsl:if test="self::x:context and $run-sut-now">
+                     <xsl:if test="self::x:context and empty($reason-for-pending)">
                         <!-- Set up context, still in document order with respect to x:variable siblings.
                              Pass $context through as tunnel parameter. -->
-                        <xsl:call-template name="local:set-up-context"/>
+                        <xsl:call-template name="local:set-up-context">
+                           <xsl:with-param name="run-sut-now" select="$run-sut-now"/>
+                        </xsl:call-template>
                      </xsl:if>
                   </xsl:when>
 
@@ -362,33 +364,25 @@
       <xsl:context-item as="element()" use="required"/>
 
       <xsl:param name="context" as="element(x:context)" required="yes" tunnel="yes"/>
+      <xsl:param name="run-sut-now" as="xs:boolean" select="true()"/>
 
       <!-- Set up the variable of x:context -->
       <xsl:apply-templates select="$context" mode="x:declare-variable"/>
 
-      <!-- If x:context exists but evaluates to empty at runtime, the
-         test does not execute any code from the SUT. Assume it was
-         a user mistake and issue an error message. -->
-      <if test="empty(${x:variable-UQName($context)})">
-         <message terminate="yes">
-            <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message"
-                  select="'Context is an empty sequence.'"/>
-            </xsl:call-template>
-         </message>
-      </if>
+      <xsl:if test="$run-sut-now">
+         <!-- If x:context exists but evaluates to empty at runtime, the
+            test does not execute any code from the SUT. Assume it was
+            a user mistake and issue an error message. -->
+         <if test="empty(${x:variable-UQName($context)})">
+            <message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message"
+                     select="'Context is an empty sequence.'"/>
+               </xsl:call-template>
+            </message>
+         </if>
+      </xsl:if>
 
-      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
-      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
-
-         <!-- Actually, @as is 'item()+'.
-            But it is loosened to 'item()*', otherwise the static type checking can ruin the runtime
-            empty sequence checking written above. -->
-         <xsl:attribute name="as" select="'item()*'" />
-
-         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
-      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>

@@ -150,7 +150,6 @@
          <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
             <xsl:if test="empty($reason-for-pending)">
-               <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
             <xsl:sequence select="accumulator-before('stacked-vardecls-distinct-uqnames')" />
