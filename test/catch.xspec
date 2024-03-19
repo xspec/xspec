@@ -26,7 +26,7 @@
 					<x:expect label="err:value and its type" select="'my', 'error', 'object'"
 						test="$x:result?err?value treat as xs:string+" />
 
-					<!-- The error is raised by fn:error() at a line in the compiled stylsheet/query -->
+					<!-- The error is raised by fn:error() at a line in the compiled stylesheet/query -->
 					<x:expect label="err:module and its type"
 						test="matches($x:result?err?module treat as xs:string, '.+/catch-compiled\.(xq|xsl)$')" />
 					<x:expect label="err:line-number and its type"
@@ -51,6 +51,13 @@
 				</x:scenario>
 			</x:scenario>
 
+		</x:scenario>
+		<x:scenario label="function-scenario with error in SUT">
+			<x:scenario label="The need for catch=yes is not triggered by x:call itself">
+				<x:like label="call-error" />
+				<x:expect label="or pending x:expect"
+					test="false()" pending="skip" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 

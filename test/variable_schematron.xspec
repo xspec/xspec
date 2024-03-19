@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	schematron="variable.sch">
+	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
+	 global parameters or global variables in the file to be tested. -->
+
+	<!-- Scenarios specific to Schematron -->
+
+	<x:scenario label="Variables can appear in different parts of scenario.">
+		<x:scenario label="x:variable interspersed with x:context and x:expect*">
+			<x:variable name="myv:before_context" select="'before_context'" />
+			<x:context select="/" as="document-node(element(mycontext))">
+				<mycontext role="{$myv:before_context}" />
+			</x:context>
+			<x:variable name="myv:after_context" select="'after_context'" />
+			<x:expect-report label="reflects expected validation result:"
+				id="before_context" />
+			<x:expect-not-report id="after_context" />
+			<x:variable name="myv:after_expect" select="'after_expect'" />
+			<x:expect label="and expected value for each variable."
+				test="($myv:before_context='before_context') and
+				($myv:after_context='after_context') and
+				($myv:after_expect='after_expect')"
+			 />
+		</x:scenario>
+		<x:scenario label="If variable is defined both before and after x:context">
+			<x:variable name="myv:var" select="'before_context'" />
+			<x:context select="/" as="document-node(element(mycontext))">
+				<mycontext role="{$myv:var}" />
+			</x:context>
+			<x:variable name="myv:var" select="'after_context'" />
+			<x:expect-report label="then validation reflects x:variable preceding x:context:"
+				id="before_context" />
+			<x:expect-not-report id="after_context" />
+			<x:expect label="Final variable value reflects final x:variable."
+				test="$myv:var" select="'after_context'" />
+			<x:scenario label="Also, a child scenario with x:context depending on variable">
+				<x:context select="/" as="document-node(element(mycontext))">
+					<mycontext role="{$myv:var}" />
+				</x:context>
+				<x:expect-report label="uses correct inherited value of variable."
+					id="after_context" />
+				<x:expect-not-report id="before_context" />
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Variable can store the entire context">
+			<x:variable name="myv:context" select="/" as="document-node(element(mycontext))">
+				<mycontext role="before_context" />
+			</x:variable>
+			<x:context select="$myv:context" />
+			<x:expect-report id="before_context" />
+		</x:scenario>
+		<x:scenario label="Variable in scenario without child x:context">
+			<x:variable name="myv:context" select="/" as="document-node(element(mycontext))">
+				<mycontext role="before_context" />
+			</x:variable>
+			<x:scenario label="is inherited by x:context in child scenario">
+				<x:context select="$myv:context" />
+				<x:expect-report id="before_context" />
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="@location can reference a variable">
+			<x:context>
+				<mycontext role="after_context" />
+			</x:context>
+			<x:variable name="myv:var" select="$x:context/mycontext/@role" />
+			<x:expect-not-report id="before_context" location="//mycontext[@role = $myv:var]" />
+			<x:expect-report id="after_context" location="//mycontext[@role = $myv:var]" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

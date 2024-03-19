@@ -6,7 +6,8 @@
 		Nothing is wrong in this stylesheet. "java -jar saxon.jar -it:test-me -s:source-document.xml
 		-xsl:stylesheet_original.xsl" works just fine.
 
-		But XSpec cannot test it. This stylesheet depends on the global context item. XSpec does not
+		But XSpec cannot test it with the default running mode, which is run-as="import".
+		This stylesheet depends on the global context item. With run-as="import", XSpec does not
 		provide the global context item while running the stylesheet being tested. i.e. `.` is
 		absent when global variables are evaluated when this stylesheet is tested by XSpec.
 
