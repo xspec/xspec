@@ -49,11 +49,8 @@ rem
 set "SAXON_JAR=%XSPEC_TEST_DEPS%\saxon-%SAXON_VERSION%"
 
 rem Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
-if "%SAXON_VERSION:~0,2%"=="9." (
-    set "SAXON_JAR=%SAXON_JAR%\saxon9he.jar"
-) else (
-    set "SAXON_JAR=%SAXON_JAR%\saxon-he-%SAXON_VERSION%.jar"
-)
+set "SAXON_JAR=%SAXON_JAR%\saxon-he-%SAXON_VERSION%.jar"
+
 
 rem
 rem Apache XML Resolver jar
