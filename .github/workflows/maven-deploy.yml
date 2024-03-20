@@ -24,10 +24,10 @@ jobs:
           server-id: xspec-io.ossrh
           server-username: NEXUS_USERNAME
           server-password: NEXUS_PASSWORD
-          gpg-private-key: ${{ secrets.gpg_private_key }}
 
-      - run: mvn clean deploy --batch-mode --activate-profiles release
+      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
           NEXUS_USERNAME: ${{ secrets.nexus_username }}
           NEXUS_PASSWORD: ${{ secrets.nexus_password }}
-          GPG_PASSPHRASE: ${{ secrets.gpg_passphrase }}
+          MAVEN_GPG_KEY: ${{ secrets.gpg_private_key }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg_passphrase }}

@@ -223,9 +223,11 @@ result as parameter.
       <xsl:element name="label" namespace="http://www.jenitennison.com/xslt/xspec">
          <xsl:text>scenario</xsl:text>
       </xsl:element>
-      <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
-         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
-         <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
+      <xsl:element name="input-wrap" namespace="">
+         <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
+         </xsl:element>
       </xsl:element>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
          <xsl:sequence xmlns:my="http://example.org/ns/my"
@@ -239,7 +241,7 @@ result as parameter.
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
          <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result" select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
       </xsl:call-template>
-   </x:element>
+   </xsl:element>
 </xsl:template>
 
 <!-- generated from the x:expect element -->
@@ -292,7 +294,7 @@ result as parameter.
             <xsl:sequence select="$Q{urn:x-xspec:compile:impl}test-result => boolean()"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:message terminate="yes">ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).</xsl:message>
+            <xsl:message terminate="yes">ERROR in x:expect ('scenario expectations'): Non-boolean @test must be accompanied by @as, @href, @select, or child node.</xsl:message>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -342,7 +344,7 @@ let $local:successful as xs:boolean (: did the test pass? :) := (
 if ($local:boolean-test) then
 boolean($local:test-result)
 else
-error((), 'x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).')
+error((), 'ERROR in x:expect ('scenario expectations'): Non-boolean @test must be accompanied by @as, @href, @select, or child node.')
 )
 return
 ... generate test result in the report ...
@@ -469,7 +471,7 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{urn:x-xspec:compile:impl}param-..."
                  select="'val1'"><!--$p1--></xsl:variable>
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+   <xsl:for-each select="$Q{http://www.jenitennison.com/xslt/xspec}context">
       <xsl:call-template name="Q{}t">
          <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
                          name="Q{}p1"
@@ -480,7 +482,7 @@ section "[Simple scenario](#simple-scenario)").
 
 <!-- "apply template rules on a node (with x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
+   <xsl:apply-templates select="$Q{http://www.jenitennison.com/xslt/xspec}context"/>
 </xsl:variable>
 ```
 
@@ -1155,7 +1157,7 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
                </xsl:map>
             </xsl:variable>
-            <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+            <xsl:for-each select="$Q{http://www.jenitennison.com/xslt/xspec}context">
                <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
                              as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)"
                              select="Q{http://www.w3.org/2005/xpath-functions/map}put($Q{urn:x-xspec:compile:impl}transform-options, 'global-context-item', .)"/>
@@ -1178,8 +1180,8 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
                      ...
                   </xsl:if>
-                  <xsl:map-entry key="if ($Q{urn:x-xspec:compile:impl}context-... instance of node()) then 'source-node' else 'initial-match-selection'"
-                                 select="$Q{urn:x-xspec:compile:impl}context-..."/>
+                  <xsl:map-entry key="if ($Q{http://www.jenitennison.com/xslt/xspec}context instance of node()) then 'source-node' else 'initial-match-selection'"
+                                 select="$Q{http://www.jenitennison.com/xslt/xspec}context"/>
                </xsl:map>
             </xsl:variable>
             <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
