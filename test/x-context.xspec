@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="x-context.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:helper stylesheet="items.xsl" />
 
 	<!--
 		Common shared
@@ -10,6 +13,35 @@
 			select="$x:context" test="$x:context" />
 	</x:scenario>
 
+	<x:scenario label="Use $x:context in x:variable" shared="yes">
+		<x:variable name="myv:context" select="$x:context" />
+		<x:variable name="myv:context-in-tvt" expand-text="yes">{$x:context}</x:variable>
+		<x:variable name="myv:context-in-avt">
+			<child-element attr="{$x:context}" />
+		</x:variable>
+		<x:expect label="$x:context should be available in x:variable"
+			select="$x:context" test="$myv:context" />
+		<x:expect label="$x:context should be available in TVT within x:variable"
+			expand-text="yes" test="$myv:context-in-tvt">{$x:context ! string(.)}</x:expect>
+		<x:expect label="$x:context should be available in AVT within x:variable"
+			test="$myv:context-in-avt/@attr => tokenize(' ')"
+			select="$x:context ! string()" />
+	</x:scenario>
+
+	<x:scenario label="Use $x:context in user content" shared="yes">
+		<x:expect label="$x:context should be available in TVT within user content"
+			expand-text="yes"
+			test="$x:context ! string()"
+			select="/child-element => tokenize(' ')">
+			<child-element>{$x:context}</child-element>
+		</x:expect>
+		<x:expect label="$x:context should be available in AVT within user content"
+			test="$x:context ! string()"
+			select="/child-element/@attr => tokenize(' ')">
+			<child-element attr="{$x:context}" />
+		</x:expect>
+	</x:scenario>
+
 	<!--
 		Node
 	-->
@@ -17,10 +49,14 @@
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the identical single node" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
+		<x:like label="Use $x:context in x:variable" />
+		<x:like label="Use $x:context in user content" />
 		<x:expect label="Identical node" test="$x:context is $items:element" />
 	</x:scenario>
 	<x:scenario label="Expect the identical multiple nodes" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
+		<x:like label="Use $x:context in x:variable" />
+		<x:like label="Use $x:context in user content" />
 		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
 			test="$x:context ! generate-id()" />
 	</x:scenario>
@@ -31,7 +67,7 @@
 			<x:context select="$items:element" />
 			<x:like label="Expect the identical single node" />
 
-			<x:scenario label="With template call">
+			<x:scenario label="With template call inheriting the context">
 				<x:call template="null" />
 				<x:like label="Expect the identical single node" />
 			</x:scenario>
@@ -41,7 +77,7 @@
 			<x:context select="$items:all-nodes" />
 			<x:like label="Expect the identical multiple nodes" />
 
-			<x:scenario label="With template call">
+			<x:scenario label="With template call inheriting the context">
 				<x:call template="null" />
 				<x:like label="Expect the identical multiple nodes" />
 			</x:scenario>
@@ -55,10 +91,14 @@
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the same single atomic value" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
+		<x:like label="Use $x:context in x:variable" />
+		<x:like label="Use $x:context in user content" />
 		<x:expect label="Same value" select="$items:integer" test="$x:context" />
 	</x:scenario>
 	<x:scenario label="Expect the same multiple atomic values" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
+		<x:like label="Use $x:context in x:variable" />
+		<x:like label="Use $x:context in user content" />
 		<x:expect label="Same values" select="$items:integer, $items:integer" test="$x:context" />
 	</x:scenario>
 
@@ -68,7 +108,7 @@
 			<x:context select="$items:integer" />
 			<x:like label="Expect the same single atomic value" />
 
-			<x:scenario label="With template call">
+			<x:scenario label="With template call inheriting the context">
 				<x:call template="null" />
 				<x:like label="Expect the same single atomic value" />
 			</x:scenario>
@@ -78,7 +118,7 @@
 			<x:context select="$items:integer, $items:integer" />
 			<x:like label="Expect the same multiple atomic values" />
 
-			<x:scenario label="With template call">
+			<x:scenario label="With template call inheriting the context">
 				<x:call template="null" />
 				<x:like label="Expect the same multiple atomic values" />
 			</x:scenario>
@@ -93,21 +133,133 @@
 	<x:scenario label="Expect the same sequence of the identical nodes and the same atomic values"
 		shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
+		<x:like label="Use $x:context in x:variable" />
+		<x:like label="Use $x:context in user content" />
 		<x:expect label="Same items" select="$items:all-nodes, $items:integer" test="$x:context" />
 		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
 			test="$x:context[. instance of node()] ! generate-id()" />
 	</x:scenario>
 
-	<!-- Test -->
-	<x:scenario label="Mixture of nodes and atomic values">
-		<x:context select="$items:all-nodes, $items:integer" />
+	<!-- Shared scenario contents -->
+	<x:scenario label="Test mixture of nodes and atomic values" shared="yes">
 		<x:like label="Expect the same sequence of the identical nodes and the same atomic values" />
 
-		<x:scenario label="With template call">
+		<x:scenario label="With template call inheriting the context">
 			<x:call template="null" />
 			<x:like
 				label="Expect the same sequence of the identical nodes and the same atomic values"
-			 />
+			/>
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Mixture of nodes and atomic values">
+		<x:context select="$items:all-nodes, $items:integer" />
+		<x:like label="Test mixture of nodes and atomic values" />
+	</x:scenario>
+
+	<!--
+		x:context in parent and child scenarios
+	-->
+
+	<!-- Shared x:expect -->
+	<x:scenario label="Expect $x:context and user variable to have correct values"
+		shared="yes">
+		<x:expect label="Test that $x:context is correct"
+			test="$x:context" select="0" />
+		<x:expect label="Test that user variable is correct"
+			test="$myv:parent-context" select="0" />
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Inheritance">
+		<x:scenario label="Parent has mode">
+			<x:context mode="template-mode" />
+			<x:scenario label="and child has content">
+				<x:context select="$items:all-nodes, $items:integer" />
+				<x:like label="Test mixture of nodes and atomic values" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Parent has content">
+			<x:context select="$items:all-nodes, $items:integer" />
+			<x:scenario label="and child has mode">
+				<x:context mode="template-mode" />
+				<x:like label="Test mixture of nodes and atomic values" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Parent has content">
+			<x:context select="0" />
+			<x:scenario label="and child overrides the content">
+				<x:context select="$items:all-nodes, $items:integer" />
+				<x:like label="Test mixture of nodes and atomic values" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Parent stores context in user variable">
+			<x:context select="0" />
+			<x:variable name="myv:parent-context" select="$x:context" />
+			<x:scenario label="and x:expect is in child scenario">
+				<x:like label="Expect $x:context and user variable to have correct values" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Parent stores context in user variable">
+			<x:context select="0" />
+			<x:variable name="myv:parent-context" select="$x:context" />
+			<x:scenario label="referenced by child scenario's x:context">
+				<x:context select="1 + $myv:parent-context" />
+				<x:expect label="Test that overridden $x:context is correct"
+					test="$x:context" select="1" />
+				<x:expect label="Test that user variable is correct"
+					test="$myv:parent-context" select="0" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Parent has x:context,">
+			<x:context select="0" />
+			<x:scenario label="child scenario has x:variable that references $x:context,">
+				<x:variable name="myv:some-variable" select="0" />
+				<x:variable name="myv:parent-context" select="$x:context" />
+				<x:scenario label="and x:expect is in grandchild scenario">
+					<x:like label="Expect $x:context and user variable to have correct values" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		$x:context in template parameters
+	-->
+
+	<!-- Shared scenario contents -->
+	<x:scenario label="Expect template parameter to access $x:context correctly" shared="yes">
+		<x:call template="template-with-param">
+			<x:param name="param" select="$x:context"/>
+		</x:call>
+		<!-- for loops are because a multiple-item context calls the
+			named template for each item in the context -->
+		<x:expect label="Same items passed through parameter to result"
+			select="for $i in (1 to count($x:context))
+			return ($items:all-nodes, $items:integer)" />
+		<x:expect label="Identical nodes passed through parameter to result"
+			test="$x:result[. instance of node()] ! generate-id()"
+			select="for $i in (1 to count($x:context))
+			return $items:all-nodes ! generate-id()" />
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Template parameter">
+		<x:scenario label="Parameter using $x:context in same scenario">
+			<x:context select="$items:all-nodes, $items:integer" />
+			<x:like label="Expect template parameter to access $x:context correctly" />
+		</x:scenario>
+		<x:scenario label="Parent defines context">
+			<x:context select="$items:all-nodes, $items:integer" />
+			<x:scenario label="and child scenario defines parameter using $x:context">
+				<x:like label="Expect template parameter to access $x:context correctly" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 

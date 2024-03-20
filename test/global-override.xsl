@@ -24,6 +24,9 @@
 		<xsl:sequence select="$global-x-param_vs_xsl-variable" />
 	</xsl:template>
 
+	<!-- No XSLT parameter or variable -->
+	<xsl:template as="empty-sequence()" match=".[. eq 'global-x-param_vs_none']" />
+
 	<!--
 		Global x:param (empty) versus
 	-->

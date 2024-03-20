@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- "2.0" version of SchXslt does not accept queryBinding="xslt". Use "1.0" version. -->
+<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/lib/schxslt/1.0/include.xsl?>
+<?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/lib/schxslt/1.0/expand.xsl?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/lib/schxslt/1.0/compile-for-svrl.xsl?>
 <x:description xmlns:ex1="http://example.com/ns1"
                xmlns:ex2="http://example.com/ns2"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"

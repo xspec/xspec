@@ -1,6 +1,7 @@
 module namespace deq = "urn:x-xspec:common:deep-equal";
 
-declare namespace x = "http://www.jenitennison.com/xslt/xspec";
+import module namespace x = "http://www.jenitennison.com/xslt/xspec"
+  at "../common/common-utils.xqm";
 
 declare function deq:deep-equal(
     $seq1 as item()*,
@@ -10,6 +11,16 @@ declare function deq:deep-equal(
 {
   if (contains($flags, '1')) then
     deq:deep-equal-v1($seq1, $seq2, $flags)
+
+  else if (($seq1 instance of attribute()+) and
+   (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:attrs') and string($att) eq '...'))) then
+   let $seq1-without-x-other as attribute()* := $seq1[not(node-name(.) = QName($x:xspec-namespace,'x:attrs'))]
+   let $seq2-without-extras as attribute()* := $seq2[node-name(.) = $seq1/node-name()]
+   return deq:deep-equal(
+     $seq1-without-x-other,
+     $seq2-without-extras,
+     $flags
+   )
 
   else if (empty($seq1) or empty($seq2)) then
     empty($seq1) and empty($seq2)

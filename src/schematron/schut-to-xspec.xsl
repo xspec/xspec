@@ -121,6 +121,7 @@
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
                 <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:apply-templates select=".[normalize-space()]" mode="make-text-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:with-param>
@@ -143,6 +144,7 @@
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
                 <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:apply-templates select=".[normalize-space()]" mode="make-text-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:with-param>
@@ -232,6 +234,21 @@
 
     <xsl:template match="@count | @label | @pending" as="empty-sequence()" mode="make-predicate" />
 
+    <xsl:template match="x:expect-assert | x:expect-report" as="text()" mode="make-text-predicate">
+        <xsl:variable name="x-expect-text-content-wrapped" as="xs:string"
+            select="normalize-space(.) => x:quote-with-apos()"/>
+        <!-- Note: Skeleton uses svrl:text for main message and no svrl:text for diagnostics.
+            SchXslt uses svrl:text for main message and inside svrl:diagnostic-reference.
+            If XSpec stops supporting skeleton implementation of Schematron, we can
+            potentially simplify the left side of the '=' expression to
+            (descendant::{x:known-UQName('svrl:text')}) ! normalize-space(.)
+        -->
+        <xsl:text expand-text="yes">[
+            ({x:known-UQName('svrl:text')}, {x:known-UQName('svrl:diagnostic-reference')}) ! normalize-space(.)
+            = {$x-expect-text-content-wrapped}
+            ]</xsl:text>
+    </xsl:template>
+
     <!--
         Named templates
     -->
@@ -249,7 +266,8 @@
                     @role,
                     @location,
                     @context,
-                    (@count ! ('count:', .))
+                    (@count ! ('count:', .)),
+                    (normalize-space()[.] ! ('text:', .))
                 )
                 => string-join(' ')" />
         <xsl:param name="test" as="xs:string" required="yes" />
