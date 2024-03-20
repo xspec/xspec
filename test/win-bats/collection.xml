@@ -2454,6 +2454,17 @@
 	</case>
 
 	<!--
+		Calling function stored in variable not allowed
+	-->
+
+	<case name="Calling function stored in variable not allowed (XSLT with @run-as=external)">
+    call :run ..\bin\xspec.bat -t call-disallowed\external_function-in-variable.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "ERROR in x:call (under 'Calling 1-parameter function stored in a variable'): Calling a variable stored in a function is not supported when /x:description has @run-as='external'."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
 		Static param not allowed
 	-->
 
