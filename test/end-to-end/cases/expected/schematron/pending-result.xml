@@ -125,15 +125,13 @@
       </scenario>
       <scenario id="scenario1-scenario14" xspec="../../pending.xspec">
          <label>a Success x:expect with @pending must be Pending</label>
-         <result select="9"/>
          <test id="scenario1-scenario14-expect1"
                pending="testing @pending of a Success x:expect">
-            <label>it would return Success if it were not Pending</label>
+            <label>it would call SUT and return Success if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario15" xspec="../../pending.xspec">
          <label>an erroneous x:expect with @pending must be Pending</label>
-         <result select="9"/>
          <test id="scenario1-scenario15-expect1"
                pending="testing @pending of an erroneous x:expect">
             <label>it would throw an error if it were not Pending</label>
@@ -141,14 +139,12 @@
       </scenario>
       <scenario id="scenario1-scenario16" xspec="../../pending.xspec">
          <label>a Success x:expect with zero-length @pending must be Pending</label>
-         <result select="9"/>
          <test id="scenario1-scenario16-expect1" pending="">
-            <label>it would return Success if it were not Pending</label>
+            <label>it would call SUT and return Success if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario17" xspec="../../pending.xspec">
          <label>an erroneous x:expect with zero-length @pending must be Pending</label>
-         <result select="9"/>
          <test id="scenario1-scenario17-expect1" pending="">
             <label>it would throw an error if it were not Pending</label>
          </test>

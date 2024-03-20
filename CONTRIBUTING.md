@@ -8,7 +8,9 @@
 - [Raise a pull request](https://github.com/xspec/xspec/pulls): all code changes in XSpec are initiated via pull requests towards the `master` branch and are usually reviewed by a maintainer or another contributor before merging. Your pull request will be automatically scanned by our CI systems so you may want to [run the test suite locally](https://github.com/xspec/xspec/wiki/How-to-Run-the-Test-Suite-Locally) to avoid surprises. If possible, add a test when submitting a bug fix or a new feature and consider writing some documentation in the pull request which could be later added to the wiki. Before implementing a large feature or fix, consider discussing it first with the maintainers via an issue, this usually speeds up the review process and avoids disappointment.
 - [Improve the documentation](https://github.com/xspec/xspec/wiki): if you notice a gap in the documentation on the [wiki](https://github.com/xspec/xspec/wiki), raise an issue or discuss it within an existing issue or pull request. Changes in the wiki can only be made by maintainers and contributors with write permissions.
 
-All contributions are submitted under the [MIT License](https://github.com/xspec/xspec/blob/master/LICENSE).
+All code contributions are submitted under the [MIT License](https://github.com/xspec/xspec/blob/master/LICENSE).
+
+All wiki contributions are submitted under the [Creative Commons 3.0 BY](https://creativecommons.org/licenses/by/3.0/) license.
 
 ## Code Conventions
 

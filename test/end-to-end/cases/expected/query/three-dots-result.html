@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for x-urn:test:three-dots (passed: 44 / pending: 0 / failed: 30 / total: 74)</title>
+      <title>Test Report for x-urn:test:three-dots (passed: 48 / pending: 0 / failed: 32 / total: 80)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -22,10 +22,10 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 44</th>
+               <th class="totals">passed: 48</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 30</th>
-               <th class="totals">total: 74</th>
+               <th class="totals">failed: 32</th>
+               <th class="totals">total: 80</th>
             </tr>
          </thead>
          <tbody>
@@ -38,10 +38,10 @@
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario2">For resultant element (with attribute)</a></th>
-               <th class="totals">2</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
                <th class="totals">3</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">5</th>
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario3">For resultant element (with mixed content)</a></th>
@@ -52,10 +52,10 @@
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario4">For resultant attribute</a></th>
-               <th class="totals">5</th>
+               <th class="totals">8</th>
                <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">6</th>
+               <th class="totals">2</th>
+               <th class="totals">10</th>
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario5">For resultant text node</a></th>
@@ -237,7 +237,7 @@
          </div>
       </div>
       <div id="top_scenario2">
-         <h2 class="successful">For resultant element (with attribute)<span class="scenario-totals">passed: 2 / pending: 0 / failed: 1 / total: 3</span></h2>
+         <h2 class="successful">For resultant element (with attribute)<span class="scenario-totals">passed: 3 / pending: 0 / failed: 2 / total: 5</span></h2>
          <table class="xspec" id="table_scenario2">
             <colgroup>
                <col style="width:75%" />
@@ -246,22 +246,30 @@
             <tbody>
                <tr class="successful">
                   <th>For resultant element (with attribute)</th>
-                  <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
+                  <th>passed: 3 / pending: 0 / failed: 2 / total: 5</th>
                </tr>
                <tr class="failed">
                   <th><a href="#scenario2-scenario1">When result is &lt;elem attrib="val" /&gt;</a></th>
-                  <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
+                  <th>passed: 3 / pending: 0 / failed: 2 / total: 5</th>
                </tr>
                <tr class="successful">
                   <td>expecting &lt;elem attrib="..." /&gt; should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
+                  <td>expecting &lt;elem @x:attrs="..." /&gt; should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-scenario1-expect3">expecting &lt;elem @x:attrs="..." attrib2="val2" /&gt; should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="successful">
                   <td>expecting ... should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario2-scenario1-expect3">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</a></td>
+                  <td><a href="#scenario2-scenario1-expect5">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
@@ -269,6 +277,35 @@
          <div id="scenario2-scenario1">
             <h3>For resultant element (with attribute) When result is &lt;elem attrib="val" /&gt;</h3>
             <div id="scenario2-scenario1-expect3" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting &lt;elem @x:attrs="..." attrib2="val2" /&gt; should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+      <span class="same">attrib</span>=<span class="same">"val"</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+      <span class="same">x:attrs</span>=<span class="same">"..."</span>
+      <span class="diff">attrib2</span>=<span class="diff">"val2"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario2-scenario1-expect5" class="xTestReport">
                <h4 class="xTestReportTitle">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
@@ -373,7 +410,7 @@
          </div>
       </div>
       <div id="top_scenario4">
-         <h2 class="successful">For resultant attribute<span class="scenario-totals">passed: 5 / pending: 0 / failed: 1 / total: 6</span></h2>
+         <h2 class="successful">For resultant attribute<span class="scenario-totals">passed: 8 / pending: 0 / failed: 2 / total: 10</span></h2>
          <table class="xspec" id="table_scenario4">
             <colgroup>
                <col style="width:75%" />
@@ -382,15 +419,23 @@
             <tbody>
                <tr class="successful">
                   <th>For resultant attribute</th>
-                  <th>passed: 5 / pending: 0 / failed: 1 / total: 6</th>
+                  <th>passed: 8 / pending: 0 / failed: 2 / total: 10</th>
                </tr>
-               <tr class="successful">
-                  <th>When result is @attrib="val"</th>
-                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               <tr class="failed">
+                  <th><a href="#scenario4-scenario1">When result is @attrib="val"</a></th>
+                  <th>passed: 3 / pending: 0 / failed: 1 / total: 4</th>
                </tr>
                <tr class="successful">
                   <td>expecting @attrib="..." should be Success</td>
                   <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>expecting @x:attrs="..." should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario4-scenario1-expect3">expecting @x:attrs="..." attrib2="val2" should be Failure</a></td>
+                  <td>Failure</td>
                </tr>
                <tr class="successful">
                   <td>expecting ... should be Success</td>
@@ -398,18 +443,26 @@
                </tr>
                <tr class="successful">
                   <th>When result is @attrib=""</th>
-                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
                </tr>
                <tr class="successful">
                   <td>expecting @attrib="..." should be Success</td>
                   <td>Success</td>
                </tr>
+               <tr class="successful">
+                  <td>expecting @x:attrs="..." should be Success</td>
+                  <td>Success</td>
+               </tr>
                <tr class="failed">
                   <th><a href="#scenario4-scenario3">When result is @attrib="..."</a></th>
-                  <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
+                  <th>passed: 3 / pending: 0 / failed: 1 / total: 4</th>
                </tr>
                <tr class="successful">
                   <td>expecting @attrib="..." should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>expecting @x:attrs="..." should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
@@ -417,14 +470,46 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario4-scenario3-expect3">expecting @attrib="val" should be Failure</a></td>
+                  <td><a href="#scenario4-scenario3-expect4">expecting @attrib="val" should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
+         <div id="scenario4-scenario1">
+            <h3>For resultant attribute When result is @attrib="val"</h3>
+            <div id="scenario4-scenario1-expect3" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting @x:attrs="..." attrib2="val2" should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/*/@*</code> from:</p>
+                           <pre>&lt;<span class="same">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="same">attrib</span>=<span class="same">"val"</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/*/@*</code> from:</p>
+                           <pre>&lt;<span class="same">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="same">x:attrs</span>=<span class="same">"..."</span> /&gt;
+&lt;<span class="diff">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="diff">attrib2</span>=<span class="diff">"val2"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
          <div id="scenario4-scenario3">
             <h3>For resultant attribute When result is @attrib="..."</h3>
-            <div id="scenario4-scenario3-expect3" class="xTestReport">
+            <div id="scenario4-scenario3-expect4" class="xTestReport">
                <h4 class="xTestReportTitle">expecting @attrib="val" should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
