@@ -15,8 +15,10 @@ environment:
 install:
   - set MAVEN_VERSION=3.8.7
   - choco install maven -version %MAVEN_VERSION%
+  - cmd: SET PATH=C:\ProgramData\chocolatey\lib\maven\apache-maven-%MAVEN_VERSION%\bin;%PATH%
   - cmd: refreshenv
   - cmd: mvn --version
+  - cmd: echo %PATH%
   - cmd: test\ci\install-deps.cmd
 
 build: off
