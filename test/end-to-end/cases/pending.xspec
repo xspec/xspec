@@ -123,7 +123,7 @@
          Test x:expect/@pending.
       -->
       <t:scenario label="a Success x:expect with @pending must be Pending">
-         <t:expect label="it would return Success if it were not Pending"
+         <t:expect label="it would call SUT and return Success if it were not Pending"
                    select="9"
                    pending="testing @pending of a Success x:expect" />
       </t:scenario>
@@ -136,7 +136,7 @@
 
       <!-- Zero-length x:expect/@pending -->
       <t:scenario label="a Success x:expect with zero-length @pending must be Pending">
-         <t:expect label="it would return Success if it were not Pending"
+         <t:expect label="it would call SUT and return Success if it were not Pending"
                    select="9"
                    pending="" />
       </t:scenario>

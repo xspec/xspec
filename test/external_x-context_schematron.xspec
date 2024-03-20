@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external"
+	schematron="do-nothing.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="x-context_schematron.xspec" />
+</x:description>

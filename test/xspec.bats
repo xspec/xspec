@@ -1057,7 +1057,7 @@ load bats-helper
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1070,7 +1070,7 @@ load bats-helper
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1083,7 +1083,7 @@ load bats-helper
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1102,7 +1102,7 @@ load bats-helper
         -Dcatalog.is.uri=true \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1116,7 +1116,7 @@ load bats-helper
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1130,7 +1130,7 @@ load bats-helper
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1280,7 +1280,7 @@ load bats-helper
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with -catalog file path (XQuery)" {
@@ -1299,7 +1299,7 @@ load bats-helper
         -q \
         "${space_dir}/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with -catalog file path (Schematron)" {
@@ -1318,7 +1318,7 @@ load bats-helper
         -s \
         "${space_dir}/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1333,7 +1333,7 @@ load bats-helper
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
@@ -1343,7 +1343,7 @@ load bats-helper
         -q \
         catalog/catalog-01_query.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
@@ -1353,7 +1353,7 @@ load bats-helper
         -s \
         catalog/catalog-01_schematron.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1377,7 +1377,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
@@ -1395,7 +1395,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
@@ -1413,7 +1413,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1428,7 +1428,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
@@ -1437,7 +1437,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
@@ -1446,7 +1446,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1518,7 +1518,7 @@ load bats-helper
         catalog/catalog-01_stylesheet.xspec
     if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
         [ "$status" -eq 0 ]
-        [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+        [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     else
         # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
         # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
@@ -2853,11 +2853,11 @@ load bats-helper
     [ "${lines[36]}" = "PENDING: ..an erroneous scenario in zero-length @pending must be Pending" ]
     [ "${lines[37]}" = "PENDING: it would throw an error if it were not Pending" ]
     [ "${lines[38]}" = "..a Success x:expect with @pending must be Pending" ]
-    [ "${lines[39]}" = "PENDING: (testing @pending of a Success x:expect) it would return Success if it were not Pending" ]
+    [ "${lines[39]}" = "PENDING: (testing @pending of a Success x:expect) it would call SUT and return Success if it were not Pending" ]
     [ "${lines[40]}" = "..an erroneous x:expect with @pending must be Pending" ]
     [ "${lines[41]}" = "PENDING: (testing @pending of an erroneous x:expect) it would throw an error if it were not Pending" ]
     [ "${lines[42]}" = "..a Success x:expect with zero-length @pending must be Pending" ]
-    [ "${lines[43]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[43]}" = "PENDING: it would call SUT and return Success if it were not Pending" ]
     [ "${lines[44]}" = "..an erroneous x:expect with zero-length @pending must be Pending" ]
     [ "${lines[45]}" = "PENDING: it would throw an error if it were not Pending" ]
     [ "${lines[46]}" = "" ]
@@ -2897,6 +2897,154 @@ load bats-helper
     myrun ../bin/xspec.sh threads/dynamic-error/scenario_string.xspec
     [ "$status" -eq 1 ]
     assert_regex "${lines[9]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+}
+
+#
+# Bad x:context when calling named template
+#
+
+@test "x:context has no attributes and no children (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/no-attr.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing at child level (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited-augmented.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but @select computation finds nothing (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-variable-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but hard-coded @select finds nothing (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/child-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but hard-coded @select finds nothing (call-template; external)" {
+    myrun ../bin/xspec.sh bad-context/call-template/external_child-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but @select computation finds nothing (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/child-variable-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context has no information other than @select (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/select-only.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0002[: ]'
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file does not exist (call-template)" {
+    myrun ../bin/xspec.sh bad-context/call-template/href-broken.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  FODC0002[: ] I/O error reported by XML parser processing'$'\n'
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+#
+# Bad x:context when applying templates
+#
+
+@test "x:context has no attributes and no children (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/no-attr.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but hard-coded @select finds nothing at child level (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited-augmented.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file exists, but @select computation finds nothing (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-variable-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but hard-coded @select finds nothing (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/child-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but hard-coded @select finds nothing (apply-templates; external)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/external_child-constant-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/* exists, but @select computation finds nothing (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/child-variable-select.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context has no information other than @select (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/select-only.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0002[: ]'
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
+}
+
+@test "x:context/@href file does not exist (apply-templates)" {
+    myrun ../bin/xspec.sh bad-context/apply-templates/href-broken.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  FODC0002[: ] I/O error reported by XML parser processing'$'\n'
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 #
@@ -2972,12 +3120,5 @@ load bats-helper
     myrun ../../../../bin/xspec.sh -s expect-report.xspec
     [ "$status" -eq 1 ]
     [ "${lines[${#lines[@]} - 3]}" = "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
-@test "SVRL @location fails to select text node #396" {
-    myrun ../bin/xspec.sh -s schematron/bad-location/issue-396.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }

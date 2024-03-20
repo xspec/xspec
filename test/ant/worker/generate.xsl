@@ -175,6 +175,17 @@
 					</xsl:when>
 
 					<xsl:when test="
+						($test-type = ('s', 't'))
+						and ($pis = 'require-xslt-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XSLT processor to support XSLT 4</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -200,6 +211,17 @@
 							and $require-timestamp
 							and not($XQUERY-SUPPORTS-TIMESTAMP)">
 						<xsl:text>Requires XQuery processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type = ('q'))
+						and ($pis = 'require-xquery-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XQuery processor to support XQuery 4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

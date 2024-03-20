@@ -31,6 +31,15 @@
                <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
+            <!-- To enable SUT to use XSLT 4.0 features, the options for transform()
+               must include xslt-version="4.0", according to
+               https://www.saxonica.com/documentation12/index.html#!functions/fn/transform -->
+            <xsl:if test="x:xslt-version(.) ge 4">
+               <map-entry key="'xslt-version'">
+                  <xsl:value-of select="x:xslt-version(.) => x:decimal-string()"/>
+               </map-entry>
+            </xsl:if>
+
             <xsl:where-populated>
                <!-- Cumulative x:param elements for stylesheet. In document order. -->
                <xsl:variable name="stylesheet-cumulative-params" as="element(x:param)*" select="
