@@ -13,6 +13,8 @@ environment:
     - XSPEC_TEST_ENV: saxon-12
 
 install:
+  - set MAVEN_VERSION=3.8.7
+  - choco install maven -version %MAVEN_VERSION%
   - cmd: test\ci\install-deps.cmd
 
 build: off
