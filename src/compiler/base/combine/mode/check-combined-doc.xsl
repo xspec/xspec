@@ -90,7 +90,7 @@
    <!-- Reject x:call[@call-as='variable'] if @run-as=external. -->
    <xsl:template name="local:detect-call-as-variable-run-as-external" as="empty-sequence()">
       <xsl:context-item as="element(x:call)" use="required" />
-      
+
       <xsl:if test="$is-external and @call-as eq 'variable'">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
@@ -158,7 +158,7 @@
       <!-- Variable declarations that the current one is allowed to override -->
       <xsl:variable name="overridable-vardecls" as="element()*" select="
             $visible-vardecls[node-name() eq node-name(current())]
-            
+
             (: Description-level variable declaration are not allowed to override another
                description-level one :)
             except $visible-description-vardecls[current()[parent::x:description]]" />
