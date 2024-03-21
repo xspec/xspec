@@ -241,11 +241,11 @@
 		<!-- for loops are because a multiple-item context calls the
 			named template for each item in the context -->
 		<x:expect label="Same items passed through parameter to result"
-			select="for $i in (1 to count($x:context))
+			select="for $i in $x:context
 			return ($items:all-nodes, $items:integer)" />
 		<x:expect label="Identical nodes passed through parameter to result"
 			test="$x:result[. instance of node()] ! generate-id()"
-			select="for $i in (1 to count($x:context))
+			select="for $i in $x:context
 			return $items:all-nodes ! generate-id()" />
 	</x:scenario>
 
