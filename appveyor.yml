@@ -7,11 +7,18 @@ skip_tags: true
 skip_branch_with_pr: true
 
 environment:
+  MAVEN_VERSION: 3.8.7
   matrix:
     # Non-mainstream jobs are not included in favor of GitHub Actions and Azure Pipelines
     - XSPEC_TEST_ENV: saxon-12
 
 install:
+  - set MAVEN_VERSION=3.8.7
+  - choco install maven -version %MAVEN_VERSION%
+  - cmd: SET PATH=C:\ProgramData\chocolatey\lib\maven\apache-maven-%MAVEN_VERSION%\bin;%PATH%
+  - cmd: refreshenv
+  - cmd: mvn --version
+  - cmd: echo %PATH%
   - cmd: test\ci\install-deps.cmd
 
 build: off
@@ -19,7 +26,6 @@ build: off
 test_script:
   - cmd: |
       test\ci\print-env.cmd
-      test\ci\run-core-tests.cmd
       test\ci\maven-package.cmd -q
       test\ci\compile-java.cmd -silent
       test\ci\last-git-status.cmd

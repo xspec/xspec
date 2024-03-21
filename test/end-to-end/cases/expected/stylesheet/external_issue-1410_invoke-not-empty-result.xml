@@ -6,8 +6,8 @@
    <scenario id="scenario1" xspec="../../external_issue-1410_invoke-not-empty.xspec">
       <label>Template containing xsl:context-item and literal result elements</label>
       <input-wrap xmlns="">
-         <x:context xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                     mode="not-empty">
             <foo/>
          </x:context>
