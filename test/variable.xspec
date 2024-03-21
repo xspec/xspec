@@ -20,7 +20,11 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	query="x-urn:test:mirror"
 	query-at="mirror.xqm"
+	schematron="do-nothing.sch"
 	stylesheet="mirror.xsl">
+
+	<!-- For Schematron -->
+	<x:helper stylesheet="mirror.xsl"/>
 
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->

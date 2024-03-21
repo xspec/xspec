@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/issue-1618_step3.xsl?>
 <x:description
     schematron="issue-1618.sch"
     xmlns:x="http://www.jenitennison.com/xslt/xspec">

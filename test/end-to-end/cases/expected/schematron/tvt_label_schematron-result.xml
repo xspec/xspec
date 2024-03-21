@@ -16,19 +16,14 @@
          </input-wrap>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -52,19 +47,14 @@
          </input-wrap>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -88,19 +78,14 @@
          </input-wrap>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -127,19 +112,14 @@
          </input-wrap>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -163,19 +143,14 @@
          </input-wrap>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+               <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
                                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>

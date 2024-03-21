@@ -90,6 +90,53 @@
          <t:expect label="the result" select="true()"/>
       </t:scenario>
 
+      <t:scenario>
+         <t:label>Using @x:attrs to indicate missing attribute nodes</t:label>
+         <t:scenario label="works when value is ...">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" t:attrs="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="true()" />
+         </t:scenario>
+         <t:scenario label="works when value is ... even if there are no attributes to match">
+            <t:call>
+               <t:param as="element(foo)">
+                  <foo t:attrs="..." />
+               </t:param>
+               <t:param as="element(foo)">
+                  <foo />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="true()" />
+         </t:scenario>
+         <t:scenario label="fails when the special attribute name or value is incorrect">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" t:attrs="ignore" attrs="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="false()" />
+         </t:scenario>
+         <t:scenario label="fails when an expected attribute in seq1 is missing from seq2">
+            <t:call>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" baz="baz" t:attrs="..." />
+               </t:param>
+               <t:param select="/foo/@*" as="attribute()+">
+                  <foo bar="bar" />
+               </t:param>
+            </t:call>
+            <t:expect label="the result" select="false()" />
+         </t:scenario>
+      </t:scenario>
    </t:scenario>
 
    <!--

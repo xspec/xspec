@@ -43,9 +43,6 @@
 			<exclude name="test/compile-xslt-tests/compile-expect.xspec" />
 			<exclude name="test/compile-xslt-tests/compile-scenario.xspec" />
 
-			<!-- Jing task doesn't recognize XInclude -->
-			<exclude name="test/end-to-end/cases/result-file-threshold_query.xspec" />
-
 			<!-- Tests invalid @threads -->
 			<exclude name="test/threads/invalid/zero-length.xspec" />
 		</fileset>

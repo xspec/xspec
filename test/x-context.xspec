@@ -180,7 +180,7 @@
 				<x:like label="Test mixture of nodes and atomic values" />
 			</x:scenario>
 		</x:scenario>
-	
+
 		<x:scenario label="Parent has content">
 			<x:context select="$items:all-nodes, $items:integer" />
 			<x:scenario label="and child has mode">
@@ -197,7 +197,7 @@
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="Parent stores context in user variable" pending="Errors out">
+		<x:scenario label="Parent stores context in user variable">
 			<x:context select="0" />
 			<x:variable name="myv:parent-context" select="$x:context" />
 			<x:scenario label="and x:expect is in child scenario">
@@ -205,7 +205,7 @@
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="Parent stores context in user variable" pending="Errors out">
+		<x:scenario label="Parent stores context in user variable">
 			<x:context select="0" />
 			<x:variable name="myv:parent-context" select="$x:context" />
 			<x:scenario label="referenced by child scenario's x:context">
@@ -217,7 +217,7 @@
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="Parent has x:context," pending="Errors out">
+		<x:scenario label="Parent has x:context,">
 			<x:context select="0" />
 			<x:scenario label="child scenario has x:variable that references $x:context,">
 				<x:variable name="myv:some-variable" select="0" />
@@ -248,7 +248,7 @@
 			select="for $i in (1 to count($x:context))
 			return $items:all-nodes ! generate-id()" />
 	</x:scenario>
-	
+
 	<!-- Test -->
 	<x:scenario label="Template parameter">
 		<x:scenario label="Parameter using $x:context in same scenario">

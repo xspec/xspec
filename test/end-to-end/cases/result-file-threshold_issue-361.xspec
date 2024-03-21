@@ -3,8 +3,6 @@
 	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:scenario label="When $x:result consists of two or more elements">
 		<x:call function="mirror:param-mirror">
 			<x:param as="element()+">
