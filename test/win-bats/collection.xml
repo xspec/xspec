@@ -2060,9 +2060,11 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    if "%SAXON_VERSION:~0,4%"=="9.9." (
-        call :verify_line 4 x "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10."
-    ) else (
+    if not "%SAXON_VERSION:~0,3%"=="12." if not "%SAXON_VERSION:~0,2%"=="9." (
+        call :verify_line 4 x "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later."
+    ) else if "%SAXON_VERSION:~0,4%"=="12.3" (
+        call :verify_line 4 x "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later."
+    ) else if not "%SAXON_VERSION:~0,2%"=="9." (
         call :verify_line 4 x "Checking for deprecated Saxon versions: Passed"
     )
 
@@ -2075,8 +2077,12 @@
 	-->
 
 	<case name="No warning on Ant (XSLT) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.9." (
-        call :skip "Always expect a deprecation warning on Saxon 9.9"
+    if not "%SAXON_VERSION:~0,3%"=="12." (
+        call :skip "Always expect a deprecation warning on Saxon 10 or 11"
+        goto :EOF
+    )
+    if "%SAXON_VERSION:~0,4%"=="12.3" (
+        call :skip "Always expect a deprecation warning on Saxon 12.3"
         goto :EOF
     )
 
@@ -2097,8 +2103,12 @@
 	</case>
 
 	<case name="No warning on Ant (XQuery) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.9." (
-        call :skip "Always expect a deprecation warning on Saxon 9.9"
+    if not "%SAXON_VERSION:~0,3%"=="12." (
+        call :skip "Always expect a deprecation warning on Saxon 10 or 11"
+        goto :EOF
+    )
+    if "%SAXON_VERSION:~0,4%"=="12.3" (
+        call :skip "Always expect a deprecation warning on Saxon 12.3"
         goto :EOF
     )
 
@@ -2119,8 +2129,12 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.9." (
-        call :skip "Always expect a deprecation warning on Saxon 9.9"
+    if not "%SAXON_VERSION:~0,3%"=="12." (
+        call :skip "Always expect a deprecation warning on Saxon 10 or 11"
+        goto :EOF
+    )
+    if "%SAXON_VERSION:~0,4%"=="12.3" (
+        call :skip "Always expect a deprecation warning on Saxon 12.3"
         goto :EOF
     )
 

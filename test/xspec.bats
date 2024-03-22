@@ -2218,9 +2218,11 @@ load bats-helper
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
 
-    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
-        [ "${lines[3]}" = "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10." ]
-    else
+    if [ "${SAXON_VERSION:0:3}" != "12." ] && [ "${SAXON_VERSION:0:2}" != "9." ]; then
+        [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
+    elif [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
+        [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
+    elif [ "${SAXON_VERSION:0:2}" != "9." ]; then
         [ "${lines[3]}" = "Checking for deprecated Saxon versions: Passed" ]
     fi
 
@@ -2233,8 +2235,11 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.9"
+    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
+        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    fi
+    if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
+        skip "Always expect a deprecation warning on Saxon 12.3"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -2253,8 +2258,11 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.9"
+    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
+        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    fi
+    if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
+        skip "Always expect a deprecation warning on Saxon 12.3"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -2273,8 +2281,11 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if [ "${SAXON_VERSION:0:4}" = "9.9." ]; then
-        skip "Always expect a deprecation warning on Saxon 9.9"
+    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
+        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    fi
+    if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
+        skip "Always expect a deprecation warning on Saxon 12.3"
     fi
 
     ant_log="${work_dir}/ant.log"
