@@ -2616,6 +2616,17 @@ load bats-helper
 }
 
 #
+# Calling function stored in variable not allowed
+#
+
+@test "Calling function stored in variable not allowed (XSLT with @run-as=external)" {
+    myrun ../bin/xspec.sh -t call-disallowed/external_function-in-variable.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in x:call (under 'Calling 1-parameter function stored in a variable'): Calling a variable stored in a function is not supported when /x:description has @run-as='external'." ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
+}
+
+#
 # Static param not allowed
 #
 
