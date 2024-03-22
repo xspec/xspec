@@ -50,6 +50,9 @@
          </xsl:variable>
 
          <xsl:value-of>
+            <xsl:if test="@call-as='variable'">
+               <xsl:text>$</xsl:text>
+            </xsl:if>
             <xsl:text expand-text="yes">{$function-uqname}(</xsl:text>
             <xsl:for-each select="x:param">
                <xsl:sort select="xs:integer(@position)" />

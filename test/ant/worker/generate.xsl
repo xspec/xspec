@@ -146,7 +146,7 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($test-type eq 't')
+							($test-type = ('s', 't'))
 							and ($pis = 'require-xslt-to-support-hof')
 							and not($XSLT-SUPPORTS-HOF)">
 						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
