@@ -23,13 +23,11 @@
 
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
@@ -147,13 +145,6 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($test-type = ('s', 't'))
-							and ($pis = 'require-xslt-to-support-hof')
-							and not($XSLT-SUPPORTS-HOF)">
-						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
 							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-jref')
 							and not($XSLT-SUPPORTS-JREF)">
@@ -190,13 +181,6 @@
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($test-type eq 'q')
-							and ($pis = 'require-xquery-to-support-hof')
-							and not($XQUERY-SUPPORTS-HOF)">
-						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
