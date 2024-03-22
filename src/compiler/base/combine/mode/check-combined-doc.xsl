@@ -12,6 +12,11 @@
    -->
    <xsl:mode name="x:check-combined-doc" on-multiple-match="fail" on-no-match="shallow-skip" />
 
+   <xsl:template match="x:call" as="empty-sequence()" mode="x:check-combined-doc">
+      <xsl:call-template name="local:detect-call-as-variable-run-as-external" />
+      <xsl:apply-templates mode="#current"/>
+   </xsl:template>
+
    <xsl:template match="x:param" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
 
@@ -82,6 +87,21 @@
       </xsl:if>
    </xsl:template>
 
+   <!-- Reject x:call[@call-as='variable'] if @run-as=external. -->
+   <xsl:template name="local:detect-call-as-variable-run-as-external" as="empty-sequence()">
+      <xsl:context-item as="element(x:call)" use="required" />
+
+      <xsl:if test="$is-external and @call-as eq 'variable'">
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Calling a variable stored in a function is not supported when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
+   </xsl:template>
+
    <!-- Reject static /x:description/x:param if not @run-as=external. -->
    <xsl:template name="local:detect-static-description-param-run-as-import" as="empty-sequence()">
       <!-- Context item must be x:param[parent::x:description] -->
@@ -138,7 +158,7 @@
       <!-- Variable declarations that the current one is allowed to override -->
       <xsl:variable name="overridable-vardecls" as="element()*" select="
             $visible-vardecls[node-name() eq node-name(current())]
-            
+
             (: Description-level variable declaration are not allowed to override another
                description-level one :)
             except $visible-description-vardecls[current()[parent::x:description]]" />

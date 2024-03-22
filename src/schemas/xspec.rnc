@@ -245,6 +245,10 @@ function-call =
 		common-attributes,
 		## The qualified name of the function which should get called.
 		attribute function { eqname.datatype }?,
+		## "module-function" (default) refers to an XSLT stylesheet function or XQuery module function.
+		## "variable" refers to an XPath function stored in a variable.
+		[ a:defaultValue = "module-function" ]
+		attribute call-as { "module-function" | "variable" }?,
 		function-params
 	}
 

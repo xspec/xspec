@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-hof?>
+<?xspec-test require-xslt-to-support-hof?>
+<x:description
+	xmlns:fv="x-urn:test:function-in-variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	query="x-urn:test:function-in-variable"
+	query-at="function-in-variable.xqm"
+	schematron="function-in-variable.sch"
+	stylesheet="function-in-variable.xsl">
+
+	<x:scenario label="Calling 1-parameter function stored in a variable">
+		<x:call call-as="variable" function="fv:first-last">
+			<x:param select="(10, 20, 30)"/>
+		</x:call>
+		<x:expect label="works; in this case, returns first and last items"
+			select="(10, 30)" />
+	</x:scenario>
+
+	<x:scenario label="Calling 0-parameter function stored in a variable">
+		<x:call call-as="variable" function="fv:function-item" />
+		<x:expect label="works; in this case, returns a function item that can be applied"
+			test="$x:result( (10, 20, 30) )"
+			select="10" />
+	</x:scenario>
+
+	<x:scenario label="Test inheritance and override of @call-as">
+		<x:scenario label="Inheriting call-as='variable'">
+			<x:call call-as="variable" />
+			<x:scenario label="should work">
+				<x:call function="fv:first-last">
+					<x:param select="1" />
+				</x:call>
+				<x:like label="check function call result" />
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Overriding call-as='module-function' with 'variable'">
+			<x:call function="fv:first-last" call-as="module-function">
+				<x:param select="1" />
+			</x:call>
+			<x:scenario label="should work">
+				<x:call call-as="variable" />
+				<x:like label="check function call result" />
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Inheriting call-as='module-function'">
+			<x:call call-as="module-function" />
+			<x:scenario label="should work">
+				<x:call function="exactly-one">
+					<x:param select="1" />
+				</x:call>
+				<x:like label="check function call result" />
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Overriding call-as='variable' with 'module-function'">
+			<x:call function="exactly-one" call-as="variable">
+				<x:param select="1" />
+			</x:call>
+			<x:scenario label="should work">
+				<x:call call-as="module-function" />
+				<x:like label="check function call result" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario shared="yes" label="check function call result">
+		<x:expect label="function returns 1" select="1" />
+	</x:scenario>
+
+</x:description>
