@@ -18,8 +18,17 @@ fi
 
 # Check capabilities
 export XSLT_SUPPORTS_COVERAGE=1
-if [ "${SAXON_VERSION:0:2}" != "9." ]; then
-    unset export XSLT_SUPPORTS_COVERAGE
+if [ "${SAXON_VERSION:0:2}" == "9." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION:0:3}" == "10." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION:0:3}" == "11." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION}" == "12.3" ]; then
+    unset XSLT_SUPPORTS_COVERAGE
 fi
 
 export XSLT_SUPPORTS_THREADS=1

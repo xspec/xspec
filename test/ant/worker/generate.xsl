@@ -134,8 +134,9 @@
 					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
-							and ($x:saxon-version ge x:pack-version(10))">
-						<xsl:text>XSLT Code Coverage requires Saxon version less than 10 (xspec/xspec#852)</xsl:text>
+							and ($x:saxon-version lt x:pack-version((12, 4)))">
+						<!-- https://saxonica.plan.io/issues/6223 -->
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.4 or later</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -146,7 +147,7 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($test-type eq 't')
+							($test-type = ('s', 't'))
 							and ($pis = 'require-xslt-to-support-hof')
 							and not($XSLT-SUPPORTS-HOF)">
 						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
@@ -171,6 +172,17 @@
 							and $require-timestamp
 							and not($XSLT-SUPPORTS-TIMESTAMP)">
 						<xsl:text>Requires XSLT processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type = ('s', 't'))
+						and ($pis = 'require-xslt-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XSLT processor to support XSLT 4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -199,6 +211,17 @@
 							and $require-timestamp
 							and not($XQUERY-SUPPORTS-TIMESTAMP)">
 						<xsl:text>Requires XQuery processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type = ('q'))
+						and ($pis = 'require-xquery-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XQuery processor to support XQuery 4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

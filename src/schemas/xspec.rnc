@@ -245,6 +245,10 @@ function-call =
 		common-attributes,
 		## The qualified name of the function which should get called.
 		attribute function { eqname.datatype }?,
+		## "module-function" (default) refers to an XSLT stylesheet function or XQuery module function.
+		## "variable" refers to an XPath function stored in a variable.
+		[ a:defaultValue = "module-function" ]
+		attribute call-as { "module-function" | "variable" }?,
 		function-params
 	}
 
@@ -323,9 +327,9 @@ text-element =
 	## Text in this element is not ignored even when it's whitespace-only.
 	element text { common-attributes, text }
 
-schematron-scenario = global-param*, context?,
+schematron-scenario = (global-param | variable)*, context?, variable*,
                     like*,
-                    (pending-element | schematron-expect | assertion)*, 
+                    (pending-element | schematron-expect | assertion | variable)*,
                     (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, schematron-scenario })*

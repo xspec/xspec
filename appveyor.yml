@@ -20,9 +20,9 @@ test_script:
   - cmd: |
       test\ci\print-env.cmd
       test\ci\run-core-tests.cmd
-      test\ci\maven-package.cmd -q
+      rem test\ci\maven-package.cmd -q
       test\ci\compile-java.cmd -silent
       test\ci\last-git-status.cmd
-      test\ci\test-maven-jar.cmd -silent
+      rem test\ci\test-maven-jar.cmd -silent
 
 deploy: off

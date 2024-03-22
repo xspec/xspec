@@ -14,11 +14,8 @@
 
 	<t:scenario label="$x:xspec-uri defined and checked in imported file">
 		<t:call function="true" />
-		<!-- Assertion fails when this test file runs and
-			passes when the importing file, xspec-uri.xspec, runs.
-			The regular expression is designed to match files named
-			catalog-01_xspec-uri.xspec and xspec-uri.xspec.
-		-->
+		<!-- Verification fails when this test file runs but
+			passes when the importing file, xspec-uri.xspec, runs.	-->
 		<t:expect label="should be top-level .xspec file that is running"
 			test="ends-with($im:xspec-uri-in-global-var, '/catalog-01_xspec-uri.xspec')
 			or ends-with($im:xspec-uri-in-global-var, '/xspec-uri.xspec')" />

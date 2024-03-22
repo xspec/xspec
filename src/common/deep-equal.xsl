@@ -38,6 +38,21 @@
                <xsl:sequence select="local:deep-equal-v1($seq1, $seq2, $flags)" />
             </xsl:when>
 
+            <xsl:when test="($seq1 instance of attribute()+) and
+               (some $att in $seq1 satisfies (node-name($att) = QName($x:xspec-namespace,'x:attrs') and string($att) eq '...'))">
+               <!-- Support attribute x:attrs="..." in $seq1 -->
+               <xsl:variable name="seq1-without-x-other" as="attribute()*"
+                  select="$seq1[not(node-name(.) = QName($x:xspec-namespace,'x:attrs'))]" />
+               <xsl:variable name="seq2-without-extras" as="attribute()*"
+                  select="$seq2[node-name(.) = $seq1/node-name()]" />
+               <xsl:sequence
+                  select="deq:deep-equal(
+                     $seq1-without-x-other,
+                     $seq2-without-extras,
+                     $flags
+                  )" />
+            </xsl:when>
+
             <xsl:when test="empty($seq1) or empty($seq2)">
                <xsl:sequence select="empty($seq1) and empty($seq2)" />
             </xsl:when>

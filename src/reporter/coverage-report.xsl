@@ -23,6 +23,7 @@
    <xsl:include href="../common/common-utils.xsl" />
    <xsl:include href="../common/deep-equal.xsl" />
    <xsl:include href="../common/namespace-vars.xsl" />
+   <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
 
@@ -50,7 +51,7 @@
       select="$stylesheet-uri => doc() => local:collect-stylesheets()" />
 
    <xsl:key name="modules" match="module" use="@uri" />
-   <xsl:key name="constructs" match="construct" use="@constructType" />
+   <xsl:key name="traceables" match="traceable" use="@traceableId" />
    <xsl:key name="hits" match="hit" use="local:hits-key-value(@moduleId, @lineNumber, @columnNumber)" />
 
    <!--
@@ -426,13 +427,12 @@
       <xsl:for-each select="$node">
          <xsl:variable name="hits" as="element(hit)*"
             select="local:hits-on-line-column($module-id, x:line-number(.), x:column-number(.))" />
-         <xsl:variable name="node-clark-name" as="xs:string"
-            select="'{' || namespace-uri() || '}' || local-name()" />
+         <xsl:variable name="node-uqname" as="xs:string?" select="x:node-UQName(.)" />
          <xsl:for-each select="$hits">
-            <xsl:variable name="hit-construct-name" as="xs:string"
-               select="key('constructs', @constructType)/@name" />
-            <xsl:if test="($node-clark-name eq $hit-construct-name) or
-                          not(starts-with($hit-construct-name, '{'))">
+            <xsl:variable name="hit-traceable-uqname" as="xs:string?"
+               select="exactly-one(key('traceables', @traceableId, $trace))/@uqname" />
+            <xsl:if test="($node-uqname eq $hit-traceable-uqname) or
+                          empty($hit-traceable-uqname)">
                <xsl:sequence select="." />
             </xsl:if>
          </xsl:for-each>
