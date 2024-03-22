@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<?xspec-test require-saxon-bug-4471-fixed?>
 <x:description run-as="external" stylesheet="xslt-package/arith/use-1.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">

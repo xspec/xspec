@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<?xspec-test require-saxon-bug-4376-fixed?>
 <x:description
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns="http://www.w3.org/1999/xhtml"
