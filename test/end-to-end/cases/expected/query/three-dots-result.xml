@@ -4,11 +4,9 @@
         query="x-urn:test:three-dots"
         query-at="../../three-dots.xqm"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario1" xspec="../../three-dots.xspec">
       <label>For resultant element (simple)</label>
-      <scenario id="scenario1-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;elem&gt;text&lt;/elem&gt;
 				</label>
@@ -45,8 +43,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario1-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario1-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;elem /&gt;
 				</label>
@@ -89,8 +86,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario1-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario1-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;elem&gt;...&lt;/elem&gt;
 				</label>
@@ -139,11 +135,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario2"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario2" xspec="../../three-dots.xspec">
       <label>For resultant element (with attribute)</label>
-      <scenario id="scenario2-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;elem attrib="val" /&gt;
 				</label>
@@ -219,11 +213,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario3"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario3" xspec="../../three-dots.xspec">
       <label>For resultant element (with mixed content)</label>
-      <scenario id="scenario3-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</label>
@@ -275,8 +267,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario3-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario3-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</label>
@@ -324,11 +315,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario4"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario4" xspec="../../three-dots.xspec">
       <label>For resultant attribute</label>
-      <scenario id="scenario4-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 						 @attrib="val"
 				</label>
@@ -388,8 +377,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario4-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario4-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 						 @attrib=""
 				</label>
@@ -430,8 +418,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario4-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario4-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
 						 @attrib="..."
 				</label>
@@ -489,11 +476,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario5"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario5" xspec="../../three-dots.xspec">
       <label>For resultant text node</label>
-      <scenario id="scenario5-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <label>When result is usual text node</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -516,8 +501,7 @@
             <expect select="'...'"/>
          </test>
       </scenario>
-      <scenario id="scenario5-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
          <label>When result is whitespace-only text node</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -546,8 +530,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario5-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
          <label>When result is zero-length text node</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -574,8 +557,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario5-scenario4"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
          <label>When result is three-dot text node</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -605,11 +587,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario6"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario6" xspec="../../three-dots.xspec">
       <label>For resultant comment</label>
-      <scenario id="scenario6-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;!--comment--&gt;
 				</label>
@@ -638,8 +618,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario6-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario6-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;!----&gt;
 				</label>
@@ -662,8 +641,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario6-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario6-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;!--...--&gt;
 				</label>
@@ -701,11 +679,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario7"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario7" xspec="../../three-dots.xspec">
       <label>For resultant processing instruction</label>
-      <scenario id="scenario7-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;?pi data?&gt;
 				</label>
@@ -734,8 +710,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario7-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario7-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;?pi?&gt;
 				</label>
@@ -758,8 +733,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario7-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario7-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
 					&lt;?pi ...?&gt;
 				</label>
@@ -797,11 +771,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario8"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario8" xspec="../../three-dots.xspec">
       <label>For resultant document node</label>
-      <scenario id="scenario8-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
          <label>When result is document node containing
 														 &lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;
 				</label>
@@ -833,8 +805,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario8-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
          <label>When result is document node containing nothing</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -860,8 +831,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario8-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
          <label>When result is document node containing ...</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -893,11 +863,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario9"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario9" xspec="../../three-dots.xspec">
       <label>For resultant namespace node</label>
-      <scenario id="scenario9-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
 				xmlns:prefix="namespace-uri"
 				</label>
@@ -931,8 +899,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario9-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario9-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
 				xmlns="namespace-uri"
 				</label>
@@ -966,8 +933,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario9-scenario3"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario9-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
 				xmlns:prefix="..."
 				</label>
@@ -1012,11 +978,9 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario10"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario10" xspec="../../three-dots.xspec">
       <label>For resultant sequence of multiple nodes</label>
-      <scenario id="scenario10-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
          <label>When result is sequence of
 					&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</label>
@@ -1074,8 +1038,7 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario11"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario11" xspec="../../three-dots.xspec">
       <label>When result is empty sequence</label>
       <input-wrap xmlns="">
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -1092,11 +1055,9 @@
          </expect>
       </test>
    </scenario>
-   <scenario id="scenario12"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario12" xspec="../../three-dots.xspec">
       <label>For resultant atomic value</label>
-      <scenario id="scenario12-scenario1"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <label>When result is 'string'</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -1121,8 +1082,7 @@
             <expect select="'...'"/>
          </test>
       </scenario>
-      <scenario id="scenario12-scenario2"
-                xspec="../../three-dots.xspec">
+      <scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
          <label>When result is '...'</label>
          <input-wrap xmlns="">
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -1148,8 +1108,7 @@
          </test>
       </scenario>
    </scenario>
-   <scenario id="scenario13"
-             xspec="../../three-dots.xspec">
+   <scenario id="scenario13" xspec="../../three-dots.xspec">
       <label>For any resultant item</label>
       <input-wrap xmlns="">
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
