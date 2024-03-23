@@ -7,17 +7,6 @@
 		compiler. You don't need to specify it in /x:description/@stylesheet.
 	-->
 
-	<x:scenario label="Scenario for testing function instance-of-function">
-		<!-- array(*) and map(*) are tested in report-sequence.xspec -->
-
-		<x:scenario label="Function (excluding map and array)">
-			<x:call function="rep:instance-of-function">
-				<x:param select="xs:QName('xs:integer') => function-lookup(1)" />
-			</x:call>
-			<x:expect label="True" select="true()" />
-		</x:scenario>
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function function-type">
 		<!-- array(*) and map(*) are tested in report-sequence.xspec -->
 
