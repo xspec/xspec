@@ -809,7 +809,7 @@
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 2
-    call :verify_line 2 r "..*:passed: 132 / pending: 0 / failed: 0 / total: 132"
+    call :verify_line 2 r "..*:passed: 128 / pending: 0 / failed: 0 / total: 128"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
     call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^

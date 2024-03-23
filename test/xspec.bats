@@ -900,7 +900,7 @@ load bats-helper
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 132 / pending: 0 / failed: 0 / total: 132'
+    assert_regex "${lines[1]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
