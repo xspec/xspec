@@ -42,6 +42,6 @@
 	<t:scenario label="$x:xspec-uri in x:description/x:param">
 		<t:context select="'global-x-param_vs_xsl-param'" />
 		<t:expect label="should be this .xspec file"
-			test="$t:result => $local:check-end-of-uri()" />
+			test="xs:anyURI($t:result) => $local:check-end-of-uri()" />
 	</t:scenario>
 </t:description>
