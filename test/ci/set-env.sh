@@ -72,7 +72,6 @@ SAXON_JAR="${XSPEC_TEST_DEPS}/saxon-${SAXON_VERSION}"
 # Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
 export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
 
-
 #
 # Apache XML Resolver jar
 #
