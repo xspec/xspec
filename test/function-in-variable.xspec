@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-xquery-to-support-hof?>
-<?xspec-test require-xslt-to-support-hof?>
 <x:description
 	xmlns:fv="x-urn:test:function-in-variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"

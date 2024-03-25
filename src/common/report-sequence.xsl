@@ -194,7 +194,7 @@
             </xsl:element>
          </xsl:when>
 
-         <xsl:when test="rep:instance-of-function($item)">
+         <xsl:when test="$item instance of function(*)">
             <xsl:element name="{$local-name-prefix}{rep:function-type($item)}"
                namespace="{$report-namespace}">
                <xsl:value-of select="local:serialize-adaptive($item)" />
@@ -470,44 +470,14 @@
    </xsl:function>
 
    <!--
-      Returns true if item is function (including map and array).
-
-      Alternative to "instance of function(*)" which is not widely available.
-
-      This function should be local:. But ../../test/report-sequence.xspec requires this to be
-      exposed.
-   -->
-   <xsl:function as="xs:boolean" name="rep:instance-of-function">
-      <xsl:param as="item()" name="item" />
-
-      <xsl:choose>
-         <xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
-            <xsl:sequence select="true()" />
-         </xsl:when>
-
-         <xsl:when test="$item instance of function(*)"
-            use-when="function-available('function-lookup')">
-            <xsl:sequence select="true()" />
-         </xsl:when>
-
-         <xsl:otherwise>
-            <xsl:sequence select="false()" />
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:function>
-
-   <!--
       Returns type of function (including map and array).
-
-      $function must be an instance of function(*).
 
       This function should be local:. But ../../test/report-sequence.xspec requires this to be
       exposed.
    -->
    <xsl:function as="xs:string" name="rep:function-type">
 
-      <!-- TODO: @as="function(*)" -->
-      <xsl:param as="item()" name="function" />
+      <xsl:param as="function(*)" name="function" />
 
       <xsl:choose>
          <xsl:when test="$function instance of array(*)">array</xsl:when>

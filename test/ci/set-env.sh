@@ -70,11 +70,7 @@ export PATH="${ant_bin}:${PATH}"
 SAXON_JAR="${XSPEC_TEST_DEPS}/saxon-${SAXON_VERSION}"
 
 # Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
-if [ "${SAXON_VERSION:0:2}" = "9." ]; then
-    export SAXON_JAR="${SAXON_JAR}/saxon9he.jar"
-else
-    export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
-fi
+export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
 
 #
 # Apache XML Resolver jar

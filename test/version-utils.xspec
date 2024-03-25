@@ -4,12 +4,12 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="Scenario for testing variable saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.9 to 12.x">
+		<x:scenario label="Assume we test this on Saxon versions from 10.9 to 12.x">
 			<x:context>
 				<foo />
 			</x:context>
-			<x:expect label="Greater than or equal to 9.9.0.0"
-				test="$x:saxon-version ge x:pack-version((9, 9))" />
+			<x:expect label="Greater than or equal to 10.9"
+				test="$x:saxon-version ge x:pack-version((10, 9))" />
 			<x:expect label="Less than 13.0" test="$x:saxon-version lt x:pack-version(13)" />
 			<x:expect
 				label="Lower uint32 should be zero on Saxon 10+ (two-part version numbers rather than four-part)"

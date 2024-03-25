@@ -900,7 +900,7 @@ load bats-helper
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 132 / pending: 0 / failed: 0 / total: 132'
+    assert_regex "${lines[1]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -1496,7 +1496,7 @@ load bats-helper
     cp "${SAXON_JAR}" "${SAXON_HOME}"
 
     # Apache XML Resolver
-    if [ "${SAXON_VERSION:0:2}" != "9." ] && [ "${SAXON_VERSION:0:3}" != "10." ]; then
+    if [ "${SAXON_VERSION:0:3}" != "10." ]; then
         unset APACHE_XMLRESOLVER_JAR
     fi
     if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
@@ -2218,11 +2218,11 @@ load bats-helper
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
 
-    if [ "${SAXON_VERSION:0:3}" != "12." ] && [ "${SAXON_VERSION:0:2}" != "9." ]; then
+    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
     elif [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
-    elif [ "${SAXON_VERSION:0:2}" != "9." ]; then
+    else
         [ "${lines[3]}" = "Checking for deprecated Saxon versions: Passed" ]
     fi
 

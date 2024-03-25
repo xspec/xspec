@@ -140,7 +140,7 @@ declare %private function rep:report-pseudo-item(
         { QName($report-namespace, ($local-name-prefix || rep:node-type($item))) }
         { rep:report-node($item) }
 
-    else if (rep:instance-of-function($item)) then
+    else if ($item instance of function(*)) then
       element
         { QName($report-namespace, ($local-name-prefix || rep:function-type($item))) }
         { rep:serialize-adaptive($item) }
@@ -367,38 +367,12 @@ declare function rep:node-type(
 };
 
 (:
-  Returns true if item is function (including map and array).
-
-  Alternative to "instance of function(*)" which is not widely available.
-
-  This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
-:)
-declare function rep:instance-of-function(
-  $item as item()
-) as xs:boolean
-{
-  if (($item instance of array(*)) or ($item instance of map(*))) then
-    true()
-  else
-    (: TODO: Enable this 'if' when function(*) is made available on all the supported XQuery processors :)
-    (:
-    if ($item instance of function(*)) then
-      true()
-    else
-    :)
-    false()
-};
-
-(:
   Returns type of function (including map and array).
-
-  $function must be an instance of function(*).
 
   This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
 :)
 declare function rep:function-type(
-  (: TODO: "as function(*)" :)
-  $function as item()
+  $function as function(*)
 ) as xs:string
 {
   typeswitch ($function)

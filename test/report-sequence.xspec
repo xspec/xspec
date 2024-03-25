@@ -1140,44 +1140,6 @@
       </x:scenario>
    </x:scenario>
 
-   <x:scenario label="Scenario for testing function instance-of-function">
-      <x:call function="rep:instance-of-function" />
-
-      <x:scenario label="Node">
-         <x:call>
-            <x:param>
-               <e />
-            </x:param>
-         </x:call>
-         <x:expect label="False" select="false()" />
-      </x:scenario>
-
-      <x:scenario label="Atomic value">
-         <x:call>
-            <x:param select="1" />
-         </x:call>
-         <x:expect label="False" select="false()" />
-      </x:scenario>
-
-      <x:scenario label="function(*)">
-         <x:scenario label="Array">
-            <x:call>
-               <x:param select="[ 0, 1 ]" />
-            </x:call>
-            <x:expect label="True" select="true()" />
-         </x:scenario>
-
-         <x:scenario label="Map">
-            <x:call>
-               <x:param select="map { 0: 1 }" />
-            </x:call>
-            <x:expect label="True" select="true()" />
-         </x:scenario>
-
-         <!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
-      </x:scenario>
-   </x:scenario>
-
    <x:scenario label="Scenario for testing function function-type">
       <x:call function="rep:function-type" />
 

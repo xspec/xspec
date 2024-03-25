@@ -59,23 +59,16 @@
 			<!-- Saxon 9 and 10 have no target files -->
 			<matches pattern="^(9|10)\." string="${env.SAXON_VERSION}" />
 		</condition>
-		<condition property="saxon.has.lib">
-			<!-- Saxon 9 has no lib/ subdirectory -->
-			<not>
-				<matches pattern="^9\." string="${env.SAXON_VERSION}" />
-			</not>
-		</condition>
 		<condition property="saxon.xmlresolverorg-xmlresolver.jar.count.ok">
 			<resourcecount count="${saxon.xmlresolverorg-xmlresolver.jar.count.expected}">
-				<fileset dir="${saxon.jar.dir}/lib/" erroronmissingdir="${saxon.has.lib}"
+				<fileset dir="${saxon.jar.dir}/lib/"
 					id="saxon.xmlresolverorg-xmlresolver.jar" includes="xmlresolver-*.jar" />
 			</resourcecount>
 		</condition>
 		<fail message="Failed to identify XMLResolver.org XML Resolver jar in Saxon lib dir"
 			unless="saxon.xmlresolverorg-xmlresolver.jar.count.ok" />
 		<delete verbose="true">
-			<fileset erroronmissingdir="${saxon.has.lib}"
-				refid="saxon.xmlresolverorg-xmlresolver.jar" />
+			<fileset refid="saxon.xmlresolverorg-xmlresolver.jar" />
 		</delete>
 	</target>
 

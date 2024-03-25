@@ -23,13 +23,11 @@
 
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
@@ -147,13 +145,6 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($test-type = ('s', 't'))
-							and ($pis = 'require-xslt-to-support-hof')
-							and not($XSLT-SUPPORTS-HOF)">
-						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
 							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-jref')
 							and not($XSLT-SUPPORTS-JREF)">
@@ -194,13 +185,6 @@
 
 					<xsl:when test="
 							($test-type eq 'q')
-							and ($pis = 'require-xquery-to-support-hof')
-							and not($XQUERY-SUPPORTS-HOF)">
-						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-jref')
 							and not($XQUERY-SUPPORTS-JREF)">
 						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
@@ -225,25 +209,6 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($pis = 'require-saxon-bug-4315-fixed')
-							and ($x:saxon-version ge x:pack-version((9, 9)))
-							and ($x:saxon-version le x:pack-version((9, 9, 1, 6)))">
-						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4376-fixed')
-							and ($x:saxon-version le x:pack-version((9, 9, 1, 5)))">
-						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4471-fixed')
-							and ($x:saxon-version lt x:pack-version((9, 9, 1, 7)))">
-						<xsl:text>Requires Saxon bug #4471 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
 							($pis = 'require-saxon-bug-4483-fixed')
 							and ($x:saxon-version eq x:pack-version((10, 0)))">
 						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
@@ -253,13 +218,9 @@
 							($pis = 'require-saxon-bug-4621-fixed')
 							and
 							(
-							(
 							($x:saxon-version ge x:pack-version(10))
 							and
 							($x:saxon-version le x:pack-version((10, 1)))
-							)
-							or
-							($x:saxon-version le x:pack-version((9, 9, 1, 7)))
 							)">
 						<xsl:text>Requires Saxon bug #4621 to have been fixed</xsl:text>
 					</xsl:when>

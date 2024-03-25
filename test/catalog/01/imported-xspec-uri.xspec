@@ -15,10 +15,11 @@
 	<t:scenario label="$x:xspec-uri defined and checked in imported file">
 		<t:call function="true" />
 		<!-- Verification fails when this test file runs but
-			passes when the importing file, xspec-uri.xspec, runs.	-->
+			passes when the importing file, xspec-uri.xspec, runs. -->
 		<t:expect label="should be top-level .xspec file that is running"
-			test="ends-with($im:xspec-uri-in-global-var, '/catalog-01_xspec-uri.xspec')
-			or ends-with($im:xspec-uri-in-global-var, '/xspec-uri.xspec')" />
+			test="('/catalog-01_xspec-uri.xspec','/xspec-uri.xspec')
+			=> filter(ends-with($im:xspec-uri-in-global-var,?))
+			=> exists()" />
 	</t:scenario>
 
 	<t:scenario label="Store $x:xspec-uri in variable in imported file" shared="yes">
