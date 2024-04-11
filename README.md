@@ -15,7 +15,7 @@ To get started, check out the installation instructions for [MacOS/Linux](https:
 
 ## Support
 
-Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question which is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues) or post it in the [XSpec discussion list](https://groups.google.com/d/forum/xspec-users).
+Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question that is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues). For historical searches, the unmonitored [XSpec discussion list](https://groups.google.com/d/forum/xspec-users) might also be useful.
 
 ## Contribute
 
