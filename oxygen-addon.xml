@@ -16,7 +16,7 @@
 			* Update the changelog in xt:description
 		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/5069d13709373bd2a545947a2d059e81f29bd828.zip" />
+			href="https://github.com/xspec/xspec/archive/d8e9d6fd1eca26793a84bc77753a32593d5ad1b3.zip" />
 
 		<xt:version>3.0.3</xt:version>
 
