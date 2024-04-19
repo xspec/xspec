@@ -202,7 +202,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.1</version>
             <configuration>
               <excludeResources>true</excludeResources>
               <excludes>
