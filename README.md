@@ -11,11 +11,11 @@ XSpec consists of a syntax for describing the behaviour of XSLT, XQuery, or Sche
 
 ## Getting Started
 
-To get started, check out the installation instructions for [MacOS/Linux](https://github.com/xspec/xspec/wiki/Installation-on-Mac-and-Linux) and [Windows](https://github.com/xspec/xspec/wiki/Installation-on-Windows) and how to [write your first XSpec test](https://github.com/xspec/xspec/wiki/Getting-Started).
+To get started, check out the installation instructions for [macOS/Linux](https://github.com/xspec/xspec/wiki/Installation-on-Mac-and-Linux) and [Windows](https://github.com/xspec/xspec/wiki/Installation-on-Windows) and how to [write your first XSpec test](https://github.com/xspec/xspec/wiki/Getting-Started).
 
 ## Support
 
-Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question which is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues) or post it in the [XSpec discussion list](https://groups.google.com/d/forum/xspec-users).
+Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or asking a question. If you have any question that is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues). For historical searches, the unmonitored [XSpec discussion list](https://groups.google.com/d/forum/xspec-users) might also be useful.
 
 ## Contribute
 
