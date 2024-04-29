@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
-          distribution: temurin
+          distribution: ${{ runner.os == 'macOS' && matrix.java == '8' && 'liberica' || 'temurin' }}
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'
