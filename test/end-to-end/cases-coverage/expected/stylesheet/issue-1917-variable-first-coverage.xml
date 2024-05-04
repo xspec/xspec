@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../issue-1917-variable-first.xspec">
+   <compiled uri="issue-1917-variable-first-compiled.xsl"/>
+   <module moduleId="0" uri="../../issue-1917.xsl"/>
+   <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.UserFunction"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}function"/>
+   <hit lineNumber="17" columnNumber="44" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.TraceExpression"/>
+   <hit lineNumber="19" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="22" columnNumber="44" moduleId="0" traceableId="1"/>
+   <hit lineNumber="20" columnNumber="55" moduleId="0" traceableId="1"/>
+   <hit lineNumber="20" columnNumber="55" moduleId="0" traceableId="1"/>
+   <hit lineNumber="23" columnNumber="17" moduleId="0" traceableId="1"/>
+   <hit lineNumber="25" columnNumber="45" moduleId="0" traceableId="1"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+   <hit lineNumber="5" columnNumber="42" moduleId="0" traceableId="0"/>
+   <hit lineNumber="7" columnNumber="17" moduleId="0" traceableId="1"/>
+   <hit lineNumber="9" columnNumber="19" moduleId="0" traceableId="1"/>
+</trace>
