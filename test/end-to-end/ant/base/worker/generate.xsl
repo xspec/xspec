@@ -48,35 +48,45 @@
 		<xsl:variable as="element(reports)" name="reports">
 			<reports>
 				<xsl:if test="$coverage-enabled or ends-with($XSPECFILES-DIR-URI,$coverage-only-testing-location)">
-					<!-- Coverage -->
+					<!-- Coverage HTML report -->
 					<xsl:variable as="xs:string" name="coverage-file-name"
 						select="$xspec-file-name-without-extension || '-coverage.html'" />
 					<coverage actual="{resolve-uri($coverage-file-name, $actual-reports-dir-uri)}"
 						expected="{resolve-uri($coverage-file-name, $expected-reports-dir-uri)}"
 						processor-dir="{resolve-uri('coverage/', $processor-dir-uri)}" />
 				</xsl:if>
-				<xsl:if test="not(ends-with($XSPECFILES-DIR-URI,$coverage-only-testing-location))">
-					<!-- XML -->
-					<xsl:variable as="xs:string" name="xml-file-name"
-						select="$xspec-file-name-without-extension || '-result.xml'" />
-					<xml actual="{resolve-uri($xml-file-name, $actual-reports-dir-uri)}"
-						expected="{resolve-uri($xml-file-name, $expected-reports-dir-uri)}"
-						processor-dir="{resolve-uri('xml/', $processor-dir-uri)}" />
-
-					<!-- HTML -->
-					<xsl:variable as="xs:string" name="html-file-name"
-						select="$xspec-file-name-without-extension || '-result.html'" />
-					<html actual="{resolve-uri($html-file-name, $actual-reports-dir-uri)}"
-						expected="{resolve-uri($html-file-name, $expected-reports-dir-uri)}"
-						processor-dir="{resolve-uri('html/', $processor-dir-uri)}" />
-
-					<!-- JUnit -->
-					<xsl:variable as="xs:string" name="junit-file-name"
-						select="$xspec-file-name-without-extension || '-junit.xml'" />
-					<junit actual="{resolve-uri($junit-file-name, $actual-reports-dir-uri)}"
-						expected="{resolve-uri($junit-file-name, $expected-reports-dir-uri)}"
-						processor-dir="{resolve-uri('junit/', $processor-dir-uri)}" />
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="ends-with($XSPECFILES-DIR-URI,$coverage-only-testing-location)">
+						<!-- Coverage data XML -->
+						<xsl:variable as="xs:string" name="coveragedata-file-name"
+							select="$xspec-file-name-without-extension || '-coverage.xml'" />
+						<coveragedata actual="{resolve-uri($coveragedata-file-name, $actual-reports-dir-uri)}"
+							expected="{resolve-uri($coveragedata-file-name, $expected-reports-dir-uri)}"
+							processor-dir="{resolve-uri('coveragedata/', $processor-dir-uri)}" />
+					</xsl:when>
+					<xsl:otherwise>
+						<!-- XML -->
+						<xsl:variable as="xs:string" name="xml-file-name"
+							select="$xspec-file-name-without-extension || '-result.xml'" />
+						<xml actual="{resolve-uri($xml-file-name, $actual-reports-dir-uri)}"
+							expected="{resolve-uri($xml-file-name, $expected-reports-dir-uri)}"
+							processor-dir="{resolve-uri('xml/', $processor-dir-uri)}" />
+	
+						<!-- HTML -->
+						<xsl:variable as="xs:string" name="html-file-name"
+							select="$xspec-file-name-without-extension || '-result.html'" />
+						<html actual="{resolve-uri($html-file-name, $actual-reports-dir-uri)}"
+							expected="{resolve-uri($html-file-name, $expected-reports-dir-uri)}"
+							processor-dir="{resolve-uri('html/', $processor-dir-uri)}" />
+	
+						<!-- JUnit -->
+						<xsl:variable as="xs:string" name="junit-file-name"
+							select="$xspec-file-name-without-extension || '-junit.xml'" />
+						<junit actual="{resolve-uri($junit-file-name, $actual-reports-dir-uri)}"
+							expected="{resolve-uri($junit-file-name, $expected-reports-dir-uri)}"
+							processor-dir="{resolve-uri('junit/', $processor-dir-uri)}" />
+					</xsl:otherwise>
+				</xsl:choose>
 			</reports>
 		</xsl:variable>
 
