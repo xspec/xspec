@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../coverage_no-hit.xspec">
+   <compiled uri="coverage_no-hit-compiled.xsl"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

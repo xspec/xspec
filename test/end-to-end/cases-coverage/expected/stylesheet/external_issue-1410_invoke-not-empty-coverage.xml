@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../external_issue-1410_invoke-not-empty.xspec">
+   <compiled uri="external_issue-1410_invoke-not-empty-compiled.xsl"/>
+   <module moduleId="0" uri="../../external_issue-1410.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="17" columnNumber="63" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="20" columnNumber="10" moduleId="0" traceableId="1"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
