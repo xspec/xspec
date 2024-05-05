@@ -12,13 +12,13 @@ First you need to set up the expected report files. This is a manual operation w
 
 1. Put `*.xspec` files into the `cases/` directory.
 
-1. Run `./generate-expected.sh` (or `.cmd`).
+1. Run `./generate-expected.sh` (or `.cmd`). For end-to-end code coverage testing, include the argument `-Dcases.dir=cases-coverage`.
 
    Alternatively you can open `ant/generate-expected/build.xml` in oXygen and apply **ANT (with Saxon 9 EE XSLT support)** in **Transformation Scenarios** pane. (You may want to duplicate the transformation scenario and set `-silent` in **Additional arguments**.)
 
-1. The script executes the `cases/*.xspec` files.
+1. The script executes the `cases/*.xspec` files, or the `cases-coverage/*.xspec` files if you supplied the `-Dcases.dir=cases-coverage` argument.
 
-   In the `cases` directory, two kinds of the report files are generated:
+   In the `cases` or `cases-coverage` directory, two kinds of the report files are generated:
 
    - Original ones: `actual__/(query|schematron|stylesheet)/*.*`
    - Normalized ones: `expected/(query|schematron|stylesheet)/*.*`
@@ -37,13 +37,13 @@ First you need to set up the expected report files. This is a manual operation w
 
 ## Running the regular tests
 
-Once the expected report files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh -silent` (or `.cmd`).
+Once the expected report files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh -silent` (or `.cmd`). For end-to-end code coverage testing, use `./run-e2e-coverage-tests.sh -silent` (or `.cmd`).
 
 Alternatively you can open `ant/run-e2e-tests/build.xml` in oXygen and apply **ANT (with Saxon 9 EE XSLT support)** transformation scenario.
 
 The script performs these tasks:
 
-1. Executes the `*.xspec` files in `cases/` directory.
+1. Executes the `*.xspec` files in `cases/` or `cases-coverage/` directory.
 
    The report files are generated: `actual__/(query|schematron|stylesheet)/*.*`
 
