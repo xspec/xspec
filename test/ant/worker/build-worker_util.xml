@@ -64,6 +64,7 @@
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-coverage-url" />
+		<attribute default="" name="output-coveragedata-url" />
 		<attribute default="" name="output-junit-url" />
 
 		<element name="post-task" optional="yes" />
@@ -86,6 +87,10 @@
 			<local name="output-coverage-path" />
 			<makepath property="output-coverage-path" unless:blank="@{output-coverage-url}"
 				url="@{output-coverage-url}" />
+
+			<local name="output-coveragedata-path" />
+			<makepath property="output-coveragedata-path" unless:blank="@{output-coveragedata-url}"
+				url="@{output-coveragedata-url}" />
 
 			<local name="output-junit-path" />
 			<makepath property="output-junit-path" unless:blank="@{output-junit-url}"
@@ -149,6 +154,8 @@
 					name="xspec.result.html" />
 				<param if:set="output-coverage-path" location="${output-coverage-path}"
 					name="xspec.coverage.html" />
+				<param if:set="output-coveragedata-path" location="${output-coveragedata-path}"
+					name="xspec.coverage.xml" />
 				<param if:set="output-junit-path" location="${output-junit-path}"
 					name="xspec.result.junit" />
 			</antcall>

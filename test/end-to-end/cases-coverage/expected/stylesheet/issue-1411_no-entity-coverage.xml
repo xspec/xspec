@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../issue-1411_no-entity.xspec">
+   <compiled uri="issue-1411_no-entity-compiled.xsl"/>
+   <module moduleId="0" uri="../../issue-1411_no-entity.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="6" columnNumber="52" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="7" columnNumber="15" moduleId="0" traceableId="1"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
