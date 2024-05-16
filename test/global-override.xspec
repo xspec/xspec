@@ -74,7 +74,7 @@
 					else
 						'global x:variable overriding xsl:param'">
 				<x:label>run-as=import allows x:variable to override xsl:param, although not an
-					official recommended usage of x:variable. run-as=export should never allow
+					official recommended usage of x:variable. run-as=external should never allow
 					it.</x:label>
 			</x:expect>
 		</x:scenario>
@@ -87,7 +87,7 @@
 					else
 						'global x:variable overriding xsl:variable'">
 				<x:label>run-as=import allows x:variable to override xsl:variable, although not an
-					official recommended usage of x:variable. run-as=export should never allow
+					official recommended usage of x:variable. run-as=external should never allow
 					it.</x:label>
 			</x:expect>
 		</x:scenario>
