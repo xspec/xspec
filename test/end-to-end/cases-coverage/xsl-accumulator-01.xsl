@@ -15,6 +15,10 @@
   </xsl:accumulator>
   <!-- xsl:mode for accumulator -->
   <xsl:mode use-accumulators="accumulatorTest" name="accumulator" />
+  <!-- Make accumulator applicable in default mode, too, so that
+    xsl-accumulator-01.xspec can run with run-as="external" or
+    when imported by a test with that setting. -->
+  <xsl:mode use-accumulators="accumulatorTest" />
   <!-- Main template -->
   <xsl:template match="xsl-accumulator">
     <root>
