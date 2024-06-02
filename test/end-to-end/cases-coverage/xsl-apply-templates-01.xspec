@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-apply-templates-01.xsl">
+   <x:scenario label="xsl:apply-templates Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-apply-templates>
+              <applyTemplateNode>100</applyTemplateNode>
+              <applyTemplateNode>200</applyTemplateNode>
+            </xsl-apply-templates>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="apply-templates">100</node>
+            <node type="apply-templates">200</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

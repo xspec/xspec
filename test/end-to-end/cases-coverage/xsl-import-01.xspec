@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-import-01.xsl">
+   <x:scenario label="xsl:import Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-import/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="import">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

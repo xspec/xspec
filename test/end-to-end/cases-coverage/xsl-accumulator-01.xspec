@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-accumulator-01.xsl">
+
+  <x:scenario label="xsl:accumulator Coverage Test Case (including xsl:accumulator-rule)">
+    <x:context>
+      <root>
+        <xsl-accumulator>
+          <node>100</node>
+          <node>200</node>
+          <node>300</node>
+        </xsl-accumulator>
+      </root>
+    </x:context>
+    <x:expect label="Success">
+      <root>
+        <node type="accumulator before">1</node>
+        <node type="accumulator after">1</node>
+        <node type="accumulator before">2</node>
+        <node type="accumulator after">2</node>
+        <node type="accumulator before">3</node>
+        <node type="accumulator after">3</node>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

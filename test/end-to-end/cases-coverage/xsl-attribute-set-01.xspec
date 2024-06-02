@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:local="http://local/xslt"
+               stylesheet="xsl-attribute-set-01.xsl">
+
+
+  <x:scenario label="xsl:attribute-set Coverage Test Case">
+    <x:context>
+      <root>
+        <xsl-attribute-set />
+      </root>
+    </x:context>
+    <x:expect label="Success">
+      <root>
+        <node type="attribute-set" attr01="attr01">100</node>
+        <node type="attribute-set" attr02A="attr02A" attr02B="attr02B">100</node>
+        <node type="attribute-set" attr03A="attr03A" attr03B="attr03B">100</node>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

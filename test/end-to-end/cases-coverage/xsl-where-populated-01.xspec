@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:local="http://local/xslt"
+               stylesheet="xsl-where-populated-01.xsl">
+
+  <x:scenario label="xsl:where-populated Coverage Test Case">
+    <x:context>
+      <root>
+        <xsl-where-populated>
+          <node>100</node>
+          <node>200</node>
+          <node>300</node>
+          <node>400</node>
+        </xsl-where-populated>
+      </root>
+    </x:context>
+    <x:expect label="Success">
+      <root>
+        <node type="where-populated"/>
+          <node type="where-populated">
+          <node>100</node>
+          <node>200</node>
+          <node>300</node>
+          <node>400</node>
+        </node>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

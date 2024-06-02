@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-map-01.xsl">
+   <x:scenario label="xsl:map Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-map/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="map">100</node>
+            <node type="map">300</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

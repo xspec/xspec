@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-iterate-01.xsl">
+   <x:scenario label="xsl:iterate Coverage Test Case (including xsl:next-iteration, xsl:on-completion and xsl:break)">
+      <x:context>
+         <root>
+            <xsl-iterate>
+              <node>100</node>
+              <node>200</node>
+              <node>300</node>
+            </xsl-iterate>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="iterate">100</node>
+            <node type="iterate">200</node>
+            <node type="iterate">300</node>
+            <node type="iterate/on-completion">100</node>
+            <node type="iterate/on-completion">200</node>
+            <node type="iterate/on-completion">300</node>
+            <node type="iterate/on-completion">Complete</node>
+            <node type="iterate/next-iteration">200</node>
+            <node type="iterate/next-iteration">800</node>
+            <node type="iterate/next-iteration">2400</node>
+            <node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>
+            <node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>
+            <node type="iterate/break">300</node>
+            <node type="iterate/next-iteration/on-completion">200</node>
+            <node type="iterate/next-iteration/on-completion">800</node>
+            <node type="iterate/next-iteration/on-completion">2400</node>
+            <node type="iterate/next-iteration/on-completion">Complete</node>
+            <node type="iterate/on-completion/break">100</node>
+            <node type="iterate/on-completion/break">200</node>
+            <node type="iterate/on-completion/break">100</node>
+            <node type="iterate/on-completion/break">200</node>
+            <node type="iterate/on-completion/break">300</node>
+            <node type="iterate/on-completion/break">Complete</node>
+            <node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>break executed<node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>
+            <node type="iterate/break">200</node>
+            <node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>
+            <node type="iterate/break">300</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-try-01.xsl">
+   <x:scenario label="xsl:try Coverage Test Case (including xsl:catch)">
+      <x:context>
+         <root>
+            <xsl-try/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="try">100</node>
+            <node type="try">200</node>
+            <node type="try/catch">300</node>
+            <node type="try/catch">400</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

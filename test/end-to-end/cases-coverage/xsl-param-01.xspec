@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-param-01.xsl">
+
+   <x:param name="globalParam01">100</x:param>
+
+   <x:scenario label="xsl:param Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-param>
+              <node />
+              <node />
+            </xsl-param>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="param - global">100</node>
+            <node type="param - template">200</node>
+            <node type="param - function">300</node>
+            <node type="param - iterate">400</node>
+            <node type="param - iterate">400</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

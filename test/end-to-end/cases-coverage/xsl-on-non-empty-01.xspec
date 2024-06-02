@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-on-non-empty-01.xsl">
+   <x:scenario label="xsl:on-non-empty Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-on-non-empty/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="on-non-empty">100</node>
+            <node type="on-non-empty">200</node>
+            <node type="on-non-empty">300</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

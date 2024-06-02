@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-merge-01.xsl">
+   <x:scenario label="xsl:merge Coverage Test Case (including xsl:merge-source, xsl:merge-key and xsl:merge-action)">
+      <x:context>
+         <root>
+            <xsl-merge/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="merge">100</node>
+            <node type="merge">200</node>
+            <node type="merge">300</node>
+            <node type="merge">400</node>
+            <node type="merge">500</node>
+            <node type="merge">600</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-assert-01.xsl">
+   <x:scenario label="xsl:assert Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-assert/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="assert">Assert was triggered as expected</node>
+            <node type="assert"></node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>
