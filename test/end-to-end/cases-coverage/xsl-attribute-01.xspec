@@ -17,7 +17,8 @@
         <node type="attribute">300</node>
         <node type="attribute">400</node>
         <node type="attribute">500</node>
-        <xsl-attribute type="attribute">600</xsl-attribute>
+        <node type="attribute">600</node>
+        <xsl-attribute type="attribute">700</xsl-attribute>
       </root>
     </x:expect>
   </x:scenario>

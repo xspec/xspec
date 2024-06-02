@@ -41,15 +41,20 @@
       </node>
       <!-- Using sequence constructor -->
       <node>
-        <xsl:attribute name="type">
-          <xsl:text>attribute</xsl:text>
-        </xsl:attribute>
+        <xsl:attribute name="type">attribute</xsl:attribute>
         <xsl:text>500</xsl:text>
+      </node>
+      <!-- Using sequence constructor -->
+      <node>
+        <xsl:attribute name="type">
+          <text-container>attribute</text-container>
+        </xsl:attribute>
+        <xsl:text>600</xsl:text>
       </node>
       <!-- As a child of xsl:copy. Context node is the template match node xsl-attribute -->
       <xsl:copy>
         <xsl:attribute name="type">attribute</xsl:attribute>
-        <xsl:text>600</xsl:text>
+        <xsl:text>700</xsl:text>
       </xsl:copy>
     </root>
   </xsl:template>
