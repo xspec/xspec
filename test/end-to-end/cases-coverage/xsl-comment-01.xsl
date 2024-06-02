@@ -8,6 +8,16 @@
       <node type="comment">
         <xsl:comment> 100 </xsl:comment>
       </node>
+      <node type="comment">
+        <xsl:comment>
+          <xsl:text> 100 </xsl:text>
+        </xsl:comment>
+      </node>
+      <node type="comment">
+        <xsl:comment>
+          <xsl:value-of select="concat('Data is ', @data)"/>
+        </xsl:comment>
+      </node>
     </root>
   </xsl:template>
 </xsl:stylesheet>

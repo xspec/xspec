@@ -5,12 +5,14 @@
    <x:scenario label="xsl:comment Coverage Test Case">
       <x:context>
          <root>
-            <xsl-comment/>
+            <xsl-comment data="100" />
          </root>
       </x:context>
       <x:expect label="Success">
          <root>
             <node type="comment"><!-- 100 --></node>
+            <node type="comment"><!-- 100 --></node>
+            <node type="comment"><!--Data is 100--></node>
          </root>
       </x:expect>
    </x:scenario>
