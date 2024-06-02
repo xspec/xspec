@@ -4,19 +4,19 @@
    <module moduleId="0" uri="../../xsl-mode-01.xsl"/>
    <traceable traceableId="0"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
-   <hit lineNumber="10" columnNumber="34" moduleId="0" traceableId="0"/>
+   <hit lineNumber="11" columnNumber="34" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
-   <hit lineNumber="11" columnNumber="13" moduleId="0" traceableId="1"/>
+   <hit lineNumber="12" columnNumber="13" moduleId="0" traceableId="1"/>
    <traceable traceableId="2"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}apply-templates"/>
-   <hit lineNumber="13" columnNumber="48" moduleId="0" traceableId="2"/>
-   <hit lineNumber="17" columnNumber="46" moduleId="0" traceableId="0"/>
-   <hit lineNumber="18" columnNumber="23" moduleId="0" traceableId="1"/>
+   <hit lineNumber="14" columnNumber="48" moduleId="0" traceableId="2"/>
+   <hit lineNumber="18" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="19" columnNumber="23" moduleId="0" traceableId="1"/>
    <traceable traceableId="3"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
-   <hit lineNumber="18" columnNumber="23" moduleId="0" traceableId="3"/>
+   <hit lineNumber="19" columnNumber="23" moduleId="0" traceableId="3"/>
    <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
-   <hit lineNumber="19" columnNumber="17" moduleId="0" traceableId="4"/>
+   <hit lineNumber="20" columnNumber="17" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

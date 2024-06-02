@@ -77,7 +77,7 @@
 067: <span class="ignored">          </span><span class="missed">&lt;xsl:with-param name="param01" select="$newValue" /&gt;</span>
 068: <span class="ignored">        </span><span class="hit">&lt;/xsl:next-iteration&gt;</span>
 069: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-070: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion and xsl:break executed (xsl:on-completion not executed) --&gt;</span>
+070: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:break executed and xsl:on-completion not executed --&gt;</span>
 071: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
 072: <span class="ignored">        </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 073: <span class="ignored">          </span><span class="missed">&lt;node type="iterate/on-completion/break"&gt;</span><span class="ignored">                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
@@ -91,7 +91,7 @@
 081: <span class="ignored">          </span><span class="hit">&lt;xsl:break /&gt;</span>
 082: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
 083: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-084: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion and xsl:break not executed --&gt;</span>
+084: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed and xsl:break not executed --&gt;</span>
 085: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
 086: <span class="ignored">        </span><span class="missed">&lt;xsl:on-completion&gt;</span>
 087: <span class="ignored">          </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>

@@ -8,14 +8,14 @@
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
    <traceable traceableId="2" uqname="Q{http://www.w3.org/1999/XSL/Transform}if"/>
-   <hit lineNumber="9" columnNumber="30" moduleId="0" traceableId="2"/>
+   <hit lineNumber="9" columnNumber="29" moduleId="0" traceableId="2"/>
    <hit lineNumber="10" columnNumber="25" moduleId="0" traceableId="1"/>
    <traceable traceableId="3"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="10" columnNumber="25" moduleId="0" traceableId="3"/>
    <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="10" columnNumber="25" moduleId="0" traceableId="4"/>
-   <hit lineNumber="13" columnNumber="30" moduleId="0" traceableId="2"/>
+   <hit lineNumber="13" columnNumber="29" moduleId="0" traceableId="2"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

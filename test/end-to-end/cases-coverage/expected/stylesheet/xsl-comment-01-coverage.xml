@@ -13,6 +13,15 @@
    <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="2"/>
    <traceable traceableId="3" uqname="Q{http://www.w3.org/1999/XSL/Transform}comment"/>
    <hit lineNumber="9" columnNumber="22" moduleId="0" traceableId="3"/>
+   <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="1"/>
+   <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="2"/>
+   <hit lineNumber="12" columnNumber="22" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="13" columnNumber="21" moduleId="0" traceableId="4"/>
+   <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="1"/>
+   <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="2"/>
+   <hit lineNumber="17" columnNumber="22" moduleId="0" traceableId="3"/>
+   <hit lineNumber="18" columnNumber="61" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

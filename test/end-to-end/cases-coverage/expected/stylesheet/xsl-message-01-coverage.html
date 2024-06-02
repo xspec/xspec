@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-message-01.xsl">xsl-message-01.xsl</a></p>
-      <h2>module: xsl-message-01.xsl; 22 lines</h2>
+      <h2>module: xsl-message-01.xsl; 35 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -27,8 +27,21 @@
 17: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">Message: 200</span><span class="hit">&lt;/xsl:text&gt;</span>
 18: <span class="ignored">        </span><span class="hit">&lt;/xsl:message&gt;</span>
 19: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-20: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-21: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-22: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+20: <span class="ignored">      </span><span class="ignored">&lt;!-- Terminate upon request --&gt;</span>
+21: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="@terminate eq 'select'"&gt;</span>
+22: <span class="ignored">        </span><span class="hit">&lt;xsl:message select="string('Terminating Message: 100')" terminate="yes"/&gt;</span>
+23: <span class="ignored">        </span><span class="missed">&lt;xsl:message select="string('After terminating message')"/&gt;</span><span class="ignored">            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+24: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
+25: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="@terminate eq 'sequence constructor'"&gt;</span>
+26: <span class="ignored">        </span><span class="hit">&lt;xsl:message terminate="yes"&gt;</span>
+27: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">Terminating Message: 200</span><span class="hit">&lt;/xsl:text&gt;</span>
+28: <span class="ignored">        </span><span class="hit">&lt;/xsl:message&gt;</span>
+29: <span class="ignored">        </span><span class="missed">&lt;xsl:message&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+30: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">After terminating message</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+31: <span class="ignored">        </span><span class="missed">&lt;/xsl:message&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+32: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
+33: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+34: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+35: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

@@ -15,23 +15,35 @@
    <hit lineNumber="11" columnNumber="39" moduleId="0" traceableId="3"/>
    <traceable traceableId="4"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}document"/>
-   <hit lineNumber="12" columnNumber="13" moduleId="0" traceableId="4"/>
-   <hit lineNumber="12" columnNumber="13" moduleId="0" traceableId="1"/>
+   <hit lineNumber="12" columnNumber="11" moduleId="0" traceableId="4"/>
+   <hit lineNumber="12" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="5" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="12" columnNumber="11" moduleId="0" traceableId="5"/>
    <hit lineNumber="22" columnNumber="60" moduleId="0" traceableId="0"/>
    <hit lineNumber="23" columnNumber="29" moduleId="0" traceableId="1"/>
-   <traceable traceableId="5"
+   <traceable traceableId="6"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
-   <hit lineNumber="23" columnNumber="29" moduleId="0" traceableId="5"/>
-   <traceable traceableId="6" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
-   <hit lineNumber="24" columnNumber="17" moduleId="0" traceableId="6"/>
+   <hit lineNumber="23" columnNumber="29" moduleId="0" traceableId="6"/>
+   <hit lineNumber="24" columnNumber="17" moduleId="0" traceableId="5"/>
    <traceable traceableId="7"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}next-match"/>
    <hit lineNumber="26" columnNumber="23" moduleId="0" traceableId="7"/>
    <module moduleId="1" uri="../../xsl-next-match-01A.xsl"/>
    <hit lineNumber="4" columnNumber="60" moduleId="1" traceableId="0"/>
-   <hit lineNumber="5" columnNumber="29" moduleId="1" traceableId="1"/>
-   <hit lineNumber="5" columnNumber="29" moduleId="1" traceableId="5"/>
-   <hit lineNumber="6" columnNumber="17" moduleId="1" traceableId="6"/>
+   <traceable traceableId="8" uqname="Q{http://www.w3.org/1999/XSL/Transform}param"/>
+   <hit lineNumber="5" columnNumber="0" moduleId="1" traceableId="8"/>
+   <hit lineNumber="6" columnNumber="29" moduleId="1" traceableId="1"/>
+   <hit lineNumber="6" columnNumber="29" moduleId="1" traceableId="6"/>
+   <hit lineNumber="7" columnNumber="39" moduleId="1" traceableId="5"/>
+   <hit lineNumber="10" columnNumber="23" moduleId="1" traceableId="7"/>
+   <hit lineNumber="27" columnNumber="21" moduleId="0" traceableId="7"/>
+   <hit lineNumber="4" columnNumber="60" moduleId="1" traceableId="0"/>
+   <hit lineNumber="5" columnNumber="0" moduleId="1" traceableId="8"/>
+   <hit lineNumber="28" columnNumber="36" moduleId="0" traceableId="4"/>
+   <hit lineNumber="6" columnNumber="29" moduleId="1" traceableId="1"/>
+   <hit lineNumber="6" columnNumber="29" moduleId="1" traceableId="6"/>
+   <hit lineNumber="7" columnNumber="39" moduleId="1" traceableId="5"/>
+   <hit lineNumber="10" columnNumber="23" moduleId="1" traceableId="7"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

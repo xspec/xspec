@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-comment-01.xsl">xsl-comment-01.xsl</a></p>
-      <h2>module: xsl-comment-01.xsl; 13 lines</h2>
+      <h2>module: xsl-comment-01.xsl; 23 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -18,8 +18,18 @@
 08: <span class="ignored">      </span><span class="hit">&lt;node type="comment"&gt;</span>
 09: <span class="ignored">        </span><span class="hit">&lt;xsl:comment&gt;</span><span class="missed"> 100 </span><span class="hit">&lt;/xsl:comment&gt;</span>
 10: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-11: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-12: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-13: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+11: <span class="ignored">      </span><span class="hit">&lt;node type="comment"&gt;</span>
+12: <span class="ignored">        </span><span class="hit">&lt;xsl:comment&gt;</span>
+13: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed"> 100 </span><span class="hit">&lt;/xsl:text&gt;</span>
+14: <span class="ignored">        </span><span class="hit">&lt;/xsl:comment&gt;</span>
+15: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+16: <span class="ignored">      </span><span class="hit">&lt;node type="comment"&gt;</span>
+17: <span class="ignored">        </span><span class="hit">&lt;xsl:comment&gt;</span>
+18: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="concat('Data is ', @data)"/&gt;</span>
+19: <span class="ignored">        </span><span class="hit">&lt;/xsl:comment&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+21: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+22: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+23: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

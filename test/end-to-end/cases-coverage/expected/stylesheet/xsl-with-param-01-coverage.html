@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-with-param-01.xsl">xsl-with-param-01.xsl</a></p>
-      <h2>module: xsl-with-param-01.xsl; 79 lines</h2>
+      <h2>module: xsl-with-param-01.xsl; 90 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -22,7 +22,7 @@
 12: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="withParamModeNM" /&gt;</span>
 13: 
 14: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-with-param"&gt;</span>
-15: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
+15: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
 16: <span class="ignored">      </span><span class="ignored">&lt;!-- Numbers in brackets refer to the value in the node output --&gt;</span>
 17: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate with-param (100, 200, 300, 400) --&gt;</span>
 18: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
@@ -50,43 +50,54 @@
 40: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates select="*" mode="withParamModeNM"&gt;</span>
 41: <span class="ignored">        </span><span class="missed">&lt;xsl:with-param name="withParam-NM-Param01"&gt;</span><span class="missed">1300</span><span class="missed">&lt;/xsl:with-param&gt;</span>
 42: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
-43: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-44: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-45: <span class="ignored">  </span><span class="ignored">&lt;!-- Call Template --&gt;</span>
-46: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="withParamTemplate01"&gt;</span>
-47: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-CT-Param01" /&gt;</span>
-48: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - call-template"&gt;</span>
-49: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-CT-Param01" /&gt;</span>
-50: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-51: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-52: <span class="ignored">  </span><span class="ignored">&lt;!-- Apply Templates Template --&gt;</span>
-53: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamMode"&gt;</span>
-54: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-AT-Param01" /&gt;</span>
-55: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - apply-templates"&gt;</span>
-56: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-AT-Param01 + ." /&gt;</span>
-57: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-58: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-59: <span class="ignored">  </span><span class="ignored">&lt;!-- Apply Imports Template --&gt;</span>
-60: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamModeAI"&gt;</span>
-61: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-AI-Param01" /&gt;</span>
-62: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - apply-imports part 1"&gt;</span>
-63: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-AI-Param01 + ." /&gt;</span>
-64: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-65: <span class="ignored">    </span><span class="hit">&lt;xsl:apply-imports&gt;</span>
-66: <span class="ignored">      </span><span class="missed">&lt;xsl:with-param name="withParam-AI-Param01" select="$withParam-AI-Param01" /&gt;</span>
-67: <span class="ignored">    </span><span class="hit">&lt;/xsl:apply-imports&gt;</span>
-68: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-69: <span class="ignored">  </span><span class="ignored">&lt;!-- Next Match Template --&gt;</span>
-70: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamModeNM" priority="1"&gt;</span>
-71: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-NM-Param01" /&gt;</span>
-72: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - next-match part 1"&gt;</span>
-73: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-NM-Param01 + ." /&gt;</span>
-74: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-75: <span class="ignored">    </span><span class="hit">&lt;xsl:next-match&gt;</span>
-76: <span class="ignored">      </span><span class="missed">&lt;xsl:with-param name="withParam-NM-Param01" select="$withParam-NM-Param01" /&gt;</span>
-77: <span class="ignored">    </span><span class="hit">&lt;/xsl:next-match&gt;</span>
-78: <span class="ignored">   </span><span class="hit">&lt;/xsl:template&gt;</span>
-79: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+43: <span class="ignored">      </span><span class="ignored">&lt;!-- Evaluate with-param (200) --&gt;</span>
+44: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
+45: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
+46: <span class="ignored">        </span><span class="hit">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span>
+47: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="index" select="$index" /&gt;</span>
+48: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="nonexistent"&gt;</span><span class="hit">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
+49: <span class="ignored">        </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
+50: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
+51: <span class="ignored">      </span><span class="hit">&lt;node type="with-param - evaluate"&gt;</span>
+52: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span>
+53: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+54: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+55: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+56: <span class="ignored">  </span><span class="ignored">&lt;!-- Call Template --&gt;</span>
+57: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="withParamTemplate01"&gt;</span>
+58: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-CT-Param01" /&gt;</span>
+59: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - call-template"&gt;</span>
+60: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-CT-Param01" /&gt;</span>
+61: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+62: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+63: <span class="ignored">  </span><span class="ignored">&lt;!-- Apply Templates Template --&gt;</span>
+64: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamMode"&gt;</span>
+65: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-AT-Param01" /&gt;</span>
+66: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - apply-templates"&gt;</span>
+67: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-AT-Param01 + ." /&gt;</span>
+68: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+69: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+70: <span class="ignored">  </span><span class="ignored">&lt;!-- Apply Imports Template --&gt;</span>
+71: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamModeAI"&gt;</span>
+72: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-AI-Param01" /&gt;</span>
+73: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - apply-imports part 1"&gt;</span>
+74: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-AI-Param01 + ." /&gt;</span>
+75: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+76: <span class="ignored">    </span><span class="hit">&lt;xsl:apply-imports&gt;</span>
+77: <span class="ignored">      </span><span class="missed">&lt;xsl:with-param name="withParam-AI-Param01" select="$withParam-AI-Param01" /&gt;</span>
+78: <span class="ignored">    </span><span class="hit">&lt;/xsl:apply-imports&gt;</span>
+79: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+80: <span class="ignored">  </span><span class="ignored">&lt;!-- Next Match Template --&gt;</span>
+81: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="withParamModeNM" priority="1"&gt;</span>
+82: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="withParam-NM-Param01" /&gt;</span>
+83: <span class="ignored">    </span><span class="hit">&lt;node type="with-param - next-match part 1"&gt;</span>
+84: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$withParam-NM-Param01 + ." /&gt;</span>
+85: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+86: <span class="ignored">    </span><span class="hit">&lt;xsl:next-match&gt;</span>
+87: <span class="ignored">      </span><span class="missed">&lt;xsl:with-param name="withParam-NM-Param01" select="$withParam-NM-Param01" /&gt;</span>
+88: <span class="ignored">    </span><span class="hit">&lt;/xsl:next-match&gt;</span>
+89: <span class="ignored">   </span><span class="hit">&lt;/xsl:template&gt;</span>
+90: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       <h2>module: xsl-with-param-01A.xsl; 19 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>

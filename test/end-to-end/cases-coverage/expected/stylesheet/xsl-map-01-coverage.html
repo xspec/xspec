@@ -7,39 +7,81 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-map-01.xsl">xsl-map-01.xsl</a></p>
-      <h2>module: xsl-map-01.xsl; 33 lines</h2>
+      <h2>module: xsl-map-01.xsl; 75 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
-03: <span class="ignored">                xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;</span>
-04: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-05: <span class="ignored">      xsl:map Coverage Test Case (includes xsl:map)</span>
-06: <span class="ignored">  --&gt;</span>
-07: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-map"&gt;</span>
-08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-09: <span class="ignored">      </span><span class="ignored">&lt;!-- Map construction, including xsl:map --&gt;</span>
-10: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="hundreds" as="map(xs:string, xs:integer)"&gt;</span>
-11: <span class="ignored">        </span><span class="hit">&lt;xsl:map&gt;</span>
-12: <span class="ignored">          </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
-13: <span class="ignored">          </span><span class="hit">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span>
-14: <span class="ignored">          </span><span class="hit">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span>
-15: <span class="ignored">          </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
-16: <span class="ignored">          </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-17: <span class="ignored">            </span><span class="hit">&lt;xsl:sequence select="300" /&gt;</span>
-18: <span class="ignored">          </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-19: <span class="ignored">          </span><span class="hit">&lt;xsl:map-entry key="'Four'"&gt;</span>
-20: <span class="ignored">            </span><span class="hit">&lt;xsl:sequence select="400" /&gt;</span>
-21: <span class="ignored">          </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-22: <span class="ignored">        </span><span class="hit">&lt;/xsl:map&gt;</span>
-23: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
-24: <span class="ignored">      </span><span class="ignored">&lt;!-- Use xsl:map values --&gt;</span>
-25: <span class="ignored">      </span><span class="hit">&lt;node type="map"&gt;</span>
-26: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds('One')" /&gt;</span>
-27: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-28: <span class="ignored">      </span><span class="hit">&lt;node type="map"&gt;</span>
-29: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds('Three')" /&gt;</span>
-30: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-31: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-32: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-33: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+03: <span class="ignored">                xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+04: <span class="ignored">                xmlns:myns="myNamespace"&gt;</span>
+05: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+06: <span class="ignored">      xsl:map Coverage Test Case (includes xsl:map)</span>
+07: <span class="ignored">  --&gt;</span>
+08: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-map"&gt;</span>
+09: <span class="ignored">    </span><span class="ignored">&lt;!-- Map construction, including xsl:map --&gt;</span>
+10: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="hundreds-param" as="map(xs:string, xs:integer)"&gt;</span>
+11: <span class="ignored">      </span><span class="missed">&lt;xsl:map&gt;</span>
+12: <span class="ignored">        </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
+13: <span class="ignored">        </span><span class="missed">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span>
+14: <span class="ignored">        </span><span class="missed">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span>
+15: <span class="ignored">        </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
+16: <span class="ignored">        </span><span class="missed">&lt;xsl:map-entry key="'Three'"&gt;</span>
+17: <span class="ignored">          </span><span class="missed">&lt;xsl:sequence select="300" /&gt;</span>
+18: <span class="ignored">        </span><span class="missed">&lt;/xsl:map-entry&gt;</span>
+19: <span class="ignored">        </span><span class="missed">&lt;xsl:map-entry key="'Four'"&gt;</span>
+20: <span class="ignored">          </span><span class="missed">&lt;xsl:sequence select="400" /&gt;</span>
+21: <span class="ignored">        </span><span class="missed">&lt;/xsl:map-entry&gt;</span>
+22: <span class="ignored">      </span><span class="missed">&lt;/xsl:map&gt;</span>
+23: <span class="ignored">    </span><span class="hit">&lt;/xsl:param&gt;</span>
+24: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="hundreds-variable" as="map(xs:string, xs:integer)"&gt;</span>
+25: <span class="ignored">      </span><span class="hit">&lt;xsl:map&gt;</span>
+26: <span class="ignored">        </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
+27: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span>
+28: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span>
+29: <span class="ignored">        </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
+30: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
+31: <span class="ignored">          </span><span class="hit">&lt;xsl:sequence select="300" /&gt;</span>
+32: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+33: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Four'"&gt;</span>
+34: <span class="ignored">          </span><span class="hit">&lt;xsl:sequence select="400" /&gt;</span>
+35: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+36: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
+37: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+38: <span class="ignored">    </span><span class="ignored">&lt;!-- Use xsl:map values --&gt;</span>
+39: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+40: <span class="ignored">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
+41: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('One')" /&gt;</span>
+42: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+43: <span class="ignored">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
+44: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('Three')" /&gt;</span>
+45: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+46: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+47: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('One')" /&gt;</span>
+48: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+49: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+50: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('Three')" /&gt;</span>
+51: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+52: <span class="ignored">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
+53: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('One')" /&gt;</span>
+54: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+55: <span class="ignored">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
+56: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('Three')" /&gt;</span>
+57: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+58: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+59: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+60: 
+61: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="myns:returnMap" as="map(xs:string, xs:integer)"&gt;</span>
+62: <span class="ignored">    </span><span class="missed">&lt;xsl:map&gt;</span>
+63: <span class="ignored">      </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
+64: <span class="ignored">      </span><span class="missed">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span>
+65: <span class="ignored">      </span><span class="missed">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span>
+66: <span class="ignored">      </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
+67: <span class="ignored">      </span><span class="missed">&lt;xsl:map-entry key="'Three'"&gt;</span>
+68: <span class="ignored">        </span><span class="missed">&lt;xsl:sequence select="300" /&gt;</span>
+69: <span class="ignored">      </span><span class="missed">&lt;/xsl:map-entry&gt;</span>
+70: <span class="ignored">      </span><span class="missed">&lt;xsl:map-entry key="'Four'"&gt;</span>
+71: <span class="ignored">        </span><span class="missed">&lt;xsl:sequence select="400" /&gt;</span>
+72: <span class="ignored">      </span><span class="missed">&lt;/xsl:map-entry&gt;</span>
+73: <span class="ignored">    </span><span class="missed">&lt;/xsl:map&gt;</span>
+74: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+75: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

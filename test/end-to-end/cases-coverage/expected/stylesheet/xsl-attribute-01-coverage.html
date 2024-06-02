@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-attribute-01.xsl">xsl-attribute-01.xsl</a></p>
-      <h2>module: xsl-attribute-01.xsl; 56 lines</h2>
+      <h2>module: xsl-attribute-01.xsl; 61 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -51,18 +51,23 @@
 41: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 42: <span class="ignored">      </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
 43: <span class="ignored">      </span><span class="hit">&lt;node&gt;</span>
-44: <span class="ignored">        </span><span class="hit">&lt;xsl:attribute name="type"&gt;</span>
-45: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">attribute</span><span class="hit">&lt;/xsl:text&gt;</span>
-46: <span class="ignored">        </span><span class="hit">&lt;/xsl:attribute&gt;</span>
-47: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">500</span><span class="hit">&lt;/xsl:text&gt;</span>
-48: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-49: <span class="ignored">      </span><span class="ignored">&lt;!-- As a child of xsl:copy. Context node is the template match node xsl-attribute --&gt;</span>
-50: <span class="ignored">      </span><span class="hit">&lt;xsl:copy&gt;</span>
-51: <span class="ignored">        </span><span class="hit">&lt;xsl:attribute name="type"&gt;</span><span class="missed">attribute</span><span class="hit">&lt;/xsl:attribute&gt;</span>
+44: <span class="ignored">        </span><span class="hit">&lt;xsl:attribute name="type"&gt;</span><span class="missed">attribute</span><span class="hit">&lt;/xsl:attribute&gt;</span>
+45: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">500</span><span class="hit">&lt;/xsl:text&gt;</span>
+46: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+47: <span class="ignored">      </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
+48: <span class="ignored">      </span><span class="hit">&lt;node&gt;</span>
+49: <span class="ignored">        </span><span class="hit">&lt;xsl:attribute name="type"&gt;</span>
+50: <span class="ignored">          </span><span class="hit">&lt;text-container&gt;</span><span class="hit">attribute</span><span class="hit">&lt;/text-container&gt;</span>
+51: <span class="ignored">        </span><span class="hit">&lt;/xsl:attribute&gt;</span>
 52: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">600</span><span class="hit">&lt;/xsl:text&gt;</span>
-53: <span class="ignored">      </span><span class="hit">&lt;/xsl:copy&gt;</span>
-54: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-55: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-56: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+53: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+54: <span class="ignored">      </span><span class="ignored">&lt;!-- As a child of xsl:copy. Context node is the template match node xsl-attribute --&gt;</span>
+55: <span class="ignored">      </span><span class="hit">&lt;xsl:copy&gt;</span>
+56: <span class="ignored">        </span><span class="hit">&lt;xsl:attribute name="type"&gt;</span><span class="missed">attribute</span><span class="hit">&lt;/xsl:attribute&gt;</span>
+57: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">700</span><span class="hit">&lt;/xsl:text&gt;</span>
+58: <span class="ignored">      </span><span class="hit">&lt;/xsl:copy&gt;</span>
+59: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+60: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+61: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>
