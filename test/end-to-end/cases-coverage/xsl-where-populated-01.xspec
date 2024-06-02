@@ -2,7 +2,6 @@
 <?xspec-test enable-coverage?>
 
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:local="http://local/xslt"
                stylesheet="xsl-where-populated-01.xsl">
 
   <x:scenario label="xsl:where-populated Coverage Test Case">

@@ -2,7 +2,6 @@
 <?xspec-test enable-coverage?>
 
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:local="http://local/xslt"
                stylesheet="xsl-attribute-set-01.xsl">
 
 
