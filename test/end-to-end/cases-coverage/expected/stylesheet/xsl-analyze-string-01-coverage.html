@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-analyze-string-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-analyze-string-01.xsl">xsl-analyze-string-01.xsl</a></p>
+      <h2>module: xsl-analyze-string-01.xsl; 36 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:analyze-string Test Case</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-analyze-string"&gt;</span>
+07: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+08: <span class="ignored">      </span><span class="ignored">&lt;!-- regex matches string so non-matching-substring not executed --&gt;</span>
+09: <span class="ignored">      </span><span class="hit">&lt;xsl:analyze-string select="'abc 123'" regex="abc 123"&gt;</span>
+10: <span class="ignored">        </span><span class="hit">&lt;xsl:matching-substring&gt;</span>
+11: <span class="ignored">          </span><span class="hit">&lt;node type="matching-substring"&gt;</span>
+12: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of select="regex-group(0)" /&gt;</span>
+13: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+14: <span class="ignored">        </span><span class="hit">&lt;/xsl:matching-substring&gt;</span>
+15: <span class="ignored">        </span><span class="missed">&lt;xsl:non-matching-substring&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+16: <span class="ignored">          </span><span class="missed">&lt;node type="non-matching-substring"&gt;</span><span class="ignored">                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+17: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">No match</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+18: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+19: <span class="ignored">        </span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+21: <span class="ignored">      </span><span class="ignored">&lt;!-- regex doesn't match string so matching-substring not executed --&gt;</span>
+22: <span class="ignored">      </span><span class="hit">&lt;xsl:analyze-string select="'def 456 def 456'" regex="abc 123"&gt;</span>
+23: <span class="ignored">        </span><span class="missed">&lt;xsl:matching-substring&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+24: <span class="ignored">          </span><span class="missed">&lt;node type="matching-substring"&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+25: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="regex-group(0)" /&gt;</span><span class="ignored">                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+26: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+27: <span class="ignored">        </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="ignored">                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+28: <span class="ignored">        </span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
+29: <span class="ignored">          </span><span class="hit">&lt;node type="non-matching-substring"&gt;</span>
+30: <span class="ignored">            </span><span class="missed">&lt;xsl:sequence select="string('No match')"/&gt;</span>
+31: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+32: <span class="ignored">        </span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
+33: <span class="ignored">      </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+34: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+35: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+36: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

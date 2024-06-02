@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-evaluate-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-evaluate-01.xsl">xsl-evaluate-01.xsl</a></p>
+      <h2>module: xsl-evaluate-01.xsl; 35 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:evaluate Coverage Test Case - need a test case using with-param</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="ignored">&lt;!-- Data for the test --&gt;</span>
+07: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="data"&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;data value="400"&gt;</span><span class="hit">400</span><span class="hit">&lt;/data&gt;</span>
+09: <span class="ignored">    </span><span class="hit">&lt;data value="100"&gt;</span><span class="hit">100</span><span class="hit">&lt;/data&gt;</span>
+10: <span class="ignored">    </span><span class="hit">&lt;data value="300"&gt;</span><span class="hit">300</span><span class="hit">&lt;/data&gt;</span>
+11: <span class="ignored">    </span><span class="hit">&lt;data value="200"&gt;</span><span class="hit">300</span><span class="hit">&lt;/data&gt;</span>
+12: <span class="ignored">  </span><span class="hit">&lt;/xsl:variable&gt;</span>
+13: <span class="ignored">  </span><span class="ignored">&lt;!-- Sort key --&gt;</span>
+14: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="sortKey"&gt;</span><span class="hit">@value</span><span class="hit">&lt;/xsl:variable&gt;</span>
+15: 
+16: <span class="ignored">   </span><span class="hit">&lt;xsl:template match="xsl-evaluate"&gt;</span>
+17: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
+18: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="$data/data"&gt;</span>
+19: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span>
+20: <span class="ignored">            </span><span class="missed">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span>
+21: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span>
+22: <span class="ignored">          </span><span class="hit">&lt;node type="evaluate"&gt;</span>
+23: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="@value" /&gt;</span>
+24: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+25: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+26: <span class="ignored">        </span><span class="ignored">&lt;!--xsl:variable name="evaluateExpression"&gt;</span>
+27: <span class="ignored">            &lt;xsl:evaluate xpath="substring('hello', 1, 4)" /&gt;</span>
+28: <span class="ignored">        &lt;/xsl:variable&gt;</span>
+29: <span class="ignored">          &lt;node type="evaluate"&gt;</span>
+30: <span class="ignored">            &lt;xsl:value-of select="$evaluateExpression" /&gt;</span>
+31: <span class="ignored">          &lt;/node--&gt;</span>
+32: <span class="ignored">      </span><span class="hit">&lt;/root&gt;</span>
+33: <span class="ignored">   </span><span class="hit">&lt;/xsl:template&gt;</span>
+34: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+35: </pre>
+   </body>
+</html>

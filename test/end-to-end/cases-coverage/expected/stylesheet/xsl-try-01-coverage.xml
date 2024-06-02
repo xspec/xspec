@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../xsl-try-01.xspec">
+   <compiled uri="xsl-try-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../xsl-try-01.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="7" columnNumber="33" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="8" columnNumber="11" moduleId="0" traceableId="1"/>
+   <hit lineNumber="10" columnNumber="24" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
+   <hit lineNumber="10" columnNumber="24" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3" class="net.sf.saxon.expr.TryCatch"/>
+   <hit lineNumber="11" columnNumber="7" moduleId="0" traceableId="3"/>
+   <hit lineNumber="16" columnNumber="24" moduleId="0" traceableId="1"/>
+   <hit lineNumber="16" columnNumber="24" moduleId="0" traceableId="2"/>
+   <hit lineNumber="18" columnNumber="21" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="18" columnNumber="21" moduleId="0" traceableId="4"/>
+   <hit lineNumber="23" columnNumber="30" moduleId="0" traceableId="1"/>
+   <hit lineNumber="23" columnNumber="30" moduleId="0" traceableId="2"/>
+   <hit lineNumber="24" columnNumber="0" moduleId="0" traceableId="3"/>
+   <hit lineNumber="29" columnNumber="30" moduleId="0" traceableId="1"/>
+   <hit lineNumber="29" columnNumber="30" moduleId="0" traceableId="2"/>
+   <hit lineNumber="31" columnNumber="44" moduleId="0" traceableId="3"/>
+   <hit lineNumber="31" columnNumber="44" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="33" columnNumber="23" moduleId="0" traceableId="5"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

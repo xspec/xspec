@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../xsl-assert-01.xspec">
+   <compiled uri="xsl-assert-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../xsl-assert-01.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="6" columnNumber="36" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
+   <hit lineNumber="9" columnNumber="27" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
+   <hit lineNumber="9" columnNumber="27" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3" class="net.sf.saxon.expr.TryCatch"/>
+   <hit lineNumber="12" columnNumber="43" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}value-of"/>
+   <hit lineNumber="12" columnNumber="43" moduleId="0" traceableId="4"/>
+   <hit lineNumber="22" columnNumber="27" moduleId="0" traceableId="1"/>
+   <hit lineNumber="22" columnNumber="27" moduleId="0" traceableId="2"/>
+   <hit lineNumber="24" columnNumber="37" moduleId="0" traceableId="3"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

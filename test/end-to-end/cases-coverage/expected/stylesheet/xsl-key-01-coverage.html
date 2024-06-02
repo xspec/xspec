@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-key-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-key-01.xsl">xsl-key-01.xsl</a></p>
+      <h2>module: xsl-key-01.xsl; 19 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:key Coverage Test Case</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:key declaration --&gt;</span>
+07: <span class="ignored">  </span><span class="ignored">&lt;xsl:key name="key01" match="node" use="@type" /&gt;</span>
+08: <span class="ignored">  </span><span class="ignored">&lt;!-- Main template --&gt;</span>
+09: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-key"&gt;</span>
+10: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+11: <span class="ignored">      </span><span class="hit">&lt;node type="key"&gt;</span>
+12: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="key('key01', 'B')" /&gt;</span>
+13: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+14: <span class="ignored">      </span><span class="hit">&lt;node type="key"&gt;</span>
+15: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="key('key01', 'D')" /&gt;</span>
+16: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+17: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+18: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+19: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

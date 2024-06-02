@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../xsl-next-match-01.xspec">
+   <compiled uri="xsl-next-match-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../xsl-next-match-01.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="15" columnNumber="40" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="16" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}apply-templates"/>
+   <hit lineNumber="18" columnNumber="72" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}variable"/>
+   <hit lineNumber="11" columnNumber="39" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}document"/>
+   <hit lineNumber="12" columnNumber="13" moduleId="0" traceableId="4"/>
+   <hit lineNumber="12" columnNumber="13" moduleId="0" traceableId="1"/>
+   <hit lineNumber="22" columnNumber="60" moduleId="0" traceableId="0"/>
+   <hit lineNumber="23" columnNumber="29" moduleId="0" traceableId="1"/>
+   <traceable traceableId="5"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
+   <hit lineNumber="23" columnNumber="29" moduleId="0" traceableId="5"/>
+   <traceable traceableId="6" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="24" columnNumber="17" moduleId="0" traceableId="6"/>
+   <traceable traceableId="7"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}next-match"/>
+   <hit lineNumber="26" columnNumber="23" moduleId="0" traceableId="7"/>
+   <module moduleId="1" uri="../../xsl-next-match-01A.xsl"/>
+   <hit lineNumber="4" columnNumber="60" moduleId="1" traceableId="0"/>
+   <hit lineNumber="5" columnNumber="29" moduleId="1" traceableId="1"/>
+   <hit lineNumber="5" columnNumber="29" moduleId="1" traceableId="5"/>
+   <hit lineNumber="6" columnNumber="17" moduleId="1" traceableId="6"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
