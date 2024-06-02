@@ -15,6 +15,17 @@
          <root>
             <node type="apply-templates">100</node>
             <node type="apply-templates">200</node>
+            <node type="apply-templates">100</node>
+            <node type="apply-templates">200</node>
+            <node type="apply-templates">100</node>
+            <node type="apply-templates">200</node>
+            <node type="apply-templates">100</node>
+            <node type="apply-templates">200</node>
+            <node type="apply-templates-mode-with-matching-template">100</node>
+            <node type="apply-templates-mode-with-matching-template">200</node>
+            <applyTemplateNode>100</applyTemplateNode>
+            <applyTemplateNode>200</applyTemplateNode>
+            <x:text>100200</x:text>
          </root>
       </x:expect>
    </x:scenario>
