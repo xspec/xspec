@@ -23,6 +23,13 @@
           <xsl:text>300</xsl:text>                                             <!-- Expected miss -->
         </xsl:on-non-empty>                                                    <!-- Expected miss -->
       </node>
+      <!-- NOT on-non-empty but static analysis cannot make that judgment --> 
+      <node type="on-non-empty">
+        <xsl:sequence select="@nonexistent-attribute" />
+        <xsl:on-non-empty>                                                     <!-- Expected miss -->
+          <xsl:text>400</xsl:text>                                             <!-- Expected miss -->
+        </xsl:on-non-empty>                                                    <!-- Expected miss -->
+      </node>
     </root>
   </xsl:template>
 </xsl:stylesheet>
