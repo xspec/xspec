@@ -3,9 +3,9 @@
   <!--
       xsl:global-context-item Coverage Test Case
   -->
-  <xsl:global-context-item use="optional" as="item()" />
+  <xsl:global-context-item use="required" as="item()" />
   <!-- Put the context item in a global variable -->
-  <xsl:variable name="globalVariable" select="$globalContextItem" />
+  <xsl:variable name="globalVariable" select="." />
 
   <xsl:template match="xsl-global-context-item">
     <root>

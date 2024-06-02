@@ -3,12 +3,13 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="external_xsl-global-context-item-01.xsl"
                run-as="external">
-   <x:param name="globalContextItem"><node>100</node></x:param>
 
    <x:scenario label="xsl:global-context-item Coverage Test Case">
       <x:context>
          <root>
-            <xsl-global-context-item/>
+            <xsl-global-context-item>
+               <node>100</node>
+            </xsl-global-context-item>
          </root>
       </x:context>
       <x:expect label="Success">
