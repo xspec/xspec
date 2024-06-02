@@ -3,31 +3,24 @@
   <!--
       xsl:assert Coverage Test Case (needs AssertEnabled option -ea). xsl:assert is always executed.
   -->
-  <xsl:template match="xsl-assert">
+  <xsl:template match="xsl-assert" mode="xsl-assert-false">
     <root>
       <!-- Assert false -->
       <node type="assert">
-        <xsl:try>
-          <!-- Added instruction between xsl:try and xsl:assert to check trace output -->
-          <xsl:value-of select="name()" />
-          <xsl:assert test="100 lt 0">
-            <xsl:text>Assert Message: 100 lt 0</xsl:text>
-          </xsl:assert>
-          <xsl:catch>
-            <xsl:text>Assert was triggered as expected</xsl:text>
-          </xsl:catch>
-        </xsl:try>
+        <xsl:assert test="100 lt 0">
+          <xsl:text>Assert Message: 100 lt 0</xsl:text>
+        </xsl:assert>
       </node>
+    </root>
+  </xsl:template>
+
+  <xsl:template match="xsl-assert" mode="xsl-assert-true">
+    <root>
       <!-- Assert true -->
       <node type="assert">
-      <xsl:try>
         <xsl:assert test="100 gt 0">
           <xsl:text>Assert Message: 100 gt 0</xsl:text>                        <!-- Expected miss -->
         </xsl:assert>
-        <xsl:catch>                                                            <!-- Expected miss -->
-          <xsl:text>Assert was triggered unexpectedly</xsl:text>               <!-- Expected miss -->
-        </xsl:catch>                                                           <!-- Expected miss -->
-      </xsl:try>
       </node>
     </root>
   </xsl:template>
