@@ -67,7 +67,7 @@
           <xsl:with-param name="param01" select="$newValue" />
         </xsl:next-iteration>
       </xsl:iterate>
-      <!-- xsl:iterate with xsl:on-completion and xsl:break executed (xsl:on-completion not executed) -->
+      <!-- xsl:iterate with xsl:break executed and xsl:on-completion not executed -->
       <xsl:iterate select="node">
         <xsl:on-completion>                                                    <!-- Expected miss -->
           <node type="iterate/on-completion/break">                            <!-- Expected miss -->
@@ -81,7 +81,7 @@
           <xsl:break />
         </xsl:if>
       </xsl:iterate>
-      <!-- xsl:iterate with xsl:on-completion and xsl:break not executed -->
+      <!-- xsl:iterate with xsl:on-completion executed and xsl:break not executed -->
       <xsl:iterate select="node">
         <xsl:on-completion>
           <node type="iterate/on-completion/break">

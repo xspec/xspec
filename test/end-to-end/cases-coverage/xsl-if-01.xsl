@@ -6,11 +6,11 @@
   <xsl:template match="xsl-if">
     <root>
       <!-- Test succeeds -->
-      <xsl:if test=" 1 eq 1">
+      <xsl:if test="1 eq 1">
         <node type="if">100</node>
       </xsl:if>
       <!-- Test fails but xsl:if still executed and is a hit-->
-      <xsl:if test=" 1 eq 2">
+      <xsl:if test="1 eq 2">
         <node type="if">200</node>                                             <!-- Expected miss -->
       </xsl:if>
     </root>

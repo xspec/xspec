@@ -18,7 +18,7 @@
     <x:expect label="Success">
       <root>
         <node type="where-populated"/>
-          <node type="where-populated">
+        <node type="where-populated">
           <node>100</node>
           <node>200</node>
           <node>300</node>

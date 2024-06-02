@@ -11,8 +11,7 @@
       <x:expect label="Success">
         <?processing-instruction TestCase1?>
         <?processing-instruction TestCase2="yes"?>
-         <root>
-         </root>
+         <root />
       </x:expect>
    </x:scenario>
 </x:description>

@@ -8,7 +8,7 @@
       <!-- Data doesn't exist so node/copy-of not executed -->
       <node type="where-populated">
         <xsl:where-populated>
-          <xsl:copy-of select="nonExistantNode" />      <!-- node element is empty but this element is executed because it needs to see if there is any output -->
+          <xsl:copy-of select="nonExistentNode" />      <!-- node element is empty but this element is executed because it needs to see if there is any output -->
         </xsl:where-populated>
       </node>
       <!-- Data exists so node/copy-of executed -->

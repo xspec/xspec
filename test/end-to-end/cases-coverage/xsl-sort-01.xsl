@@ -6,14 +6,14 @@
   <xsl:mode name="sortMode" />
   <xsl:template match="xsl-sort">
     <root>
-      <!-- xsl:for-each using select attribute -->
+      <!-- xsl:for-each child, using select attribute -->
       <xsl:for-each select="*">
         <xsl:sort select="." />
         <node type="sort - for-each">
           <xsl:value-of select="." />
         </node>
       </xsl:for-each>
-      <!-- xsl:for-each using sequence constructor -->
+      <!-- xsl:for-each child, using sequence constructor -->
       <xsl:for-each select="*">
         <xsl:sort>
           <xsl:value-of select="." />
@@ -22,14 +22,14 @@
           <xsl:value-of select="." />
         </node>
       </xsl:for-each>
-      <!-- xsl:for-each-group using select attribute -->
+      <!-- xsl:for-each-group child, using select attribute -->
       <xsl:for-each-group select="*" group-by="@type">
         <xsl:sort select="." />
         <node type="sort - for-each-group">
           <xsl:value-of select="sum(current-group()/.)" />
         </node>
       </xsl:for-each-group>
-      <!-- xsl:for-each-group using sequence constructor -->
+      <!-- xsl:for-each-group child, using sequence constructor -->
       <xsl:for-each-group select="*" group-by="@type">
         <xsl:sort>
           <xsl:value-of select="." />
@@ -38,7 +38,7 @@
           <xsl:value-of select="sum(current-group()/.)" />
         </node>
       </xsl:for-each-group>
-      <!-- apply-templates using select attribute -->
+      <!-- apply-templates child, using select attribute -->
       <xsl:apply-templates mode="sortMode">
         <xsl:sort select="." />
       </xsl:apply-templates>
@@ -48,7 +48,7 @@
           <xsl:value-of select="." />
         </xsl:sort>
       </xsl:apply-templates>
-      <!-- perform-sort -->
+      <!-- perform-sort child -->
       <xsl:variable name="sortedSet">
         <xsl:perform-sort select="node">
           <xsl:sort />

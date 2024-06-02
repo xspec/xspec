@@ -40,7 +40,9 @@
             <node type="iterate/on-completion/break">300</node>
             <node type="iterate/on-completion/break">Complete</node>
             <node type="iterate/break">100</node>
-            <node type="iterate/break">200</node>break executed<node type="iterate/break">100</node>
+            <node type="iterate/break">200</node>
+            <x:text>break executed</x:text>
+            <node type="iterate/break">100</node>
             <node type="iterate/break">200</node>
             <node type="iterate/break">200</node>
             <node type="iterate/break">100</node>
