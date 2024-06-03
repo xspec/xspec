@@ -9,7 +9,7 @@
       <!-- Using xsl:try select attribute - xsl:catch not executed-->
       <node type="try">
         <xsl:try select="string(100)">
-          <xsl:catch />                                                        <!-- Expected miss -->
+          <xsl:catch select="'inside xsl:catch'" />                            <!-- Expected miss -->
         </xsl:try>
       </node>
       <!-- Using xsl:try sequence constructor - xsl:catch not executed -->
@@ -23,6 +23,12 @@
       <node type="try/catch">
         <xsl:try select="error()">
           <xsl:catch select="string(300)" />
+        </xsl:try>
+      </node>
+      <!-- Using xsl:try select attribute - xsl:catch executed but no-op-->
+      <node type="try/catch">
+        <xsl:try select="error()">
+          <xsl:catch />
         </xsl:try>
       </node>
       <!-- Using xsl:try sequence constructor - first xsl:catch sequence constructor executed-->

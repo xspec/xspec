@@ -13,6 +13,7 @@
             <node type="try">100</node>
             <node type="try">200</node>
             <node type="try/catch">300</node>
+            <node type="try/catch" />
             <node type="try/catch">400</node>
          </root>
       </x:expect>
