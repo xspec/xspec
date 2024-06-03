@@ -40,6 +40,7 @@
             <node type="with-param - next-match part 2">1650</node>
             <node type="with-param - next-match part 1">1700</node>
             <node type="with-param - next-match part 2">1750</node>
+            <node type="with-param - evaluate">200</node>
          </root>
       </x:expect>
    </x:scenario>

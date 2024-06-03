@@ -12,7 +12,7 @@
   <xsl:mode name="withParamModeNM" />
 
   <xsl:template match="xsl-with-param">
-      <root>
+    <root>
       <!-- Numbers in brackets refer to the value in the node output -->
       <!--Iterate with-param (100, 200, 300, 400) -->
       <xsl:iterate select="node">
@@ -40,6 +40,17 @@
       <xsl:apply-templates select="*" mode="withParamModeNM">
         <xsl:with-param name="withParam-NM-Param01">1300</xsl:with-param>
       </xsl:apply-templates>
+      <!-- Evaluate with-param (200) -->
+      <xsl:variable name="index" select="2" />
+      <xsl:variable name="evaluatedExpressionParamChild">
+        <xsl:evaluate xpath="'string(node[$index])'" context-item=".">
+          <xsl:with-param name="index" select="$index" />
+          <xsl:with-param name="nonexistent">parameter not used in evaluation</xsl:with-param>
+        </xsl:evaluate>
+      </xsl:variable>
+      <node type="with-param - evaluate">
+        <xsl:value-of select="$evaluatedExpressionParamChild" />
+      </node>
     </root>
   </xsl:template>
   <!-- Call Template -->
