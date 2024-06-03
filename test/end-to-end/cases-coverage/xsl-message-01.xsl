@@ -17,6 +17,19 @@
           <xsl:text>Message: 200</xsl:text>
         </xsl:message>
       </node>
+      <!-- Terminate upon request -->
+      <xsl:if test="@terminate eq 'select'">
+        <xsl:message select="string('Terminating Message: 100')" terminate="yes"/>
+        <xsl:message select="string('After terminating message')"/>            <!-- Expected miss -->
+      </xsl:if>
+      <xsl:if test="@terminate eq 'sequence constructor'">
+        <xsl:message terminate="yes">
+          <xsl:text>Terminating Message: 200</xsl:text>
+        </xsl:message>
+        <xsl:message>                                                          <!-- Expected miss -->
+          <xsl:text>After terminating message</xsl:text>                       <!-- Expected miss -->
+        </xsl:message>                                                         <!-- Expected miss -->
+      </xsl:if>
     </root>
   </xsl:template>
 </xsl:stylesheet>
