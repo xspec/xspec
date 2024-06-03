@@ -12,11 +12,11 @@
         </xsl:where-populated>
       </node>
       <!-- Data exists so node/copy-of executed -->
-      <xsl:where-populated>
-        <node type="where-populated">
+      <node type="where-populated">
+        <xsl:where-populated>
           <xsl:copy-of select="node" />
-        </node>
-      </xsl:where-populated>
+        </xsl:where-populated>
+      </node>
     </root>
   </xsl:template>
 </xsl:stylesheet>
