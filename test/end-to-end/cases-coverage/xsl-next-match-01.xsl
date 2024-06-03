@@ -9,7 +9,7 @@
   <xsl:mode name="nextMatch" />
   <!-- Variable with the node to be processed -->
   <xsl:variable name="nextMatchNodes">
-    <node />
+    <node>content for built-in template</node>
   </xsl:variable>
   <!-- Main template -->
   <xsl:template match="xsl-next-match">
@@ -24,5 +24,8 @@
       <xsl:text>100</xsl:text>
     </node>
     <xsl:next-match />
+    <xsl:next-match>
+      <xsl:with-param name="param">300</xsl:with-param>
+    </xsl:next-match>
    </xsl:template>
 </xsl:stylesheet>

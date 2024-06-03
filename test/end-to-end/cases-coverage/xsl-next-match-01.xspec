@@ -12,6 +12,9 @@
          <root>
             <node type="next-match">100</node>
             <node type="next-match">200</node>
+            <x:text>content for built-in template</x:text>
+            <node type="next-match">300</node>
+            <x:text>content for built-in template</x:text>
          </root>
       </x:expect>
    </x:scenario>
