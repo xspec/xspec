@@ -10,8 +10,12 @@
       </x:context>
       <x:expect label="Success">
          <root>
-            <node type="map">100</node>
-            <node type="map">300</node>
+            <node type="param/map">100</node>
+            <node type="param/map">300</node>
+            <node type="variable/map">100</node>
+            <node type="variable/map">300</node>
+            <node type="function/map">100</node>
+            <node type="function/map">300</node>
          </root>
       </x:expect>
    </x:scenario>
