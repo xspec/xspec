@@ -4,6 +4,7 @@
       xsl:mode Coverage Test Case
   -->
   <xsl:mode name="modeUsed" />
+  <xsl:mode on-multiple-match="fail" />
   <!-- Mode not used -->
   <xsl:mode name="modeNotUsed" />
 
