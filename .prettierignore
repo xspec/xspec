@@ -8,6 +8,8 @@
 # End-to-end test Actual and Expected
 /test/end-to-end/cases/actual__/
 /test/end-to-end/cases/expected/
+/test/end-to-end/cases-coverage/actual__/
+/test/end-to-end/cases-coverage/expected/
 
 # Default TEST_DIR
 /test/**/xspec/

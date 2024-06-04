@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../coverage_no-leading-string.xspec">
+   <compiled uri="coverage_no-leading-string-compiled.xsl"/>
+   <module moduleId="0" uri="../../coverage_no-leading-string.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="9" columnNumber="46" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="10" columnNumber="10" moduleId="0" traceableId="1"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
