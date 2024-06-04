@@ -4,14 +4,19 @@
   <!--
       xsl:param Coverage Test Case
   -->
-  <!-- Global param -->
-  <xsl:param name="globalParam01" />
+  <!-- Global param overridden in XSpec -->
+  <xsl:param name="globalParam01">0</xsl:param>                                <!-- Expected miss -->
+  <!-- Global param not overridden in XSpec -->
+  <xsl:param name="globalParam02">0</xsl:param>
 
   <xsl:template match="xsl-param">
     <root>
       <!-- Global param -->
       <node type="param - global">
         <xsl:value-of select="$globalParam01" />
+      </node>
+      <node type="param - global">
+        <xsl:value-of select="$globalParam02" />
       </node>
       <!-- Template param -->
       <xsl:call-template name="paramTemplate01">

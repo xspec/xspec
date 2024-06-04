@@ -17,6 +17,7 @@
       <x:expect label="Success">
          <root>
             <node type="param - global">100</node>
+            <node type="param - global">0</node>
             <node type="param - template">200</node>
             <node type="param - function">300</node>
             <node type="param - iterate">400</node>
