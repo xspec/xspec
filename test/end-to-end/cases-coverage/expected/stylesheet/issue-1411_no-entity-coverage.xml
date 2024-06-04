@@ -3,6 +3,7 @@
    <compiled uri="issue-1411_no-entity-compiled.xsl"/>
    <module moduleId="0" uri="../../issue-1411_no-entity.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="6" columnNumber="52" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
