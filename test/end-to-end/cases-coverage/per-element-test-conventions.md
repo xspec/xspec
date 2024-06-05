@@ -1,22 +1,26 @@
 # Conventions for Per-XSLT-Element Test Cases
 
 ## Filenames
+
 Filename is `xsl-<xslt element name>-01` with `.xsl` or `.xspec` extension, except that tests that use `@run-as="external"` have filenames starting with `"external_"`.
 
 Any import/include stylesheet has A, B, etc. added to the filename.
 
 ## XSpec Code
+
 XSpec scenario label is xsl-<xslt element name> Coverage Test Case.
 
 XSpec scenario context is <root><xsl-<xslt element name>></root>.
 
 Data is defined in `x:context` where it is needed in XSpec file.
 
-Individual XSpec files use the default `run-as` behavior, except those that require `run-as=external`: 
-* `external_xsl-global-context-item-01.xspec`
-* `external_xsl-result-document-01.xspec`
+Individual XSpec files use the default `run-as` behavior, except those that require `run-as=external`:
+
+- `external_xsl-global-context-item-01.xspec`
+- `external_xsl-result-document-01.xspec`
 
 ## XSLT Code
+
 XSLT has comment of xsl:<element name> Coverage Test Case across 3 lines.
 
 XSLT template match is xsl-<element-name>.
