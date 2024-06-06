@@ -2,7 +2,7 @@
 <?xspec-test enable-coverage?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="xsl-map-01.xsl">
-   <x:scenario label="xsl:map Coverage Test Case">
+   <x:scenario label="xsl:map Coverage Test Case (including xsl:map-entry)">
       <x:context>
          <root>
             <xsl-map/>

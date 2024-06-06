@@ -3,7 +3,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:myns="myNamespace">
   <!--
-      xsl:map Coverage Test Case (includes xsl:map)
+      xsl:map Coverage Test Case (includes xsl:map-entry)
   -->
   <xsl:template match="xsl-map">
     <!-- Map construction, including xsl:map -->

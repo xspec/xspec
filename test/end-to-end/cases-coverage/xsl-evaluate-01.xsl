@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0">
   <!--
-      xsl:evaluate Coverage Test Case - need a test case using with-param
+      xsl:evaluate Coverage Test Case
   -->
   <!-- Data for the test -->
   <xsl:variable name="data">
