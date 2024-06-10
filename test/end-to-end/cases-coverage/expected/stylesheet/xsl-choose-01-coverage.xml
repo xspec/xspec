@@ -3,17 +3,23 @@
    <compiled uri="xsl-choose-01-compiled.xsl"/>
    <module moduleId="0" uri="../../xsl-choose-01.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="6" columnNumber="36" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
-   <traceable traceableId="2" uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
+   <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
    <hit lineNumber="9" columnNumber="19" moduleId="0" traceableId="2"/>
    <hit lineNumber="11" columnNumber="36" moduleId="0" traceableId="1"/>
    <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="11" columnNumber="36" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.ValueOf"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="12" columnNumber="23" moduleId="0" traceableId="4"/>
    <hit lineNumber="22" columnNumber="19" moduleId="0" traceableId="2"/>
    <hit lineNumber="29" columnNumber="41" moduleId="0" traceableId="1"/>

@@ -286,10 +286,12 @@ public class XSLTCoverageTraceListener implements TraceListener {
         try {
           writer.writeStartElement("traceable");
           writer.writeAttribute("traceableId", traceableId.toString());
-          if (traceableUQName == null) {
+          if (traceableClassName != null) {
             writer.writeAttribute("class", traceableClassName);
           }
-          else {
+          if (traceableUQName != null) {
+            // Note: traceableUQName is sometimes an ancestor of the
+            // node coverage-report.xsl expects to see (#1917).
             writer.writeAttribute("uqname", traceableUQName);
           }
           writer.writeEndElement();

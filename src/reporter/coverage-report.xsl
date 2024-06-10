@@ -431,8 +431,10 @@
          <xsl:for-each select="$hits">
             <xsl:variable name="hit-traceable-uqname" as="xs:string?"
                select="exactly-one(key('traceables', @traceableId, $trace))/@uqname" />
+            <xsl:variable name="hit-traceable-class" as="xs:string?"
+               select="exactly-one(key('traceables', @traceableId, $trace))/@class" />
             <xsl:if test="($node-uqname eq $hit-traceable-uqname) or
-                          empty($hit-traceable-uqname)">
+                          exists($hit-traceable-class)">
                <xsl:sequence select="." />
             </xsl:if>
          </xsl:for-each>

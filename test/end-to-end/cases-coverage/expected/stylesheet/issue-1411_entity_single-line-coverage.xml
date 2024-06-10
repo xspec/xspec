@@ -3,11 +3,14 @@
    <compiled uri="issue-1411_entity_single-line-compiled.xsl"/>
    <module moduleId="0" uri="../../issue-1411_entity_single-line.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="1" columnNumber="239" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="1" columnNumber="252" moduleId="0" traceableId="1"/>
-   <traceable traceableId="2" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.ValueOf"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="1" columnNumber="252" moduleId="0" traceableId="2"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>

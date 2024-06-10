@@ -3,18 +3,22 @@
    <compiled uri="xsl-analyze-string-01-compiled.xsl"/>
    <module moduleId="0" uri="../../xsl-analyze-string-01.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="6" columnNumber="44" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
    <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.AnalyzeString"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}analyze-string"/>
    <hit lineNumber="9" columnNumber="62" moduleId="0" traceableId="2"/>
    <hit lineNumber="11" columnNumber="43" moduleId="0" traceableId="1"/>
    <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="11" columnNumber="43" moduleId="0" traceableId="3"/>
    <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}value-of"/>
    <hit lineNumber="12" columnNumber="53" moduleId="0" traceableId="4"/>
    <hit lineNumber="22" columnNumber="70" moduleId="0" traceableId="2"/>

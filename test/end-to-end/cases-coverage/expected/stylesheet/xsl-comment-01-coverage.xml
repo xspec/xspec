@@ -3,20 +3,26 @@
    <compiled uri="xsl-comment-01-compiled.xsl"/>
    <module moduleId="0" uri="../../xsl-comment-01.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="6" columnNumber="37" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
    <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="1"/>
    <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="2"/>
-   <traceable traceableId="3" uqname="Q{http://www.w3.org/1999/XSL/Transform}comment"/>
+   <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.Comment"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}comment"/>
    <hit lineNumber="9" columnNumber="22" moduleId="0" traceableId="3"/>
    <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="1"/>
    <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="2"/>
    <hit lineNumber="12" columnNumber="22" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.TraceExpression"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="13" columnNumber="21" moduleId="0" traceableId="4"/>
    <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="1"/>
    <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="2"/>
