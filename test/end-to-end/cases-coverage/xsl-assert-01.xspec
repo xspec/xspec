@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<?xspec-test saxon-custom-options=-ea?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-assert-01.xsl">
+   <x:scenario label="xsl:assert Coverage Test Case for false assertion" catch="yes">
+      <x:context mode="xsl-assert-false">
+         <root>
+            <xsl-assert />
+         </root>
+      </x:context>
+      <!-- XSpec catches the error and returns a map. -->
+      <x:expect label="Success" test="?err?value => string()"
+         select="'Assert Message: 100 lt 0'"/>
+   </x:scenario>
+
+   <x:scenario label="xsl:assert Coverage Test Case for true assertion">
+      <x:context mode="xsl-assert-true">
+         <root>
+            <xsl-assert />
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="assert"></node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../xsl-sort-01.xspec">
+   <compiled uri="xsl-sort-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../xsl-sort-01.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="7" columnNumber="34" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="8" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each"/>
+   <hit lineNumber="10" columnNumber="32" moduleId="0" traceableId="2"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="1"/>
+   <traceable traceableId="3"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}value-of"/>
+   <hit lineNumber="13" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="13" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="13" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="12" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="13" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="17" columnNumber="32" moduleId="0" traceableId="2"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="22" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="22" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="22" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="1"/>
+   <hit lineNumber="21" columnNumber="38" moduleId="0" traceableId="3"/>
+   <hit lineNumber="22" columnNumber="38" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each-group"/>
+   <hit lineNumber="26" columnNumber="55" moduleId="0" traceableId="5"/>
+   <hit lineNumber="28" columnNumber="44" moduleId="0" traceableId="1"/>
+   <hit lineNumber="28" columnNumber="44" moduleId="0" traceableId="3"/>
+   <hit lineNumber="29" columnNumber="59" moduleId="0" traceableId="4"/>
+   <hit lineNumber="28" columnNumber="44" moduleId="0" traceableId="1"/>
+   <hit lineNumber="28" columnNumber="44" moduleId="0" traceableId="3"/>
+   <hit lineNumber="29" columnNumber="59" moduleId="0" traceableId="4"/>
+   <hit lineNumber="33" columnNumber="55" moduleId="0" traceableId="5"/>
+   <hit lineNumber="37" columnNumber="44" moduleId="0" traceableId="1"/>
+   <hit lineNumber="37" columnNumber="44" moduleId="0" traceableId="3"/>
+   <hit lineNumber="38" columnNumber="59" moduleId="0" traceableId="4"/>
+   <hit lineNumber="37" columnNumber="44" moduleId="0" traceableId="1"/>
+   <hit lineNumber="37" columnNumber="44" moduleId="0" traceableId="3"/>
+   <hit lineNumber="38" columnNumber="59" moduleId="0" traceableId="4"/>
+   <traceable traceableId="6"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}apply-templates"/>
+   <hit lineNumber="42" columnNumber="44" moduleId="0" traceableId="6"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="46" columnNumber="44" moduleId="0" traceableId="6"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <hit lineNumber="65" columnNumber="46" moduleId="0" traceableId="0"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="1"/>
+   <hit lineNumber="66" columnNumber="41" moduleId="0" traceableId="3"/>
+   <hit lineNumber="67" columnNumber="34" moduleId="0" traceableId="4"/>
+   <traceable traceableId="7"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each"/>
+   <hit lineNumber="57" columnNumber="43" moduleId="0" traceableId="7"/>
+   <hit lineNumber="57" columnNumber="43" moduleId="0" traceableId="2"/>
+   <hit lineNumber="53" columnNumber="4" moduleId="0" traceableId="7"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="1"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="3"/>
+   <hit lineNumber="59" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="1"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="3"/>
+   <hit lineNumber="59" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="1"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="3"/>
+   <hit lineNumber="59" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="1"/>
+   <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="3"/>
+   <hit lineNumber="59" columnNumber="38" moduleId="0" traceableId="4"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

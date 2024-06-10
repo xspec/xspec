@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-for-each-group-01.xsl">
+   <x:scenario label="xsl:for-each-group Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-for-each-group/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="for-each-group">0</node>
+            <node type="for-each-group">1</node>
+            <node type="for-each-group">2</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

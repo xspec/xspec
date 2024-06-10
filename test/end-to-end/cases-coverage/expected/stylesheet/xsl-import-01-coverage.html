@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-import-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-import-01.xsl">xsl-import-01.xsl</a></p>
+      <h2>module: xsl-import-01.xsl; 13 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:import Coverage Test Case (See imported stylesheet)</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="ignored">&lt;xsl:import href="xsl-import-01A.xsl" /&gt;</span>
+07: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-import"&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+09: <span class="ignored">      </span><span class="ignored">&lt;!-- Call template in imported stylesheet --&gt;</span>
+10: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="importTemplate01" /&gt;</span>
+11: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+12: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+13: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <h2>module: xsl-import-01A.xsl; 10 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+03: 
+04: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:import Template --&gt;</span>
+05: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="importTemplate01"&gt;</span>
+06: <span class="ignored">    </span><span class="hit">&lt;node type="import"&gt;</span>
+07: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">100</span><span class="hit">&lt;/xsl:text&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+09: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+10: <span class="ignored"> </span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

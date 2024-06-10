@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-message-01.xsl">
+   <x:scenario label="xsl:message Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-message/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="message">100</node>
+            <node type="message">200</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+
+   <x:scenario label="xsl:message Coverage Test Case for Terminating Message" catch="yes">
+      <x:scenario label="Using select attribute">
+         <x:context>
+            <root>
+               <xsl-message terminate="select"/>
+            </root>
+         </x:context>
+         <!-- XSpec catches the error and returns a map. -->
+         <x:expect label="Success" test="?err?value => string()"
+            select="'Terminating Message: 100'"/>
+      </x:scenario>
+      <x:scenario label="Using sequence constructor">
+         <x:context>
+            <root>
+               <xsl-message terminate="sequence constructor"/>
+            </root>
+         </x:context>
+         <!-- XSpec catches the error and returns a map. -->
+         <x:expect label="Success" test="?err?value => string()"
+            select="'Terminating Message: 200'"/>
+      </x:scenario>
+   </x:scenario>
+</x:description>

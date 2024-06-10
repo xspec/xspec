@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-namespace-01.xsl">
+   <x:scenario label="xsl:namespace Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-namespace/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="namespace" xmlns:dummy="namespaceURI">100</node>
+            <node type="namespace" xmlns:dummy="namespaceURI">200</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

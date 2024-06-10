@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="external_xsl-result-document-01.xsl"
+               run-as="external">
+
+   <x:scenario label="xsl:result-document Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-result-document/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="result-document">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

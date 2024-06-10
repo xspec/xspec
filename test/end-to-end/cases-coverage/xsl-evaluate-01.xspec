@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-evaluate-01.xsl">
+   <x:scenario label="xsl:evaluate Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-evaluate/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="evaluate">100</node>
+            <node type="evaluate">200</node>
+            <node type="evaluate">300</node>
+            <node type="evaluate">400</node>
+            <node type="evaluate/with-param">100</node>
+            <node type="evaluate/with-param">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

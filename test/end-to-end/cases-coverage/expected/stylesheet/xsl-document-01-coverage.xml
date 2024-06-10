@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../xsl-document-01.xspec">
+   <compiled uri="xsl-document-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../xsl-document-01.xsl"/>
+   <traceable traceableId="0"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="6" columnNumber="38" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}document"/>
+   <hit lineNumber="8" columnNumber="21" moduleId="0" traceableId="2"/>
+   <hit lineNumber="9" columnNumber="31" moduleId="0" traceableId="1"/>
+   <traceable traceableId="3"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
+   <hit lineNumber="9" columnNumber="31" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="10" columnNumber="21" moduleId="0" traceableId="4"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
