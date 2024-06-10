@@ -3,23 +3,30 @@
    <compiled uri="xsl-namespace-01-compiled.xsl"/>
    <module moduleId="0" uri="../../xsl-namespace-01.xsl"/>
    <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
    <hit lineNumber="6" columnNumber="39" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
    <hit lineNumber="9" columnNumber="30" moduleId="0" traceableId="1"/>
    <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="9" columnNumber="30" moduleId="0" traceableId="2"/>
    <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.NamespaceConstructor"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}namespace"/>
    <hit lineNumber="10" columnNumber="63" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.ValueOf"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="11" columnNumber="19" moduleId="0" traceableId="4"/>
    <hit lineNumber="14" columnNumber="30" moduleId="0" traceableId="1"/>
    <hit lineNumber="14" columnNumber="30" moduleId="0" traceableId="2"/>
    <hit lineNumber="15" columnNumber="37" moduleId="0" traceableId="3"/>
-   <traceable traceableId="5" uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <traceable traceableId="5"
+              class="net.sf.saxon.expr.instruct.TraceExpression"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="16" columnNumber="21" moduleId="0" traceableId="5"/>
    <hit lineNumber="18" columnNumber="19" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
