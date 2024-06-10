@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-fallback-01.xsl">
+   <x:scenario label="xsl:fallback Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-fallback/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="fallback">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-try-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-try-01.xsl">xsl-try-01.xsl</a></p>
+      <h2>module: xsl-try-01.xsl; 48 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
+03: <span class="ignored">                xmlns:err="http://www.w3.org/2005/xqt-errors"&gt;</span>
+04: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+05: <span class="ignored">      xsl:try Coverage Test Case (includes xsl:catch)</span>
+06: <span class="ignored">  --&gt;</span>
+07: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-try"&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+09: <span class="ignored">      </span><span class="ignored">&lt;!-- Using xsl:try select attribute - xsl:catch not executed--&gt;</span>
+10: <span class="ignored">      </span><span class="hit">&lt;node type="try"&gt;</span>
+11: <span class="ignored">        </span><span class="missed">&lt;xsl:try select="string(100)"&gt;</span>
+12: <span class="ignored">          </span><span class="missed">&lt;xsl:catch select="'inside xsl:catch'" /&gt;</span><span class="ignored">                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+13: <span class="ignored">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+14: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+15: <span class="ignored">      </span><span class="ignored">&lt;!-- Using xsl:try sequence constructor - xsl:catch not executed --&gt;</span>
+16: <span class="ignored">      </span><span class="hit">&lt;node type="try"&gt;</span>
+17: <span class="ignored">        </span><span class="missed">&lt;xsl:try&gt;</span>
+18: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">200</span><span class="hit">&lt;/xsl:text&gt;</span>
+19: <span class="ignored">          </span><span class="missed">&lt;xsl:catch /&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+20: <span class="ignored">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+21: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+22: <span class="ignored">      </span><span class="ignored">&lt;!-- Using xsl:try select attribute - xsl:catch select attribute executed--&gt;</span>
+23: <span class="ignored">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
+24: <span class="ignored">        </span><span class="missed">&lt;xsl:try select="error()"&gt;</span>
+25: <span class="ignored">          </span><span class="missed">&lt;xsl:catch select="string(300)" /&gt;</span>
+26: <span class="ignored">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+27: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+28: <span class="ignored">      </span><span class="ignored">&lt;!-- Using xsl:try select attribute - xsl:catch executed but no-op--&gt;</span>
+29: <span class="ignored">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
+30: <span class="ignored">        </span><span class="missed">&lt;xsl:try select="error()"&gt;</span>
+31: <span class="ignored">          </span><span class="missed">&lt;xsl:catch /&gt;</span>
+32: <span class="ignored">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+33: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+34: <span class="ignored">      </span><span class="ignored">&lt;!-- Using xsl:try sequence constructor - first xsl:catch sequence constructor executed--&gt;</span>
+35: <span class="ignored">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
+36: <span class="ignored">        </span><span class="missed">&lt;xsl:try&gt;</span>
+37: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="error()" /&gt;</span>
+38: <span class="ignored">          </span><span class="missed">&lt;xsl:catch errors="err:FOER0000"&gt;</span><span class="ignored"> </span><span class="ignored">&lt;!-- this is code for error() function by default --&gt;</span>
+39: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">400</span><span class="hit">&lt;/xsl:text&gt;</span>
+40: <span class="ignored">          </span><span class="missed">&lt;/xsl:catch&gt;</span>
+41: <span class="ignored">          </span><span class="missed">&lt;xsl:catch&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+42: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">500</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+43: <span class="ignored">          </span><span class="missed">&lt;/xsl:catch&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+44: <span class="ignored">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+45: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+46: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+47: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+48: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

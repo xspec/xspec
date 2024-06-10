@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-analyze-string-01.xsl">
+
+  <x:scenario label="xsl:analyze-string Coverage Test Case (including xsl:matching-substring and xsl:non-matching-substring)">
+    <x:context>
+      <root>
+        <xsl-analyze-string />
+      </root>
+    </x:context>
+    <x:expect label="Success">
+      <root>
+        <node type="matching-substring">abc 123</node>
+        <node type="non-matching-substring">No match</node>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-sort-01.xsl">
+   <x:scenario label="xsl:sort Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-sort>
+              <node type="A">300</node>
+              <node type="A">100</node>
+              <node type="B">400</node>
+              <node type="B">200</node>
+            </xsl-sort>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="sort - for-each">100</node>
+            <node type="sort - for-each">200</node>
+            <node type="sort - for-each">300</node>
+            <node type="sort - for-each">400</node>
+            <node type="sort - for-each">100</node>
+            <node type="sort - for-each">200</node>
+            <node type="sort - for-each">300</node>
+            <node type="sort - for-each">400</node>
+            <node type="sort - for-each-group">400</node>
+            <node type="sort - for-each-group">600</node>
+            <node type="sort - for-each-group">400</node>
+            <node type="sort - for-each-group">600</node>
+            <node type="sort - apply-templates">100</node>
+            <node type="sort - apply-templates">200</node>
+            <node type="sort - apply-templates">300</node>
+            <node type="sort - apply-templates">400</node>
+            <node type="sort - apply-templates">100</node>
+            <node type="sort - apply-templates">200</node>
+            <node type="sort - apply-templates">300</node>
+            <node type="sort - apply-templates">400</node>
+            <node type="sort - perform-sort">100</node>
+            <node type="sort - perform-sort">200</node>
+            <node type="sort - perform-sort">300</node>
+            <node type="sort - perform-sort">400</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

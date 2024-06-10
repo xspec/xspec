@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-mode-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-mode-01.xsl">xsl-mode-01.xsl</a></p>
+      <h2>module: xsl-mode-01.xsl; 23 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:mode Coverage Test Case</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="modeUsed" /&gt;</span>
+07: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode on-multiple-match="fail" /&gt;</span>
+08: <span class="ignored">  </span><span class="ignored">&lt;!-- Mode not used --&gt;</span>
+09: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="modeNotUsed" /&gt;</span>
+10: 
+11: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-mode"&gt;</span>
+12: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
+13: <span class="ignored">        </span><span class="ignored">&lt;!-- Apply template using mode - xspec context has a node element --&gt;</span>
+14: <span class="ignored">        </span><span class="hit">&lt;xsl:apply-templates mode="modeUsed" /&gt;</span>
+15: <span class="ignored">      </span><span class="hit">&lt;/root&gt;</span>
+16: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+17: 
+18: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="modeUsed"&gt;</span>
+19: <span class="ignored">    </span><span class="hit">&lt;node type="mode"&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">100</span><span class="hit">&lt;/xsl:text&gt;</span>
+21: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+22: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+23: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

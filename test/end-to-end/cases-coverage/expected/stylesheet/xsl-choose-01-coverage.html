@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for xsl-choose-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../xsl-choose-01.xsl">xsl-choose-01.xsl</a></p>
+      <h2>module: xsl-choose-01.xsl; 59 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      xsl:choose Test Case</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-choose"&gt;</span>
+07: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+08: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when matches so otherwise not executed --&gt;</span>
+09: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+10: <span class="ignored">        </span><span class="hit">&lt;xsl:when test="1 eq 1"&gt;</span>
+11: <span class="ignored">          </span><span class="hit">&lt;node type="choose when"&gt;</span>
+12: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">100</span><span class="hit">&lt;/xsl:text&gt;</span>
+13: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+14: <span class="ignored">        </span><span class="hit">&lt;/xsl:when&gt;</span>
+15: <span class="ignored">        </span><span class="missed">&lt;xsl:otherwise version="3.0"&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+16: <span class="ignored">          </span><span class="missed">&lt;node type="choose otherwise" version="3.0"&gt;</span><span class="ignored">                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+17: <span class="ignored">            </span><span class="missed">&lt;xsl:text version="3.0"&gt;</span><span class="missed">200</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+18: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+19: <span class="ignored">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+21: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when doesn't match so when not executed --&gt;</span>
+22: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+23: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2" version="3.0"&gt;</span><span class="ignored">                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+24: <span class="ignored">          </span><span class="missed">&lt;node type="choose when" version="3.0"&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+25: <span class="ignored">            </span><span class="missed">&lt;xsl:text version="3.0"&gt;</span><span class="missed">100</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+26: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+27: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+28: <span class="ignored">        </span><span class="hit">&lt;xsl:otherwise&gt;</span>
+29: <span class="ignored">          </span><span class="hit">&lt;node type="choose otherwise"&gt;</span>
+30: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="missed">200</span><span class="hit">&lt;/xsl:text&gt;</span>
+31: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+32: <span class="ignored">        </span><span class="hit">&lt;/xsl:otherwise&gt;</span>
+33: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+34: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when with no content matches so first when and otherwise not executed --&gt;</span>
+35: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+36: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2" version="3.0"&gt;</span><span class="ignored">                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+37: <span class="ignored">          </span><span class="missed">&lt;node type="choose when" version="3.0"&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+38: <span class="ignored">            </span><span class="missed">&lt;xsl:text version="3.0"&gt;</span><span class="missed">100</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+39: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+40: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+41: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="2 eq 2"&gt;</span><span class="missed">&lt;/xsl:when&gt;</span>
+42: <span class="ignored">        </span><span class="missed">&lt;xsl:otherwise version="3.0"&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+43: <span class="ignored">          </span><span class="missed">&lt;node type="choose otherwise" version="3.0"&gt;</span><span class="ignored">                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+44: <span class="ignored">            </span><span class="missed">&lt;xsl:text version="3.0"&gt;</span><span class="missed">200</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+45: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+46: <span class="ignored">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+47: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+48: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when doesn't match so when not executed. otherwise has no content. --&gt;</span>
+49: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+50: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2" version="3.0"&gt;</span><span class="ignored">                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+51: <span class="ignored">          </span><span class="missed">&lt;node type="choose when" version="3.0"&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+52: <span class="ignored">            </span><span class="missed">&lt;xsl:text version="3.0"&gt;</span><span class="missed">100</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+53: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+54: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+55: <span class="ignored">        </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="missed">&lt;/xsl:otherwise&gt;</span>
+56: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+57: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+58: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+59: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+   </body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="external_xsl-global-context-item-01.xsl"
+               run-as="external">
+
+   <x:scenario label="xsl:global-context-item Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-global-context-item>
+               <node>100</node>
+            </xsl-global-context-item>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="global-context-item">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>
