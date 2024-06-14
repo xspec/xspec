@@ -34,6 +34,10 @@ The following list describes the rules used to determine the category of each no
 - **TBD** -
 - **Element Specific** - The element does not fit into any of the other rules and has its own rule description.
 
+## Saxon Version(s) Reflected in this Document
+
+12.4
+
 ## xsl:accept
 
 |          |                 |
