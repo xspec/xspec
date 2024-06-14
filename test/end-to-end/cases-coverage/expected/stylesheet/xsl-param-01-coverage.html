@@ -17,7 +17,7 @@
 07: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param overridden in XSpec --&gt;</span>
 08: <span class="ignored">  </span><span class="ignored">&lt;xsl:param name="globalParam01"&gt;</span><span class="missed">0</span><span class="ignored">&lt;/xsl:param&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 09: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec --&gt;</span>
-10: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam02"&gt;</span><span class="missed">0</span><span class="hit">&lt;/xsl:param&gt;</span>
+10: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam02"&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:param&gt;</span>
 11: 
 12: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-param"&gt;</span>
 13: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
@@ -30,7 +30,7 @@
 20: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 21: <span class="ignored">      </span><span class="ignored">&lt;!-- Template param --&gt;</span>
 22: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate01"&gt;</span>
-23: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam01"&gt;</span><span class="missed">200</span><span class="hit">&lt;/xsl:with-param&gt;</span>
+23: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam01"&gt;</span><span class="hit">200</span><span class="hit">&lt;/xsl:with-param&gt;</span>
 24: <span class="ignored">      </span><span class="hit">&lt;/xsl:call-template&gt;</span>
 25: <span class="ignored">      </span><span class="ignored">&lt;!-- Function param --&gt;</span>
 26: <span class="ignored">      </span><span class="hit">&lt;node type="param - function"&gt;</span>
