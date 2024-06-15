@@ -168,7 +168,7 @@
       <xsl:value-of select="$templateParam08" />
     </node>
   </xsl:template>
-  <!-- Function param - not allowed a default value so no select attribute of sequence constructor tests -->
+  <!-- Function param - not allowed a default value so no select attribute or sequence constructor tests -->
   <xsl:function name="myns:paramFunction01">
     <xsl:param name="functionParam01" />
     <xsl:value-of select="$functionParam01" />
