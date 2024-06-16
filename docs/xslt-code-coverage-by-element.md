@@ -1031,7 +1031,7 @@ When using a sequence constructor with xsl:sort, the children are not traced.
 
 #### Comment
 
-Should this be marked as 'hit'? It isn't traced but it has to be executed unless the entire file is unused.
+Should this be marked as 'hit'? It isn't traced but it has to be executed (unless the entire file is unused, in which case the report doesn't display this element at all).
 
 ## xsl:switch
 
@@ -1087,7 +1087,7 @@ Although this is a Declaration, it is included in trace output.
 
 #### Comment
 
-Should this be marked as 'hit'? It isn't traced but it has to be executed unless the entire file is unused.
+Should this be marked as 'hit'? It isn't traced but it has to be executed (unless the entire file is unused, in which case the report doesn't display this element at all).
 
 ## xsl:try
 
