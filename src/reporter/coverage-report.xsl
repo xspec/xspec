@@ -26,6 +26,7 @@
    <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
+   <xsl:include href="coverage-compute-status.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
@@ -320,70 +321,6 @@
    </xsl:template>
 
    <!--
-      mode="coverage"
-   -->
-   <xsl:mode name="coverage" on-multiple-match="fail" on-no-match="fail" />
-
-   <xsl:template match="text()[normalize-space() = '' and not(parent::xsl:text)]" as="xs:string"
-      mode="coverage">ignored</xsl:template>
-
-   <xsl:template match="processing-instruction() | comment()" as="xs:string"
-      mode="coverage">ignored</xsl:template>
-
-   <!-- A hit on these nodes doesn't really count; you have to hit
-      their contents to hit them -->
-   <xsl:template
-      match="
-         xsl:for-each
-         | xsl:for-each-group
-         | xsl:matching-substring
-         | xsl:non-matching-substring
-         | xsl:otherwise
-         | xsl:when"
-      as="xs:string"
-      mode="coverage">
-      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
-
-      <xsl:variable name="hits-on-child-nodes" as="element(hit)*"
-         select="node() ! local:hits-on-node(., $module-id)" />
-      <xsl:choose>
-         <xsl:when test="exists($hits-on-child-nodes)">hit</xsl:when>
-         <xsl:otherwise>missed</xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
-   <xsl:template match="element() | text()" as="xs:string" mode="coverage">
-      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
-
-      <xsl:variable name="hits" as="element(hit)*"
-         select="local:hits-on-node(., $module-id)" />
-      <xsl:choose>
-         <xsl:when test="exists($hits)">hit</xsl:when>
-         <xsl:when test="self::text() and normalize-space() = '' and not(parent::xsl:text)">ignored</xsl:when>
-         <xsl:when test="self::xsl:variable">
-            <xsl:sequence select="local:coverage(following-sibling::*[not(self::xsl:variable)][1], $module-id)" />
-         </xsl:when>
-         <xsl:when test="ancestor::xsl:variable">
-            <xsl:sequence select="local:coverage(ancestor::xsl:variable[1], $module-id)" />
-         </xsl:when>
-         <xsl:when test="self::xsl:stylesheet or self::xsl:transform">ignored</xsl:when>
-         <xsl:when test="self::xsl:function or self::xsl:template">missed</xsl:when>
-         <!-- A node within a top-level non-XSLT element -->
-         <xsl:when test="empty(ancestor::xsl:*[parent::xsl:stylesheet or parent::xsl:transform])">ignored</xsl:when>
-         <xsl:when test="self::xsl:param">
-            <xsl:sequence select="local:coverage(parent::*, $module-id)" />
-         </xsl:when>
-         <xsl:when test="self::xsl:context-item">
-            <!-- Saxon does not seem to call enter() for xsl:context-item (xspec/xspec#1410) -->
-            <xsl:sequence select="local:coverage(parent::xsl:template, $module-id)" />
-         </xsl:when>
-         <xsl:otherwise>missed</xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
-   <xsl:template match="document-node()" as="xs:string" mode="coverage">ignored</xsl:template>
-
-   <!--
       Local functions
    -->
 
@@ -400,24 +337,6 @@
             <xsl:sequence select="$stylesheets" />
          </xsl:otherwise>
       </xsl:choose>
-   </xsl:function>
-
-   <xsl:function name="local:coverage" as="xs:string">
-      <xsl:param name="node" as="node()" />
-      <xsl:param name="module-id" as="xs:integer" />
-
-      <xsl:variable name="coverage" as="xs:string+">
-         <xsl:apply-templates select="$node" mode="coverage">
-            <xsl:with-param name="module-id" tunnel="yes" select="$module-id" />
-         </xsl:apply-templates>
-      </xsl:variable>
-      <xsl:if test="count($coverage) > 1">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR: more than one coverage identified for:</xsl:text>
-            <xsl:sequence select="$node" />
-         </xsl:message>
-      </xsl:if>
-      <xsl:sequence select="$coverage[1]" />
    </xsl:function>
 
    <xsl:function name="local:hits-on-node" as="element(hit)*">
