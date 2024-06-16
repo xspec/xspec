@@ -107,13 +107,8 @@
          select="string-length(xs:string($number-of-lines))" />
       <xsl:variable name="number-format" as="xs:string"
          select="string-join(for $i in 1 to $number-width return '0')" />
-      <xsl:variable name="module-id" as="xs:integer?">
-         <xsl:variable name="uri" as="xs:string"
-            select="if (starts-with($stylesheet-uri, '/'))
-                    then ('file:' || $stylesheet-uri)
-                    else $stylesheet-uri" />
-         <xsl:sequence select="key('modules', $uri, $trace)/@moduleId" />
-      </xsl:variable>
+      <xsl:variable name="module-id" as="xs:integer?"
+         select="accumulator-before('module-id-for-node')"/>
       <h2>
          <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
       </h2>
@@ -128,7 +123,6 @@
                <xsl:call-template name="output-lines">
                   <xsl:with-param name="stylesheet-lines" select="$stylesheet-lines" />
                   <xsl:with-param name="number-format" select="$number-format" />
-                  <xsl:with-param name="module-id" select="$module-id" />
                </xsl:call-template>
             </pre>
          </xsl:otherwise>
@@ -205,7 +199,6 @@
 
       <xsl:param name="stylesheet-lines" as="xs:string+" required="yes" />
       <xsl:param name="number-format" as="xs:string" required="yes" />
-      <xsl:param name="module-id" as="xs:integer" required="yes" />
 
       <xsl:variable name="outermost-element" as="element()" select="." />
 
@@ -349,9 +342,10 @@
 
    <xsl:function name="local:hits-on-node" as="element(hit)*">
       <xsl:param name="node" as="node()" />
-      <xsl:param name="module-id" as="xs:integer" />
 
       <xsl:for-each select="$node">
+         <xsl:variable name="module-id" as="xs:integer"
+            select="accumulator-before('module-id-for-node')"/>
          <xsl:variable name="hits" as="element(hit)*"
             select="local:hits-on-line-column($module-id, x:line-number(.), x:column-number(.))" />
          <xsl:variable name="node-uqname" as="xs:string?" select="x:node-UQName(.)" />

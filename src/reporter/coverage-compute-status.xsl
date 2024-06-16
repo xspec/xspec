@@ -14,7 +14,7 @@
     <xsl:accumulator name="category-based-on-trace-data" as="xs:string*" initial-value="()">
         <xsl:accumulator-rule match="element() | text()">
             <xsl:variable name="hits-on-node"
-                select="local:hits-on-node(., accumulator-before('module-id-for-node'))"/>
+                select="local:hits-on-node(.)"/>
             <xsl:choose>
                 <xsl:when test="exists($hits-on-node)">
                     <xsl:sequence select="'hit'"/>
