@@ -257,8 +257,16 @@
                      $regex-group($groups('comment'))) or
                     ($node instance of processing-instruction() and
                      $regex-group($groups('pi')))" />
-         <xsl:variable name="coverage" as="xs:string"
-            select="if ($matches) then local:coverage($node, $module-id) else 'ignored'" />
+         <xsl:variable name="coverage" as="xs:string">
+            <xsl:choose>
+               <xsl:when test="$matches">
+                  <xsl:apply-templates select="$node" mode="coverage"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:sequence select="'ignored'"/>
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable> 
          <xsl:for-each select="$construct-lines">
             <xsl:if test="position() != 1">
                <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>

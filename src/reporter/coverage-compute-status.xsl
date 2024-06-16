@@ -42,22 +42,6 @@
         </xsl:accumulator-rule>
     </xsl:accumulator>
 
-    <xsl:function name="local:coverage" as="xs:string">
-        <xsl:param name="node" as="node()" />
-        <xsl:param name="module-id" as="xs:integer" />
-        
-        <xsl:variable name="coverage" as="xs:string+">
-            <xsl:apply-templates select="$node" mode="coverage"/>
-        </xsl:variable>
-        <xsl:if test="count($coverage) > 1">
-            <xsl:message terminate="yes">
-                <xsl:text>ERROR: more than one coverage identified for:</xsl:text>
-                <xsl:sequence select="$node" />
-            </xsl:message>
-        </xsl:if>
-        <xsl:sequence select="$coverage" />
-    </xsl:function>
-
     <!--
       mode="coverage"
    -->
