@@ -7,182 +7,94 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-param-01.xsl">xsl-param-01.xsl</a></p>
-      <h2>module: xsl-param-01.xsl; 176 lines</h2>
-      <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
-002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
-003: <span class="ignored">                xmlns:myns="file://myNamespace"&gt;</span>
-004: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-005: <span class="ignored">      xsl:param Coverage Test Case</span>
-006: <span class="ignored">  --&gt;</span>
-007: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param overridden in XSpec --&gt;</span>
-008: <span class="ignored">  </span><span class="ignored">&lt;xsl:param name="globalParam01"&gt;</span><span class="missed">0</span><span class="ignored">&lt;/xsl:param&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-009: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - no default --&gt;</span>
-010: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam02" /&gt;</span>
-011: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with select attribute --&gt;</span>
-012: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam03" select="200" /&gt;</span>
-013: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with inline sequence constructor --&gt;</span>
-014: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam04"&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:param&gt;</span>
-015: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with multiline sequence constructor--&gt;</span>
-016: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam05"&gt;</span>
-017: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">4</span><span class="hit">&lt;/xsl:text&gt;</span>
-018: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
-019: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
-020: <span class="ignored">  </span><span class="hit">&lt;/xsl:param&gt;</span>
-021: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with multiline sequence constructor - not used --&gt;</span>
-022: <span class="ignored">  </span><span class="ignored">&lt;xsl:param name="globalParam06"&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-023: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">4</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-024: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-025: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-026: <span class="ignored">  </span><span class="ignored">&lt;/xsl:param&gt;</span><span class="ignored">                                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-027: 
-028: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-param"&gt;</span>
-029: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-030: <span class="ignored">      </span><span class="ignored">&lt;!-- Global param --&gt;</span>
-031: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
-032: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam01" /&gt;</span>
-033: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-034: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
-035: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam02" /&gt;</span>
-036: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-037: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
-038: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam03" /&gt;</span>
-039: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-040: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
-041: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam04" /&gt;</span>
-042: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-043: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
-044: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam05" /&gt;</span>
-045: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-046: <span class="ignored">      </span><span class="ignored">&lt;!-- Template param --&gt;</span>
-047: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate01"&gt;</span>
-048: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam01"&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-049: <span class="ignored">      </span><span class="hit">&lt;/xsl:call-template&gt;</span>
-050: <span class="ignored">      </span><span class="ignored">&lt;!-- Template param --&gt;</span>
-051: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate02"&gt;</span>
-052: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam02"&gt;</span><span class="hit">600</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-053: <span class="ignored">      </span><span class="hit">&lt;/xsl:call-template&gt;</span>
-054: <span class="ignored">      </span><span class="ignored">&lt;!-- Template param --&gt;</span>
-055: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate03"&gt;</span>
-056: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam03"&gt;</span><span class="hit">700</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-057: <span class="ignored">      </span><span class="hit">&lt;/xsl:call-template&gt;</span>
-058: <span class="ignored">      </span><span class="ignored">&lt;!-- Template param --&gt;</span>
-059: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate04"&gt;</span>
-060: <span class="ignored">        </span><span class="hit">&lt;xsl:with-param name="templateParam04"&gt;</span><span class="hit">800</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-061: <span class="ignored">      </span><span class="hit">&lt;/xsl:call-template&gt;</span>
-062: <span class="ignored">      </span><span class="ignored">&lt;!-- Call Template using default xsl:param values --&gt;</span>
-063: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate05" /&gt;</span>
-064: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate06" /&gt;</span>
-065: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate07" /&gt;</span>
-066: <span class="ignored">      </span><span class="hit">&lt;xsl:call-template name="paramTemplate08" /&gt;</span>
-067: <span class="ignored">      </span><span class="ignored">&lt;!-- Function param --&gt;</span>
-068: <span class="ignored">      </span><span class="hit">&lt;node type="param - function"&gt;</span>
-069: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:paramFunction01('1200')" /&gt;</span>
-070: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-071: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with select attribute --&gt;</span>
-072: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-073: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01" select="13" /&gt;</span>
-074: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
-075: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
-076: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-077: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-078: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with inline sequence constructor --&gt;</span>
-079: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-080: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01"&gt;</span><span class="missed">14</span><span class="hit">&lt;/xsl:param&gt;</span>
-081: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
-082: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
-083: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-084: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-085: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with multiline sequence constructor --&gt;</span>
-086: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-087: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01"&gt;</span>
-088: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1</span><span class="missed">&lt;/xsl:text&gt;</span>
-089: <span class="ignored">          </span><span class="missed">&lt;xsl:choose&gt;</span>
-090: <span class="ignored">            </span><span class="missed">&lt;xsl:when test="1 eq 1"&gt;</span>
-091: <span class="ignored">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">5</span><span class="missed">&lt;/xsl:text&gt;</span>
-092: <span class="ignored">            </span><span class="missed">&lt;/xsl:when&gt;</span>
-093: <span class="ignored">            </span><span class="missed">&lt;xsl:otherwise&gt;</span>
-094: <span class="ignored">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">99</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-095: <span class="ignored">            </span><span class="missed">&lt;/xsl:otherwise&gt;</span>
-096: <span class="ignored">          </span><span class="missed">&lt;/xsl:choose&gt;</span>
-097: <span class="ignored">        </span><span class="hit">&lt;/xsl:param&gt;</span>
-098: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
-099: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
-100: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-101: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-102: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-103: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-104: <span class="ignored">  </span><span class="ignored">&lt;!-- Templates where xsl:param value is provided by caller --&gt;</span>
-105: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with no default - value provided by caller --&gt;</span>
-106: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate01"&gt;</span>
-107: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam01" /&gt;</span>
-108: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-109: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam01" /&gt;</span>
-110: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-111: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-112: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with select attribute - value provided by caller --&gt;</span>
-113: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate02"&gt;</span>
-114: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam02" select="999" /&gt;</span>
-115: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-116: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam02" /&gt;</span>
-117: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-118: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-119: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with inline sequence constructor - value provided by caller --&gt;</span>
-120: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate03"&gt;</span>
-121: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam03"&gt;</span><span class="hit">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="ignored">                          </span><span class="ignored">&lt;!-- Expected miss for 999 --&gt;</span>
-122: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-123: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam03" /&gt;</span>
-124: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-125: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-126: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with multi-line sequence constructor - value provided by caller --&gt;</span>
-127: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate04"&gt;</span>
-128: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam04"&gt;</span>
-129: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">9</span><span class="hit">&lt;/xsl:text&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-130: <span class="ignored">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">9</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-131: <span class="ignored">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">9</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-132: <span class="ignored">    </span><span class="hit">&lt;/xsl:param&gt;</span>
-133: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-134: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam04" /&gt;</span>
-135: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-136: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-137: <span class="ignored">  </span><span class="ignored">&lt;!-- Templates where xsl:param default value is used --&gt;</span>
-138: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with no default - no value provided by caller, relying on default value --&gt;</span>
-139: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate05"&gt;</span>
-140: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam05" /&gt;</span>
-141: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-142: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam05" /&gt;</span>
-143: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-144: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-145: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with select attribute - no value provided by caller, relying on default value --&gt;</span>
-146: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate06"&gt;</span>
-147: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam06" select="900" /&gt;</span>
-148: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-149: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam06" /&gt;</span>
-150: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-151: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-152: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with inline sequence constructor - no value provided by caller, relying on default value --&gt;</span>
-153: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate07"&gt;</span>
-154: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam07"&gt;</span><span class="hit">1000</span><span class="hit">&lt;/xsl:param&gt;</span>
-155: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-156: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam07" /&gt;</span>
-157: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-158: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-159: <span class="ignored">  </span><span class="ignored">&lt;!-- Template param with multi-line sequence constructor - no value provided by caller, relying on default value --&gt;</span>
-160: <span class="ignored">  </span><span class="hit">&lt;xsl:template name="paramTemplate08"&gt;</span>
-161: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam08"&gt;</span>
-162: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
-163: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
-164: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
-165: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
-166: <span class="ignored">    </span><span class="hit">&lt;/xsl:param&gt;</span>
-167: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
-168: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam08" /&gt;</span>
-169: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-170: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-171: <span class="ignored">  </span><span class="ignored">&lt;!-- Function param - not allowed a default value so no select attribute or sequence constructor tests --&gt;</span>
-172: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="myns:paramFunction01"&gt;</span>
-173: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="functionParam01" /&gt;</span>
-174: <span class="ignored">    </span><span class="hit">&lt;xsl:value-of select="$functionParam01" /&gt;</span>
-175: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
-176: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <h2>module: xsl-param-01.xsl; 88 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
+03: <span class="ignored">                xmlns:myns="file://myNamespace"&gt;</span>
+04: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+05: <span class="ignored">      xsl:param Coverage Test Case for child of xsl:stylesheet, xsl:iterate, xsl:function</span>
+06: <span class="ignored">  --&gt;</span>
+07: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param overridden in XSpec --&gt;</span>
+08: <span class="ignored">  </span><span class="ignored">&lt;xsl:param name="globalParam01"&gt;</span><span class="missed">0</span><span class="ignored">&lt;/xsl:param&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+09: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - no default --&gt;</span>
+10: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam02" /&gt;</span>
+11: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with select attribute --&gt;</span>
+12: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam03" select="200" /&gt;</span>
+13: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with inline sequence constructor --&gt;</span>
+14: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam04"&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:param&gt;</span>
+15: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with multiline sequence constructor--&gt;</span>
+16: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParam05"&gt;</span>
+17: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">4</span><span class="hit">&lt;/xsl:text&gt;</span>
+18: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
+19: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">0</span><span class="hit">&lt;/xsl:text&gt;</span>
+20: <span class="ignored">  </span><span class="hit">&lt;/xsl:param&gt;</span>
+21: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with multiline sequence constructor - not used --&gt;</span>
+22: <span class="ignored">  </span><span class="ignored">&lt;xsl:param name="globalParam06"&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+23: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">4</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+24: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+25: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+26: <span class="ignored">  </span><span class="ignored">&lt;/xsl:param&gt;</span><span class="ignored">                                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+27: 
+28: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-param"&gt;</span>
+29: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+30: <span class="ignored">      </span><span class="ignored">&lt;!-- Global param --&gt;</span>
+31: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
+32: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam01" /&gt;</span>
+33: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+34: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
+35: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam02" /&gt;</span>
+36: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+37: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
+38: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam03" /&gt;</span>
+39: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+40: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
+41: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam04" /&gt;</span>
+42: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+43: <span class="ignored">      </span><span class="hit">&lt;node type="param - global"&gt;</span>
+44: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$globalParam05" /&gt;</span>
+45: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+46: <span class="ignored">      </span><span class="ignored">&lt;!-- Function param --&gt;</span>
+47: <span class="ignored">      </span><span class="hit">&lt;node type="param - function"&gt;</span>
+48: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:paramFunction01('1200')" /&gt;</span>
+49: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+50: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with select attribute --&gt;</span>
+51: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+52: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01" select="13" /&gt;</span>
+53: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
+54: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
+55: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+56: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+57: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with inline sequence constructor --&gt;</span>
+58: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+59: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01"&gt;</span><span class="missed">14</span><span class="hit">&lt;/xsl:param&gt;</span>
+60: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
+61: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
+62: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+63: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+64: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with multiline sequence constructor --&gt;</span>
+65: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+66: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParam01"&gt;</span>
+67: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1</span><span class="missed">&lt;/xsl:text&gt;</span>
+68: <span class="ignored">          </span><span class="missed">&lt;xsl:choose&gt;</span>
+69: <span class="ignored">            </span><span class="missed">&lt;xsl:when test="1 eq 1"&gt;</span>
+70: <span class="ignored">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">5</span><span class="missed">&lt;/xsl:text&gt;</span>
+71: <span class="ignored">            </span><span class="missed">&lt;/xsl:when&gt;</span>
+72: <span class="ignored">            </span><span class="missed">&lt;xsl:otherwise&gt;</span>
+73: <span class="ignored">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">99</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+74: <span class="ignored">            </span><span class="missed">&lt;/xsl:otherwise&gt;</span>
+75: <span class="ignored">          </span><span class="missed">&lt;/xsl:choose&gt;</span>
+76: <span class="ignored">        </span><span class="hit">&lt;/xsl:param&gt;</span>
+77: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
+78: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParam01 * 100" /&gt;</span>
+79: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+80: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+81: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+82: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+83: <span class="ignored">  </span><span class="ignored">&lt;!-- Function param - not allowed a default value so no select attribute or sequence constructor tests --&gt;</span>
+84: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="myns:paramFunction01"&gt;</span>
+85: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="functionParam01" /&gt;</span>
+86: <span class="ignored">    </span><span class="hit">&lt;xsl:value-of select="$functionParam01" /&gt;</span>
+87: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+88: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>
