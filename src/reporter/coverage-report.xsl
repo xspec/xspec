@@ -352,6 +352,47 @@
       </xsl:choose>
    </xsl:template>
 
+   <!-- With linked tree model, this text node's computed line/column data
+      is from the parent xsl:param, which can be hit even if
+      the sequence constructor that includes this text node is missed.
+
+      Workaround: Look for hit corresponding to parent xsl:param that
+      uses corresponding uqname for xsl:document. Such a hit indicates
+      that the sequence constructor was hit because the default parameter
+      value was computed. Also, a hit "corresponding to" the parent
+      xsl:param can point to either xsl:param (as expected) or, in Saxon 12.4,
+      the parameter's first nontrivial child node if it is an element. -->
+   <xsl:template match="xsl:template/xsl:param/text()[normalize-space() ne '']"
+      as="xs:string" mode="coverage">
+      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
+      <xsl:variable name="param-hits" as="element(hit)*"
+         select="local:hits-on-node(.., $module-id)" />
+      <xsl:variable name="first-nontrivial-child-if-element" as="element()?"
+         select="../node()[not(self::text()[normalize-space()=''])][1][self::element()]" />
+      <!-- Note: Use of ! prevents local:hits-on-node from being called if
+         $first-nontrivial-child-if-element is empty. -->
+      <xsl:variable name="misplaced-hits" as="element(hit)*"
+         select="$first-nontrivial-child-if-element ! local:hits-on-node(.,$module-id)"/>
+      <xsl:variable name="doc-node-uqname" as="xs:string"
+         select="'Q{http://www.w3.org/1999/XSL/Transform}document'"/>
+      <xsl:choose>
+         <xsl:when test="some $h in ($param-hits, $misplaced-hits) satisfies
+            $h/key('traceables', @traceableId, $trace)/@uqname eq
+            $doc-node-uqname">hit</xsl:when>
+         <xsl:otherwise>missed</xsl:otherwise>
+      </xsl:choose>
+   </xsl:template>
+
+   <!-- With linked tree model, this text node's computed line/column data
+      is from the ancestor template parameter, which can be hit even if
+      the sequence constructor that includes this text node is missed.
+      Workaround: Use status of this node's parent element. -->
+   <xsl:template match="xsl:template/xsl:param/element()/text()[normalize-space() ne '']"
+      as="xs:string" mode="coverage">
+      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
+      <xsl:sequence select="local:coverage(parent::element(), $module-id)" />
+   </xsl:template>
+
    <xsl:template match="element() | text()" as="xs:string" mode="coverage">
       <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
 
@@ -433,10 +474,19 @@
                select="exactly-one(key('traceables', @traceableId, $trace))/@uqname" />
             <xsl:variable name="hit-traceable-class" as="xs:string?"
                select="exactly-one(key('traceables', @traceableId, $trace))/@class" />
-            <xsl:if test="($node-uqname eq $hit-traceable-uqname) or
-                          exists($hit-traceable-class)">
-               <xsl:sequence select="." />
-            </xsl:if>
+            <xsl:choose>
+               <xsl:when test="$hit-traceable-uqname eq 'Q{http://www.w3.org/1999/XSL/Transform}param'
+                  and $node/self::element()/parent::xsl:param/parent::xsl:template">
+                  <!-- Ignore hit that is configured for xsl:param but points to
+                     child element of a template parameter. Saxon 12.4 puts the
+                     xsl:param hit on the wrong node: first child node, if it is
+                     an element. -->
+               </xsl:when>
+               <xsl:when test="($node-uqname eq $hit-traceable-uqname) or
+                  exists($hit-traceable-class)">
+                  <xsl:sequence select="." />
+               </xsl:when>
+            </xsl:choose>
          </xsl:for-each>
       </xsl:for-each>
    </xsl:function>
