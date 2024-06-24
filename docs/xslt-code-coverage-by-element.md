@@ -894,7 +894,7 @@ xsl:template xsl:param with no default value - valid trace.
 
 xsl:template xsl:param with select attribute - trace with column 0.
 
-xsl:template xsl:param with sequence constructor - trace for this element points to first sequence constructor element. Sequence constructor elements are traced in their own right if the default parameter value is used, but not if the parameter value is supplied by xsl:with-param in the caller.
+xsl:template xsl:param with sequence constructor - if sequence constructor contains an element, trace for xsl:param points to first sequence constructor element or its descendant (https://saxonica.plan.io/issues/6457). Sequence constructor elements are traced in their own right if the default parameter value is used, but not if the parameter value is supplied by xsl:with-param in the caller.
 
 **_Rule Details_**
 
@@ -904,9 +904,9 @@ xsl:iterate xsl:param can use the state of the parent xsl:iterate element. And i
 
 xsl:function xsl:param can use the state of the parent xsl:function element.
 
-xsl:template xsl:param trace causes confusion because it can cause the first sequence constructor element to appear to be hit. Suggest ignoring the trace data related to xsl:param in a template and rely on xsl:template state.
+xsl:template xsl:param trace causes confusion because it can cause the first sequence constructor element (or a descendant of it) to appear to be hit. Suggest ignoring the trace data related to xsl:param in a template and rely on xsl:template state.
 
-**_BUT_** also need to stop the first sequence constructor element using the xsl:param trace to record a 'hit'. Is the easiest approach to not output the hit element in the TraceListener in this case? The other approach is for all elements to check if the trace is for UQName eq 'param' and if so ignore it.
+**_BUT_** also need to stop the sequence constructor element from using the xsl:param trace to record a 'hit'. Is the easiest approach to not output the hit element in the TraceListener in this case? The other approach is for all elements other than xsl:param to ignore a trace hit for UQName eq 'param'.
 
 ## xsl:perform-sort
 
