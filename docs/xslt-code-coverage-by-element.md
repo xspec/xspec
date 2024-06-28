@@ -554,7 +554,7 @@ Inclined to say unknown and add a comment on the Code Coverage page.
 
 Tested as part of xsl:map.
 
-There is a trace entry for 1 xsl:map-entry element on line 13, column 0 in xsl-map-01.xsl but that seems to be related to the xsl:param and not xsl:map-entry.
+There is a trace entry in xsl-map-01.xsl for `<xsl:map-entry key="'One'" select="100"/>` but that seems to be related to the xsl:param and not xsl:map-entry.
 
 Difficult to know what to do here as it is never traced. Neither is xsl:map.
 
