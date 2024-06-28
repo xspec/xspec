@@ -1,8 +1,8 @@
 # XSLT Element Code Coverage
 
-## Categories
+## Coverage Status
 
-The following list describes the categories used in code coverage. These categories are actually CSS class names used on span elements that enclose each node in the coverage report.
+The following list describes the coverage status values used in code coverage. They are actually CSS class names used on span elements that enclose each node in the coverage report.
 
 - **Hit** - the node was executed
 - **Missed** - the node was not executed
@@ -24,7 +24,7 @@ Each element section contains a table with the following rows. The first 4 provi
 
 ## Rules
 
-The following list describes the rules used to determine the category of each node of the stylesheet, as depicted in the coverage report.
+The following list describes the rules used to determine the coverage status of each node of the stylesheet, as depicted in the coverage report.
 
 - **Always Ignore** - Mark node as 'ignored'. This rule is mainly for Declaration elements where Saxon does not produce trace output.
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
