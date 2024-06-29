@@ -14,8 +14,12 @@
             <node type="param/map">300</node>
             <node type="variable/map">100</node>
             <node type="variable/map">300</node>
+            <node type="variable/map">500</node>
+            <node type="variable/map">700</node>
             <node type="function/map">100</node>
             <node type="function/map">300</node>
+            <node type="variable/map-entry">100</node>
+            <node type="variable/map-entry">300</node>
          </root>
       </x:expect>
    </x:scenario>
