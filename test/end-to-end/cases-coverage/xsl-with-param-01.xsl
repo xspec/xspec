@@ -51,6 +51,27 @@
       <node type="with-param - evaluate">
         <xsl:value-of select="$evaluatedExpressionParamChild" />
       </node>
+      <!-- Constructs in which parent of xsl:with-param is not hit -->
+      <xsl:if test="exists(parent-of-with-param-not-hit)">
+        <xsl:call-template name="withParamTemplate01">                         <!-- Expected miss -->
+          <xsl:with-param name="withParam-CT-Param01">500</xsl:with-param>     <!-- Expected miss -->
+        </xsl:call-template>                                                   <!-- Expected miss -->
+        <xsl:apply-templates mode="withParamMode">                             <!-- Expected miss -->
+          <xsl:with-param name="withParam-AT-Param01">500</xsl:with-param>     <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:apply-templates select="*" mode="withParamModeAI">                <!-- Expected miss -->
+          <xsl:with-param name="withParam-AI-Param01">900</xsl:with-param>     <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:next-match>                                                       <!-- Expected miss -->
+          <xsl:with-param name="withParam-NM-Param01" select="0" />            <!-- Expected miss -->
+        </xsl:next-match>                                                      <!-- Expected miss -->
+        <xsl:variable name="evaluatedExpressionParamChild">                    <!-- Expected miss -->
+          <xsl:evaluate xpath="'string(node[$index])'" context-item=".">       <!-- Expected miss -->
+            <xsl:with-param name="index" select="$index" />                    <!-- Expected miss -->
+          </xsl:evaluate>                                                      <!-- Expected miss -->
+        </xsl:variable>                                                        <!-- Expected miss -->
+        <xsl:value-of select="$evaluatedExpressionParamChild" />               <!-- Expected miss -->
+      </xsl:if>
     </root>
   </xsl:template>
   <!-- Call Template -->
@@ -86,5 +107,5 @@
     <xsl:next-match>
       <xsl:with-param name="withParam-NM-Param01" select="$withParam-NM-Param01" />
     </xsl:next-match>
-   </xsl:template>
+  </xsl:template>
 </xsl:stylesheet>

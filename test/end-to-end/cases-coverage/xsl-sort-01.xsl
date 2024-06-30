@@ -59,6 +59,29 @@
           <xsl:value-of select="." />
         </node>
       </xsl:for-each>
+      <!-- Constructs in which parent of xsl:sort is not hit -->
+      <xsl:if test="exists(parent-of-sort-not-hit)">
+        <xsl:for-each select="*">                                              <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:value-of select="." />                                        <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+          <xsl:value-of select="." />                                          <!-- Expected miss -->
+        </xsl:for-each>                                                        <!-- Expected miss -->
+        <xsl:for-each-group select="*" group-by="@type">                       <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:value-of select="." />                                        <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+          <xsl:value-of select="sum(current-group()/.)" />                     <!-- Expected miss -->
+        </xsl:for-each-group>                                                  <!-- Expected miss -->
+        <xsl:apply-templates mode="sortMode">                                  <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:value-of select="." />                                        <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:perform-sort select="node">                                       <!-- Expected miss -->
+          <xsl:sort />                                                         <!-- Expected miss -->
+        </xsl:perform-sort>                                                    <!-- Expected miss -->
+      </xsl:if>
     </root>
   </xsl:template>
 
