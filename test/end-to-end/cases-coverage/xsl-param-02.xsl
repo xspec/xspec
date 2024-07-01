@@ -146,7 +146,7 @@
     <xsl:param name="templateParam07-elems3"><a>a</a></xsl:param>
     <xsl:param name="templateParam07-cond1">1000<xsl:if test="1">1000</xsl:if></xsl:param>
     <xsl:param name="templateParam07-cond2">1000<xsl:if test="0">1000</xsl:if></xsl:param> <!-- Expected miss for xsl:if and child -->
-    
+
     <node type="param - template">
       <xsl:value-of select="$templateParam07-no-el1" />
     </node>
@@ -186,7 +186,7 @@
       as="node()+">1100<xsl:if test="1">1100</xsl:if></xsl:param>
     <xsl:param name="templateParam08-cond2"
       as="node()+">1100<xsl:if test="0">1100</xsl:if></xsl:param> <!-- Expected miss for xsl:if and child -->
-    
+
     <node type="param - template">
       <xsl:value-of select="$templateParam08-no-el1" />
     </node>

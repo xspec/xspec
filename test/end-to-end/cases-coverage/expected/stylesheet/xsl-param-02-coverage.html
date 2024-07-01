@@ -156,7 +156,7 @@
 146: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam07-elems3"&gt;</span><span class="hit">&lt;a&gt;</span><span class="hit">a</span><span class="hit">&lt;/a&gt;</span><span class="hit">&lt;/xsl:param&gt;</span>
 147: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam07-cond1"&gt;</span><span class="missed">1000</span><span class="hit">&lt;xsl:if test="1"&gt;</span><span class="missed">1000</span><span class="hit">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span>
 148: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam07-cond2"&gt;</span><span class="missed">1000</span><span class="missed">&lt;xsl:if test="0"&gt;</span><span class="missed">1000</span><span class="missed">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="ignored"> </span><span class="ignored">&lt;!-- Expected miss for xsl:if and child --&gt;</span>
-149: <span class="ignored">    </span>
+149: 
 150: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
 151: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam07-no-el1" /&gt;</span>
 152: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
@@ -196,7 +196,7 @@
 186: <span class="hit">      as="node()+"&gt;</span><span class="missed">1100</span><span class="hit">&lt;xsl:if test="1"&gt;</span><span class="missed">1100</span><span class="hit">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span>
 187: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="templateParam08-cond2"</span>
 188: <span class="hit">      as="node()+"&gt;</span><span class="missed">1100</span><span class="missed">&lt;xsl:if test="0"&gt;</span><span class="missed">1100</span><span class="missed">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="ignored"> </span><span class="ignored">&lt;!-- Expected miss for xsl:if and child --&gt;</span>
-189: <span class="ignored">    </span>
+189: 
 190: <span class="ignored">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
 191: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="$templateParam08-no-el1" /&gt;</span>
 192: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>

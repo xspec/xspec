@@ -28,7 +28,7 @@
   <xsl:variable name="variableGlobalEmptySequenceUnused01" as="element()?" />  <!-- Expected miss -->
   <!-- Not used -->
   <xsl:variable name="variableGlobalEmptyStringUnused01" />                    <!-- Expected miss -->
-  
+
   <xsl:template match="xsl-variable">
     <xsl:variable name="variableLocalSelect01" select="string(400)" />
     <xsl:variable name="variableLocalDocNode01">

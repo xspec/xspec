@@ -18,12 +18,12 @@
     <xsl:text>Ignored</xsl:text>
     <doc:para>Top-level element is not in <doc:uri>http://www.w3.org/1999/XSL/Transform</doc:uri> namespace</doc:para>
   </doc:template>
-  
+
   <xsl:template name="non-xsl-top-level-element" xmlns:xsl="NotTheXSLTNamespace">
     <xsl:text xmlns:xsl="http://www.w3.org/1999/XSL/Transform">Ignored</xsl:text>
     <xsl:para>Top-level element is not in <xsl:uri>http://www.w3.org/1999/XSL/Transform</xsl:uri> namespace</xsl:para>
   </xsl:template>
-  
+
   <template name="non-xsl-top-level-element" xmlns="NotTheXSLTNamespace">
     <xsl:text>Ignored</xsl:text>
     <para>Top-level element is not in <uri>http://www.w3.org/1999/XSL/Transform</uri> namespace</para>

@@ -15,13 +15,13 @@
         <xsl:text>100</xsl:text>
       </node>
       <node type="text">
-        <xsl:sequence>100</xsl:sequence>        
+        <xsl:sequence>100</xsl:sequence>
       </node>
       <node type="text">
-        <xsl:value-of>100</xsl:value-of>    
+        <xsl:value-of>100</xsl:value-of>
       </node>
       <node type="text">
-        <xsl:value-of select="string(100)"/>   
+        <xsl:value-of select="string(100)"/>
       </node>
       <node type="text" xsl:expand-text="yes">{
         $param-text
@@ -31,13 +31,13 @@
         }</node>
       <node type="text" xsl:expand-text="yes">{100}</node>
       <node type="text">
-        <xsl:text expand-text="yes">{ $variable-text }</xsl:text>        
+        <xsl:text expand-text="yes">{ $variable-text }</xsl:text>
       </node>
       <node type="text">
-        <xsl:sequence expand-text="yes">{ $variable-text }</xsl:sequence>        
+        <xsl:sequence expand-text="yes">{ $variable-text }</xsl:sequence>
       </node>
       <node type="text">
-        <xsl:value-of expand-text="yes">{ $variable-text }</xsl:value-of>        
+        <xsl:value-of expand-text="yes">{ $variable-text }</xsl:value-of>
       </node>
     </root>
   </xsl:template>
