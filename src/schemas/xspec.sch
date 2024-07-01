@@ -82,4 +82,26 @@
 			</sqf:fix>
 		</sch:rule>
 	</sch:pattern>
+
+	<sch:pattern>
+		<sch:rule context="*[x:is-user-content(.)]">
+			<sch:assert id="user-element-expand-text" role="warn" sqf:fix="sqf-rename-x-expand-text sqf-delete-expand-text"
+				test="empty(@expand-text)">Non-XSpec elements use x:expand-text, not expand-text, to control text value templates</sch:assert>
+			<sqf:fix id="sqf-rename-x-expand-text" use-when="not(./@x:expand-text)">
+				<!-- If element does not already have x:expand-text, rename expand-text to x:expand-text -->
+				<sqf:description>
+					<sqf:title>Rename @expand-text as @x:expand-text</sqf:title>
+				</sqf:description>
+				<sqf:replace match="@expand-text" node-type="attribute" target="x:expand-text"
+					select="string(.)"/>
+			</sqf:fix>
+			<sqf:fix id="sqf-delete-expand-text" use-when="exists(./@x:expand-text)">
+				<!-- If element already has x:expand-text, delete expand-text. Leave x:expand-text as is. -->
+				<sqf:description>
+					<sqf:title>Delete @expand-text</sqf:title>
+				</sqf:description>
+				<sqf:delete match="@expand-text"/>
+			</sqf:fix>
+		</sch:rule>
+	</sch:pattern>
 </sch:schema>
