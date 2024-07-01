@@ -1193,13 +1193,9 @@ Note: The test shows the child of xsl:where-populated hit even if it does nothin
 | PARENT   | xsl:apply-imports, xsl:apply-templates, xsl:call-template, xsl:evaluate, xsl:next-iteration, xsl:next-match |
 | CHILDREN |                                                                                                             |
 | CONTENT  |                                                                                                             |
-| TRACE    | Sometimes                                                                                                   |
+| TRACE    | No                                                                                                          |
 | RULE     | Use Parent Data                                                                                             |
 
 #### Comment
-
-Traced when a child of xsl:apply-templates, xsl:call-template.
-
-Not traced when a child of xsl:apply-imports, xsl:evaluate, xsl:next-iteration, xsl:next-match.
 
 Suggest it is always marked as a 'hit' if the parent is traced.
