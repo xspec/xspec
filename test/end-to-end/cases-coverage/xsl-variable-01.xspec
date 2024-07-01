@@ -14,8 +14,14 @@
          <root>
             <node type="variable - global">100</node>
             <node type="variable - global">200</node>
+            <node type="variable - global">200</node>
+            <node type="variable - global">0</node>
+            <node type="variable - global">1</node>
             <node type="variable - local">400</node>
             <node type="variable - local">500</node>
+            <node type="variable - local">500</node>
+            <node type="variable - local">0</node>
+            <node type="variable - local">1</node>
          </root>
       </x:expect>
    </x:scenario>

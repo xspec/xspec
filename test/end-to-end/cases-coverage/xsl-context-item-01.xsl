@@ -11,4 +11,12 @@
         </node>
       </root>
   </xsl:template>
+  <xsl:template name="template-not-hit">                                       <!-- Expected miss -->
+    <xsl:context-item use="required" as="item()" />                            <!-- Expected miss -->
+    <root>                                                                     <!-- Expected miss -->
+      <node>                                                                   <!-- Expected miss -->
+        <xsl:text>not hit</xsl:text>                                           <!-- Expected miss -->
+      </node>                                                                  <!-- Expected miss -->
+    </root>                                                                    <!-- Expected miss -->
+  </xsl:template>                                                              <!-- Expected miss -->
 </xsl:stylesheet>

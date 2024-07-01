@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../non-xsl-top-level-element-01.xspec">
+   <compiled uri="non-xsl-top-level-element-01-compiled.xsl"/>
+   <module moduleId="0" uri="../../non-xsl-top-level-element-01.xsl"/>
+   <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.TemplateRule"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="7" columnNumber="51" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="8" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.Copy"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}copy"/>
+   <hit lineNumber="9" columnNumber="17" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.ValueOf"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="10" columnNumber="19" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.ApplyImports"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}apply-imports"/>
+   <hit lineNumber="12" columnNumber="27" moduleId="0" traceableId="4"/>
+   <module moduleId="1" uri="../../non-xsl-top-level-element-01A.xsl"/>
+   <hit lineNumber="6" columnNumber="51" moduleId="1" traceableId="0"/>
+   <hit lineNumber="7" columnNumber="15" moduleId="1" traceableId="2"/>
+   <hit lineNumber="8" columnNumber="17" moduleId="1" traceableId="3"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

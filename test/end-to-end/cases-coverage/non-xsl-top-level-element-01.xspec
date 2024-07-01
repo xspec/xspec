@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="non-xsl-top-level-element-01.xsl">
+   <x:scenario label="Coverage Test Case for non-XSLT child of xsl:stylesheet">
+      <x:context>
+         <root>
+            <non-xsl-top-level-element/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <non-xsl-top-level-element>Child of xsl:stylesheet</non-xsl-top-level-element>
+            <non-xsl-top-level-element>Child of xsl:transform</non-xsl-top-level-element>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>
