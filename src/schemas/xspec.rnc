@@ -320,7 +320,7 @@ common-attributes = xml-ns-attributes,
 	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
-user-element = element * - x:* { attribute * { text }*, user-content }
+user-element = element * - x:* { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
 
 text-element =
 	## Works like <xsl:text>.

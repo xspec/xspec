@@ -48,5 +48,26 @@
 			<x:expect-assert count="1" />
 		</x:scenario>
 	</x:scenario>
+	<x:scenario label="x:expand-text in user content">
+		<x:scenario label="Generic user content">
+			<x:context href="tvt.xspec" />
+			<x:expect-not-assert id="user-element-expand-text"
+				label="user element with x:expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[1]"/>
+			<x:expect-assert id="user-element-expand-text"
+				label="user element with expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[2]"/>
+			<x:expect-assert id="user-element-expand-text"
+				label="user element with both x:expand-text and expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[3]"/>
+			<x:expect-not-assert id="user-element-expand-text"
+				label="user element with neither x:expand-text nor expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@expand-text=yes on x:param']//function-param-child"/>
+		</x:scenario>
+		<x:scenario label="User content that happens to be XSLT">
+			<x:context href="tvt/detect-expand-text-user-content-xslt.xspec" />
+			<x:expect-assert id="user-element-expand-text" />
+		</x:scenario>
+	</x:scenario>
 
 </x:description>
