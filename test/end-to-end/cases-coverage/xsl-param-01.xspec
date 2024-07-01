@@ -17,17 +17,22 @@
       <x:expect label="Success">
          <root>
             <node type="param - global">100</node>
-            <node type="param - global" />
+            <node type="param - global">1</node>
+            <node type="param - global">0</node>
             <node type="param - global">200</node>
             <node type="param - global">300</node>
+            <node type="param - global">300</node>
+            <node type="param - global">400</node>
             <node type="param - global">400</node>
             <node type="param - function">1200</node>
             <node type="param - iterate">1300</node>
             <node type="param - iterate">1300</node>
-            <node type="param - iterate">1400</node>
-            <node type="param - iterate">1400</node>
-            <node type="param - iterate">1500</node>
-            <node type="param - iterate">1500</node>
+            <node type="param - iterate">1414</node>
+            <node type="param - iterate">1414</node>
+            <node type="param - iterate">1515</node>
+            <node type="param - iterate">1515</node>
+            <node type="param - iterate">01</node>
+            <node type="param - iterate">01</node>
          </root>
       </x:expect>
    </x:scenario>

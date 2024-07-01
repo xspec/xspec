@@ -25,17 +25,27 @@
             <node type="param - template">700</node>
             <node type="param - template">800</node>
             <node type="param - template">800</node>
-            <node type="param - template" />
+            <node type="param - template">1</node>
+            <node type="param - template">0</node>
             <node type="param - template">900</node>
             <node type="param - template">10001000</node>
             <node type="param - template">10001000</node>
-            <node type="param - template">10001000</node>
-            <node type="param - template">10001000</node>
-            <node type="param - template" />
+            <node type="param - template">a1000a1000</node>
+            <node type="param - template">1000a1000a</node>
+            <node type="param - template">a</node>
             <node type="param - template">10001000</node>
             <node type="param - template">1000</node>
+            <node type="param - template">11001100</node>
+            <node type="param - template">11001100</node>
+            <node type="param - template">a 1100 a 1100</node>
+            <node type="param - template">1100 a 1100 a</node>
+            <node type="param - template">a</node>
+            <node type="param - template">11001100</node>
             <node type="param - template">1100</node>
-            <node type="param - template">1100</node>
+            <node type="param - template">1200</node>
+            <node type="param - template">a1200</node>
+            <node type="param - template">1300</node>
+            <node type="param - template">a 1300</node>
          </root>
       </x:expect>
    </x:scenario>
