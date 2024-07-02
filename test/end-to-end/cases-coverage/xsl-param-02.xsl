@@ -4,7 +4,7 @@
   <!--
       xsl:param Coverage Test Case for child of xsl:template
   -->
-  <xsl:template match="xsl-param">
+  <xsl:template match="xsl-param-template">
     <root>
       <!-- Template param -->
       <xsl:call-template name="paramTemplate01">
@@ -18,6 +18,8 @@
       <xsl:call-template name="paramTemplate03">
         <xsl:with-param name="templateParam03-no-el1">700</xsl:with-param>
         <xsl:with-param name="templateParam03-no-el2">700</xsl:with-param>
+        <xsl:with-param name="templateParam03-no-el3">700</xsl:with-param>
+        <xsl:with-param name="templateParam03-no-el4">700</xsl:with-param>
         <xsl:with-param name="templateParam03-elems1">700</xsl:with-param>
         <xsl:with-param name="templateParam03-elems2">700</xsl:with-param>
         <xsl:with-param name="templateParam03-elems3">700</xsl:with-param>

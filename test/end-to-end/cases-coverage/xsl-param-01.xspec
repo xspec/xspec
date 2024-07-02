@@ -5,7 +5,7 @@
 
    <x:param name="globalParam01">100</x:param>
 
-   <x:scenario label="xsl:param Coverage Test Case">
+   <x:scenario label="xsl:param Coverage Test Case (01, excluding template parameters)">
       <x:context>
          <root>
             <xsl-param>

@@ -3,19 +3,21 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="xsl-param-02.xsl">
 
-   <x:scenario label="xsl:param Coverage Test Case">
+   <x:scenario label="xsl:param Coverage Test Case (02, for template parameters)">
       <x:context>
          <root>
-            <xsl-param>
+            <xsl-param-template>
               <node />
               <node />
-            </xsl-param>
+            </xsl-param-template>
          </root>
       </x:context>
       <x:expect label="Success">
          <root>
             <node type="param - template">500</node>
             <node type="param - template">600</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
             <node type="param - template">700</node>
             <node type="param - template">700</node>
             <node type="param - template">700</node>
