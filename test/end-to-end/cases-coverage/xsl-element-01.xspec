@@ -11,6 +11,8 @@
       <x:expect label="Success">
          <root>
             <node type="element">100</node>
+            <node type="element">200</node>
+            <node type="element">300</node>
          </root>
       </x:expect>
    </x:scenario>
