@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-param-02.xsl">
+
+   <x:scenario label="xsl:param Coverage Test Case (02, for template parameters)">
+      <x:context>
+         <root>
+            <xsl-param-template>
+              <node />
+              <node />
+            </xsl-param-template>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="param - template">500</node>
+            <node type="param - template">600</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">700</node>
+            <node type="param - template">800</node>
+            <node type="param - template">800</node>
+            <node type="param - template">1</node>
+            <node type="param - template">0</node>
+            <node type="param - template">900</node>
+            <node type="param - template">10001000</node>
+            <node type="param - template">10001000</node>
+            <node type="param - template">a1000a1000</node>
+            <node type="param - template">1000a1000a</node>
+            <node type="param - template">a</node>
+            <node type="param - template">10001000</node>
+            <node type="param - template">1000</node>
+            <node type="param - template">11001100</node>
+            <node type="param - template">11001100</node>
+            <node type="param - template">a 1100 a 1100</node>
+            <node type="param - template">1100 a 1100 a</node>
+            <node type="param - template">a</node>
+            <node type="param - template">11001100</node>
+            <node type="param - template">1100</node>
+            <node type="param - template">1200</node>
+            <node type="param - template">a1200</node>
+            <node type="param - template">1300</node>
+            <node type="param - template">a 1300</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for non-xsl-top-level-element-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../non-xsl-top-level-element-01.xsl">non-xsl-top-level-element-01.xsl</a></p>
+      <h2>module: non-xsl-top-level-element-01.xsl; 36 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      Coverage Test Case for non-XSLT child of xsl:stylesheet</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="ignored">&lt;xsl:import href="non-xsl-top-level-element-01A.xsl"/&gt;</span>
+07: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="non-xsl-top-level-element"&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+09: <span class="ignored">      </span><span class="hit">&lt;xsl:copy&gt;</span>
+10: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Child of xsl:stylesheet</span><span class="hit">&lt;/xsl:text&gt;</span>
+11: <span class="ignored">      </span><span class="hit">&lt;/xsl:copy&gt;</span>
+12: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-imports/&gt;</span>
+13: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+14: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+15: 
+16: <span class="ignored">  </span><span class="ignored">&lt;!-- The non-XSLT element in the template should be missed, not ignored. --&gt;</span>
+17: <span class="ignored">  </span><span class="missed">&lt;xsl:template name="unhit"&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+18: <span class="ignored">    </span><span class="missed">&lt;non-xsl-element/&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+19: <span class="ignored">  </span><span class="missed">&lt;/xsl:template&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+20: 
+21: <span class="ignored">  </span><span class="ignored">&lt;doc:template name="non-xsl-top-level-element" xmlns:doc="NotTheXSLTNamespace"&gt;</span>
+22: <span class="ignored">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+23: <span class="ignored">    </span><span class="ignored">&lt;doc:para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;doc:uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/doc:uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/doc:para&gt;</span>
+24: <span class="ignored">  </span><span class="ignored">&lt;/doc:template&gt;</span>
+25: 
+26: <span class="ignored">  </span><span class="ignored">&lt;xsl:template name="non-xsl-top-level-element" xmlns:xsl="NotTheXSLTNamespace"&gt;</span>
+27: <span class="ignored">    </span><span class="ignored">&lt;xsl:text xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+28: <span class="ignored">    </span><span class="ignored">&lt;xsl:para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;xsl:uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/xsl:uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/xsl:para&gt;</span>
+29: <span class="ignored">  </span><span class="ignored">&lt;/xsl:template&gt;</span>
+30: 
+31: <span class="ignored">  </span><span class="ignored">&lt;template name="non-xsl-top-level-element" xmlns="NotTheXSLTNamespace"&gt;</span>
+32: <span class="ignored">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+33: <span class="ignored">    </span><span class="ignored">&lt;para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/para&gt;</span>
+34: <span class="ignored">  </span><span class="ignored">&lt;/template&gt;</span>
+35: 
+36: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <h2>module: non-xsl-top-level-element-01A.xsl; 32 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+04: <span class="ignored">      Coverage Test Case for non-XSLT child of xsl:transform</span>
+05: <span class="ignored">  --&gt;</span>
+06: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="non-xsl-top-level-element"&gt;</span>
+07: <span class="ignored">    </span><span class="hit">&lt;xsl:copy&gt;</span>
+08: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Child of xsl:transform</span><span class="hit">&lt;/xsl:text&gt;</span>
+09: <span class="ignored">    </span><span class="hit">&lt;/xsl:copy&gt;</span>
+10: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+11: 
+12: <span class="ignored">  </span><span class="ignored">&lt;!-- The non-XSLT element in the template should be missed, not ignored. --&gt;</span>
+13: <span class="ignored">  </span><span class="missed">&lt;xsl:template name="unhit"&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+14: <span class="ignored">    </span><span class="missed">&lt;non-xsl-element/&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+15: <span class="ignored">  </span><span class="missed">&lt;/xsl:template&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+16: 
+17: <span class="ignored">  </span><span class="ignored">&lt;doc:template name="non-xsl-top-level-element" xmlns:doc="NotTheXSLTNamespace"&gt;</span>
+18: <span class="ignored">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+19: <span class="ignored">    </span><span class="ignored">&lt;doc:para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;doc:uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/doc:uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/doc:para&gt;</span>
+20: <span class="ignored">  </span><span class="ignored">&lt;/doc:template&gt;</span>
+21: 
+22: <span class="ignored">  </span><span class="ignored">&lt;xsl:template name="non-xsl-top-level-element" xmlns:xsl="NotTheXSLTNamespace"&gt;</span>
+23: <span class="ignored">    </span><span class="ignored">&lt;xsl:text xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+24: <span class="ignored">    </span><span class="ignored">&lt;xsl:para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;xsl:uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/xsl:uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/xsl:para&gt;</span>
+25: <span class="ignored">  </span><span class="ignored">&lt;/xsl:template&gt;</span>
+26: 
+27: <span class="ignored">  </span><span class="ignored">&lt;template name="non-xsl-top-level-element" xmlns="NotTheXSLTNamespace"&gt;</span>
+28: <span class="ignored">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span>
+29: <span class="ignored">    </span><span class="ignored">&lt;para&gt;</span><span class="ignored">Top-level element is not in </span><span class="ignored">&lt;uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/uri&gt;</span><span class="ignored"> namespace</span><span class="ignored">&lt;/para&gt;</span>
+30: <span class="ignored">  </span><span class="ignored">&lt;/template&gt;</span>
+31: 
+32: <span class="ignored">&lt;/xsl:transform&gt;</span></pre>
+   </body>
+</html>
