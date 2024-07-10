@@ -57,9 +57,9 @@
 047: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map with child that is not xsl:map-entry --&gt;</span>
 048: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)"&gt;</span>
 049: <span class="ignored">      </span><span class="hit">&lt;xsl:map&gt;</span>
-050: <span class="ignored">        </span><span class="missed">&lt;xsl:for-each select="1 to 5"&gt;</span>
+050: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="1 to 5"&gt;</span>
 051: <span class="ignored">          </span><span class="hit">&lt;xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/&gt;</span>
-052: <span class="ignored">        </span><span class="missed">&lt;/xsl:for-each&gt;</span>
+052: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 053: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
 054: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
 055: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. --&gt;</span>
