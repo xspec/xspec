@@ -64,9 +64,7 @@
     <!-- Use Child Data -->
     <xsl:template
         match="
-        XSLT:for-each
-        | XSLT:for-each-group
-        | XSLT:matching-substring
+        XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:otherwise
         | XSLT:when"
