@@ -52,6 +52,20 @@
     <xsl:template match="
         XSLT:stylesheet
         | XSLT:transform
+        | XSLT:accumulator
+        | XSLT:attribute-set
+        | XSLT:character-map
+        | XSLT:decimal-format
+        | XSLT:global-context-item
+        | XSLT:import
+        | XSLT:import-schema
+        | XSLT:include
+        | XSLT:key
+        | XSLT:mode
+        | XSLT:namespace-alias
+        | XSLT:output
+        | XSLT:preserve-space
+        | XSLT:strip-space
         | text()[normalize-space() = '' and not(parent::XSLT:text)]
         | processing-instruction()
         | comment()
