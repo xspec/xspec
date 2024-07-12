@@ -82,9 +82,19 @@
     <xsl:template match="
         XSLT:stylesheet/*[not(namespace-uri() = 'http://www.w3.org/1999/XSL/Transform')]/descendant-or-self::node()
         | XSLT:transform/*[not(namespace-uri() = 'http://www.w3.org/1999/XSL/Transform')]/descendant-or-self::node()"
+        as="xs:string"
         mode="coverage"
-        priority="10"
-        as="xs:string">
+        priority="10">
+        <xsl:sequence select="'ignored'"/>
+    </xsl:template>
+
+    <!-- Ignore Element and All Descendants -->
+    <xsl:template match="
+        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()
+        | XSLT:accumulator-rule/descendant-or-self::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="20">
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
