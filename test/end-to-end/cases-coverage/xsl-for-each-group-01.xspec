@@ -13,6 +13,7 @@
             <node type="for-each-group">0</node>
             <node type="for-each-group">1</node>
             <node type="for-each-group">2</node>
+            <node type="for-each-group - untraced child">100</node>
          </root>
       </x:expect>
    </x:scenario>

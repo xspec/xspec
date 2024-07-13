@@ -11,6 +11,17 @@
           <xsl:value-of select="current-grouping-key()" />
         </node>
       </xsl:for-each-group>
+      <!-- Child of xsl:for-each-group is not traced -->
+      <xsl:variable name="my-map" as="map(*)">
+        <xsl:for-each-group select="1" group-by="1">
+          <xsl:map-entry key="current-grouping-key()">
+            <xsl:value-of select="'100'"/>
+          </xsl:map-entry>
+        </xsl:for-each-group>        
+      </xsl:variable>
+      <node type="for-each-group - untraced child">
+        <xsl:value-of select="$my-map(1)"/>
+      </node>
     </root>
   </xsl:template>
 </xsl:stylesheet>
