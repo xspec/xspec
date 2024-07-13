@@ -52,11 +52,38 @@
     <xsl:template match="
         XSLT:stylesheet
         | XSLT:transform
+        | XSLT:accumulator
+        | XSLT:attribute-set
+        | XSLT:character-map
+        | XSLT:decimal-format
+        | XSLT:global-context-item
+        | XSLT:import
+        | XSLT:import-schema
+        | XSLT:include
+        | XSLT:key
+        | XSLT:mode
+        | XSLT:namespace-alias
+        | XSLT:output
+        | XSLT:preserve-space
+        | XSLT:strip-space
         | text()[normalize-space() = '' and not(parent::XSLT:text)]
         | processing-instruction()
         | comment()
         | document-node()"
         mode="coverage"
+        as="xs:string">
+        <xsl:sequence select="'ignored'"/>
+    </xsl:template>
+
+    <!-- A node within a top-level non-XSLT element -->
+    <!-- In case a descendant is an XSLT element, priority makes us match this
+      template instead of one that handles ordinary XSLT instructions outside
+      top-level non-XSLT elements. -->
+    <xsl:template match="
+        XSLT:stylesheet/*[not(namespace-uri() = 'http://www.w3.org/1999/XSL/Transform')]/descendant-or-self::node()
+        | XSLT:transform/*[not(namespace-uri() = 'http://www.w3.org/1999/XSL/Transform')]/descendant-or-self::node()"
+        mode="coverage"
+        priority="10"
         as="xs:string">
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
@@ -129,13 +156,6 @@
                 <!-- Use status of nearest ancestor XSLT:variable (not always the same
                     as Use Trace Data for that ancestor) -->
                 <xsl:apply-templates select="ancestor::XSLT:variable[1]" mode="#current"/>
-            </xsl:when>
-
-            <!-- A node within a top-level non-XSLT element -->
-            <!-- TODO: The next xsl:when block needs rework. Its @test also matches
-                top-level XSLT elements, which does more than the comment above indicates. -->
-            <xsl:when test="empty(ancestor::XSLT:*[parent::XSLT:stylesheet or parent::XSLT:transform])">
-                <xsl:sequence select="'ignored'"/>
             </xsl:when>
 
             <xsl:otherwise>
