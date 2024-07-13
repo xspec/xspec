@@ -14,6 +14,8 @@
       <root>
         <node type="matching-substring">abc 123</node>
         <node type="non-matching-substring">No match</node>
+        <node type="matching-substring executed unknown, non-matching-substring unexecuted unknown">abc 123</node>
+        <node type="matching-substring unexecuted unknown, non-matching-substring executed unknown">No match</node>
       </root>
     </x:expect>
   </x:scenario>

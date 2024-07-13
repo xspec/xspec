@@ -14,6 +14,46 @@
             </node>
           </xsl:fallback>
         </xsl:non-existent-instruction>                                        <!-- Expected miss -->
+
+        <!-- Test cases for unknown status -->
+        <node type="fallback executed unknown">
+          <xsl:non-existent-instruction>                                       <!-- Expected miss -->
+            <xsl:fallback></xsl:fallback>                                      <!-- Expected unknown -->
+          </xsl:non-existent-instruction>                                      <!-- Expected miss -->          
+        </node>
+        <node type="fallback executed unknown">
+          <xsl:non-existent-instruction>                                       <!-- Expected miss -->
+            <xsl:fallback>                                                     <!-- Expected unknown -->
+              <!--untraced node-->                                             <!-- Expected ignored -->
+            </xsl:fallback>                                                    <!-- Expected unknown -->
+          </xsl:non-existent-instruction>                                      <!-- Expected miss -->          
+        </node>
+        <node type="fallback executed unknown">
+          <xsl:non-existent-instruction>                                       <!-- Expected miss -->
+            <xsl:fallback>                                                     <!-- Expected unknown -->
+              <xsl:sequence select="200" />                                    <!-- Expected unknown -->
+            </xsl:fallback>                                                    <!-- Expected unknown -->
+          </xsl:non-existent-instruction>                                      <!-- Expected miss -->          
+        </node>
+        <node type="fallback unexecuted unknown">
+          <xsl:value-of>
+            <xsl:fallback></xsl:fallback>                                      <!-- Expected unknown -->
+          </xsl:value-of>          
+        </node>
+        <node type="fallback unexecuted unknown">
+          <xsl:value-of>
+            <xsl:fallback>                                                     <!-- Expected unknown -->
+              <!--untraced node-->                                             <!-- Expected ignored -->
+            </xsl:fallback>                                                    <!-- Expected unknown -->
+          </xsl:value-of>          
+        </node>
+        <node type="fallback unexecuted unknown">
+          <xsl:value-of>
+            <xsl:fallback>                                                     <!-- Expected unknown -->
+              <xsl:sequence select="200" />                                    <!-- Expected unknown -->
+            </xsl:fallback>                                                    <!-- Expected unknown -->
+          </xsl:value-of>          
+        </node>
       </root>
    </xsl:template>
 </xsl:stylesheet>
