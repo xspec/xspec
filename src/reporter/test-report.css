@@ -398,6 +398,13 @@ a.img:active {
 	background: white;
 }
 
+.unknown {
+	font-style: italic;
+	font-weight: bold;
+	color: #999;
+	background: white;
+}
+
 .hit {
 }
 
