@@ -66,14 +66,14 @@ Package related.
 
 ## xsl:accumulator-rule
 
-|          |                                                                |
-| -------- | -------------------------------------------------------------- |
-| CATEGORY |                                                                |
-| PARENT   | xsl:accumulator                                                |
-| CHILDREN |                                                                |
-| CONTENT  |                                                                |
-| TRACE    | No                                                             |
-| RULE     | Element Specific - always ignore this node and any descendants |
+|          |                                    |
+| -------- | ---------------------------------- |
+| CATEGORY |                                    |
+| PARENT   | xsl:accumulator                    |
+| CHILDREN |                                    |
+| CONTENT  |                                    |
+| TRACE    | No                                 |
+| RULE     | Ignore Element and All Descendants |
 
 #### Comment
 
@@ -155,14 +155,14 @@ XSLT 4.0 proposal.
 
 ## xsl:attribute
 
-|          |                                                                                                                                 |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| CATEGORY | Instruction                                                                                                                     |
-| PARENT   |                                                                                                                                 |
-| CHILDREN |                                                                                                                                 |
-| CONTENT  |                                                                                                                                 |
-| TRACE    | Sometimes                                                                                                                       |
-| RULE     | Element Specific - Use Trace Data, except mark as 'ignored' if parent is xsl:attribute-set (xsl:attribute-set will be ignored). |
+|          |                                                                                                                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                                                                       |
+| PARENT   |                                                                                                                   |
+| CHILDREN |                                                                                                                   |
+| CONTENT  |                                                                                                                   |
+| TRACE    | Sometimes                                                                                                         |
+| RULE     | Element Specific - If parent is xsl:attribute-set, Ignore Element and All Descendants. Otherwise, Use Trace Data. |
 
 #### Comment
 
