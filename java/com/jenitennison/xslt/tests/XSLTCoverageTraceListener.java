@@ -24,6 +24,7 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.expr.instruct.Actor;
 import net.sf.saxon.expr.instruct.Instruction;
 import net.sf.saxon.expr.instruct.TemplateRule;
+import net.sf.saxon.expr.parser.XPathParser;
 import net.sf.saxon.functions.ResolveURI;
 import net.sf.saxon.lib.Logger;
 import net.sf.saxon.lib.TraceListener;
@@ -35,6 +36,7 @@ import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.trace.Traceable;
+import net.sf.saxon.tree.AttributeLocation;
 
 /**
  * A Simple trace listener for XSLT that writes messages to XML file
@@ -178,7 +180,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
    */
 
   public void enter(Traceable traceable, Map<String, Object> properties, XPathContext context) {
-    Location location = traceable.getLocation();
+    Location location = getLocation(traceable);
     int lineNumber = location.getLineNumber();
     int columnNumber = location.getColumnNumber();
 
@@ -311,6 +313,26 @@ public class XSLTCoverageTraceListener implements TraceListener {
         throw new RuntimeException(e);
       }
     }
+  }
+
+  /* getLocation method introduced in Saxon 12.5 */
+  /**
+   * Get the location information for the traceble expression or instruction.
+   * This method adjusts the location for XPath expressions contained in attributes
+   * of XSLT instructions, to give the location of the containing element, which
+   * supplies a simple line number and column number.
+   * @param info the traceable whose location is required
+   * @return a sanitised Location object
+   */
+  public static Location getLocation(Traceable info) {
+    Location rawLocation = info.getLocation();
+    if (rawLocation instanceof XPathParser.NestedLocation) {
+      Location container = ((XPathParser.NestedLocation)rawLocation).getContainingLocation();
+      if (container instanceof AttributeLocation) {
+        return container;
+      }
+    }
+    return rawLocation;
   }
 
   /**
