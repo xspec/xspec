@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-iterate-01.xsl">xsl-iterate-01.xsl</a></p>
-      <h2>module: xsl-iterate-01.xsl; 135 lines</h2>
+      <h2>module: xsl-iterate-01.xsl; 173 lines</h2>
       <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -140,8 +140,46 @@
 130: <span class="ignored">          </span><span class="missed">&lt;/xsl:break&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 131: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
 132: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-133: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-134: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-135: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+133: 
+134: <span class="ignored">      </span><span class="ignored">&lt;!-- Test cases for unknown status of xsl:on-completion --&gt;</span>
+135: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
+136: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
+137: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+138: <span class="ignored">          </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+139: <span class="ignored">            </span><span class="missed">&lt;xsl:sequence select="'Complete'" /&gt;</span><span class="ignored">                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+140: <span class="ignored">          </span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+141: <span class="ignored">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+142: <span class="ignored">            </span><span class="hit">&lt;xsl:break /&gt;</span>
+143: <span class="ignored">          </span><span class="hit">&lt;/xsl:if&gt;</span>
+144: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+145: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+146: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
+147: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
+148: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+149: <span class="ignored">          </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+150: <span class="ignored">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+151: <span class="ignored">            </span><span class="hit">&lt;xsl:break /&gt;</span>
+152: <span class="ignored">          </span><span class="hit">&lt;/xsl:if&gt;</span>
+153: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+154: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+155: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
+156: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
+157: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+158: <span class="ignored">          </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+159: <span class="ignored">            </span><span class="missed">&lt;xsl:sequence select="'Complete'" /&gt;</span><span class="ignored">                               </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+160: <span class="ignored">          </span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+161: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
+162: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+163: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+164: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
+165: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
+166: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+167: <span class="ignored">          </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+168: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
+169: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+170: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+171: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+172: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+173: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

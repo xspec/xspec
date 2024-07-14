@@ -17,6 +17,21 @@
               class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="13" columnNumber="25" moduleId="0" traceableId="3"/>
+   <hit lineNumber="19" columnNumber="48" moduleId="0" traceableId="1"/>
+   <hit lineNumber="19" columnNumber="48" moduleId="0" traceableId="2"/>
+   <hit lineNumber="24" columnNumber="48" moduleId="0" traceableId="1"/>
+   <hit lineNumber="24" columnNumber="48" moduleId="0" traceableId="2"/>
+   <hit lineNumber="31" columnNumber="48" moduleId="0" traceableId="1"/>
+   <hit lineNumber="31" columnNumber="48" moduleId="0" traceableId="2"/>
+   <hit lineNumber="38" columnNumber="50" moduleId="0" traceableId="1"/>
+   <hit lineNumber="38" columnNumber="50" moduleId="0" traceableId="2"/>
+   <hit lineNumber="39" columnNumber="25" moduleId="0" traceableId="3"/>
+   <hit lineNumber="43" columnNumber="50" moduleId="0" traceableId="1"/>
+   <hit lineNumber="43" columnNumber="50" moduleId="0" traceableId="2"/>
+   <hit lineNumber="44" columnNumber="25" moduleId="0" traceableId="3"/>
+   <hit lineNumber="50" columnNumber="50" moduleId="0" traceableId="1"/>
+   <hit lineNumber="50" columnNumber="50" moduleId="0" traceableId="2"/>
+   <hit lineNumber="51" columnNumber="25" moduleId="0" traceableId="3"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
