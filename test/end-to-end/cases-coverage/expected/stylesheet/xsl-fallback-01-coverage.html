@@ -18,50 +18,50 @@
 08: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
 09: <span class="ignored">        </span><span class="ignored">&lt;!-- Sets the xsl version number higher than current version and has unknown instruction (adapted from XSLT Spec) --&gt;</span>
 10: <span class="ignored">        </span><span class="missed">&lt;xsl:non-existent-instruction&gt;</span><span class="ignored">                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-11: <span class="ignored">          </span><span class="missed">&lt;xsl:fallback&gt;</span>
+11: <span class="ignored">          </span><span class="hit">&lt;xsl:fallback&gt;</span>
 12: <span class="ignored">            </span><span class="hit">&lt;node type="fallback"&gt;</span>
 13: <span class="ignored">              </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">100</span><span class="hit">&lt;/xsl:text&gt;</span>
 14: <span class="ignored">            </span><span class="hit">&lt;/node&gt;</span>
-15: <span class="ignored">          </span><span class="missed">&lt;/xsl:fallback&gt;</span>
+15: <span class="ignored">          </span><span class="hit">&lt;/xsl:fallback&gt;</span>
 16: <span class="ignored">        </span><span class="missed">&lt;/xsl:non-existent-instruction&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 17: 
 18: <span class="ignored">        </span><span class="ignored">&lt;!-- Test cases for unknown status --&gt;</span>
 19: <span class="ignored">        </span><span class="hit">&lt;node type="fallback executed unknown"&gt;</span>
 20: <span class="ignored">          </span><span class="missed">&lt;xsl:non-existent-instruction&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-21: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+21: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 22: <span class="ignored">          </span><span class="missed">&lt;/xsl:non-existent-instruction&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span><span class="ignored">          </span>
 23: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 24: <span class="ignored">        </span><span class="hit">&lt;node type="fallback executed unknown"&gt;</span>
 25: <span class="ignored">          </span><span class="missed">&lt;xsl:non-existent-instruction&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-26: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+26: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 27: <span class="ignored">              </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-28: <span class="ignored">            </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+28: <span class="ignored">            </span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 29: <span class="ignored">          </span><span class="missed">&lt;/xsl:non-existent-instruction&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span><span class="ignored">          </span>
 30: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 31: <span class="ignored">        </span><span class="hit">&lt;node type="fallback executed unknown"&gt;</span>
 32: <span class="ignored">          </span><span class="missed">&lt;xsl:non-existent-instruction&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-33: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+33: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 34: <span class="ignored">              </span><span class="missed">&lt;xsl:sequence select="200" /&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-35: <span class="ignored">            </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+35: <span class="ignored">            </span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 36: <span class="ignored">          </span><span class="missed">&lt;/xsl:non-existent-instruction&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span><span class="ignored">          </span>
 37: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 38: <span class="ignored">        </span><span class="hit">&lt;node type="fallback unexecuted unknown"&gt;</span>
 39: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of&gt;</span>
-40: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+40: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 41: <span class="ignored">          </span><span class="hit">&lt;/xsl:value-of&gt;</span><span class="ignored">          </span>
 42: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 43: <span class="ignored">        </span><span class="hit">&lt;node type="fallback unexecuted unknown"&gt;</span>
 44: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of&gt;</span>
-45: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+45: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 46: <span class="ignored">              </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-47: <span class="ignored">            </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+47: <span class="ignored">            </span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 48: <span class="ignored">          </span><span class="hit">&lt;/xsl:value-of&gt;</span><span class="ignored">          </span>
 49: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 50: <span class="ignored">        </span><span class="hit">&lt;node type="fallback unexecuted unknown"&gt;</span>
 51: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of&gt;</span>
-52: <span class="ignored">            </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+52: <span class="ignored">            </span><span class="unknown">&lt;xsl:fallback&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 53: <span class="ignored">              </span><span class="missed">&lt;xsl:sequence select="200" /&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-54: <span class="ignored">            </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+54: <span class="ignored">            </span><span class="unknown">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 55: <span class="ignored">          </span><span class="hit">&lt;/xsl:value-of&gt;</span><span class="ignored">          </span>
 56: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
 57: <span class="ignored">      </span><span class="hit">&lt;/root&gt;</span>

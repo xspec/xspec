@@ -46,21 +46,21 @@
 36: <span class="ignored">      </span><span class="ignored">&lt;!-- regex matches string so non-matching-substring not executed --&gt;</span>
 37: <span class="ignored">      </span><span class="hit">&lt;node type="matching-substring executed unknown, non-matching-substring unexecuted unknown"&gt;</span>
 38: <span class="ignored">        </span><span class="hit">&lt;xsl:analyze-string select="'abc 123'" regex="abc 123"&gt;</span>
-39: <span class="ignored">          </span><span class="missed">&lt;xsl:matching-substring&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+39: <span class="ignored">          </span><span class="unknown">&lt;xsl:matching-substring&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 40: <span class="ignored">              </span><span class="missed">&lt;xsl:sequence select="regex-group(0)" /&gt;</span><span class="ignored">                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-41: <span class="ignored">          </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-42: <span class="ignored">        </span><span class="missed">&lt;xsl:non-matching-substring&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-43: <span class="ignored">        </span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+41: <span class="ignored">          </span><span class="unknown">&lt;/xsl:matching-substring&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+42: <span class="ignored">        </span><span class="unknown">&lt;xsl:non-matching-substring&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+43: <span class="ignored">        </span><span class="unknown">&lt;/xsl:non-matching-substring&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 44: <span class="ignored">      </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
 45: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 46: <span class="ignored">      </span><span class="ignored">&lt;!-- regex doesn't match string so matching-substring not executed --&gt;</span>
 47: <span class="ignored">      </span><span class="hit">&lt;node type="matching-substring unexecuted unknown, non-matching-substring executed unknown"&gt;</span>
 48: <span class="ignored">        </span><span class="hit">&lt;xsl:analyze-string select="'def 456 def 456'" regex="abc 123"&gt;</span>
-49: <span class="ignored">          </span><span class="missed">&lt;xsl:matching-substring&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-50: <span class="ignored">          </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-51: <span class="ignored">          </span><span class="missed">&lt;xsl:non-matching-substring&gt;</span><span class="ignored">                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+49: <span class="ignored">          </span><span class="unknown">&lt;xsl:matching-substring&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+50: <span class="ignored">          </span><span class="unknown">&lt;/xsl:matching-substring&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+51: <span class="ignored">          </span><span class="unknown">&lt;xsl:non-matching-substring&gt;</span><span class="ignored">                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 52: <span class="ignored">            </span><span class="missed">&lt;xsl:sequence select="string('No match')" /&gt;</span><span class="ignored">                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-53: <span class="ignored">          </span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+53: <span class="ignored">          </span><span class="unknown">&lt;/xsl:non-matching-substring&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 54: <span class="ignored">        </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
 55: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 56: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
