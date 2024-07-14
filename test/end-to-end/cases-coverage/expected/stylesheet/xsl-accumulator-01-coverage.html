@@ -15,13 +15,13 @@
 05: <span class="ignored">  --&gt;</span>
 06: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:accumulator --&gt;</span>
 07: <span class="ignored">  </span><span class="ignored">&lt;xsl:accumulator name="accumulatorTest" initial-value="0"&gt;</span>
-08: <span class="ignored">    </span><span class="missed">&lt;xsl:accumulator-rule match="node"&gt;</span>
-09: <span class="ignored">      </span><span class="missed">&lt;xsl:value-of select="$value + 1" /&gt;</span>
-10: <span class="ignored">    </span><span class="missed">&lt;/xsl:accumulator-rule&gt;</span>
+08: <span class="ignored">    </span><span class="ignored">&lt;xsl:accumulator-rule match="node"&gt;</span>
+09: <span class="ignored">      </span><span class="ignored">&lt;xsl:value-of select="$value + 1" /&gt;</span>
+10: <span class="ignored">    </span><span class="ignored">&lt;/xsl:accumulator-rule&gt;</span>
 11: <span class="ignored">  </span><span class="ignored">&lt;/xsl:accumulator&gt;</span>
 12: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:accumulator not used --&gt;</span>
 13: <span class="ignored">  </span><span class="ignored">&lt;xsl:accumulator name="dummy01" initial-value="0"&gt;</span>
-14: <span class="ignored">    </span><span class="missed">&lt;xsl:accumulator-rule match="node()" select="$value + 1" /&gt;</span>
+14: <span class="ignored">    </span><span class="ignored">&lt;xsl:accumulator-rule match="node()" select="$value + 1" /&gt;</span>
 15: <span class="ignored">  </span><span class="ignored">&lt;/xsl:accumulator&gt;</span>
 16: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:mode for accumulator --&gt;</span>
 17: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode use-accumulators="accumulatorTest" name="accumulator" /&gt;</span>
