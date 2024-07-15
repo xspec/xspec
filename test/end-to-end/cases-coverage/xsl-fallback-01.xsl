@@ -31,7 +31,8 @@
         <node type="fallback executed unknown">
           <xsl:non-existent-instruction>                                       <!-- Expected miss -->
             <xsl:fallback>                                                     <!-- Expected unknown -->
-              <xsl:sequence select="200" />                                    <!-- Expected unknown -->
+              <xsl:where-populated>                                            <!-- Expected unknown -->
+              </xsl:where-populated>                                           <!-- Expected unknown -->
             </xsl:fallback>                                                    <!-- Expected unknown -->
           </xsl:non-existent-instruction>                                      <!-- Expected miss -->          
         </node>
@@ -50,7 +51,8 @@
         <node type="fallback unexecuted unknown">
           <xsl:value-of>
             <xsl:fallback>                                                     <!-- Expected unknown -->
-              <xsl:sequence select="200" />                                    <!-- Expected unknown -->
+              <xsl:where-populated>                                            <!-- Expected unknown -->
+              </xsl:where-populated>                                           <!-- Expected unknown -->
             </xsl:fallback>                                                    <!-- Expected unknown -->
           </xsl:value-of>          
         </node>

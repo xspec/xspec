@@ -136,7 +136,8 @@
       <node type="iterate/on-completion unexecuted unknown">
         <xsl:iterate select="node">
           <xsl:on-completion>                                                    <!-- Expected unknown -->
-            <xsl:sequence select="'Complete'" />                                 <!-- Expected unknown -->
+            <xsl:where-populated>                                                <!-- Expected unknown -->
+            </xsl:where-populated>                                               <!-- Expected unknown -->
           </xsl:on-completion>                                                   <!-- Expected unknown -->
           <xsl:if test=". &gt; 150">
             <xsl:break />
@@ -156,7 +157,8 @@
       <node type="iterate/on-completion executed unknown">
         <xsl:iterate select="node">
           <xsl:on-completion>                                                  <!-- Expected unknown -->
-            <xsl:sequence select="'Complete'" />                               <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
           </xsl:on-completion>                                                 <!-- Expected unknown -->
           <xsl:value-of select="concat(., ', ')" />
         </xsl:iterate>

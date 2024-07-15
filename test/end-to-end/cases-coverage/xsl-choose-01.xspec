@@ -15,8 +15,8 @@
         <node type="choose when">100</node>
         <node type="choose otherwise">200</node>
         <node type="choose when executed unknown" />
-        <node type="choose when executed unknown">300</node>
-        <node type="choose otherwise executed unknown">400</node>
+        <node type="choose when executed unknown" />
+        <node type="choose otherwise executed unknown" />
         <node type="choose otherwise executed unknown" />
       </root>
     </x:expect>

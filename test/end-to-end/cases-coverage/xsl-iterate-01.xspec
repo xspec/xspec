@@ -50,7 +50,7 @@
             <node type="iterate/break">300</node>
             <node type="iterate/on-completion unexecuted unknown" />
             <node type="iterate/on-completion unexecuted unknown" />
-            <node type="iterate/on-completion executed unknown">100, 200, 300, Complete</node>
+            <node type="iterate/on-completion executed unknown">100, 200, 300, </node>
             <node type="iterate/on-completion executed unknown">100, 200, 300, </node>
          </root>
       </x:expect>

@@ -61,7 +61,8 @@
           <!--untraced node-->                                                 <!-- Expected ignored -->
         </xsl:when>                                                            <!-- Expected unknown -->
         <xsl:when test="exists(omitted)" version="3.0">                        <!-- Expected unknown -->
-          <xsl:sequence select="'untraced element'" version="3.0"/>            <!-- Expected unknown -->
+          <xsl:where-populated>                                                <!-- Expected unknown -->
+          </xsl:where-populated>                                               <!-- Expected unknown -->
         </xsl:when>                                                            <!-- Expected unknown -->
       </xsl:choose>
       <!-- xsl:when executes, but status is unknown. -->
@@ -73,10 +74,12 @@
               <!--untraced node-->                                             <!-- Expected ignored -->
             </xsl:when>                                                        <!-- Expected unknown -->
             <xsl:when test=". eq 2" version="3.0">                             <!-- Expected unknown -->
-              <xsl:sequence select="300" version="3.0"/>                       <!-- Expected unknown -->
+              <xsl:where-populated>                                            <!-- Expected unknown -->
+              </xsl:where-populated>                                           <!-- Expected unknown -->
             </xsl:when>                                                        <!-- Expected unknown -->
             <xsl:otherwise version="3.0">                                      <!-- Expected unknown -->
-              <xsl:sequence select="0" version="3.0"/>                         <!-- Expected unknown -->
+              <xsl:where-populated>                                            <!-- Expected unknown -->
+              </xsl:where-populated>                                           <!-- Expected unknown -->
             </xsl:otherwise>                                                   <!-- Expected unknown -->
           </xsl:choose>
         </node>
@@ -93,7 +96,8 @@
         <xsl:choose>
           <xsl:when test="1 eq 2" version="3.0"></xsl:when>                    <!-- Expected unknown -->
           <xsl:otherwise version="3.0">                                        <!-- Expected unknown -->
-            <xsl:sequence select="400" version="3.0"/>                         <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
           </xsl:otherwise>                                                     <!-- Expected unknown -->
         </xsl:choose>
       </node>

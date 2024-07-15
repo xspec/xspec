@@ -13,7 +13,7 @@
             <node type="fallback">100</node>
             <node type="fallback executed unknown" />
             <node type="fallback executed unknown" />
-            <node type="fallback executed unknown">200</node>
+            <node type="fallback executed unknown" />
             <node type="fallback unexecuted unknown" />
             <node type="fallback unexecuted unknown" />
             <node type="fallback unexecuted unknown" />

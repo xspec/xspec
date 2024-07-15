@@ -37,7 +37,8 @@
       <node type="matching-substring executed unknown, non-matching-substring unexecuted unknown">
         <xsl:analyze-string select="'abc 123'" regex="abc 123">
           <xsl:matching-substring>                                             <!-- Expected unknown -->
-              <xsl:sequence select="regex-group(0)" />                         <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
           </xsl:matching-substring>                                            <!-- Expected unknown -->
         <xsl:non-matching-substring>                                           <!-- Expected unknown -->
         </xsl:non-matching-substring>                                          <!-- Expected unknown -->
@@ -49,7 +50,8 @@
           <xsl:matching-substring>                                             <!-- Expected unknown -->
           </xsl:matching-substring>                                            <!-- Expected unknown -->
           <xsl:non-matching-substring>                                         <!-- Expected unknown -->
-            <xsl:sequence select="string('No match')" />                       <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
           </xsl:non-matching-substring>                                        <!-- Expected unknown -->
         </xsl:analyze-string>
       </node>
