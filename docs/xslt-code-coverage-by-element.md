@@ -259,18 +259,18 @@ If xsl:catch has a select attribute, we don't know if it was executed.
 
 ## xsl:context-item
 
-|          |               |
-| -------- | ------------- |
-| CATEGORY |               |
-| PARENT   | xsl:template  |
-| CHILDREN |               |
-| CONTENT  | None          |
-| TRACE    | No            |
-| RULE     | Always Ignore |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:template    |
+| CHILDREN |                 |
+| CONTENT  | None            |
+| TRACE    | No              |
+| RULE     | Use Parent Data |
 
 #### Comment
 
-Although it doesn't have a category, it seems more like a declaration than an instruction, so ignore.
+Although it seems more like a declaration than an instruction, it isn't a direct child of xsl:stylesheet or xsl:transform. Determining a reasonable coverage status for xsl:context-item does not require extensive work, unlike the situation for many declarations.
 
 ## xsl:copy
 
