@@ -588,66 +588,62 @@ Tested as part of xsl:analyze-string.
 
 #### Comment
 
-None of the xsl:merge children are traced.
-
-I don't know if it is safe to say if xsl:merge is hit then all the xsl:merge children are hit as well.
-
-There is a problem that the sequence constructor in xsl:merge-key is not traced even when it is executed (can we say that is hit if xsl:merge is hit?).
-
-The sequence constructor in xsl:merge-action is traced. If this is traced can the xsl:merge elements be marked as hit?
+Children of xsl:merge are not traced. However, xsl:merge has a well defined structure where the child elements are always present. Although only the xsl:merge element is traced, the coverage status of its children can be based on the status of the xsl:merge element.
 
 ## xsl:merge-action
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY |                |
-| PARENT   | xsl:merge      |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:merge       |
+| CHILDREN |                 |
+| CONTENT  |                 |
+| TRACE    | No              |
+| RULE     | Use Parent Data |
 
 #### Comment
 
 Tested as part of xsl:merge.
+
+If xsl:merge is hit then it is safe to say that xsl:merge-action is also hit. Note: It would be possible for xsl:merge-action to Use Child Data, but the suggestion is that it follow the same rule as other xsl:merge-\* descendants of xsl:merge.
 
 The sequence constructor in xsl:merge-action is traced.
 
-See comment on xsl:merge.
-
 ## xsl:merge-key
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY |                        |
-| PARENT   | xsl:merge-source       |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                  |
+| -------- | ---------------- |
+| CATEGORY |                  |
+| PARENT   | xsl:merge-source |
+| CHILDREN |                  |
+| CONTENT  |                  |
+| TRACE    | No               |
+| RULE     | Element Specific |
 
 #### Comment
 
 Tested as part of xsl:merge.
 
-See comment on xsl:merge.
+If xsl:merge is hit then it is safe to say that the grandchild xsl:merge-key is also hit.
+
+xsl:merge-key can contain a sequence constructor. The sequence constructor is never traced. If xsl:merge-key is marked as 'missed', all elements in its sequence constructor are marked as 'missed'. If the xsl:merge-key is marked as 'hit', all elements in its sequence constructor are marked as 'unknown' because the sequence constructor could contain xsl:if, xsl:choose, etc., and there is no trace data about whether these descendants are executed.
 
 ## xsl:merge-source
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY |                        |
-| PARENT   | xsl:merge              |
-| CHILDREN | xsl:merge-key          |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:merge       |
+| CHILDREN | xsl:merge-key   |
+| CONTENT  |                 |
+| TRACE    | No              |
+| RULE     | Use Parent Data |
 
 #### Comment
 
 Tested as part of xsl:merge.
 
-See comment on xsl:merge.
+If xsl:merge is hit then it is safe to say that xsl:merge-source is also hit.
 
 ## xsl:message
 
