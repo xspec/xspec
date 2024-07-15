@@ -11,6 +11,7 @@
       <x:expect label="Success">
          <root>
             <node type="fallback">100</node>
+            <node type="fallback unexecuted miss">200</node>
             <node type="fallback executed unknown" />
             <node type="fallback executed unknown" />
             <node type="fallback executed unknown" />
