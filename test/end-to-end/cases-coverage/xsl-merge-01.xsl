@@ -23,7 +23,7 @@
         </xsl:merge-source>
         <xsl:merge-source select="$mergeSourceB/*">
           <xsl:merge-key>
-            <xsl:value-of select="." />
+            <xsl:value-of select="." />                                        <!-- Expected unknown -->
           </xsl:merge-key>
         </xsl:merge-source>
         <xsl:merge-action>
