@@ -75,7 +75,8 @@
         | comment()
         | document-node()"
         mode="coverage"
-        as="xs:string">
+        as="xs:string"
+        priority="30">
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
@@ -151,6 +152,8 @@
     <!-- Use Parent Data -->
     <xsl:template match="
         XSLT:context-item (: xspec/xspec#1410 :)
+        | XSLT:merge-action
+        | XSLT:merge-source
         | XSLT:param[not(parent::XSLT:stylesheet or parent::XSLT:transform)]"
         as="xs:string"
         mode="coverage">
@@ -179,6 +182,31 @@
                     mode="#current"/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+
+    <!-- Element-Specific rule for XSLT:merge-key -->
+    <xsl:template match="XSLT:merge-key"
+        as="xs:string"
+        mode="coverage">
+        <xsl:apply-templates select="ancestor::XSLT:merge[1]"
+            mode="#current"/>        
+    </xsl:template>
+
+    <!-- Element-Specific rule for descendants of XSLT:merge-key -->
+    <xsl:template match="XSLT:merge-key/descendant::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
+        <xsl:variable name="xsl-merge-status" as="xs:string">
+            <xsl:apply-templates select="ancestor::XSLT:merge[1]"
+                mode="#current"/>
+        </xsl:variable>
+        <xsl:sequence select="
+                if ($xsl-merge-status eq 'hit') then
+                    'unknown'
+                else
+                    'missed'
+                "/>
     </xsl:template>
 
     <!-- General case. This template is like the one for the Use Trace Data rule, except
