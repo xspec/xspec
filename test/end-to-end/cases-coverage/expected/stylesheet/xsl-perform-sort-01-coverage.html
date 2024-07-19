@@ -18,9 +18,9 @@
 08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
 09: <span class="ignored">      </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
 10: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="sortedSet1"&gt;</span>
-11: <span class="ignored">        </span><span class="missed">&lt;xsl:perform-sort select="node"&gt;</span>
-12: <span class="ignored">          </span><span class="missed">&lt;xsl:sort /&gt;</span>
-13: <span class="ignored">        </span><span class="missed">&lt;/xsl:perform-sort&gt;</span>
+11: <span class="ignored">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+12: <span class="ignored">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+13: <span class="ignored">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 14: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 15: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="$sortedSet1/*"&gt;</span>
 16: <span class="ignored">        </span><span class="hit">&lt;node type="perform-sort"&gt;</span>
@@ -29,10 +29,10 @@
 19: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 20: <span class="ignored">      </span><span class="ignored">&lt;!-- Using sequence constructor (Didn't use xsl:sequence as it isn't traced so used xsl:copy-of.) --&gt;</span>
 21: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="sortedSet2" as="xs:string*"&gt;</span>
-22: <span class="ignored">        </span><span class="missed">&lt;xsl:perform-sort&gt;</span>
-23: <span class="ignored">          </span><span class="missed">&lt;xsl:sort select="." /&gt;</span>
+22: <span class="ignored">        </span><span class="hit">&lt;xsl:perform-sort&gt;</span>
+23: <span class="ignored">          </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
 24: <span class="ignored">          </span><span class="hit">&lt;xsl:copy-of select="node" /&gt;</span>
-25: <span class="ignored">        </span><span class="missed">&lt;/xsl:perform-sort&gt;</span>
+25: <span class="ignored">        </span><span class="hit">&lt;/xsl:perform-sort&gt;</span>
 26: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 27: <span class="ignored">      </span><span class="hit">&lt;node type="perform-sort"&gt;</span>
 28: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$sortedSet2" separator=" " /&gt;</span>

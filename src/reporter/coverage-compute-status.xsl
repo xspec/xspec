@@ -110,6 +110,7 @@
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
+        | XSLT:perform-sort
         | XSLT:otherwise
         | XSLT:when"
         as="xs:string"
@@ -149,7 +150,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Use Parent Data -->
+    <!-- Use Parent Data (directly) -->
     <xsl:template match="
         XSLT:context-item (: xspec/xspec#1410 :)
         | XSLT:merge-action
@@ -158,6 +159,14 @@
         as="xs:string"
         mode="coverage">
         <xsl:sequence select="parent::*/accumulator-before('category-based-on-trace-data')"/>
+    </xsl:template>
+
+    <!-- Use Parent Status (computed) -->
+    <xsl:template match="
+        XSLT:sort"
+        as="xs:string"
+        mode="coverage">
+        <xsl:apply-templates select="parent::*" mode="#current"/>
     </xsl:template>
 
     <!-- Use Trace Data -->

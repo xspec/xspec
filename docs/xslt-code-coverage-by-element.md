@@ -29,6 +29,7 @@ The following list describes the rules used to determine the coverage status of 
 - **Always Ignore** - Mark node as 'ignored'. This rule is mainly for Declaration elements where Saxon does not produce trace output.
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
+- **Use Parent Status** - If this node's parent has 'hit' status based on its trace data and the rule it follows, mark this node as a 'hit'. Otherwise, mark it as 'missed'. This rule can differ from 'Use Parent Data' when the parent is not traced.
 - **Use Child Data** - If node has no children or only untraceable descendants, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
 - **None** - The element is not supported by XSpec code coverage.
 - **TBD** -
@@ -906,20 +907,20 @@ xsl:template xsl:param trace causes confusion because it can cause the first seq
 
 ## xsl:perform-sort
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                |
+| -------- | -------------- |
+| CATEGORY | Instruction    |
+| PARENT   |                |
+| CHILDREN |                |
+| CONTENT  |                |
+| TRACE    | Partly         |
+| RULE     | Use Child Data |
 
 #### Comment
 
-With a select attribute, the column number is 4 in the trace output.
+With a select attribute, the column number is wrong in the trace output.
 
-With a sequence constructor, children are traced, excluding xsl:sort. If the only child is xsl:sort, cannot determine if it was executed.
+The sequence constructor, if present, is traced. The xsl:sort child is not traced.
 
 ## xsl:preserve-space
 
@@ -982,13 +983,13 @@ With a sequence constructor, children are traced if they are executed.
 | CHILDREN |                                                                         |
 | CONTENT  |                                                                         |
 | TRACE    | No                                                                      |
-| RULE     | Element Specific - TBD                                                  |
+| RULE     | Use Parent Status                                                       |
 
 #### Comment
 
-Use Parent Data rule is viable if xsl:sort is a child of xsl:apply-templates, xsl:for-each, or xsl:for-each-group.
-
 When xsl:sort is a child of xsl:perform-sort, there is no easy way of determining if xsl:sort was executed except checking if its siblings are traced.
+
+Because xsl:perform-sort follows the Use Child Data rule, xsl:sort follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:perform-sort has a sequence constructor that includes a traced node, the sequence constructor gives xsl:perform-sort a 'hit' status, which in turn gives xsl:sort a 'hit' status.
 
 When using a sequence constructor with xsl:sort, the children are not traced.
 
