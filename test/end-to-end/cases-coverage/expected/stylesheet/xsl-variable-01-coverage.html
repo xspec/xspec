@@ -25,19 +25,19 @@
 015: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalEmptySequence01" as="element()?" /&gt;</span>
 016: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalEmptyString01" /&gt;</span>
 017: <span class="ignored">  </span><span class="ignored">&lt;!-- Not used --&gt;</span>
-018: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalSelectUnused01" select="string(300)" /&gt;</span><span class="ignored">    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-019: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalDocNodeUnused01"&gt;</span><span class="ignored">                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+018: <span class="ignored">  </span><span class="missed">&lt;xsl:variable name="variableGlobalSelectUnused01" select="string(300)" /&gt;</span><span class="ignored">    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+019: <span class="ignored">  </span><span class="missed">&lt;xsl:variable name="variableGlobalDocNodeUnused01"&gt;</span><span class="ignored">                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 020: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">40</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 021: <span class="ignored">    </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-022: <span class="ignored">  </span><span class="hit">&lt;/xsl:variable&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+022: <span class="ignored">  </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 023: <span class="ignored">  </span><span class="ignored">&lt;!-- Not used --&gt;</span>
-024: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalAsUnused01" as="text()"&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+024: <span class="ignored">  </span><span class="missed">&lt;xsl:variable name="variableGlobalAsUnused01" as="text()"&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 025: <span class="ignored">    </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">400</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-026: <span class="ignored">  </span><span class="hit">&lt;/xsl:variable&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+026: <span class="ignored">  </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 027: <span class="ignored">  </span><span class="ignored">&lt;!-- Not used --&gt;</span>
-028: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalEmptySequenceUnused01" as="element()?" /&gt;</span><span class="ignored">  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+028: <span class="ignored">  </span><span class="missed">&lt;xsl:variable name="variableGlobalEmptySequenceUnused01" as="element()?" /&gt;</span><span class="ignored">  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 029: <span class="ignored">  </span><span class="ignored">&lt;!-- Not used --&gt;</span>
-030: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="variableGlobalEmptyStringUnused01" /&gt;</span><span class="ignored">                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+030: <span class="ignored">  </span><span class="missed">&lt;xsl:variable name="variableGlobalEmptyStringUnused01" /&gt;</span><span class="ignored">                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 031: 
 032: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-variable"&gt;</span>
 033: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="variableLocalSelect01" select="string(400)" /&gt;</span>

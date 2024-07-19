@@ -188,6 +188,10 @@
             <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
                 <xsl:sequence select="'hit'"/>
             </xsl:when>
+            <xsl:when test="parent::XSLT:stylesheet or parent::XSLT:transform">
+                <!-- Global variables effectively follow the Use Trace Data rule. -->
+                <xsl:sequence select="'missed'"/>
+            </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
                     mode="#current"/>
