@@ -53,10 +53,10 @@
 043: <span class="ignored">      </span><span class="ignored">&lt;!-- Evaluate with-param (200) --&gt;</span>
 044: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
 045: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
-046: <span class="ignored">        </span><span class="hit">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span>
-047: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="index" select="$index" /&gt;</span>
-048: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="nonexistent"&gt;</span><span class="hit">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-049: <span class="ignored">        </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
+046: <span class="ignored">        </span><span class="missed">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span>
+047: <span class="ignored">          </span><span class="missed">&lt;xsl:with-param name="index" select="$index" /&gt;</span>
+048: <span class="ignored">          </span><span class="missed">&lt;xsl:with-param name="nonexistent"&gt;</span><span class="missed">parameter not used in evaluation</span><span class="missed">&lt;/xsl:with-param&gt;</span>
+049: <span class="ignored">        </span><span class="missed">&lt;/xsl:evaluate&gt;</span>
 050: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 051: <span class="ignored">      </span><span class="hit">&lt;node type="with-param - evaluate"&gt;</span>
 052: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span>

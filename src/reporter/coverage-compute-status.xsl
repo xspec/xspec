@@ -161,9 +161,7 @@
     </xsl:template>
 
     <!-- Use Trace Data -->
-    <xsl:template match="
-        XSLT:function
-        | XSLT:template"
+    <xsl:template match="element() | text()"
         as="xs:string"
         mode="coverage">
         <xsl:sequence select="accumulator-before('category-based-on-trace-data')"/>
@@ -207,30 +205,6 @@
                 else
                     'missed'
                 "/>
-    </xsl:template>
-
-    <!-- General case. This template is like the one for the Use Trace Data rule, except
-        that xsl:when blocks after the first one provide the capability of doing
-        special handling. Eventually, maybe we should (a) move all the special handling
-        to other templates, (b) make the Use Trace Data template have match="element | text()",
-        and (c) delete this template. -->
-    <xsl:template match="element() | text()" as="xs:string" mode="coverage">
-        
-        <xsl:choose>
-            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
-                <xsl:sequence select="'hit'"/>
-            </xsl:when>
-
-            <xsl:when test="ancestor::XSLT:variable">
-                <!-- Use status of nearest ancestor XSLT:variable (not always the same
-                    as Use Trace Data for that ancestor) -->
-                <xsl:apply-templates select="ancestor::XSLT:variable[1]" mode="#current"/>
-            </xsl:when>
-
-            <xsl:otherwise>
-                <xsl:sequence select="'missed'"/>
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:template>
 
     <!--
