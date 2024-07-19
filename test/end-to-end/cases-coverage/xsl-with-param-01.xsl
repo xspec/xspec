@@ -67,7 +67,7 @@
         </xsl:next-match>                                                      <!-- Expected miss -->
         <xsl:variable name="evaluatedExpressionParamChild">                    <!-- Expected miss -->
           <xsl:evaluate xpath="'string(node[$index])'" context-item=".">       <!-- Expected unknown -->
-            <xsl:with-param name="index" select="$index" />                    <!-- Expected miss -->
+            <xsl:with-param name="index" select="$index" />                    <!-- Expected unknown -->
           </xsl:evaluate>                                                      <!-- Expected unknown -->
         </xsl:variable>                                                        <!-- Expected miss -->
         <xsl:value-of select="$evaluatedExpressionParamChild" />               <!-- Expected miss -->

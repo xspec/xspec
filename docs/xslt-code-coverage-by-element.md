@@ -1187,8 +1187,8 @@ Note: The test shows the child of xsl:where-populated hit even if it does nothin
 | CHILDREN |                                                                                                             |
 | CONTENT  |                                                                                                             |
 | TRACE    | No                                                                                                          |
-| RULE     | Use Parent Data                                                                                             |
+| RULE     | Use Parent Status                                                                                           |
 
 #### Comment
 
-Suggest it is always marked as a 'hit' if the parent is traced.
+Because xsl:evaluate is not traced, xsl:with-param follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:evaluate/xsl:with-param has a sequence constructor that includes a traced node, the sequence constructor gives xsl:evaluate a 'hit' status, which in turn gives xsl:with-param a 'hit' status.

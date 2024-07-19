@@ -166,7 +166,8 @@
 
     <!-- Use Parent Status (computed) -->
     <xsl:template match="
-        XSLT:sort"
+        XSLT:sort
+        | XSLT:with-param"
         as="xs:string"
         mode="coverage">
         <xsl:apply-templates select="parent::*" mode="#current"/>
