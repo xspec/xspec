@@ -17,8 +17,15 @@
     </x:context>
     <x:expect label="Success">
       <root>
-        <node type="where-populated"/>
-        <node type="where-populated">
+        <node type="where-populated, child reached but not populated"/>
+        <node type="where-populated, child reached and populated">
+          <node>100</node>
+          <node>200</node>
+          <node>300</node>
+          <node>400</node>
+        </node>
+        <node type="where-populated, untraced child reached but not populated" />
+        <node type="where-populated, untraced child reached and populated">
           <node>100</node>
           <node>200</node>
           <node>300</node>
