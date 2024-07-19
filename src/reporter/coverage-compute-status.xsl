@@ -106,18 +106,45 @@
     <!-- Use Child Data -->
     <xsl:template
         match="
-        XSLT:matching-substring
+        XSLT:fallback
+        | XSLT:matching-substring
         | XSLT:non-matching-substring
+        | XSLT:on-completion
         | XSLT:otherwise
         | XSLT:when"
         as="xs:string"
         mode="coverage">
         <xsl:choose>
-            <xsl:when test="child::node()/accumulator-before('category-based-on-trace-data') = 'hit'">
+            <xsl:when test="empty(child::node())">
+                <xsl:sequence select="'unknown'"/>
+            </xsl:when>
+            <xsl:when test="descendant::node()/accumulator-before('category-based-on-trace-data') = 'hit'">
+                <!-- If at least one descendant is hit, mark as hit -->
                 <xsl:sequence select="'hit'"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:sequence select="'missed'"/>
+                <!--
+                    If node has only untraceable descendants, mark it as 'unknown'.
+                    Use xsl:iterate to examine descendants for traceability. Break
+                    upon reaching a traceable element, because reaching xsl:otherwise
+                    with a traceable descendant means this node should be marked as
+                    'missed'.
+                -->
+                <xsl:variable name="all-untraceable" as="xs:boolean">
+                    <xsl:iterate select="descendant::node()">
+                        <xsl:on-completion>
+                            <xsl:sequence select="true()" />
+                        </xsl:on-completion>
+                        <xsl:variable name="untraceable" as="xs:boolean">
+                            <xsl:apply-templates select="." mode="untraceable-in-instruction" />
+                        </xsl:variable> 
+                        <xsl:if test="not($untraceable)">
+                            <xsl:sequence select="false()" />
+                            <xsl:break />
+                        </xsl:if>
+                    </xsl:iterate>
+                </xsl:variable>
+                <xsl:sequence select="if ($all-untraceable) then 'unknown' else 'missed'"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -206,4 +233,61 @@
         </xsl:choose>
     </xsl:template>
 
+    <!--
+      mode="untraceable-in-instruction"
+   -->
+    <xsl:mode name="untraceable-in-instruction" on-multiple-match="fail" on-no-match="fail" />
+
+    <!-- Low-priority fallback template rule -->
+    <xsl:template match="node()" mode="untraceable-in-instruction"
+        priority="-10">
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+
+    <!-- Nodes that follow "Always Ignore" rule and can occur in an instruction -->
+    <xsl:template match="
+        text()[normalize-space() = '' and not(parent::XSLT:text)]
+        | processing-instruction()
+        | comment()"
+        mode="untraceable-in-instruction">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+
+    <!-- Untraceable elements that can occur in an instruction -->
+    <xsl:template match="
+        XSLT:assert
+        | XSLT:catch
+        | XSLT:evaluate (: Not sure if this should be listed here :)
+        | XSLT:fallback
+        | XSLT:iterate/XSLT:param
+        | XSLT:map
+        | XSLT:map-entry
+        | XSLT:matching-substring
+        | XSLT:merge-action
+        | XSLT:merge-key
+        | XSLT:merge-source
+        | XSLT:non-matching-substring
+        | XSLT:on-completion
+        | XSLT:on-empty
+        | XSLT:on-non-empty
+        | XSLT:otherwise
+        | XSLT:perform-sort[@select]
+        | XSLT:perform-sort[XSLT:sort][count(*) = 1]
+        | XSLT:sequence[empty(node())]
+        | XSLT:sort
+        | XSLT:template/XSLT:param[@select]
+        | XSLT:try
+        | XSLT:where-populated
+        | XSLT:with-param"
+        mode="untraceable-in-instruction">
+        <!--
+            Some of the elements listed in the match attribute are not strictly needed
+            in order to achieve the caller's objective, because the elements have a
+            traceable ancestor that would also be a descendant of the element that calls
+            this mode. Examples include XSLT:matching-substring, XSLT:non-matching-substring,
+            XSLT:merge-*, and XSLT:on-completion. However, it's clearer to list them anyway.
+        -->
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
 </xsl:stylesheet>

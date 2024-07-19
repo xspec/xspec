@@ -29,7 +29,7 @@ The following list describes the rules used to determine the coverage status of 
 - **Always Ignore** - Mark node as 'ignored'. This rule is mainly for Declaration elements where Saxon does not produce trace output.
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
-- **Use Child Data** - If node has no children, mark it as 'unknown'. If the trace data has a "hit" element for a child of this node, then mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then any children are traced. NOTE: the fact that `xsl:sequence` is not traced might cause this rule to produce the wrong result.
+- **Use Child Data** - If node has no children or only untraceable descendants, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
 - **None** - The element is not supported by XSpec code coverage.
 - **TBD** -
 - **Element Specific** - The element does not fit into any of the other rules and has its own rule description.
@@ -259,18 +259,18 @@ If xsl:catch has a select attribute, we don't know if it was executed.
 
 ## xsl:context-item
 
-|          |               |
-| -------- | ------------- |
-| CATEGORY |               |
-| PARENT   | xsl:template  |
-| CHILDREN |               |
-| CONTENT  | None          |
-| TRACE    | No            |
-| RULE     | Always Ignore |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:template    |
+| CHILDREN |                 |
+| CONTENT  | None            |
+| TRACE    | No              |
+| RULE     | Use Parent Data |
 
 #### Comment
 
-Although it doesn't have a category, it seems more like a declaration than an instruction, so ignore.
+Although it seems more like a declaration than an instruction, it isn't a direct child of xsl:stylesheet or xsl:transform. Determining a reasonable coverage status for xsl:context-item does not require extensive work, unlike the situation for many declarations.
 
 ## xsl:copy
 

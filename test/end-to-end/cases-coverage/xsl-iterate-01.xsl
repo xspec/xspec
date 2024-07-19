@@ -130,6 +130,46 @@
           </xsl:break>                                                         <!-- Expected miss -->
         </xsl:if>
       </xsl:iterate>
+
+      <!-- Test cases for unknown status of xsl:on-completion -->
+      <!-- xsl:iterate with xsl:on-completion not executed but unknown status -->
+      <node type="iterate/on-completion unexecuted unknown">
+        <xsl:iterate select="node">
+          <xsl:on-completion>                                                    <!-- Expected unknown -->
+            <xsl:where-populated>                                                <!-- Expected unknown -->
+            </xsl:where-populated>                                               <!-- Expected unknown -->
+          </xsl:on-completion>                                                   <!-- Expected unknown -->
+          <xsl:if test=". &gt; 150">
+            <xsl:break />
+          </xsl:if>
+        </xsl:iterate>
+      </node>
+      <!-- xsl:iterate with xsl:on-completion not executed but unknown status -->
+      <node type="iterate/on-completion unexecuted unknown">
+        <xsl:iterate select="node">
+          <xsl:on-completion></xsl:on-completion>                              <!-- Expected unknown -->
+          <xsl:if test=". &gt; 150">
+            <xsl:break />
+          </xsl:if>
+        </xsl:iterate>
+      </node>
+      <!-- xsl:iterate with xsl:on-completion executed but unknown status -->
+      <node type="iterate/on-completion executed unknown">
+        <xsl:iterate select="node">
+          <xsl:on-completion>                                                  <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
+          </xsl:on-completion>                                                 <!-- Expected unknown -->
+          <xsl:value-of select="concat(., ', ')" />
+        </xsl:iterate>
+      </node>
+      <!-- xsl:iterate with xsl:on-completion executed but unknown status -->
+      <node type="iterate/on-completion executed unknown">
+        <xsl:iterate select="node">
+          <xsl:on-completion></xsl:on-completion>                              <!-- Expected unknown -->
+          <xsl:value-of select="concat(., ', ')" />
+        </xsl:iterate>
+      </node>
     </root>
   </xsl:template>
 </xsl:stylesheet>
