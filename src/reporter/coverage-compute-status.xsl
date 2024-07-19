@@ -111,7 +111,8 @@
         | XSLT:non-matching-substring
         | XSLT:on-completion
         | XSLT:otherwise
-        | XSLT:when"
+        | XSLT:when
+        | XSLT:where-populated"
         as="xs:string"
         mode="coverage">
         <xsl:choose>
