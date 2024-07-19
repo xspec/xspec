@@ -17,8 +17,8 @@
     <xsl:param name="hundreds-param" as="map(xs:string, xs:integer)">
       <xsl:map>
         <!-- Using select attribute -->
-        <xsl:map-entry key="'One'" select="100"/>
-        <xsl:map-entry key="'Two'" select="200"/>
+        <xsl:map-entry key="'One'" select="100"/>                              <!-- Expected unknown -->
+        <xsl:map-entry key="'Two'" select="200"/>                              <!-- Expected unknown -->
         <!-- Using sequence constructor -->
         <xsl:map-entry key="'Three'">
           <xsl:copy select="$mapValue300" />
@@ -31,8 +31,8 @@
     <xsl:variable name="hundreds-variable" as="map(xs:string, xs:integer)">
       <xsl:map>
         <!-- Using select attribute -->
-        <xsl:map-entry key="'One'" select="100"/>
-        <xsl:map-entry key="'Two'" select="200"/>
+        <xsl:map-entry key="'One'" select="100"/>                              <!-- Expected unknown -->
+        <xsl:map-entry key="'Two'" select="200"/>                              <!-- Expected unknown -->
         <!-- Using sequence constructor -->
         <xsl:map-entry key="'Three'">
           <xsl:sequence>
@@ -48,19 +48,19 @@
     <xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)">
       <xsl:map>
         <xsl:for-each select="1 to 5">
-          <xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/>
+          <xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/>  <!-- Expected unknown -->
         </xsl:for-each>
       </xsl:map>
     </xsl:variable>
     <!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. -->
     <xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)">
-      <xsl:map>
-        <xsl:map-entry key="'Seven'" select="xs:decimal(700)" />
-      </xsl:map>
+      <xsl:map>                                                                <!-- Expected unknown -->
+        <xsl:map-entry key="'Seven'" select="xs:decimal(700)" />               <!-- Expected unknown -->
+      </xsl:map>                                                               <!-- Expected unknown -->
     </xsl:variable>
     <!-- xsl:map-entry not inside a xsl:map. Using select attribute -->
     <xsl:variable name="map-entry-variable01" as="map(xs:string, xs:integer)">
-      <xsl:map-entry key="'One'" select="100"/>
+      <xsl:map-entry key="'One'" select="100"/>                                <!-- Expected unknown -->
     </xsl:variable>
     <!-- xsl:map-entry not inside a xsl:map. Using sequence constructor -->
     <xsl:variable name="map-entry-variable02" as="map(xs:string, xs:integer)">
@@ -107,8 +107,8 @@
   <xsl:function name="myns:returnMap" as="map(xs:string, xs:integer)">
     <xsl:map>
       <!-- Using select attribute -->
-      <xsl:map-entry key="'One'" select="100"/>
-      <xsl:map-entry key="'Two'" select="200"/>
+      <xsl:map-entry key="'One'" select="100"/>                                <!-- Expected unknown -->
+      <xsl:map-entry key="'Two'" select="200"/>                                <!-- Expected unknown -->
       <!-- Using sequence constructor -->
       <xsl:map-entry key="'Three'">
         <xsl:copy select="$mapValue300" />

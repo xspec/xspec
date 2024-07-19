@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-for-each-group-01.xsl">xsl-for-each-group-01.xsl</a></p>
-      <h2>module: xsl-for-each-group-01.xsl; 27 lines</h2>
+      <h2>module: xsl-for-each-group-01.xsl; 25 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -24,16 +24,14 @@
 14: <span class="ignored">      </span><span class="ignored">&lt;!-- Child of xsl:for-each-group is not traced --&gt;</span>
 15: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="my-map" as="map(*)"&gt;</span>
 16: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each-group select="1" group-by="1"&gt;</span>
-17: <span class="ignored">          </span><span class="unknown">&lt;xsl:map-entry key="current-grouping-key()"&gt;</span>
-18: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of select="'100'"/&gt;</span>
-19: <span class="ignored">          </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
-20: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each-group&gt;</span><span class="ignored">        </span>
-21: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
-22: <span class="ignored">      </span><span class="hit">&lt;node type="for-each-group - untraced child"&gt;</span>
-23: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$my-map(1)"/&gt;</span>
-24: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-25: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-26: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-27: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+17: <span class="ignored">          </span><span class="unknown">&lt;xsl:map-entry key="current-grouping-key()" select="'100'"/&gt;</span><span class="ignored">         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+18: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each-group&gt;</span><span class="ignored">        </span>
+19: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;node type="for-each-group - untraced child"&gt;</span>
+21: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$my-map(1)"/&gt;</span>
+22: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+23: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+24: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+25: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

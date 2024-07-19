@@ -31,7 +31,6 @@ The following list describes the rules used to determine the coverage status of 
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
 - **Use Parent Status** - If this node's parent has 'hit' status based on its trace data and the rule it follows, mark this node as a 'hit'. Otherwise, mark it as 'missed'. This rule can differ from 'Use Parent Data' when the parent is not traced.
 - **Use Child Data** - If node has no children or only untraceable descendants, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
-- **Unknown** - The element is not in the trace data and other elements cannot be used to determine this element's status.
 - **None** - The element is not supported by XSpec code coverage.
 - **TBD** -
 - **Element Specific** - The element does not fit into any of the other rules and has its own rule description.
@@ -526,14 +525,14 @@ XSLT 4.0 proposal.
 
 ## xsl:map
 
-|          |             |
-| -------- | ----------- |
-| CATEGORY | Instruction |
-| PARENT   |             |
-| CHILDREN |             |
-| CONTENT  |             |
-| TRACE    | No          |
-| RULE     | Unknown     |
+|          |                |
+| -------- | -------------- |
+| CATEGORY | Instruction    |
+| PARENT   |                |
+| CHILDREN |                |
+| CONTENT  |                |
+| TRACE    | No             |
+| RULE     | Use Child Data |
 
 #### Comment
 
@@ -541,14 +540,14 @@ Neither this element nor xsl:map-entry is traced.
 
 ## xsl:map-entry
 
-|          |             |
-| -------- | ----------- |
-| CATEGORY | Instruction |
-| PARENT   |             |
-| CHILDREN |             |
-| CONTENT  |             |
-| TRACE    | No          |
-| RULE     | Unknown     |
+|          |                |
+| -------- | -------------- |
+| CATEGORY | Instruction    |
+| PARENT   |                |
+| CHILDREN |                |
+| CONTENT  |                |
+| TRACE    | No             |
+| RULE     | Use Child Data |
 
 #### Comment
 

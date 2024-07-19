@@ -107,6 +107,8 @@
     <xsl:template
         match="
         XSLT:fallback
+        | XSLT:map
+        | XSLT:map-entry
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
@@ -167,15 +169,6 @@
         as="xs:string"
         mode="coverage">
         <xsl:apply-templates select="parent::*" mode="#current"/>
-    </xsl:template>
-
-    <!-- Unknown -->
-    <xsl:template match="
-        XSLT:map
-        | XSLT:map-entry"
-        as="xs:string"
-        mode="coverage">
-        <xsl:sequence select="'unknown'"/>
     </xsl:template>
 
     <!-- Use Trace Data -->
