@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0">
+<xsl:stylesheet xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0">
   <!--
       xsl:evaluate Coverage Test Case
   -->
@@ -17,7 +17,7 @@
       <root>
         <xsl:for-each select="$data/data">
           <xsl:sort>
-            <xsl:evaluate xpath="$sortKey" context-item="."  />
+            <xsl:evaluate xpath="$sortKey" context-item="."  />                <!-- Expected unknown -->
           </xsl:sort>
           <node type="evaluate">
             <xsl:value-of select="@value" />
@@ -27,21 +27,33 @@
         <!-- Circuitous ways to get $data/data[2] content -->
         <xsl:variable name="index" select="2" />
         <xsl:variable name="evaluatedExpressionParamChild">
-          <xsl:evaluate xpath="'string(data[$index])'" context-item="$data">
-            <xsl:with-param name="index" select="$index" />
+          <!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced -->
+          <xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data">
+            <xsl:with-param name="index">
+              <xsl:for-each select="1">
+                <xsl:sequence select="$index"/>
+              </xsl:for-each>
+            </xsl:with-param>
             <xsl:with-param name="sortKey">parameter not used in evaluation</xsl:with-param>
           </xsl:evaluate>
         </xsl:variable>
-        <node type="evaluate/with-param">
+        <node type="evaluate/with-param executed hit">
           <xsl:value-of select="$evaluatedExpressionParamChild" />
         </node>
 
         <xsl:variable name="evaluatedExpressionParamAttr">
           <xsl:evaluate xpath="'string(data[$index])'" context-item="$data"
-            with-params="map{QName('','index'): $index }" />
+            with-params="map{QName('','index'): $index }" />                   <!-- Expected unknown -->
         </xsl:variable>
-        <node type="evaluate/with-param">
+        <xsl:if test="exists(nonexistent)">
+          <xsl:evaluate xpath="'string(data[$index])'" context-item="$data"
+            with-params="map{QName('','index'): $index }" />                   <!-- Expected unknown -->          
+        </xsl:if>
+        <node type="evaluate/with-param executed unknown">
           <xsl:value-of select="$evaluatedExpressionParamAttr" />
+        </node>
+        <node type="evaluate/with-param unexecuted unknown">
+          <xsl:text>500</xsl:text>
         </node>
       </root>
    </xsl:template>

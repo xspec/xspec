@@ -106,7 +106,8 @@
     <!-- Use Child Data -->
     <xsl:template
         match="
-        XSLT:fallback
+        XSLT:evaluate
+        | XSLT:fallback
         | XSLT:map
         | XSLT:map-entry
         | XSLT:matching-substring

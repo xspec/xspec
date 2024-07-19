@@ -337,13 +337,13 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | CHILDREN | xsl:fallback, xsl:with-param |
 | CONTENT  |                              |
 | TRACE    | Column number 0              |
-| RULE     | Element Specific - TBD       |
+| RULE     | Use Child Data               |
 
 #### Comment
 
 Column 0 in XSpec trace and Saxon trace.
 
-There is an option of accepting the trace output for now and saying if the node is xsl:evaluate then check column number 0 (the chance of 2 xsl:evaluate elements on the same line is low).
+There is an alternate option of accepting the trace output for now and saying if the node is xsl:evaluate then check column number 0 (the chance of 2 xsl:evaluate elements on the same line is low).
 
 ## xsl:expose
 

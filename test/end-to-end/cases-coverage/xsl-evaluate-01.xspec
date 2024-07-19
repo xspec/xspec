@@ -14,8 +14,9 @@
             <node type="evaluate">200</node>
             <node type="evaluate">300</node>
             <node type="evaluate">400</node>
-            <node type="evaluate/with-param">100</node>
-            <node type="evaluate/with-param">100</node>
+            <node type="evaluate/with-param executed hit">100</node>
+            <node type="evaluate/with-param executed unknown">100</node>
+            <node type="evaluate/with-param unexecuted unknown">200</node>
          </root>
       </x:expect>
    </x:scenario>
