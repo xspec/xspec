@@ -169,6 +169,15 @@
         <xsl:apply-templates select="parent::*" mode="#current"/>
     </xsl:template>
 
+    <!-- Unknown -->
+    <xsl:template match="
+        XSLT:map
+        | XSLT:map-entry"
+        as="xs:string"
+        mode="coverage">
+        <xsl:sequence select="'unknown'"/>
+    </xsl:template>
+
     <!-- Use Trace Data -->
     <xsl:template match="element() | text()"
         as="xs:string"
