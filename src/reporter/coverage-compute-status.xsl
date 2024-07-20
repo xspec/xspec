@@ -103,7 +103,7 @@
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
-    <!-- Use Child Data -->
+    <!-- Use Descendant Data -->
     <xsl:template
         match="
         XSLT:fallback

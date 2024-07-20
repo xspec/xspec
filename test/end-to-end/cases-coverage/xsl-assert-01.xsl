@@ -15,7 +15,7 @@
   </xsl:template>
 
   <xsl:template match="xsl-assert" mode="xsl-assert-false-before-traceable">
-      <!-- Use Child Data case of untraceable executed combined with traceable unexecuted -->
+      <!-- Use Descendant Data case of untraceable executed combined with traceable unexecuted -->
       <!-- xsl:iterate with xsl:on-completion executed but unknown status -->
       <node type="iterate/on-completion executed unknown">
         <xsl:iterate select="1">
