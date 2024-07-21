@@ -20,7 +20,7 @@
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="10" columnNumber="19" moduleId="0" traceableId="4"/>
    <traceable traceableId="5" class="net.sf.saxon.expr.instruct.OnNonEmptyExpr"/>
-   <hit lineNumber="11" columnNumber="0" moduleId="0" traceableId="5"/>
+   <hit lineNumber="11" columnNumber="43" moduleId="0" traceableId="5"/>
    <hit lineNumber="14" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="14" columnNumber="33" moduleId="0" traceableId="2"/>
    <hit lineNumber="15" columnNumber="19" moduleId="0" traceableId="3"/>
@@ -34,7 +34,7 @@
    <hit lineNumber="23" columnNumber="21" moduleId="0" traceableId="4"/>
    <hit lineNumber="27" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="27" columnNumber="33" moduleId="0" traceableId="2"/>
-   <hit lineNumber="28" columnNumber="22" moduleId="0" traceableId="3"/>
+   <hit lineNumber="28" columnNumber="57" moduleId="0" traceableId="3"/>
    <hit lineNumber="30" columnNumber="21" moduleId="0" traceableId="5"/>
    <hit lineNumber="30" columnNumber="21" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>

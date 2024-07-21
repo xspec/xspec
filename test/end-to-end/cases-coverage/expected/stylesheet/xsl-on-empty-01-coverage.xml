@@ -14,7 +14,7 @@
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="9" columnNumber="29" moduleId="0" traceableId="2"/>
    <traceable traceableId="3" class="net.sf.saxon.expr.Literal"/>
-   <hit lineNumber="10" columnNumber="0" moduleId="0" traceableId="3"/>
+   <hit lineNumber="10" columnNumber="45" moduleId="0" traceableId="3"/>
    <hit lineNumber="13" columnNumber="29" moduleId="0" traceableId="1"/>
    <hit lineNumber="13" columnNumber="29" moduleId="0" traceableId="2"/>
    <traceable traceableId="4"

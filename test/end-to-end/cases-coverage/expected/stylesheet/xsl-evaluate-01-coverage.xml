@@ -38,12 +38,12 @@
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="1"/>
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="5"/>
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="6"/>
-   <hit lineNumber="20" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="20" columnNumber="64" moduleId="0" traceableId="4"/>
    <hit lineNumber="14" columnNumber="32" moduleId="0" traceableId="3"/>
    <hit lineNumber="14" columnNumber="32" moduleId="0" traceableId="4"/>
-   <hit lineNumber="20" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="20" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="20" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="20" columnNumber="64" moduleId="0" traceableId="4"/>
+   <hit lineNumber="20" columnNumber="64" moduleId="0" traceableId="4"/>
+   <hit lineNumber="20" columnNumber="64" moduleId="0" traceableId="4"/>
    <hit lineNumber="22" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="22" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="23" columnNumber="45" moduleId="0" traceableId="6"/>
@@ -59,15 +59,15 @@
    <hit lineNumber="29" columnNumber="60" moduleId="0" traceableId="4"/>
    <traceable traceableId="7" class="net.sf.saxon.expr.LetExpression"/>
    <hit lineNumber="29" columnNumber="60" moduleId="0" traceableId="7"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="77" moduleId="0" traceableId="4"/>
    <traceable traceableId="8" class="net.sf.saxon.expr.instruct.EvaluateInstr"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="8"/>
+   <hit lineNumber="30" columnNumber="77" moduleId="0" traceableId="8"/>
    <hit lineNumber="35" columnNumber="42" moduleId="0" traceableId="1"/>
    <hit lineNumber="35" columnNumber="42" moduleId="0" traceableId="5"/>
    <hit lineNumber="36" columnNumber="67" moduleId="0" traceableId="6"/>
    <hit lineNumber="39" columnNumber="59" moduleId="0" traceableId="7"/>
-   <hit lineNumber="41" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="41" columnNumber="0" moduleId="0" traceableId="8"/>
+   <hit lineNumber="41" columnNumber="61" moduleId="0" traceableId="4"/>
+   <hit lineNumber="41" columnNumber="61" moduleId="0" traceableId="8"/>
    <hit lineNumber="43" columnNumber="42" moduleId="0" traceableId="1"/>
    <hit lineNumber="43" columnNumber="42" moduleId="0" traceableId="5"/>
    <hit lineNumber="44" columnNumber="66" moduleId="0" traceableId="6"/>

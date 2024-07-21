@@ -9,7 +9,7 @@
    <traceable traceableId="1"
               class="net.sf.saxon.expr.instruct.LocalParam"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}param"/>
-   <hit lineNumber="20" columnNumber="0" moduleId="0" traceableId="1"/>
+   <hit lineNumber="20" columnNumber="50" moduleId="0" traceableId="1"/>
    <traceable traceableId="2" class="net.sf.saxon.expr.LetExpression"/>
    <hit lineNumber="31" columnNumber="76" moduleId="0" traceableId="2"/>
    <traceable traceableId="3"

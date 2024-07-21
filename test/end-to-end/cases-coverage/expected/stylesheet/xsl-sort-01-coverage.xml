@@ -103,7 +103,7 @@
    <traceable traceableId="8"
               class="net.sf.saxon.expr.instruct.TraceExpression"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}document"/>
-   <hit lineNumber="53" columnNumber="4" moduleId="0" traceableId="8"/>
+   <hit lineNumber="53" columnNumber="41" moduleId="0" traceableId="8"/>
    <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="1"/>
    <hit lineNumber="58" columnNumber="42" moduleId="0" traceableId="3"/>
    <hit lineNumber="59" columnNumber="38" moduleId="0" traceableId="4"/>

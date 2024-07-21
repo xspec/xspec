@@ -195,9 +195,9 @@
    <hit lineNumber="45" columnNumber="58" moduleId="0" traceableId="9"/>
    <traceable traceableId="13" class="net.sf.saxon.expr.LetExpression"/>
    <hit lineNumber="45" columnNumber="58" moduleId="0" traceableId="13"/>
-   <hit lineNumber="46" columnNumber="0" moduleId="0" traceableId="9"/>
+   <hit lineNumber="46" columnNumber="71" moduleId="0" traceableId="9"/>
    <traceable traceableId="14" class="net.sf.saxon.expr.instruct.EvaluateInstr"/>
-   <hit lineNumber="46" columnNumber="0" moduleId="0" traceableId="14"/>
+   <hit lineNumber="46" columnNumber="71" moduleId="0" traceableId="14"/>
    <hit lineNumber="51" columnNumber="42" moduleId="0" traceableId="1"/>
    <hit lineNumber="51" columnNumber="42" moduleId="0" traceableId="3"/>
    <hit lineNumber="52" columnNumber="65" moduleId="0" traceableId="4"/>

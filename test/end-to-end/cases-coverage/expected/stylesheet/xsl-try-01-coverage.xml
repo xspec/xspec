@@ -14,7 +14,7 @@
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
    <hit lineNumber="10" columnNumber="24" moduleId="0" traceableId="2"/>
    <traceable traceableId="3" class="net.sf.saxon.expr.TryCatch"/>
-   <hit lineNumber="11" columnNumber="7" moduleId="0" traceableId="3"/>
+   <hit lineNumber="11" columnNumber="39" moduleId="0" traceableId="3"/>
    <hit lineNumber="16" columnNumber="24" moduleId="0" traceableId="1"/>
    <hit lineNumber="16" columnNumber="24" moduleId="0" traceableId="2"/>
    <hit lineNumber="18" columnNumber="21" moduleId="0" traceableId="3"/>
@@ -24,10 +24,10 @@
    <hit lineNumber="18" columnNumber="21" moduleId="0" traceableId="4"/>
    <hit lineNumber="23" columnNumber="30" moduleId="0" traceableId="1"/>
    <hit lineNumber="23" columnNumber="30" moduleId="0" traceableId="2"/>
-   <hit lineNumber="24" columnNumber="0" moduleId="0" traceableId="3"/>
+   <hit lineNumber="24" columnNumber="35" moduleId="0" traceableId="3"/>
    <hit lineNumber="29" columnNumber="30" moduleId="0" traceableId="1"/>
    <hit lineNumber="29" columnNumber="30" moduleId="0" traceableId="2"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="3"/>
+   <hit lineNumber="30" columnNumber="35" moduleId="0" traceableId="3"/>
    <hit lineNumber="35" columnNumber="30" moduleId="0" traceableId="1"/>
    <hit lineNumber="35" columnNumber="30" moduleId="0" traceableId="2"/>
    <hit lineNumber="37" columnNumber="44" moduleId="0" traceableId="3"/>

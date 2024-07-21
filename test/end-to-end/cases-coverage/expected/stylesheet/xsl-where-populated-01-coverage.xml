@@ -27,7 +27,7 @@
    <hit lineNumber="21" columnNumber="78" moduleId="0" traceableId="2"/>
    <hit lineNumber="26" columnNumber="74" moduleId="0" traceableId="1"/>
    <hit lineNumber="26" columnNumber="74" moduleId="0" traceableId="2"/>
-   <hit lineNumber="28" columnNumber="4" moduleId="0" traceableId="3"/>
+   <hit lineNumber="28" columnNumber="43" moduleId="0" traceableId="3"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
