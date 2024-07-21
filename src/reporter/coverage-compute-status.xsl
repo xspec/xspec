@@ -285,6 +285,7 @@
         | XSLT:sort
         | XSLT:template/XSLT:param[@select]
         | XSLT:try
+        | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"
         mode="untraceable-in-instruction">
