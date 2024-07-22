@@ -26,9 +26,9 @@
       <!-- Only untraceable descendants -->
       <node type="where-populated, untraced child reached and populated">
         <xsl:where-populated>                                                  <!-- Expected unknown -->
-          <xsl:perform-sort select="node">                                     <!-- Expected miss -->
-            <xsl:sort select="." />                                            <!-- Expected miss-->
-          </xsl:perform-sort>                                                  <!-- Expected miss -->
+          <xsl:perform-sort select="node">                                     <!-- Expected unknown -->
+            <xsl:sort select="." />                                            <!-- Expected unknown -->
+          </xsl:perform-sort>                                                  <!-- Expected unknown -->
         </xsl:where-populated>                                                 <!-- Expected unknown -->
       </node>      
       <!-- xsl:fallback is untraceable, while <empty-element/> is traceable but has no hit in trace. -->
