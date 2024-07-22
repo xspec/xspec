@@ -115,7 +115,8 @@
         | XSLT:on-completion
         | XSLT:perform-sort
         | XSLT:otherwise
-        | XSLT:when"
+        | XSLT:when
+        | XSLT:where-populated"
         as="xs:string"
         mode="coverage">
         <xsl:choose>
