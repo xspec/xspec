@@ -30,7 +30,7 @@ The following list describes the rules used to determine the coverage status of 
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
 - **Use Parent Status** - If this node's parent has 'hit' status based on its trace data and the rule it follows, mark this node as a 'hit'. Otherwise, mark it as 'missed'. This rule can differ from 'Use Parent Data' when the parent is not traced.
-- **Use Child Data** - If node has no children or only untraceable descendants, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
+- **Use Descendant Data** - If node has no children, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as either 'unknown' or 'missed', as follows: 'missed' if all executable descendants are traceable, else 'unknown'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Non-executable descendants in this context are comments, processing instructions, and whitespace-only text nodes (except inside xsl:text). Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable executable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
 - **None** - The element is not supported by XSpec code coverage.
 - **TBD** -
 - **Element Specific** - The element does not fit into any of the other rules and has its own rule description.
@@ -145,14 +145,14 @@ XSLT 4.0 proposal.
 
 ## xsl:assert
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 ## xsl:attribute
 
@@ -208,14 +208,14 @@ Tested as part of xsl:iterate.
 
 ## xsl:catch
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY |                |
-| PARENT   | xsl:try        |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:try             |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -337,7 +337,7 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | CHILDREN | xsl:fallback, xsl:with-param |
 | CONTENT  |                              |
 | TRACE    | Column number 0              |
-| RULE     | Use Child Data               |
+| RULE     | Use Descendant Data          |
 
 #### Comment
 
@@ -362,14 +362,14 @@ Package related.
 
 ## xsl:fallback
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 ## xsl:for-each
 
@@ -525,14 +525,14 @@ XSLT 4.0 proposal.
 
 ## xsl:map
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -540,14 +540,14 @@ Neither this element nor xsl:map-entry is traced.
 
 ## xsl:map-entry
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -559,14 +559,14 @@ Neither this element nor xsl:map is traced.
 
 ## xsl:matching-substring
 
-|          |                    |
-| -------- | ------------------ |
-| CATEGORY |                    |
-| PARENT   | xsl:analyze-string |
-| CHILDREN |                    |
-| CONTENT  |                    |
-| TRACE    | No                 |
-| RULE     | Use Child Data     |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:analyze-string  |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -602,7 +602,7 @@ Children of xsl:merge are not traced. However, xsl:merge has a well defined stru
 
 Tested as part of xsl:merge.
 
-If xsl:merge is hit then it is safe to say that xsl:merge-action is also hit. Note: It would be possible for xsl:merge-action to Use Child Data, but the suggestion is that it follow the same rule as other xsl:merge-\* descendants of xsl:merge.
+If xsl:merge is hit then it is safe to say that xsl:merge-action is also hit. Note: It would be possible for xsl:merge-action to Use Descendant Data, but the suggestion is that it follow the same rule as other xsl:merge-\* descendants of xsl:merge.
 
 The sequence constructor in xsl:merge-action is traced.
 
@@ -714,14 +714,14 @@ Tested as part of xsl:iterate.
 
 ## xsl:non-matching-substring
 
-|          |                    |
-| -------- | ------------------ |
-| CATEGORY |                    |
-| PARENT   | xsl:analyze-string |
-| CHILDREN |                    |
-| CONTENT  |                    |
-| TRACE    | No                 |
-| RULE     | Use Child Data     |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:analyze-string  |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -740,14 +740,14 @@ Tested as part of xsl:analyze-string.
 
 ## xsl:on-completion
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY |                |
-| PARENT   | xsl:iterate    |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:iterate         |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -793,14 +793,14 @@ Suggest it is marked as 'unknown' including the children until the Saxon issue i
 
 ## xsl:otherwise
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY |                |
-| PARENT   | xsl:choose     |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:choose          |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -903,14 +903,14 @@ xsl:template xsl:param trace causes confusion because it can cause the first seq
 
 ## xsl:perform-sort
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | Partly         |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | Partly              |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -953,14 +953,14 @@ The sequence constructor, if present, is traced. The xsl:sort child is not trace
 
 ## xsl:sequence
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -985,7 +985,7 @@ With a sequence constructor, children are traced if they are executed.
 
 When xsl:sort is a child of xsl:perform-sort, there is no easy way of determining if xsl:sort was executed except checking if its siblings are traced.
 
-Because xsl:perform-sort follows the Use Child Data rule, xsl:sort follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:perform-sort has a sequence constructor that includes a traced node, the sequence constructor gives xsl:perform-sort a 'hit' status, which in turn gives xsl:sort a 'hit' status.
+Because xsl:perform-sort follows the Use Descendant Data rule, xsl:sort follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:perform-sort has a sequence constructor that includes a traced node, the sequence constructor gives xsl:perform-sort a 'hit' status, which in turn gives xsl:sort a 'hit' status.
 
 When using a sequence constructor with xsl:sort, the children are not traced.
 
@@ -1148,14 +1148,14 @@ With Non-global variables, it is difficult to assess and the best approach is pr
 
 ## xsl:when
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY |                |
-| PARENT   | xsl:choose     |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY |                     |
+| PARENT   | xsl:choose          |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -1165,14 +1165,14 @@ Any children are traced.
 
 ## xsl:where-populated
 
-|          |                |
-| -------- | -------------- |
-| CATEGORY | Instruction    |
-| PARENT   |                |
-| CHILDREN |                |
-| CONTENT  |                |
-| TRACE    | No             |
-| RULE     | Use Child Data |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
