@@ -75,7 +75,8 @@
         | comment()
         | document-node()"
         mode="coverage"
-        as="xs:string">
+        as="xs:string"
+        priority="30">
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
@@ -102,21 +103,57 @@
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
-    <!-- Use Child Data -->
+    <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:matching-substring
+        XSLT:fallback
+        | XSLT:matching-substring
         | XSLT:non-matching-substring
+        | XSLT:on-completion
         | XSLT:otherwise
-        | XSLT:when"
+        | XSLT:when
+        | XSLT:where-populated"
         as="xs:string"
         mode="coverage">
         <xsl:choose>
-            <xsl:when test="child::node()/accumulator-before('category-based-on-trace-data') = 'hit'">
+            <xsl:when test="empty(child::node())">
+                <xsl:sequence select="'unknown'"/>
+            </xsl:when>
+            <xsl:when test="descendant::node()/accumulator-before('category-based-on-trace-data') = 'hit'">
+                <!-- If at least one descendant is hit, mark as hit -->
                 <xsl:sequence select="'hit'"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:sequence select="'missed'"/>
+                <!--
+                    Iterate over descendants and follow this logic:
+                    A. Upon finding any untraceable executable descendant, return 'unknown'
+                       and break out of loop. (Note: Nodes like comment() are untraceable
+                       but not executable, so they don't affect this iteration.) 
+                    B. If node has any traceable executable descendants, node is a candidate for
+                       'missed', but condition A still applies as iteration continues.
+                    C. At end of loop, if condition A did not apply, the tentative status
+                       becomes the status.
+                -->
+                <xsl:iterate select="descendant::node()">
+                    <xsl:param name="tentative-status" as="xs:string" select="'unknown'" />
+                    <xsl:on-completion>
+                        <xsl:sequence select="$tentative-status" />
+                    </xsl:on-completion>
+                    <xsl:variable name="untraceable" as="xs:string?">
+                        <xsl:apply-templates select="." mode="untraceable-in-instruction" />
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="$untraceable eq 'untraceable executable'">
+                            <xsl:sequence select="'unknown'" />
+                            <xsl:break/>
+                        </xsl:when>
+                        <xsl:when test="$untraceable eq 'traceable executable'">
+                            <xsl:next-iteration>
+                                <xsl:with-param name="tentative-status" select="'missed'" />
+                            </xsl:next-iteration>
+                        </xsl:when>
+                    </xsl:choose>
+                </xsl:iterate>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -124,6 +161,8 @@
     <!-- Use Parent Data -->
     <xsl:template match="
         XSLT:context-item (: xspec/xspec#1410 :)
+        | XSLT:merge-action
+        | XSLT:merge-source
         | XSLT:param[not(parent::XSLT:stylesheet or parent::XSLT:transform)]"
         as="xs:string"
         mode="coverage">
@@ -154,6 +193,31 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- Element-Specific rule for XSLT:merge-key -->
+    <xsl:template match="XSLT:merge-key"
+        as="xs:string"
+        mode="coverage">
+        <xsl:apply-templates select="ancestor::XSLT:merge[1]"
+            mode="#current"/>        
+    </xsl:template>
+
+    <!-- Element-Specific rule for descendants of XSLT:merge-key -->
+    <xsl:template match="XSLT:merge-key/descendant::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
+        <xsl:variable name="xsl-merge-status" as="xs:string">
+            <xsl:apply-templates select="ancestor::XSLT:merge[1]"
+                mode="#current"/>
+        </xsl:variable>
+        <xsl:sequence select="
+                if ($xsl-merge-status eq 'hit') then
+                    'unknown'
+                else
+                    'missed'
+                "/>
+    </xsl:template>
+
     <!-- General case. This template is like the one for the Use Trace Data rule, except
         that xsl:when blocks after the first one provide the capability of doing
         special handling. Eventually, maybe we should (a) move all the special handling
@@ -178,4 +242,61 @@
         </xsl:choose>
     </xsl:template>
 
+    <!--
+      mode="untraceable-in-instruction"
+   -->
+    <xsl:mode name="untraceable-in-instruction" on-multiple-match="fail" on-no-match="fail" />
+
+    <!-- Low-priority fallback template rule -->
+    <xsl:template match="node()" mode="untraceable-in-instruction"
+        priority="-10">
+        <xsl:sequence select="'traceable executable'"/>
+    </xsl:template>
+
+    <!-- Non-executable nodes that can occur in an instruction -->
+    <xsl:template match="
+        text()[normalize-space() = '' and not(parent::XSLT:text)]
+        | processing-instruction()
+        | comment()"
+        mode="untraceable-in-instruction"
+        as="empty-sequence()"/>
+
+    <!-- Untraceable elements that can occur in an instruction -->
+    <xsl:template match="
+        XSLT:assert
+        | XSLT:catch
+        | XSLT:evaluate (: Not sure if this should be listed here :)
+        | XSLT:fallback
+        | XSLT:iterate/XSLT:param
+        | XSLT:map
+        | XSLT:map-entry
+        | XSLT:matching-substring
+        | XSLT:merge-action
+        | XSLT:merge-key
+        | XSLT:merge-source
+        | XSLT:non-matching-substring
+        | XSLT:on-completion
+        | XSLT:on-empty
+        | XSLT:on-non-empty
+        | XSLT:otherwise
+        | XSLT:perform-sort[@select]
+        | XSLT:perform-sort[XSLT:sort][count(*) = 1]
+        | XSLT:sequence[empty(node())]
+        | XSLT:sort
+        | XSLT:template/XSLT:param[@select]
+        | XSLT:try
+        | XSLT:when
+        | XSLT:where-populated
+        | XSLT:with-param"
+        mode="untraceable-in-instruction">
+        <!--
+            Some of the elements listed in the match attribute are not strictly needed
+            in order to achieve the caller's objective, because the elements have a
+            traceable ancestor that would also be a descendant of the element that calls
+            this mode. Examples include XSLT:matching-substring, XSLT:non-matching-substring,
+            XSLT:merge-*, and XSLT:on-completion. However, it's clearer to list them anyway.
+        -->
+        <xsl:sequence select="'untraceable executable'"/>
+    </xsl:template>
+    
 </xsl:stylesheet>

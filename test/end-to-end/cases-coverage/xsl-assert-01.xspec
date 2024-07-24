@@ -14,6 +14,19 @@
          select="'Assert Message: 100 lt 0'"/>
    </x:scenario>
 
+   <x:scenario
+      label="xsl:assert Coverage Test Case whose descendants are untraceable executed and traceable unexecuted"
+      catch="yes">
+      <x:context mode="xsl-assert-false-before-traceable">
+         <root>
+            <xsl-assert />
+         </root>
+      </x:context>
+      <!-- XSpec catches the error and returns a map. -->
+      <x:expect label="Success" test="?err?value => string()"
+         select="''"/>
+   </x:scenario>
+
    <x:scenario label="xsl:assert Coverage Test Case for true assertion">
       <x:context mode="xsl-assert-true">
          <root>
