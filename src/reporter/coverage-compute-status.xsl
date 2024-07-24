@@ -178,7 +178,8 @@
         XSLT:sort
         | XSLT:with-param"
         as="xs:string"
-        mode="coverage">
+        mode="coverage"
+        name="use-parent-status">
         <xsl:apply-templates select="parent::*" mode="#current"/>
     </xsl:template>
 
@@ -231,6 +232,34 @@
                 else
                     'missed'
                 "/>
+    </xsl:template>
+
+    <!-- Element-Specific rule for child elements of XSLT:sort -->
+    <!-- (Child comment or PI nodes use higher-priority template.) --> 
+    <xsl:template match="XSLT:sort/*"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
+        <!-- Use priority here and call use-parent-status by name instead of
+            adding XSLT:sort/* to that template's match attribute, to ensure
+            the Use Parent Status rule is applied even if the child of xsl:sort
+            has a template that matches it directly. -->
+        <xsl:call-template name="use-parent-status" />
+    </xsl:template>
+
+    <!-- Element-Specific rule for descendants of XSLT:sort deeper than children -->
+    <xsl:template match="XSLT:sort/*/descendant::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
+        <xsl:choose>
+            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
+                <xsl:sequence select="'hit'" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="'unknown'" />
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!--

@@ -17,13 +17,21 @@
       <root>
         <xsl:for-each select="$data/data">
           <xsl:sort>
-            <xsl:evaluate xpath="$sortKey" context-item="."  />                <!-- Expected unknown -->
+            <!-- As a child of xsl:sort, this xsl:evaluate element follows Use Parent Status rule. -->
+            <xsl:evaluate xpath="$sortKey" context-item="."  />
           </xsl:sort>
-          <node type="evaluate">
+          <node type="evaluate inside sort">
             <xsl:value-of select="@value" />
           </node>
         </xsl:for-each>
-
+        <xsl:for-each select="$data/data">
+          <node type="evaluate">
+            <xsl:value-of>
+              <xsl:evaluate xpath="$sortKey" context-item="."  />                <!-- Expected unknown -->
+            </xsl:value-of>
+          </node>
+        </xsl:for-each>
+        
         <!-- Circuitous ways to get $data/data[2] content -->
         <xsl:variable name="index" select="2" />
         <xsl:variable name="evaluatedExpressionParamChild">

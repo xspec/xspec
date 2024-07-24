@@ -7,99 +7,153 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-sort-01.xsl">xsl-sort-01.xsl</a></p>
-      <h2>module: xsl-sort-01.xsl; 93 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
-02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
-03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-04: <span class="ignored">      xsl:sort Coverage Test Case</span>
-05: <span class="ignored">  --&gt;</span>
-06: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="sortMode" /&gt;</span>
-07: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-sort"&gt;</span>
-08: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-09: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each child, using select attribute --&gt;</span>
-10: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="*"&gt;</span>
-11: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
-12: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each"&gt;</span>
-13: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-14: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-15: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-16: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each child, using sequence constructor --&gt;</span>
-17: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="*"&gt;</span>
-18: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
-19: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span>
-20: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
-21: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each"&gt;</span>
-22: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-23: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-24: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-25: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each-group child, using select attribute --&gt;</span>
-26: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span>
-27: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
-28: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each-group"&gt;</span>
-29: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span>
-30: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-31: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
-32: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each-group child, using sequence constructor --&gt;</span>
-33: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span>
-34: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
-35: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span>
-36: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
-37: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each-group"&gt;</span>
-38: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span>
-39: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-40: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
-41: <span class="ignored">      </span><span class="ignored">&lt;!-- apply-templates child, using select attribute --&gt;</span>
-42: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
-43: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
-44: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
-45: <span class="ignored">      </span><span class="ignored">&lt;!-- apply-templates using sequence constructor --&gt;</span>
-46: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
-47: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
-48: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span>
-49: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
-50: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
-51: <span class="ignored">      </span><span class="ignored">&lt;!-- perform-sort child --&gt;</span>
-52: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="sortedSet"&gt;</span>
-53: <span class="ignored">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-54: <span class="ignored">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-55: <span class="ignored">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-56: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
-57: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="$sortedSet/*"&gt;</span>
-58: <span class="ignored">        </span><span class="hit">&lt;node type="sort - perform-sort"&gt;</span>
-59: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-60: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-61: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-62: <span class="ignored">      </span><span class="ignored">&lt;!-- Constructs in which parent of xsl:sort is not hit --&gt;</span>
-63: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="exists(parent-of-sort-not-hit)"&gt;</span>
-64: <span class="ignored">        </span><span class="missed">&lt;xsl:for-each select="*"&gt;</span><span class="ignored">                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-65: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-66: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-67: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-68: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-69: <span class="ignored">        </span><span class="missed">&lt;/xsl:for-each&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-70: <span class="ignored">        </span><span class="missed">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span><span class="ignored">                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-71: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-72: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-73: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-74: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span><span class="ignored">                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-75: <span class="ignored">        </span><span class="missed">&lt;/xsl:for-each-group&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-76: <span class="ignored">        </span><span class="missed">&lt;xsl:apply-templates mode="sortMode"&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-77: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-78: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-79: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-80: <span class="ignored">        </span><span class="missed">&lt;/xsl:apply-templates&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-81: <span class="ignored">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-82: <span class="ignored">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-83: <span class="ignored">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-84: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
-85: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-86: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-87: 
-88: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="sortMode"&gt;</span>
-89: <span class="ignored">    </span><span class="hit">&lt;node type="sort - apply-templates"&gt;</span>
-90: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-91: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-92: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-93: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <h2>module: xsl-sort-01.xsl; 147 lines</h2>
+      <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
+003: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
+004: <span class="ignored">      xsl:sort Coverage Test Case</span>
+005: <span class="ignored">  --&gt;</span>
+006: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="sortMode" /&gt;</span>
+007: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-sort"&gt;</span>
+008: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+009: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each child, using select attribute --&gt;</span>
+010: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="*"&gt;</span>
+011: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
+012: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each"&gt;</span>
+013: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+014: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+015: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+016: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each child, using sequence constructor --&gt;</span>
+017: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="*"&gt;</span>
+018: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+019: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+020: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+021: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each"&gt;</span>
+022: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+023: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+024: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+025: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each-group child, using select attribute --&gt;</span>
+026: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span>
+027: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
+028: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each-group"&gt;</span>
+029: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span>
+030: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+031: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
+032: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:for-each-group child, using sequence constructor --&gt;</span>
+033: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span>
+034: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+035: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+036: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+037: <span class="ignored">        </span><span class="hit">&lt;node type="sort - for-each-group"&gt;</span>
+038: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span>
+039: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+040: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
+041: <span class="ignored">      </span><span class="ignored">&lt;!-- apply-templates child, using select attribute --&gt;</span>
+042: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
+043: <span class="ignored">        </span><span class="hit">&lt;xsl:sort select="." /&gt;</span>
+044: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
+045: <span class="ignored">      </span><span class="ignored">&lt;!-- apply-templates using sequence constructor --&gt;</span>
+046: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
+047: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+048: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+049: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+050: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
+051: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
+052: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+053: <span class="ignored">          </span><span class="hit">&lt;xsl:choose&gt;</span>
+054: <span class="ignored">            </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+055: <span class="ignored">              </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+056: <span class="ignored">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+057: <span class="ignored">            </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+058: <span class="ignored">              </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+059: <span class="ignored">            </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+060: <span class="ignored">          </span><span class="hit">&lt;/xsl:choose&gt;</span>
+061: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+062: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
+063: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
+064: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+065: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+066: <span class="ignored">          </span><span class="hit">&lt;xsl:copy-of select="()" /&gt;</span>
+067: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+068: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
+069: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
+070: <span class="ignored">        </span><span class="hit">&lt;xsl:sort&gt;</span>
+071: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of&gt;</span>
+072: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+073: <span class="ignored">            </span><span class="unknown">&lt;xsl:copy-of select="()" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+074: <span class="ignored">          </span><span class="hit">&lt;/xsl:value-of&gt;</span>
+075: <span class="ignored">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
+076: <span class="ignored">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
+077: 
+078: <span class="ignored">      </span><span class="ignored">&lt;!-- perform-sort child --&gt;</span>
+079: <span class="ignored">      </span><span class="hit">&lt;xsl:variable name="sortedSet"&gt;</span>
+080: <span class="ignored">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+081: <span class="ignored">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+082: <span class="ignored">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+083: <span class="ignored">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
+084: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="$sortedSet/*"&gt;</span>
+085: <span class="ignored">        </span><span class="hit">&lt;node type="sort - perform-sort"&gt;</span>
+086: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+087: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+088: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+089: <span class="ignored">      </span><span class="ignored">&lt;!-- Constructs in which parent of xsl:sort is not hit --&gt;</span>
+090: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="exists(parent-of-sort-not-hit)"&gt;</span>
+091: <span class="ignored">        </span><span class="missed">&lt;xsl:for-each select="*"&gt;</span><span class="ignored">                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+092: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+093: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+094: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+095: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+096: <span class="ignored">        </span><span class="missed">&lt;/xsl:for-each&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+097: <span class="ignored">        </span><span class="missed">&lt;xsl:for-each-group select="*" group-by="@type"&gt;</span><span class="ignored">                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+098: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+099: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+100: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+101: <span class="ignored">          </span><span class="missed">&lt;xsl:value-of select="sum(current-group()/.)" /&gt;</span><span class="ignored">                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+102: <span class="ignored">        </span><span class="missed">&lt;/xsl:for-each-group&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+103: <span class="ignored">        </span><span class="missed">&lt;xsl:apply-templates mode="sortMode"&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+104: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+105: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+106: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+107: <span class="ignored">        </span><span class="missed">&lt;/xsl:apply-templates&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+108: <span class="ignored">        </span><span class="missed">&lt;xsl:apply-templates mode="sortMode"&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+109: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+110: <span class="ignored">            </span><span class="missed">&lt;xsl:choose&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+111: <span class="ignored">              </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+112: <span class="ignored">                </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+113: <span class="ignored">              </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+114: <span class="ignored">              </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+115: <span class="ignored">                </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+116: <span class="ignored">              </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+117: <span class="ignored">            </span><span class="missed">&lt;/xsl:choose&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+118: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+119: <span class="ignored">        </span><span class="missed">&lt;/xsl:apply-templates&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+120: <span class="ignored">        </span><span class="missed">&lt;xsl:apply-templates mode="sortMode"&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+121: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+122: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+123: <span class="ignored">            </span><span class="missed">&lt;xsl:copy-of select="()" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+124: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+125: <span class="ignored">        </span><span class="missed">&lt;/xsl:apply-templates&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+126: <span class="ignored">        </span><span class="missed">&lt;xsl:apply-templates mode="sortMode"&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+127: <span class="ignored">          </span><span class="missed">&lt;xsl:sort&gt;</span><span class="ignored">                                                           </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+128: <span class="ignored">            </span><span class="missed">&lt;xsl:value-of&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+129: <span class="ignored">              </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+130: <span class="ignored">              </span><span class="unknown">&lt;xsl:copy-of select="()" /&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+131: <span class="ignored">              </span><span class="unknown">&lt;xsl:text&gt;</span><span class="unknown">100</span><span class="unknown">&lt;/xsl:text&gt;</span><span class="unknown">)"                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+132: <span class="ignored">            </span><span class="missed">&lt;/xsl:value-of&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+133: <span class="ignored">          </span><span class="missed">&lt;/xsl:sort&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+134: <span class="ignored">        </span><span class="missed">&lt;/xsl:apply-templates&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+135: <span class="ignored">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+136: <span class="ignored">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+137: <span class="ignored">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+138: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
+139: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+140: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+141: 
+142: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="sortMode"&gt;</span>
+143: <span class="ignored">    </span><span class="hit">&lt;node type="sort - apply-templates"&gt;</span>
+144: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+145: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
+146: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+147: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

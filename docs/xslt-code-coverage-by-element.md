@@ -983,11 +983,11 @@ With a sequence constructor, children are traced if they are executed.
 
 #### Comment
 
+Child elements of xsl:sort follow the Use Parent Status rule. For deeper descendants: If the trace has a hit, mark the node 'hit'; otherwise, mark it 'unknown'.
+
 When xsl:sort is a child of xsl:perform-sort, there is no easy way of determining if xsl:sort was executed except checking if its siblings are traced.
 
 Because xsl:perform-sort follows the Use Descendant Data rule, xsl:sort follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:perform-sort has a sequence constructor that includes a traced node, the sequence constructor gives xsl:perform-sort a 'hit' status, which in turn gives xsl:sort a 'hit' status.
-
-When using a sequence constructor with xsl:sort, the children are not traced.
 
 ## xsl:source-document
 

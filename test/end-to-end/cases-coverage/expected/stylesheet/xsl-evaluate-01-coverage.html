@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-evaluate-01.xsl">xsl-evaluate-01.xsl</a></p>
-      <h2>module: xsl-evaluate-01.xsl; 61 lines</h2>
+      <h2>module: xsl-evaluate-01.xsl; 69 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -27,47 +27,55 @@
 17: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
 18: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="$data/data"&gt;</span>
 19: <span class="ignored">          </span><span class="hit">&lt;xsl:sort&gt;</span>
-20: <span class="ignored">            </span><span class="unknown">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span><span class="ignored">                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-21: <span class="ignored">          </span><span class="hit">&lt;/xsl:sort&gt;</span>
-22: <span class="ignored">          </span><span class="hit">&lt;node type="evaluate"&gt;</span>
-23: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of select="@value" /&gt;</span>
-24: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-25: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-26: 
-27: <span class="ignored">        </span><span class="ignored">&lt;!-- Circuitous ways to get $data/data[2] content --&gt;</span>
-28: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
-29: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
-30: <span class="ignored">          </span><span class="ignored">&lt;!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced --&gt;</span>
-31: <span class="ignored">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data"&gt;</span>
-32: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="index"&gt;</span>
-33: <span class="ignored">              </span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
-34: <span class="ignored">                </span><span class="missed">&lt;xsl:sequence select="$index"/&gt;</span>
-35: <span class="ignored">              </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-36: <span class="ignored">            </span><span class="hit">&lt;/xsl:with-param&gt;</span>
-37: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="sortKey"&gt;</span><span class="missed">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
-38: <span class="ignored">          </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
-39: <span class="ignored">        </span><span class="hit">&lt;/xsl:variable&gt;</span>
-40: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param executed hit"&gt;</span>
-41: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span>
-42: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-43: 
-44: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamAttr"&gt;</span>
-45: <span class="ignored">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
-46: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+20: <span class="ignored">            </span><span class="ignored">&lt;!-- As a child of xsl:sort, this xsl:evaluate element follows Use Parent Status rule. --&gt;</span>
+21: <span class="ignored">            </span><span class="hit">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span>
+22: <span class="ignored">          </span><span class="hit">&lt;/xsl:sort&gt;</span>
+23: <span class="ignored">          </span><span class="hit">&lt;node type="evaluate inside sort"&gt;</span>
+24: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of select="@value" /&gt;</span>
+25: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+26: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+27: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="$data/data"&gt;</span>
+28: <span class="ignored">          </span><span class="hit">&lt;node type="evaluate"&gt;</span>
+29: <span class="ignored">            </span><span class="hit">&lt;xsl:value-of&gt;</span>
+30: <span class="ignored">              </span><span class="unknown">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span><span class="ignored">                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+31: <span class="ignored">            </span><span class="hit">&lt;/xsl:value-of&gt;</span>
+32: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
+33: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+34: <span class="ignored">        </span>
+35: <span class="ignored">        </span><span class="ignored">&lt;!-- Circuitous ways to get $data/data[2] content --&gt;</span>
+36: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
+37: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
+38: <span class="ignored">          </span><span class="ignored">&lt;!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced --&gt;</span>
+39: <span class="ignored">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data"&gt;</span>
+40: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="index"&gt;</span>
+41: <span class="ignored">              </span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
+42: <span class="ignored">                </span><span class="missed">&lt;xsl:sequence select="$index"/&gt;</span>
+43: <span class="ignored">              </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+44: <span class="ignored">            </span><span class="hit">&lt;/xsl:with-param&gt;</span>
+45: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="sortKey"&gt;</span><span class="missed">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
+46: <span class="ignored">          </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
 47: <span class="ignored">        </span><span class="hit">&lt;/xsl:variable&gt;</span>
-48: <span class="ignored">        </span><span class="hit">&lt;xsl:if test="exists(nonexistent)"&gt;</span>
-49: <span class="ignored">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
-50: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span><span class="ignored">          </span>
-51: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-52: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param executed unknown"&gt;</span>
-53: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamAttr" /&gt;</span>
-54: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-55: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param unexecuted unknown"&gt;</span>
-56: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
-57: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-58: <span class="ignored">      </span><span class="hit">&lt;/root&gt;</span>
-59: <span class="ignored">   </span><span class="hit">&lt;/xsl:template&gt;</span>
-60: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
-61: </pre>
+48: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param executed hit"&gt;</span>
+49: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span>
+50: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+51: 
+52: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamAttr"&gt;</span>
+53: <span class="ignored">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
+54: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+55: <span class="ignored">        </span><span class="hit">&lt;/xsl:variable&gt;</span>
+56: <span class="ignored">        </span><span class="hit">&lt;xsl:if test="exists(nonexistent)"&gt;</span>
+57: <span class="ignored">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
+58: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span><span class="ignored">          </span>
+59: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+60: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param executed unknown"&gt;</span>
+61: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamAttr" /&gt;</span>
+62: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+63: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param unexecuted unknown"&gt;</span>
+64: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
+65: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
+66: <span class="ignored">      </span><span class="hit">&lt;/root&gt;</span>
+67: <span class="ignored">   </span><span class="hit">&lt;/xsl:template&gt;</span>
+68: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+69: </pre>
    </body>
 </html>
