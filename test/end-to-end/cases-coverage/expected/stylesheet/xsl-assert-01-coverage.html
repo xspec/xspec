@@ -17,9 +17,9 @@
 07: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
 08: <span class="ignored">      </span><span class="ignored">&lt;!-- Assert false --&gt;</span>
 09: <span class="ignored">      </span><span class="hit">&lt;node type="assert"&gt;</span>
-10: <span class="ignored">        </span><span class="missed">&lt;xsl:assert test="100 lt 0"&gt;</span>
-11: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Assert Message: 100 lt 0</span><span class="hit">&lt;/xsl:text&gt;</span>
-12: <span class="ignored">        </span><span class="missed">&lt;/xsl:assert&gt;</span>
+10: <span class="ignored">        </span><span class="unknown">&lt;xsl:assert test="100 lt 0"&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+11: <span class="ignored">          </span><span class="unknown">&lt;xsl:text&gt;</span><span class="unknown">Assert Message: 100 lt 0</span><span class="unknown">&lt;/xsl:text&gt;</span><span class="ignored">                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+12: <span class="ignored">        </span><span class="unknown">&lt;/xsl:assert&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 13: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 14: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
 15: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
@@ -30,7 +30,7 @@
 20: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
 21: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="1"&gt;</span>
 22: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-23: <span class="ignored">            </span><span class="missed">&lt;xsl:assert test="100 lt 0" /&gt;</span>
+23: <span class="ignored">            </span><span class="unknown">&lt;xsl:assert test="100 lt 0" /&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 24: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">can't get here</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 25: <span class="ignored">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 26: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
@@ -42,9 +42,9 @@
 32: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
 33: <span class="ignored">      </span><span class="ignored">&lt;!-- Assert true --&gt;</span>
 34: <span class="ignored">      </span><span class="hit">&lt;node type="assert"&gt;</span>
-35: <span class="ignored">        </span><span class="missed">&lt;xsl:assert test="100 gt 0"&gt;</span>
-36: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">Assert Message: 100 gt 0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-37: <span class="ignored">        </span><span class="missed">&lt;/xsl:assert&gt;</span>
+35: <span class="ignored">        </span><span class="unknown">&lt;xsl:assert test="100 gt 0"&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+36: <span class="ignored">          </span><span class="unknown">&lt;xsl:text&gt;</span><span class="unknown">Assert Message: 100 gt 0</span><span class="unknown">&lt;/xsl:text&gt;</span><span class="ignored">                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+37: <span class="ignored">        </span><span class="unknown">&lt;/xsl:assert&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 38: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
 39: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
 40: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>

@@ -103,6 +103,15 @@
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
+    <!-- Unknown, Including All Descendants -->
+    <xsl:template match="
+        XSLT:assert/descendant-or-self::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="8">
+        <xsl:sequence select="'unknown'"/>
+    </xsl:template>
+
     <!-- Use Descendant Data -->
     <xsl:template
         match="
