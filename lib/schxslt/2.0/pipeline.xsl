@@ -3,9 +3,9 @@
                xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:import href="expand.xsl"/>
   <xsl:include href="compile/compile-2.0.xsl"/>
   <xsl:include href="include.xsl"/>
-  <xsl:import href="expand.xsl"/>
 
   <xsl:template match="/sch:schema" priority="100">
     <xsl:call-template name="schxslt:compile">
