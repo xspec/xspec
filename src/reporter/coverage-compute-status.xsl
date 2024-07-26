@@ -44,6 +44,12 @@
 
     <!--
       mode="coverage"
+
+      This mode implements the rules described in docs/xslt-code-coverage-by-element.md.
+
+      Priority values of templates in this mode ensure correct rule selection, such as
+      when templates match descendants via different paths. Tests for rule selection are
+      in test/end-to-end/cases-coverage.
    -->
     <xsl:mode name="coverage" on-multiple-match="fail" on-no-match="fail" />
 
