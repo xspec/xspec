@@ -17,7 +17,18 @@
     <xsl:apply-templates mode="schxslt:include" select="."/>
   </xsl:template>
 
-  <xsl:template match="node() | @*" mode="schxslt:include">
+  <xsl:template match="*" mode="schxslt:include">
+    <xsl:param name="lang" as="xs:string?"/>
+    <xsl:copy>
+      <xsl:if test="empty(@xml:lang) and schxslt:in-scope-language(.) != $lang">
+        <xsl:attribute name="xml:lang" select="schxslt:in-scope-language(.)"/>
+      </xsl:if>
+      <xsl:sequence select="@*"/>
+      <xsl:apply-templates select="node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="comment() | processing-instruction() | @*" mode="schxslt:include">
     <xsl:copy>
       <xsl:sequence select="@*"/>
       <xsl:apply-templates select="node()" mode="#current"/>
@@ -34,16 +45,23 @@
       <xsl:when test="self::sch:include">
         <xsl:apply-templates select="$element" mode="schxslt:include">
           <xsl:with-param name="base-uri" as="xs:string?" tunnel="yes" select="base-uri($element)"/>
+          <xsl:with-param name="lang" as="xs:string" select="schxslt:in-scope-language(.)"/>
         </xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="(local-name($element) eq local-name(..)) and (namespace-uri($element) eq 'http://purl.oclc.org/dsdl/schematron')">
           <xsl:apply-templates mode="schxslt:include" select="$element/*">
             <xsl:with-param name="base-uri" as="xs:string?" tunnel="yes" select="base-uri($element)"/>
+            <xsl:with-param name="lang" as="xs:string" select="schxslt:in-scope-language(.)"/>
           </xsl:apply-templates>
         </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:function name="schxslt:in-scope-language" as="xs:string">
+    <xsl:param name="context" as="node()"/>
+    <xsl:value-of select="$context/ancestor-or-self::*[@xml:lang][1]/@xml:lang"/>
+  </xsl:function>
 
 </xsl:transform>

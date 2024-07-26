@@ -18,7 +18,7 @@
   </xsl:template>
 
   <xsl:function name="schxslt:user-agent" as="xs:string">
-    <xsl:variable name="schxslt-ident" as="xs:string">SchXslt/1.9.5</xsl:variable>
+    <xsl:variable name="schxslt-ident" as="xs:string">SchXslt/1.10</xsl:variable>
     <xsl:variable name="xslt-ident" as="xs:string">
       <xsl:value-of separator="/" select="(system-property('xsl:product-name'), system-property('xsl:product-version'))"/>
     </xsl:variable>

@@ -306,8 +306,8 @@ xpath = xsd:string { minLength = "1" }
 
 assertion = 
 	## An assertion's test XPath can either return a boolean value, in which case the 
-	## assertion succeeds only if the test is true; or an item, in which case the
-	## assertion succeeds only if the item is equal to the one specified with the
+	## assertion succeeds only if the test is true; or a sequence, in which case the
+	## assertion succeeds only if the sequence is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
 		label, pending-attribute?, test?, selection }
