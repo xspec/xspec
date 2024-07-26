@@ -16,6 +16,7 @@
     <xsl:param name="phase" as="xs:string" required="yes"/>
 
     <svrl:schematron-output>
+      <xsl:sequence select="$schema/@xml:*"/>
       <xsl:sequence select="$schema/@schemaVersion"/>
       <xsl:if test="$phase ne '#ALL'">
         <xsl:attribute name="phase" select="$phase"/>
@@ -65,6 +66,10 @@
         <attribute name="context">
           <xsl:value-of select="$rule/@context"/>
         </attribute>
+        <variable name="documentUri" as="xs:anyURI?" select="document-uri()"/>
+        <if test="exists($documentUri)">
+          <attribute name="document" select="$documentUri"/>
+        </if>
       </svrl:fired-rule>
     </xsl:if>
   </xsl:template>
@@ -81,6 +86,10 @@
         <attribute name="context">
           <xsl:value-of select="$rule/@context"/>
         </attribute>
+        <variable name="documentUri" as="xs:anyURI?" select="document-uri()"/>
+        <if test="exists($documentUri)">
+          <attribute name="document" select="$documentUri"/>
+        </if>
       </svrl:suppressed-rule>
     </xsl:if>
   </xsl:template>
@@ -90,6 +99,7 @@
     <xsl:param name="location-function" as="xs:string" required="yes" tunnel="yes"/>
     <svrl:failed-assert location="{{{$location-function}({($assert/@subject, $assert/../@subject, '.')[1]})}}">
       <xsl:sequence select="($assert/@role, $assert/@flag, $assert/@id, $assert/@see, $assert/@icon, $assert/@fpi, $assert/@xml:*)"/>
+      <xsl:sequence select="$assert/@xml:id | $assert/ancestor-or-self::*[@xml:lang]/@xml:lang"/>
       <attribute name="test">
         <xsl:value-of select="$assert/@test"/>
       </attribute>
@@ -103,7 +113,8 @@
     <xsl:param name="report" as="element(sch:report)" required="yes"/>
     <xsl:param name="location-function" as="xs:string" required="yes" tunnel="yes"/>
     <svrl:successful-report location="{{{$location-function}({($report/@subject, $report/../@subject, '.')[1]})}}">
-      <xsl:sequence select="($report/@role, $report/@flag, $report/@id, $report/@see, $report/@icon, $report/@fpi, $report/@xml:*)"/>
+      <xsl:sequence select="($report/@role, $report/@flag, $report/@id, $report/@see, $report/@icon, $report/@fpi)"/>
+      <xsl:sequence select="$report/@xml:id | $report/ancestor-or-self::*[@xml:lang]/@xml:lang"/>
       <attribute name="test">
         <xsl:value-of select="$report/@test"/>
       </attribute>
@@ -155,6 +166,7 @@
     <svrl:property-reference property="{.}">
       <xsl:sequence select="($property/@role, $property/@scheme, $property/@xml:*)"/>
       <svrl:text>
+        <xsl:sequence select="($property/@fpi, $property/@icon, $property/@see)"/>
         <xsl:apply-templates select="$property/node()" mode="schxslt:message-template">
           <xsl:with-param name="allow-xsl-copy-of" tunnel="yes" as="xs:boolean" select="true()"/>
         </xsl:apply-templates>

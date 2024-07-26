@@ -13,6 +13,7 @@
     <xsl:param name="phase"/>
 
     <svrl:schematron-output>
+      <xsl:copy-of select="$schema/@xml:*"/>
       <xsl:copy-of select="$schema/@schemaVersion"/>
       <xsl:if test="$phase != '#ALL'">
         <xsl:attribute name="phase"><xsl:value-of select="$phase"/></xsl:attribute>
@@ -93,7 +94,8 @@
       </call-template>
     </variable>
     <svrl:failed-assert location="{{normalize-space($location)}}">
-      <xsl:copy-of select="$assert/@role | $assert/@flag | $assert/@id | $assert/@see | $assert/@icon | $assert/@fpi | $assert/@xml:*"/>
+      <xsl:copy-of select="$assert/@role | $assert/@flag | $assert/@id | $assert/@see | $assert/@icon | $assert/@fpi"/>
+      <xsl:copy-of select="$assert/@xml:id | $assert/ancestor-or-self::*[@xml:lang]/@xml:lang"/>
       <attribute name="test">
         <xsl:value-of select="$assert/@test"/>
       </attribute>
@@ -122,7 +124,8 @@
       </call-template>
     </variable>
     <svrl:successful-report location="{{normalize-space($location)}}">
-      <xsl:copy-of select="$report/@role | $report/@flag | $report/@id | $report/@see | $report/@icon | $report/@fpi | $report/@xml:*"/>
+      <xsl:copy-of select="$report/@role | $report/@flag | $report/@id | $report/@see | $report/@icon | $report/@fpi"/>
+      <xsl:copy-of select="$report/@xml:id | $report/ancestor-or-self::*[@xml:lang]/@xml:lang"/>
       <attribute name="test">
         <xsl:value-of select="$report/@test"/>
       </attribute>
@@ -185,12 +188,13 @@
 
     <svrl:diagnostic-reference diagnostic="{$head}">
       <svrl:text>
-        <xsl:copy-of select="key('schxslt:diagnostics', $head)/@*"/>
         <xsl:choose>
           <xsl:when test="$pattern/sch:diagnostics/sch:diagnostic[@id = $head]">
+            <xsl:copy-of select="$pattern/sch:diagnostics/sch:diagnostic[@id = $head]/@*"/>
             <xsl:apply-templates select="$pattern/sch:diagnostics/sch:diagnostic[@id = $head]/node()" mode="schxslt:message-template"/>
           </xsl:when>
           <xsl:otherwise>
+            <xsl:copy-of select="key('schxslt:diagnostics', $head)/@*"/>
             <xsl:apply-templates select="key('schxslt:diagnostics', $head)/node()" mode="schxslt:message-template"/>
           </xsl:otherwise>
         </xsl:choose>
@@ -226,14 +230,16 @@
 
     <svrl:property-reference property="{$head}">
       <xsl:copy-of select="key('schxslt:properties', $head)/@role"/>
-      <xsl:copy-of select="key('schxslt:properties', $head)/@schema"/>
-      <xsl:copy-of select="key('schxslt:properties', $head)/@xml:*"/>
+      <xsl:copy-of select="key('schxslt:properties', $head)/@scheme"/>
+
       <svrl:text>
         <xsl:choose>
           <xsl:when test="$pattern/sch:properties/sch:property[@id = $head]">
+            <xsl:copy-of select="$pattern/sch:properties/sch:property[@id = $head]/@*"/>
             <xsl:apply-templates select="$pattern/sch:properties/sch:property[@id = $head]/node()" mode="schxslt:message-template"/>
           </xsl:when>
           <xsl:otherwise>
+            <xsl:copy-of select="key('schxslt:properties', $head)/@*"/>
             <xsl:apply-templates select="key('schxslt:properties', $head)/node()" mode="schxslt:message-template"/>
           </xsl:otherwise>
         </xsl:choose>

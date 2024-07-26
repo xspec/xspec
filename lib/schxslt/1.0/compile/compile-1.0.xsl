@@ -17,6 +17,8 @@
 
   <xsl:param name="phase">#DEFAULT</xsl:param>
   <xsl:param name="schxslt.compile.metadata" select="true()"/>
+  <xsl:param name="schxslt.compile.initial-document-function" select="'document'"/>
+  <xsl:param name="schxslt.compile.default-query-binding" select="'xslt'"/>
 
   <xsl:template match="/sch:schema">
 
@@ -36,7 +38,17 @@
       </xsl:choose>
     </xsl:variable>
 
-    <xsl:if test="@queryBinding and translate(@queryBinding, 'XSLT', 'xslt') != 'xslt'">
+    <xsl:variable name="queryBinding">
+      <xsl:choose>
+        <xsl:when test="@queryBinding">
+          <xsl:value-of select="translate(@queryBinding, 'XSLT', 'xslt')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$schxslt.compile.default-query-binding"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="$queryBinding != 'xslt'">
       <xsl:message terminate="yes">
         This Schematron processor only supports the 'xslt' query binding
       </xsl:message>
@@ -91,35 +103,52 @@
       <xsl:copy-of select="xsl:include[not(preceding-sibling::sch:pattern)]"/>
       <xsl:copy-of select="xsl:import[not(preceding-sibling::sch:pattern)]"/>
 
+      <param name="schxslt.validate.initial-document-uri"/>
+
+      <template name="schxslt.validate.main">
+        <apply-templates select="{$schxslt.compile.initial-document-function}($schxslt.validate.initial-document-uri)"/>
+      </template>
+
       <template match="/">
+        <param name="schxslt.validate.recursive-call" select="false()"/>
 
-        <variable name="schxslt:report">
-          <xsl:if test="$schxslt.compile.metadata">
-            <xsl:call-template name="schxslt-api:metadata">
+        <choose>
+          <when test="not($schxslt.validate.recursive-call) and (normalize-space($schxslt.validate.initial-document-uri) != '')">
+            <apply-templates select="{$schxslt.compile.initial-document-function}($schxslt.validate.initial-document-uri)">
+              <with-param name="schxslt.validate.recursive-call" select="true()"/>
+            </apply-templates>
+          </when>
+          <otherwise>
+
+            <variable name="schxslt:report">
+              <xsl:if test="$schxslt.compile.metadata">
+                <xsl:call-template name="schxslt-api:metadata">
+                  <xsl:with-param name="schema" select="."/>
+                  <xsl:with-param name="source">
+                    <xsl:call-template name="schxslt:version"/>
+                  </xsl:with-param>
+                </xsl:call-template>
+              </xsl:if>
+              <xsl:choose>
+                <xsl:when test="$effective-phase = '#ALL'">
+                  <xsl:for-each select="sch:pattern[sch:rule]">
+                    <call-template name="{generate-id()}"/>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:for-each select="sch:pattern[@id = current()/sch:phase[@id = $effective-phase]/sch:active/@pattern][sch:rule]">
+                    <call-template name="{generate-id()}"/>
+                  </xsl:for-each>
+                </xsl:otherwise>
+              </xsl:choose>
+            </variable>
+
+            <xsl:call-template name="schxslt-api:report">
               <xsl:with-param name="schema" select="."/>
-              <xsl:with-param name="source">
-                <xsl:call-template name="schxslt:version"/>
-              </xsl:with-param>
+              <xsl:with-param name="phase" select="$effective-phase"/>
             </xsl:call-template>
-          </xsl:if>
-          <xsl:choose>
-            <xsl:when test="$effective-phase = '#ALL'">
-              <xsl:for-each select="sch:pattern[sch:rule]">
-                <call-template name="{generate-id()}"/>
-              </xsl:for-each>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:for-each select="sch:pattern[@id = current()/sch:phase[@id = $effective-phase]/sch:active/@pattern][sch:rule]">
-                <call-template name="{generate-id()}"/>
-              </xsl:for-each>
-            </xsl:otherwise>
-          </xsl:choose>
-        </variable>
-
-        <xsl:call-template name="schxslt-api:report">
-          <xsl:with-param name="schema" select="."/>
-          <xsl:with-param name="phase" select="$effective-phase"/>
-        </xsl:call-template>
+          </otherwise>
+        </choose>
 
       </template>
 
