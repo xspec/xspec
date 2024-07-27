@@ -29,10 +29,10 @@
 19: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
 20: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
 21: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="1"&gt;</span>
-22: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+22: <span class="ignored">          </span><span class="hit">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 23: <span class="ignored">            </span><span class="unknown">&lt;xsl:assert test="100 lt 0" /&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 24: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">can't get here</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-25: <span class="ignored">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
+25: <span class="ignored">          </span><span class="hit">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 26: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
 27: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
 28: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
