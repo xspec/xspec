@@ -3,7 +3,7 @@
   <!--
       Coverage Test Case for non-XSLT child of xsl:stylesheet
   -->
-  <xsl:import href="non-xsl-top-level-element-01A.xsl"/>
+  <xsl:import href="non-xsl-top-level-element-01A.xsl"/>                       <!-- Expected ignored -->
   <xsl:template match="non-xsl-top-level-element">
     <root>
       <xsl:copy>
@@ -18,19 +18,27 @@
     <non-xsl-element/>                                                         <!-- Expected miss -->
   </xsl:template>                                                              <!-- Expected miss -->
 
-  <doc:template name="non-xsl-top-level-element" xmlns:doc="NotTheXSLTNamespace">
-    <xsl:text>Ignored</xsl:text>
-    <doc:para>Top-level element is not in <doc:uri>http://www.w3.org/1999/XSL/Transform</doc:uri> namespace</doc:para>
-  </doc:template>
+  <doc:template name="non-xsl-top-level-element" xmlns:doc="NotXSLTNamespace"> <!-- Expected ignored -->
+    <xsl:text>Ignored</xsl:text>                                               <!-- Expected ignored -->
+    <doc:para>Top-level element is not in namespace
+      <doc:uri>http://www.w3.org/1999/XSL/Transform</doc:uri></doc:para>       <!-- Expected ignored -->
+  </doc:template>                                                              <!-- Expected ignored -->
 
-  <xsl:template name="non-xsl-top-level-element" xmlns:xsl="NotTheXSLTNamespace">
-    <xsl:text xmlns:xsl="http://www.w3.org/1999/XSL/Transform">Ignored</xsl:text>
-    <xsl:para>Top-level element is not in <xsl:uri>http://www.w3.org/1999/XSL/Transform</xsl:uri> namespace</xsl:para>
-  </xsl:template>
+  <xsl:template name="non-xsl-top-level-element" xmlns:xsl="NotXSLTNamespace"> <!-- Expected ignored -->
+    <xsl:text
+      xmlns:xsl="http://www.w3.org/1999/XSL/Transform">Ignored</xsl:text>      <!-- Expected ignored -->
+    <xsl:para>Top-level element is not in namespace
+      <xsl:uri>http://www.w3.org/1999/XSL/Transform</xsl:uri></xsl:para>       <!-- Expected ignored -->
+  </xsl:template>                                                              <!-- Expected ignored -->
 
-  <template name="non-xsl-top-level-element" xmlns="NotTheXSLTNamespace">
-    <xsl:text>Ignored</xsl:text>
-    <para>Top-level element is not in <uri>http://www.w3.org/1999/XSL/Transform</uri> namespace</para>
-  </template>
+  <template name="non-xsl-top-level-element" xmlns="NotXSLTNamespace">         <!-- Expected ignored -->
+    <xsl:text>Ignored</xsl:text>                                               <!-- Expected ignored -->
+    <para>Top-level element is not in namespace
+      <uri>http://www.w3.org/1999/XSL/Transform</uri></para>                   <!-- Expected ignored -->
+    <!-- Non-XSLT-top-level rule is higher priority than xsl:assert rule -->
+    <xsl:assert test="false()">                                                <!-- Expected ignored -->
+      <xsl:text>Ignored, not unknown</xsl:text>                                <!-- Expected ignored -->
+    </xsl:assert>                                                              <!-- Expected ignored -->
+  </template>                                                                  <!-- Expected ignored -->
 
 </xsl:stylesheet>

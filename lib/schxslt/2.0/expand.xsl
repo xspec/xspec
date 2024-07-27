@@ -19,7 +19,18 @@
   </xsl:template>
 
   <!-- Copy all other elements -->
-  <xsl:template match="node() | @*" mode="schxslt:expand">
+  <xsl:template match="*" mode="schxslt:expand">
+    <xsl:param name="lang" as="xs:string?"/>
+    <xsl:copy>
+      <xsl:if test="empty(@xml:lang) and schxslt:in-scope-language(.) != $lang">
+        <xsl:attribute name="xml:lang" select="schxslt:in-scope-language(.)"/>
+      </xsl:if>
+      <xsl:apply-templates select="@*" mode="schxslt:expand"/>
+      <xsl:apply-templates select="node()" mode="schxslt:expand"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="comment() | processing-instruction() | @*" mode="schxslt:expand">
     <xsl:copy>
       <xsl:apply-templates select="node() | @*" mode="schxslt:expand"/>
     </xsl:copy>
@@ -38,7 +49,29 @@
         The current pattern defines no abstract rule named '<xsl:value-of select="@rule"/>'.
       </xsl:message>
     </xsl:if>
-    <xsl:sequence select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()"/>
+    <xsl:variable name="sourceLang" as="xs:string" select="schxslt:in-scope-language(.)"/>
+    <xsl:variable name="targetLang" as="xs:string" select="schxslt:in-scope-language(ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule])"/>
+    <xsl:choose>
+      <xsl:when test="$sourceLang = $targetLang">
+        <xsl:sequence select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:for-each select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()">
+          <xsl:choose>
+            <xsl:when test="self::* and not(@xml:lang)">
+              <xsl:copy>
+                <xsl:attribute name="xml:lang" select="$targetLang"/>
+                <xsl:sequence select="@*"/>
+                <xsl:sequence select="node()"/>
+              </xsl:copy>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:sequence select="."/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:apply-templates select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/sch:extends" mode="#current"/>
   </xsl:template>
 
@@ -46,8 +79,13 @@
   <xsl:template match="sch:pattern[@is-a]" mode="schxslt:expand">
     <xsl:param name="abstract-patterns" tunnel="yes" as="element(sch:pattern)*"/>
     <xsl:variable name="is-a" select="$abstract-patterns[@id = current()/@is-a]"/>
+    <xsl:variable name="sourceLang" as="xs:string" select="schxslt:in-scope-language(.)"/>
+    <xsl:variable name="targetLang" as="xs:string" select="schxslt:in-scope-language($is-a)"/>
     <xsl:copy>
       <xsl:sequence select="@* except @is-a"/>
+      <xsl:if test="$sourceLang != $targetLang and not(@xml:lang)">
+        <xsl:attribute name="xml:lang" select="$targetLang"/>
+      </xsl:if>
       <xsl:apply-templates select="(if (not(@documents)) then $is-a/@documents else (), $is-a/node())" mode="schxslt:expand">
         <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
       </xsl:apply-templates>
@@ -57,6 +95,7 @@
         <sch:properties>
           <xsl:apply-templates select="../sch:properties/sch:property[@id = $ids]" mode="schxslt:expand">
             <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
+            <xsl:with-param name="lang" as="xs:string" select="schxslt:in-scope-language(.)"/>
           </xsl:apply-templates>
         </sch:properties>
       </xsl:if>
@@ -66,6 +105,7 @@
         <sch:diagnostics>
           <xsl:apply-templates select="../sch:diagnostics/sch:diagnostic[@id = $ids]" mode="schxslt:expand">
             <xsl:with-param name="schxslt:params" select="sch:param" tunnel="yes"/>
+            <xsl:with-param name="lang" as="xs:string" select="schxslt:in-scope-language(.)"/>
           </xsl:apply-templates>
         </sch:diagnostics>
       </xsl:if>
@@ -99,6 +139,11 @@
         <xsl:value-of select="schxslt:replace-params($src, $paramsSorted[position() > 1])"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:function>
+
+  <xsl:function name="schxslt:in-scope-language" as="xs:string">
+    <xsl:param name="context" as="node()"/>
+    <xsl:value-of select="$context/ancestor-or-self::*[@xml:lang][1]/@xml:lang"/>
   </xsl:function>
 
 </xsl:transform>

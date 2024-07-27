@@ -44,6 +44,12 @@
 
     <!--
       mode="coverage"
+
+      This mode implements the rules described in docs/xslt-code-coverage-by-element.md.
+
+      Priority values of templates in this mode ensure correct rule selection, such as
+      when templates match descendants via different paths. Tests for rule selection are
+      in test/end-to-end/cases-coverage.
    -->
     <xsl:mode name="coverage" on-multiple-match="fail" on-no-match="fail" />
 
@@ -103,7 +109,16 @@
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
-    <!-- Use Child Data -->
+    <!-- Unknown, Including All Descendants -->
+    <xsl:template match="
+        XSLT:assert/descendant-or-self::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="8">
+        <xsl:sequence select="'unknown'"/>
+    </xsl:template>
+
+    <!-- Use Descendant Data -->
     <xsl:template
         match="
         XSLT:fallback
@@ -125,27 +140,35 @@
             </xsl:when>
             <xsl:otherwise>
                 <!--
-                    If node has only untraceable descendants, mark it as 'unknown'.
-                    Use xsl:iterate to examine descendants for traceability. Break
-                    upon reaching a traceable element, because reaching xsl:otherwise
-                    with a traceable descendant means this node should be marked as
-                    'missed'.
+                    Iterate over descendants and follow this logic:
+                    A. Upon finding any untraceable executable descendant, return 'unknown'
+                       and break out of loop. (Note: Nodes like comment() are untraceable
+                       but not executable, so they don't affect this iteration.) 
+                    B. If node has any traceable executable descendants, node is a candidate for
+                       'missed', but condition A still applies as iteration continues.
+                    C. At end of loop, if condition A did not apply, the tentative status
+                       becomes the status.
                 -->
-                <xsl:variable name="all-untraceable" as="xs:boolean">
-                    <xsl:iterate select="descendant::node()">
-                        <xsl:on-completion>
-                            <xsl:sequence select="true()" />
-                        </xsl:on-completion>
-                        <xsl:variable name="untraceable" as="xs:boolean">
-                            <xsl:apply-templates select="." mode="untraceable-in-instruction" />
-                        </xsl:variable> 
-                        <xsl:if test="not($untraceable)">
-                            <xsl:sequence select="false()" />
-                            <xsl:break />
-                        </xsl:if>
-                    </xsl:iterate>
-                </xsl:variable>
-                <xsl:sequence select="if ($all-untraceable) then 'unknown' else 'missed'"/>
+                <xsl:iterate select="descendant::node()">
+                    <xsl:param name="tentative-status" as="xs:string" select="'unknown'" />
+                    <xsl:on-completion>
+                        <xsl:sequence select="$tentative-status" />
+                    </xsl:on-completion>
+                    <xsl:variable name="untraceable" as="xs:string?">
+                        <xsl:apply-templates select="." mode="untraceable-in-instruction" />
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="$untraceable eq 'untraceable executable'">
+                            <xsl:sequence select="'unknown'" />
+                            <xsl:break/>
+                        </xsl:when>
+                        <xsl:when test="$untraceable eq 'traceable executable'">
+                            <xsl:next-iteration>
+                                <xsl:with-param name="tentative-status" select="'missed'" />
+                            </xsl:next-iteration>
+                        </xsl:when>
+                    </xsl:choose>
+                </xsl:iterate>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -242,17 +265,16 @@
     <!-- Low-priority fallback template rule -->
     <xsl:template match="node()" mode="untraceable-in-instruction"
         priority="-10">
-        <xsl:sequence select="false()"/>
+        <xsl:sequence select="'traceable executable'"/>
     </xsl:template>
 
-    <!-- Nodes that follow "Always Ignore" rule and can occur in an instruction -->
+    <!-- Non-executable nodes that can occur in an instruction -->
     <xsl:template match="
         text()[normalize-space() = '' and not(parent::XSLT:text)]
         | processing-instruction()
         | comment()"
-        mode="untraceable-in-instruction">
-        <xsl:sequence select="true()"/>
-    </xsl:template>
+        mode="untraceable-in-instruction"
+        as="empty-sequence()"/>
 
     <!-- Untraceable elements that can occur in an instruction -->
     <xsl:template match="
@@ -278,6 +300,7 @@
         | XSLT:sort
         | XSLT:template/XSLT:param[@select]
         | XSLT:try
+        | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"
         mode="untraceable-in-instruction">
@@ -288,7 +311,7 @@
             this mode. Examples include XSLT:matching-substring, XSLT:non-matching-substring,
             XSLT:merge-*, and XSLT:on-completion. However, it's clearer to list them anyway.
         -->
-        <xsl:sequence select="true()"/>
+        <xsl:sequence select="'untraceable executable'"/>
     </xsl:template>
     
 </xsl:stylesheet>

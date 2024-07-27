@@ -31,6 +31,8 @@
           <node>300</node>
           <node>400</node>
         </node>
+        <node type="where-populated, untraceable descendant and traceable descendant"/>
+        <node type="where-populated, untraceable descendant and traceable descendant">500</node>
       </root>
     </x:expect>
   </x:scenario>
