@@ -44,6 +44,12 @@
 
     <!--
       mode="coverage"
+
+      This mode implements the rules described in docs/xslt-code-coverage-by-element.md.
+
+      Priority values of templates in this mode ensure correct rule selection, such as
+      when templates match descendants via different paths. Tests for rule selection are
+      in test/end-to-end/cases-coverage.
    -->
     <xsl:mode name="coverage" on-multiple-match="fail" on-no-match="fail" />
 
@@ -101,6 +107,15 @@
         mode="coverage"
         priority="20">
         <xsl:sequence select="'ignored'"/>
+    </xsl:template>
+
+    <!-- Unknown, Including All Descendants -->
+    <xsl:template match="
+        XSLT:assert/descendant-or-self::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="8">
+        <xsl:sequence select="'unknown'"/>
     </xsl:template>
 
     <!-- Use Descendant Data -->

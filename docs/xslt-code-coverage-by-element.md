@@ -145,14 +145,18 @@ XSLT 4.0 proposal.
 
 ## xsl:assert
 
-|          |                     |
-| -------- | ------------------- |
-| CATEGORY | Instruction         |
-| PARENT   |                     |
-| CHILDREN |                     |
-| CONTENT  |                     |
-| TRACE    | No                  |
-| RULE     | Use Descendant Data |
+|          |                                    |
+| -------- | ---------------------------------- |
+| CATEGORY | Instruction                        |
+| PARENT   |                                    |
+| CHILDREN |                                    |
+| CONTENT  |                                    |
+| TRACE    | No                                 |
+| RULE     | Unknown, including all descendants |
+
+#### Comment
+
+For this element, Saxon 12.4 produces incorrect data (trace hit points to first child), while Saxon 12.5 produces no data.
 
 ## xsl:attribute
 

@@ -7,9 +7,9 @@
     <root>
       <!-- Assert false -->
       <node type="assert">
-        <xsl:assert test="100 lt 0">
-          <xsl:text>Assert Message: 100 lt 0</xsl:text>
-        </xsl:assert>
+        <xsl:assert test="100 lt 0">                                           <!-- Expected unknown -->
+          <xsl:text>Assert Message: 100 lt 0</xsl:text>                        <!-- Expected unknown -->
+        </xsl:assert>                                                          <!-- Expected unknown -->
       </node>
     </root>
   </xsl:template>
@@ -20,7 +20,7 @@
       <node type="iterate/on-completion executed unknown">
         <xsl:iterate select="1">
           <xsl:on-completion>                                                  <!-- Expected unknown -->
-            <xsl:assert test="100 lt 0" />
+            <xsl:assert test="100 lt 0" />                                     <!-- Expected unknown -->
             <xsl:text>can't get here</xsl:text>                                <!-- Expected miss -->
           </xsl:on-completion>                                                 <!-- Expected unknown -->
           <xsl:value-of select="concat(., ', ')" />
@@ -32,9 +32,9 @@
     <root>
       <!-- Assert true -->
       <node type="assert">
-        <xsl:assert test="100 gt 0">
-          <xsl:text>Assert Message: 100 gt 0</xsl:text>                        <!-- Expected miss -->
-        </xsl:assert>
+        <xsl:assert test="100 gt 0">                                           <!-- Expected unknown -->
+          <xsl:text>Assert Message: 100 gt 0</xsl:text>                        <!-- Expected unknown -->
+        </xsl:assert>                                                          <!-- Expected unknown -->
       </node>
     </root>
   </xsl:template>
