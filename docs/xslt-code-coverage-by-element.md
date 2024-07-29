@@ -29,6 +29,7 @@ The following list describes the rules used to determine the coverage status of 
 - **Always Ignore** - Mark node as 'ignored'. This rule is mainly for Declaration elements where Saxon does not produce trace output.
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
+- **Use Parent Status** - If this node's parent has 'hit' status based on its trace data and the rule it follows, mark this node as a 'hit'. Otherwise, mark it as 'missed'. This rule can differ from 'Use Parent Data' when the parent is not traced.
 - **Use Descendant Data** - If node has no children, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as either 'unknown' or 'missed', as follows: 'missed' if all executable descendants are traceable, else 'unknown'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Non-executable descendants in this context are comments, processing instructions, and whitespace-only text nodes (except inside xsl:text). Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable executable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
 - **None** - The element is not supported by XSpec code coverage.
 - **TBD** -
@@ -340,13 +341,13 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | CHILDREN | xsl:fallback, xsl:with-param |
 | CONTENT  |                              |
 | TRACE    | Column number 0              |
-| RULE     | Element Specific - TBD       |
+| RULE     | Use Descendant Data          |
 
 #### Comment
 
 Column 0 in XSpec trace and Saxon trace.
 
-There is an option of accepting the trace output for now and saying if the node is xsl:evaluate then check column number 0 (the chance of 2 xsl:evaluate elements on the same line is low).
+There is an alternate option of accepting the trace output for now and saying if the node is xsl:evaluate then check column number 0 (the chance of 2 xsl:evaluate elements on the same line is low).
 
 ## xsl:expose
 
@@ -528,31 +529,29 @@ XSLT 4.0 proposal.
 
 ## xsl:map
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
-Difficult to know what to do here as it is never traced. Neither is xsl:map-entry.
-
-Inclined to say unknown and add a comment on the Code Coverage page.
+Neither this element nor xsl:map-entry is traced.
 
 ## xsl:map-entry
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | No                  |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
@@ -560,9 +559,7 @@ Tested as part of xsl:map.
 
 There is a trace entry in xsl-map-01.xsl for `<xsl:map-entry key="'One'" select="100"/>` but that seems to be related to the xsl:param and not xsl:map-entry.
 
-Difficult to know what to do here as it is never traced. Neither is xsl:map.
-
-Inclined to say unknown and add a comment on the Code Coverage page.
+Neither this element nor xsl:map is traced.
 
 ## xsl:matching-substring
 
@@ -910,20 +907,20 @@ xsl:template xsl:param trace causes confusion because it can cause the first seq
 
 ## xsl:perform-sort
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                     |
+| -------- | ------------------- |
+| CATEGORY | Instruction         |
+| PARENT   |                     |
+| CHILDREN |                     |
+| CONTENT  |                     |
+| TRACE    | Partly              |
+| RULE     | Use Descendant Data |
 
 #### Comment
 
-With a select attribute, the column number is 4 in the trace output.
+With a select attribute, the column number is wrong in the trace output.
 
-With a sequence constructor, children are traced, excluding xsl:sort. If the only child is xsl:sort, cannot determine if it was executed.
+The sequence constructor, if present, is traced. The xsl:sort child is not traced.
 
 ## xsl:preserve-space
 
@@ -986,15 +983,15 @@ With a sequence constructor, children are traced if they are executed.
 | CHILDREN |                                                                         |
 | CONTENT  |                                                                         |
 | TRACE    | No                                                                      |
-| RULE     | Element Specific - TBD                                                  |
+| RULE     | Use Parent Status                                                       |
 
 #### Comment
 
-Use Parent Data rule is viable if xsl:sort is a child of xsl:apply-templates, xsl:for-each, or xsl:for-each-group.
+Child elements of xsl:sort follow the Use Parent Status rule. For deeper descendants: If the trace has a hit, mark the node 'hit'; otherwise, mark it 'unknown'.
 
 When xsl:sort is a child of xsl:perform-sort, there is no easy way of determining if xsl:sort was executed except checking if its siblings are traced.
 
-When using a sequence constructor with xsl:sort, the children are not traced.
+Because xsl:perform-sort follows the Use Descendant Data rule, xsl:sort follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:perform-sort has a sequence constructor that includes a traced node, the sequence constructor gives xsl:perform-sort a 'hit' status, which in turn gives xsl:sort a 'hit' status.
 
 ## xsl:source-document
 
@@ -1194,8 +1191,8 @@ Note: The test shows the child of xsl:where-populated hit even if it does nothin
 | CHILDREN |                                                                                                             |
 | CONTENT  |                                                                                                             |
 | TRACE    | No                                                                                                          |
-| RULE     | Use Parent Data                                                                                             |
+| RULE     | Use Parent Status                                                                                           |
 
 #### Comment
 
-Suggest it is always marked as a 'hit' if the parent is traced.
+Because xsl:evaluate is not traced, xsl:with-param follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:evaluate/xsl:with-param has a sequence constructor that includes a traced node, the sequence constructor gives xsl:evaluate a 'hit' status, which in turn gives xsl:with-param a 'hit' status.

@@ -48,11 +48,38 @@
           <xsl:value-of select="." />
         </xsl:sort>
       </xsl:apply-templates>
+      <xsl:apply-templates mode="sortMode">
+        <xsl:sort>
+          <xsl:choose>
+            <xsl:when test="1 eq 2">                                         <!-- Expected unknown -->
+              <xsl:value-of select="." />                                    <!-- Expected unknown -->
+            </xsl:when>                                                      <!-- Expected unknown -->
+            <xsl:otherwise>                                                  <!-- Expected unknown -->
+              <xsl:value-of select="." />
+            </xsl:otherwise>                                                 <!-- Expected unknown -->
+          </xsl:choose>
+        </xsl:sort>
+      </xsl:apply-templates>
+      <xsl:apply-templates mode="sortMode">
+        <xsl:sort>
+          <xsl:value-of select="." />
+          <xsl:copy-of select="()" />
+        </xsl:sort>
+      </xsl:apply-templates>
+      <xsl:apply-templates mode="sortMode">
+        <xsl:sort>
+          <xsl:value-of>
+            <xsl:value-of select="." />
+            <xsl:copy-of select="()" />                                        <!-- Expected unknown -->
+          </xsl:value-of>
+        </xsl:sort>
+      </xsl:apply-templates>
+
       <!-- perform-sort child -->
       <xsl:variable name="sortedSet">
-        <xsl:perform-sort select="node">
-          <xsl:sort />
-        </xsl:perform-sort>
+        <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
+          <xsl:sort />                                                         <!-- Expected unknown -->
+        </xsl:perform-sort>                                                    <!-- Expected unknown -->
       </xsl:variable>
       <xsl:for-each select="$sortedSet/*">
         <node type="sort - perform-sort">
@@ -78,9 +105,36 @@
             <xsl:value-of select="." />                                        <!-- Expected miss -->
           </xsl:sort>                                                          <!-- Expected miss -->
         </xsl:apply-templates>                                                 <!-- Expected miss -->
-        <xsl:perform-sort select="node">                                       <!-- Expected miss -->
-          <xsl:sort />                                                         <!-- Expected miss -->
-        </xsl:perform-sort>                                                    <!-- Expected miss -->
+        <xsl:apply-templates mode="sortMode">                                  <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:choose>                                                       <!-- Expected miss -->
+              <xsl:when test="1 eq 2">                                         <!-- Expected unknown -->
+                <xsl:value-of select="." />                                    <!-- Expected unknown -->
+              </xsl:when>                                                      <!-- Expected unknown -->
+              <xsl:otherwise>                                                  <!-- Expected unknown -->
+                <xsl:value-of select="." />                                    <!-- Expected unknown -->
+              </xsl:otherwise>                                                 <!-- Expected unknown -->
+            </xsl:choose>                                                      <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:apply-templates mode="sortMode">                                  <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:value-of select="." />                                        <!-- Expected miss -->
+            <xsl:copy-of select="()" />                                        <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:apply-templates mode="sortMode">                                  <!-- Expected miss -->
+          <xsl:sort>                                                           <!-- Expected miss -->
+            <xsl:value-of>                                                     <!-- Expected miss -->
+              <xsl:value-of select="." />                                      <!-- Expected unknown -->
+              <xsl:copy-of select="()" />                                      <!-- Expected unknown -->
+              <xsl:text>100</xsl:text>)"                                       <!-- Expected unknown -->
+            </xsl:value-of>                                                    <!-- Expected miss -->
+          </xsl:sort>                                                          <!-- Expected miss -->
+        </xsl:apply-templates>                                                 <!-- Expected miss -->
+        <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
+          <xsl:sort />                                                         <!-- Expected unknown -->
+        </xsl:perform-sort>                                                    <!-- Expected unknown -->
       </xsl:if>
     </root>
   </xsl:template>
