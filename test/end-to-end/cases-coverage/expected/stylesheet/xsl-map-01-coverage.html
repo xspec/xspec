@@ -33,7 +33,7 @@
 023: <span class="ignored">          </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 024: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
 025: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-026: <span class="ignored">          </span><span class="missed">&lt;xsl:sequence select="400" /&gt;</span>
+026: <span class="ignored">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 027: <span class="ignored">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
 028: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
 029: <span class="ignored">    </span><span class="hit">&lt;/xsl:param&gt;</span>
@@ -44,14 +44,14 @@
 034: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 035: <span class="ignored">        </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
 036: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-037: <span class="ignored">          </span><span class="missed">&lt;xsl:sequence&gt;</span>
+037: <span class="ignored">          </span><span class="hit">&lt;xsl:sequence&gt;</span>
 038: <span class="ignored">            </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
 039: <span class="ignored">              </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
 040: <span class="ignored">            </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-041: <span class="ignored">          </span><span class="missed">&lt;/xsl:sequence&gt;</span>
+041: <span class="ignored">          </span><span class="hit">&lt;/xsl:sequence&gt;</span>
 042: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
 043: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-044: <span class="ignored">          </span><span class="missed">&lt;xsl:sequence select="400" /&gt;</span>
+044: <span class="ignored">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 045: <span class="ignored">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
 046: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
 047: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
@@ -129,7 +129,7 @@
 119: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 120: <span class="ignored">      </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
 121: <span class="ignored">      </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-122: <span class="ignored">        </span><span class="missed">&lt;xsl:sequence select="400" /&gt;</span>
+122: <span class="ignored">        </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 123: <span class="ignored">      </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
 124: <span class="ignored">    </span><span class="hit">&lt;/xsl:map&gt;</span>
 125: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
