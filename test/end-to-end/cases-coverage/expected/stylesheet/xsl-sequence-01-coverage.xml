@@ -19,6 +19,13 @@
               class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="15" columnNumber="21" moduleId="0" traceableId="3"/>
+   <hit lineNumber="19" columnNumber="29" moduleId="0" traceableId="1"/>
+   <hit lineNumber="19" columnNumber="29" moduleId="0" traceableId="2"/>
+   <hit lineNumber="22" columnNumber="21" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}if"/>
+   <hit lineNumber="26" columnNumber="42" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
