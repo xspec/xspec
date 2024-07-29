@@ -38,12 +38,12 @@
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="1"/>
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="5"/>
    <hit lineNumber="11" columnNumber="23" moduleId="0" traceableId="6"/>
-   <hit lineNumber="21" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="64" moduleId="0" traceableId="4"/>
    <hit lineNumber="14" columnNumber="32" moduleId="0" traceableId="3"/>
    <hit lineNumber="14" columnNumber="32" moduleId="0" traceableId="4"/>
-   <hit lineNumber="21" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="21" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="21" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="64" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="64" moduleId="0" traceableId="4"/>
+   <hit lineNumber="21" columnNumber="64" moduleId="0" traceableId="4"/>
    <hit lineNumber="23" columnNumber="45" moduleId="0" traceableId="1"/>
    <hit lineNumber="23" columnNumber="45" moduleId="0" traceableId="5"/>
    <hit lineNumber="24" columnNumber="45" moduleId="0" traceableId="6"/>
@@ -60,33 +60,33 @@
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="29" columnNumber="27" moduleId="0" traceableId="6"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="66" moduleId="0" traceableId="4"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="29" columnNumber="27" moduleId="0" traceableId="6"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="66" moduleId="0" traceableId="4"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="29" columnNumber="27" moduleId="0" traceableId="6"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="66" moduleId="0" traceableId="4"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="1"/>
    <hit lineNumber="28" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="29" columnNumber="27" moduleId="0" traceableId="6"/>
-   <hit lineNumber="30" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="66" moduleId="0" traceableId="4"/>
    <hit lineNumber="37" columnNumber="60" moduleId="0" traceableId="4"/>
    <traceable traceableId="7" class="net.sf.saxon.expr.LetExpression"/>
    <hit lineNumber="37" columnNumber="60" moduleId="0" traceableId="7"/>
-   <hit lineNumber="39" columnNumber="0" moduleId="0" traceableId="4"/>
+   <hit lineNumber="39" columnNumber="89" moduleId="0" traceableId="4"/>
    <traceable traceableId="8" class="net.sf.saxon.expr.instruct.EvaluateInstr"/>
-   <hit lineNumber="39" columnNumber="0" moduleId="0" traceableId="8"/>
+   <hit lineNumber="39" columnNumber="89" moduleId="0" traceableId="8"/>
    <hit lineNumber="41" columnNumber="40" moduleId="0" traceableId="4"/>
    <hit lineNumber="41" columnNumber="40" moduleId="0" traceableId="2"/>
    <hit lineNumber="48" columnNumber="55" moduleId="0" traceableId="1"/>
    <hit lineNumber="48" columnNumber="55" moduleId="0" traceableId="5"/>
    <hit lineNumber="49" columnNumber="67" moduleId="0" traceableId="6"/>
    <hit lineNumber="52" columnNumber="59" moduleId="0" traceableId="7"/>
-   <hit lineNumber="54" columnNumber="0" moduleId="0" traceableId="4"/>
-   <hit lineNumber="54" columnNumber="0" moduleId="0" traceableId="8"/>
+   <hit lineNumber="54" columnNumber="61" moduleId="0" traceableId="4"/>
+   <hit lineNumber="54" columnNumber="61" moduleId="0" traceableId="8"/>
    <traceable traceableId="9"
               class="net.sf.saxon.expr.instruct.Choose"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}if"/>
