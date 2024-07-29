@@ -8,9 +8,9 @@
     <root>
       <!-- Using select attribute -->
       <xsl:variable name="sortedSet1">
-        <xsl:perform-sort select="node">
-          <xsl:sort />
-        </xsl:perform-sort>
+        <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
+          <xsl:sort />                                                         <!-- Expected unknown -->
+        </xsl:perform-sort>                                                    <!-- Expected unknown -->
       </xsl:variable>
       <xsl:for-each select="$sortedSet1/*">
         <node type="perform-sort">

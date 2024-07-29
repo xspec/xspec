@@ -23,13 +23,13 @@
           <xsl:fallback />                                                     <!-- Expected unknown -->
         </xsl:where-populated>                                                 <!-- Expected unknown -->
       </node>
-      <!-- This xsl:perform-sort element has hit in trace (#1983) -->
+      <!-- Only untraceable descendants -->
       <node type="where-populated, untraced child reached and populated">
-        <xsl:where-populated>
-          <xsl:perform-sort select="node">
-            <xsl:sort select="." />                                            <!-- Expected miss-->
-          </xsl:perform-sort>
-        </xsl:where-populated>
+        <xsl:where-populated>                                                  <!-- Expected unknown -->
+          <xsl:perform-sort select="node">                                     <!-- Expected unknown -->
+            <xsl:sort select="." />                                            <!-- Expected unknown -->
+          </xsl:perform-sort>                                                  <!-- Expected unknown -->
+        </xsl:where-populated>                                                 <!-- Expected unknown -->
       </node>      
       <!-- xsl:fallback is untraceable, while <empty-element/> is traceable but has no hit in trace. -->
       <node type="where-populated, untraceable descendant and traceable descendant">

@@ -121,10 +121,14 @@
     <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:fallback
+        XSLT:evaluate
+        | XSLT:fallback
+        | XSLT:map
+        | XSLT:map-entry
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
+        | XSLT:perform-sort
         | XSLT:otherwise
         | XSLT:when
         | XSLT:where-populated"
@@ -173,7 +177,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Use Parent Data -->
+    <!-- Use Parent Data (directly) -->
     <xsl:template match="
         XSLT:context-item (: xspec/xspec#1410 :)
         | XSLT:merge-action
@@ -184,10 +188,18 @@
         <xsl:sequence select="parent::*/accumulator-before('category-based-on-trace-data')"/>
     </xsl:template>
 
-    <!-- Use Trace Data -->
+    <!-- Use Parent Status (computed) -->
     <xsl:template match="
-        XSLT:function
-        | XSLT:template"
+        XSLT:sort
+        | XSLT:with-param"
+        as="xs:string"
+        mode="coverage"
+        name="use-parent-status">
+        <xsl:apply-templates select="parent::*" mode="#current"/>
+    </xsl:template>
+
+    <!-- Use Trace Data -->
+    <xsl:template match="element() | text()"
         as="xs:string"
         mode="coverage">
         <xsl:sequence select="accumulator-before('category-based-on-trace-data')"/>
@@ -200,6 +212,10 @@
         <xsl:choose>
             <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
                 <xsl:sequence select="'hit'"/>
+            </xsl:when>
+            <xsl:when test="parent::XSLT:stylesheet or parent::XSLT:transform">
+                <!-- Global variables effectively follow the Use Trace Data rule. -->
+                <xsl:sequence select="'missed'"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
@@ -233,26 +249,30 @@
                 "/>
     </xsl:template>
 
-    <!-- General case. This template is like the one for the Use Trace Data rule, except
-        that xsl:when blocks after the first one provide the capability of doing
-        special handling. Eventually, maybe we should (a) move all the special handling
-        to other templates, (b) make the Use Trace Data template have match="element | text()",
-        and (c) delete this template. -->
-    <xsl:template match="element() | text()" as="xs:string" mode="coverage">
-        
+    <!-- Element-Specific rule for child elements of XSLT:sort -->
+    <!-- (Child comment or PI nodes use higher-priority template.) --> 
+    <xsl:template match="XSLT:sort/*"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
+        <!-- Use priority here and call use-parent-status by name instead of
+            adding XSLT:sort/* to that template's match attribute, to ensure
+            the Use Parent Status rule is applied even if the child of xsl:sort
+            has a template that matches it directly. -->
+        <xsl:call-template name="use-parent-status" />
+    </xsl:template>
+
+    <!-- Element-Specific rule for descendants of XSLT:sort deeper than children -->
+    <xsl:template match="XSLT:sort/*/descendant::node()"
+        as="xs:string"
+        mode="coverage"
+        priority="5">
         <xsl:choose>
             <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
-                <xsl:sequence select="'hit'"/>
+                <xsl:sequence select="'hit'" />
             </xsl:when>
-
-            <xsl:when test="ancestor::XSLT:variable">
-                <!-- Use status of nearest ancestor XSLT:variable (not always the same
-                    as Use Trace Data for that ancestor) -->
-                <xsl:apply-templates select="ancestor::XSLT:variable[1]" mode="#current"/>
-            </xsl:when>
-
             <xsl:otherwise>
-                <xsl:sequence select="'missed'"/>
+                <xsl:sequence select="'unknown'" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
