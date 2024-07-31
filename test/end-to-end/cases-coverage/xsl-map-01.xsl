@@ -23,7 +23,7 @@
           </xsl:for-each>
         </xsl:map-entry>
         <xsl:map-entry key="'Four'">
-          <xsl:sequence select="400" />
+          <xsl:sequence select="400" />                                        <!-- Expected unknown -->
         </xsl:map-entry>
       </xsl:map>
     </xsl:param>
@@ -41,7 +41,7 @@
           </xsl:sequence>
         </xsl:map-entry>
         <xsl:map-entry key="'Four'">
-          <xsl:sequence select="400" />
+          <xsl:sequence select="400" />                                        <!-- Expected unknown -->
         </xsl:map-entry>
       </xsl:map>
     </xsl:variable>
@@ -119,7 +119,7 @@
         </xsl:for-each>
       </xsl:map-entry>
       <xsl:map-entry key="'Four'">
-        <xsl:sequence select="400" />
+        <xsl:sequence select="400" />                                          <!-- Expected unknown -->
       </xsl:map-entry>
     </xsl:map>
   </xsl:function>

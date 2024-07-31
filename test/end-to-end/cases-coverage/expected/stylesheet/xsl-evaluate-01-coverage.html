@@ -49,7 +49,7 @@
 39: <span class="ignored">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data"&gt;</span>
 40: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="index"&gt;</span>
 41: <span class="ignored">              </span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
-42: <span class="ignored">                </span><span class="missed">&lt;xsl:sequence select="$index"/&gt;</span>
+42: <span class="ignored">                </span><span class="unknown">&lt;xsl:sequence select="$index"/&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 43: <span class="ignored">              </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 44: <span class="ignored">            </span><span class="hit">&lt;/xsl:with-param&gt;</span>
 45: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="sortKey"&gt;</span><span class="missed">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>

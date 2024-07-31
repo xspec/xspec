@@ -957,20 +957,22 @@ The sequence constructor, if present, is traced. The xsl:sort child is not trace
 
 ## xsl:sequence
 
-|          |                     |
-| -------- | ------------------- |
-| CATEGORY | Instruction         |
-| PARENT   |                     |
-| CHILDREN |                     |
-| CONTENT  |                     |
-| TRACE    | No                  |
-| RULE     | Use Descendant Data |
+|          |                  |
+| -------- | ---------------- |
+| CATEGORY | Instruction      |
+| PARENT   |                  |
+| CHILDREN |                  |
+| CONTENT  |                  |
+| TRACE    | No               |
+| RULE     | Element Specific |
 
 #### Comment
 
+If the trace data has a hit for this element, mark it as 'hit'. Otherwise, follow Use Descendant Data rule.
+
 Outstanding Saxon issue regarding tracing: https://saxonica.plan.io/issues/6295
 
-With a select attribute, there is no trace information.
+With a select attribute, there is usually no trace information, but exceptions can occur (https://github.com/xspec/xspec/issues/1945#issuecomment-2241593146).
 
 With a sequence constructor, children are traced if they are executed.
 
