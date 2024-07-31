@@ -12,6 +12,7 @@
          <root>
             <node type="sequence">100</node>
             <node type="sequence">200</node>
+            <node type="sequence">300</node>
          </root>
       </x:expect>
    </x:scenario>

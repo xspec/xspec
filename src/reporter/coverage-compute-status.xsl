@@ -133,7 +133,8 @@
         | XSLT:when
         | XSLT:where-populated"
         as="xs:string"
-        mode="coverage">
+        mode="coverage"
+        name="use-descendant-data">
         <xsl:choose>
             <xsl:when test="empty(child::node())">
                 <xsl:sequence select="'unknown'"/>
@@ -247,6 +248,22 @@
                 else
                     'missed'
                 "/>
+    </xsl:template>
+
+    <!-- Element-Specific rule for XSLT:sequence -->
+    <!-- Usually, we expect to use descendant data in Saxon 12.4+, but if xsl:sequence
+        has a hit in the trace, use it. -->
+    <xsl:template match="XSLT:sequence"
+        as="xs:string"
+        mode="coverage">
+        <xsl:choose>
+            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
+                <xsl:sequence select="'hit'"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="use-descendant-data"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!-- Element-Specific rule for child elements of XSLT:sort -->
