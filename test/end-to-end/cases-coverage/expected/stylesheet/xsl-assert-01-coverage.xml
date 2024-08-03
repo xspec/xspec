@@ -33,7 +33,7 @@
               uqname="Q{http://www.w3.org/1999/XSL/Transform}iterate"/>
    <hit lineNumber="21" columnNumber="33" moduleId="0" traceableId="5"/>
    <hit lineNumber="26" columnNumber="52" moduleId="0" traceableId="4"/>
-   <hit lineNumber="23" columnNumber="0" moduleId="0" traceableId="3"/>
+   <hit lineNumber="23" columnNumber="43" moduleId="0" traceableId="3"/>
    <hit lineNumber="31" columnNumber="59" moduleId="0" traceableId="0"/>
    <hit lineNumber="32" columnNumber="11" moduleId="0" traceableId="1"/>
    <hit lineNumber="34" columnNumber="27" moduleId="0" traceableId="1"/>

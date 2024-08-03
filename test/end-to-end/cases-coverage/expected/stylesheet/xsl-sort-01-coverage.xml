@@ -170,7 +170,7 @@
    <traceable traceableId="8" class="net.sf.saxon.expr.instruct.Block"/>
    <hit lineNumber="84" columnNumber="43" moduleId="0" traceableId="8"/>
    <hit lineNumber="84" columnNumber="43" moduleId="0" traceableId="2"/>
-   <hit lineNumber="80" columnNumber="4" moduleId="0" traceableId="7"/>
+   <hit lineNumber="80" columnNumber="41" moduleId="0" traceableId="7"/>
    <hit lineNumber="85" columnNumber="42" moduleId="0" traceableId="1"/>
    <hit lineNumber="85" columnNumber="42" moduleId="0" traceableId="3"/>
    <hit lineNumber="86" columnNumber="38" moduleId="0" traceableId="4"/>

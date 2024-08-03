@@ -17,7 +17,7 @@
    <traceable traceableId="4"
               class="net.sf.saxon.expr.instruct.TraceExpression"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}document"/>
-   <hit lineNumber="11" columnNumber="4" moduleId="0" traceableId="4"/>
+   <hit lineNumber="11" columnNumber="41" moduleId="0" traceableId="4"/>
    <hit lineNumber="16" columnNumber="35" moduleId="0" traceableId="1"/>
    <traceable traceableId="5"
               class="net.sf.saxon.expr.instruct.FixedAttribute"
