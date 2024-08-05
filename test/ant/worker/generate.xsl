@@ -132,9 +132,9 @@
 					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
-							and ($x:saxon-version lt x:pack-version((12, 4)))">
+							and ($x:saxon-version ne x:pack-version((12, 4)))">
 						<!-- https://saxonica.plan.io/issues/6223 -->
-						<xsl:text>XSLT Code Coverage requires Saxon version 12.4 or later</xsl:text>
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
