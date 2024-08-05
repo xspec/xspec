@@ -13,10 +13,10 @@
       <xsl:if test="1 eq 2">
         <node type="if">200</node>                                             <!-- Expected miss -->
       </xsl:if>
-      <!-- Text node children of xsl:if, marked as unknown -->
+      <!-- Text node children of xsl:if -->
       <node type="if">
-        <xsl:if test="1 eq 1">300</xsl:if>
-        <xsl:if test="1 eq 2">400</xsl:if>        
+        <xsl:if test="1 eq 1">300</xsl:if>                                     <!-- Expected unknown for 300 -->
+        <xsl:if test="1 eq 2">400</xsl:if>                                     <!-- Expected unknown for 400 -->
       </node>
     </root>
   </xsl:template>
