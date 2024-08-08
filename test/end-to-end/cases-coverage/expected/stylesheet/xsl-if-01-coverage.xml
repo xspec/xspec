@@ -22,6 +22,11 @@
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
    <hit lineNumber="10" columnNumber="25" moduleId="0" traceableId="4"/>
    <hit lineNumber="13" columnNumber="29" moduleId="0" traceableId="2"/>
+   <hit lineNumber="17" columnNumber="23" moduleId="0" traceableId="1"/>
+   <hit lineNumber="17" columnNumber="23" moduleId="0" traceableId="3"/>
+   <hit lineNumber="18" columnNumber="31" moduleId="0" traceableId="2"/>
+   <hit lineNumber="18" columnNumber="31" moduleId="0" traceableId="4"/>
+   <hit lineNumber="19" columnNumber="31" moduleId="0" traceableId="2"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

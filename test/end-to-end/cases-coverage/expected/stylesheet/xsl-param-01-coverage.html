@@ -25,8 +25,8 @@
 015: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with select attribute --&gt;</span>
 016: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamSelect01" select="200" /&gt;</span>
 017: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with inline sequence constructor --&gt;</span>
-018: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamDocNode01"&gt;</span><span class="missed">300</span><span class="hit">&lt;/xsl:param&gt;</span>
-019: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamAs01" as="text()"&gt;</span><span class="missed">300</span><span class="hit">&lt;/xsl:param&gt;</span>
+018: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamDocNode01"&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:param&gt;</span>
+019: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamAs01" as="text()"&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:param&gt;</span>
 020: <span class="ignored">  </span><span class="ignored">&lt;!-- Global param not overridden in XSpec - with multiline sequence constructor--&gt;</span>
 021: <span class="ignored">  </span><span class="hit">&lt;xsl:param name="globalParamDocNode02"&gt;</span>
 022: <span class="ignored">    </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">4</span><span class="hit">&lt;/xsl:text&gt;</span>
@@ -85,7 +85,7 @@
 075: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
 076: <span class="ignored">      </span><span class="ignored">&lt;!--Iterate param with inline sequence constructor --&gt;</span>
 077: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-078: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParamDocNode01"&gt;</span><span class="missed">14</span><span class="hit">&lt;/xsl:param&gt;</span>
+078: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParamDocNode01"&gt;</span><span class="hit">14</span><span class="hit">&lt;/xsl:param&gt;</span>
 079: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="iterateParamAs01" as="xs:integer" select="14" /&gt;</span>
 080: <span class="ignored">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>
 081: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="$iterateParamDocNode01 * 100 + $iterateParamAs01" /&gt;</span>

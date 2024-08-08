@@ -1198,3 +1198,22 @@ Note: The test shows the child of xsl:where-populated hit even if it does nothin
 #### Comment
 
 Because xsl:evaluate is not traced, xsl:with-param follows the Use Parent Status rule, not Use Parent Data. That way, if an executed xsl:evaluate/xsl:with-param has a sequence constructor that includes a traced node, the sequence constructor gives xsl:evaluate a 'hit' status, which in turn gives xsl:with-param a 'hit' status.
+
+## Text Node
+
+|          |                  |
+| -------- | ---------------- |
+| CATEGORY |                  |
+| PARENT   |                  |
+| CHILDREN |                  |
+| CONTENT  |                  |
+| TRACE    | No               |
+| RULE     | Element Specific |
+
+#### Comment
+
+If parent is xsl:if or a template parameter, mark the text node as Unknown because reaching the parent does not imply reaching the text node.
+
+Otherwise, follow Use Parent Status rule.
+
+For more background on tracing of text nodes, see: https://github.com/xspec/xspec/pull/1978#issuecomment-2242145181
