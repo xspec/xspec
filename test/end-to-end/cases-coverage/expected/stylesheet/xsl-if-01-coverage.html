@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-if-01.xsl">xsl-if-01.xsl</a></p>
-      <h2>module: xsl-if-01.xsl; 18 lines</h2>
+      <h2>module: xsl-if-01.xsl; 23 lines</h2>
       <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -17,14 +17,19 @@
 07: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
 08: <span class="ignored">      </span><span class="ignored">&lt;!-- Test succeeds --&gt;</span>
 09: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="1 eq 1"&gt;</span>
-10: <span class="ignored">        </span><span class="hit">&lt;node type="if"&gt;</span><span class="missed">100</span><span class="hit">&lt;/node&gt;</span>
+10: <span class="ignored">        </span><span class="hit">&lt;node type="if"&gt;</span><span class="hit">100</span><span class="hit">&lt;/node&gt;</span>
 11: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
 12: <span class="ignored">      </span><span class="ignored">&lt;!-- Test fails but xsl:if still executed and is a hit--&gt;</span>
 13: <span class="ignored">      </span><span class="hit">&lt;xsl:if test="1 eq 2"&gt;</span>
 14: <span class="ignored">        </span><span class="missed">&lt;node type="if"&gt;</span><span class="missed">200</span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 15: <span class="ignored">      </span><span class="hit">&lt;/xsl:if&gt;</span>
-16: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-17: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-18: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+16: <span class="ignored">      </span><span class="ignored">&lt;!-- Text node children of xsl:if --&gt;</span>
+17: <span class="ignored">      </span><span class="hit">&lt;node type="if"&gt;</span>
+18: <span class="ignored">        </span><span class="hit">&lt;xsl:if test="1 eq 1"&gt;</span><span class="unknown">300</span><span class="hit">&lt;/xsl:if&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected unknown for 300 --&gt;</span>
+19: <span class="ignored">        </span><span class="hit">&lt;xsl:if test="1 eq 2"&gt;</span><span class="unknown">400</span><span class="hit">&lt;/xsl:if&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected unknown for 400 --&gt;</span>
+20: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+21: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+22: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+23: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

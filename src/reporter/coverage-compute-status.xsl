@@ -200,7 +200,7 @@
     </xsl:template>
 
     <!-- Use Trace Data -->
-    <xsl:template match="element() | text()"
+    <xsl:template match="element()"
         as="xs:string"
         mode="coverage">
         <xsl:sequence select="accumulator-before('category-based-on-trace-data')"/>
@@ -290,6 +290,28 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="'unknown'" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Node-Specific rule for text nodes -->
+    <!-- Usually, we expect to use parent status in Saxon 12.4+, but there
+        are some exceptions. -->
+    <xsl:template match="text()"
+        as="xs:string"
+        mode="coverage">
+        <xsl:choose>
+            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
+                <xsl:sequence select="'hit'"/>
+            </xsl:when>
+            <xsl:when test="parent::XSLT:if or parent::XSLT:param/parent::XSLT:template">
+                <!-- Trace hit for XSLT:if says the condition was checked but doesn't indicate the outcome. -->
+                <!-- XSLT:template/XSLT:param follows Use Parent Data rule and doesn't indicate if the
+                    default value of the template parameter was used. --> 
+                <xsl:sequence select="'unknown'"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="use-parent-status"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

@@ -10,6 +10,7 @@
       <x:expect label="Success">
          <root>
             <node type="if">100</node>
+            <node type="if">300</node>
          </root>
       </x:expect>
    </x:scenario>

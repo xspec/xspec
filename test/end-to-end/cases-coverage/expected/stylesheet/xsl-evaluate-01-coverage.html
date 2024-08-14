@@ -15,13 +15,13 @@
 05: <span class="ignored">  --&gt;</span>
 06: <span class="ignored">  </span><span class="ignored">&lt;!-- Data for the test --&gt;</span>
 07: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="data"&gt;</span>
-08: <span class="ignored">    </span><span class="hit">&lt;data value="400"&gt;</span><span class="missed">400</span><span class="hit">&lt;/data&gt;</span>
-09: <span class="ignored">    </span><span class="hit">&lt;data value="100"&gt;</span><span class="missed">100</span><span class="hit">&lt;/data&gt;</span>
-10: <span class="ignored">    </span><span class="hit">&lt;data value="300"&gt;</span><span class="missed">300</span><span class="hit">&lt;/data&gt;</span>
-11: <span class="ignored">    </span><span class="hit">&lt;data value="200"&gt;</span><span class="missed">200</span><span class="hit">&lt;/data&gt;</span>
+08: <span class="ignored">    </span><span class="hit">&lt;data value="400"&gt;</span><span class="hit">400</span><span class="hit">&lt;/data&gt;</span>
+09: <span class="ignored">    </span><span class="hit">&lt;data value="100"&gt;</span><span class="hit">100</span><span class="hit">&lt;/data&gt;</span>
+10: <span class="ignored">    </span><span class="hit">&lt;data value="300"&gt;</span><span class="hit">300</span><span class="hit">&lt;/data&gt;</span>
+11: <span class="ignored">    </span><span class="hit">&lt;data value="200"&gt;</span><span class="hit">200</span><span class="hit">&lt;/data&gt;</span>
 12: <span class="ignored">  </span><span class="hit">&lt;/xsl:variable&gt;</span>
 13: <span class="ignored">  </span><span class="ignored">&lt;!-- Sort key --&gt;</span>
-14: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="sortKey"&gt;</span><span class="missed">@value</span><span class="hit">&lt;/xsl:variable&gt;</span>
+14: <span class="ignored">  </span><span class="hit">&lt;xsl:variable name="sortKey"&gt;</span><span class="hit">@value</span><span class="hit">&lt;/xsl:variable&gt;</span>
 15: 
 16: <span class="ignored">   </span><span class="hit">&lt;xsl:template match="xsl-evaluate"&gt;</span>
 17: <span class="ignored">      </span><span class="hit">&lt;root&gt;</span>
@@ -52,7 +52,7 @@
 42: <span class="ignored">                </span><span class="unknown">&lt;xsl:sequence select="$index"/&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
 43: <span class="ignored">              </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 44: <span class="ignored">            </span><span class="hit">&lt;/xsl:with-param&gt;</span>
-45: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="sortKey"&gt;</span><span class="missed">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
+45: <span class="ignored">            </span><span class="hit">&lt;xsl:with-param name="sortKey"&gt;</span><span class="hit">parameter not used in evaluation</span><span class="hit">&lt;/xsl:with-param&gt;</span>
 46: <span class="ignored">          </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
 47: <span class="ignored">        </span><span class="hit">&lt;/xsl:variable&gt;</span>
 48: <span class="ignored">        </span><span class="hit">&lt;node type="evaluate/with-param executed hit"&gt;</span>
