@@ -12,6 +12,7 @@
          <root>
             <node type="message">100</node>
             <node type="message">200</node>
+            <node type="message">300</node>
          </root>
       </x:expect>
    </x:scenario>
@@ -27,15 +28,25 @@
          <x:expect label="Success" test="?err?value => string()"
             select="'Terminating Message: 100'"/>
       </x:scenario>
-      <x:scenario label="Using sequence constructor">
+      <x:scenario label="Using sequence constructor with xsl:text">
          <x:context>
             <root>
-               <xsl-message terminate="sequence constructor"/>
+               <xsl-message terminate="sequence constructor with xsl:text"/>
             </root>
          </x:context>
          <!-- XSpec catches the error and returns a map. -->
          <x:expect label="Success" test="?err?value => string()"
             select="'Terminating Message: 200'"/>
+      </x:scenario>
+      <x:scenario label="Using sequence constructor with text node">
+         <x:context>
+            <root>
+               <xsl-message terminate="sequence constructor with text node"/>
+            </root>
+         </x:context>
+         <!-- XSpec catches the error and returns a map. -->
+         <x:expect label="Success" test="?err?value => string()"
+            select="'Terminating Message: 300'"/>
       </x:scenario>
    </x:scenario>
 </x:description>
