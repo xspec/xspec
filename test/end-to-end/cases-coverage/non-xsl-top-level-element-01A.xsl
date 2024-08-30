@@ -10,7 +10,7 @@
   </xsl:template>
 
   <!-- The non-XSLT element in the template should be missed, not ignored. -->
-  <xsl:template name="unhit">                                                  <!-- Expected miss -->
+  <xsl:template name="unhit-imported">                                         <!-- Expected miss -->
     <non-xsl-element/>                                                         <!-- Expected miss -->
   </xsl:template>                                                              <!-- Expected miss -->
 
