@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xqm"
+               schematron="do-nothing.sch"
+               stylesheet="do-nothing.xsl">
+
+   <!-- Test that x:like ignores @focus on a referenced scenario
+      that does not have shared="yes" -->
+
+   <x:scenario label="Original location">
+      <x:call function="exactly-one">
+         <x:param>execute in original location</x:param>
+      </x:call>
+
+      <!--
+         @focus
+      -->
+      <x:scenario label="x:scenario[@focus] referenced by x:like"
+         focus="@focus">
+         <x:expect label="execute in original location">execute in original location</x:expect>
+      </x:scenario>
+   </x:scenario>
+
+   <!--
+      Reference via x:like in unfocused scenario
+   -->
+   <x:scenario label="x:like location">
+      <x:call function="exactly-one">
+         <x:param>skip at unfocused x:like location</x:param>
+      </x:call>
+      <x:like label="x:scenario[@focus] referenced by x:like"/>
+   </x:scenario>
+</x:description>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xqm"
+               schematron="do-nothing.sch"
+               stylesheet="do-nothing.xsl">
+
+   <x:scenario>
+      <x:label>Test that focused scenarios inherit @expand-text and @catch
+         occurring on pending ancestor scenarios</x:label>
+
+      <!--
+         x:pending
+      -->
+      <x:pending label="x:pending">
+
+         <x:scenario label="x:scenario[parent::x:pending][@expand-text][@catch]"
+            expand-text="yes" catch="yes">
+
+            <x:scenario label="focused scenario inheriting expand-text=yes from pending ancestor scenario"
+                        focus="@focus[ancestor::x:pending]">
+               <x:call function="exactly-one">
+                  <x:param select="9"/>
+               </x:call>
+               <x:expect label="recognizes TVT"
+                         select="number()">{ 3 + 6 }</x:expect>
+            </x:scenario>
+            <x:scenario label="focused scenario inheriting catch=yes from pending ancestor scenario"
+                        focus="@focus[ancestor::x:pending]">
+               <x:call function="error">
+                  <x:param select="xs:QName('my-error-code')" />
+               </x:call>
+               <x:expect label="catches error"
+                         test="$x:result?err instance of map(*)"/>
+            </x:scenario>
+         </x:scenario>
+
+      </x:pending>
+
+      <!--
+         @pending
+      -->
+      <x:scenario label="x:scenario[@pending][@expand-text][@catch]"
+                  pending="x:scenario/@pending"
+                  expand-text="yes" catch="yes">
+
+         <x:scenario label="focused scenario inheriting expand-text=yes from pending ancestor scenario"
+                     focus="@focus[ancestor::x:scenario[@pending]]">
+            <x:call function="exactly-one">
+               <x:param select="9"/>
+            </x:call>
+            <x:expect label="recognizes TVT"
+                      select="number()">{ 3 + 6 }</x:expect>
+         </x:scenario>
+         <x:scenario label="focused scenario inheriting catch=yes from pending ancestor scenario"
+                     focus="@focus[ancestor::x:scenario[@pending]]">
+            <x:call function="error">
+               <x:param select="xs:QName('my-error-code')" />
+            </x:call>
+            <x:expect label="catches error"
+                      test="$x:result?err instance of map(*)"/>
+         </x:scenario>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>
