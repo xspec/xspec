@@ -69,5 +69,45 @@
 			<x:expect-assert id="user-element-expand-text" />
 		</x:scenario>
 	</x:scenario>
+	<x:scenario label="Ineffective pending and focus attributes">
+		<x:context href="schematron/xspec-sch-pending-focus.xspec"/>
+		<x:scenario label="Non-shared scenario">
+			<x:expect-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with pending and focus']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with pending but not focus']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with focus but not pending']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with neither pending nor focus']"/>
+		</x:scenario>
+		<x:scenario label="Shared scenario">
+			<x:scenario label="with both @focus and @pending">
+				<x:expect-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending and focus']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					label="(sch:rule for @focus shadows the one for @pending)"
+					location="//x:scenario[@label eq 'Shared scenario with pending and focus']"/>
+			</x:scenario>
+			<x:scenario label="with only @pending, not @focus">
+				<x:expect-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending but not focus']"/>
+				<x:expect-not-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending but not focus']"/>
+			</x:scenario>
+			<x:scenario label="with only @focus, not @pending">
+				<x:expect-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with focus but not pending']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with focus but not pending']"/>
+			</x:scenario>
+			<x:scenario label="with neither @focus nor @pending">
+				<x:expect-not-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with neither pending nor focus']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with neither pending nor focus']"/>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
 
 </x:description>
