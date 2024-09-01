@@ -348,17 +348,7 @@
             select="accumulator-before('module-id-for-node')"/>
          <xsl:variable name="hits" as="element(hit)*"
             select="local:hits-on-line-column($module-id, x:line-number(.), x:column-number(.))" />
-         <xsl:variable name="node-uqname" as="xs:string?" select="x:node-UQName(.)" />
-         <xsl:for-each select="$hits">
-            <xsl:variable name="hit-traceable-uqname" as="xs:string?"
-               select="exactly-one(key('traceables', @traceableId, $trace))/@uqname" />
-            <xsl:variable name="hit-traceable-class" as="xs:string?"
-               select="exactly-one(key('traceables', @traceableId, $trace))/@class" />
-            <xsl:if test="($node-uqname eq $hit-traceable-uqname) or
-                          exists($hit-traceable-class)">
-               <xsl:sequence select="." />
-            </xsl:if>
-         </xsl:for-each>
+         <xsl:sequence select="$hits" />
       </xsl:for-each>
    </xsl:function>
 
