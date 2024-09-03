@@ -16,9 +16,9 @@
 			* Update the changelog in xt:description
 		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/d8e9d6fd1eca26793a84bc77753a32593d5ad1b3.zip" />
+			href="https://github.com/xspec/xspec/archive/40905241867859b1c2def70251d61da69254873b.zip" />
 
-		<xt:version>3.0.3</xt:version>
+		<xt:version>3.1.1</xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.
