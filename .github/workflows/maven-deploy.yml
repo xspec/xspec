@@ -30,7 +30,7 @@ jobs:
           server-username: NEXUS_USERNAME
           server-password: NEXUS_PASSWORD
 
-      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
+      - run: mvn clean verify --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
           NEXUS_USERNAME: ${{ secrets.nexus_username }}
           NEXUS_PASSWORD: ${{ secrets.nexus_password }}
