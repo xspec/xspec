@@ -17,6 +17,11 @@ jobs:
 
       - run: gpg --version
 
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+
       - uses: actions/setup-java@v4
         with:
           java-version: 8
@@ -25,7 +30,10 @@ jobs:
           server-username: NEXUS_USERNAME
           server-password: NEXUS_PASSWORD
 
-      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
+      - name: Check Maven and Java versions
+        run: mvn -v
+
+      - run: mvn clean verify --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
           NEXUS_USERNAME: ${{ secrets.nexus_username }}
           NEXUS_PASSWORD: ${{ secrets.nexus_password }}
