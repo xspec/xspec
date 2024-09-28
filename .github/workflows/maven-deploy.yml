@@ -33,7 +33,7 @@ jobs:
       - name: Check Maven and Java versions
         run: mvn -v
 
-      - run: mvn clean verify --batch-mode --activate-profiles release -Dgpg.signer=bc
+      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
           NEXUS_USERNAME: ${{ secrets.nexus_username }}
           NEXUS_PASSWORD: ${{ secrets.nexus_password }}
