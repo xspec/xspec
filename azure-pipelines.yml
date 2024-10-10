@@ -29,10 +29,10 @@ jobs:
 
     steps:
       - task: JavaToolInstaller@0
-          inputs:
-            versionSpec: '8'
-            jdkArchitectureOption: 'x64'
-            jdkSourceOption: 'PreInstalled'
+        inputs:
+          versionSpec: '8'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'PreInstalled'
       - script: >
           source test/ci/npm-ci.sh
           && source test/ci/install-deps.sh
