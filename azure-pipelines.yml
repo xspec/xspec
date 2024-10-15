@@ -28,6 +28,11 @@ jobs:
       XSPEC_TEST_ENV: saxon-12
 
     steps:
+      - task: JavaToolInstaller@0
+        inputs:
+          versionSpec: '8'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'PreInstalled'
       - script: >
           source test/ci/npm-ci.sh
           && source test/ci/install-deps.sh
