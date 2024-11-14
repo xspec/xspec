@@ -218,9 +218,13 @@
                 <!-- Global variables effectively follow the Use Trace Data rule. -->
                 <xsl:sequence select="'missed'"/>
             </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="following-sibling::*[not(self::XSLT:variable)]">
                 <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
                     mode="#current"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Local variable with no following siblings except other local variables -->
+                <xsl:sequence select="'missed'"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
