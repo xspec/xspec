@@ -64,10 +64,12 @@
       </xsl:call-template>
     </xsl:variable>
 
-    <xsl:variable name="version" as="element(rdf:Description)">
+    <xsl:variable name="version" as="element(rdf:Description)?">
+      <xsl:if test="$schxslt.compile.metadata">
       <xsl:call-template name="schxslt:version">
         <xsl:with-param name="xslt-version" as="xs:string" tunnel="yes" select="$xslt-version"/>
       </xsl:call-template>
+      </xsl:if>
     </xsl:variable>
 
     <transform version="{$xslt-version}">
