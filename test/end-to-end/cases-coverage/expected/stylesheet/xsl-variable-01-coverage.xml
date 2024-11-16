@@ -16,63 +16,68 @@
    <hit lineNumber="51" columnNumber="62" moduleId="0" traceableId="1"/>
    <hit lineNumber="55" columnNumber="79" moduleId="0" traceableId="1"/>
    <hit lineNumber="57" columnNumber="61" moduleId="0" traceableId="1"/>
-   <hit lineNumber="58" columnNumber="11" moduleId="0" traceableId="1"/>
-   <traceable traceableId="2" class="net.sf.saxon.expr.instruct.FixedElement"/>
-   <hit lineNumber="58" columnNumber="11" moduleId="0" traceableId="2"/>
-   <hit lineNumber="60" columnNumber="38" moduleId="0" traceableId="2"/>
+   <traceable traceableId="2" class="net.sf.saxon.expr.instruct.Block"/>
+   <hit lineNumber="59" columnNumber="17" moduleId="0" traceableId="2"/>
    <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
+   <hit lineNumber="59" columnNumber="17" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="106" columnNumber="11" moduleId="0" traceableId="4"/>
+   <hit lineNumber="108" columnNumber="38" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5"
               class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
-   <hit lineNumber="60" columnNumber="38" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4"
+   <hit lineNumber="108" columnNumber="38" moduleId="0" traceableId="5"/>
+   <traceable traceableId="6"
               class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}value-of"/>
-   <hit lineNumber="61" columnNumber="58" moduleId="0" traceableId="4"/>
-   <traceable traceableId="5"
+   <hit lineNumber="109" columnNumber="58" moduleId="0" traceableId="6"/>
+   <traceable traceableId="7"
               class="net.sf.saxon.expr.instruct.GlobalVariable"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}variable"/>
-   <hit lineNumber="7" columnNumber="70" moduleId="0" traceableId="5"/>
-   <hit lineNumber="64" columnNumber="38" moduleId="0" traceableId="2"/>
-   <hit lineNumber="64" columnNumber="38" moduleId="0" traceableId="3"/>
-   <hit lineNumber="65" columnNumber="59" moduleId="0" traceableId="4"/>
-   <hit lineNumber="8" columnNumber="48" moduleId="0" traceableId="5"/>
+   <hit lineNumber="7" columnNumber="70" moduleId="0" traceableId="7"/>
+   <hit lineNumber="112" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="112" columnNumber="38" moduleId="0" traceableId="5"/>
+   <hit lineNumber="113" columnNumber="59" moduleId="0" traceableId="6"/>
+   <hit lineNumber="8" columnNumber="48" moduleId="0" traceableId="7"/>
    <hit lineNumber="9" columnNumber="15" moduleId="0" traceableId="1"/>
-   <hit lineNumber="9" columnNumber="15" moduleId="0" traceableId="4"/>
-   <hit lineNumber="10" columnNumber="14" moduleId="0" traceableId="2"/>
+   <hit lineNumber="9" columnNumber="15" moduleId="0" traceableId="6"/>
    <hit lineNumber="10" columnNumber="14" moduleId="0" traceableId="4"/>
-   <hit lineNumber="68" columnNumber="38" moduleId="0" traceableId="2"/>
-   <hit lineNumber="68" columnNumber="38" moduleId="0" traceableId="3"/>
-   <hit lineNumber="69" columnNumber="54" moduleId="0" traceableId="4"/>
-   <hit lineNumber="12" columnNumber="55" moduleId="0" traceableId="5"/>
+   <hit lineNumber="10" columnNumber="14" moduleId="0" traceableId="6"/>
+   <hit lineNumber="116" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="116" columnNumber="38" moduleId="0" traceableId="5"/>
+   <hit lineNumber="117" columnNumber="54" moduleId="0" traceableId="6"/>
+   <hit lineNumber="12" columnNumber="55" moduleId="0" traceableId="7"/>
    <hit lineNumber="13" columnNumber="15" moduleId="0" traceableId="1"/>
-   <hit lineNumber="72" columnNumber="38" moduleId="0" traceableId="2"/>
-   <hit lineNumber="72" columnNumber="38" moduleId="0" traceableId="3"/>
-   <hit lineNumber="73" columnNumber="72" moduleId="0" traceableId="4"/>
-   <hit lineNumber="15" columnNumber="72" moduleId="0" traceableId="5"/>
-   <hit lineNumber="76" columnNumber="38" moduleId="0" traceableId="2"/>
-   <hit lineNumber="76" columnNumber="38" moduleId="0" traceableId="3"/>
-   <hit lineNumber="77" columnNumber="70" moduleId="0" traceableId="4"/>
-   <hit lineNumber="16" columnNumber="54" moduleId="0" traceableId="5"/>
-   <hit lineNumber="80" columnNumber="37" moduleId="0" traceableId="2"/>
-   <hit lineNumber="80" columnNumber="37" moduleId="0" traceableId="3"/>
-   <hit lineNumber="81" columnNumber="57" moduleId="0" traceableId="4"/>
-   <hit lineNumber="84" columnNumber="37" moduleId="0" traceableId="2"/>
-   <hit lineNumber="84" columnNumber="37" moduleId="0" traceableId="3"/>
-   <hit lineNumber="85" columnNumber="58" moduleId="0" traceableId="4"/>
+   <hit lineNumber="120" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="120" columnNumber="38" moduleId="0" traceableId="5"/>
+   <hit lineNumber="121" columnNumber="72" moduleId="0" traceableId="6"/>
+   <hit lineNumber="15" columnNumber="72" moduleId="0" traceableId="7"/>
+   <hit lineNumber="124" columnNumber="38" moduleId="0" traceableId="4"/>
+   <hit lineNumber="124" columnNumber="38" moduleId="0" traceableId="5"/>
+   <hit lineNumber="125" columnNumber="70" moduleId="0" traceableId="6"/>
+   <hit lineNumber="16" columnNumber="54" moduleId="0" traceableId="7"/>
+   <hit lineNumber="128" columnNumber="37" moduleId="0" traceableId="4"/>
+   <hit lineNumber="128" columnNumber="37" moduleId="0" traceableId="5"/>
+   <hit lineNumber="129" columnNumber="57" moduleId="0" traceableId="6"/>
+   <hit lineNumber="132" columnNumber="37" moduleId="0" traceableId="4"/>
+   <hit lineNumber="132" columnNumber="37" moduleId="0" traceableId="5"/>
+   <hit lineNumber="133" columnNumber="58" moduleId="0" traceableId="6"/>
    <hit lineNumber="35" columnNumber="17" moduleId="0" traceableId="1"/>
-   <hit lineNumber="35" columnNumber="17" moduleId="0" traceableId="4"/>
-   <hit lineNumber="36" columnNumber="16" moduleId="0" traceableId="2"/>
+   <hit lineNumber="35" columnNumber="17" moduleId="0" traceableId="6"/>
    <hit lineNumber="36" columnNumber="16" moduleId="0" traceableId="4"/>
-   <hit lineNumber="88" columnNumber="37" moduleId="0" traceableId="2"/>
-   <hit lineNumber="88" columnNumber="37" moduleId="0" traceableId="3"/>
-   <hit lineNumber="89" columnNumber="53" moduleId="0" traceableId="4"/>
+   <hit lineNumber="36" columnNumber="16" moduleId="0" traceableId="6"/>
+   <hit lineNumber="136" columnNumber="37" moduleId="0" traceableId="4"/>
+   <hit lineNumber="136" columnNumber="37" moduleId="0" traceableId="5"/>
+   <hit lineNumber="137" columnNumber="53" moduleId="0" traceableId="6"/>
    <hit lineNumber="39" columnNumber="17" moduleId="0" traceableId="1"/>
-   <hit lineNumber="92" columnNumber="37" moduleId="0" traceableId="2"/>
-   <hit lineNumber="92" columnNumber="37" moduleId="0" traceableId="3"/>
-   <hit lineNumber="93" columnNumber="71" moduleId="0" traceableId="4"/>
-   <hit lineNumber="96" columnNumber="37" moduleId="0" traceableId="2"/>
-   <hit lineNumber="96" columnNumber="37" moduleId="0" traceableId="3"/>
-   <hit lineNumber="97" columnNumber="69" moduleId="0" traceableId="4"/>
+   <hit lineNumber="140" columnNumber="37" moduleId="0" traceableId="4"/>
+   <hit lineNumber="140" columnNumber="37" moduleId="0" traceableId="5"/>
+   <hit lineNumber="141" columnNumber="71" moduleId="0" traceableId="6"/>
+   <hit lineNumber="144" columnNumber="37" moduleId="0" traceableId="4"/>
+   <hit lineNumber="144" columnNumber="37" moduleId="0" traceableId="5"/>
+   <hit lineNumber="145" columnNumber="69" moduleId="0" traceableId="6"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
