@@ -13,7 +13,7 @@
         is in the trace. Other logic builds upon this information. -->
     <xsl:accumulator name="category-based-on-trace-data" as="xs:string*" initial-value="()">
         <xsl:accumulator-rule match="element() | text()">
-            <xsl:variable name="hits-on-node"
+            <xsl:variable name="hits-on-node" as="element(hit)*"
                 select="local:hits-on-node(.)"/>
             <xsl:choose>
                 <xsl:when test="exists($hits-on-node)">
@@ -327,7 +327,7 @@
 
     <!-- Low-priority fallback template rule -->
     <xsl:template match="node()" mode="untraceable-in-instruction"
-        priority="-10">
+        as="xs:string" priority="-10">
         <xsl:sequence select="'traceable executable'"/>
     </xsl:template>
 
@@ -366,7 +366,8 @@
         | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"
-        mode="untraceable-in-instruction">
+        mode="untraceable-in-instruction"
+        as="xs:string">
         <!--
             Some of the elements listed in the match attribute are not strictly needed
             in order to achieve the caller's objective, because the elements have a
