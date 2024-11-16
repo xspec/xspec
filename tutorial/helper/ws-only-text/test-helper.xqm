@@ -1,8 +1,5 @@
 module namespace test-helper = "x-urn:tutorial:helper:ws-only-text:test-helper";
 
-import module namespace x = "http://www.jenitennison.com/xslt/xspec"
-at "../../../src/common/common-utils.xqm";
-
 (:
 	This test helper function just removes whitespace-only text nodes from the input node.
 	All the other nodes are kept intact.
@@ -22,7 +19,8 @@ as node()?
 		case element()
 			return
 				element {node-name($node)} {
-					x:copy-of-additional-namespaces($node),
+					in-scope-prefixes($node)[. ne 'xml'] !
+					namespace {.} {namespace-uri-for-prefix(., $node)},
 					$node/attribute(),
 					$node/node() ! test-helper:remove-whitespace-only-text(.)
 				}
