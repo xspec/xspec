@@ -3,6 +3,8 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+	<!-- This file runs as a test and is also referenced in transform-options.xspec -->
+
 	<x:param name="A" static="yes" as="xs:integer" select="-1"/>
 
 	<x:scenario label="Destination templates have @use-when depending on static parameter values">
@@ -12,8 +14,11 @@
 				<x:expect label="String about negative $A and 0 for $B"
 					select="('$A is negative', 0)"/>
 			</x:scenario>
-			<x:scenario label="independent scenario-level static param $B">
-				<x:param name="B" static="yes" as="xs:integer" select="-2"/>
+			<x:scenario label="independent scenario-level static param $B" xml:id="inh-A-local-B">
+				<!-- xml:id and myp:default are for use in transform-options.xspec -->
+				<x:param name="B" static="true" as="xs:integer" select="-2"/>
+				<x:param name="myp:default" static="0" select="()"
+					xmlns:myp="http://example.org/ns/my/param"/>
 				<x:expect label="Strings about negative $A and $B"
 					select="('$A is negative', '$B is negative')"/>
 			</x:scenario>

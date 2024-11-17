@@ -5,6 +5,8 @@
 
 	<xsl:param name="A" static="yes" as="xs:integer" select="0"/>
 	<xsl:param name="B" static="yes" as="xs:integer" select="0"/>
+	<xsl:param name="myp:default" static="no"
+		xmlns:myp="http://example.org/ns/my/param"/>
 
 	<xsl:template name="process-A-and-B">
 		<xsl:context-item use="absent"/>
