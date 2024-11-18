@@ -13,7 +13,7 @@
         is in the trace. Other logic builds upon this information. -->
     <xsl:accumulator name="category-based-on-trace-data" as="xs:string*" initial-value="()">
         <xsl:accumulator-rule match="element() | text()">
-            <xsl:variable name="hits-on-node"
+            <xsl:variable name="hits-on-node" as="element(hit)*"
                 select="local:hits-on-node(.)"/>
             <xsl:choose>
                 <xsl:when test="exists($hits-on-node)">
@@ -218,9 +218,13 @@
                 <!-- Global variables effectively follow the Use Trace Data rule. -->
                 <xsl:sequence select="'missed'"/>
             </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="following-sibling::*[not(self::XSLT:variable)]">
                 <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
                     mode="#current"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Local variable with no following siblings except other local variables -->
+                <xsl:sequence select="'missed'"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -323,7 +327,7 @@
 
     <!-- Low-priority fallback template rule -->
     <xsl:template match="node()" mode="untraceable-in-instruction"
-        priority="-10">
+        as="xs:string" priority="-10">
         <xsl:sequence select="'traceable executable'"/>
     </xsl:template>
 
@@ -362,7 +366,8 @@
         | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"
-        mode="untraceable-in-instruction">
+        mode="untraceable-in-instruction"
+        as="xs:string">
         <!--
             Some of the elements listed in the match attribute are not strictly needed
             in order to achieve the caller's objective, because the elements have a

@@ -7,7 +7,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-variable-01.xsl">xsl-variable-01.xsl</a></p>
-      <h2>module: xsl-variable-01.xsl; 101 lines</h2>
+      <h2>module: xsl-variable-01.xsl; 149 lines</h2>
       <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
@@ -65,49 +65,97 @@
 055: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /&gt;</span><span class="ignored"> </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
 056: <span class="ignored">    </span><span class="ignored">&lt;!-- Not used --&gt;</span>
 057: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="variableLocalEmptyStringUnused01" /&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-058: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-059: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
-060: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-061: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalSelect01" /&gt;</span>
-062: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-063: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
-064: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-065: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalDocNode01" /&gt;</span>
-066: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-067: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
-068: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-069: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalAs01" /&gt;</span>
-070: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-071: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
-072: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-073: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptySequence01)" /&gt;</span>
-074: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-075: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
-076: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-077: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptyString01)" /&gt;</span>
-078: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-079: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
-080: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-081: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalSelect01" /&gt;</span>
-082: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-083: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
-084: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-085: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalDocNode01" /&gt;</span>
-086: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-087: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
-088: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-089: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalAs01" /&gt;</span>
-090: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-091: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
-092: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-093: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptySequence01)" /&gt;</span>
-094: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-095: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
-096: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-097: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptyString01)" /&gt;</span>
-098: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-099: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-100: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-101: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+058: 
+059: <span class="ignored">    </span><span class="hit">&lt;xsl:choose&gt;</span>
+060: <span class="ignored">      </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+061: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+062: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalSelectNoEffect01" select="string(1600)" /&gt;</span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+063: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+064: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeNoEffect01"&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+065: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">170</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+066: <span class="ignored">          </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+067: <span class="ignored">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+068: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+069: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalasNoEffect01" as="text()"&gt;</span><span class="ignored">            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+070: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+071: <span class="ignored">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+072: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+073: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceNoEffect01" as="element()?" /&gt;</span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+074: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+075: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringNoEffect01" /&gt;</span><span class="ignored">             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+076: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings; warning from Saxon --&gt;</span>
+077: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalSeq" as="item()+"</span>
+078: <span class="missed">          select="($variableLocalSelectNoEffect01, $variableLocalDocNodeNoEffect01,</span>
+079: <span class="missed">          $variableLocalasNoEffect01, $variableLocalEmptySequenceNoEffect01,</span>
+080: <span class="missed">          $variableLocalEmptyStringNoEffect01)"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+081: <span class="ignored">      </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+082: <span class="ignored">      </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+083: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+084: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalSelectNoEffect02" select="string(1600)" /&gt;</span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+085: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+086: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeNoEffect02"&gt;</span><span class="ignored">                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+087: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">170</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+088: <span class="ignored">          </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+089: <span class="ignored">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+090: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+091: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalasNoEffect02" as="text()"&gt;</span><span class="ignored">            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+092: <span class="ignored">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+093: <span class="ignored">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+094: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+095: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceNoEffect02" as="element()?" /&gt;</span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+096: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings --&gt;</span>
+097: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringNoEffect02" /&gt;</span><span class="ignored">             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+098: <span class="ignored">        </span><span class="ignored">&lt;!-- No relevant following siblings; warning from Saxon --&gt;</span>
+099: <span class="ignored">        </span><span class="missed">&lt;xsl:variable name="variableLocalSeq" as="item()+"</span>
+100: <span class="missed">          select="($variableLocalSelectNoEffect02, $variableLocalDocNodeNoEffect02,</span>
+101: <span class="missed">          $variableLocalasNoEffect02, $variableLocalEmptySequenceNoEffect02,</span>
+102: <span class="missed">          $variableLocalEmptyStringNoEffect02)"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+103: <span class="ignored">      </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
+104: <span class="ignored">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
+105: 
+106: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
+107: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
+108: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+109: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalSelect01" /&gt;</span>
+110: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+111: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
+112: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+113: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalDocNode01" /&gt;</span>
+114: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+115: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
+116: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+117: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalAs01" /&gt;</span>
+118: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+119: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
+120: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+121: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptySequence01)" /&gt;</span>
+122: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+123: <span class="ignored">      </span><span class="ignored">&lt;!-- Global variable used --&gt;</span>
+124: <span class="ignored">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+125: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptyString01)" /&gt;</span>
+126: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+127: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
+128: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+129: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalSelect01" /&gt;</span>
+130: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+131: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
+132: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+133: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalDocNode01" /&gt;</span>
+134: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+135: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
+136: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+137: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalAs01" /&gt;</span>
+138: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+139: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
+140: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+141: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptySequence01)" /&gt;</span>
+142: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+143: <span class="ignored">      </span><span class="ignored">&lt;!-- Local variable used --&gt;</span>
+144: <span class="ignored">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+145: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptyString01)" /&gt;</span>
+146: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
+147: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
+148: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+149: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>
