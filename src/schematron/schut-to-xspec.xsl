@@ -86,7 +86,7 @@
     -->
 
     <!-- The "skeleton" Schematron implementation requires a document node -->
-    <xsl:template match="x:context[not(@href)][
+    <xsl:template match="x:context[
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
         parent::*/x:expect-valid | ancestor::x:description[@schematron] ]"
@@ -94,22 +94,27 @@
         mode="x:gather-specs">
         <xsl:copy>
             <xsl:apply-templates select="attribute()" mode="#current" />
-            <xsl:attribute name="select">
-                <xsl:choose>
-                    <xsl:when test="@select">
-                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('x:wrappable-sequence')}())</xsl:text>
-                        <xsl:text expand-text="yes"> then {x:known-UQName('x:wrap-nodes')}(({@select}))</xsl:text>
+            <xsl:where-populated>
+                <xsl:attribute name="select">
+                    <xsl:choose>
+                        <xsl:when test="@select">
+                            <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('x:wrappable-sequence')}())</xsl:text>
+                            <xsl:text expand-text="yes"> then {x:known-UQName('x:wrap-nodes')}(({@select}))</xsl:text>
 
-                        <!-- Some Schematron implementations might possibly be able to handle
-                            non-document nodes. Just generate a warning and pass @select as is. -->
-                        <xsl:text expand-text="yes"> else trace(({@select}), 'WARNING: Failed to wrap {name()}/@select')</xsl:text>
-                    </xsl:when>
+                            <!-- Some Schematron implementations might possibly be able to handle
+                                non-document nodes. Just generate a warning and pass @select as is. -->
+                            <xsl:text expand-text="yes"> else trace(({@select}), 'WARNING: Failed to wrap {name()}/@select')</xsl:text>
+                        </xsl:when>
 
-                    <xsl:otherwise>
-                        <xsl:text>self::document-node()</xsl:text>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:attribute>
+                        <xsl:when test="not(@href)">
+                            <xsl:text>self::document-node()</xsl:text>
+                        </xsl:when>
+
+                        <!-- If x:context has @href but no @select, no need to construct @select in output,
+                            so xsl:otherwise is omitted and xsl:where-populated produces nothing. -->
+                    </xsl:choose>
+                </xsl:attribute>
+            </xsl:where-populated>
 
             <xsl:apply-templates select="node()" mode="#current" />
         </xsl:copy>
