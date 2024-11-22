@@ -16,6 +16,8 @@
 			<!-- Contains invalid /x:description/@original-xspec deliberately
 				https://github.com/xspec/xspec/issues/176 -->
 			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
+			<exclude name="test/schematron/schut-to-xspec-007-select-out.xspec" />
+			<exclude name="test/schematron/schut-to-xspec-008-select-out.xspec" />
 
 			<!-- Tests x:* which is not allowed in user-content -->
 			<exclude name="test/obsolete-space/test.xspec" />
