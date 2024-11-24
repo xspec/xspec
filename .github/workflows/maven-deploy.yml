@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - v3.1.3-release
 
 jobs:
   maven-deploy:
