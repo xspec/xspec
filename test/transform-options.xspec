@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/compiler/compile-xslt-tests.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:XSLT="http://www.w3.org/1999/XSL/Transform">
+
+	<!-- This test file doesn't verify all aspects of x:transform-options but
+		aims to sanity-check the assignment of static and non-static parameters
+		to the correct map entries in the map of transform options. -->
+
+	<x:scenario>
+		<x:label>Scenario with global static param, scenario-level static param,
+			and scenario-level non-static param</x:label>
+		<x:context href="external_scenario-param-static-use-when.xspec"
+			select="exactly-one(/x:description//x:scenario[@xml:id = 'inh-A-local-B'])"/>
+		<x:call template="x:transform-options">
+			<x:param name="invocation-type" as="xs:string" select="'call-template'"/>
+			<x:param name="call" as="element(x:call)?" tunnel="yes"
+				href="external_scenario-param-static-use-when.xspec"
+				select="/x:description/x:scenario[1]/x:call" />
+			<x:param name="context" as="element(x:context)?" tunnel="yes" select="()" />
+		</x:call>
+		<x:expect label="Map of transform options includes A and B as static parameters"
+			test="XSLT:variable/XSLT:map/XSLT:map-entry[@key='''static-params''']">
+			<XSLT:map-entry key="'static-params'">
+				<XSLT:map>
+					<XSLT:map-entry key="QName('', 'A')" select="$Q{{}}A" />
+					<XSLT:map-entry key="QName('', 'B')" select="$Q{{}}B" />
+				</XSLT:map>
+			</XSLT:map-entry>
+		</x:expect>
+		<x:expect label="and myp:default as non-static stylesheet parameter"
+			test="XSLT:variable/XSLT:map/XSLT:map-entry[@key='''stylesheet-params''']">
+			<XSLT:map-entry key="'stylesheet-params'">
+				<XSLT:map>
+					<XSLT:map-entry key="QName('http://example.org/ns/my/param', 'myp:default')"
+						select="$Q{{http://example.org/ns/my/param}}default" />
+				</XSLT:map>
+			</XSLT:map-entry>			
+		</x:expect>
+	</x:scenario>
+</x:description>
