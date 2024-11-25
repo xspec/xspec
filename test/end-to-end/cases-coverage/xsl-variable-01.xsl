@@ -55,6 +55,54 @@
     <xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /> <!-- Expected miss -->
     <!-- Not used -->
     <xsl:variable name="variableLocalEmptyStringUnused01" />                   <!-- Expected miss -->
+
+    <xsl:choose>
+      <xsl:when test="1 eq 2">                                                 <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalSelectNoEffect01" select="string(1600)" /><!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalDocNodeNoEffect01">                   <!-- Expected miss -->
+          <xsl:text>170</xsl:text>                                             <!-- Expected miss -->
+          <element>0</element>                                                 <!-- Expected miss -->
+        </xsl:variable>                                                        <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalasNoEffect01" as="text()">            <!-- Expected miss -->
+          <xsl:text>1700</xsl:text>                                            <!-- Expected miss -->
+        </xsl:variable>                                                        <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalEmptySequenceNoEffect01" as="element()?" /><!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalEmptyStringNoEffect01" />             <!-- Expected miss -->
+        <!-- No relevant following siblings; warning from Saxon -->
+        <xsl:variable name="variableLocalSeq" as="item()+"
+          select="($variableLocalSelectNoEffect01, $variableLocalDocNodeNoEffect01,
+          $variableLocalasNoEffect01, $variableLocalEmptySequenceNoEffect01,
+          $variableLocalEmptyStringNoEffect01)"/>                              <!-- Expected miss -->
+      </xsl:when>                                                              <!-- Expected miss -->
+      <xsl:otherwise>                                                          <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalSelectNoEffect02" select="string(1600)" /><!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalDocNodeNoEffect02">                   <!-- Expected miss -->
+          <xsl:text>170</xsl:text>                                             <!-- Expected miss -->
+          <element>0</element>                                                 <!-- Expected miss -->
+        </xsl:variable>                                                        <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalasNoEffect02" as="text()">            <!-- Expected miss -->
+          <xsl:text>1700</xsl:text>                                            <!-- Expected miss -->
+        </xsl:variable>                                                        <!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalEmptySequenceNoEffect02" as="element()?" /><!-- Expected miss -->
+        <!-- No relevant following siblings -->
+        <xsl:variable name="variableLocalEmptyStringNoEffect02" />             <!-- Expected miss -->
+        <!-- No relevant following siblings; warning from Saxon -->
+        <xsl:variable name="variableLocalSeq" as="item()+"
+          select="($variableLocalSelectNoEffect02, $variableLocalDocNodeNoEffect02,
+          $variableLocalasNoEffect02, $variableLocalEmptySequenceNoEffect02,
+          $variableLocalEmptyStringNoEffect02)"/>                              <!-- Expected miss -->
+      </xsl:otherwise>                                                         <!-- Expected miss -->
+    </xsl:choose>
+
     <root>
       <!-- Global variable used -->
       <node type="variable - global">
