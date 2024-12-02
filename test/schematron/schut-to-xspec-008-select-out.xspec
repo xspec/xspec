@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             original-xspec="%TEST_BASE%/schematron/schut-to-xspec-008-select-in.xspec"
+             stylesheet="schut-to-xspec-test.sch.xsl">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-008-select-in.xspec"
+               label="Schematron test scenario">
+      <x:context select="if ((child) => Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence()) then Q{http://www.jenitennison.com/xslt/xspec}wrap-nodes((child)) else trace((child), 'WARNING: Failed to wrap x:context/@select')">
+         <snippet>
+            <child/>
+         </snippet>
+      </x:context>
+   </x:scenario>
+</description>

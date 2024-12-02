@@ -17,6 +17,20 @@
 		<x:expect-report id="context-grandchild-fired" />
 	</x:scenario>
 
+	<x:scenario label="//x:context[@href][@select]">
+		<x:context href="issue-547.xml"
+			select="
+				context-child/context-grandchild,
+
+			(: Additional (but effectively empty) expression for testing @select with a bit complex expression :)
+			bogus"/>
+		<x:expect-not-report id="context-child-fired" />
+		<x:expect-report id="context-grandchild-fired" />
+		<x:expect label="Base URI of the context is populated" test="base-uri($x:context) ne ''"/>
+		<x:expect label="but is not the original href (consider it undefined as in embedded case)"
+			test="not(contains(base-uri($x:context), 'issue-547.xml'))"/>
+	</x:scenario>
+
 	<x:scenario label="//x:context[not(@href)][not(@select)]">
 		<x:context>
 			<context-child>
