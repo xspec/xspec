@@ -76,14 +76,26 @@
 
         | XSLT:output-character
 
-        | text()[normalize-space() = '' and not(parent::XSLT:text)]
         | processing-instruction()
-        | comment()
         | document-node()"
         mode="coverage"
         as="xs:string"
         priority="30">
         <xsl:sequence select="'ignored'"/>
+    </xsl:template>
+
+    <xsl:template match="text()[normalize-space() = '' and not(parent::XSLT:text)]"
+        mode="coverage"
+        as="xs:string"
+        priority="30">
+        <xsl:sequence select="'whitespace'"/>
+    </xsl:template>
+
+    <xsl:template match="comment()"
+        mode="coverage"
+        as="xs:string"
+        priority="30">
+        <xsl:sequence select="'comment'"/>
     </xsl:template>
 
     <!-- A node within a top-level non-XSLT element -->
