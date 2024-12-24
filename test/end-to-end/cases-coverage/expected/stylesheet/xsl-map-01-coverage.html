@@ -8,131 +8,131 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-map-01.xsl">xsl-map-01.xsl</a></p>
       <h2>module: xsl-map-01.xsl; 126 lines</h2>
-      <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
 003: <span class="ignored">                xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
 004: <span class="ignored">                xmlns:myns="myNamespace"&gt;</span>
-005: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-006: <span class="ignored">      xsl:map Coverage Test Case (includes xsl:map-entry)</span>
-007: <span class="ignored">  --&gt;</span>
+005: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+006: <span class="comment">      xsl:map Coverage Test Case (includes xsl:map-entry)</span>
+007: <span class="comment">  --&gt;</span>
 008: 
-009: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-map"&gt;</span>
-010: <span class="ignored">    </span><span class="ignored">&lt;!-- Map construction, including xsl:map-entry --&gt;</span>
-011: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="hundreds-param" as="map(xs:string, item())"&gt;</span>
-012: <span class="ignored">      </span><span class="hit">&lt;xsl:map&gt;</span>
-013: <span class="ignored">        </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
-014: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-015: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-016: <span class="ignored">        </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
-017: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-018: <span class="ignored">          </span><span class="ignored">&lt;!-- Combination of xsl:for-each and xsl:text is to make both</span>
-019: <span class="ignored">            Saxon 12.4 and 12.5 trace some descendant of xsl:map, to</span>
-020: <span class="ignored">            illustrate the Use Descendant Data rule. --&gt;</span>
-021: <span class="ignored">          </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
-022: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
-023: <span class="ignored">          </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-024: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-025: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-026: <span class="ignored">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-027: <span class="ignored">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
-028: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
-029: <span class="ignored">    </span><span class="hit">&lt;/xsl:param&gt;</span>
-030: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="hundreds-variable" as="map(xs:string, item())"&gt;</span>
-031: <span class="ignored">      </span><span class="hit">&lt;xsl:map&gt;</span>
-032: <span class="ignored">        </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
-033: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-034: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-035: <span class="ignored">        </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
-036: <span class="ignored">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-037: <span class="ignored">          </span><span class="hit">&lt;xsl:sequence&gt;</span>
-038: <span class="ignored">            </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
-039: <span class="ignored">              </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
-040: <span class="ignored">            </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-041: <span class="ignored">          </span><span class="hit">&lt;/xsl:sequence&gt;</span>
-042: <span class="ignored">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-043: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-044: <span class="ignored">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-045: <span class="ignored">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
-046: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
-047: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-048: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map with child that is not xsl:map-entry --&gt;</span>
-049: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)"&gt;</span>
-050: <span class="ignored">      </span><span class="hit">&lt;xsl:map&gt;</span>
-051: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="1 to 5"&gt;</span>
-052: <span class="ignored">          </span><span class="unknown">&lt;xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/&gt;</span><span class="ignored">  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-053: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-054: <span class="ignored">      </span><span class="hit">&lt;/xsl:map&gt;</span>
-055: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-056: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. --&gt;</span>
-057: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)"&gt;</span>
-058: <span class="ignored">      </span><span class="unknown">&lt;xsl:map&gt;</span><span class="ignored">                                                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-059: <span class="ignored">        </span><span class="unknown">&lt;xsl:map-entry key="'Seven'" select="xs:decimal(700)" /&gt;</span><span class="ignored">               </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-060: <span class="ignored">      </span><span class="unknown">&lt;/xsl:map&gt;</span><span class="ignored">                                                               </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-061: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-062: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map-entry not inside a xsl:map. Using select attribute --&gt;</span>
-063: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="map-entry-variable01" as="map(xs:string, item())"&gt;</span>
-064: <span class="ignored">      </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-065: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-066: <span class="ignored">    </span><span class="ignored">&lt;!-- xsl:map-entry not inside a xsl:map. Using sequence constructor --&gt;</span>
-067: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="map-entry-variable02" as="map(xs:string, item())"&gt;</span>
-068: <span class="ignored">      </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-069: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
-070: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
-071: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-072: <span class="ignored">      </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-073: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-074: <span class="ignored">    </span><span class="ignored">&lt;!-- Use xsl:map values --&gt;</span>
-075: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-076: <span class="ignored">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
-077: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('One')" /&gt;</span>
-078: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-079: <span class="ignored">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
-080: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('Three')" /&gt;</span>
-081: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-082: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
-083: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('One')" /&gt;</span>
-084: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-085: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
-086: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('Three')" /&gt;</span>
-087: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-088: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
-089: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$map-variable01('5')" /&gt;</span>
-090: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-091: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
-092: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$map-variable02('Seven')" /&gt;</span>
-093: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-094: <span class="ignored">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
-095: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('One')" /&gt;</span>
-096: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-097: <span class="ignored">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
-098: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('Three')" /&gt;</span>
-099: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-100: <span class="ignored">    </span><span class="ignored">&lt;!-- Use xsl:map-entry values --&gt;</span>
-101: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map-entry"&gt;</span>
-102: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$map-entry-variable01('One')" /&gt;</span>
-103: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-104: <span class="ignored">      </span><span class="hit">&lt;node type="variable/map-entry"&gt;</span>
-105: <span class="ignored">        </span><span class="hit">&lt;xsl:value-of select="$map-entry-variable02('Three')" /&gt;</span>
-106: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-107: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-108: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+009: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-map"&gt;</span>
+010: <span class="whitespace">    </span><span class="comment">&lt;!-- Map construction, including xsl:map-entry --&gt;</span>
+011: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="hundreds-param" as="map(xs:string, item())"&gt;</span>
+012: <span class="whitespace">      </span><span class="hit">&lt;xsl:map&gt;</span>
+013: <span class="whitespace">        </span><span class="comment">&lt;!-- Using select attribute --&gt;</span>
+014: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+015: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+016: <span class="whitespace">        </span><span class="comment">&lt;!-- Using sequence constructor --&gt;</span>
+017: <span class="whitespace">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
+018: <span class="whitespace">          </span><span class="comment">&lt;!-- Combination of xsl:for-each and xsl:text is to make both</span>
+019: <span class="comment">            Saxon 12.4 and 12.5 trace some descendant of xsl:map, to</span>
+020: <span class="comment">            illustrate the Use Descendant Data rule. --&gt;</span>
+021: <span class="whitespace">          </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
+022: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
+023: <span class="whitespace">          </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+024: <span class="whitespace">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+025: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
+026: <span class="whitespace">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+027: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
+028: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map&gt;</span>
+029: <span class="whitespace">    </span><span class="hit">&lt;/xsl:param&gt;</span>
+030: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="hundreds-variable" as="map(xs:string, item())"&gt;</span>
+031: <span class="whitespace">      </span><span class="hit">&lt;xsl:map&gt;</span>
+032: <span class="whitespace">        </span><span class="comment">&lt;!-- Using select attribute --&gt;</span>
+033: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+034: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+035: <span class="whitespace">        </span><span class="comment">&lt;!-- Using sequence constructor --&gt;</span>
+036: <span class="whitespace">        </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
+037: <span class="whitespace">          </span><span class="hit">&lt;xsl:sequence&gt;</span>
+038: <span class="whitespace">            </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
+039: <span class="whitespace">              </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
+040: <span class="whitespace">            </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+041: <span class="whitespace">          </span><span class="hit">&lt;/xsl:sequence&gt;</span>
+042: <span class="whitespace">        </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+043: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
+044: <span class="whitespace">          </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+045: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
+046: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map&gt;</span>
+047: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+048: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map with child that is not xsl:map-entry --&gt;</span>
+049: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)"&gt;</span>
+050: <span class="whitespace">      </span><span class="hit">&lt;xsl:map&gt;</span>
+051: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each select="1 to 5"&gt;</span>
+052: <span class="whitespace">          </span><span class="unknown">&lt;xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/&gt;</span><span class="whitespace">  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+053: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+054: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map&gt;</span>
+055: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+056: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. --&gt;</span>
+057: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)"&gt;</span>
+058: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map&gt;</span><span class="whitespace">                                                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+059: <span class="whitespace">        </span><span class="unknown">&lt;xsl:map-entry key="'Seven'" select="xs:decimal(700)" /&gt;</span><span class="whitespace">               </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+060: <span class="whitespace">      </span><span class="unknown">&lt;/xsl:map&gt;</span><span class="whitespace">                                                               </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+061: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+062: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map-entry not inside a xsl:map. Using select attribute --&gt;</span>
+063: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-entry-variable01" as="map(xs:string, item())"&gt;</span>
+064: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+065: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+066: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map-entry not inside a xsl:map. Using sequence constructor --&gt;</span>
+067: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-entry-variable02" as="map(xs:string, item())"&gt;</span>
+068: <span class="whitespace">      </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
+069: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
+070: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
+071: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+072: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+073: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+074: <span class="whitespace">    </span><span class="comment">&lt;!-- Use xsl:map values --&gt;</span>
+075: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+076: <span class="whitespace">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
+077: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('One')" /&gt;</span>
+078: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+079: <span class="whitespace">      </span><span class="hit">&lt;node type="param/map"&gt;</span>
+080: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-param('Three')" /&gt;</span>
+081: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+082: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+083: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('One')" /&gt;</span>
+084: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+085: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+086: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$hundreds-variable('Three')" /&gt;</span>
+087: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+088: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+089: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$map-variable01('5')" /&gt;</span>
+090: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+091: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map"&gt;</span>
+092: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$map-variable02('Seven')" /&gt;</span>
+093: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+094: <span class="whitespace">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
+095: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('One')" /&gt;</span>
+096: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+097: <span class="whitespace">      </span><span class="hit">&lt;node type="function/map"&gt;</span>
+098: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="myns:returnMap()('Three')" /&gt;</span>
+099: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+100: <span class="whitespace">    </span><span class="comment">&lt;!-- Use xsl:map-entry values --&gt;</span>
+101: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map-entry"&gt;</span>
+102: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$map-entry-variable01('One')" /&gt;</span>
+103: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+104: <span class="whitespace">      </span><span class="hit">&lt;node type="variable/map-entry"&gt;</span>
+105: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$map-entry-variable02('Three')" /&gt;</span>
+106: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+107: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+108: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 109: 
-110: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="myns:returnMap" as="map(xs:string, item())"&gt;</span>
-111: <span class="ignored">    </span><span class="hit">&lt;xsl:map&gt;</span>
-112: <span class="ignored">      </span><span class="ignored">&lt;!-- Using select attribute --&gt;</span>
-113: <span class="ignored">      </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-114: <span class="ignored">      </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="ignored">                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-115: <span class="ignored">      </span><span class="ignored">&lt;!-- Using sequence constructor --&gt;</span>
-116: <span class="ignored">      </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
-117: <span class="ignored">        </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
-118: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
-119: <span class="ignored">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-120: <span class="ignored">      </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
-121: <span class="ignored">      </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
-122: <span class="ignored">        </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="ignored">                                          </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-123: <span class="ignored">      </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
-124: <span class="ignored">    </span><span class="hit">&lt;/xsl:map&gt;</span>
-125: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+110: <span class="whitespace">  </span><span class="hit">&lt;xsl:function name="myns:returnMap" as="map(xs:string, item())"&gt;</span>
+111: <span class="whitespace">    </span><span class="hit">&lt;xsl:map&gt;</span>
+112: <span class="whitespace">      </span><span class="comment">&lt;!-- Using select attribute --&gt;</span>
+113: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map-entry key="'One'" select="100"/&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+114: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map-entry key="'Two'" select="200"/&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+115: <span class="whitespace">      </span><span class="comment">&lt;!-- Using sequence constructor --&gt;</span>
+116: <span class="whitespace">      </span><span class="hit">&lt;xsl:map-entry key="'Three'"&gt;</span>
+117: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each select="1 to 1"&gt;</span>
+118: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
+119: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+120: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map-entry&gt;</span>
+121: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map-entry key="'Four'"&gt;</span>
+122: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="400" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+123: <span class="whitespace">      </span><span class="unknown">&lt;/xsl:map-entry&gt;</span>
+124: <span class="whitespace">    </span><span class="hit">&lt;/xsl:map&gt;</span>
+125: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 126: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

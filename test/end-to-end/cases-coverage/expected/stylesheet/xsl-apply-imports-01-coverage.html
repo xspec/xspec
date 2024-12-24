@@ -8,40 +8,40 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-apply-imports-01.xsl">xsl-apply-imports-01.xsl</a></p>
       <h2>module: xsl-apply-imports-01.xsl; 24 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
-03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-04: <span class="ignored">      xsl:apply-imports Coverage Test Case (see xsl-apply-imports-01A.xsl as well)</span>
-05: <span class="ignored">  --&gt;</span>
-06: <span class="ignored">  </span><span class="ignored">&lt;!-- Import stylesheet --&gt;</span>
-07: <span class="ignored">  </span><span class="ignored">&lt;xsl:import href="xsl-apply-imports-01A.xsl" /&gt;</span>
-08: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:mode for this test --&gt;</span>
-09: <span class="ignored">  </span><span class="ignored">&lt;xsl:mode name="applyImportsMode" /&gt;</span>
-10: <span class="ignored">  </span><span class="ignored">&lt;!-- Main Stylesheet--&gt;</span>
-11: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-apply-imports"&gt;</span>
-12: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-13: <span class="ignored">      </span><span class="hit">&lt;xsl:apply-templates select="*" mode="applyImportsMode" /&gt;</span>
-14: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-15: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+04: <span class="comment">      xsl:apply-imports Coverage Test Case (see xsl-apply-imports-01A.xsl as well)</span>
+05: <span class="comment">  --&gt;</span>
+06: <span class="whitespace">  </span><span class="comment">&lt;!-- Import stylesheet --&gt;</span>
+07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-apply-imports-01A.xsl" /&gt;</span>
+08: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for this test --&gt;</span>
+09: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="applyImportsMode" /&gt;</span>
+10: <span class="whitespace">  </span><span class="comment">&lt;!-- Main Stylesheet--&gt;</span>
+11: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-apply-imports"&gt;</span>
+12: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+13: <span class="whitespace">      </span><span class="hit">&lt;xsl:apply-templates select="*" mode="applyImportsMode" /&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 16: 
-17: <span class="ignored">  </span><span class="ignored">&lt;!-- Current Stylesheet Template --&gt;</span>
-18: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
-19: <span class="ignored">    </span><span class="hit">&lt;node type="apply-imports - top stylesheet"&gt;</span>
-20: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-21: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-22: <span class="ignored">    </span><span class="hit">&lt;xsl:apply-imports/&gt;</span>
-23: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+17: <span class="whitespace">  </span><span class="comment">&lt;!-- Current Stylesheet Template --&gt;</span>
+18: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
+19: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - top stylesheet"&gt;</span>
+20: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+21: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
+22: <span class="whitespace">    </span><span class="hit">&lt;xsl:apply-imports/&gt;</span>
+23: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 24: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       <h2>module: xsl-apply-imports-01A.xsl; 10 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: 
-04: <span class="ignored">  </span><span class="ignored">&lt;!-- xsl:apply-imports Template --&gt;</span>
-05: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
-06: <span class="ignored">    </span><span class="hit">&lt;node type="apply-imports - import stylesheet"&gt;</span>
-07: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-08: <span class="ignored">    </span><span class="hit">&lt;/node&gt;</span>
-09: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-10: <span class="ignored"> </span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+04: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:apply-imports Template --&gt;</span>
+05: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
+06: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - import stylesheet"&gt;</span>
+07: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+08: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
+09: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+10: <span class="whitespace"> </span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

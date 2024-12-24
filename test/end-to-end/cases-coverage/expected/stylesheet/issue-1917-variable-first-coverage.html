@@ -8,34 +8,34 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../issue-1917.xsl">issue-1917.xsl</a></p>
       <h2>module: issue-1917.xsl; 29 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:local="http://local/xslt" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
-03: <span class="ignored">  </span><span class="ignored">&lt;xsl:output method="text" /&gt;</span>
+03: <span class="whitespace">  </span><span class="ignored">&lt;xsl:output method="text" /&gt;</span>
 04: 
-05: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="local:func-choose"&gt;</span>
-06: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="text" /&gt;</span>
-07: <span class="ignored">    </span><span class="hit">&lt;xsl:choose&gt;</span>
-08: <span class="ignored">      </span><span class="hit">&lt;xsl:when test="$text = 'one'"&gt;</span>
-09: <span class="ignored">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
-10: <span class="ignored">      </span><span class="hit">&lt;/xsl:when&gt;</span>
-11: <span class="ignored">      </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-12: <span class="ignored">        </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-13: <span class="ignored">      </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-14: <span class="ignored">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
-15: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+05: <span class="whitespace">  </span><span class="hit">&lt;xsl:function name="local:func-choose"&gt;</span>
+06: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="text" /&gt;</span>
+07: <span class="whitespace">    </span><span class="hit">&lt;xsl:choose&gt;</span>
+08: <span class="whitespace">      </span><span class="hit">&lt;xsl:when test="$text = 'one'"&gt;</span>
+09: <span class="whitespace">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
+10: <span class="whitespace">      </span><span class="hit">&lt;/xsl:when&gt;</span>
+11: <span class="whitespace">      </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+12: <span class="whitespace">        </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+13: <span class="whitespace">      </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
+15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 16: 
-17: <span class="ignored">  </span><span class="hit">&lt;xsl:function name="local:func-variable"&gt;</span>
-18: <span class="ignored">    </span><span class="hit">&lt;xsl:param name="text" /&gt;</span>
-19: <span class="ignored">    </span><span class="hit">&lt;xsl:variable name="normalizedText"&gt;</span>
-20: <span class="ignored">      </span><span class="hit">&lt;xsl:value-of select="normalize-space($text)" /&gt;</span>
-21: <span class="ignored">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-22: <span class="ignored">    </span><span class="hit">&lt;xsl:if test="$normalizedText = 'one'"&gt;</span>
-23: <span class="ignored">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
-24: <span class="ignored">    </span><span class="hit">&lt;/xsl:if&gt;</span>
-25: <span class="ignored">    </span><span class="hit">&lt;xsl:if test="$normalizedText != 'one'"&gt;</span>
-26: <span class="ignored">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-27: <span class="ignored">    </span><span class="hit">&lt;/xsl:if&gt;</span>
-28: <span class="ignored">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+17: <span class="whitespace">  </span><span class="hit">&lt;xsl:function name="local:func-variable"&gt;</span>
+18: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="text" /&gt;</span>
+19: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="normalizedText"&gt;</span>
+20: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="normalize-space($text)" /&gt;</span>
+21: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
+22: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$normalizedText = 'one'"&gt;</span>
+23: <span class="whitespace">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
+24: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+25: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$normalizedText != 'one'"&gt;</span>
+26: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+27: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+28: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 29: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>
