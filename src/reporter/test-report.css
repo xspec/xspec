@@ -248,13 +248,6 @@ code {
 	font-weight: bold;
 }
 
-/* colours */
-body {
-	background-color: white;
-	color: black;
-	border: 0px none black;
-}
-
 /* this is to make Navigator fill the entire line */
 h1,
 h2 {
@@ -262,6 +255,67 @@ h2 {
 	width: auto;
 }
 
+body {
+	background-color: white;
+	color: black;
+	border: 0px none black;
+}
+
+img,
+a:link img,
+a:visited img,
+a:hover img,
+a:active img,
+#link-up img,
+#link-top img {
+	border: 0px none white;
+	background: transparent;
+}
+
+a:link {
+	border: 0px none white;
+}
+
+a:visited {
+	border: 0px none white;
+}
+
+a:active {
+	border: 0px none white;
+}
+
+a:hover {
+	border: 0px none white;
+}
+
+a.img:hover,
+a.img:active {
+	background: transparent;
+}
+
+.popup {
+	border: 1px solid #606;
+}
+
+.post {
+	border-top: 2px solid #606;
+}
+
+.example {
+	border-top: 2px solid #606;
+	border-bottom: 2px solid #606;
+}
+
+.sidebar {
+	border-top: 2px solid #090;
+	border-bottom: 2px solid #090;
+}
+
+.rng {
+	border-left: 2px solid #666;
+}
+
+/* interior text and background colours */
 h1 {
 	background: #606;
 	color: #6f6;
@@ -277,44 +331,24 @@ hr {
 	background: white;
 }
 
-img,
-a:link img,
-a:visited img,
-a:hover img,
-a:active img,
-#link-up img,
-#link-top img {
-	border: 0px none white;
-	background: transparent;
-}
-
 a:link {
 	color: #636;
 	background: transparent;
-	border: 0px none white;
 }
 
 a:visited {
 	color: #606;
 	background: transparent;
-	border: 0px none white;
 }
 
 a:active {
 	color: #6f6;
 	background: #606;
-	border: 0px none white;
 }
 
 a:hover {
 	color: #636;
 	background: #9f9;
-	border: 0px none white;
-}
-
-a.img:hover,
-a.img:active {
-	background: transparent;
 }
 
 #colophon,
@@ -345,25 +379,6 @@ a.img:active {
 
 .popup {
 	background: white;
-	border: 1px solid #606;
-}
-
-.post {
-	border-top: 2px solid #606;
-}
-
-.example {
-	border-top: 2px solid #606;
-	border-bottom: 2px solid #606;
-}
-
-.sidebar {
-	border-top: 2px solid #090;
-	border-bottom: 2px solid #090;
-}
-
-.rng {
-	border-left: 2px solid #666;
 }
 
 .same {
@@ -385,7 +400,6 @@ a.img:active {
 td > pre > .whitespace {
 	/*font-style: italic;*/
 	color: #999;
-	/*background: white;*/
 }
 
 .ellipsis {
@@ -396,6 +410,26 @@ td > pre > .whitespace {
 	color: #c0c0c0;
 }
 
+div > table > tbody > tr > th:first-child {
+	color: #474747;
+}
+
+.xspec tbody td {
+	color: #262626;
+}
+
+.successful {
+	background-color: #cfc;
+}
+.pending {
+	background-color: #eee;
+	color: #666;
+}
+.failed {
+	background-color: #fcc;
+}
+
+/* code coverage report styles */
 .ignored,
 .comment,
 pre.xspecCoverage > .whitespace {
@@ -471,32 +505,16 @@ th.totals {
 
 div > table > tbody > tr > th:first-child {
 	font-weight: bold;
-	color: #474747;
 }
 
 .xspec tbody th {
 	font-weight: normal; /*font-size: 0.8em;*/
 	border-top: 1px #666 solid;
 }
-.xspec tbody td {
-	/*font-size: 0.8em;*/
-	color: #262626;
-}
 
 .xspec tbody th .elapsed {
 	float: right;
 	font-weight: initial;
-}
-
-.successful {
-	background-color: #cfc;
-}
-.pending {
-	background-color: #eee;
-	color: #666;
-}
-.failed {
-	background-color: #fcc;
 }
 
 .successful td:first-child:before,
