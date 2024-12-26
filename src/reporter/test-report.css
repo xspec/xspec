@@ -256,8 +256,6 @@ h2 {
 }
 
 body {
-	background-color: white;
-	color: black;
 	border: 0px none black;
 }
 
@@ -313,120 +311,6 @@ a.img:active {
 
 .rng {
 	border-left: 2px solid #666;
-}
-
-/* interior text and background colours */
-h1 {
-	background: #606;
-	color: #6f6;
-}
-
-h2 {
-	color: #606;
-	background: #cfc;
-}
-
-hr {
-	color: #606;
-	background: white;
-}
-
-a:link {
-	color: #636;
-	background: transparent;
-}
-
-a:visited {
-	color: #606;
-	background: transparent;
-}
-
-a:active {
-	color: #6f6;
-	background: #606;
-}
-
-a:hover {
-	color: #636;
-	background: #9f9;
-}
-
-#colophon,
-#xml-link,
-.note {
-	color: #666;
-}
-
-#colophon a:link,
-#colophon a:visited,
-#colophon a:hover,
-#xml-link a:link,
-#xml-link a:visited,
-#xml-link a:hover,
-.note a:link,
-.note a:visited,
-.note a:hover {
-	color: #969;
-	background: transparent;
-}
-
-#colophon a:hover,
-#xml-link a:hover,
-.note a:hover {
-	background: #cfc;
-	color: #969;
-}
-
-.popup {
-	background: white;
-}
-
-.same {
-	background-color: rgb(206, 239, 174);
-}
-
-.inner-diff {
-	background-color: rgba(255, 204, 204, 0.4);
-}
-
-.diff {
-	background-color: #fcc;
-}
-
-/*
- * Whitespace notation in diffs in test result report,
- * not literal whitespace characters in code coverage report.
- */
-td > pre > .whitespace {
-	/*font-style: italic;*/
-	color: #999;
-}
-
-.ellipsis {
-	color: #999;
-}
-
-.xmlns.trivial {
-	color: #c0c0c0;
-}
-
-div > table > tbody > tr > th:first-child {
-	color: #474747;
-}
-
-.xspec tbody td {
-	color: #262626;
-}
-
-.successful {
-	background-color: #cfc;
-}
-.pending {
-	background-color: #eee;
-	color: #666;
-}
-.failed {
-	background-color: #fcc;
 }
 
 /* code coverage report styles */

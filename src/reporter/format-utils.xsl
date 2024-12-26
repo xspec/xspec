@@ -420,28 +420,37 @@
 
    <!-- Generates <style> or <link> for CSS.
       If you enable $inline, you must use fmt:disable-escaping character map in serialization. -->
-   <xsl:template name="fmt:load-css" as="element()">
+   <xsl:template name="fmt:load-css" as="element()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="inline" as="xs:boolean" required="yes" />
-      <xsl:param name="uri" as="xs:string?" required="yes" />
+      <xsl:param name="uri" as="xs:string*" required="yes" />
 
-      <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
+      <xsl:variable as="xs:string+" name="uri-or-default" select="
+            if (empty($uri)) then
+            (resolve-uri('test-report-colors-classic.css'), resolve-uri('test-report.css'))
+            else
+               $uri" />
 
       <xsl:choose>
          <xsl:when test="$inline">
-            <xsl:variable name="css-string" as="xs:string" select="unparsed-text($uri)" />
-
-            <!-- Replace CR LF with LF -->
-            <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
-
             <style type="text/css">
-               <xsl:value-of select="fmt:disable-escaping($css-string)" />
+               <xsl:for-each select="$uri-or-default">
+                  <xsl:variable name="css-string" as="xs:string" select="unparsed-text(.)" />
+   
+                  <!-- Replace CR LF with LF -->
+                  <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
+   
+                  <xsl:text>&#xA;</xsl:text>
+                  <xsl:value-of select="fmt:disable-escaping($css-string)" />
+               </xsl:for-each>
             </style>
          </xsl:when>
 
          <xsl:otherwise>
-            <link rel="stylesheet" type="text/css" href="{$uri}"/>
+            <xsl:for-each select="$uri-or-default">
+               <link rel="stylesheet" type="text/css" href="{.}"/>   
+            </xsl:for-each>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
