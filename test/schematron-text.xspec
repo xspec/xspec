@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron/schematron-text.sch">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    schematron="schematron/schematron-text.sch">
 
     <x:scenario label="Context with one assert and one report">
         <x:context>
             <section xml:id="s1"/>
         </x:context>
-        <x:like label="Ignore message and diagnostics"/>
+        <x:like label="Ignore message, diagnostics, and properties"/>
         <x:like label="Check s1 message text"/>
         <x:like label="Check s1 diagnostic text"/>
+        <x:like label="Check s1 property text"/>
     </x:scenario>
 
     <x:scenario label="Context with multiple asserts and multiple reports">
@@ -16,9 +18,10 @@
             <section xml:id="s2"/>
             <section xml:id="s2"/>
         </x:context>
-        <x:like label="Ignore message and diagnostics"/>
+        <x:like label="Ignore message, diagnostics, and properties"/>
         <x:like label="Check s1 message text"/>
         <x:like label="Check s1 diagnostic text"/>
+        <x:like label="Check s1 property text"/>
         <x:scenario label="Check for matching text of main message for s2">
             <x:expect-assert id="a001" count="3" label="(3 without text constraint)"/>
             <x:expect-assert id="a001" label="(2 with text constraint)" count="2">
@@ -31,7 +34,27 @@
         </x:scenario>
     </x:scenario>
 
-    <x:scenario shared="yes" label="Ignore message and diagnostics">
+    <x:scenario label="How to check property having arbitrary user data">
+        <x:context>
+            <section xml:id="s1"/>
+        </x:context>
+        <!-- Note: The next x:expect element fails in skeleton implementation, which returns
+            different SVRL markup. XSpec v3.0 no longer supports skeleton implementation. -->
+        <x:expect label="using x:expect to verify node tree, not just string value"
+            test="//svrl:successful-report[@id = 'r001']/svrl:property-reference[@property = 'prop-data']"
+            as="element(svrl:property-reference)">
+            <svrl:property-reference property="prop-data">
+                <svrl:text>
+                    <user-data>
+                        <elem1 id="id1">user content</elem1>
+                        <elem2 id="id2">More user content</elem2>
+                    </user-data>
+                </svrl:text>
+            </svrl:property-reference>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Ignore message, diagnostics, and properties">
         <x:scenario label="No constraint on text">
             <x:expect-assert id="a001"/>
             <x:expect-report id="r001"/>
@@ -93,6 +116,57 @@
                 </x:expect-report>
                 <x:expect-report id="r001">
                     text with 'apostrophe' and "double quotation mark"
+                </x:expect-report>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Check s1 property text">
+        <x:scenario label="Check for matching text of properties">
+            <x:scenario label="of assert">
+                <x:expect-assert id="a001">
+                    rtl text in dir element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    ltr text in dir element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in emph element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in span element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text in span element followed by text in emph element
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    text with 'apostrophe' and "double quotation mark"
+                </x:expect-assert>
+                <x:expect-assert id="a001">
+                    user contentMore user content
+                </x:expect-assert>
+            </x:scenario>
+            <x:scenario label="of report">
+                <x:expect-report id="r001">
+                    rtl text in dir element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    ltr text in dir element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in emph element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in span element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text in span element followed by text in emph element
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    text with 'apostrophe' and "double quotation mark"
+                </x:expect-report>
+                <x:expect-report id="r001">
+                    user contentMore user content
                 </x:expect-report>
             </x:scenario>
         </x:scenario>

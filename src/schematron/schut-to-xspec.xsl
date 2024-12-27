@@ -242,14 +242,12 @@
     <xsl:template match="x:expect-assert | x:expect-report" as="text()" mode="make-text-predicate">
         <xsl:variable name="x-expect-text-content-wrapped" as="xs:string"
             select="normalize-space(.) => x:quote-with-apos()"/>
-        <!-- Note: Skeleton uses svrl:text for main message and no svrl:text for diagnostics.
-            SchXslt uses svrl:text for main message and inside svrl:diagnostic-reference.
-            If XSpec stops supporting skeleton implementation of Schematron, we can
-            potentially simplify the left side of the '=' expression to
-            (descendant::{x:known-UQName('svrl:text')}) ! normalize-space(.)
-        -->
         <xsl:text expand-text="yes">[
-            ({x:known-UQName('svrl:text')}, {x:known-UQName('svrl:diagnostic-reference')}) ! normalize-space(.)
+            (
+            {x:known-UQName('svrl:text')},
+            {x:known-UQName('svrl:diagnostic-reference')},
+            {x:known-UQName('svrl:property-reference')}
+            ) ! normalize-space(.)
             = {$x-expect-text-content-wrapped}
             ]</xsl:text>
     </xsl:template>
