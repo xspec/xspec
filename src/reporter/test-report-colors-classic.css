@@ -119,3 +119,24 @@ div > table > tbody > tr > th:first-child {
 .failed {
 	background-color: #fcc;
 }
+
+/* code coverage report styles */
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
+	color: #999;
+	background: white;
+}
+
+.unknown {
+	color: #999;
+	background: white;
+}
+
+.hit {
+}
+
+.missed {
+	color: white;
+	background-color: #a33;
+}

@@ -318,23 +318,17 @@ a.img:active {
 .comment,
 pre.xspecCoverage > .whitespace {
 	font-style: italic;
-	color: #999;
-	background: white;
 }
 
 .unknown {
 	font-style: italic;
 	font-weight: bold;
-	color: #999;
-	background: white;
 }
 
 .hit {
 }
 
 .missed {
-	background-color: #a33;
-	color: white;
 }
 
 /* text */
