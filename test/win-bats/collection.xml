@@ -2255,7 +2255,7 @@
     call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
     call :verify_retval 0
 
-    call :run %SYSTEMROOT%\system32\find "&lt;pre>01:" "%TEST_DIR%\demo-coverage.html"
+    call :run %SYSTEMROOT%\system32\find "&lt;pre class=" "%TEST_DIR%\demo-coverage.html"
     call :verify_retval 0
     call :verify_line_count 4
 

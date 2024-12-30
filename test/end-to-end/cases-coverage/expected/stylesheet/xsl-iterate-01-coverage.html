@@ -8,180 +8,180 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-iterate-01.xsl">xsl-iterate-01.xsl</a></p>
       <h2>module: xsl-iterate-01.xsl; 175 lines</h2>
-      <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
-003: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-004: <span class="ignored">      xsl:iterate Coverage Test Case (includes xsl:next-iteration xsl:on-completion xsl:break)</span>
-005: <span class="ignored">  --&gt;</span>
-006: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-iterate"&gt;</span>
-007: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-008: <span class="ignored">      </span><span class="ignored">&lt;!-- Simple xsl:iterate with no xsl:next-iteration, xsl:on-competion or xsl:break --&gt;</span>
-009: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-010: <span class="ignored">        </span><span class="hit">&lt;node type="iterate"&gt;</span>
-011: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-012: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-013: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-014: <span class="ignored">      </span><span class="ignored">&lt;!-- Simple xsl:iterate with just xsl:on-completion --&gt;</span>
-015: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-016: <span class="ignored">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
-017: <span class="ignored">          </span><span class="hit">&lt;node type="iterate/on-completion"&gt;</span>
-018: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
-019: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-020: <span class="ignored">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
-021: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/on-completion"&gt;</span>
-022: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-023: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-024: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-025: <span class="ignored">      </span><span class="ignored">&lt;!-- Simple xsl:iterate with just xsl:next-iteration --&gt;</span>
-026: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-027: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="param01" select="1" /&gt;</span>
-028: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="newValue" select="$param01 * 2" /&gt;</span>
-029: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/next-iteration"&gt;</span>
-030: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select=". * $newValue" /&gt;</span>
-031: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-032: <span class="ignored">        </span><span class="hit">&lt;xsl:next-iteration&gt;</span>
-033: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="param01" select="$newValue" /&gt;</span>
-034: <span class="ignored">        </span><span class="hit">&lt;/xsl:next-iteration&gt;</span>
-035: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-036: <span class="ignored">      </span><span class="ignored">&lt;!-- Simple xsl:iterate with xsl:break executed --&gt;</span>
-037: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-038: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-039: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-040: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-041: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-042: <span class="ignored">          </span><span class="hit">&lt;xsl:break /&gt;</span>
-043: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-044: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-045: <span class="ignored">      </span><span class="ignored">&lt;!-- Simple xsl:iterate with xsl:break not executed --&gt;</span>
-046: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-047: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-048: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-049: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-050: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2500"&gt;</span>
-051: <span class="ignored">          </span><span class="missed">&lt;xsl:break /&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-052: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-053: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-054: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:next-iteration and xsl:on-completion --&gt;</span>
-055: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-056: <span class="ignored">        </span><span class="hit">&lt;xsl:param name="param01" select="1" /&gt;</span>
-057: <span class="ignored">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
-058: <span class="ignored">          </span><span class="hit">&lt;node type="iterate/next-iteration/on-completion"&gt;</span>
-059: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
-060: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-061: <span class="ignored">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
-062: <span class="ignored">        </span><span class="hit">&lt;xsl:variable name="newValue" select="$param01 * 2" /&gt;</span>
-063: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/next-iteration/on-completion"&gt;</span>
-064: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select=". * $newValue" /&gt;</span>
-065: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-066: <span class="ignored">        </span><span class="hit">&lt;xsl:next-iteration&gt;</span>
-067: <span class="ignored">          </span><span class="hit">&lt;xsl:with-param name="param01" select="$newValue" /&gt;</span>
-068: <span class="ignored">        </span><span class="hit">&lt;/xsl:next-iteration&gt;</span>
-069: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-070: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:break executed and xsl:on-completion not executed --&gt;</span>
-071: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-072: <span class="ignored">        </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-073: <span class="ignored">          </span><span class="missed">&lt;node type="iterate/on-completion/break"&gt;</span><span class="ignored">                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-074: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">Complete</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-075: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-076: <span class="ignored">        </span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-077: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
-078: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-079: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-080: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-081: <span class="ignored">          </span><span class="hit">&lt;xsl:break /&gt;</span>
-082: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-083: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-084: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed and xsl:break not executed --&gt;</span>
-085: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-086: <span class="ignored">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
-087: <span class="ignored">          </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
-088: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
-089: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-090: <span class="ignored">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
-091: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
-092: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-093: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-094: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2500"&gt;</span>
-095: <span class="ignored">          </span><span class="missed">&lt;xsl:break /&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-096: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-097: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-098: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:break executed (xsl:break has select attribute) --&gt;</span>
-099: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-100: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-101: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-102: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-103: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-104: <span class="ignored">          </span><span class="hit">&lt;xsl:break select="'break executed'" /&gt;</span>
-105: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-106: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-107: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:break executed (xsl:break has sequence constructor) --&gt;</span>
-108: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-109: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-110: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-111: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-112: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-113: <span class="ignored">          </span><span class="hit">&lt;xsl:break&gt;</span>
-114: <span class="ignored">            </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-115: <span class="ignored">              </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-116: <span class="ignored">            </span><span class="hit">&lt;/node&gt;</span>
-117: <span class="ignored">          </span><span class="hit">&lt;/xsl:break&gt;</span>
-118: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-119: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-120: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:break not executed (xsl:break has sequence constructor) --&gt;</span>
-121: <span class="ignored">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-122: <span class="ignored">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
-123: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-124: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-125: <span class="ignored">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2400"&gt;</span>
-126: <span class="ignored">          </span><span class="missed">&lt;xsl:break&gt;</span><span class="ignored">                                                          </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-127: <span class="ignored">            </span><span class="missed">&lt;node type="iterate/break"&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-128: <span class="ignored">              </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-129: <span class="ignored">            </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-130: <span class="ignored">          </span><span class="missed">&lt;/xsl:break&gt;</span><span class="ignored">                                                         </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-131: <span class="ignored">        </span><span class="hit">&lt;/xsl:if&gt;</span>
-132: <span class="ignored">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+004: <span class="comment">      xsl:iterate Coverage Test Case (includes xsl:next-iteration xsl:on-completion xsl:break)</span>
+005: <span class="comment">  --&gt;</span>
+006: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-iterate"&gt;</span>
+007: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+008: <span class="whitespace">      </span><span class="comment">&lt;!-- Simple xsl:iterate with no xsl:next-iteration, xsl:on-competion or xsl:break --&gt;</span>
+009: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+010: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate"&gt;</span>
+011: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+012: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+013: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+014: <span class="whitespace">      </span><span class="comment">&lt;!-- Simple xsl:iterate with just xsl:on-completion --&gt;</span>
+015: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+016: <span class="whitespace">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
+017: <span class="whitespace">          </span><span class="hit">&lt;node type="iterate/on-completion"&gt;</span>
+018: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
+019: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+020: <span class="whitespace">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
+021: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/on-completion"&gt;</span>
+022: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+023: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+024: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+025: <span class="whitespace">      </span><span class="comment">&lt;!-- Simple xsl:iterate with just xsl:next-iteration --&gt;</span>
+026: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+027: <span class="whitespace">        </span><span class="hit">&lt;xsl:param name="param01" select="1" /&gt;</span>
+028: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="newValue" select="$param01 * 2" /&gt;</span>
+029: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/next-iteration"&gt;</span>
+030: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select=". * $newValue" /&gt;</span>
+031: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+032: <span class="whitespace">        </span><span class="hit">&lt;xsl:next-iteration&gt;</span>
+033: <span class="whitespace">          </span><span class="hit">&lt;xsl:with-param name="param01" select="$newValue" /&gt;</span>
+034: <span class="whitespace">        </span><span class="hit">&lt;/xsl:next-iteration&gt;</span>
+035: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+036: <span class="whitespace">      </span><span class="comment">&lt;!-- Simple xsl:iterate with xsl:break executed --&gt;</span>
+037: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+038: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+039: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+040: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+041: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+042: <span class="whitespace">          </span><span class="hit">&lt;xsl:break /&gt;</span>
+043: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+044: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+045: <span class="whitespace">      </span><span class="comment">&lt;!-- Simple xsl:iterate with xsl:break not executed --&gt;</span>
+046: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+047: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+048: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+049: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+050: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2500"&gt;</span>
+051: <span class="whitespace">          </span><span class="missed">&lt;xsl:break /&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+052: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+053: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+054: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:next-iteration and xsl:on-completion --&gt;</span>
+055: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+056: <span class="whitespace">        </span><span class="hit">&lt;xsl:param name="param01" select="1" /&gt;</span>
+057: <span class="whitespace">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
+058: <span class="whitespace">          </span><span class="hit">&lt;node type="iterate/next-iteration/on-completion"&gt;</span>
+059: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
+060: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+061: <span class="whitespace">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
+062: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="newValue" select="$param01 * 2" /&gt;</span>
+063: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/next-iteration/on-completion"&gt;</span>
+064: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select=". * $newValue" /&gt;</span>
+065: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+066: <span class="whitespace">        </span><span class="hit">&lt;xsl:next-iteration&gt;</span>
+067: <span class="whitespace">          </span><span class="hit">&lt;xsl:with-param name="param01" select="$newValue" /&gt;</span>
+068: <span class="whitespace">        </span><span class="hit">&lt;/xsl:next-iteration&gt;</span>
+069: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+070: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:break executed and xsl:on-completion not executed --&gt;</span>
+071: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+072: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-completion&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+073: <span class="whitespace">          </span><span class="missed">&lt;node type="iterate/on-completion/break"&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+074: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">Complete</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+075: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+076: <span class="whitespace">        </span><span class="missed">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+077: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
+078: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+079: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+080: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+081: <span class="whitespace">          </span><span class="hit">&lt;xsl:break /&gt;</span>
+082: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+083: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+084: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion executed and xsl:break not executed --&gt;</span>
+085: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+086: <span class="whitespace">        </span><span class="hit">&lt;xsl:on-completion&gt;</span>
+087: <span class="whitespace">          </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
+088: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Complete</span><span class="hit">&lt;/xsl:text&gt;</span>
+089: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+090: <span class="whitespace">        </span><span class="hit">&lt;/xsl:on-completion&gt;</span>
+091: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/on-completion/break"&gt;</span>
+092: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+093: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+094: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2500"&gt;</span>
+095: <span class="whitespace">          </span><span class="missed">&lt;xsl:break /&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+096: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+097: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+098: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:break executed (xsl:break has select attribute) --&gt;</span>
+099: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+100: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+101: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+102: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+103: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+104: <span class="whitespace">          </span><span class="hit">&lt;xsl:break select="'break executed'" /&gt;</span>
+105: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+106: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+107: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:break executed (xsl:break has sequence constructor) --&gt;</span>
+108: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+109: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+110: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+111: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+112: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+113: <span class="whitespace">          </span><span class="hit">&lt;xsl:break&gt;</span>
+114: <span class="whitespace">            </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+115: <span class="whitespace">              </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+116: <span class="whitespace">            </span><span class="hit">&lt;/node&gt;</span>
+117: <span class="whitespace">          </span><span class="hit">&lt;/xsl:break&gt;</span>
+118: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+119: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+120: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:break not executed (xsl:break has sequence constructor) --&gt;</span>
+121: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+122: <span class="whitespace">        </span><span class="hit">&lt;node type="iterate/break"&gt;</span>
+123: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+124: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+125: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test=". &amp;gt; 2400"&gt;</span>
+126: <span class="whitespace">          </span><span class="missed">&lt;xsl:break&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+127: <span class="whitespace">            </span><span class="missed">&lt;node type="iterate/break"&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+128: <span class="whitespace">              </span><span class="missed">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+129: <span class="whitespace">            </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+130: <span class="whitespace">          </span><span class="missed">&lt;/xsl:break&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+131: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+132: <span class="whitespace">      </span><span class="hit">&lt;/xsl:iterate&gt;</span>
 133: 
-134: <span class="ignored">      </span><span class="ignored">&lt;!-- Test cases for unknown status of xsl:on-completion --&gt;</span>
-135: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
-136: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
-137: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-138: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-139: <span class="ignored">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-140: <span class="ignored">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-141: <span class="ignored">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-142: <span class="ignored">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-143: <span class="ignored">            </span><span class="hit">&lt;xsl:break /&gt;</span>
-144: <span class="ignored">          </span><span class="hit">&lt;/xsl:if&gt;</span>
-145: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-146: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-147: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
-148: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
-149: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-150: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-151: <span class="ignored">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
-152: <span class="ignored">            </span><span class="hit">&lt;xsl:break /&gt;</span>
-153: <span class="ignored">          </span><span class="hit">&lt;/xsl:if&gt;</span>
-154: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-155: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-156: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
-157: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
-158: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-159: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-160: <span class="ignored">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-161: <span class="ignored">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-162: <span class="ignored">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-163: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
-164: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-165: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-166: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
-167: <span class="ignored">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
-168: <span class="ignored">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
-169: <span class="ignored">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="ignored">                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-170: <span class="ignored">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
-171: <span class="ignored">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-172: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-173: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-174: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+134: <span class="whitespace">      </span><span class="comment">&lt;!-- Test cases for unknown status of xsl:on-completion --&gt;</span>
+135: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
+136: <span class="whitespace">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
+137: <span class="whitespace">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+138: <span class="whitespace">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+139: <span class="whitespace">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+140: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+141: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+142: <span class="whitespace">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+143: <span class="whitespace">            </span><span class="hit">&lt;xsl:break /&gt;</span>
+144: <span class="whitespace">          </span><span class="hit">&lt;/xsl:if&gt;</span>
+145: <span class="whitespace">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+146: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+147: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion not executed but unknown status --&gt;</span>
+148: <span class="whitespace">      </span><span class="hit">&lt;node type="iterate/on-completion unexecuted unknown"&gt;</span>
+149: <span class="whitespace">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+150: <span class="whitespace">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+151: <span class="whitespace">          </span><span class="hit">&lt;xsl:if test=". &amp;gt; 150"&gt;</span>
+152: <span class="whitespace">            </span><span class="hit">&lt;xsl:break /&gt;</span>
+153: <span class="whitespace">          </span><span class="hit">&lt;/xsl:if&gt;</span>
+154: <span class="whitespace">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+155: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+156: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
+157: <span class="whitespace">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
+158: <span class="whitespace">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+159: <span class="whitespace">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+160: <span class="whitespace">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+161: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+162: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+163: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
+164: <span class="whitespace">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+165: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+166: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
+167: <span class="whitespace">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
+168: <span class="whitespace">        </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
+169: <span class="whitespace">          </span><span class="unknown">&lt;xsl:on-completion&gt;</span><span class="unknown">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+170: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
+171: <span class="whitespace">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
+172: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+173: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+174: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 175: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

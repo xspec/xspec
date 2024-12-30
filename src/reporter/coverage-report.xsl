@@ -117,7 +117,7 @@
             <p><span class="missed">not used</span></p>
          </xsl:when>
          <xsl:otherwise>
-            <pre>
+            <pre class="xspecCoverage">
                <xsl:value-of select="format-number(1, $number-format)" />
                <xsl:text>: </xsl:text>
                <xsl:call-template name="output-lines">

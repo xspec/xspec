@@ -8,120 +8,120 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-choose-01.xsl">xsl-choose-01.xsl</a></p>
       <h2>module: xsl-choose-01.xsl; 115 lines</h2>
-      <pre>001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
-003: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-004: <span class="ignored">      xsl:choose Test Case</span>
-005: <span class="ignored">  --&gt;</span>
-006: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-choose"&gt;</span>
-007: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-008: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when matches, so xsl:otherwise does not execute --&gt;</span>
-009: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-010: <span class="ignored">        </span><span class="hit">&lt;xsl:when test="1 eq 1"&gt;</span>
-011: <span class="ignored">          </span><span class="hit">&lt;node type="choose when"&gt;</span>
-012: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">100</span><span class="hit">&lt;/xsl:text&gt;</span>
-013: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-014: <span class="ignored">        </span><span class="hit">&lt;/xsl:when&gt;</span>
-015: <span class="ignored">        </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-016: <span class="ignored">          </span><span class="missed">&lt;node type="choose otherwise"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-017: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-018: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-019: <span class="ignored">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-020: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-021: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when doesn't match, so does not execute --&gt;</span>
-022: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-023: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-024: <span class="ignored">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-025: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-026: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-027: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-028: <span class="ignored">        </span><span class="hit">&lt;xsl:otherwise&gt;</span>
-029: <span class="ignored">          </span><span class="hit">&lt;node type="choose otherwise"&gt;</span>
-030: <span class="ignored">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">200</span><span class="hit">&lt;/xsl:text&gt;</span>
-031: <span class="ignored">          </span><span class="hit">&lt;/node&gt;</span>
-032: <span class="ignored">        </span><span class="hit">&lt;/xsl:otherwise&gt;</span>
-033: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-034: <span class="ignored">      </span><span class="ignored">&lt;!-- Second xsl:when executes but has no content, so unknown. First when and otherwise not executed. --&gt;</span>
-035: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-036: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-037: <span class="ignored">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-038: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-039: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-040: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-041: <span class="ignored">        </span><span class="unknown">&lt;xsl:when test="2 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-042: <span class="ignored">        </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-043: <span class="ignored">          </span><span class="missed">&lt;node type="choose otherwise"&gt;</span><span class="ignored">                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-044: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-045: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-046: <span class="ignored">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-047: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-048: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when not executed. xsl:otherwise executes but has no content, so unknown. --&gt;</span>
-049: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-050: <span class="ignored">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-051: <span class="ignored">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-052: <span class="ignored">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-053: <span class="ignored">          </span><span class="missed">&lt;/node&gt;</span><span class="ignored">                                                              </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-054: <span class="ignored">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-055: <span class="ignored">        </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-056: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-057: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when not executed, but status is unknown. --&gt;</span>
-058: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-059: <span class="ignored">        </span><span class="unknown">&lt;xsl:when test="exists(nonexistent)"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-060: <span class="ignored">        </span><span class="unknown">&lt;xsl:when test="exists(missing)"&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-061: <span class="ignored">          </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-062: <span class="ignored">        </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-063: <span class="ignored">        </span><span class="unknown">&lt;xsl:when test="exists(omitted)"&gt;</span><span class="ignored">                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-064: <span class="ignored">          </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                                </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-065: <span class="ignored">          </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-066: <span class="ignored">        </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-067: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-068: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:when executes, but status is unknown. --&gt;</span>
-069: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:otherwise not executed, but status is unknown. --&gt;</span>
-070: <span class="ignored">      </span><span class="hit">&lt;xsl:for-each select="(1,2)"&gt;</span>
-071: <span class="ignored">        </span><span class="hit">&lt;node type="choose when executed unknown"&gt;</span>
-072: <span class="ignored">          </span><span class="hit">&lt;xsl:choose&gt;</span>
-073: <span class="ignored">            </span><span class="unknown">&lt;xsl:when test=". eq 1"&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-074: <span class="ignored">              </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-075: <span class="ignored">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-076: <span class="ignored">            </span><span class="unknown">&lt;xsl:when test=". eq 2"&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-077: <span class="ignored">              </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-078: <span class="ignored">              </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-079: <span class="ignored">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-080: <span class="ignored">            </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-081: <span class="ignored">              </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-082: <span class="ignored">              </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                           </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-083: <span class="ignored">            </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                   </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-084: <span class="ignored">          </span><span class="hit">&lt;/xsl:choose&gt;</span>
-085: <span class="ignored">        </span><span class="hit">&lt;/node&gt;</span>
-086: <span class="ignored">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-087: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:otherwise not executed, but status is unknown. --&gt;</span>
-088: <span class="ignored">      </span><span class="hit">&lt;xsl:choose&gt;</span>
-089: <span class="ignored">        </span><span class="unknown">&lt;xsl:when test="1 eq 1"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                    </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-090: <span class="ignored">        </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                        </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-091: <span class="ignored">          </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-092: <span class="ignored">        </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-093: <span class="ignored">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
-094: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:otherwise executes, but status is unknown; untraced child element. --&gt;</span>
-095: <span class="ignored">      </span><span class="hit">&lt;node type="choose otherwise executed unknown"&gt;</span>
-096: <span class="ignored">        </span><span class="hit">&lt;xsl:choose&gt;</span>
-097: <span class="ignored">          </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-098: <span class="ignored">          </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-099: <span class="ignored">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                              </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-100: <span class="ignored">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                             </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-101: <span class="ignored">          </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-102: <span class="ignored">        </span><span class="hit">&lt;/xsl:choose&gt;</span>
-103: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-104: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:otherwise executes, but status is unknown; untraced non-element child nodes. --&gt;</span>
-105: <span class="ignored">      </span><span class="hit">&lt;node type="choose otherwise executed unknown"&gt;</span>
-106: <span class="ignored">        </span><span class="hit">&lt;xsl:choose&gt;</span>
-107: <span class="ignored">          </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="ignored">                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-108: <span class="ignored">          </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-109: <span class="ignored">            </span><span class="ignored">&lt;!--untraced node--&gt;</span><span class="ignored">                                               </span><span class="ignored">&lt;!-- Expected ignored --&gt;</span>
-110: <span class="ignored">          </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-111: <span class="ignored">        </span><span class="hit">&lt;/xsl:choose&gt;</span>
-112: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-113: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-114: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+004: <span class="comment">      xsl:choose Test Case</span>
+005: <span class="comment">  --&gt;</span>
+006: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-choose"&gt;</span>
+007: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+008: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:when matches, so xsl:otherwise does not execute --&gt;</span>
+009: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+010: <span class="whitespace">        </span><span class="hit">&lt;xsl:when test="1 eq 1"&gt;</span>
+011: <span class="whitespace">          </span><span class="hit">&lt;node type="choose when"&gt;</span>
+012: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">100</span><span class="hit">&lt;/xsl:text&gt;</span>
+013: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+014: <span class="whitespace">        </span><span class="hit">&lt;/xsl:when&gt;</span>
+015: <span class="whitespace">        </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+016: <span class="whitespace">          </span><span class="missed">&lt;node type="choose otherwise"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+017: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+018: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+019: <span class="whitespace">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+020: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+021: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:when doesn't match, so does not execute --&gt;</span>
+022: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+023: <span class="whitespace">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+024: <span class="whitespace">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+025: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+026: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+027: <span class="whitespace">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+028: <span class="whitespace">        </span><span class="hit">&lt;xsl:otherwise&gt;</span>
+029: <span class="whitespace">          </span><span class="hit">&lt;node type="choose otherwise"&gt;</span>
+030: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">200</span><span class="hit">&lt;/xsl:text&gt;</span>
+031: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+032: <span class="whitespace">        </span><span class="hit">&lt;/xsl:otherwise&gt;</span>
+033: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+034: <span class="whitespace">      </span><span class="comment">&lt;!-- Second xsl:when executes but has no content, so unknown. First when and otherwise not executed. --&gt;</span>
+035: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+036: <span class="whitespace">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+037: <span class="whitespace">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+038: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+039: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+040: <span class="whitespace">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+041: <span class="whitespace">        </span><span class="unknown">&lt;xsl:when test="2 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+042: <span class="whitespace">        </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+043: <span class="whitespace">          </span><span class="missed">&lt;node type="choose otherwise"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+044: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+045: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+046: <span class="whitespace">        </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+047: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+048: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:when not executed. xsl:otherwise executes but has no content, so unknown. --&gt;</span>
+049: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+050: <span class="whitespace">        </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+051: <span class="whitespace">          </span><span class="missed">&lt;node type="choose when"&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+052: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+053: <span class="whitespace">          </span><span class="missed">&lt;/node&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+054: <span class="whitespace">        </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+055: <span class="whitespace">        </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+056: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+057: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:when not executed, but status is unknown. --&gt;</span>
+058: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+059: <span class="whitespace">        </span><span class="unknown">&lt;xsl:when test="exists(nonexistent)"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                       </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+060: <span class="whitespace">        </span><span class="unknown">&lt;xsl:when test="exists(missing)"&gt;</span><span class="whitespace">                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+061: <span class="whitespace">          </span><span class="comment">&lt;!--untraced node--&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+062: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+063: <span class="whitespace">        </span><span class="unknown">&lt;xsl:when test="exists(omitted)"&gt;</span><span class="whitespace">                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+064: <span class="whitespace">          </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+065: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+066: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+067: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+068: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:when executes, but status is unknown. --&gt;</span>
+069: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:otherwise not executed, but status is unknown. --&gt;</span>
+070: <span class="whitespace">      </span><span class="hit">&lt;xsl:for-each select="(1,2)"&gt;</span>
+071: <span class="whitespace">        </span><span class="hit">&lt;node type="choose when executed unknown"&gt;</span>
+072: <span class="whitespace">          </span><span class="hit">&lt;xsl:choose&gt;</span>
+073: <span class="whitespace">            </span><span class="unknown">&lt;xsl:when test=". eq 1"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+074: <span class="whitespace">              </span><span class="comment">&lt;!--untraced node--&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+075: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+076: <span class="whitespace">            </span><span class="unknown">&lt;xsl:when test=". eq 2"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+077: <span class="whitespace">              </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+078: <span class="whitespace">              </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+079: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+080: <span class="whitespace">            </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+081: <span class="whitespace">              </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+082: <span class="whitespace">              </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+083: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+084: <span class="whitespace">          </span><span class="hit">&lt;/xsl:choose&gt;</span>
+085: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
+086: <span class="whitespace">      </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+087: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:otherwise not executed, but status is unknown. --&gt;</span>
+088: <span class="whitespace">      </span><span class="hit">&lt;xsl:choose&gt;</span>
+089: <span class="whitespace">        </span><span class="unknown">&lt;xsl:when test="1 eq 1"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+090: <span class="whitespace">        </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+091: <span class="whitespace">          </span><span class="comment">&lt;!--untraced node--&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+092: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+093: <span class="whitespace">      </span><span class="hit">&lt;/xsl:choose&gt;</span>
+094: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:otherwise executes, but status is unknown; untraced child element. --&gt;</span>
+095: <span class="whitespace">      </span><span class="hit">&lt;node type="choose otherwise executed unknown"&gt;</span>
+096: <span class="whitespace">        </span><span class="hit">&lt;xsl:choose&gt;</span>
+097: <span class="whitespace">          </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+098: <span class="whitespace">          </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+099: <span class="whitespace">            </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                              </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+100: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+101: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+102: <span class="whitespace">        </span><span class="hit">&lt;/xsl:choose&gt;</span>
+103: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+104: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:otherwise executes, but status is unknown; untraced non-element child nodes. --&gt;</span>
+105: <span class="whitespace">      </span><span class="hit">&lt;node type="choose otherwise executed unknown"&gt;</span>
+106: <span class="whitespace">        </span><span class="hit">&lt;xsl:choose&gt;</span>
+107: <span class="whitespace">          </span><span class="unknown">&lt;xsl:when test="1 eq 2"&gt;</span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+108: <span class="whitespace">          </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+109: <span class="whitespace">            </span><span class="comment">&lt;!--untraced node--&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+110: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+111: <span class="whitespace">        </span><span class="hit">&lt;/xsl:choose&gt;</span>
+112: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+113: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+114: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 115: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

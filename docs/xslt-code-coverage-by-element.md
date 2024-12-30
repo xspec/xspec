@@ -6,8 +6,8 @@ The following list describes the coverage status values used in code coverage. T
 
 - **Hit** - the node was executed
 - **Missed** - the node was not executed
-- **Ignored** - the node is a declaration and no trace information is provided. Without extensive work in XSpec to parse the stylesheet it is not possible to determine if these declarations are used
-- **Unknown** - no trace information is provided about the node when it is executed so it cannot be determined if the node was executed
+- **Ignored** - the node is a declaration or a node that is not a candidate for execution (e.g., processing instruction, content before xsl:stylesheet start tag, etc.). No trace information is provided. Without extensive work in XSpec to parse the stylesheet, it is not possible to determine if declarations are used.
+- **Unknown** - no trace information is provided about the node when the transformation is executed, so it cannot be determined if the node was executed
 - **Comment** - this is a comment node (determined by the stylesheet analysis and not the trace output)
 - **Whitespace** - this is a whitespace only text node (determined by the stylesheet analysis and not the trace output)
 

@@ -2411,7 +2411,7 @@ load bats-helper
 
     ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
 
-    myrun grep -F "<pre>01:" "${TEST_DIR}/demo-coverage.html"
+    myrun grep -F "<pre class=" "${TEST_DIR}/demo-coverage.html"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
 

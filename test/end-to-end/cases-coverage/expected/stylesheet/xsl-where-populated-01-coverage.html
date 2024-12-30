@@ -8,56 +8,56 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-where-populated-01.xsl">xsl-where-populated-01.xsl</a></p>
       <h2>module: xsl-where-populated-01.xsl; 51 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
-03: <span class="ignored">  </span><span class="ignored">&lt;!--</span>
-04: <span class="ignored">      xsl:where-populated Test Case</span>
-05: <span class="ignored">  --&gt;</span>
-06: <span class="ignored">  </span><span class="hit">&lt;xsl:template match="xsl-where-populated"&gt;</span>
-07: <span class="ignored">    </span><span class="hit">&lt;root&gt;</span>
-08: <span class="ignored">      </span><span class="ignored">&lt;!-- Data doesn't exist so node/copy-of not executed --&gt;</span>
-09: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, child reached but not populated"&gt;</span>
-10: <span class="ignored">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
-11: <span class="ignored">          </span><span class="hit">&lt;xsl:copy-of select="nonExistentNode" /&gt;</span><span class="ignored">      </span><span class="ignored">&lt;!-- node element is empty but this element is executed because it needs to see if there is any output --&gt;</span>
-12: <span class="ignored">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
-13: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-14: <span class="ignored">      </span><span class="ignored">&lt;!-- Data exists so node/copy-of executed --&gt;</span>
-15: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, child reached and populated"&gt;</span>
-16: <span class="ignored">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
-17: <span class="ignored">          </span><span class="hit">&lt;xsl:copy-of select="node" /&gt;</span>
-18: <span class="ignored">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
-19: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-20: <span class="ignored">      </span><span class="ignored">&lt;!-- Only untraceable descendants --&gt;</span>
-21: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, untraced child reached but not populated"&gt;</span>
-22: <span class="ignored">        </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-23: <span class="ignored">          </span><span class="unknown">&lt;xsl:fallback /&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-24: <span class="ignored">        </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-25: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-26: <span class="ignored">      </span><span class="ignored">&lt;!-- Only untraceable descendants --&gt;</span>
-27: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, untraced child reached and populated"&gt;</span>
-28: <span class="ignored">        </span><span class="hit">&lt;xsl:where-populated&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-29: <span class="ignored">          </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="ignored">                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-30: <span class="ignored">            </span><span class="unknown">&lt;xsl:sort select="." /&gt;</span><span class="ignored">                                            </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-31: <span class="ignored">          </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-32: <span class="ignored">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-33: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span><span class="ignored">      </span>
-34: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:fallback is untraceable, while &lt;empty-element/&gt; is traceable but has no hit in trace. --&gt;</span>
-35: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, untraceable descendant and traceable descendant"&gt;</span>
-36: <span class="ignored">        </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-37: <span class="ignored">          </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="ignored">                                                       </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-38: <span class="ignored">            </span><span class="missed">&lt;empty-element /&gt;</span><span class="ignored">                                                  </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-39: <span class="ignored">          </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="ignored">                                                      </span><span class="ignored">&lt;!-- Expected miss --&gt;</span>
-40: <span class="ignored">        </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="ignored">                                                 </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-41: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-42: <span class="ignored">      </span><span class="ignored">&lt;!-- xsl:fallback is untraceable, while &lt;xsl:text&gt; is traceable and has hit in trace. --&gt;</span>
-43: <span class="ignored">      </span><span class="hit">&lt;node type="where-populated, untraceable descendant and traceable descendant"&gt;</span>
-44: <span class="ignored">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
-45: <span class="ignored">          </span><span class="unknown">&lt;xsl:fallback /&gt;</span><span class="ignored">                                                     </span><span class="ignored">&lt;!-- Expected unknown --&gt;</span>
-46: <span class="ignored">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
-47: <span class="ignored">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
-48: <span class="ignored">      </span><span class="hit">&lt;/node&gt;</span>
-49: <span class="ignored">    </span><span class="hit">&lt;/root&gt;</span>
-50: <span class="ignored">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+04: <span class="comment">      xsl:where-populated Test Case</span>
+05: <span class="comment">  --&gt;</span>
+06: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-where-populated"&gt;</span>
+07: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+08: <span class="whitespace">      </span><span class="comment">&lt;!-- Data doesn't exist so node/copy-of not executed --&gt;</span>
+09: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, child reached but not populated"&gt;</span>
+10: <span class="whitespace">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
+11: <span class="whitespace">          </span><span class="hit">&lt;xsl:copy-of select="nonExistentNode" /&gt;</span><span class="whitespace">      </span><span class="comment">&lt;!-- node element is empty but this element is executed because it needs to see if there is any output --&gt;</span>
+12: <span class="whitespace">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
+13: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+14: <span class="whitespace">      </span><span class="comment">&lt;!-- Data exists so node/copy-of executed --&gt;</span>
+15: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, child reached and populated"&gt;</span>
+16: <span class="whitespace">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
+17: <span class="whitespace">          </span><span class="hit">&lt;xsl:copy-of select="node" /&gt;</span>
+18: <span class="whitespace">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
+19: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+20: <span class="whitespace">      </span><span class="comment">&lt;!-- Only untraceable descendants --&gt;</span>
+21: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, untraced child reached but not populated"&gt;</span>
+22: <span class="whitespace">        </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+23: <span class="whitespace">          </span><span class="unknown">&lt;xsl:fallback /&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+24: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+25: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+26: <span class="whitespace">      </span><span class="comment">&lt;!-- Only untraceable descendants --&gt;</span>
+27: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, untraced child reached and populated"&gt;</span>
+28: <span class="whitespace">        </span><span class="hit">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+29: <span class="whitespace">          </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="whitespace">                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+30: <span class="whitespace">            </span><span class="unknown">&lt;xsl:sort select="." /&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+31: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+32: <span class="whitespace">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+33: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span><span class="whitespace">      </span>
+34: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:fallback is untraceable, while &lt;empty-element/&gt; is traceable but has no hit in trace. --&gt;</span>
+35: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, untraceable descendant and traceable descendant"&gt;</span>
+36: <span class="whitespace">        </span><span class="unknown">&lt;xsl:where-populated&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+37: <span class="whitespace">          </span><span class="missed">&lt;xsl:fallback&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+38: <span class="whitespace">            </span><span class="missed">&lt;empty-element /&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+39: <span class="whitespace">          </span><span class="missed">&lt;/xsl:fallback&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+40: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:where-populated&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+41: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+42: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:fallback is untraceable, while &lt;xsl:text&gt; is traceable and has hit in trace. --&gt;</span>
+43: <span class="whitespace">      </span><span class="hit">&lt;node type="where-populated, untraceable descendant and traceable descendant"&gt;</span>
+44: <span class="whitespace">        </span><span class="hit">&lt;xsl:where-populated&gt;</span>
+45: <span class="whitespace">          </span><span class="unknown">&lt;xsl:fallback /&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+46: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
+47: <span class="whitespace">        </span><span class="hit">&lt;/xsl:where-populated&gt;</span>
+48: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+49: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+50: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 51: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
    </body>
 </html>

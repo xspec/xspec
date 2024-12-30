@@ -378,7 +378,11 @@ a.img:active {
 	background-color: #fcc;
 }
 
-.whitespace {
+/*
+ * Whitespace notation in diffs in test result report,
+ * not literal whitespace characters in code coverage report.
+ */
+td > pre > .whitespace {
 	/*font-style: italic;*/
 	color: #999;
 	/*background: white;*/
@@ -392,7 +396,9 @@ a.img:active {
 	color: #c0c0c0;
 }
 
-.ignored {
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
 	font-style: italic;
 	color: #999;
 	background: white;
