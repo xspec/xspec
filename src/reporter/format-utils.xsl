@@ -19,6 +19,8 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
+   <xsl:param name="report-theme" as="xs:string" select="'classic'" />
+
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the test result report HTML, these Private Use Area characters should be considered
       as reserved by fmt:disable-escaping. -->
@@ -428,7 +430,7 @@
 
       <xsl:variable as="xs:string+" name="uri-or-default" select="
             if (empty($uri)) then
-            (resolve-uri('test-report-colors-classic.css'), resolve-uri('test-report.css'))
+            (resolve-uri(concat('test-report-colors-', $report-theme, '.css')), resolve-uri('test-report.css'))
             else
                $uri" />
 
