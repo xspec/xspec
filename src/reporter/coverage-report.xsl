@@ -35,6 +35,7 @@
    <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
    <xsl:param name="report-css-uri" as="xs:string?" />
+   <!-- See also report-theme parameter, which is defined in format-utils.xsl -->
 
    <!-- @use-character-maps for inline CSS -->
    <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />
