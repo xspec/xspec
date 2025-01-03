@@ -31,17 +31,19 @@
 		Replaces the embedded CSS with the link to its source
 			For brevity. The details of style are not critical anyway.
 	-->
-	<xsl:template as="element(link)" match="/html/head/style" mode="normalizer:normalize">
+	<xsl:template as="element(link)+" match="/html/head/style" mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-		<!-- Absolute URI of CSS -->
-		<xsl:variable as="xs:anyURI" name="css-uri"
-			select="resolve-uri('../../../../src/reporter/test-report.css')" />
-
-		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:attribute name="href"
-				select="normalizer:relative-uri($css-uri, $tunnel_document-uri)" />
-		</link>
+		<xsl:for-each select="('test-report-colors-classic.css', 'test-report-base.css')">
+			<!-- Absolute URI of CSS -->
+			<xsl:variable as="xs:anyURI" name="css-uri"
+				select="resolve-uri(concat('../../../../src/reporter/', .))" />
+			
+			<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
+				<xsl:attribute name="href"
+					select="normalizer:relative-uri($css-uri, $tunnel_document-uri)" />
+			</link>			
+		</xsl:for-each>
 	</xsl:template>
 
 	<!--
