@@ -33,14 +33,14 @@ a:visited {
 	background: transparent;
 }
 
-a:active {
-	color: #6f6;
-	background: #606;
-}
-
 a:hover {
 	color: #636;
 	background: #9f9;
+}
+
+a:active {
+	color: #6f6;
+	background: #606;
 }
 
 #colophon,
