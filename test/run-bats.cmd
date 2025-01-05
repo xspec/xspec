@@ -56,6 +56,7 @@ set SCHEMATRON_XSLT_INCLUDE=
 set TEST_DIR=
 set XML_CATALOG=
 set XSPEC_HOME=
+set XSPEC_HTML_REPORT_THEME=
 
 rem Saxon path for Ant -lib command line option
 rem  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.

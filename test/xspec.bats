@@ -2042,6 +2042,80 @@ load bats-helper
 }
 
 #
+# xspec.html.report.theme (Ant)
+#
+
+@test "Ant with non-default report-theme for result report HTML file" {
+    ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dxspec.fail=false \
+        -Dxspec.html.report.theme=whiteblack \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${TEST_DIR}/escape-for-regex-result.html" \
+        -xsl:check-html-css.xsl \
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+}
+
+@test "Ant with non-default report-theme for coverage report HTML file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dxspec.coverage.enabled=true \
+        -Dxspec.html.report.theme=whiteblack \
+        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
+
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${TEST_DIR}/demo-coverage.html" \
+        -xsl:check-html-css.xsl \
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+}
+
+#
+# XSPEC_HTML_REPORT_THEME (CLI)
+#
+
+@test "invoking xspec with non-default report-theme for result report HTML file" {
+    export XSPEC_HTML_REPORT_THEME="whiteblack"
+    myrun ../bin/xspec.sh "${PWD}/../tutorial/escape-for-regex.xspec"
+    [ "$status" -eq 0 ]
+
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${TEST_DIR}/escape-for-regex-result.html" \
+        -xsl:check-html-css.xsl \
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+}
+
+@test "invoking xspec with non-default report-theme for coverage report HTML file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    export XSPEC_HTML_REPORT_THEME="whiteblack"
+    myrun ../bin/xspec.sh -c "${PWD}/../tutorial/coverage/demo.xspec"
+    [ "$status" -eq 0 ]
+
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${TEST_DIR}/demo-coverage.html" \
+        -xsl:check-html-css.xsl \
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+}
+
+#
 # report-css-uri
 #
 
