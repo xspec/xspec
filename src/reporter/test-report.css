@@ -300,15 +300,15 @@ a:visited {
 	border: 0px none white;
 }
 
-a:active {
-	color: #6f6;
-	background: #606;
-	border: 0px none white;
-}
-
 a:hover {
 	color: #636;
 	background: #9f9;
+	border: 0px none white;
+}
+
+a:active {
+	color: #6f6;
+	background: #606;
 	border: 0px none white;
 }
 
