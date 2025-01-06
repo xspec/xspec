@@ -590,6 +590,29 @@
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>xspec.html.report.theme</String>
+											</field>
+											<field name="description">
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>xspec.project.dir</String>
 											</field>
 											<field name="description">
@@ -971,6 +994,29 @@
 											</field>
 											<field name="value">
 												<String>false</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.html.report.theme</String>
+											</field>
+											<field name="description">
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic</String>
+											</field>
+											<field name="value">
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
