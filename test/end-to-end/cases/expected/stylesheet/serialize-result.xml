@@ -150,7 +150,8 @@
                   </content-wrap>
                </result>
                <test id="scenario2-scenario2-scenario1-scenario1-expect1" successful="false">
-                  <label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</label>
+                  <label>both &lt;bar&gt; and &lt;?bar?&gt; must be serialized as a match
+							(green in 'classic').</label>
                   <expect select="/element()">
                      <content-wrap xmlns="">
                         <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
@@ -188,7 +189,8 @@
                   </content-wrap>
                </result>
                <test id="scenario2-scenario2-scenario1-scenario2-expect1" successful="false">
-                  <label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</label>
+                  <label>both &lt;bar&gt; and &lt;?bar?&gt; must be serialized as a match
+							(green in 'classic').</label>
                   <expect select="/element()">
                      <content-wrap xmlns="">
                         <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
@@ -234,7 +236,8 @@
                   </content-wrap>
                </result>
                <test id="scenario2-scenario2-scenario2-scenario1-expect1" successful="false">
-                  <label>&lt;foo&gt; must be green.</label>
+                  <label>&lt;foo&gt; must be serialized as a match (green in
+							'classic').</label>
                   <expect select="/element()">
                      <content-wrap xmlns="">
                         <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
@@ -272,8 +275,8 @@
          </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="false">
-         <label>the corresponding nodes in [Result] with diff must be serialized in green.
-				(xspec/xspec#379)</label>
+         <label>the corresponding nodes in [Result] with diff must be serialized as a match
+				(green in 'classic'). (xspec/xspec#379)</label>
          <expect select="/element()">
             <content-wrap xmlns="">
                <foo xmlns:x="http://www.jenitennison.com/xslt/xspec">...</foo>
@@ -496,9 +499,11 @@
          </result>
          <test id="scenario6-scenario1-expect1" successful="false">
             <label>The exact-match (taking '...' into account) attributes must be serialized
-					as green="green". The name-match attributes must be serialized as
-					palePink="solidPink". The orphan attributes must be serialized as
-					solidPink="solidPink" regardless of their values.</label>
+					as green="green" ('classic'). The name-match attributes must be serialized as
+					bold="whiteOnBlack" ('blackwhite') or palePink="solidPink" ('classic'). The
+					orphan attributes must be serialized as whiteOnBlack="whiteOnBlack"
+					('blackwhite') or solidPink="solidPink" ('classic') regardless of their
+					values.</label>
             <expect select="/element()">
                <content-wrap xmlns="">
                   <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -595,12 +600,15 @@
          </result>
          <test id="scenario7-scenario1-expect1" successful="false">
             <label>The exact-match (taking '...' into account) processing instructions must be
-					serialized as &lt;?green green?&gt;. The name-match processing
-					instructions must be serialized as &lt;?palePink solidPink?&gt;. The
+					serialized as &lt;?green green?&gt; ('classic'). The name-match processing
+					instructions must be serialized as &lt;?bold whiteOnBlack?&gt;
+					('blackwhite') or &lt;?palePink solidPink?&gt; ('classic'). The
 					value-match (taking '...' into account) processing instructions must be
-					serialized as &lt;?solidPink green?&gt;. The no-match processing
-					instructions must be serialized as &lt;?solidPink solidPink?&gt;
-					regardless of their values.</label>
+					serialized as &lt;?bold whiteOnBlack?&gt; ('blackwhite') or
+					&lt;?solidPink green?&gt; ('classic'). The no-match processing
+					instructions must be serialized as &lt;?whiteOnBlack whiteOnBlack?&gt;
+					('blackwhite') or &lt;?solidPink solidPink?&gt; ('classic') regardless of
+					their values.</label>
             <expect select="/element()">
                <content-wrap xmlns="">
                   <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
