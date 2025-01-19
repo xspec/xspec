@@ -20,7 +20,7 @@
                         <documentTypeEntry-array>
                             <documentTypeEntry>
                                 <field name="documentTypeID">
-                                    <String>4/xspec-38920bd0a7c1fbbb397acd689c00979dc79a59a2/xspec.framework/XSpec</String>
+                                    <String>4/xspec-fee92fd453ac9e55e3c889df168ebc918fdc8485/xspec.framework/XSpec</String>
                                 </field>
                                 <field name="enable">
                                     <Boolean>false</Boolean>
