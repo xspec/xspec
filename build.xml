@@ -487,6 +487,8 @@
         <param name="force-focus" expression="${xspec.force.focus}"
                if="xspec.force.focus" />
         <param name="inline-css" expression="true" />
+        <param name="report-theme" expression="${xspec.html.report.theme}"
+          if="xspec.html.report.theme" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
                if="xspec.result.html.css.url" />
       </xslt-elements>
@@ -515,6 +517,8 @@
           <pathelement location="${xspec.project.dir}/java" />
         </classpath>
         <param name="inline-css" expression="true" />
+        <param name="report-theme" expression="${xspec.html.report.theme}"
+          if="xspec.html.report.theme" />
         <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
                if="xspec.coverage.html.css.url" />
       </xslt-elements>

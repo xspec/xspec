@@ -96,7 +96,8 @@
 						</x:param>
 					</x:call>
 					<x:expect>
-						<x:label>both <![CDATA[<bar> and <?bar?>]]> must be green.</x:label>
+						<x:label>both <![CDATA[<bar> and <?bar?>]]> must be serialized as a match
+							(green in 'classic').</x:label>
 						<test>
 							<elem1>foo<bar /></elem1>
 							<elem2>foo<?bar?></elem2>
@@ -116,7 +117,8 @@
 						</x:param>
 					</x:call>
 					<x:expect>
-						<x:label>both <![CDATA[<bar> and <?bar?>]]> must be green.</x:label>
+						<x:label>both <![CDATA[<bar> and <?bar?>]]> must be serialized as a match
+							(green in 'classic').</x:label>
 						<test>
 							<elem1><!--foo--><bar /></elem1>
 							<elem2><!--foo--><?bar?></elem2>
@@ -141,7 +143,8 @@
 						</x:param>
 					</x:call>
 					<x:expect>
-						<x:label><![CDATA[<foo>]]> must be green.</x:label>
+						<x:label><![CDATA[<foo>]]> must be serialized as a match (green in
+							'classic').</x:label>
 						<test>
 							<foo><bar /></foo>
 							<qux />
@@ -163,8 +166,8 @@
 			</x:param>
 		</x:call>
 		<x:expect>
-			<x:label>the corresponding nodes in [Result] with diff must be serialized in green.
-				(xspec/xspec#379)</x:label>
+			<x:label>the corresponding nodes in [Result] with diff must be serialized as a match
+				(green in 'classic'). (xspec/xspec#379)</x:label>
 			<foo>...</foo>
 			<qux />
 		</x:expect>
@@ -294,9 +297,11 @@
 			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
 			<x:expect>
 				<x:label>The exact-match (taking '...' into account) attributes must be serialized
-					as green="green". The name-match attributes must be serialized as
-					palePink="solidPink". The orphan attributes must be serialized as
-					solidPink="solidPink" regardless of their values.</x:label>
+					as green="green" ('classic'). The name-match attributes must be serialized as
+					bold="whiteOnBlack" ('blackwhite') or palePink="solidPink" ('classic'). The
+					orphan attributes must be serialized as whiteOnBlack="whiteOnBlack"
+					('blackwhite') or solidPink="solidPink" ('classic') regardless of their
+					values.</x:label>
 				<exact-match attr1="value1" attr2="..." attr3="" attr4="..." />
 				<name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4" />
 				<orphan attr4="value4" attr5="" attr6="..." />
@@ -357,12 +362,15 @@
 			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
 			<x:expect>
 				<x:label>The exact-match (taking '...' into account) processing instructions must be
-					serialized as <![CDATA[<?green green?>]]>. The name-match processing
-					instructions must be serialized as <![CDATA[<?palePink solidPink?>]]>. The
+					serialized as <![CDATA[<?green green?>]]> ('classic'). The name-match processing
+					instructions must be serialized as <![CDATA[<?bold whiteOnBlack?>]]>
+					('blackwhite') or <![CDATA[<?palePink solidPink?>]]> ('classic'). The
 					value-match (taking '...' into account) processing instructions must be
-					serialized as <![CDATA[<?solidPink green?>]]>. The no-match processing
-					instructions must be serialized as <![CDATA[<?solidPink solidPink?>]]>
-					regardless of their values.</x:label>
+					serialized as <![CDATA[<?bold whiteOnBlack?>]]> ('blackwhite') or
+					<![CDATA[<?solidPink green?>]]> ('classic'). The no-match processing
+					instructions must be serialized as <![CDATA[<?whiteOnBlack whiteOnBlack?>]]>
+					('blackwhite') or <![CDATA[<?solidPink solidPink?>]]> ('classic') regardless of
+					their values.</x:label>
 				<exact-match>
 					<?node1 value1?>
 					<?node2 ...?>

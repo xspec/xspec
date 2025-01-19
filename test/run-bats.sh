@@ -77,6 +77,7 @@ unset SCHEMATRON_XSLT_INCLUDE
 unset TEST_DIR
 unset XML_CATALOG
 unset XSPEC_HOME
+unset XSPEC_HTML_REPORT_THEME
 
 # Saxon path for Ant -lib command line option
 #  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.

@@ -1886,6 +1886,74 @@
 	</case>
 
 	<!--
+		xspec.html.report.theme (Ant)
+	-->
+
+	<case name="Ant with non-default report-theme for result report HTML file">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dxspec.fail=false ^
+        -Dxspec.html.report.theme=whiteblack ^
+        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+        
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TEST_DIR%\escape-for-regex-result.html" ^
+        -xsl:check-html-css.xsl ^
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant with non-default report-theme for coverage report HTML file">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dxspec.coverage.enabled=true ^
+        -Dxspec.html.report.theme=whiteblack ^
+        -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
+    call :verify_retval 0
+    
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TEST_DIR%\demo-coverage.html" ^
+        -xsl:check-html-css.xsl ^
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
+	<!--
+		XSPEC_HTML_REPORT_THEME (CLI)
+	-->
+
+	<case name="invoking xspec with non-default report-theme for result report HTML file">
+    set "XSPEC_HTML_REPORT_THEME=whiteblack"
+    call :run ..\bin\xspec.bat "%CD%\..\tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+    
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TEST_DIR%\escape-for-regex-result.html" ^
+        -xsl:check-html-css.xsl ^
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec with non-default report-theme for coverage report HTML file">
+    set "XSPEC_HTML_REPORT_THEME=whiteblack"
+    call :run ..\bin\xspec.bat -c "%CD%\..\tutorial\coverage\demo.xspec"
+    call :verify_retval 0
+    
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TEST_DIR%\demo-coverage.html" ^
+        -xsl:check-html-css.xsl ^
+        STYLE-CONTAINS="test-report-colors-whiteblack.css"
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
+	<!--
 		report-css-uri
 	-->
 

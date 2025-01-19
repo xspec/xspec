@@ -19,7 +19,18 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
-   <xsl:param name="report-theme" as="xs:string" select="'classic'" />
+   <!--
+      Use $report-theme to select a color palette CSS file in this directory:
+      * test-report-colors-blackwhite.css  (black text on white background)
+      * test-report-colors-whiteblack.css  (white text on black background)
+      * test-report-colors-classic.css     (green for successes, pink for failures)
+      
+      The $report-theme value is expected to be the part of the filename
+      between 'test-report-colors-' and '.css'.
+   -->
+   <xsl:param name="report-theme" as="xs:string" select="'default'" />
+   <xsl:variable name="report-theme-to-use" as="xs:string"
+      select="if ($report-theme ne 'default') then $report-theme else 'blackwhite'"/>
 
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the test result report HTML, these Private Use Area characters should be considered
@@ -430,7 +441,7 @@
 
       <xsl:variable as="xs:string+" name="uri-or-default" select="
             if (empty($uri)) then
-            (resolve-uri(concat('test-report-colors-', $report-theme, '.css')), resolve-uri('test-report-base.css'))
+            (resolve-uri(concat('test-report-colors-', $report-theme-to-use, '.css')), resolve-uri('test-report-base.css'))
             else
                $uri" />
 

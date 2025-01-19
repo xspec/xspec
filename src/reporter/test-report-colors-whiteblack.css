@@ -1,0 +1,179 @@
+/****************************************************************************/
+/*  File:       test-report-colors-whiteblack.css                           */
+/* ------------------------------------------------------------------------ */
+
+/*
+Colors used, other than white:
+	#171717 gray 90%
+	#262626 gray 85%
+	#454545 gray 70%
+	#e6e6e6 gray 10%
+	#f0f0f0 gray  5%
+*/
+
+/* text and background colours */
+body {
+	background-color: #171717;
+	color: white;
+}
+
+h1 {
+}
+
+h2 {
+}
+
+hr {
+}
+
+a:link {
+	color: white;
+	background: transparent;
+}
+
+a:visited {
+	color: #e6e6e6;
+	background: transparent;
+}
+
+a:hover {
+	color: #262626;
+	background: white;
+}
+
+a:active {
+	color: white;
+	background: #171717;
+}
+
+#colophon,
+#xml-link,
+.note {
+	color: #e6e6e6;
+}
+
+#colophon a:link,
+#colophon a:visited,
+#colophon a:hover,
+#xml-link a:link,
+#xml-link a:visited,
+#xml-link a:hover,
+.note a:link,
+.note a:visited,
+.note a:hover {
+	color: white;
+	background: transparent;
+}
+
+#colophon a:hover,
+#xml-link a:hover,
+.note a:hover {
+	background: #262626;
+	color: white;
+}
+
+.popup {
+	background: #171717;
+}
+
+.same {
+}
+
+.inner-diff {
+	/* No change in color */
+	font-weight: bold;
+}
+
+.diff {
+	color: #171717;
+	background-color: white;
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the black-on-white effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: white;
+}
+
+/*
+ * Whitespace notation in diffs in test result report,
+ * not literal whitespace characters in code coverage report.
+ * There are two possibilities:
+ *
+ * 1. Not in relevant part of diff: light against dark background */
+td > pre > .whitespace {
+	font-style: italic;
+	color: white;
+}
+
+/* 2. In relevant part of diff: override color
+ * and instead use dark against light background */
+.diff.whitespace {
+	color: #454545;
+}
+
+.ellipsis {
+	color: #e6e6e6;
+}
+
+.xmlns.trivial {
+	color: #e6e6e6;
+	font-style: italic;
+}
+
+div > table > tbody > tr > th:first-child {
+	color: #e6e6e6;
+}
+
+/* 'failed: n' part of Contents */
+table > thead > tr > th:nth-child(4) {
+	color: #171717;
+	background-color: white;
+	padding: 2px;
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the black-on-white effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: white;
+}
+
+.xspec tbody td {
+	color: #f0f0f0;
+}
+
+.successful {
+}
+
+.pending {
+	color: #e6e6e6;
+}
+
+/* body makes this selector more specific than the one in test-report.css  */
+body *:target {
+	box-shadow: -0.5rem 0 0 0 #454545;
+}
+
+/* code coverage report styles */
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
+	color: #e6e6e6;
+	background: #171717;
+}
+
+.unknown {
+	color: #e6e6e6;
+	background: #171717;
+}
+
+.hit {
+}
+
+.missed {
+	color: #171717;
+	background-color: white;
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the black-on-white effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: white;
+}

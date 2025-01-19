@@ -42,7 +42,7 @@
 	<xsl:template as="element(link)+" match="style" mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-		<xsl:for-each select="('test-report-colors-classic.css', 'test-report-base.css')">
+		<xsl:for-each select="('test-report-colors-blackwhite.css', 'test-report-base.css')">
 			<!-- Absolute URI of CSS -->
 			<xsl:variable as="xs:anyURI" name="css-uri"
 				select="resolve-uri(concat('../../../../src/reporter/', .))" />

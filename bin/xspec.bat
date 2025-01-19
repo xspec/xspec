@@ -93,6 +93,7 @@ rem ##
     set WIN_EXTRA_OPTION=
     set XSPEC=
     set CATALOG=
+    set REPORT_THEME=default
     set ERROR_ON_TEST_FAILURE=
     goto :EOF
 
@@ -441,6 +442,7 @@ rem
 
 if not defined HTML_REPORTER_XSL set "HTML_REPORTER_XSL=%XSPEC_HOME%\src\reporter\format-xspec-report.xsl"
 if not defined COVERAGE_REPORTER_XSL set "COVERAGE_REPORTER_XSL=%XSPEC_HOME%\src\reporter\coverage-report.xsl"
+if defined XSPEC_HTML_REPORT_THEME set "REPORT_THEME=%XSPEC_HTML_REPORT_THEME%"
 
 echo:
 echo Formatting Report...
@@ -448,6 +450,7 @@ call :xslt -o:"%HTML%" ^
     -s:"%RESULT%" ^
     -xsl:"%HTML_REPORTER_XSL%" ^
     inline-css=true ^
+    report-theme=%REPORT_THEME% ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
 if defined COVERAGE (
@@ -458,6 +461,7 @@ if defined COVERAGE (
         -s:"%COVERAGE_XML%" ^
         -xsl:"%COVERAGE_REPORTER_XSL%" ^
         inline-css=true ^
+        report-theme=%REPORT_THEME% ^
         || ( call :die "Error formatting the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"
