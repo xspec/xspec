@@ -30,7 +30,7 @@
    -->
    <xsl:param name="report-theme" as="xs:string" select="'default'" />
    <xsl:variable name="report-theme-to-use" as="xs:string"
-      select="if ($report-theme ne 'default') then $report-theme else 'classic'"/>
+      select="if ($report-theme ne 'default') then $report-theme else 'blackwhite'"/>
 
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the test result report HTML, these Private Use Area characters should be considered
