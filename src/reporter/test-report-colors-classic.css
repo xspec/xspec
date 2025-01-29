@@ -18,11 +18,6 @@ h2 {
 	background: #cfc;
 }
 
-hr {
-	color: #606;
-	background: white;
-}
-
 a:link {
 	color: #636;
 	background: transparent;
@@ -41,36 +36,6 @@ a:hover {
 a:active {
 	color: #6f6;
 	background: #606;
-}
-
-#colophon,
-#xml-link,
-.note {
-	color: #666;
-}
-
-#colophon a:link,
-#colophon a:visited,
-#colophon a:hover,
-#xml-link a:link,
-#xml-link a:visited,
-#xml-link a:hover,
-.note a:link,
-.note a:visited,
-.note a:hover {
-	color: #969;
-	background: transparent;
-}
-
-#colophon a:hover,
-#xml-link a:hover,
-.note a:hover {
-	background: #cfc;
-	color: #969;
-}
-
-.popup {
-	background: white;
 }
 
 .same {

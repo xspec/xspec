@@ -36,45 +36,8 @@ table {
 	margin-left: 5%;
 }
 
-dd ul,
-dd ol {
-	margin-left: 0%;
-}
-
-li ul,
-li ol {
-	margin-left: 5%;
-}
-
-dl,
-ul,
-ol,
-blockquote {
-	margin-left: 10%;
-}
-
-dt {
-	padding-top: 3px;
-	padding-bottom: 3px;
-	clear: both;
-}
-
-dd p {
-	margin-left: -5px;
-	margin-top: 5px;
-	clear: both;
-}
-
-p.link {
-	margin-top: 4px;
-	margin-bottom: 0px;
-	clear: both;
-}
-
 tr td,
-td p,
-li,
-li p {
+td p {
 	margin-left: 0%;
 }
 
@@ -82,75 +45,13 @@ td {
 	padding-right: 5%;
 }
 
-.link img,
-dt img {
-	vertical-align: middle;
-	position: relative;
-	top: -5px;
-}
-
 img {
 	position: relative;
-}
-
-#xml-link {
-	position: absolute;
-	left: 5px;
-	top: 5px;
-	width: 10%;
-	margin-left: 0%;
-}
-
-#link-up {
-	position: absolute;
-	left: 93%;
-	right: 2em;
-	top: 0.3em;
-}
-
-#link-top {
-	position: absolute;
-	left: 89%;
-	right: 4em;
-	top: 0.3em;
-}
-
-.popup {
-	display: block;
-	visibility: hidden;
-	float: right;
-	position: absolute;
-	top: 5px;
-	left: -200px;
-	z-index: 1;
-	padding: 0.3em;
-	width: 220px;
-}
-
-.note {
-	position: relative;
-}
-
-.post {
-	margin-left: 5%;
-	padding-top: 1em;
-}
-
-.example,
-.sidebar {
-	margin-left: 5%;
-	margin-top: 1em;
-	margin-bottom: 1em;
 }
 
 pre {
 	padding-left: 5%;
 	margin-left: 5%;
-}
-
-dd pre,
-li pre {
-	padding-left: 5%;
 }
 
 /* fonts */
@@ -163,9 +64,7 @@ table {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
 	font-family: sans-serif;
 }
 
@@ -189,10 +88,6 @@ h4 {
 	font-weight: bold;
 }
 
-dt {
-	font-weight: bold;
-}
-
 a:link,
 a:visited,
 a:active,
@@ -200,52 +95,9 @@ a:hover {
 	font-weight: bold;
 }
 
-a.offsite:link,
-a.offsite:visited,
-a.offsite:active,
-a.offsite:hover {
-	font-weight: normal;
-}
-
-/* suppress the normal italics */
-address {
-	font-style: normal;
-}
-
-div.example,
-.sidebar {
-	font-family: sans-serif;
-	font-size: 100%;
-}
-
-.note,
-.link {
-	font-family: sans-serif;
-	/*font-size: 83%;*/
-}
-
-.example,
-.string,
-.rtf,
-.code,
 pre,
 code {
 	font-family: monospace;
-	/*font-size: 83%;*/
-}
-
-.boolean {
-	font-style: italic;
-}
-
-#colophon,
-#xml-link {
-	font-size: 69%;
-}
-
-.question,
-.title {
-	font-weight: bold;
 }
 
 /* this is to make Navigator fill the entire line */
@@ -263,9 +115,7 @@ img,
 a:link img,
 a:visited img,
 a:hover img,
-a:active img,
-#link-up img,
-#link-top img {
+a:active img {
 	border: 0px none white;
 	background: transparent;
 }
@@ -284,33 +134,6 @@ a:active {
 
 a:hover {
 	border: 0px none white;
-}
-
-a.img:hover,
-a.img:active {
-	background: transparent;
-}
-
-.popup {
-	border: 1px solid #606;
-}
-
-.post {
-	border-top: 2px solid #606;
-}
-
-.example {
-	border-top: 2px solid #606;
-	border-bottom: 2px solid #606;
-}
-
-.sidebar {
-	border-top: 2px solid #090;
-	border-bottom: 2px solid #090;
-}
-
-.rng {
-	border-left: 2px solid #666;
 }
 
 /* code coverage report styles */
@@ -332,29 +155,12 @@ pre.xspecCoverage > .whitespace {
 }
 
 /* text */
-ol ol li {
-	list-style: lower-alpha;
-}
-
 td {
 	vertical-align: top;
 }
 
 h1 {
 	text-transform: uppercase;
-}
-
-.question {
-	text-indent: -33px;
-}
-
-.byline {
-	text-align: right;
-}
-
-#link-top,
-#link-up {
-	text-align: right;
 }
 
 a {
@@ -369,7 +175,6 @@ body > h2:first-of-type {
 
 table {
 	width: 95%;
-	/* border: collapse; */
 }
 
 th {
@@ -386,7 +191,7 @@ div > table > tbody > tr > th:first-child {
 }
 
 .xspec tbody th {
-	font-weight: normal; /*font-size: 0.8em;*/
+	font-weight: normal;
 	border-top: 1px #666 solid;
 }
 
