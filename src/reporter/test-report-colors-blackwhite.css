@@ -13,8 +13,14 @@ Colors used, other than white:
 
 /* text and background colours */
 body {
-	background-color: white;
-	color: #171717;
+	--background-color: white;
+	--main-text-color: #171717;
+	--table-cell-text-color: #262626;
+	--deemphasis-color: #454545;
+	--diff-relevant-ws-color: #e6e6e6;
+	--link-hover-color: #f0f0f0;
+	background-color: var(--background-color);
+	color: var(--main-text-color);
 }
 
 h1 {
@@ -24,23 +30,23 @@ h2 {
 }
 
 a:link {
-	color: #171717;
+	color: var(--main-text-color);
 	background: transparent;
 }
 
 a:visited {
-	color: #454545;
+	color: var(--deemphasis-color);
 	background: transparent;
 }
 
 a:hover {
-	color: #f0f0f0;
-	background: #171717;
+	color: var(--link-hover-color);
+	background: var(--main-text-color);
 }
 
 a:active {
-	color: #171717;
-	background: white;
+	color: var(--main-text-color);
+	background: var(--background-color);
 }
 
 .same {
@@ -52,13 +58,13 @@ a:active {
 }
 
 .diff {
-	color: white;
-	background-color: #171717;
+	color: var(--background-color);
+	background-color: var(--main-text-color);
 	/* Underline is visible in Windows high-contrast mode,
 	 * where the white-on-black effect here is no different
 	 * from the surrounding text. */
 	text-decoration: underline;
-	text-decoration-color: #171717;
+	text-decoration-color: var(--main-text-color);
 }
 
 /*
@@ -69,78 +75,78 @@ a:active {
  * 1. Not in relevant part of diff: dark against light background */
 td > pre > .whitespace {
 	font-style: italic;
-	color: #171717;
+	color: var(--main-text-color);
 }
 
 /* 2. In relevant part of diff: override color
  * and instead use light against dark background */
 .diff.whitespace {
-	color: #e6e6e6;
+	color: var(--diff-relevant-ws-color);
 }
 
 .ellipsis {
-	color: #454545;
+	color: var(--deemphasis-color);
 }
 
 .xmlns.trivial {
-	color: #454545;
+	color: var(--deemphasis-color);
 	font-style: italic;
 }
 
 div > table > tbody > tr > th:first-child {
-	color: #454545;
+	color: var(--deemphasis-color);
 }
 
 /* 'failed: n' part of Contents */
 table > thead > tr > th:nth-child(4) {
-	color: white;
-	background-color: #171717;
+	color: var(--background-color);
+	background-color: var(--main-text-color);
 	padding: 2px;
 	/* Underline is visible in Windows high-contrast mode,
 	 * where the white-on-black effect here is no different
 	 * from the surrounding text. */
 	text-decoration: underline;
-	text-decoration-color: #171717;
+	text-decoration-color: var(--main-text-color);
 }
 
 .xspec tbody td {
-	color: #262626;
+	color: var(--table-cell-text-color);
 }
 
 .successful {
 }
 
 .pending {
-	color: #454545;
+	color: var(--deemphasis-color);
 }
 
 /* body makes this selector more specific than the one in test-report.css  */
 body *:target {
-	box-shadow: -0.5rem 0 0 0 #e6e6e6;
+	box-shadow: -0.5rem 0 0 0 var(--diff-relevant-ws-color);
 }
 
 /* code coverage report styles */
 .ignored,
 .comment,
 pre.xspecCoverage > .whitespace {
-	color: #454545;
-	background: white;
+	color: var(--deemphasis-color);
+	background: var(--background-color);
 }
 
 .unknown {
-	color: #454545;
-	background: white;
+	color: var(--deemphasis-color);
+	background: var(--background-color);
 }
 
 .hit {
 }
 
 .missed {
-	color: white;
-	background-color: #171717;
+	color: var(--background-color);
+	background-color: var(--main-text-color);
 	/* Underline is visible in Windows high-contrast mode,
 	 * where the white-on-black effect here is no different
 	 * from the surrounding text. */
 	text-decoration: underline;
-	text-decoration-color: #171717;
+	text-decoration-color: var(--main-text-color);
 }
