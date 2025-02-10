@@ -2,23 +2,14 @@
 /*  File:       test-report-colors-whiteblack.css                           */
 /* ------------------------------------------------------------------------ */
 
-/*
-Colors used, other than white:
-	#171717 gray 90%
-	#262626 gray 85%
-	#454545 gray 70%
-	#e6e6e6 gray 10%
-	#f0f0f0 gray  5%
-*/
-
 /* text and background colours */
 body {
-	--background-color: #171717;
+	--background-color: #171717; /* gray 90% */
 	--main-text-color: white;
-	--table-cell-text-color: #f0f0f0;
-	--deemphasis-color: #e6e6e6;
-	--diff-relevant-ws-color: #454545;
-	--link-hover-color: #262626;
+	--table-cell-text-color: #f0f0f0; /* gray  5% */
+	--deemphasis-color: #e6e6e6; /* gray 10% */
+	--diff-relevant-ws-color: #454545; /* gray 70% */
+	--link-hover-color: #262626; /* gray 85% */
 	background-color: var(--background-color);
 	color: var(--main-text-color);
 }

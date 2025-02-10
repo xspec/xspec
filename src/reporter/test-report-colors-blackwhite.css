@@ -2,23 +2,14 @@
 /*  File:       test-report-colors-blackwhite.css                           */
 /* ------------------------------------------------------------------------ */
 
-/*
-Colors used, other than white:
-	#171717 gray 90%
-	#262626 gray 85%
-	#454545 gray 70%
-	#e6e6e6 gray 10%
-	#f0f0f0 gray  5%
-*/
-
 /* text and background colours */
 body {
 	--background-color: white;
-	--main-text-color: #171717;
-	--table-cell-text-color: #262626;
-	--deemphasis-color: #454545;
-	--diff-relevant-ws-color: #e6e6e6;
-	--link-hover-color: #f0f0f0;
+	--main-text-color: #171717; /* gray 90% */
+	--table-cell-text-color: #262626; /* gray 85% */
+	--deemphasis-color: #454545; /* gray 70% */
+	--diff-relevant-ws-color: #e6e6e6; /* gray 10% */
+	--link-hover-color: #f0f0f0; /* gray  5% */
 	background-color: var(--background-color);
 	color: var(--main-text-color);
 }
