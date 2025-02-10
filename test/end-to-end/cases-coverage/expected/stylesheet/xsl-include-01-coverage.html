@@ -8,7 +8,7 @@
    <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-include-01.xsl">xsl-include-01.xsl</a></p>
-      <h2>module: xsl-include-01.xsl; 14 lines</h2>
+      <h2>module: xsl-include-01.xsl; 15 lines</h2>
       <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -16,13 +16,14 @@
 05: <span class="comment">  --&gt;</span>
 06: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:include --&gt;</span>
 07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="xsl-include-01A.xsl" /&gt;</span>
-08: <span class="whitespace">  </span><span class="comment">&lt;!-- Main template --&gt;</span>
-09: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-include"&gt;</span>
-10: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
-11: <span class="whitespace">      </span><span class="hit">&lt;xsl:call-template name="includeTemplate01" /&gt;</span>
-12: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-13: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-14: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+08: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="xsl-include-01B.xsl" /&gt;</span>
+09: <span class="whitespace">  </span><span class="comment">&lt;!-- Main template --&gt;</span>
+10: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-include"&gt;</span>
+11: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+12: <span class="whitespace">      </span><span class="hit">&lt;xsl:call-template name="includeTemplate01" /&gt;</span>
+13: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+14: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+15: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       <h2>module: xsl-include-01A.xsl; 9 lines</h2>
       <pre class="xspecCoverage">1: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 2: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
@@ -33,5 +34,7 @@
 7: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
 8: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 9: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <h2>module: xsl-include-01B.xsl; 5 lines</h2>
+      <p><span class="missed">not used</span></p>
    </body>
 </html>

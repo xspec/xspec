@@ -5,6 +5,7 @@
   -->
   <!-- xsl:include -->
   <xsl:include href="xsl-include-01A.xsl" />
+  <xsl:include href="xsl-include-01B.xsl" />
   <!-- Main template -->
   <xsl:template match="xsl-include">
     <root>
