@@ -63,7 +63,7 @@ load bats-helper
     unset SAXON_CP
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "SAXON_CP and SAXON_HOME both not set!" ]
+    [ "${lines[0]}" = "Cannot find SAXON_CP, SAXON_HOME, or saxon!" ]
     assert_regex "${lines[3]}" '^Usage: xspec '
 }
 
@@ -588,10 +588,12 @@ load bats-helper
 # saxon script
 #
 
-@test "invoking xspec with saxon script uses the saxon script #121 #122" {
+@test "invoking xspec with saxon script uses the saxon script (as a fallback if SAXON_CP and SAXON_HOME are not set) #121 #122" {
     echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
     chmod +x "${work_dir}/saxon"
     export PATH="$PATH:${work_dir}"
+    unset SAXON_CP
+    unset SAXON_HOME
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "Saxon script found, use it." ]
