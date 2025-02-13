@@ -588,7 +588,7 @@ load bats-helper
 # saxon script
 #
 
-@test "invoking xspec with saxon script uses the saxon script (as a fallback if SAXON_CP and SAXON_HOME are not set) #121 #122" {
+@test "invoking xspec with saxon script uses the saxon script, as a fallback if SAXON_CP and SAXON_HOME are not set #121 #122" {
     echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
     chmod +x "${work_dir}/saxon"
     export PATH="$PATH:${work_dir}"
@@ -597,6 +597,15 @@ load bats-helper
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "Saxon script found, use it." ]
+}
+
+@test "invoking xspec with saxon script and SAXON_CP uses SAXON_CP #2072" {
+    echo "echo 'Some Saxon script'" > "${work_dir}/saxon"
+    chmod +x "${work_dir}/saxon"
+    export PATH="$PATH:${work_dir}"
+    myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    [ "$status" -eq 0 ]
+    assert_regex "${lines[0]}" '^Creating XSpec Directory '
 }
 
 #
