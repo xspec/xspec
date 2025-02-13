@@ -55,28 +55,16 @@ die() {
     exit 1
 }
 
+# SAXON_CP and SAXON_HOME are the documented ways to point to Saxon.
+#
+# Fallback:
 # If there is a script called "saxon" and returning ok (status code 0)
 # when called with "--help", we assume this is the EXPath Packaging
 # script for Saxon [1].  If it is present, that means the user already
 # configured it, so there is no point to duplicate the logic here.
 # Just use it.
 # [1]http://code.google.com/p/expath-pkg/source/browse/trunk/saxon/pkg-saxon/src/shell/saxon
-
-if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
-    echo Saxon script found, use it.
-    echo
-    xslt() {
-        saxon \
-            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
-            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            --java -Dxspec.home="${XSPEC_HOME}" \
-            --java -Dxspec.xspecfile="${XSPEC}" \
-            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
-    }
-    xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
-    }
-else
+if [ -n "${SAXON_CP}" ] || [ -n "${SAXON_HOME}" ]; then
     xslt() {
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
@@ -88,6 +76,24 @@ else
     xquery() {
         java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
+else
+    if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
+        echo Saxon script found, use it.
+        echo
+        xslt() {
+            saxon \
+                --java -Dxspec.coverage.ignore="${TEST_DIR}" \
+                --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+                --java -Dxspec.home="${XSPEC_HOME}" \
+                --java -Dxspec.xspecfile="${XSPEC}" \
+                --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
+        }
+        xquery() {
+            saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
+        }
+    else
+        echo "Cannot find SAXON_CP, SAXON_HOME, or saxon!"
+    fi
 fi
 
 ##
@@ -129,10 +135,7 @@ fi
 unset USE_SAXON_HOME
 
 if test -z "$SAXON_CP"; then
-    if test -z "$SAXON_HOME"; then
-        echo "SAXON_CP and SAXON_HOME both not set!"
-        # die "SAXON_CP and SAXON_HOME both not set!"
-    else
+    if test -n "$SAXON_HOME"; then
         USE_SAXON_HOME=1
         for f in \
             "${SAXON_HOME}"/saxon9?e.jar \
