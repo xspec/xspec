@@ -23,6 +23,7 @@
    <xsl:include href="../common/namespace-vars.xsl" />
    <xsl:include href="../common/parse-report.xsl" />
    <xsl:include href="../common/trim.xsl" />
+   <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
 

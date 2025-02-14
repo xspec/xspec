@@ -24,6 +24,7 @@
    <xsl:include href="../common/deep-equal.xsl" />
    <xsl:include href="../common/namespace-vars.xsl" />
    <xsl:include href="../common/uqname-utils.xsl" />
+   <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
    <xsl:include href="coverage-compute-status.xsl" />
