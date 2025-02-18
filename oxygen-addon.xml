@@ -9,16 +9,16 @@
 
 		<!--
 			To publish a new version,
-			* Update this @href to a specific commit archive
-			* Increment <xt:version>
+			* Update this @href to a specific archive named after the version, e.g., v1.2.3.zip
+			* Increment src/common/VERSION file
 			* Disable the new add-on version in the project options stored in xspec.xpr
 			  (Options - Preferences - Document Type Association)
 			* Update the changelog in xt:description
 		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/fee92fd453ac9e55e3c889df168ebc918fdc8485.zip" />
+			href="https://github.com/xspec/xspec/archive/refs/tags/v3.2.1.zip" />
 
-		<xt:version>3.2.0</xt:version>
+		<xt:version><xi:include href="src/common/VERSION" parse="text" /></xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.
