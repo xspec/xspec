@@ -5,11 +5,59 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../../../../tutorial/coverage/demo.xsl">demo.xsl</a></p>
-      <h2>module: demo.xsl; 29 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <p>XSpec: <a href="../../custom-coverage-report.xspec">custom-coverage-report.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />5</th>
+               <th class="totals emphasis">missed<br />7</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />54</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">demo.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">3</th>
+               <th class="totals">3</th>
+               <th class="totals">0</th>
+               <th class="totals">29</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#module2">demo-imported.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">2</th>
+               <th class="totals">4</th>
+               <th class="totals">0</th>
+               <th class="totals">25</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: demo.xsl<span class="scenario-totals">hit: 3 / missed: 3 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
 03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
 04: 
@@ -38,8 +86,10 @@
 27: 
 28: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
 29: </pre>
-      <h2>module: demo-imported.xsl; 25 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      </div>
+      <div id="module2">
+         <h2 class="successful">module: demo-imported.xsl<span class="scenario-totals">hit: 2 / missed: 4 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="2.0"</span>
 03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
 04: 
@@ -64,5 +114,6 @@
 23: 
 24: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
 25: </pre>
+      </div>
    </body>
 </html>

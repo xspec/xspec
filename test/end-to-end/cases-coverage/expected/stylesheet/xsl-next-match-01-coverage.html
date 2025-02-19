@@ -5,11 +5,59 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-next-match-01.xsl">xsl-next-match-01.xsl</a></p>
-      <h2>module: xsl-next-match-01.xsl; 31 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <p>XSpec: <a href="../../xsl-next-match-01.xspec">xsl-next-match-01.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />19</th>
+               <th class="totals emphasis">missed<br />0</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />43</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">xsl-next-match-01.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">14</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">31</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#module2">xsl-next-match-01A.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">5</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">12</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: xsl-next-match-01.xsl<span class="scenario-totals">hit: 14 / missed: 0 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
 04: <span class="comment">      xsl:next-match Coverage Test Case - See imported template as well</span>
@@ -40,8 +88,10 @@
 29: <span class="whitespace">    </span><span class="hit">&lt;/xsl:next-match&gt;</span>
 30: <span class="whitespace">   </span><span class="hit">&lt;/xsl:template&gt;</span>
 31: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
-      <h2>module: xsl-next-match-01A.xsl; 12 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      </div>
+      <div id="module2">
+         <h2 class="successful">module: xsl-next-match-01A.xsl<span class="scenario-totals">hit: 5 / missed: 0 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!-- Secondary template invoked for node --&gt;</span>
 04: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="nextMatch" priority="2"&gt;</span>
@@ -53,5 +103,6 @@
 10: <span class="whitespace">    </span><span class="hit">&lt;xsl:next-match /&gt;</span>
 11: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 12: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
    </body>
 </html>

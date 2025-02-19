@@ -5,12 +5,63 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../coverage_no-hit.xsl">coverage_no-hit.xsl</a></p>
-      <h2>module: coverage_no-hit.xsl; 12 lines</h2>
-      <p><span class="missed">not used</span></p>
-      <h2>module: coverage_no-hit_included.xsl; 10 lines</h2>
-      <p><span class="missed">not used</span></p>
+      <p>XSpec: <a href="../../coverage_no-hit.xspec">coverage_no-hit.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />0</th>
+               <th class="totals emphasis">missed<br />0</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />22</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#module1">coverage_no-hit.xsl</a></th>
+               <th class="totals">no</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">12</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#module2">coverage_no-hit_included.xsl</a></th>
+               <th class="totals">no</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">10</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="failed">module: coverage_no-hit.xsl<span class="scenario-totals">hit: 0 / missed: 0 / unknown: 0</span></h2>
+         <p><span class="missed">not used</span></p>
+      </div>
+      <div id="module2">
+         <h2 class="failed">module: coverage_no-hit_included.xsl<span class="scenario-totals">hit: 0 / missed: 0 / unknown: 0</span></h2>
+         <p><span class="missed">not used</span></p>
+      </div>
    </body>
 </html>

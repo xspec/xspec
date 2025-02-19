@@ -5,11 +5,51 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-sequence-01.xsl">xsl-sequence-01.xsl</a></p>
-      <h2>module: xsl-sequence-01.xsl; 38 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <p>XSpec: <a href="../../xsl-sequence-01.xspec">xsl-sequence-01.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />12</th>
+               <th class="totals emphasis">missed<br />5</th>
+               <th class="totals">unknown<br />5</th>
+               <th class="totals">lines<br />38</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">xsl-sequence-01.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">12</th>
+               <th class="totals">5</th>
+               <th class="totals">5</th>
+               <th class="totals">38</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: xsl-sequence-01.xsl<span class="scenario-totals">hit: 12 / missed: 5 / unknown: 5</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
 04: <span class="comment">      xsl:sequence Coverage Test Case</span>
@@ -47,5 +87,6 @@
 36: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
 37: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
 38: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
    </body>
 </html>
