@@ -46,11 +46,28 @@
    <xsl:variable name="xspec-doc" as="document-node(element(x:description))"
       select="doc($xspec-uri)" />
 
-   <!-- Get the *-report.xml file. It contains the date/time the test was run. -->
+   <!-- Get the *-result.xml file. It contains the date/time the test was run. -->
    <xsl:variable name="result-uri" as="xs:string"
       select="replace(base-uri(), '-coverage\.xml', '-result.xml')" />
-   <xsl:variable name="result-doc" as="document-node(element(x:report))"
-      select="doc($result-uri)" />
+   <xsl:variable name="result-doc" as="document-node(element(x:report))">
+      <xsl:choose>
+         <xsl:when test="doc-available($result-uri)">
+            <xsl:sequence select="doc($result-uri)"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <!-- End-to-end coverage tests don't have access to *-result.xml.
+               We could make the *-result.xml file available by modifying
+               <xsl:variable as="element(reports)" name="reports">
+               in test/end-to-end/ant/base/worker/generate.xsl, but then
+               we'd have many *-result.xml files to maintain with little benefit.
+               Instead, the end-to-end coverage HTML reports use the date from
+               mock-result.xml. -->
+            <xsl:variable name="mock-result-uri" as="xs:anyURI"
+               select="resolve-uri('../mock-result.xml', $xspec-uri)"/>
+            <xsl:sequence select="doc($mock-result-uri)"/>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:variable> 
 
    <xsl:accumulator name="computed-status" as="xs:string?" initial-value="()">
       <xsl:accumulator-rule match="node()" phase="start">
