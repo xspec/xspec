@@ -277,7 +277,7 @@
             <tr>
                <th/>
                <xsl:for-each select="x:descendant-tests(.) => x:test-stats()">
-                  <th class="totals">
+                  <th class="totals{if (@label eq 'failed') then ' emphasis' else ''}">
                      <xsl:text expand-text="yes">{@label}:&#xA0;{@count}</xsl:text>
                   </th>
                </xsl:for-each>

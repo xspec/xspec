@@ -170,7 +170,7 @@
                         <br />
                         <xsl:value-of select="count($coverage-stats/coverage[. eq 'hit'])" />
                      </th>
-                     <th class="totals">
+                     <th class="totals emphasis">
                         <xsl:text>missed</xsl:text>
                         <br />
                         <xsl:value-of select="count($coverage-stats/coverage[. eq 'missed'])" />
