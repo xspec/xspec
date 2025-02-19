@@ -169,7 +169,7 @@
             </xsl:call-template>
             <xsl:call-template name="x:html-head-callback"/>
          </head>
-         <body>
+         <body id="testReport">
             <h1>Test Report</h1>
             <xsl:apply-templates select="." mode="x:html-report"/>
          </body>
