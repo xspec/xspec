@@ -240,9 +240,11 @@
          <h2 class="{if (empty($module-id)) then 'failed' else 'successful'}">
             <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}</xsl:text>
             <span class="scenario-totals">
-               <xsl:text expand-text="yes">hit: {count($coverage-stats[@uri eq $stylesheet-uri]/coverage[. eq 'hit'])} / </xsl:text>
-               <xsl:text expand-text="yes"> missed: {count($coverage-stats[@uri eq $stylesheet-uri]/coverage[. eq 'missed'])} / </xsl:text>
-               <xsl:text expand-text="yes"> unknown: {count($coverage-stats[@uri eq $stylesheet-uri]/coverage[. eq 'unknown'])}</xsl:text>
+               <xsl:variable name="main-module-stats" as="element(module)*"
+                  select="$coverage-stats[@uri eq $stylesheet-uri]"/>
+               <xsl:text expand-text="yes">hit: {count($main-module-stats/coverage[. eq 'hit'])} / </xsl:text>
+               <xsl:text expand-text="yes">missed: {count($main-module-stats/coverage[. eq 'missed'])} / </xsl:text>
+               <xsl:text expand-text="yes">unknown: {count($main-module-stats/coverage[. eq 'unknown'])}</xsl:text>
             </span>
          </h2>
          <xsl:choose>
