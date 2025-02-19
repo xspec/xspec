@@ -394,29 +394,29 @@
                </xsl:otherwise>
             </xsl:choose>
          </xsl:variable>
-               <xsl:for-each select="$construct-lines">
-                  <xsl:if test="position() != 1">
-                     <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
-                  </xsl:if>
-                  <xsl:where-populated>
-                     <span class="{$coverage}">
-                        <xsl:choose>
-                           <xsl:when test="
-                                 ($line-number eq 0)
-                                 and ($node is $outermost-element)
-                                 and $regex-group($groups('text'))">
-                              <xsl:variable name="position" as="xs:integer" select="position()" />
-                              <xsl:value-of
-                                 select="substring($stylesheet-lines[$position], 1, string-length())" />
-                           </xsl:when>
+         <xsl:for-each select="$construct-lines">
+            <xsl:if test="position() != 1">
+               <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
+            </xsl:if>
+            <xsl:where-populated>
+               <span class="{$coverage}">
+                  <xsl:choose>
+                     <xsl:when test="
+                           ($line-number eq 0)
+                           and ($node is $outermost-element)
+                           and $regex-group($groups('text'))">
+                        <xsl:variable name="position" as="xs:integer" select="position()" />
+                        <xsl:value-of
+                           select="substring($stylesheet-lines[$position], 1, string-length())" />
+                     </xsl:when>
 
-                           <xsl:otherwise>
-                              <xsl:value-of select="." />
-                           </xsl:otherwise>
-                        </xsl:choose>
-                     </span>
-                  </xsl:where-populated>
-               </xsl:for-each>
+                     <xsl:otherwise>
+                        <xsl:value-of select="." />
+                     </xsl:otherwise>
+                  </xsl:choose>
+               </span>
+            </xsl:where-populated>
+         </xsl:for-each>
 
          <xsl:next-iteration>
             <xsl:with-param name="line-number" select="$line-number + count($construct-lines) - 1" />
