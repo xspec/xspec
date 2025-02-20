@@ -205,7 +205,7 @@ div > table > tbody > tr > th:first-child {
 }
 
 #testReport .successful td:first-child:before,
-body#testReport  > table:first-of-type tr.successful th:first-child:before {
+body#testReport > table:first-of-type tr.successful th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/success12.png */
@@ -213,7 +213,7 @@ body#testReport  > table:first-of-type tr.successful th:first-child:before {
 }
 
 #testReport .failed td:first-child:before,
-body#testReport  > table:first-of-type tr.failed th:first-child:before {
+body#testReport > table:first-of-type tr.failed th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/fail12.png */
@@ -221,7 +221,7 @@ body#testReport  > table:first-of-type tr.failed th:first-child:before {
 }
 
 #testReport .pending td:first-child:before,
-body#testReport  > table:first-of-type tr.pending th:first-child:before {
+body#testReport > table:first-of-type tr.pending th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/pending12.png */
