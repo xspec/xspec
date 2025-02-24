@@ -118,7 +118,11 @@
          <module uri="{$stylesheet-uri}" number-of-lines="{$number-of-lines}"
             formatted-uri="{fmt:format-uri($stylesheet-uri)}" module-id="{$module-id}" xmlns="">
             <xsl:if test="not(empty($module-id))">
-               <xsl:for-each select="doc($stylesheet-uri)/descendant::node()">
+               <xsl:for-each select="
+                     doc($stylesheet-uri)/(
+                     descendant::node() except
+                     descendant::text()[normalize-space() = '' and not(parent::xsl:text)]
+                     )">
                   <coverage xmlns="">
                      <xsl:sequence select="accumulator-before('computed-status')"/>
                   </coverage>
