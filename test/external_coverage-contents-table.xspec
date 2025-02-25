@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test additional-classpath=${xspec.project.dir}/java?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/src/reporter/coverage-report-config.xml"?>
 <x:description run-as="external"
 	stylesheet="../src/reporter/coverage-report.xsl"
 	xmlns="http://www.w3.org/1999/xhtml"
