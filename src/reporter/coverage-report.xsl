@@ -167,78 +167,88 @@
             </p>
             <!-- The Contents table -->
             <h2>Contents</h2>
-            <table class="xspec">
-               <colgroup>
-                  <col style="width:68.75%" />
-                  <col style="width:6.25%" />
-                  <col style="width:6.25%" />
-                  <col style="width:6.25%" />
-                  <col style="width:6.25%" />
-                  <col style="width:6.25%" />
-               </colgroup>
-               <thead>
-                  <tr>
-                     <th />
-                     <th />
-                     <th colspan="3" class="totals nodesHead">nodes</th>
-                     <th />
-                  </tr>
-                  <tr>
-                     <th/>
-                     <th class="totals">used</th>
-                     <th class="totals">
-                        <xsl:text>hit</xsl:text>
-                        <br />
-                        <xsl:value-of select="count($coverage-stats/coverage[. eq 'hit'])" />
-                     </th>
-                     <th class="totals emphasis">
-                        <xsl:text>missed</xsl:text>
-                        <br />
-                        <xsl:value-of select="count($coverage-stats/coverage[. eq 'missed'])" />
-                     </th>
-                     <th class="totals">
-                        <xsl:text>unknown</xsl:text>
-                        <br />
-                        <xsl:value-of select="count($coverage-stats/coverage[. eq 'unknown'])" />
-                     </th>
-                     <th class="totals">
-                        <xsl:text>lines</xsl:text>
-                        <br />
-                        <xsl:value-of select="sum($coverage-stats/@number-of-lines)" />
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <!-- Use the coverage-stats data -->
-                  <xsl:for-each select="$coverage-stats">
-                     <tr class="{if (@module-id eq '') then 'failed' else 'successful'}">
-                        <th>
-                           <a href="#module{position()}">
-                              <xsl:text expand-text="yes">module: {@formatted-uri}</xsl:text>
-                           </a>
-                        </th>
-                        <th class="totals">
-                           <xsl:value-of select="if (@module-id eq '') then 'no' else 'yes'" />
-                        </th>
-                        <th class="totals">
-                           <xsl:value-of select="count(coverage[. eq 'hit'])" />
-                        </th>
-                        <th class="totals">
-                           <xsl:value-of select="count(coverage[. eq 'missed'])" />
-                        </th>
-                        <th class="totals">
-                           <xsl:value-of select="count(coverage[. eq 'unknown'])" />
-                        </th>
-                        <th class="totals">
-                           <xsl:value-of select="@number-of-lines" />
-                        </th>
-                     </tr>
-                  </xsl:for-each>
-               </tbody>
-            </table>
+            <xsl:call-template name="contents-table"/>
             <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="#current" />
          </body>
       </html>
+   </xsl:template>
+
+   <!-- Generate Contents table at top of coverage report -->
+   <xsl:template name="contents-table">
+      <xsl:param name="coverage-stats" select="$coverage-stats"/>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+         </colgroup>
+         <thead>
+            <tr>
+               <th/>
+               <th/>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th/>
+            </tr>
+            <tr>
+               <th/>
+               <th class="totals">used</th>
+               <th class="totals">
+                  <xsl:text>hit</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'hit'])"/>
+               </th>
+               <th class="totals emphasis">
+                  <xsl:text>missed</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'missed'])"/>
+               </th>
+               <th class="totals">
+                  <xsl:text>unknown</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'unknown'])"/>
+               </th>
+               <th class="totals">
+                  <xsl:text>lines</xsl:text>
+                  <br/>
+                  <xsl:value-of select="sum($coverage-stats/@number-of-lines)"/>
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+            <!-- Use the coverage-stats data -->
+            <xsl:for-each select="$coverage-stats">
+               <tr class="{if (@module-id eq '') then 'failed' else 'successful'}">
+                  <th>
+                     <a href="#module{position()}">
+                        <xsl:text expand-text="yes">module: {@formatted-uri}</xsl:text>
+                     </a>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="
+                           if (@module-id eq '') then
+                              'no'
+                           else
+                              'yes'"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'hit'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'missed'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'unknown'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="@number-of-lines"/>
+                  </th>
+               </tr>
+            </xsl:for-each>
+         </tbody>
+      </table>
    </xsl:template>
 
    <xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="coverage-report">
