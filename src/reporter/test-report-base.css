@@ -199,24 +199,29 @@ div > table > tbody > tr > th:first-child {
 	font-weight: initial;
 }
 
-.successful td:first-child:before,
-body > table:first-of-type tr.successful th:first-child:before {
+/* underline nodes heading in Test Coverage report */
+.nodesHead {
+	border-bottom: 1px #666 solid;
+}
+
+#testReport .successful td:first-child:before,
+body#testReport > table:first-of-type tr.successful th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/success12.png */
 	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABcUlEQVR42m1SPUsDQRB9661BIoEQDBqJnRhE1BD8CP4AgwhWEbQIKIhi6Q/QwspCtBBs/CBG1Fb9AWK0iBosLCQgYmGQEFARRUguezfuLeZygsWbmZ037zEMyxZ2W0IgHBIoIjPoF6q2QQYIWVlPcxmS3mYt4vFpjmEpd4pNaJ9vRvS9ILa57Aw2ejUYBtVcTdsZPnc7Qk0juNQ3QC/o55JkhnAO19wDnjAmIkkcZBMwBVmci1uEoR5Od4K73o94eAuZpx3kX+9U35TgVjAqVWdmZUWOhldQrnwhnduEELD7dVYhdMJY9zom+/ZAgqOnNY7OQAynt0sol3TFSyiRWklUCKXyN8Jt40gM7SPo68VDIY1c/ly5KlBtJaU+vlmEpyGArmBMkiZOrpdV3yFQ4PJBkmBkCqTO5jE3fITixyOei/dy0L5aVSjY7Jo/w10sqnFmn9VU+e+ZhW7BvGAzq/4O2UiBMCBJRv9/DyHDFQFTPwI/IlPYPLYnAAAAAElFTkSuQmCC");
 }
 
-.failed td:first-child:before,
-body > table:first-of-type tr.failed th:first-child:before {
+#testReport .failed td:first-child:before,
+body#testReport > table:first-of-type tr.failed th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/fail12.png */
 	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAjVBMVEWDKBSQLBadMBidMBiSLBWSLRaLKhWCKBOZLheHKRT//////v3ivLPgt67dsafhraLfqJvcopXQl4vNkoTKjH3RbljKaVO8aVaxYlCsUDylUDusOh+wNxu0OBu4ORy7OhzAOx3EPB2rNRqnNBqjMhifMRidMBeaLxeXLhaULRaRLBaOKxWLKhWIKRSFKBRkN75PAAAACnRSTlP7+c3Hx8TIwicknixbQAAAAIZJREFUeNoNwsEKgkAUBdD77jzSXKhDuEpyURBE//8h0SratQuKRK3QsdccjqTjDgLEV9VpPSEyYHPjVtFb9LYQKNYPrVk7fOyAfdMUWRnX9VHFLO9GJB4ClR8wxyIQYmGveZmGu1BUJFjm5fHtShDM8xVZFZ4nXtQVjDxd4hbPytGRPLf8A/K/MGOep8atAAAAAElFTkSuQmCC");
 }
 
-.pending td:first-child:before,
-body > table:first-of-type tr.pending th:first-child:before {
+#testReport .pending td:first-child:before,
+body#testReport > table:first-of-type tr.pending th:first-child:before {
 	margin-right: 5px;
 
 	/* optimized version of ../../graphics/pending12.png */

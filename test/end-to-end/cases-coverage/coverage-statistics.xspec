@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               stylesheet="coverage-statistics.xsl">
+
+  <x:scenario label="Named Template - Eleven">
+    <x:call template="Template01">
+      <x:param name="param01">11</x:param>
+    </x:call>
+    <x:expect label="Success">
+      <result>Eleven</result>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="Named Template - Thirty Three">
+    <x:call template="Template01">
+      <x:param name="param01">33</x:param>
+    </x:call>
+    <x:expect label="Failure - Whitespace and Ellipsis CSS Style" xml:space="preserve"><input>...</input>
+      <result>Thirty </result></x:expect>
+  </x:scenario>
+
+  <x:scenario label="Named Template - Three" pending="Pending Test">
+    <x:call template="Template01">
+      <x:param name="param01">3</x:param>
+    </x:call>
+    <x:expect label="Pending CSS style">
+      <result></result>
+    </x:expect>
+  </x:scenario>
+
+</x:description>

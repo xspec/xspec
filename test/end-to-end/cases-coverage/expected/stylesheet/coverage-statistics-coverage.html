@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for coverage-statistics.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
+   </head>
+   <body id="coverageReport">
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../coverage-statistics.xsl">coverage-statistics.xsl</a></p>
+      <p>XSpec: <a href="../../coverage-statistics.xspec">coverage-statistics.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />14</th>
+               <th class="totals emphasis">missed<br />2</th>
+               <th class="totals">unknown<br />2</th>
+               <th class="totals">lines<br />55</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">coverage-statistics.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">11</th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">27</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#module2">coverage-statisticsA.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">3</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">16</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#module3">coverage-statisticsB.xsl</a></th>
+               <th class="totals">no</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">12</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: coverage-statistics.xsl<span class="scenario-totals">hit: 11 / missed: 2 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+03: <span class="ignored">     xmlns:local="http://local/xslt" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+05: <span class="comment">      Test Coverage Report Statistics Test</span>
+06: <span class="comment">  --&gt;</span>
+07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsA.xsl" /&gt;</span>
+08: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsB.xsl" /&gt;</span>
+09: 
+10: <span class="whitespace">  </span><span class="hit">&lt;xsl:template name="Template01"&gt;</span>
+11: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="param01" as="xs:integer" /&gt;</span>
+12: 
+13: <span class="whitespace">    </span><span class="comment">&lt;!-- Eleven --&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="local:timesTwo($param01) eq 22"&gt;</span>
+15: <span class="whitespace">      </span><span class="hit">&lt;result&gt;</span><span class="hit">Eleven</span><span class="hit">&lt;/result&gt;</span>
+16: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+17: <span class="whitespace">    </span><span class="comment">&lt;!-- Twenty Two --&gt;</span>
+18: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$param01 eq 22"&gt;</span>
+19: <span class="whitespace">      </span><span class="missed">&lt;result&gt;</span><span class="missed">Twenty  Two</span><span class="missed">&lt;/result&gt;</span>
+20: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+21: <span class="whitespace">    </span><span class="comment">&lt;!-- Thirty three --&gt;</span>
+22: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$param01 eq 33"&gt;</span>
+23: <span class="whitespace">      </span><span class="hit">&lt;input&gt;</span><span class="hit">33</span><span class="hit">&lt;/input&gt;</span>
+24: <span class="whitespace">      </span><span class="hit">&lt;result&gt;</span><span class="hit">Thirty Three</span><span class="hit">&lt;/result&gt;</span>
+25: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+26: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+27: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
+      <div id="module2">
+         <h2 class="successful">module: coverage-statisticsA.xsl<span class="scenario-totals">hit: 3 / missed: 0 / unknown: 2</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+03: <span class="ignored">     xmlns:local="http://local/xslt" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
+05: <span class="comment">      Test Coverage Report Statistics Test</span>
+06: <span class="comment">  --&gt;</span>
+07: <span class="whitespace">  </span><span class="hit">&lt;xsl:function name="local:timesTwo" as="xs:integer"&gt;</span>
+08: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="number" as="xs:integer" /&gt;</span>
+09: 
+10: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$number eq 0"&gt;</span>
+11: <span class="unknown">     '0 Supplied'</span>
+12: <span class="unknown">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+13: 
+14: <span class="whitespace">    </span><span class="unknown">&lt;xsl:sequence select="$number * 2" /&gt;</span>
+15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
+16: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
+      <div id="module3">
+         <h2 class="failed">module: coverage-statisticsB.xsl<span class="scenario-totals">hit: 0 / missed: 0 / unknown: 0</span></h2>
+         <p><span class="missed">not used</span></p>
+      </div>
+   </body>
+</html>

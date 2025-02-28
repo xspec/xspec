@@ -5,11 +5,51 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../xsl-param-01.xsl">xsl-param-01.xsl</a></p>
-      <h2>module: xsl-param-01.xsl; 118 lines</h2>
-      <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+      <p>XSpec: <a href="../../xsl-param-01.xspec">xsl-param-01.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />65</th>
+               <th class="totals emphasis">missed<br />18</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />118</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">xsl-param-01.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">65</th>
+               <th class="totals">18</th>
+               <th class="totals">0</th>
+               <th class="totals">118</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: xsl-param-01.xsl<span class="scenario-totals">hit: 65 / missed: 18 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:myns="file://myNamespace"</span>
 003: <span class="ignored">  xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
 004: <span class="ignored">  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"</span>
@@ -127,5 +167,6 @@
 116: <span class="whitespace">    </span><span class="hit">&lt;xsl:value-of select="$functionParam01" /&gt;</span>
 117: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 118: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
    </body>
 </html>

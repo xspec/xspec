@@ -5,11 +5,51 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../issue-1917.xsl">issue-1917.xsl</a></p>
-      <h2>module: issue-1917.xsl; 29 lines</h2>
-      <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+      <p>XSpec: <a href="../../issue-1917-choose-first.xspec">issue-1917-choose-first.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />14</th>
+               <th class="totals emphasis">missed<br />5</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />29</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">issue-1917.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">14</th>
+               <th class="totals">5</th>
+               <th class="totals">0</th>
+               <th class="totals">29</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: issue-1917.xsl<span class="scenario-totals">hit: 14 / missed: 5 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:local="http://local/xslt" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
 03: <span class="whitespace">  </span><span class="ignored">&lt;xsl:output method="text" /&gt;</span>
 04: 
@@ -38,5 +78,6 @@
 27: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
 28: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 29: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
    </body>
 </html>
