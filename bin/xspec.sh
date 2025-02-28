@@ -14,17 +14,6 @@
 ## to the XSpec install directory.  By default, it uses this script's
 ## parent dir.
 ##
-## Note: If you use the EXPath Packaging System with Saxon, then you
-## already have the script "saxon" shipped with expath-repo.  In that
-## case you don't need to do anything, this script will be detected
-## and used instead.  You just have to ensure it is visible from here
-## (aka "ensure it is in the $PATH").  Even without packaging support,
-## this script is a useful way to launch Saxon from the shell.
-##
-## TODO: With the Packaging System, there should be no need to set the
-## XSPEC_HOME, as we could use absolute public URIs for the public
-## components...
-##
 ##############################################################################
 
 ##
@@ -55,40 +44,17 @@ die() {
     exit 1
 }
 
-# If there is a script called "saxon" and returning ok (status code 0)
-# when called with "--help", we assume this is the EXPath Packaging
-# script for Saxon [1].  If it is present, that means the user already
-# configured it, so there is no point to duplicate the logic here.
-# Just use it.
-# [1]http://code.google.com/p/expath-pkg/source/browse/trunk/saxon/pkg-saxon/src/shell/saxon
-
-if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
-    echo Saxon script found, use it.
-    echo
-    xslt() {
-        saxon \
-            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
-            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            --java -Dxspec.home="${XSPEC_HOME}" \
-            --java -Dxspec.xspecfile="${XSPEC}" \
-            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
-    }
-    xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
-    }
-else
-    xslt() {
-        java \
-            -Dxspec.coverage.ignore="${TEST_DIR}" \
-            -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            -Dxspec.home="${XSPEC_HOME}" \
-            -Dxspec.xspecfile="${XSPEC}" \
-            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
-    }
-    xquery() {
-        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
-    }
-fi
+xslt() {
+    java \
+        -Dxspec.coverage.ignore="${TEST_DIR}" \
+        -Dxspec.coverage.xml="${COVERAGE_XML}" \
+        -Dxspec.home="${XSPEC_HOME}" \
+        -Dxspec.xspecfile="${XSPEC}" \
+        -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+}
+xquery() {
+    java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+}
 
 ##
 ## some variables ############################################################

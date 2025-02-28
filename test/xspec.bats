@@ -585,19 +585,6 @@ load bats-helper
 }
 
 #
-# saxon script
-#
-
-@test "invoking xspec with saxon script uses the saxon script #121 #122" {
-    echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
-    chmod +x "${work_dir}/saxon"
-    export PATH="$PATH:${work_dir}"
-    myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "Saxon script found, use it." ]
-}
-
-#
 # Schematron XSLTs provided externally (CLI)
 #
 #     Ant is tested by run-xspec-tests-ant.sh
