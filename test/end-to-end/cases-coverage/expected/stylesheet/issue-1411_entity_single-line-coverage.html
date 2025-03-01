@@ -5,10 +5,51 @@
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
-   <body>
+   <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../issue-1411_entity_single-line.xsl">issue-1411_entity_single-line.xsl</a></p>
-      <h2>module: issue-1411_entity_single-line.xsl; 1 lines</h2>
-      <pre class="xspecCoverage">1: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE xsl:stylesheet [    &lt;!ENTITY nbsp "&amp;#160;"&gt;]&gt;</span><span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"                version="3.0"&gt;</span><span class="whitespace">   </span><span class="hit">&lt;xsl:template match="dummy" as="element(dummy)"&gt;</span><span class="whitespace">      </span><span class="hit">&lt;dummy&gt;</span><span class="hit">&amp;nbsp;</span><span class="hit">&lt;/dummy&gt;</span><span class="whitespace">   </span><span class="hit">&lt;/xsl:template&gt;</span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      <p>XSpec: <a href="../../issue-1411_entity_single-line.xspec">issue-1411_entity_single-line.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />3</th>
+               <th class="totals emphasis">missed<br />0</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />1</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">issue-1411_entity_single-line.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">3</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: issue-1411_entity_single-line.xsl<span class="scenario-totals">hit: 3 / missed: 0 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">1: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE xsl:stylesheet [    &lt;!ENTITY nbsp "&amp;#160;"&gt;]&gt;</span><span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"                version="3.0"&gt;</span><span class="whitespace">   </span><span class="hit">&lt;xsl:template match="dummy" as="element(dummy)"&gt;</span><span class="whitespace">      </span><span class="hit">&lt;dummy&gt;</span><span class="hit">&amp;nbsp;</span><span class="hit">&lt;/dummy&gt;</span><span class="whitespace">   </span><span class="hit">&lt;/xsl:template&gt;</span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+      </div>
    </body>
 </html>

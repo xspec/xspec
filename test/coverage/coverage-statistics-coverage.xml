@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is a stub of a *-coverage.xml data file. It provides a
+  global context item for the coverage-contents-table.xspec test,
+  providing enough information for the XSLT to define its globals. -->  
+<trace xspec="../../test/end-to-end/cases-coverage/coverage-statistics.xspec">
+   <compiled uri="../../test/end-to-end/cases-coverage/xspec/coverage-statistics-compiled.xsl"/>
+</trace>

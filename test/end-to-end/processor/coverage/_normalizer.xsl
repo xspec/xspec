@@ -47,17 +47,18 @@
 	</xsl:template>
 
 	<!--
-		Normalizes the links to the tested module
+		Normalizes the links to the test, the tested module, and sections of this report
 			Example:
 				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
 				out: <a href="../path/to/tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)" match="/html/body/p[1]/a" mode="normalizer:normalize">
+	<xsl:template as="element(a)" match="/html/body/p/a | /html/body/table/tbody/tr/th/a"
+		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
-			<xsl:for-each select="@href">
+			<xsl:for-each select="@href[not(starts-with(.,'#'))]">
 				<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 					select="normalizer:relative-uri(., $tunnel_document-uri)" />
 			</xsl:for-each>
@@ -69,30 +70,16 @@
 	<!--
 		Normalizes the header for module
 			Example:
-				in:  <h2>module: file:/path/to/module.xsl; 25 lines</h2>
-				out: <h2>module: module.xsl; 25 lines</h2>
+				in:  <h2>module: file:/path/to/module.xsl<span class="scenario-totals">...</span></h2>
+				out: <h2>module: module.xsl; 25 lines<span class="scenario-totals">...</span></h2>
 	-->
-	<xsl:template as="text()" match="/html/body/h2/text()" mode="normalizer:normalize">
-		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
-			^
-				(module:[ ])		<!-- group 1 -->
-				(\S+)				<!-- group 2 -->
-				(;)					<!-- group 3 -->
-				(?:\n[ ]+)?
-				([ ][1-9][0-9]*)	<!-- group 4 -->
-				(?:\n[ ]+)?
-				([ ]lines)			<!-- group 5 -->
-			$
-		</xsl:variable>
-		<xsl:analyze-string flags="x" regex="{$regex}" select=".">
+	<xsl:template as="text()" match="/html/body/div/h2/text()" mode="normalizer:normalize">
+		<xsl:analyze-string flags="x" regex="(module:[ ])(.+)$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="
 						regex-group(1),
-						x:filename-and-extension(regex-group(2)),
-						regex-group(3),
-						regex-group(4),
-						regex-group(5)"
+						x:filename-and-extension(regex-group(2))"
 					separator="" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>

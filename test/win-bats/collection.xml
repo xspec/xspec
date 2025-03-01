@@ -518,19 +518,6 @@
 	</case>
 
 	<!--
-		saxon script
-	-->
-
-	<!-- bin\xspec.bat does not support saxon script -->
-	<case ifdef="NEVER" name="invoking xspec with saxon script uses the saxon script #121 #122">
-    (echo @echo Saxon script with EXPath Packaging System) > "%WORK_DIR%\saxon.bat"
-    set "PATH=%PATH%;%WORK_DIR%"
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 0
-    call :verify_line 1 x "Saxon script found, use it."
-	</case>
-
-	<!--
 		Schematron XSLTs provided externally (CLI)
 		
 			Ant is tested by run-xspec-tests-ant.cmd

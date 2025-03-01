@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test additional-classpath=${xspec.project.dir}/java?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/src/reporter/coverage-report-config.xml"?>
+<x:description run-as="external"
+	stylesheet="../src/reporter/coverage-report.xsl"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!-- run-as="external" provides a global context item for global
+		parameters/variables that the XSLT declares. -->
+
+	<x:scenario label="Multiple used and unused modules">
+		<x:context href="coverage/coverage-statistics-coverage.xml"
+			select="/"/>
+		<x:variable name="coverage-stats" as="element(module)+" xmlns="">
+			<module uri="unused-module.xsl" number-of-lines="1"
+				formatted-uri="C:/unused-module.xsl" module-id=""/>
+			<module uri="used-module.xsl" number-of-lines="5"
+				formatted-uri="C:/used-module.xsl" module-id="1">
+				<coverage>missed</coverage>
+				<coverage>ignored</coverage>
+				<coverage>missed</coverage>
+				<coverage>hit</coverage>
+				<coverage>unknown</coverage>
+				<coverage>unknown</coverage>
+				<coverage>missed</coverage>
+			</module>
+			<module uri="another-used-module.xsl" number-of-lines="10"
+				formatted-uri="C:/another-used-module.xsl" module-id="2">
+				<coverage>comment</coverage>
+				<coverage>comment</coverage>
+				<coverage>ignored</coverage>
+				<coverage>hit</coverage>
+				<coverage>hit</coverage>
+				<coverage>hit</coverage>
+			</module>
+			<module uri="another-unused-module.xsl" number-of-lines="100"
+				formatted-uri="C:/another-unused-module.xsl" module-id=""/>
+		</x:variable>
+		<x:variable name="used-idx" select="2"/>
+		<x:variable name="unused-idx" select="1"/>
+		<x:call template="contents-table">
+			<x:param name="coverage-stats" select="$coverage-stats"/>
+		</x:call>
+		<x:scenario label="Overall structure">
+			<x:like label="Data-independent features"/>
+			<x:expect label="Correct totals in the header's hit/missed/unknown/lines columns"
+				test="/h:table/h:thead/h:tr[2]/h:th/h:br/following-sibling::text()"
+				select="/*/text()" as="text()+">
+				<!-- dummy elements keep the text nodes distinct -->
+				<dummy>4</dummy>
+				<dummy>3</dummy>
+				<dummy>2</dummy>
+				<dummy>116</dummy>
+			</x:expect>
+		</x:scenario>
+		<x:scenario label="Row for a used module">
+			<x:expect label="'successful' class on tr"
+				test="/h:table/h:tbody/h:tr[$used-idx]">
+				<tr class="successful">...</tr>
+			</x:expect>
+			<x:expect label="Module link and name in first column"
+				test="/h:table/h:tbody/h:tr[$used-idx]/h:th[1]">
+				<th>
+					<a href="#module2">module: C:/used-module.xsl</a>
+				</th>
+			</x:expect>
+			<x:expect label="'yes' in first class='totals' column ('used')"
+				test="/h:table/h:tbody/h:tr[$used-idx]/h:th[@class='totals'][1]">
+				<th class="totals">yes</th>
+			</x:expect>
+			<x:expect label="Counts of hit/missed/unknown nodes, followed by line count"
+				test="/h:table/h:tbody/h:tr[$used-idx]">
+				<tr class="...">
+					<th>...</th>
+					<th class="totals">...</th>
+					<th class="totals">1</th>
+					<th class="totals">3</th>
+					<th class="totals">2</th>
+					<th class="totals">5</th>
+				</tr>
+			</x:expect>
+		</x:scenario>
+		<x:scenario label="Row for an unused module">
+			<x:expect label="'failed' class on tr"
+				test="/h:table/h:tbody/h:tr[$unused-idx]">
+				<tr class="failed">...</tr>
+			</x:expect>
+			<x:expect label="Module link and name in first column"
+				test="/h:table/h:tbody/h:tr[$unused-idx]/h:th[1]">
+				<th>
+					<a href="#module1">module: C:/unused-module.xsl</a>
+				</th>
+			</x:expect>
+			<x:expect label="Remaining contents are 'no', three zeros, and line count"
+				test="/h:table/h:tbody/h:tr[$unused-idx]/h:th[@class='totals']">
+				<th class="totals">no</th>
+				<th class="totals">0</th>
+				<th class="totals">0</th>
+				<th class="totals">0</th>
+				<th class="totals">1</th>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Only one module, used">
+		<x:context href="coverage/coverage-statistics-coverage.xml"
+			select="/"/>
+		<x:variable name="coverage-stats" as="element(module)+" xmlns="">
+			<module uri="used-module.xsl" number-of-lines="25"
+				formatted-uri="C:/used-module.xsl" module-id="1">
+				<coverage>hit</coverage>
+				<coverage>ignored</coverage>
+				<coverage>hit</coverage>
+				<coverage>unknown</coverage>
+			</module>
+		</x:variable>
+		<x:call template="contents-table">
+			<x:param name="coverage-stats" select="$coverage-stats"/>
+		</x:call>
+		<x:like label="Data-independent features"/>
+		<x:expect label="Correct numbers in the header"
+			test="/h:table/h:thead/h:tr[2]/h:th/h:br/following-sibling::text()"
+			select="/*/text()" as="text()+">
+			<dummy>2</dummy>
+			<dummy>0</dummy>
+			<dummy>1</dummy>
+			<dummy>25</dummy>
+		</x:expect>
+		<x:expect label="Correct 'yes' and numbers in the body"
+			test="/h:table/h:tbody/h:tr/h:th[@class='totals']/text()"
+			select="/*/text()" as="text()+">
+			<dummy>yes</dummy>
+			<dummy>2</dummy>
+			<dummy>0</dummy>
+			<dummy>1</dummy>
+			<dummy>25</dummy>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="Only one module, unused">
+		<x:context href="coverage/coverage-statistics-coverage.xml"
+			select="/"/>
+		<x:variable name="coverage-stats" as="element(module)+" xmlns="">
+			<module uri="unused-module.xsl" number-of-lines="100"
+				formatted-uri="C:/unused-module.xsl" module-id=""/>
+		</x:variable>
+		<x:call template="contents-table">
+			<x:param name="coverage-stats" select="$coverage-stats"/>
+		</x:call>
+		<x:like label="Data-independent features"/>
+		<x:expect label="Correct numbers in the header"
+			test="/h:table/h:thead/h:tr[2]/h:th/h:br/following-sibling::text()"
+			select="/*/text()" as="text()+">
+			<dummy>0</dummy>
+			<dummy>0</dummy>
+			<dummy>0</dummy>
+			<dummy>100</dummy>
+		</x:expect>
+		<x:expect label="Correct 'no' and numbers in the body"
+			test="/h:table/h:tbody/h:tr/h:th[@class='totals']/text()"
+			select="/*/text()" as="text()+">
+			<dummy>no</dummy>
+			<dummy>0</dummy>
+			<dummy>0</dummy>
+			<dummy>0</dummy>
+			<dummy>100</dummy>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario shared="yes" label="Data-independent features">
+		<x:expect label="table element with class='xspec', colgroup, thead, and tbody">
+			<table class="xspec">
+				<colgroup>...</colgroup>
+				<thead>...</thead>
+				<tbody>...</tbody>
+			</table>
+		</x:expect>
+		<x:expect label="Six columns with widths defined" test="/h:table/h:colgroup">
+			<colgroup>
+				<col style="width:68.75%"/>
+				<col style="width:6.25%"/>
+				<col style="width:6.25%"/>
+				<col style="width:6.25%"/>
+				<col style="width:6.25%"/>
+				<col style="width:6.25%"/>
+			</colgroup>
+		</x:expect>
+		<x:expect test="/h:table/h:thead">
+			<x:label>Two header rows, where first has class='nodesHead' cell spanning 3 columns
+				and second has class='totals emphasis' for the cell with missed nodes</x:label>
+			<thead>
+				<tr>
+					<th/>
+					<th/>
+					<th colspan="3"
+						class="totals nodesHead">nodes</th>
+					<th/>
+				</tr>
+				<tr>
+					<th/>
+					<th class="totals">used</th>
+					<th class="totals">hit<br/>...</th>
+					<th class="totals emphasis">missed<br/>...</th>
+					<th class="totals">unknown<br/>...</th>
+					<th class="totals">lines<br/>...</th>
+				</tr>
+			</thead>
+		</x:expect>		
+		<x:expect label="tbody with one row per XSLT module"
+			test="count(one-or-more(/h:table/h:tbody/h:tr))"
+			select="count($coverage-stats)"/>
+	</x:scenario>
+</x:description>
