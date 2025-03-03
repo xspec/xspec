@@ -252,6 +252,10 @@
 							)">
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
+					
+					<xsl:when test="$pis = 'require-xspec-issue-2071-fixed'">
+						<xsl:text>Requires xspec/xspec#2071 to have been fixed</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 

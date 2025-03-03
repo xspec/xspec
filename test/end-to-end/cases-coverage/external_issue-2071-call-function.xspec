@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test enable-coverage?>
+<?xspec-test require-xspec-issue-2071-fixed?>
 
 <!-- Calling a xsl:function when run-as="external" set. 
      Related to https://saxonica.plan.io/issues/6688 as well as XSpec issue 2071. --> 
