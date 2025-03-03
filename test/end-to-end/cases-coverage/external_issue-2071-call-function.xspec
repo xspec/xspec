@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<!-- Calling a xsl:function when run-as="external" set. 
+     Related to https://saxonica.plan.io/issues/6688 as well as XSpec issue 2071. --> 
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:local="http://local/xslt"
+               stylesheet="external_issue-2071-call-function.xsl"
+               run-as="external">
+
+  <x:scenario label="func-choose">
+    <x:call function="local:func-choose">
+      <x:param>one</x:param>
+    </x:call>
+    <x:expect label="1 returned">1</x:expect>
+  </x:scenario>
+</x:description>
