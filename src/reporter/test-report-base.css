@@ -102,7 +102,7 @@ code {
 /* this is to make Navigator fill the entire line */
 h1,
 h2 {
-	border: 1px solid white;
+	border: 0px solid white;
 	width: auto;
 }
 
