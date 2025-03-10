@@ -1,0 +1,28 @@
+name: Git Tag for Version
+on:
+  push:
+    paths:
+      - src/common/VERSION
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+
+      - name: Read version number directly from VERSION file
+        id: read_version_file
+        run: echo "version_file_content=`cat src/common/VERSION`" >> "$GITHUB_OUTPUT"
+
+      - name: Push tag # 'v' followed by VERSION file content from preceding step
+        uses: anothrNick/github-tag-action@v1 # Don't use @master or @v1 unless you're happy to test the latest version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          CUSTOM_TAG: v${{ steps.read_version_file.outputs.version_file_content }}
+          BRANCH_HISTORY: last
