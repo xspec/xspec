@@ -16,7 +16,7 @@
 			* Update the changelog in xt:description
 		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/refs/tags/v3.2.1.zip" />
+			href="https://github.com/xspec/xspec/archive/refs/tags/v3.2.2.zip" />
 
 		<xt:version><xi:include href="src/common/VERSION" parse="text" /></xt:version>
 
