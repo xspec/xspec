@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?xspec-test enable-coverage?>
-<?xspec-test saxon-custom-options=-config:"package-01-config.xml"?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/end-to-end/cases-coverage/package-01-config.xml"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:csv="http://example.com/csv"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
