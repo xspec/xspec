@@ -31,14 +31,14 @@
         The value can be retrieved for any node of the module because accumulators
         hold their values until they match a different accumulator rule. -->
     <xsl:accumulator name="module-id-for-node" as="xs:integer?" initial-value="()">
-        <xsl:accumulator-rule match="XSLT:stylesheet | XSLT:transform">
+        <xsl:accumulator-rule match="XSLT:stylesheet | XSLT:transform | XSLT:package">
             <xsl:variable name="stylesheet-uri" as="xs:anyURI"
                 select="base-uri(.)" />
             <xsl:variable name="uri" as="xs:string"
                 select="if (starts-with($stylesheet-uri, '/'))
                 then ('file:' || $stylesheet-uri)
                 else $stylesheet-uri" />
-            <xsl:sequence select="key('modules', $uri, $trace)/@moduleId" />            
+            <xsl:sequence select="key('modules', $uri, $trace)/@moduleId" />
         </xsl:accumulator-rule>
     </xsl:accumulator>
 
@@ -58,11 +58,14 @@
     <xsl:template match="
         XSLT:stylesheet
         | XSLT:transform
+        | XSLT:package
 
+        | XSLT:accept
         | XSLT:accumulator
         | XSLT:attribute-set
         | XSLT:character-map
         | XSLT:decimal-format
+        | XSLT:expose
         | XSLT:global-context-item
         | XSLT:import
         | XSLT:import-schema
@@ -71,8 +74,10 @@
         | XSLT:mode
         | XSLT:namespace-alias
         | XSLT:output
+        | XSLT:override
         | XSLT:preserve-space
         | XSLT:strip-space
+        | XSLT:use-package
 
         | XSLT:output-character
 
@@ -160,7 +165,7 @@
                     Iterate over descendants and follow this logic:
                     A. Upon finding any untraceable executable descendant, return 'unknown'
                        and break out of loop. (Note: Nodes like comment() are untraceable
-                       but not executable, so they don't affect this iteration.) 
+                       but not executable, so they don't affect this iteration.)
                     B. If node has any traceable executable descendants, node is a candidate for
                        'missed', but condition A still applies as iteration continues.
                     C. At end of loop, if condition A did not apply, the tentative status
@@ -246,7 +251,7 @@
         as="xs:string"
         mode="coverage">
         <xsl:apply-templates select="ancestor::XSLT:merge[1]"
-            mode="#current"/>        
+            mode="#current"/>
     </xsl:template>
 
     <!-- Element-Specific rule for descendants of XSLT:merge-key -->
@@ -283,7 +288,7 @@
     </xsl:template>
 
     <!-- Element-Specific rule for child elements of XSLT:sort -->
-    <!-- (Child comment or PI nodes use higher-priority template.) --> 
+    <!-- (Child comment or PI nodes use higher-priority template.) -->
     <xsl:template match="XSLT:sort/*"
         as="xs:string"
         mode="coverage"
@@ -323,7 +328,7 @@
             <xsl:when test="parent::XSLT:if or parent::XSLT:param/parent::XSLT:template">
                 <!-- Trace hit for XSLT:if says the condition was checked but doesn't indicate the outcome. -->
                 <!-- XSLT:template/XSLT:param follows Use Parent Data rule and doesn't indicate if the
-                    default value of the template parameter was used. --> 
+                    default value of the template parameter was used. -->
                 <xsl:sequence select="'unknown'"/>
             </xsl:when>
             <xsl:otherwise>
@@ -389,5 +394,5 @@
         -->
         <xsl:sequence select="'untraceable executable'"/>
     </xsl:template>
-    
+
 </xsl:stylesheet>
