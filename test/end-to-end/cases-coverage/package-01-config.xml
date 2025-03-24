@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://saxon.sf.net/ns/configuration">
+	<xsltPackages>
+		<package name="http://example.com/csv-parser"
+			sourceLocation="external_xsl-package-01.xsl" version="1.0.0" />
+	</xsltPackages>
+</configuration>

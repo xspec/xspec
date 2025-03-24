@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:csv="http://example.com/csv"
+               stylesheet="external_xsl-package-01.xsl"
+               run-as="external">
+
+  <x:scenario label="xsl:package Coverage Test Case">
+    <x:call function="csv:parse">
+      <x:param>
+       name,id,postal code
+       "Abel Braaksma",34291,1210 KA
+       "Anders Berglund",473892,9843 ZD
+      </x:param>
+    </x:call>
+    <x:expect label="Success">
+      <csv>
+        <row />
+        <row>
+            <field quoted="no">name</field>
+            <field quoted="no">id</field>
+            <field quoted="no">postal code</field>
+        </row>
+        <row>
+            <field quoted="yes">Abel Braaksma</field>
+            <field quoted="no">34291</field>
+            <field quoted="no">1210 KA</field>
+        </row>
+        <row>
+            <field quoted="yes">Anders Berglund</field>
+            <field quoted="no">473892</field>
+            <field quoted="no">9843 ZD</field>
+        </row>
+        <row />
+      </csv>
+    </x:expect>
+  </x:scenario>
+</x:description>
