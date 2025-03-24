@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?xspec-test enable-coverage?>
+<?xspec-test require-xspec-issue-2071-fixed?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:csv="http://example.com/csv"
                stylesheet="external_xsl-package-01.xsl"
