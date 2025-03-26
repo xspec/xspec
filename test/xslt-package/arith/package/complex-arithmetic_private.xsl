@@ -65,6 +65,6 @@
   This software or document includes material copied from or derived from "XSL Transformations (XSLT) Version 3.0", W3C Recommendation 8 June 2017. https://www.w3.org/TR/xslt-30/
   https://www.w3.org/copyright/software-license-2023/
   
-  Text of W3C Document License: ../../../third-party-licenses/W3C-document-license-2023.txt
-  Text of W3C Software License: ../../../third-party-licenses/W3C-software-license-2023.txt
+  Text of W3C Document License: ../../../../third-party-licenses/W3C-document-license-2023.txt
+  Text of W3C Software License: ../../../../third-party-licenses/W3C-software-license-2023.txt
 -->
