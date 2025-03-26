@@ -56,15 +56,10 @@
 <!--
   LICENSE NOTICE
   
-  This file is derived from "XSL Transformations (XSLT) Version 3.0", W3C Recommendation 8 June 2017.
-  https://www.w3.org/TR/xslt-30/
+  Copyright © 2017 W3C® (MIT, ERCIM, Keio, Beihang).
+  This software or document includes material copied from or derived from "XSL Transformations (XSLT) Version 3.0", W3C Recommendation 8 June 2017. https://www.w3.org/TR/xslt-30/
+  https://www.w3.org/copyright/software-license-2023/
   
-  That document is licensed under the W3C Document License - 2023 version.
-  Copyright © 2017 World Wide Web Consortium <https://www.w3.org/> . <https://www.w3.org/copyright/document-license-2023/>
-
-  The code examples in the document are licensed under the W3C Software License. Copyright notice:
-  Copyright © 2023 W3C®. This software or document includes material copied from or derived from XSL Transformations (XSLT) Version 3.0 (https://www.w3.org/TR/xslt-30).
-  
-  Text of W3C Document license: ../../../third-party-licenses/W3C-document-license-2023.txt
-  Text of W3C Software license: ../../../third-party-licenses/W3C-software-license-2023.txt
+  Text of W3C Document License: ../../../third-party-licenses/W3C-document-license-2023.txt
+  Text of W3C Software License: ../../../third-party-licenses/W3C-software-license-2023.txt
 -->
