@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saxon-10-xproc-workaround>3.2.2</saxon-10-xproc-workaround>
+<!-- When XSpec no longer supports Saxon 10, or if
+    https://github.com/ndw/xmlcalabash1/issues/354 is fixed:
+* Delete this file
+* In version-utils.xsl, change doc('VERSION.xml')/normalize-space() to unparsed-text('VERSION')
+-->
