@@ -196,7 +196,7 @@ declare function rep:report-atomic-value(
     case xs:long               return rep:report-atomic-value-as-constructor($value)
     case xs:nonNegativeInteger return rep:report-atomic-value-as-constructor($value)
 
-    (: Numeric types which can be expressed as numeric literals:
+    (: Numeric types which can be expressed as numeric literals, based on
       https://www.w3.org/TR/xpath-31/#id-literals :)
     case xs:integer return string($value)
     case xs:decimal return x:decimal-string($value)
@@ -238,7 +238,7 @@ declare %private function rep:report-atomic-value-as-constructor(
 };
 
 (:
-  Returns URIQualifiedName of atomic value type
+  Returns URIQualifiedName of atomic value type, based on
      https://www.w3.org/TR/xquery-31/#id-types
 
   This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.

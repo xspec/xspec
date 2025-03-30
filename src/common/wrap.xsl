@@ -18,7 +18,7 @@
    <xsl:function name="local:wrappable-node" as="xs:boolean">
       <xsl:param name="item" as="item()" />
 
-      <!-- Document node cannot wrap attribute node or namespace node:
+      <!-- Document node cannot wrap attribute node or namespace node, according to
          https://www.w3.org/TR/xslt-30/#err-XTDE0420 -->
       <xsl:sequence
          select="

@@ -68,11 +68,8 @@
             <xsl:when test="empty(@as) and empty(@select)">
                <!--
                   Prevent the variable from being an unexpected zero-length string.
-
-                  https://www.w3.org/TR/xslt-30/#variable-values
-                        <xsl:variable name="x"/>
-                     is equivalent to
-                        <xsl:variable name="x" select="''"/>
+                  See https://www.w3.org/TR/xslt-30/#variable-values for mention of
+                  zero-length string under these attribute conditions.
                -->
                <xsl:attribute name="select" select="'()'" />
             </xsl:when>
