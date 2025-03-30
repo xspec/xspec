@@ -52,14 +52,6 @@
       Local functions
    -->
 
-   <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
-      in a prior position of the sequence.)
-      This function does not sort nodes in document order.
-      Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
-   <xsl:function name="local:distinct-nodes-stable" as="node()*">
-      <xsl:param name="nodes" as="node()*"/>
-
-      <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
-   </xsl:function>
+   <xsl:include href="distinct-nodes-stable.xsl"/>
 
 </xsl:stylesheet>

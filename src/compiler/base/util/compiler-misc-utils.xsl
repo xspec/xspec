@@ -16,9 +16,16 @@
    </xsl:function>
 
    <!-- Removes duplicate strings from a sequence of strings. (Removes a string if it appears
-     in a prior position of the sequence.)
-     Unlike fn:distinct-values(), the order of the returned sequence is stable.
-     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
+      in a prior position of the sequence.)
+      Unlike fn:distinct-values(), the order of the returned sequence is stable.
+
+      The xsl:function/xsl:sequence/@select attribute is similar to the XPath expression in
+      "XPath and XQuery Functions and Operators 3.1" (W3C Recommendation 21 March 2017)
+      > "D Other Functions (Non-Normative)" > "D.4 Illustrative user-written functions"
+      > "D.4.5 eg:distinct-nodes-stable"
+      http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable
+      except that this function processes strings, not nodes. 
+   -->
    <xsl:function name="x:distinct-strings-stable" as="xs:string*">
       <xsl:param name="strings" as="xs:string*" />
 
