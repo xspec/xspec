@@ -27,4 +27,6 @@ If you wish to contribute to XSpec, please read the [contributing guidelines](ht
 
 XSpec code is released under the [MIT License](LICENSE). [Few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).
 
+Some files are derived from code examples that are licensed under the [W3C Software License](https://www.w3.org/copyright/software-license-2023/). Such files indicate their license in a code comment that includes "W3C Software License" text.
+
 The content of the XSpec wiki is released under the [Creative Commons 3.0 BY](https://creativecommons.org/licenses/by/3.0/) license.

@@ -15,7 +15,7 @@ declare variable $x:xspec-namespace as xs:anyURI := xs:anyURI('http://www.jenite
 declare variable $x:apos as xs:string := "'";
 
 (:
-	Returns numeric literal of xs:decimal
+	Returns numeric literal of xs:decimal. For more information, see
 		https://www.w3.org/TR/xpath-31/#id-literals
 
 		Example:
