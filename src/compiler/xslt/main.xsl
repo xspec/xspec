@@ -125,7 +125,7 @@
             <!-- system-property() must be retrieved at run time -->
             <message>
                <text>
-                  <xsl:text expand-text="yes">Testing with XSpec v{$x:xspec-version} and </xsl:text>
+                  <xsl:text expand-text="yes">Testing with </xsl:text>
                </text>
                <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
