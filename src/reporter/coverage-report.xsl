@@ -147,7 +147,14 @@
          <body id="coverageReport">
             <h1>Test Coverage Report</h1>
             <p>
-               <xsl:text>Stylesheet:  </xsl:text>
+               <xsl:choose>
+                  <xsl:when test="local-name($stylesheet-trees[1]/child::*) eq 'package'">
+                     <xsl:text>Package:  </xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text>Stylesheet:  </xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
                <a href="{$stylesheet-uri}">
                   <xsl:value-of select="fmt:format-uri($stylesheet-uri)" />
                </a>
