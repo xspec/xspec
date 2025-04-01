@@ -8,7 +8,7 @@
    <body id="coverageReport">
       <h1>Test Coverage Report</h1>
       <p>Package:  <a href="../../external_xsl-package-01.xsl">external_xsl-package-01.xsl</a></p>
-      <p>XSpec: <a href="../../external_xsl-package-02.xspec">external_xsl-package-02.xspec</a></p>
+      <p>XSpec: <a href="../../external_xsl-package-01.xspec">external_xsl-package-01.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
@@ -125,27 +125,27 @@
 074: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
 075: 
 076: <span class="whitespace">    </span><span class="comment">&lt;!--* Function declarations ... *--&gt;</span>
-077: <span class="whitespace">    </span><span class="missed">&lt;xsl:function name="csv:parse" visibility="final"&gt;</span>
-078: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="input" as="xs:string"/&gt;</span>
-079: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="result" as="element()"&gt;</span>
-080: <span class="whitespace">            </span><span class="missed">&lt;csv&gt;</span>
+077: <span class="whitespace">    </span><span class="missed">&lt;xsl:function name="csv:parse" visibility="final"&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+078: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="input" as="xs:string"/&gt;</span><span class="whitespace">                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+079: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="result" as="element()"&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+080: <span class="whitespace">            </span><span class="missed">&lt;csv&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 081: <span class="whitespace">                </span><span class="missed">&lt;xsl:apply-templates</span>
 082: <span class="missed">                    select="(tokenize($input, $csv:line-separator)</span>
 083: <span class="missed">                            ! csv:preprocess-line(.))"</span>
-084: <span class="missed">                    mode="csv:parse-line"/&gt;</span>
-085: <span class="whitespace">            </span><span class="missed">&lt;/csv&gt;</span>
-086: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span>
+084: <span class="missed">                    mode="csv:parse-line"/&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+085: <span class="whitespace">            </span><span class="missed">&lt;/csv&gt;</span><span class="whitespace">                                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+086: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 087: <span class="whitespace">        </span><span class="missed">&lt;xsl:apply-templates select="$result"</span>
-088: <span class="missed">                            mode="csv:post-process"/&gt;</span>
-089: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span>
+088: <span class="missed">                            mode="csv:post-process"/&gt;</span><span class="whitespace">                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+089: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 090: 
 091: 
 092: <span class="whitespace">    </span><span class="missed">&lt;xsl:function name="csv:preprocess-line"</span>
 093: <span class="missed">                    as="xs:string?"</span>
-094: <span class="missed">                    visibility="public"&gt;</span>
-095: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="line" as="xs:string"/&gt;</span>
-096: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="normalize-space($line)"/&gt;</span>
-097: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span>
+094: <span class="missed">                    visibility="public"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+095: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="line" as="xs:string"/&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+096: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="normalize-space($line)"/&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+097: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 098: 
 099: 
 100: <span class="whitespace">    </span><span class="hit">&lt;xsl:function name="csv:preprocess-field"</span>

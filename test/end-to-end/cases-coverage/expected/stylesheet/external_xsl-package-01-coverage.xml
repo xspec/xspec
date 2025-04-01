@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<trace xspec="../../external_xsl-package-02.xspec">
-   <compiled uri="external_xsl-package-02-compiled.xsl"/>
+<trace xspec="../../external_xsl-package-01.xspec">
+   <compiled uri="external_xsl-package-01-compiled.xsl"/>
    <module moduleId="0" uri="../../external_xsl-package-01.xsl"/>
    <traceable traceableId="0"
               class="net.sf.saxon.expr.instruct.TemplateRule"
