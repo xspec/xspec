@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for external_xsl-package-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
+   </head>
+   <body id="coverageReport">
+      <h1>Test Coverage Report</h1>
+      <p>Package:  <a href="../../external_xsl-package-01.xsl">external_xsl-package-01.xsl</a></p>
+      <p>XSpec: <a href="../../external_xsl-package-01.xspec">external_xsl-package-01.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />14</th>
+               <th class="totals emphasis">missed<br />8</th>
+               <th class="totals">unknown<br />2</th>
+               <th class="totals">lines<br />151</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">external_xsl-package-01.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">14</th>
+               <th class="totals">8</th>
+               <th class="totals">2</th>
+               <th class="totals">151</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: external_xsl-package-01.xsl<span class="scenario-totals">hit: 14 / missed: 8 / unknown: 2</span></h2>
+         <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+002: <span class="ignored">&lt;xsl:package</span>
+003: <span class="ignored">   name="http://example.com/csv-parser"</span>
+004: <span class="ignored">   package-version="1.0.0"</span>
+005: <span class="ignored">   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"</span>
+006: <span class="ignored">   xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+007: <span class="ignored">   xmlns:csv="http://example.com/csv"</span>
+008: <span class="ignored">   exclude-result-prefixes="xs csv"</span>
+009: <span class="ignored">   declared-modes="yes"</span>
+010: <span class="ignored">   version="3.0"&gt;</span>
+011: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+012: <span class="comment">        xsl:package Coverage Test Case (includes xsl:expose)</span>
+013: <span class="comment">        Package is https://www.w3.org/TR/xslt-30/#packages-csv-library-example</span>
+014: <span class="comment">        Modifications: xsl:expose elements and extra comments added.</span>
+015: <span class="comment">    --&gt;</span>
+016: 
+017: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="mode" visibility="public"</span>
+018: <span class="ignored">                names="csv:parse-line csv:parse-field csv:post-process" /&gt;</span><span class="whitespace">     </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+019: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="variable" visibility="public"</span>
+020: <span class="ignored">                names="csv:line-separator csv:field-separator csv:quote" /&gt;</span><span class="whitespace">    </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+021: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="variable" visibility="private"</span>
+022: <span class="ignored">                names="csv:validated-quote" /&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+023: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="attribute-set" visibility="public"</span>
+024: <span class="ignored">                names="csv:field-attributes" /&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+025: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="function" visibility="final"</span>
+026: <span class="ignored">                names="csv:parse#1" /&gt;</span><span class="whitespace">                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+027: <span class="whitespace">    </span><span class="ignored">&lt;xsl:expose component="function" visibility="public"</span>
+028: <span class="ignored">                names="csv:preprocess-line#1 csv:preprocess-field#1" /&gt;</span><span class="whitespace">        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+029: 
+030: <span class="whitespace">    </span><span class="comment">&lt;!--* Mode declarations ... *--&gt;</span>
+031: <span class="whitespace">    </span><span class="ignored">&lt;xsl:mode name="csv:parse-line" visibility="public"/&gt;</span>
+032: 
+033: <span class="whitespace">    </span><span class="ignored">&lt;xsl:mode name="csv:parse-field"</span>
+034: <span class="ignored">            on-no-match="shallow-copy"</span>
+035: <span class="ignored">            visibility="public"/&gt;</span>
+036: 
+037: <span class="whitespace">    </span><span class="ignored">&lt;xsl:mode name="csv:post-process"</span>
+038: <span class="ignored">            on-no-match="shallow-copy"</span>
+039: <span class="ignored">            visibility="public"/&gt;</span>
+040: 
+041: <span class="whitespace">    </span><span class="comment">&lt;!--* Variable declarations ... *--&gt;</span>
+042: <span class="whitespace">    </span><span class="ignored">&lt;xsl:variable name="csv:line-separator"</span>
+043: <span class="ignored">                as="xs:string"</span>
+044: <span class="ignored">                select="'\r\n?|\n\r?'"</span>
+045: <span class="ignored">                visibility="public"/&gt;</span>
+046: 
+047: 
+048: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="csv:field-separator"</span>
+049: <span class="hit">                as="xs:string"</span>
+050: <span class="hit">                select="','"</span>
+051: <span class="hit">                visibility="public"/&gt;</span>
+052: 
+053: 
+054: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="csv:quote"</span>
+055: <span class="hit">                as="xs:string"</span>
+056: <span class="hit">                select="'&amp;quot;'"</span>
+057: <span class="hit">                visibility="public"/&gt;</span>
+058: 
+059: 
+060: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="csv:validated-quote" visibility="private"</span>
+061: <span class="hit">    as="xs:string" select="</span>
+062: <span class="hit">        if (string-length($csv:quote) ne 1)</span>
+063: <span class="hit">        then error(xs:QName('csv:ERR001'),</span>
+064: <span class="hit">                    'Incorrect length for $csv:quote, should be 1')</span>
+065: <span class="hit">        else $csv:quote"/&gt;</span>
+066: 
+067: <span class="whitespace">    </span><span class="comment">&lt;!--* Attribute-set declaration ... *--&gt;</span>
+068: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute-set name="csv:field-attributes"</span>
+069: <span class="ignored">                    visibility="public"&gt;</span>
+070: <span class="whitespace">        </span><span class="ignored">&lt;xsl:attribute name="quoted"</span>
+071: <span class="ignored">                    select="if (starts-with(., $csv:validated-quote))</span>
+072: <span class="ignored">                            then 'yes'</span>
+073: <span class="ignored">                            else 'no'"/&gt;</span>
+074: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
+075: 
+076: <span class="whitespace">    </span><span class="comment">&lt;!--* Function declarations ... *--&gt;</span>
+077: <span class="whitespace">    </span><span class="missed">&lt;xsl:function name="csv:parse" visibility="final"&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+078: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="input" as="xs:string"/&gt;</span><span class="whitespace">                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+079: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="result" as="element()"&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+080: <span class="whitespace">            </span><span class="missed">&lt;csv&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+081: <span class="whitespace">                </span><span class="missed">&lt;xsl:apply-templates</span>
+082: <span class="missed">                    select="(tokenize($input, $csv:line-separator)</span>
+083: <span class="missed">                            ! csv:preprocess-line(.))"</span>
+084: <span class="missed">                    mode="csv:parse-line"/&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+085: <span class="whitespace">            </span><span class="missed">&lt;/csv&gt;</span><span class="whitespace">                                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+086: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+087: <span class="whitespace">        </span><span class="missed">&lt;xsl:apply-templates select="$result"</span>
+088: <span class="missed">                            mode="csv:post-process"/&gt;</span><span class="whitespace">                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+089: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+090: 
+091: 
+092: <span class="whitespace">    </span><span class="missed">&lt;xsl:function name="csv:preprocess-line"</span>
+093: <span class="missed">                    as="xs:string?"</span>
+094: <span class="missed">                    visibility="public"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+095: <span class="whitespace">        </span><span class="missed">&lt;xsl:param name="line" as="xs:string"/&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+096: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="normalize-space($line)"/&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+097: <span class="whitespace">    </span><span class="missed">&lt;/xsl:function&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+098: 
+099: 
+100: <span class="whitespace">    </span><span class="hit">&lt;xsl:function name="csv:preprocess-field"</span>
+101: <span class="hit">                as="xs:string"&gt;</span>
+102: <span class="whitespace">        </span><span class="hit">&lt;xsl:param name="field"</span>
+103: <span class="hit">                as="xs:string"/&gt;</span>
+104: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="$field"/&gt;</span>
+105: <span class="whitespace">    </span><span class="hit">&lt;/xsl:function&gt;</span>
+106: 
+107: <span class="whitespace">    </span><span class="comment">&lt;!--* Templates ... *--&gt;</span>
+108: <span class="whitespace">    </span><span class="hit">&lt;xsl:template match="." mode="csv:parse-line"&gt;</span>
+109: <span class="whitespace">        </span><span class="hit">&lt;row&gt;</span>
+110: <span class="whitespace">            </span><span class="hit">&lt;xsl:apply-templates</span>
+111: <span class="hit">                select="tokenize(., $csv:field-separator)"</span>
+112: <span class="hit">                mode="csv:parse-field"/&gt;</span>
+113: <span class="whitespace">        </span><span class="hit">&lt;/row&gt;</span>
+114: <span class="whitespace">    </span><span class="hit">&lt;/xsl:template&gt;</span>
+115: 
+116: <span class="whitespace">    </span><span class="hit">&lt;xsl:template match="."</span>
+117: <span class="hit">                mode="csv:parse-field"</span>
+118: <span class="hit">                expand-text="yes"&gt;</span>
+119: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="string-body-pattern"</span>
+120: <span class="hit">                    as="xs:string"</span>
+121: <span class="hit">                    select="'([^' || $csv:validated-quote || ']*)'"/&gt;</span>
+122: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="quoted-value"</span>
+123: <span class="hit">                    as="xs:string"</span>
+124: <span class="hit">                    select="$csv:validated-quote</span>
+125: <span class="hit">                            || $string-body-pattern</span>
+126: <span class="hit">                            || $csv:validated-quote"/&gt;</span>
+127: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="unquoted-value"</span>
+128: <span class="hit">                    as="xs:string"</span>
+129: <span class="hit">                    select="'(.+)'"/&gt;</span>
+130: 
+131: <span class="whitespace">        </span><span class="hit">&lt;field xsl:use-attribute-sets="csv:field-attributes"&gt;</span><span class="hit">{</span>
+132: <span class="hit">            csv:preprocess-field(</span>
+133: <span class="hit">            replace(.,</span>
+134: <span class="hit">                    $quoted-value || '|' || $unquoted-value,</span>
+135: <span class="hit">                    '$1$2'))</span>
+136: <span class="hit">        }</span><span class="hit">&lt;/field&gt;</span>
+137: <span class="whitespace">    </span><span class="hit">&lt;/xsl:template&gt;</span>
+138: 
+139: <span class="ignored">&lt;/xsl:package&gt;</span>
+140: <span class="comment">&lt;!--</span>
+141: <span class="comment">  LICENSE NOTICE</span>
+142: 
+143: <span class="comment">  [Copyright](https://www.w3.org/Consortium/Legal/ipr-notice#Copyright) © 2017 [W3C](https://www.w3.org/)® ([MIT](https://www.csail.mit.edu/), [ERCIM](https://www.ercim.eu/), [Keio](https://www.keio.ac.jp/), [Beihang](http://ev.buaa.edu.cn/)), All Rights Reserved.</span>
+144: <span class="comment">  W3C [liability](https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer), [trademark](https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks), [document use](https://www.w3.org/Consortium/Legal/copyright-documents), and [software licensing](http://www.w3.org/Consortium/Legal/copyright-software) rules apply.</span>
+145: 
+146: <span class="comment">  This software or document includes material copied from or derived from "XSL Transformations (XSLT) Version 3.0", W3C Recommendation 8 June 2017. https://www.w3.org/TR/xslt-30/</span>
+147: <span class="comment">  https://www.w3.org/copyright/software-license-2023/</span>
+148: 
+149: <span class="comment">  Text of W3C Document License: ../../../../third-party-licenses/W3C-document-license-2023.txt</span>
+150: <span class="comment">  Text of W3C Software License: ../../../../third-party-licenses/W3C-software-license-2023.txt</span>
+151: <span class="comment">--&gt;</span></pre>
+      </div>
+   </body>
+</html>

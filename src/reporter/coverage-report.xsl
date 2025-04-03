@@ -67,7 +67,7 @@
             <xsl:sequence select="doc($mock-result-uri)"/>
          </xsl:otherwise>
       </xsl:choose>
-   </xsl:variable> 
+   </xsl:variable>
 
    <xsl:accumulator name="computed-status" as="xs:string?" initial-value="()">
       <xsl:accumulator-rule match="node()" phase="start">
@@ -147,7 +147,14 @@
          <body id="coverageReport">
             <h1>Test Coverage Report</h1>
             <p>
-               <xsl:text>Stylesheet:  </xsl:text>
+               <xsl:choose>
+                  <xsl:when test="local-name($stylesheet-trees[1]/child::*) eq 'package'">
+                     <xsl:text>Package:  </xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text>Stylesheet:  </xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
                <a href="{$stylesheet-uri}">
                   <xsl:value-of select="fmt:format-uri($stylesheet-uri)" />
                </a>
@@ -254,7 +261,7 @@
       </table>
    </xsl:template>
 
-   <xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="coverage-report">
+   <xsl:template match="xsl:stylesheet | xsl:transform | xsl:package" as="element()+" mode="coverage-report">
       <xsl:variable name="stylesheet-uri" as="xs:anyURI"
          select="base-uri()" />
       <xsl:variable name="stylesheet-string" as="xs:string"

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for external_xsl-accept-01.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
+   </head>
+   <body id="coverageReport">
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../external_xsl-accept-01.xsl">external_xsl-accept-01.xsl</a></p>
+      <p>XSpec: <a href="../../external_xsl-accept-01.xspec">external_xsl-accept-01.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th class="totals">used</th>
+               <th class="totals">hit<br />4</th>
+               <th class="totals emphasis">missed<br />0</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />43</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#module1">external_xsl-accept-01.xsl</a></th>
+               <th class="totals">yes</th>
+               <th class="totals">4</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">43</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="module1">
+         <h2 class="successful">module: external_xsl-accept-01.xsl<span class="scenario-totals">hit: 4 / missed: 0 / unknown: 0</span></h2>
+         <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"</span>
+03: <span class="ignored">   xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+04: <span class="ignored">   xmlns:csv="http://example.com/csv"</span>
+05: <span class="ignored">   exclude-result-prefixes="xs csv"</span>
+06: <span class="ignored">   version="3.0"&gt;</span>
+07: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+08: <span class="comment">        xsl:accept Coverage Test Case</span>
+09: <span class="comment">        Package is https://www.w3.org/TR/xslt-30/#packages-csv-library-example</span>
+10: <span class="comment">        Modifications: xsl:accept element and extra comments added; input data changed;</span>
+11: <span class="comment">            xsl:output element removed because extraneous.</span>
+12: <span class="comment">    --&gt;</span>
+13: <span class="whitespace">   </span><span class="ignored">&lt;xsl:use-package name="http://example.com/csv-parser"</span>
+14: <span class="ignored">                    package-version="*"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+15: <span class="whitespace">       </span><span class="ignored">&lt;xsl:accept component="function" names="csv:preprocess-field#1"</span>
+16: <span class="ignored">                   visibility="private" /&gt;</span><span class="whitespace">                                     </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+17: <span class="whitespace">   </span><span class="ignored">&lt;/xsl:use-package&gt;</span>
+18: 
+19: <span class="whitespace">   </span><span class="comment">&lt;!-- example input "file"  --&gt;</span>
+20: <span class="whitespace">   </span><span class="hit">&lt;xsl:variable name="input" as="xs:string"&gt;</span>
+21: <span class="hit">       name,id,postal code</span>
+22: <span class="hit">       "Braaksma Abel",34291,1210 KA</span>
+23: <span class="hit">       "Berglund Anders",473892,9843 ZD</span>
+24: <span class="hit">   </span><span class="hit">&lt;/xsl:variable&gt;</span>
+25: 
+26: <span class="whitespace">   </span><span class="comment">&lt;!-- entry point --&gt;</span>
+27: <span class="whitespace">   </span><span class="hit">&lt;xsl:template name="xsl:initial-template"&gt;</span>
+28: <span class="whitespace">       </span><span class="hit">&lt;xsl:copy-of select="csv:parse($input)"/&gt;</span>
+29: <span class="whitespace">   </span><span class="hit">&lt;/xsl:template&gt;</span>
+30: 
+31: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+32: <span class="comment">&lt;!--</span>
+33: <span class="comment">  LICENSE NOTICE</span>
+34: 
+35: <span class="comment">  [Copyright](https://www.w3.org/Consortium/Legal/ipr-notice#Copyright) © 2017 [W3C](https://www.w3.org/)® ([MIT](https://www.csail.mit.edu/), [ERCIM](https://www.ercim.eu/), [Keio](https://www.keio.ac.jp/), [Beihang](http://ev.buaa.edu.cn/)), All Rights Reserved.</span>
+36: <span class="comment">  W3C [liability](https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer), [trademark](https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks), [document use](https://www.w3.org/Consortium/Legal/copyright-documents), and [software licensing](http://www.w3.org/Consortium/Legal/copyright-software) rules apply.</span>
+37: 
+38: <span class="comment">  This software or document includes material copied from or derived from "XSL Transformations (XSLT) Version 3.0", W3C Recommendation 8 June 2017. https://www.w3.org/TR/xslt-30/</span>
+39: <span class="comment">  https://www.w3.org/copyright/software-license-2023/</span>
+40: 
+41: <span class="comment">  Text of W3C Document License: ../../../../third-party-licenses/W3C-document-license-2023.txt</span>
+42: <span class="comment">  Text of W3C Software License: ../../../../third-party-licenses/W3C-software-license-2023.txt</span>
+43: <span class="comment">--&gt;</span></pre>
+      </div>
+   </body>
+</html>
