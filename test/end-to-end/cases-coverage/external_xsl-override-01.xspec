@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xspec-test enable-coverage?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/end-to-end/cases-coverage/package-01-config.xml"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:csv="http://example.com/csv"
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               stylesheet="external_xsl-override-01.xsl"
+               run-as="external">
+
+  <x:scenario label="xsl:override Coverage Test Case">
+    <x:call template="xsl:initial-template" />
+    <x:expect label="Success">
+      <root>
+        <row>
+            <field quoted="no" type="string">name</field>
+            <field quoted="no" type="string">id</field>
+            <field quoted="no" type="string">postal code</field>
+        </row>
+        <row>
+            <field quoted="yes" type="string">Braaksma Abel</field>
+            <field quoted="no"  type="numeric">34291</field>
+            <field quoted="no"  type="string">1210 KA</field>
+        </row>
+        <row>
+            <field quoted="yes" type="string">Berglund Anders</field>
+            <field quoted="no"  type="numeric">473892</field>
+            <field quoted="no" type="string">9843 ZD</field>
+        </row>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

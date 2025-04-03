@@ -48,11 +48,7 @@ The following list describes the rules used to determine the coverage status of 
 | CHILDREN |                 |
 | CONTENT  | None            |
 | TRACE    |                 |
-| RULE     | None            |
-
-#### Comment
-
-Package related.
+| RULE     | Always Ignore   |
 
 ## xsl:accumulator
 
@@ -351,18 +347,14 @@ There is an alternate option of accepting the trace output for now and saying if
 
 ## xsl:expose
 
-|          |             |
-| -------- | ----------- |
-| CATEGORY |             |
-| PARENT   | xsl:package |
-| CHILDREN |             |
-| CONTENT  | None        |
-| TRACE    |             |
-| RULE     | None        |
-
-#### Comment
-
-Package related.
+|          |               |
+| -------- | ------------- |
+| CATEGORY |               |
+| PARENT   | xsl:package   |
+| CHILDREN |               |
+| CONTENT  | None          |
+| TRACE    |               |
+| RULE     | Always Ignore |
 
 ## xsl:fallback
 
@@ -405,12 +397,12 @@ Package related.
 | PARENT   |                                                |
 | CHILDREN | xsl:fallback, xsl:for-each-group, xsl:sequence |
 | CONTENT  |                                                |
-| TRACE    |                                                |
-| RULE     | TBD                                            |
+| TRACE    | Yes                                            |
+| RULE     | Use Trace Data                                 |
 
 #### Comment
 
-Only sensible when Streaming, so needs to be investigated using Saxon-EE.
+Only sensible when streaming, but supported when not streaming.
 
 ## xsl:function
 
@@ -845,26 +837,22 @@ Tested as part of xsl:character-map.
 | CHILDREN | xsl:attribute-set, xsl:function, xsl:param, xsl:template, xsl:variable |
 | CONTENT  |                                                                        |
 | TRACE    |                                                                        |
-| RULE     | None                                                                   |
-
-#### Comment
-
-Package related.
+| RULE     | Always Ignore                                                          |
 
 ## xsl:package
 
-|          |      |
-| -------- | ---- |
-| CATEGORY |      |
-| PARENT   |      |
-| CHILDREN |      |
-| CONTENT  |      |
-| TRACE    |      |
-| RULE     | None |
+|          |               |
+| -------- | ------------- |
+| CATEGORY |               |
+| PARENT   |               |
+| CHILDREN |               |
+| CONTENT  |               |
+| TRACE    | No            |
+| RULE     | Always Ignore |
 
 #### Comment
 
-Package related.
+Should this be marked as 'hit'? It isn't traced but it has to be executed (unless the entire file is unused, in which case the report doesn't display this element at all).
 
 ## xsl:param
 
@@ -1114,11 +1102,11 @@ With a sequence constructor, xsl:try is not traced, but the first child is trace
 | CHILDREN | xsl:accept, xsl:override                   |
 | CONTENT  |                                            |
 | TRACE    |                                            |
-| RULE     | None                                       |
+| RULE     | Always Ignore                              |
 
 #### Comment
 
-Package related.
+Contents of the xsl:use-package are not included in the Test Coverage Report.
 
 ## xsl:value-of
 
