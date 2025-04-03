@@ -23,6 +23,11 @@
 	</xsl:variable>
 
 	<!--
+		XSpec version (same as last released version of add-on)
+	-->
+	<xsl:variable as="xs:string" name="x:xspec-version" select="doc('VERSION.xml')/normalize-space()"/>
+
+	<!--
 		Packs w.x.y.z version into uint64, assuming every component is uint16.
 		x, y and z are optional (0 by default).
 			Example:

@@ -8,6 +8,8 @@
    <xsl:template name="x:perform-initial-check" as="empty-sequence()">
       <xsl:context-item as="document-node()" use="required" />
 
+      <xsl:call-template name="x:report-xspec-version"/>
+
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
             <xsl:when test="$x:saxon-version lt x:pack-version((10, 0))">
@@ -47,4 +49,7 @@
       <xsl:call-template name="x:perform-initial-check-for-lang" />
    </xsl:template>
 
+   <xsl:template name="x:report-xspec-version" as="empty-sequence()">
+      <xsl:message>XSpec v<xsl:value-of select="$x:xspec-version"/></xsl:message>
+   </xsl:template>
 </xsl:stylesheet>

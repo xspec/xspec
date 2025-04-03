@@ -53,38 +53,43 @@ load bats-helper
 # Usage (CLI)
 #
 
-@test "invoking xspec without arguments prints usage" {
+@test "invoking xspec without arguments prints version and usage" {
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file" ]
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    [ "${lines[4]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file" ]
 }
 
-@test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
+@test "invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined" {
     unset SAXON_CP
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    assert_regex "${lines[3]}" '^Usage: xspec '
+    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[5]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
+@test "invoking xspec with -h prints version and usage and does so even when it is 11th argument" {
     myrun ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     [ "$status" -eq 0 ]
-    assert_regex "${lines[0]}" '^Usage: xspec '
+    assert_regex "${lines[0]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with unknown option prints usage" {
+@test "invoking xspec with unknown option prints version and usage" {
     myrun ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "Error: Unknown option: -bogus" ]
-    assert_regex "${lines[2]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[4]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with extra arguments prints usage" {
+@test "invoking xspec with extra arguments prints version and usage" {
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "Error: Extra option: bogus" ]
-    assert_regex "${lines[2]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[4]}" '^Usage: xspec '
 }
 
 #
@@ -123,8 +128,8 @@ load bats-helper
 
     myrun ./my-xspec.sh "${XSPEC_HOME}/tutorial/escape-for-regex.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[21]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
-    [ "${lines[22]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[22]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+    [ "${lines[23]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 @test "XSPEC_HOME is not a directory" {
@@ -141,15 +146,15 @@ load bats-helper
 
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
+    [ "${lines[1]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
 }
 
 @test "cd to bin dir and run CLI from there using implicit XSPEC_HOME #1568" {
     cd ../bin
     myrun ./xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[21]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
-    [ "${lines[22]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[22]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+    [ "${lines[23]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 #
@@ -237,9 +242,10 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     # Verify message
-    [ "${lines[15]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[16]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
-    [ "${lines[17]}" = "Done." ]
+    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[17]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
+    [ "${lines[18]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -280,9 +286,9 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     # Verify message
-    [ "${lines[18]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[21]}" = "Report available at ${test_copy}/xspec/function-coverage.html" ]
-    [ "${lines[22]}" = "Done." ]
+    [ "${lines[19]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[22]}" = "Report available at ${test_copy}/xspec/function-coverage.html" ]
+    [ "${lines[23]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -315,9 +321,10 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     # Verify message
-    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[9]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
-    [ "${lines[10]}" = "Done." ]
+    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[10]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
+    [ "${lines[11]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -348,9 +355,10 @@ load bats-helper
     # Verify message
     # * No Schematron warnings #129 #131
     [ "${lines[5]}" = "Converting Schematron XSpec into XSLT XSpec..." ]
-    [ "${lines[20]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[21]}" = "Report available at ${test_copy}/xspec/schematron-result.html" ]
-    [ "${lines[22]}" = "Done." ]
+    assert_regex "${lines[8]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    [ "${lines[21]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[22]}" = "Report available at ${test_copy}/xspec/schematron-result.html" ]
+    [ "${lines[23]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -372,25 +380,25 @@ load bats-helper
 @test "CLI -e with some failures (XSLT)" {
     myrun ../bin/xspec.sh -e some-failures/function.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[15]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[16]}" = "Report available at ${TEST_DIR}/function-result.html" ]
-    [ "${lines[18]}" = "*** Found a test failure" ]
+    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[17]}" = "Report available at ${TEST_DIR}/function-result.html" ]
+    [ "${lines[19]}" = "*** Found a test failure" ]
 }
 
 @test "CLI -e with some failures (XQuery)" {
     myrun ../bin/xspec.sh -e -q some-failures/function.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[9]}" = "Report available at ${TEST_DIR}/function-result.html" ]
-    [ "${lines[11]}" = "*** Found a test failure" ]
+    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[10]}" = "Report available at ${TEST_DIR}/function-result.html" ]
+    [ "${lines[12]}" = "*** Found a test failure" ]
 }
 
 @test "CLI -e with some failures (Schematron)" {
     myrun ../bin/xspec.sh -e -s some-failures/schematron.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[20]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
-    [ "${lines[21]}" = "Report available at ${TEST_DIR}/schematron-result.html" ]
-    [ "${lines[23]}" = "*** Found a test failure" ]
+    [ "${lines[21]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[22]}" = "Report available at ${TEST_DIR}/schematron-result.html" ]
+    [ "${lines[24]}" = "*** Found a test failure" ]
 }
 
 #
@@ -400,25 +408,25 @@ load bats-helper
 @test "CLI -e with no failures (XSLT)" {
     myrun ../bin/xspec.sh -e xslt3.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
-    [ "${lines[13]}" = "Report available at ${TEST_DIR}/xslt3-result.html" ]
-    [ "${lines[14]}" = "Done." ]
+    [ "${lines[13]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[14]}" = "Report available at ${TEST_DIR}/xslt3-result.html" ]
+    [ "${lines[15]}" = "Done." ]
 }
 
 @test "CLI -e with no failures (XQuery)" {
     myrun ../bin/xspec.sh -e -q ../tutorial/xquery-tutorial.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-    [ "${lines[9]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
-    [ "${lines[10]}" = "Done." ]
+    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
+    [ "${lines[11]}" = "Done." ]
 }
 
 @test "CLI -e with no failures (Schematron)" {
     myrun ../bin/xspec.sh -e -s ../tutorial/schematron/demo-01.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[20]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
-    [ "${lines[21]}" = "Report available at ${TEST_DIR}/demo-01-result.html" ]
-    [ "${lines[22]}" = "Done." ]
+    [ "${lines[21]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[22]}" = "Report available at ${TEST_DIR}/demo-01-result.html" ]
+    [ "${lines[23]}" = "Done." ]
 }
 
 #
@@ -428,7 +436,7 @@ load bats-helper
 @test "invoking xspec with -j option generates message with JUnit report location and creates report files" {
     myrun ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "Report available at ${TEST_DIR}/escape-for-regex-junit.xml" ]
+    [ "${lines[25]}" = "Report available at ${TEST_DIR}/escape-for-regex-junit.xml" ]
 
     # XML report file
     [ -f "${TEST_DIR}/escape-for-regex-result.xml" ]
@@ -447,13 +455,13 @@ load bats-helper
 @test "invoking xspec that passes a non xs:boolean does not raise a warning #46" {
     myrun ../bin/xspec.sh issue-46.xspec
     [ "$status" -eq 0 ]
-    assert_regex "${lines[6]}" '^Testing with '
+    assert_regex "${lines[7]}" '^Testing with '
 }
 
 @test "x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
     myrun ../bin/xspec.sh issue-826.xspec
     [ "$status" -eq 0 ]
-    assert_regex "${lines[6]}" '^Testing with '
+    assert_regex "${lines[7]}" '^Testing with '
 }
 
 #
@@ -528,8 +536,8 @@ load bats-helper
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
+    [ "${#lines[@]}" = "3" ]
+    assert_regex "${lines[2]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
 }
 
 #
@@ -547,7 +555,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "${special_chars_dir}/node-selection.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[28]}" = "Report available at ${expected_report}" ]
+    [ "${lines[29]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -562,7 +570,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "${special_chars_dir}/node-selection.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "Report available at ${expected_report}" ]
+    [ "${lines[10]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -580,7 +588,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "${special_chars_dir}/demo-03.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[36]}" = "Report available at ${expected_report}" ]
+    [ "${lines[37]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -600,7 +608,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s schematron-xslt.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 #
@@ -615,7 +623,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s schematron-xslt.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 # Ant is tested by schematron-xslt_skip-2.xspec
@@ -626,7 +634,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s schematron-xslt.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 # Ant is tested by schematron-xslt_skip-1-2.xspec
@@ -637,7 +645,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s schematron-xslt.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 #
@@ -654,7 +662,7 @@ load bats-helper
     # Run with absolute TEST_DIR
     myrun ../bin/xspec.sh "${tutorial_copy}/escape-for-regex.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[23]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -671,7 +679,7 @@ load bats-helper
     export TEST_DIR="relative-test-dir ${RANDOM}"
     myrun "${parent_dir_abs}/bin/xspec.sh" "${tutorial_copy}/escape-for-regex.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[23]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -695,7 +703,7 @@ load bats-helper
     # Run with absolute TEST_DIR
     myrun ../bin/xspec.sh -c "${tutorial_copy}/demo.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
+    [ "${lines[18]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -714,7 +722,7 @@ load bats-helper
     export TEST_DIR="relative-test-dir ${RANDOM}"
     myrun "${parent_dir_abs}/bin/xspec.sh" -c "${tutorial_copy}/demo.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
+    [ "${lines[18]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -736,7 +744,7 @@ load bats-helper
     # Run with absolute TEST_DIR
     myrun ../bin/xspec.sh -q "${tutorial_copy}/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
+    [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -753,7 +761,7 @@ load bats-helper
     export TEST_DIR="relative-test-dir ${RANDOM}"
     myrun "${parent_dir_abs}/bin/xspec.sh" -q "${tutorial_copy}/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
+    [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -779,7 +787,7 @@ load bats-helper
     # Run with absolute TEST_DIR
     myrun ../bin/xspec.sh -s "${tutorial_copy}/demo-03.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[36]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
+    [ "${lines[37]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -798,7 +806,7 @@ load bats-helper
     export TEST_DIR="relative-test-dir ${RANDOM}"
     myrun "${parent_dir_abs}/bin/xspec.sh" -s "${tutorial_copy}/demo-03.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[36]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
+    [ "${lines[37]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     myrun ls "${TEST_DIR}"
@@ -886,8 +894,8 @@ load bats-helper
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
+    [ "${#lines[@]}" = "3" ]
+    assert_regex "${lines[2]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -916,8 +924,8 @@ load bats-helper
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
+    [ "${#lines[@]}" = "3" ]
+    assert_regex "${lines[2]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
 }
 
 #
@@ -1267,7 +1275,7 @@ load bats-helper
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with -catalog file path (XQuery)" {
@@ -1286,7 +1294,7 @@ load bats-helper
         -q \
         "${space_dir}/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[9]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with -catalog file path (Schematron)" {
@@ -1305,7 +1313,7 @@ load bats-helper
         -s \
         "${space_dir}/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1320,7 +1328,7 @@ load bats-helper
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
@@ -1330,7 +1338,7 @@ load bats-helper
         -q \
         catalog/catalog-01_query.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[9]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
@@ -1340,7 +1348,7 @@ load bats-helper
         -s \
         catalog/catalog-01_schematron.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1364,7 +1372,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
@@ -1382,7 +1390,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[9]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
@@ -1400,7 +1408,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1415,7 +1423,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
@@ -1424,7 +1432,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[9]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
@@ -1433,7 +1441,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1448,7 +1456,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (XQuery)" {
@@ -1457,7 +1465,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[8]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[9]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (Schematron)" {
@@ -1466,7 +1474,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_xspec-uri.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[23]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[24]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 #
@@ -1505,7 +1513,7 @@ load bats-helper
         catalog/catalog-01_stylesheet.xspec
     if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
         [ "$status" -eq 0 ]
-        [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+        [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     else
         # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
         # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
@@ -1529,7 +1537,7 @@ load bats-helper
         -catalog "${PWD}/catalog/02/catalog.xml" \
         catalog/catalog-02.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[11]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 @test "Catalog Saxon bug 3025 (Ant)" {
@@ -1710,16 +1718,16 @@ load bats-helper
 @test "Import order #185 (CLI)" {
     myrun ../bin/xspec.sh issue-185/import-1.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "Scenario 1-1" ]
-    [ "${lines[8]}" = "Scenario 1-2" ]
-    [ "${lines[9]}" = "Scenario 1-3" ]
-    [ "${lines[10]}" = "Scenario 2a-1" ]
-    [ "${lines[11]}" = "Scenario 2a-2" ]
-    [ "${lines[12]}" = "Scenario 2b-1" ]
-    [ "${lines[13]}" = "Scenario 2b-2" ]
-    [ "${lines[14]}" = "Scenario 3" ]
-    [ "${lines[15]}" = "" ]
-    [ "${lines[16]}" = "Formatting Report..." ]
+    [ "${lines[8]}" = "Scenario 1-1" ]
+    [ "${lines[9]}" = "Scenario 1-2" ]
+    [ "${lines[10]}" = "Scenario 1-3" ]
+    [ "${lines[11]}" = "Scenario 2a-1" ]
+    [ "${lines[12]}" = "Scenario 2a-2" ]
+    [ "${lines[13]}" = "Scenario 2b-1" ]
+    [ "${lines[14]}" = "Scenario 2b-2" ]
+    [ "${lines[15]}" = "Scenario 3" ]
+    [ "${lines[16]}" = "" ]
+    [ "${lines[17]}" = "Formatting Report..." ]
 }
 
 @test "Import order #185 (Ant)" {
@@ -1750,17 +1758,17 @@ load bats-helper
 @test "Circular import #987 (CLI)" {
     myrun ../bin/xspec.sh issue-987_child.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "Scenario in child" ]
-    [ "${lines[9]}" = "Scenario in parent" ]
-    [ "${lines[13]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "Scenario in child" ]
+    [ "${lines[10]}" = "Scenario in parent" ]
+    [ "${lines[14]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 
     # Use a fresh dir, to make the message line numbers predictable
     export TEST_DIR="${TEST_DIR}/parent ${RANDOM}"
     myrun ../bin/xspec.sh issue-987_parent.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "Scenario in parent" ]
-    [ "${lines[9]}" = "Scenario in child" ]
-    [ "${lines[13]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[8]}" = "Scenario in parent" ]
+    [ "${lines[10]}" = "Scenario in child" ]
+    [ "${lines[14]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 @test "Circular import #987 (Ant)" {
@@ -1810,60 +1818,60 @@ load bats-helper
 @test "Boolean @test with @as (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/boolean-test/as.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with @as (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/as.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @as should be error'\): Boolean @test must$"
-    [ "${lines[8]}" = "  not be accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @as should be error'\): Boolean @test must$"
+    [ "${lines[9]}" = "  not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with child node (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/boolean-test/child-node.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with child node (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/child-node.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with child node should be error'\): Boolean$"
-    [ "${lines[8]}" = "  @test must not be accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with child node should be error'\): Boolean$"
+    [ "${lines[9]}" = "  @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with @href (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/boolean-test/href.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with @href (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/href.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @href should be error'\): Boolean @test$"
-    [ "${lines[8]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @href should be error'\): Boolean @test$"
+    [ "${lines[9]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with @select (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/boolean-test/select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Boolean @test with @select (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/select.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @select should be error'\): Boolean @test$"
-    [ "${lines[8]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @select should be error'\): Boolean @test$"
+    [ "${lines[9]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -1874,23 +1882,23 @@ load bats-helper
 @test "Non-boolean @test (empty sequence) with no comparison factors (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/non-boolean-test/empty.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Non-boolean @test (empty sequence) with no comparison factors (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/empty.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison$"
-    [ "${lines[8]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
-    [ "${lines[9]}" = "  accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison$"
+    [ "${lines[9]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[10]}" = "  accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Non-boolean @test (multiple xs:boolean) with no comparison factors (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/non-boolean-test/multiple-boolean.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -1901,25 +1909,25 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison$"
-    [ "${lines[8]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
-    [ "${lines[9]}" = "  accompanied by @as, @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison$"
+    [ "${lines[9]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[10]}" = "  accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Non-boolean @test (node) with no comparison factors (XSLT)" {
     myrun ../bin/xspec.sh bad-assertion/non-boolean-test/node.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[10]}" = "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "Non-boolean @test (node) with no comparison factors (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/node.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[7]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should$"
-    [ "${lines[8]}" = "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as," ]
-    [ "${lines[9]}" = "  @href, @select, or child node." ]
+    assert_regex "${lines[8]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should$"
+    [ "${lines[9]}" = "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as," ]
+    [ "${lines[10]}" = "  @href, @select, or child node." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2149,7 +2157,7 @@ load bats-helper
 @test "Error message when source is not XSpec #522" {
     myrun ../bin/xspec.sh do-nothing.xsl
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR: Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
+    [ "${lines[5]}" = "ERROR: Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
 }
 
 #
@@ -2161,13 +2169,13 @@ load bats-helper
 @test "Error message when @stylesheet is missing" {
     myrun ../bin/xspec.sh no-prefix_schematron.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @stylesheet." ]
+    [ "${lines[5]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @stylesheet." ]
 }
 
 @test "Error message when @query is missing" {
     myrun ../bin/xspec.sh -q no-prefix_schematron.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @query." ]
+    [ "${lines[5]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @query." ]
 }
 
 @test "Error message when @schematron is missing" {
@@ -2183,25 +2191,25 @@ load bats-helper
 @test "Error on x:param in XSpec namespace (x:context/x:param with lexical QName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/param/context-param_lexical-qname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named u:context-param) (under 'x:context/x:param/@name has lexical QName in XSpec namespace'): Name u:context-param must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:param (named u:context-param) (under 'x:context/x:param/@name has lexical QName in XSpec namespace'): Name u:context-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (x:description/x:param with URIQualifiedName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/param/description-param_uqname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param): Name Q{http://www.jenitennison.com/xslt/xspec}description-param must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param): Name Q{http://www.jenitennison.com/xslt/xspec}description-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (function x:param with lexical QName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/param/function-param_lexical-qname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named u:function-param) (under 'x:call[@function]/x:param/@name has lexical QName in XSpec namespace'): Name u:function-param must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:param (named u:function-param) (under 'x:call[@function]/x:param/@name has lexical QName in XSpec namespace'): Name u:function-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (template-call x:param with URIQualifiedName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/param/template-call-param_uqname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) (under 'x:call[@template]/x:param/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}template-call-param must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) (under 'x:call[@template]/x:param/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}template-call-param must not use the XSpec namespace." ]
 }
 
 #
@@ -2211,13 +2219,13 @@ load bats-helper
 @test "Error on x:variable in XSpec namespace (global x:variable with lexical QName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/variable/global-variable_lexical-qname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named u:global-variable): Name u:global-variable must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:variable (named u:global-variable): Name u:global-variable must not use the XSpec namespace." ]
 }
 
 @test "Error on x:variable in XSpec namespace (local x:variable with URIQualifiedName)" {
     myrun ../bin/xspec.sh reserved-vardecl-name/variable/local-variable_uqname.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) (under 'x:scenario/x:variable/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}local-variable must not use the XSpec namespace." ]
+    [ "${lines[5]}" = "ERROR in x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) (under 'x:scenario/x:variable/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}local-variable must not use the XSpec namespace." ]
 }
 
 #
@@ -2227,16 +2235,16 @@ load bats-helper
 @test "x:param should be evaluated only once" {
     myrun ../bin/xspec.sh ../tutorial/under-the-hood/compilation-params-scope.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "Running Tests..." ]
-    assert_regex "${lines[6]}" '^Testing with SAXON '
-    [ "${lines[7]}" = "outer scenario" ]
-    [ "${lines[8]}" = "* [1]: xs:string: value-2" ]
-    [ "${lines[9]}" = "..inner scenario" ]
-    [ "${lines[10]}" = "* [1]: xs:string: value-3" ]
-    [ "${lines[11]}" = "* [1]: xs:string: value-1" ]
-    [ "${lines[12]}" = "1st expect" ]
-    [ "${lines[13]}" = "" ]
-    [ "${lines[14]}" = "Formatting Report..." ]
+    [ "${lines[6]}" = "Running Tests..." ]
+    assert_regex "${lines[7]}" '^Testing with SAXON '
+    [ "${lines[8]}" = "outer scenario" ]
+    [ "${lines[9]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[10]}" = "..inner scenario" ]
+    [ "${lines[11]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[12]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[13]}" = "1st expect" ]
+    [ "${lines[14]}" = "" ]
+    [ "${lines[15]}" = "Formatting Report..." ]
 }
 
 @test "x:variable should be evaluated only once (XSLT)" {
@@ -2261,14 +2269,14 @@ load bats-helper
 @test "x:variable should be evaluated only once (XQuery)" {
     myrun ../bin/xspec.sh -q ../tutorial/under-the-hood/compilation-variables-scope.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "Running Tests..." ]
-    [ "${lines[6]}" = "* [1]: xs:string: value-2" ]
-    [ "${lines[7]}" = "* [1]: xs:string: value-3" ]
-    [ "${lines[8]}" = "* [1]: xs:string: value-4" ]
-    [ "${lines[9]}" = "* [1]: xs:string: value-1" ]
-    [ "${lines[10]}" = "* [1]: xs:string: value-5" ]
-    [ "${lines[11]}" = "" ]
-    [ "${lines[12]}" = "Formatting Report..." ]
+    [ "${lines[6]}" = "Running Tests..." ]
+    [ "${lines[7]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[8]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[9]}" = "* [1]: xs:string: value-4" ]
+    [ "${lines[10]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[11]}" = "* [1]: xs:string: value-5" ]
+    [ "${lines[12]}" = "" ]
+    [ "${lines[13]}" = "Formatting Report..." ]
 }
 
 #
@@ -2280,15 +2288,15 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
+        [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
     elif [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
-        [ "${lines[3]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
+        [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
     else
-        [ "${lines[3]}" = "Checking for deprecated Saxon versions: Passed" ]
+        [ "${lines[4]}" = "Checking for deprecated Saxon versions: Passed" ]
     fi
 
-    [ "${lines[5]}" = "Running Tests..." ]
-    assert_regex "${lines[6]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
+    [ "${lines[6]}" = "Running Tests..." ]
+    assert_regex "${lines[7]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #
@@ -2371,7 +2379,7 @@ load bats-helper
 @test "@catch should not catch error outside SUT (XSLT)" {
     myrun ../bin/xspec.sh catch/compiler-error.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^ERROR in x:scenario '
+    assert_regex "${lines[5]}" '^ERROR in x:scenario '
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 
     myrun ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
@@ -2408,7 +2416,7 @@ load bats-helper
 @test "@catch should not catch error outside SUT (XQuery)" {
     myrun ../bin/xspec.sh -q catch/compiler-error.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^ERROR in x:scenario '
+    assert_regex "${lines[5]}" '^ERROR in x:scenario '
 
     myrun ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     [ "$status" -eq 1 ]
@@ -2486,19 +2494,19 @@ load bats-helper
 @test "x:like error (scenario not found)" {
     myrun ../bin/xspec.sh like/none.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:like (labeled 'none') (under 'no scenario matched'): Scenario not found." ]
+    [ "${lines[5]}" = "ERROR in x:like (labeled 'none') (under 'no scenario matched'): Scenario not found." ]
 }
 
 @test "x:like error (multiple scenarios)" {
     myrun ../bin/xspec.sh like/multiple.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:like (labeled 'shared scenario') (under 'multiple scenarios matched'): 2 scenarios found with same label." ]
+    [ "${lines[5]}" = "ERROR in x:like (labeled 'shared scenario') (under 'multiple scenarios matched'): 2 scenarios found with same label." ]
 }
 
 @test "x:like error (infinite loop)" {
     myrun ../bin/xspec.sh like/loop.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:like (labeled 'parent scenario') (under 'parent scenario this scenario'): Reference to ancestor scenario creates infinite loop." ]
+    [ "${lines[5]}" = "ERROR in x:like (labeled 'parent scenario') (under 'parent scenario this scenario'): Reference to ancestor scenario creates infinite loop." ]
 }
 
 #
@@ -2591,31 +2599,31 @@ load bats-helper
 # Error message from x:compile-scenario template (XSLT)
 #
 
-@test "x:context both with @href and content" {
+@test "x:context with both @href and content" {
     myrun ../bin/xspec.sh error-compiling-scenario/context-both-href-and-content.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:call both with @function and @template" {
+@test "x:call with both @function and @template" {
     myrun ../bin/xspec.sh error-compiling-scenario/call-both-function-and-template.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "x:call[@function] with x:context" {
     myrun ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context for calling a function is supported only when /x:description has @run-as='external'." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context for calling a function is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "x:expect without action" {
     myrun ../bin/xspec.sh error-compiling-scenario/expect-without-action.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2626,21 +2634,21 @@ load bats-helper
 @test "x:context (XQuery)" {
     myrun ../bin/xspec.sh -q error-compiling-scenario/xquery_context.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:context'): x:context not supported for XQuery" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:context'): x:context not supported for XQuery" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "x:call/@template (XQuery)" {
     myrun ../bin/xspec.sh -q error-compiling-scenario/xquery_template-call.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "No x:call (XQuery)" {
     myrun ../bin/xspec.sh -q error-compiling-scenario/xquery_no-call.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2651,7 +2659,7 @@ load bats-helper
 @test "\$x:saxon-config is not a Saxon config" {
     myrun ../bin/xspec.sh x-saxon-config/test.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: \$Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration" ]
+    [ "${lines[9]}" = "ERROR: \$Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2662,28 +2670,28 @@ load bats-helper
 @test "Duplicate function-call param name (XSLT)" {
     myrun ../bin/xspec.sh dup-param-name/function-call.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Duplicate function-call param name (XQuery)" {
     myrun ../bin/xspec.sh -q dup-param-name/function-call.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Duplicate context param name" {
     myrun ../bin/xspec.sh dup-param-name/context.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Duplicate template-call param name" {
     myrun ../bin/xspec.sh dup-param-name/template-call.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2694,7 +2702,7 @@ load bats-helper
 @test "Calling function stored in variable not allowed (XSLT with @run-as=external)" {
     myrun ../bin/xspec.sh -t call-disallowed/external_function-in-variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:call (under 'Calling 1-parameter function stored in a variable'): Calling a variable stored in a function is not supported when /x:description has @run-as='external'." ]
+    [ "${lines[5]}" = "ERROR in x:call (under 'Calling 1-parameter function stored in a variable'): Calling a variable stored in a function is not supported when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2705,7 +2713,7 @@ load bats-helper
 @test "Static param not allowed (XSLT without @run-as=external)" {
     myrun ../bin/xspec.sh param-disallowed/description-param/static-param/stylesheet.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named p): Enabling @static is supported only when /x:description has @run-as='external'." ]
+    [ "${lines[5]}" = "ERROR in x:param (named p): Enabling @static is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2723,7 +2731,7 @@ load bats-helper
 @test "Description param not allowed (XQuery)" {
     myrun ../bin/xspec.sh -q param-disallowed/description-param/query.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named p): Q{http://www.jenitennison.com/xslt/xspec}description has x:param, which is not supported for XQuery." ]
+    [ "${lines[5]}" = "ERROR in x:param (named p): Q{http://www.jenitennison.com/xslt/xspec}description has x:param, which is not supported for XQuery." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2734,21 +2742,21 @@ load bats-helper
 @test "Scenario param not allowed (XSLT without @run-as=external)" {
     myrun ../bin/xspec.sh param-disallowed/scenario-param/stylesheet.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[5]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario param not allowed (XQuery)" {
     myrun ../bin/xspec.sh -q param-disallowed/scenario-param/query.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param, which is not supported for XQuery." ]
+    [ "${lines[5]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param, which is not supported for XQuery." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario param not allowed (Schematron without @run-as=external)" {
     myrun ../bin/xspec.sh -s param-disallowed/scenario-param/schematron.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[10]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2759,35 +2767,35 @@ load bats-helper
 @test "Description x:param conflicting with x:param" {
     myrun ../bin/xspec.sh conflicting-vardecl/description-param/param.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:param (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Description x:param conflicting with x:variable" {
     myrun ../bin/xspec.sh conflicting-vardecl/description-param/variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[5]}" = "ERROR in x:param (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:param conflicting with ancestor scenario x:variable" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-param/ancestor-scenario-variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named my:foo) (under 'scenario with child::x:variable in-between scenario scenario with child::x:param'): Name conflicts with x:variable (named my:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:param (named my:foo) (under 'scenario with child::x:variable in-between scenario scenario with child::x:param'): Name conflicts with x:variable (named my:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:param conflicting with description x:variable" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-param/description-variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named my:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[5]}" = "ERROR in x:param (named my:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:param conflicting with preceding-sibling x:variable" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-param/preceding-sibling-variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:param (named my2:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named my1:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:param (named my2:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named my1:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2798,35 +2806,35 @@ load bats-helper
 @test "Description x:variable conflicting with x:param" {
     myrun ../bin/xspec.sh conflicting-vardecl/description-variable/param.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Description x:variable conflicting with x:variable" {
     myrun ../bin/xspec.sh conflicting-vardecl/description-variable/variable.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[5]}" = "ERROR in x:variable (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:variable conflicting with ancestor scenario x:param" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-variable/ancestor-scenario-param.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Name conflicts with x:param (named my:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:variable conflicting with description x:param" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-variable/description-param.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[5]}" = "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named Q{http://example.org/ns/my}foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Scenario x:variable conflicting with preceding-sibling x:param" {
     myrun ../bin/xspec.sh conflicting-vardecl/scenario-variable/preceding-sibling-param.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named my1:foo)" ]
+    [ "${lines[5]}" = "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named my1:foo)" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2837,14 +2845,14 @@ load bats-helper
 @test "Duplicate @position (XSLT)" {
     myrun ../bin/xspec.sh bad-position/duplicate.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "Duplicate @position (XQuery)" {
     myrun ../bin/xspec.sh -q bad-position/duplicate.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2887,13 +2895,13 @@ load bats-helper
 @test "Warning when x:call[@template] ignores x:context/@mode" {
     myrun ../bin/xspec.sh context-mode-ignored.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call" ]
+    [ "${lines[5]}" = "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call" ]
 }
 
 @test "Warning when x:call[@template] ignores x:context/x:param" {
     myrun ../bin/xspec.sh context-param.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call" ]
+    [ "${lines[5]}" = "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call" ]
 }
 
 #
@@ -2903,49 +2911,49 @@ load bats-helper
 @test "Message for pending" {
     myrun ../bin/xspec.sh end-to-end/cases/pending.xspec
     [ "$status" -eq 0 ]
-    assert_regex "${lines[6]}" '^Testing with SAXON '
-    [ "${lines[7]}" = "Test pending features (x:pending and @pending)" ]
-    [ "${lines[8]}" = "..a non-pending Success scenario alongside a pending scenario" ]
-    [ "${lines[9]}" = "must execute the test and return Success" ]
-    [ "${lines[10]}" = "..a non-pending Failure scenario alongside a pending scenario" ]
-    [ "${lines[11]}" = "must execute the test and return Failure" ]
-    [ "${lines[12]}" = "      FAILED" ]
-    [ "${lines[13]}" = "PENDING: (testing x:pending) a Success scenario in x:pending must be Pending" ]
-    [ "${lines[14]}" = "PENDING: (testing x:pending) it would return Success if it were not Pending" ]
-    [ "${lines[15]}" = "PENDING: (testing x:pending) an erroneous scenario in x:pending must be Pending" ]
-    [ "${lines[16]}" = "PENDING: (testing x:pending) it would throw an error if it were not Pending" ]
-    [ "${lines[17]}" = "PENDING: a Success scenario in zero-length x:pending/@label must be Pending" ]
-    [ "${lines[18]}" = "PENDING: it would return Success if it were not Pending" ]
-    [ "${lines[19]}" = "PENDING: an erroneous scenario in zero-length x:pending/@label must be Pending" ]
-    [ "${lines[20]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[21]}" = "PENDING: a Success scenario in zero-length x:pending/x:label must be Pending" ]
-    [ "${lines[22]}" = "PENDING: it would return Success if it were not Pending" ]
-    [ "${lines[23]}" = "PENDING: an erroneous scenario in zero-length x:pending/x:label must be Pending" ]
-    [ "${lines[24]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[25]}" = "PENDING: a Success scenario in x:pending[empty(@label | x:label)] must be Pending" ]
-    [ "${lines[26]}" = "PENDING: it would return Success if it were not Pending" ]
-    [ "${lines[27]}" = "PENDING: an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending" ]
-    [ "${lines[28]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[29]}" = "PENDING: (testing @pending of a Success scenario) ..a Success scenario with @pending must be Pending" ]
-    [ "${lines[30]}" = "PENDING: (testing @pending of a Success scenario) it would return Success if it were not Pending" ]
-    [ "${lines[31]}" = "PENDING: (testing @pending of an erroneous scenario) ..an erroneous scenario with @pending must be Pending" ]
-    [ "${lines[32]}" = "PENDING: (testing @pending of an erroneous scenario) it would throw an error if it were not Pending" ]
-    [ "${lines[33]}" = "PENDING: ..Zero-length x:scenario/@pending" ]
-    [ "${lines[34]}" = "PENDING: ..a Success scenario in zero-length @pending must be Pending" ]
-    [ "${lines[35]}" = "PENDING: it would return Success if it were not Pending" ]
-    [ "${lines[36]}" = "PENDING: ..an erroneous scenario in zero-length @pending must be Pending" ]
-    [ "${lines[37]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[38]}" = "..a Success x:expect with @pending must be Pending" ]
-    [ "${lines[39]}" = "PENDING: (testing @pending of a Success x:expect) it would call SUT and return Success if it were not Pending" ]
-    [ "${lines[40]}" = "..an erroneous x:expect with @pending must be Pending" ]
-    [ "${lines[41]}" = "PENDING: (testing @pending of an erroneous x:expect) it would throw an error if it were not Pending" ]
-    [ "${lines[42]}" = "..a Success x:expect with zero-length @pending must be Pending" ]
-    [ "${lines[43]}" = "PENDING: it would call SUT and return Success if it were not Pending" ]
-    [ "${lines[44]}" = "..an erroneous x:expect with zero-length @pending must be Pending" ]
-    [ "${lines[45]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[46]}" = "" ]
-    [ "${lines[47]}" = "Formatting Report..." ]
-    [ "${lines[48]}" = "passed: 1 / pending: 16 / failed: 1 / total: 18" ]
+    assert_regex "${lines[7]}" '^Testing with SAXON '
+    [ "${lines[8]}" = "Test pending features (x:pending and @pending)" ]
+    [ "${lines[9]}" = "..a non-pending Success scenario alongside a pending scenario" ]
+    [ "${lines[10]}" = "must execute the test and return Success" ]
+    [ "${lines[11]}" = "..a non-pending Failure scenario alongside a pending scenario" ]
+    [ "${lines[12]}" = "must execute the test and return Failure" ]
+    [ "${lines[13]}" = "      FAILED" ]
+    [ "${lines[14]}" = "PENDING: (testing x:pending) a Success scenario in x:pending must be Pending" ]
+    [ "${lines[15]}" = "PENDING: (testing x:pending) it would return Success if it were not Pending" ]
+    [ "${lines[16]}" = "PENDING: (testing x:pending) an erroneous scenario in x:pending must be Pending" ]
+    [ "${lines[17]}" = "PENDING: (testing x:pending) it would throw an error if it were not Pending" ]
+    [ "${lines[18]}" = "PENDING: a Success scenario in zero-length x:pending/@label must be Pending" ]
+    [ "${lines[19]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[20]}" = "PENDING: an erroneous scenario in zero-length x:pending/@label must be Pending" ]
+    [ "${lines[21]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[22]}" = "PENDING: a Success scenario in zero-length x:pending/x:label must be Pending" ]
+    [ "${lines[23]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[24]}" = "PENDING: an erroneous scenario in zero-length x:pending/x:label must be Pending" ]
+    [ "${lines[25]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[26]}" = "PENDING: a Success scenario in x:pending[empty(@label | x:label)] must be Pending" ]
+    [ "${lines[27]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[28]}" = "PENDING: an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending" ]
+    [ "${lines[29]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[30]}" = "PENDING: (testing @pending of a Success scenario) ..a Success scenario with @pending must be Pending" ]
+    [ "${lines[31]}" = "PENDING: (testing @pending of a Success scenario) it would return Success if it were not Pending" ]
+    [ "${lines[32]}" = "PENDING: (testing @pending of an erroneous scenario) ..an erroneous scenario with @pending must be Pending" ]
+    [ "${lines[33]}" = "PENDING: (testing @pending of an erroneous scenario) it would throw an error if it were not Pending" ]
+    [ "${lines[34]}" = "PENDING: ..Zero-length x:scenario/@pending" ]
+    [ "${lines[35]}" = "PENDING: ..a Success scenario in zero-length @pending must be Pending" ]
+    [ "${lines[36]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[37]}" = "PENDING: ..an erroneous scenario in zero-length @pending must be Pending" ]
+    [ "${lines[38]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[39]}" = "..a Success x:expect with @pending must be Pending" ]
+    [ "${lines[40]}" = "PENDING: (testing @pending of a Success x:expect) it would call SUT and return Success if it were not Pending" ]
+    [ "${lines[41]}" = "..an erroneous x:expect with @pending must be Pending" ]
+    [ "${lines[42]}" = "PENDING: (testing @pending of an erroneous x:expect) it would throw an error if it were not Pending" ]
+    [ "${lines[43]}" = "..a Success x:expect with zero-length @pending must be Pending" ]
+    [ "${lines[44]}" = "PENDING: it would call SUT and return Success if it were not Pending" ]
+    [ "${lines[45]}" = "..an erroneous x:expect with zero-length @pending must be Pending" ]
+    [ "${lines[46]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[47]}" = "" ]
+    [ "${lines[48]}" = "Formatting Report..." ]
+    [ "${lines[49]}" = "passed: 1 / pending: 16 / failed: 1 / total: 18" ]
 }
 
 #
@@ -2959,7 +2967,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh threads/dynamic-error/description_zero.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[8]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/@threads is not positive$'
+    assert_regex "${lines[9]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/@threads is not positive$'
 }
 
 @test "@threads contains more than one item" {
@@ -2969,7 +2977,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh threads/dynamic-error/scenario_multiple.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[9]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+    assert_regex "${lines[10]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
 }
 
 @test "@threads is a string" {
@@ -2979,7 +2987,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh threads/dynamic-error/scenario_string.xspec
     [ "$status" -eq 1 ]
-    assert_regex "${lines[9]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+    assert_regex "${lines[10]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
 }
 
 #
@@ -2989,56 +2997,56 @@ load bats-helper
 @test "x:context has no attributes and no children (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/no-attr.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[10]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing at child level (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-constant-select-inherited-augmented.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
+    [ "${lines[10]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but @select computation finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/href-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (call-template; external)" {
     myrun ../bin/xspec.sh bad-context/call-template/external_child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but @select computation finds nothing (call-template)" {
     myrun ../bin/xspec.sh bad-context/call-template/child-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -3063,56 +3071,56 @@ load bats-helper
 @test "x:context has no attributes and no children (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/no-attr.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context has no attributes and no children'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing, inherited (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
+    [ "${lines[10]}" = "ERROR in x:scenario ('x:context/@href file exists, but hard-coded @select finds nothing, inherited without more context,'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but hard-coded @select finds nothing at child level (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-constant-select-inherited-augmented.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
+    [ "${lines[10]}" = "ERROR in x:context (under 'x:context/@href file exists, but hard-coded @select finds nothing at child level'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/@href file exists, but @select computation finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/href-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/@href file exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but hard-coded @select finds nothing (apply-templates; external)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/external_child-constant-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but hard-coded @select finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
 @test "x:context/* exists, but @select computation finds nothing (apply-templates)" {
     myrun ../bin/xspec.sh bad-context/apply-templates/child-variable-select.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
+    [ "${lines[9]}" = "ERROR in x:context (under 'x:context/* exists, but @select computation finds nothing'): Context is an empty sequence." ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 

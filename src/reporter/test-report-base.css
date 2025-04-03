@@ -162,6 +162,10 @@ h1 {
 	text-transform: uppercase;
 }
 
+.byline {
+	float: right;
+}
+
 a {
 	text-decoration: none;
 }

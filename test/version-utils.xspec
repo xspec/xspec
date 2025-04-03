@@ -3,6 +3,19 @@
 	xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+	<x:scenario label="Scenario for testing variable xspec-version">
+		<x:call function="tokenize">
+			<x:param select="$x:xspec-version" />
+			<x:param select="'\.'" />
+		</x:call>
+		<x:expect label="3 components" select="3" test="count($x:result)" />
+		<x:expect label="Digits"
+			test="
+			every $component in $x:result
+			satisfies (($component eq '0') or matches($component, '^[1-9][0-9]*$'))" />
+		<x:expect label="Assume v3" select="'3'" test="$x:result[1]" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable saxon-version">
 		<x:scenario label="Assume we test this on Saxon versions from 10.9 to 12.x">
 			<x:context>
