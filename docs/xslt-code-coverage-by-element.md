@@ -397,12 +397,12 @@ There is an alternate option of accepting the trace output for now and saying if
 | PARENT   |                                                |
 | CHILDREN | xsl:fallback, xsl:for-each-group, xsl:sequence |
 | CONTENT  |                                                |
-| TRACE    |                                                |
-| RULE     | TBD                                            |
+| TRACE    | Yes                                            |
+| RULE     | Use Trace Data                                 |
 
 #### Comment
 
-Only sensible when Streaming, so needs to be investigated using Saxon-EE.
+Only sensible when streaming, but supported when not streaming.
 
 ## xsl:function
 
