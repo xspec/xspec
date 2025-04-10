@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:util:compiler-eqname-utils:local"
+<xsl:stylesheet xmlns:equtil="urn:x-xspec:compiler:base:util:compiler-eqname-utils"
+                xmlns:local="urn:x-xspec:compiler:base:util:compiler-eqname-utils:local"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -78,7 +79,7 @@
       
       Based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329
    -->
-   <xsl:variable as="xs:string" name="local:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
+   <xsl:variable as="xs:string" name="equtil:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
 
    <!--
       Resolves URIQualifiedName to xs:QName
@@ -93,7 +94,7 @@
                Q\{
                   ([^\{\}]*)                                   <!-- group 1: URI -->
                \}
-               <xsl:value-of select="$local:capture-NCName" /> <!-- group 2: local name -->
+               <xsl:value-of select="$equtil:capture-NCName" /> <!-- group 2: local name -->
             $
          </xsl:value-of>
       </xsl:variable>
