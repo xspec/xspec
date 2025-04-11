@@ -95,4 +95,12 @@
 			label="has no change (and xmlns:a is irrelevant because a:b is a URI here, not a lexical QName)"
 			select="'schema-attribute(Q{a:b}c, Q{attribute(1,2)}z)'"/>
 	</x:scenario>
+	<x:scenario label="Element with no @as attribute">
+		<x:call function="x:lexical-to-UQName-in-sequence-type">
+			<x:param>
+				<element/>
+			</x:param>
+		</x:call>
+		<x:expect label="returns an empty sequence" select="()"/>
+	</x:scenario>
 </x:description>
