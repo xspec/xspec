@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl"
+	xmlns:equtil="urn:x-xspec:compiler:base:util:compiler-eqname-utils"
 	xmlns:local="urn:x-xspec:compiler:base:util:compiler-eqname-utils:local"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -212,7 +213,7 @@
 		<x:expect label="Captured" select="'bar'" test="
 				replace(
 					'foo:bar[baz]',
-					'^.+:' || $local:capture-NCName || '.*$',
+					'^.+:' || $equtil:capture-NCName || '.*$',
 					'$1'
 				)" />
 	</x:scenario>

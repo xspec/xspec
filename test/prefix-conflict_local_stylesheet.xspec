@@ -4,7 +4,10 @@
 
 	<!-- Unlike prefix-conflict.xspec, this test relies on namespace declarations
 		on descendants of the XSpec <description> element. Also, this test is for XSLT only,
-		because XQuery tests must declare all relevant namespaces on <description>. -->
+		because XQuery tests must declare namespaces on <description> when using prefixes
+		in XPath expressions.
+
+		See prefix-conflict_local_xquery.xspec for the analogous test for XQuery. -->
 
 	<t:scenario
 		label="Using x: prefix in function-call @function, function-param @name, @select, @as, and child node">

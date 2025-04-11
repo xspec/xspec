@@ -171,7 +171,8 @@
 	<x:scenario label="Params can be redefined in scenario.">
 		<!-- Note: For x:param elements that are direct children of x:description, expanded QNames must be unique.
 			This test scenario is about *scenario-level* redefinitions of x:description or x:scenario params. -->
-		<!-- For now, we assume any prefixes used in param names are defined on x:description. -->
+		<!-- In this file, prefixes used in variable names are defined on x:description. See also
+		prefix-conflict_local_xquery.xspec and prefix-conflict_local_stylesheet.xspec-->
 
 		<x:scenario label="Scenario-level redefinition of x:description param">
 			<x:param as="xs:string" name="myp:description-level"
