@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:helper stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl"/>
-	
+
 	<x:scenario label="Lexical QName as the entire @as value">
 		<x:scenario label="Declaring namespace on the context element">
 			<x:call function="x:lexical-to-UQName-in-sequence-type">
@@ -11,7 +11,8 @@
 					<element xmlns:a="urn:x-xspec:example" as="  a:b  "/>
 				</x:param>
 			</x:call>
-			<x:expect label="enables correct conversion to UQName" select="'Q{urn:x-xspec:example}b'"/>
+			<x:expect label="enables correct conversion to UQName"
+				select="'Q{urn:x-xspec:example}b'"/>
 		</x:scenario>
 		<x:scenario label="Declaring namespace on ancestor of context element">
 			<x:call function="x:lexical-to-UQName-in-sequence-type">
@@ -21,7 +22,8 @@
 					</parent>
 				</x:param>
 			</x:call>
-			<x:expect label="enables correct conversion to UQName" select="'Q{urn:x-xspec:example}b'"/>
+			<x:expect label="enables correct conversion to UQName"
+				select="'Q{urn:x-xspec:example}b'"/>
 		</x:scenario>
 		<x:scenario label="When prefix is declared differently on ancestor of context element">
 			<x:call function="x:lexical-to-UQName-in-sequence-type">
@@ -31,7 +33,8 @@
 					</parent>
 				</x:param>
 			</x:call>
-			<x:expect label="conversion to UQName uses nearest binding" select="'Q{urn:x-xspec:example}b'"/>
+			<x:expect label="conversion to UQName uses nearest binding"
+				select="'Q{urn:x-xspec:example}b'"/>
 		</x:scenario>
 	</x:scenario>
 	<x:scenario label="Lexical QName in parentheses">
@@ -70,7 +73,8 @@
 			<x:expect label="are both converted to UQName"
 				select="'schema-element(Q{urn:x-xspec:example}b,Q{urn:x-xspec:example:c}d)'"/>
 		</x:scenario>
-		<x:scenario label="When URIs include characters that look like delimiters (parentheses, comma)">
+		<x:scenario
+			label="When URIs include characters that look like delimiters (parentheses, comma)">
 			<x:call function="x:lexical-to-UQName-in-sequence-type">
 				<x:param>
 					<element xmlns:a="schema-element(1,2)" as="element(a:b, Q{{attribute(1,2)}}z)"/>
@@ -83,10 +87,12 @@
 	<x:scenario label="@as value with no lexical QName">
 		<x:call function="x:lexical-to-UQName-in-sequence-type">
 			<x:param>
-				<element xmlns:a="urn:x-xspec:example" as="schema-attribute(Q{{a:b}}c, Q{{attribute(1,2)}}z)"/>
+				<element xmlns:a="urn:x-xspec:example"
+					as="schema-attribute(Q{{a:b}}c, Q{{attribute(1,2)}}z)"/>
 			</x:param>
 		</x:call>
-		<x:expect label="has no change (and xmlns:a is irrelevant because a:b is a URI here, not a lexical QName)"
+		<x:expect
+			label="has no change (and xmlns:a is irrelevant because a:b is a URI here, not a lexical QName)"
 			select="'schema-attribute(Q{a:b}c, Q{attribute(1,2)}z)'"/>
 	</x:scenario>
 </x:description>

@@ -39,7 +39,7 @@
 			xmlns:x="x-urn:test:prefix-conflict">
 			<x:var-child />
 		</t:variable>
-		<t:call function="x:false"  xmlns:x="x-urn:test:prefix-conflict" />
+		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
 		<t:expect label="should work" test="$xd:var instance of element(xd:var-child)" />
 	</t:scenario>
 
