@@ -31,16 +31,16 @@
          <xsl:value-of>
             <xsl:analyze-string flags="x" regex="{$regex-for-UQName}" select="$as-attribute-value">
                <xsl:matching-substring>
-                  <!-- First, preserve UQNames already present
-                     to avoid confusion if a URI contains a colon -->
+                  <!-- First, preserve UQNames already present so that a URI containing a
+                     colon doesn't get misinterpreted as a lexical QName -->
                   <xsl:sequence select="."/>
                </xsl:matching-substring>
                <xsl:non-matching-substring>
                   <!-- In non-matches, convert lexical QNames to UQNames -->
-                  <xsl:analyze-string regex="\s*({$equtil:capture-NCName}:{$equtil:capture-NCName})\s*"
+                  <xsl:analyze-string regex="{$equtil:capture-NCName}:{$equtil:capture-NCName}"
                      select=".">
                      <xsl:matching-substring>
-                        <xsl:variable name="lexical-qname" select="regex-group(1)" as="xs:string"/>
+                        <xsl:variable name="lexical-qname" select="." as="xs:string"/>
                         <xsl:sequence
                            select="x:UQName-from-EQName-ignoring-default-ns($lexical-qname, $context)"
                         />
