@@ -478,7 +478,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
+												<String>Paths to catalog files that will be used in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${xmlCatalogFilesList}</String>
@@ -524,7 +524,7 @@
 												<String>clean.output.dir</String>
 											</field>
 											<field name="description">
-												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+												<String>Removes intermediate files. Set it to false if you want to inspect these files.</String>
 											</field>
 											<field name="value">
 												<String>true</String>
@@ -593,7 +593,7 @@
 												<String>xspec.html.report.theme</String>
 											</field>
 											<field name="description">
-												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic</String>
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic.</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -852,7 +852,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
+												<String>Paths to catalog files that will be used in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${xmlCatalogFilesList}</String>
@@ -898,7 +898,7 @@
 												<String>clean.output.dir</String>
 											</field>
 											<field name="description">
-												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+												<String>Removes intermediate files. Set it to false if you want to inspect these files.</String>
 											</field>
 											<field name="value">
 												<String>true</String>
@@ -1013,7 +1013,7 @@
 												<String>xspec.html.report.theme</String>
 											</field>
 											<field name="description">
-												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic</String>
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic.</String>
 											</field>
 											<field name="value">
 												<String>default</String>
