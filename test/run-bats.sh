@@ -50,12 +50,6 @@ case "${XMLRESOLVERORG_XMLRESOLVER_VERSION}" in
         ;;
 esac
 
-# TODO: Stop skipping these tests once Oxygen picks up Saxon 12.4+
-export SAXON12_INITIAL_ISSUES_FIXED=1
-if [ "${SAXON_VERSION}" == "12.3" ]; then
-    unset SAXON12_INITIAL_ISSUES_FIXED
-fi
-
 # Unset JVM environment variables which make output line numbers unpredictable
 unset _JAVA_OPTIONS
 unset JAVA_TOOL_OPTIONS
