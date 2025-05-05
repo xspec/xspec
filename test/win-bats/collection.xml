@@ -1768,7 +1768,7 @@
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
+	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
     call :verify_line  9 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
@@ -1818,7 +1818,7 @@
     call :verify_line -1 r "\[main\] ERROR "
 	</case>
 
-	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
+	<case ifdef="XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
     call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -1854,7 +1854,7 @@
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
-	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="XQuery selecting nodes without context should be error (CLI) #423">
+	<case name="XQuery selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat -q issue-423\test.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0002[: ]"
@@ -2286,7 +2286,7 @@
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
-	<case ifdef="SAXON12_INITIAL_ISSUES_FIXED" name="Error in SUT should not be caught by default (XQuery)">
+	<case name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval 2
     call :verify_line * r "  my-error-code[: ] Error signalled .*"
