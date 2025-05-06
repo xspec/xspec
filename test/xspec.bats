@@ -2598,6 +2598,13 @@ load bats-helper
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
+@test "x:call with neither @function nor @template" {
+    myrun ../bin/xspec.sh error-compiling-scenario/call-neither-function-nor-template.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call with neither @function nor @template, not even through inheritance'): x:call must specify a function or template to call" ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
+}
+
 @test "x:call[@function] with x:context" {
     myrun ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     [ "$status" -eq 1 ]

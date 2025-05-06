@@ -45,6 +45,15 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
+      <xsl:if test="$call[$run-sut-now][not(@template) and not(@function)]">
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($call)} must specify a function or template to call</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
       <xsl:if test="$context and $call/@function and not($is-external)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">

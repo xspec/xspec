@@ -2448,6 +2448,13 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<case name="x:call with neither @function nor @template">
+    call :run ..\bin\xspec.bat error-compiling-scenario\call-neither-function-nor-template.xspec
+    call :verify_retval 2
+    call :verify_line  6 x "ERROR in x:scenario ('x:call with neither @function nor @template, not even through inheritance'): x:call must specify a function or template to call"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+    
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
