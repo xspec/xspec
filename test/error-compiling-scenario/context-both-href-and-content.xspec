@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="x:context both with @href and content">
+	<x:scenario label="x:context with both @href and content">
 		<x:context href="context-doc.href">
 			<context-child />
 		</x:context>
