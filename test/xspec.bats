@@ -2587,14 +2587,21 @@ load bats-helper
 @test "x:context with both @href and content" {
     myrun ../bin/xspec.sh error-compiling-scenario/context-both-href-and-content.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:context with both @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
 @test "x:call with both @function and @template" {
     myrun ../bin/xspec.sh error-compiling-scenario/call-both-function-and-template.xspec
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call with both @function and @template'): Can't call a function and a template at the same time" ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:call with neither @function nor @template" {
+    myrun ../bin/xspec.sh error-compiling-scenario/call-neither-function-nor-template.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:call with neither @function nor @template, not even through inheritance'): x:call must specify a function or template to call" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 

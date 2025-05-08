@@ -2437,17 +2437,24 @@
 	<case name="x:context with both @href and content">
     call :run ..\bin\xspec.bat error-compiling-scenario\context-both-href-and-content.xspec
     call :verify_retval 2
-    call :verify_line  6 x "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element"
+    call :verify_line  6 x "ERROR in x:scenario ('x:context with both @href and content'): Can't set the context document using both the href attribute and the content of the x:context element"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call with both @function and @template">
     call :run ..\bin\xspec.bat error-compiling-scenario\call-both-function-and-template.xspec
     call :verify_retval 2
-    call :verify_line  6 x "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time"
+    call :verify_line  6 x "ERROR in x:scenario ('x:call with both @function and @template'): Can't call a function and a template at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<case name="x:call with neither @function nor @template">
+    call :run ..\bin\xspec.bat error-compiling-scenario\call-neither-function-nor-template.xspec
+    call :verify_retval 2
+    call :verify_line  6 x "ERROR in x:scenario ('x:call with neither @function nor @template, not even through inheritance'): x:call must specify a function or template to call"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+    
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
