@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	query="x-urn:test:mirror"
+	query-at="mirror.xqm">
+
+	<!-- This file deliberately uses a different prefix for the XSpec namespace
+	compared to the prefix appearing in the imported file, and this file does
+	not declare the prefixes that the imported file declares. -->
+	<t:import href="xmlns-imported_xquery.xspec"/>
+
+</t:description>

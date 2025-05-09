@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns=""
+  xmlns:q1="x-urn:test:mirror"
+  xmlns:tv1="http://example.org/ns/my/usercontent"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  stylesheet="xmlns.xsl">
+
+  <x:variable name="q1:imported-global-var">
+    <tv1:element/>
+    <no-namespace-element/>
+  </x:variable>
+  <x:param name="q1:imported-global-param">
+    <tv1:element/>
+    <no-namespace-element/>
+  </x:param>
+  <x:scenario label="Imported file using different declarations on x:description">
+    <x:variable name="q1:imported-local-var">
+      <tv1:element/>
+      <no-namespace-element/>
+    </x:variable>
+    <x:call function="q1:param-mirror">
+      <x:param name="q1:param-items">
+        <tv1:element/>
+        <no-namespace-element/>
+      </x:param>
+    </x:call>
+    <x:expect label="should reflect the imported file's xmlns:..."
+      test="namespace-uri($Q{http://www.jenitennison.com/xslt/xspec}result[1])" select="xs:anyURI('http://example.org/ns/my/usercontent')"/>
+    <x:expect label="and default element namespace."
+      test="namespace-uri($Q{http://www.jenitennison.com/xslt/xspec}result[2])" select="xs:anyURI('')"/>
+    <x:expect label="Imported file's xmlns:... should also be reflected in value of global param,"
+      test="namespace-uri($Q{x-urn:test:mirror}imported-global-param[1])" select="xs:anyURI('http://example.org/ns/my/usercontent')"/>
+    <x:expect label="global variable,"
+      test="namespace-uri($Q{x-urn:test:mirror}imported-global-var[1])" select="xs:anyURI('http://example.org/ns/my/usercontent')"/>
+    <x:expect label="and local variable."
+      test="namespace-uri($Q{x-urn:test:mirror}imported-local-var[1])" select="xs:anyURI('http://example.org/ns/my/usercontent')"/>
+    <x:expect label="Imported file's default element namespace should also be reflected in value of global param,"
+      test="namespace-uri($Q{x-urn:test:mirror}imported-global-param[2])" select="xs:anyURI('')"/>
+    <x:expect label="global variable,"
+      test="namespace-uri($Q{x-urn:test:mirror}imported-global-var[2])" select="xs:anyURI('')"/>
+    <x:expect label="and local variable."
+      test="namespace-uri($Q{x-urn:test:mirror}imported-local-var[2])" select="xs:anyURI('')"/>
+  </x:scenario>
+</x:description>

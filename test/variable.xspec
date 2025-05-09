@@ -159,8 +159,9 @@
 
 	<x:scenario label="Variables can be redefined in scenario.">
 		<!-- Note: For x:variable elements that are direct children of x:description, expanded QNames must be unique.
-		 This test scenario is about *scenario-level* redefinitions of global or scenario-level variables. -->
-		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
+			This test scenario is about *scenario-level* redefinitions of global or scenario-level variables. -->
+		<!-- In this file, prefixes used in variable names are defined on x:description.
+			See xmlns_query.xspec and xmlns_stylesheet.xspec for local namespace declarations. -->
 		<x:scenario label="Scenario-level redefinition of global variable">
 			<x:variable name="myv:test-string" select="$myv:test-string || ' (redefined in scenario using same prefix'" as="xs:string"/>
 			<x:variable name="myv_alt:test-string" select="$myv:test-string || ' or different prefix)'" as="xs:string"/>

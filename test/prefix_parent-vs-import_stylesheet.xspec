@@ -5,6 +5,6 @@
 
 	<!-- This file deliberately uses a different prefix for the XSpec namespace
 	compared to the prefix appearing in the imported file. -->
-	<t:import href="xmlns-imported.xspec"/>
+	<t:import href="xmlns-imported_stylesheet.xspec"/>
 
 </t:description>
