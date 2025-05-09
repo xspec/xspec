@@ -4,7 +4,10 @@
 
 	<!-- Unlike prefix-conflict.xspec, this test relies on namespace declarations
 		on descendants of the XSpec <description> element. Also, this test is for XSLT only,
-		because XQuery tests must declare all relevant namespaces on <description>. -->
+		because XQuery tests must declare namespaces on <description> when using prefixes
+		in arbitrary XPath expressions stored in attributes of XSpec elements.
+
+		See prefix-conflict_local_xquery.xspec for the analogous test for XQuery. -->
 
 	<t:scenario
 		label="Using x: prefix in function-call @function, function-param @name, @select, @as, and child node">
@@ -14,7 +17,7 @@
 				<x:function-param-child />
 			</t:param>
 		</t:call>
-		<t:expect label="should work" select="'x:function-param-child'" test="name($t:result)" />
+		<t:expect label="should work" test="$t:result instance of element(Q{x-urn:test:prefix-conflict}function-param-child)" />
 	</t:scenario>
 
 	<t:param as="element(x:global-param-child)" name="x:global-param"
@@ -23,7 +26,7 @@
 	</t:param>
 	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
 		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
-		<t:expect label="should work" select="'x:global-param-child'" test="name($y:global-param)"
+		<t:expect label="should work" test="$y:global-param instance of element(Q{x-urn:test:prefix-conflict}global-param-child)"
 			xmlns:y="x-urn:test:prefix-conflict" />
 	</t:scenario>
 
@@ -35,7 +38,7 @@
 	</t:variable>
 	<t:scenario label="Using x: prefix in global variable @name, @select, @as, and child node">
 		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
-		<t:expect label="should work" select="'x:global-var-child'" test="name($y:global-var)"
+		<t:expect label="should work" test="$y:global-var instance of element(Q{x-urn:test:prefix-conflict}global-var-child)"
 			xmlns:y="x-urn:test:prefix-conflict" />
 	</t:scenario>
 
@@ -45,7 +48,7 @@
 			<x:var-child />
 		</t:variable>
 		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
-		<t:expect label="should work" select="'x:var-child'" test="name($y:var)"
+		<t:expect label="should work" test="$y:var instance of element(Q{x-urn:test:prefix-conflict}var-child)"
 			xmlns:y="x-urn:test:prefix-conflict" />
 	</t:scenario>
 
@@ -56,7 +59,7 @@
 			</t:param>
 		</t:call>
 		<t:expect label="child node, @select and @test should work"
-			select="name(element(x:element))" test="name($t:result/self::element(x:element))"
+			select="namespace-uri(element(x:element))" test="namespace-uri($t:result/self::element(x:element))"
 			xmlns:x="x-urn:test:prefix-conflict">
 			<x:element />
 		</t:expect>
