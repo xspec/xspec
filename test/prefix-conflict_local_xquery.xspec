@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description query="x-urn:test:prefix-conflict" query-at="prefix-conflict.xqm"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xd="x-urn:test:prefix-conflict">
+
+	<!-- Unlike prefix-conflict.xspec, this test relies on namespace declarations
+		on descendants of the XSpec <description> element. Also, this test is for XQuery only;
+		unlike XSLT tests, XQuery tests must declare namespaces on <description> if the prefix is
+		to be used in an arbitrary XPath expression stored in an attribute of an XSpec element.
+		Where x: would not work, this test uses the prefix xd: (declared on t:description)
+		or omits an element name.
+
+		See prefix-conflict_local_stylesheet.xspec for the analogous test for XSLT. -->
+
+	<t:scenario
+		label="Using x: prefix in function-call @function, function-param @name, @as, and child node">
+		<t:call function="x:param-mirror" xmlns:x="x-urn:test:prefix-conflict">
+			<t:param as="element(x:function-param-child)" name="x:param-items"
+				select="element()">
+				<x:function-param-child />
+			</t:param>
+		</t:call>
+		<t:expect label="should work" test="$t:result instance of element(xd:function-param-child)" />
+	</t:scenario>
+
+	<!-- Naming an XSpec variable (global or local) using a namespace also used in the
+		system under test is not necessarily recommended, but it should still work. -->
+	<t:variable as="element(x:global-var-child)" name="x:global-var"
+		select="element()" xmlns:x="x-urn:test:prefix-conflict">
+		<x:global-var-child />
+	</t:variable>
+	<t:scenario label="Using x: prefix in global variable @name, @as, and child node">
+		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
+		<t:expect label="should work" test="$xd:global-var instance of element(xd:global-var-child)" />
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in local variable @name, @as, and child node">
+		<t:variable as="element(x:var-child)" name="x:var" select="element()"
+			xmlns:x="x-urn:test:prefix-conflict">
+			<x:var-child />
+		</t:variable>
+		<t:call function="x:false" xmlns:x="x-urn:test:prefix-conflict" />
+		<t:expect label="should work" test="$xd:var instance of element(xd:var-child)" />
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in assertion's child node">
+		<t:call function="x:param-mirror" xmlns:x="x-urn:test:prefix-conflict">
+			<t:param>
+				<x:element />
+			</t:param>
+		</t:call>
+		<t:expect label="should work"
+			select="namespace-uri(element())" test="namespace-uri($t:result)"
+			xmlns:x="x-urn:test:prefix-conflict">
+			<x:element />
+		</t:expect>
+	</t:scenario>
+</t:description>

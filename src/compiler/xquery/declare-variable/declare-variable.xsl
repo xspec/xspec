@@ -11,6 +11,9 @@
       
       This template rejects @static=yes.
    -->
+
+   <xsl:include href="sequencetype-with-uqnames.xsl"/>
+
    <xsl:template name="x:declare-variable" as="node()+">
       <xsl:context-item as="element()" use="required" />
 
@@ -78,7 +81,7 @@
       <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="as-global" select="$as-global" />
          <xsl:with-param name="uqname" select="$uqname" />
-         <xsl:with-param name="type" select="@as" />
+         <xsl:with-param name="type" select="x:lexical-to-UQName-in-sequence-type(.)" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
                <xsl:when test="$temp-doc-uqname">
