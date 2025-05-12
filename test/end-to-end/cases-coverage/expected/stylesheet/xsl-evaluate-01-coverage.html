@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />37</th>
-               <th class="totals emphasis">missed<br />0</th>
-               <th class="totals">unknown<br />4</th>
+               <th class="totals">hit<br />39</th>
+               <th class="totals emphasis">missed<br />1</th>
+               <th class="totals">unknown<br />1</th>
                <th class="totals">lines<br />69</th>
             </tr>
          </thead>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-evaluate-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">37</th>
-               <th class="totals">0</th>
-               <th class="totals">4</th>
+               <th class="totals">39</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
                <th class="totals">69</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-evaluate-01.xsl<span class="scenario-totals">hit: 37 / missed: 0 / unknown: 4</span></h2>
+         <h2 class="successful">module: xsl-evaluate-01.xsl<span class="scenario-totals">hit: 39 / missed: 1 / unknown: 1</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -79,11 +79,11 @@
 27: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each select="$data/data"&gt;</span>
 28: <span class="whitespace">          </span><span class="hit">&lt;node type="evaluate"&gt;</span>
 29: <span class="whitespace">            </span><span class="hit">&lt;xsl:value-of&gt;</span>
-30: <span class="whitespace">              </span><span class="unknown">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span><span class="whitespace">                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+30: <span class="whitespace">              </span><span class="hit">&lt;xsl:evaluate xpath="$sortKey" context-item="."  /&gt;</span>
 31: <span class="whitespace">            </span><span class="hit">&lt;/xsl:value-of&gt;</span>
 32: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
 33: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
-34: <span class="whitespace">        </span>
+34: 
 35: <span class="whitespace">        </span><span class="comment">&lt;!-- Circuitous ways to get $data/data[2] content --&gt;</span>
 36: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
 37: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
@@ -102,12 +102,12 @@
 50: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
 51: 
 52: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamAttr"&gt;</span>
-53: <span class="whitespace">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
-54: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+53: <span class="whitespace">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
+54: <span class="hit">            with-params="map{QName('','index'): $index }" /&gt;</span>
 55: <span class="whitespace">        </span><span class="hit">&lt;/xsl:variable&gt;</span>
 56: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test="exists(nonexistent)"&gt;</span>
-57: <span class="whitespace">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
-58: <span class="unknown">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected unknown --&gt;</span><span class="whitespace">          </span>
+57: <span class="whitespace">          </span><span class="missed">&lt;xsl:evaluate xpath="'string(data[$index])'" context-item="$data"</span>
+58: <span class="missed">            with-params="map{QName('','index'): $index }" /&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 59: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
 60: <span class="whitespace">        </span><span class="hit">&lt;node type="evaluate/with-param executed unknown"&gt;</span>
 61: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamAttr" /&gt;</span>
