@@ -138,8 +138,7 @@
     <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:evaluate
-        | XSLT:fallback
+        XSLT:fallback
         | XSLT:map
         | XSLT:map-entry
         | XSLT:matching-substring
@@ -360,7 +359,6 @@
     <xsl:template match="
         XSLT:assert
         | XSLT:catch
-        | XSLT:evaluate (: Not sure if this should be listed here :)
         | XSLT:fallback
         | XSLT:iterate/XSLT:param
         | XSLT:map

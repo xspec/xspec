@@ -27,11 +27,11 @@
         <xsl:for-each select="$data/data">
           <node type="evaluate">
             <xsl:value-of>
-              <xsl:evaluate xpath="$sortKey" context-item="."  />                <!-- Expected unknown -->
+              <xsl:evaluate xpath="$sortKey" context-item="."  />
             </xsl:value-of>
           </node>
         </xsl:for-each>
-        
+
         <!-- Circuitous ways to get $data/data[2] content -->
         <xsl:variable name="index" select="2" />
         <xsl:variable name="evaluatedExpressionParamChild">
@@ -51,11 +51,11 @@
 
         <xsl:variable name="evaluatedExpressionParamAttr">
           <xsl:evaluate xpath="'string(data[$index])'" context-item="$data"
-            with-params="map{QName('','index'): $index }" />                   <!-- Expected unknown -->
+            with-params="map{QName('','index'): $index }" />
         </xsl:variable>
         <xsl:if test="exists(nonexistent)">
           <xsl:evaluate xpath="'string(data[$index])'" context-item="$data"
-            with-params="map{QName('','index'): $index }" />                   <!-- Expected unknown -->          
+            with-params="map{QName('','index'): $index }" />                   <!-- Expected miss -->
         </xsl:if>
         <node type="evaluate/with-param executed unknown">
           <xsl:value-of select="$evaluatedExpressionParamAttr" />
