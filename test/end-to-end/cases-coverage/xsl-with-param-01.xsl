@@ -43,10 +43,10 @@
       <!-- Evaluate with-param (200) -->
       <xsl:variable name="index" select="2" />
       <xsl:variable name="evaluatedExpressionParamChild">
-        <xsl:evaluate xpath="'string(node[$index])'" context-item=".">         <!-- Expected unknown -->
-          <xsl:with-param name="index" select="$index" />                      <!-- Expected unknown -->
-          <xsl:with-param name="nonexistent">unused parameter</xsl:with-param> <!-- Expected unknown -->
-        </xsl:evaluate>                                                        <!-- Expected unknown -->
+        <xsl:evaluate xpath="'string(node[$index])'" context-item=".">
+          <xsl:with-param name="index" select="$index" />
+          <xsl:with-param name="nonexistent">unused parameter</xsl:with-param>
+        </xsl:evaluate>
       </xsl:variable>
       <node type="with-param - evaluate">
         <xsl:value-of select="$evaluatedExpressionParamChild" />
@@ -66,9 +66,9 @@
           <xsl:with-param name="withParam-NM-Param01" select="0" />            <!-- Expected miss -->
         </xsl:next-match>                                                      <!-- Expected miss -->
         <xsl:variable name="evaluatedExpressionParamChild">                    <!-- Expected miss -->
-          <xsl:evaluate xpath="'string(node[$index])'" context-item=".">       <!-- Expected unknown -->
-            <xsl:with-param name="index" select="$index" />                    <!-- Expected unknown -->
-          </xsl:evaluate>                                                      <!-- Expected unknown -->
+          <xsl:evaluate xpath="'string(node[$index])'" context-item=".">       <!-- Expected miss -->
+            <xsl:with-param name="index" select="$index" />                    <!-- Expected miss -->
+          </xsl:evaluate>                                                      <!-- Expected miss -->
         </xsl:variable>                                                        <!-- Expected miss -->
         <xsl:value-of select="$evaluatedExpressionParamChild" />               <!-- Expected miss -->
       </xsl:if>

@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />53</th>
-               <th class="totals emphasis">missed<br />13</th>
-               <th class="totals">unknown<br />6</th>
+               <th class="totals">hit<br />57</th>
+               <th class="totals emphasis">missed<br />15</th>
+               <th class="totals">unknown<br />0</th>
                <th class="totals">lines<br />130</th>
             </tr>
          </thead>
@@ -41,9 +41,9 @@
             <tr class="successful">
                <th><a href="#module1">xsl-with-param-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">45</th>
-               <th class="totals">13</th>
-               <th class="totals">6</th>
+               <th class="totals">49</th>
+               <th class="totals">15</th>
+               <th class="totals">0</th>
                <th class="totals">111</th>
             </tr>
             <tr class="successful">
@@ -57,7 +57,7 @@
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-with-param-01.xsl<span class="scenario-totals">hit: 45 / missed: 13 / unknown: 6</span></h2>
+         <h2 class="successful">module: xsl-with-param-01.xsl<span class="scenario-totals">hit: 49 / missed: 15 / unknown: 0</span></h2>
          <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -103,10 +103,10 @@
 043: <span class="whitespace">      </span><span class="comment">&lt;!-- Evaluate with-param (200) --&gt;</span>
 044: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
 045: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
-046: <span class="whitespace">        </span><span class="unknown">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span><span class="whitespace">         </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-047: <span class="whitespace">          </span><span class="unknown">&lt;xsl:with-param name="index" select="$index" /&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-048: <span class="whitespace">          </span><span class="unknown">&lt;xsl:with-param name="nonexistent"&gt;</span><span class="unknown">unused parameter</span><span class="unknown">&lt;/xsl:with-param&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-049: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:evaluate&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+046: <span class="whitespace">        </span><span class="hit">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span>
+047: <span class="whitespace">          </span><span class="hit">&lt;xsl:with-param name="index" select="$index" /&gt;</span>
+048: <span class="whitespace">          </span><span class="hit">&lt;xsl:with-param name="nonexistent"&gt;</span><span class="hit">unused parameter</span><span class="hit">&lt;/xsl:with-param&gt;</span>
+049: <span class="whitespace">        </span><span class="hit">&lt;/xsl:evaluate&gt;</span>
 050: <span class="whitespace">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 051: <span class="whitespace">      </span><span class="hit">&lt;node type="with-param - evaluate"&gt;</span>
 052: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span>
@@ -126,9 +126,9 @@
 066: <span class="whitespace">          </span><span class="missed">&lt;xsl:with-param name="withParam-NM-Param01" select="0" /&gt;</span><span class="whitespace">            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 067: <span class="whitespace">        </span><span class="missed">&lt;/xsl:next-match&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 068: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span><span class="whitespace">                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-069: <span class="whitespace">          </span><span class="unknown">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span><span class="whitespace">       </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-070: <span class="whitespace">            </span><span class="unknown">&lt;xsl:with-param name="index" select="$index" /&gt;</span><span class="whitespace">                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-071: <span class="whitespace">          </span><span class="unknown">&lt;/xsl:evaluate&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+069: <span class="whitespace">          </span><span class="missed">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span><span class="whitespace">       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+070: <span class="whitespace">            </span><span class="missed">&lt;xsl:with-param name="index" select="$index" /&gt;</span><span class="whitespace">                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+071: <span class="whitespace">          </span><span class="missed">&lt;/xsl:evaluate&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 072: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 073: <span class="whitespace">        </span><span class="missed">&lt;xsl:value-of select="$evaluatedExpressionParamChild" /&gt;</span><span class="whitespace">               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 074: <span class="whitespace">      </span><span class="hit">&lt;/xsl:if&gt;</span>

@@ -336,14 +336,8 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | PARENT   |                              |
 | CHILDREN | xsl:fallback, xsl:with-param |
 | CONTENT  |                              |
-| TRACE    | Column number 0              |
-| RULE     | Use Descendant Data          |
-
-#### Comment
-
-Column 0 in XSpec trace and Saxon trace.
-
-There is an alternate option of accepting the trace output for now and saying if the node is xsl:evaluate then check column number 0 (the chance of 2 xsl:evaluate elements on the same line is low).
+| TRACE    | Yes                          |
+| RULE     | Use Trace Data               |
 
 ## xsl:expose
 
