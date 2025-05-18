@@ -8,43 +8,45 @@
    <hit lineNumber="6" columnNumber="36" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
-   <traceable traceableId="2"
+   <traceable traceableId="2" class="net.sf.saxon.expr.instruct.Block"/>
+   <hit lineNumber="9" columnNumber="19" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3"
               class="net.sf.saxon.expr.instruct.Choose"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
-   <hit lineNumber="9" columnNumber="19" moduleId="0" traceableId="2"/>
+   <hit lineNumber="9" columnNumber="19" moduleId="0" traceableId="3"/>
    <hit lineNumber="11" columnNumber="36" moduleId="0" traceableId="1"/>
-   <traceable traceableId="3"
+   <traceable traceableId="4"
               class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
-   <hit lineNumber="11" columnNumber="36" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4"
+   <hit lineNumber="11" columnNumber="36" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5"
               class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
-   <hit lineNumber="12" columnNumber="23" moduleId="0" traceableId="4"/>
-   <hit lineNumber="22" columnNumber="19" moduleId="0" traceableId="2"/>
+   <hit lineNumber="12" columnNumber="23" moduleId="0" traceableId="5"/>
+   <hit lineNumber="22" columnNumber="19" moduleId="0" traceableId="3"/>
    <hit lineNumber="29" columnNumber="41" moduleId="0" traceableId="1"/>
-   <hit lineNumber="29" columnNumber="41" moduleId="0" traceableId="3"/>
-   <hit lineNumber="30" columnNumber="23" moduleId="0" traceableId="4"/>
-   <hit lineNumber="35" columnNumber="19" moduleId="0" traceableId="2"/>
-   <hit lineNumber="49" columnNumber="19" moduleId="0" traceableId="2"/>
-   <hit lineNumber="58" columnNumber="19" moduleId="0" traceableId="2"/>
-   <traceable traceableId="5"
+   <hit lineNumber="29" columnNumber="41" moduleId="0" traceableId="4"/>
+   <hit lineNumber="30" columnNumber="23" moduleId="0" traceableId="5"/>
+   <hit lineNumber="35" columnNumber="19" moduleId="0" traceableId="3"/>
+   <hit lineNumber="49" columnNumber="19" moduleId="0" traceableId="3"/>
+   <hit lineNumber="58" columnNumber="19" moduleId="0" traceableId="3"/>
+   <traceable traceableId="6"
               class="net.sf.saxon.expr.instruct.ForEach"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each"/>
-   <hit lineNumber="70" columnNumber="36" moduleId="0" traceableId="5"/>
+   <hit lineNumber="70" columnNumber="36" moduleId="0" traceableId="6"/>
    <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="1"/>
-   <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="3"/>
-   <hit lineNumber="72" columnNumber="23" moduleId="0" traceableId="2"/>
+   <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="4"/>
+   <hit lineNumber="72" columnNumber="23" moduleId="0" traceableId="3"/>
    <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="1"/>
-   <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="3"/>
-   <hit lineNumber="72" columnNumber="23" moduleId="0" traceableId="2"/>
-   <hit lineNumber="88" columnNumber="19" moduleId="0" traceableId="2"/>
+   <hit lineNumber="71" columnNumber="51" moduleId="0" traceableId="4"/>
+   <hit lineNumber="72" columnNumber="23" moduleId="0" traceableId="3"/>
+   <hit lineNumber="88" columnNumber="19" moduleId="0" traceableId="3"/>
    <hit lineNumber="95" columnNumber="54" moduleId="0" traceableId="1"/>
-   <hit lineNumber="95" columnNumber="54" moduleId="0" traceableId="3"/>
-   <hit lineNumber="96" columnNumber="21" moduleId="0" traceableId="2"/>
+   <hit lineNumber="95" columnNumber="54" moduleId="0" traceableId="4"/>
+   <hit lineNumber="96" columnNumber="21" moduleId="0" traceableId="3"/>
    <hit lineNumber="105" columnNumber="54" moduleId="0" traceableId="1"/>
-   <hit lineNumber="105" columnNumber="54" moduleId="0" traceableId="3"/>
-   <hit lineNumber="106" columnNumber="21" moduleId="0" traceableId="2"/>
+   <hit lineNumber="105" columnNumber="54" moduleId="0" traceableId="4"/>
+   <hit lineNumber="106" columnNumber="21" moduleId="0" traceableId="3"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
