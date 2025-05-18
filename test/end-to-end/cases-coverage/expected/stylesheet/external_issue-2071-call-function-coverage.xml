@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../external_issue-2071-call-function.xspec">
+   <compiled uri="external_issue-2071-call-function-compiled.xsl"/>
+   <module moduleId="0" uri="../../external_issue-2071-call-function.xsl"/>
+   <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.UserFunction"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}function"/>
+   <hit lineNumber="4" columnNumber="62" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
+   <hit lineNumber="6" columnNumber="17" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2"
+              class="net.sf.saxon.expr.instruct.ValueOf"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
+   <hit lineNumber="8" columnNumber="19" moduleId="0" traceableId="2"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>
