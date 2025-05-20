@@ -292,10 +292,10 @@
                  function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="element(test)">
                <test>
-                  <oridinary-text-node>
+                  <ordinary-text-node>
                      <same>same</same>
                      <diff>actual</diff>
-                  </oridinary-text-node>
+                  </ordinary-text-node>
                   <significant-whitespace-only-text-node>
                      <same xml:space="preserve">	
 &#xD; </same>
@@ -309,10 +309,10 @@
       <result select="/element()">
          <content-wrap xmlns="">
             <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
-               <oridinary-text-node>
+               <ordinary-text-node>
                   <same>same</same>
                   <diff>actual</diff>
-               </oridinary-text-node>
+               </ordinary-text-node>
                <significant-whitespace-only-text-node>
                   <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws></same>
@@ -328,10 +328,10 @@
          <expect select="/element()">
             <content-wrap xmlns="">
                <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                  <oridinary-text-node>
+                  <ordinary-text-node>
                      <same>same</same>
                      <diff>expect</diff>
-                  </oridinary-text-node>
+                  </ordinary-text-node>
                   <significant-whitespace-only-text-node>
                      <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws></same>

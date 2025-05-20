@@ -178,10 +178,10 @@
 		<x:call function="Q{x-urn:test:mirror}param-mirror">
 			<x:param as="element(test)">
 				<test>
-					<oridinary-text-node>
+					<ordinary-text-node>
 						<same>same</same>
 						<diff>actual</diff>
-					</oridinary-text-node>
+					</ordinary-text-node>
 					<significant-whitespace-only-text-node>
 						<same xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</same>
 						<diff xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</diff>
@@ -193,10 +193,10 @@
 			<x:label>both in [Result] and [Expected Result] with diff, the significant text nodes
 				must be serialized with color. (xspec/xspec#386)</x:label>
 			<test>
-				<oridinary-text-node>
+				<ordinary-text-node>
 					<same>same</same>
 					<diff>expect</diff>
-				</oridinary-text-node>
+				</ordinary-text-node>
 				<significant-whitespace-only-text-node>
 					<same xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</same>
 					<diff xml:space="preserve">&#x20;&#x09;&#x0A;&#x0D;</diff>
