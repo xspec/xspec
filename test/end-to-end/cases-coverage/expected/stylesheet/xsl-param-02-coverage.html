@@ -31,8 +31,8 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />205</th>
-               <th class="totals emphasis">missed<br />24</th>
+               <th class="totals">hit<br />200</th>
+               <th class="totals emphasis">missed<br />29</th>
                <th class="totals">unknown<br />40</th>
                <th class="totals">lines<br />268</th>
             </tr>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-param-02.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">205</th>
-               <th class="totals">24</th>
+               <th class="totals">200</th>
+               <th class="totals">29</th>
                <th class="totals">40</th>
                <th class="totals">268</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-param-02.xsl<span class="scenario-totals">hit: 205 / missed: 24 / unknown: 40</span></h2>
+         <h2 class="successful">module: xsl-param-02.xsl<span class="scenario-totals">hit: 200 / missed: 29 / unknown: 40</span></h2>
          <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
 003: <span class="ignored">                xmlns:myns="file://myNamespace"&gt;</span>
@@ -113,9 +113,9 @@
 061: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-no-el2"&gt;</span><span class="comment">&lt;!--abc--&gt;</span><span class="unknown">999</span><span class="comment">&lt;!--abc--&gt;</span><span class="unknown">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected unknown for 999 --&gt;</span>
 062: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-no-el3" as="node()+"&gt;</span><span class="unknown">999</span><span class="comment">&lt;!--abc--&gt;</span><span class="unknown">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">   </span><span class="comment">&lt;!-- Expected unknown for 999 --&gt;</span>
 063: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-no-el4" as="node()+"&gt;</span><span class="comment">&lt;!--abc--&gt;</span><span class="unknown">999</span><span class="comment">&lt;!--abc--&gt;</span><span class="unknown">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected unknown for 999 --&gt;</span>
-064: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-elems1"&gt;</span><span class="hit">&lt;a/&gt;</span><span class="unknown">999</span><span class="missed">&lt;a/&gt;</span><span class="unknown">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">     </span><span class="comment">&lt;!-- Expected miss for &lt;a/&gt;, Expected unknown for 999 --&gt;</span>
+064: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-elems1"&gt;</span><span class="missed">&lt;a/&gt;</span><span class="unknown">999</span><span class="missed">&lt;a/&gt;</span><span class="unknown">999</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">     </span><span class="comment">&lt;!-- Expected miss for &lt;a/&gt;, Expected unknown for 999 --&gt;</span>
 065: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-elems2"&gt;</span><span class="unknown">999</span><span class="missed">&lt;a/&gt;</span><span class="unknown">999</span><span class="missed">&lt;a/&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">     </span><span class="comment">&lt;!-- Expected miss for &lt;a/&gt;, Expected unknown for 999 --&gt;</span>
-066: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-elems3"&gt;</span><span class="hit">&lt;a/&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">               </span><span class="comment">&lt;!-- Expected miss for &lt;a/&gt; --&gt;</span>
+066: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-elems3"&gt;</span><span class="missed">&lt;a/&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace">               </span><span class="comment">&lt;!-- Expected miss for &lt;a/&gt; --&gt;</span>
 067: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-cond1"&gt;</span><span class="unknown">999</span><span class="missed">&lt;xsl:if test="1"&gt;</span><span class="unknown">999</span><span class="missed">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected miss for xsl:if, Expected unknown for 999 --&gt;</span>
 068: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam03-cond2"&gt;</span><span class="unknown">999</span><span class="missed">&lt;xsl:if test="0"&gt;</span><span class="unknown">999</span><span class="missed">&lt;/xsl:if&gt;</span><span class="hit">&lt;/xsl:param&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected miss for xsl:if, Expected unknown for 999 --&gt;</span>
 069: <span class="whitespace">    </span><span class="hit">&lt;node type="param - template"&gt;</span>
@@ -149,12 +149,12 @@
 097: <span class="whitespace">  </span><span class="comment">&lt;!-- Template param with multi-line sequence constructor - value provided by caller --&gt;</span>
 098: <span class="whitespace">  </span><span class="hit">&lt;xsl:template name="paramTemplate04"&gt;</span>
 099: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam04"&gt;</span>
-100: <span class="whitespace">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">9</span><span class="hit">&lt;/xsl:text&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+100: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">9</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 101: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">9</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 102: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">9</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 103: <span class="whitespace">    </span><span class="hit">&lt;/xsl:param&gt;</span>
 104: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="templateParam04-cond1"&gt;</span>
-105: <span class="whitespace">      </span><span class="hit">&lt;a/&gt;</span><span class="whitespace">                                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+105: <span class="whitespace">      </span><span class="missed">&lt;a/&gt;</span><span class="whitespace">                                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 106: <span class="whitespace">      </span><span class="missed">&lt;xsl:choose&gt;</span><span class="whitespace">                                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 107: <span class="whitespace">        </span><span class="missed">&lt;xsl:when test="exists(irrelevant)"&gt;</span><span class="whitespace">                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 108: <span class="whitespace">          </span><span class="missed">&lt;xsl:value-of&gt;</span><span class="missed">999</span><span class="missed">&lt;/xsl:value-of&gt;</span><span class="whitespace">                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>

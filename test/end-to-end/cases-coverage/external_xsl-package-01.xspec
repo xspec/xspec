@@ -6,52 +6,33 @@
                run-as="external">
 
   <x:scenario label="xsl:package Coverage Test Case">
-    <x:context mode="csv:parse-line">"Abel Braaksma",34291,1210 KA</x:context>
+    <x:call function="csv:parse">
+      <x:param>
+        name,id,postal code
+        "Abel Braaksma",34291,1210 KA
+        "Anders Berglund",473892,9843 ZD
+      </x:param>
+    </x:call>
     <x:expect label="Success">
-      <row>
+      <csv>
+        <row />
+        <row>
+          <field quoted="no">name</field>
+          <field quoted="no">id</field>
+          <field quoted="no">postal code</field>
+        </row>
+        <row>
           <field quoted="yes">Abel Braaksma</field>
           <field quoted="no">34291</field>
           <field quoted="no">1210 KA</field>
-      </row>
+        </row>
+        <row>
+          <field quoted="yes">Anders Berglund</field>
+          <field quoted="no">473892</field>
+          <field quoted="no">9843 ZD</field>
+        </row>
+        <row />
+      </csv>
     </x:expect>
   </x:scenario>
-
-  
-  <x:pending>
-    <x:label>
-      After #2071 is fixed, replace the other scenario in this file with
-      the next scenario, remove x:pending, and remove the
-      'Expected miss' comments in the XSLT package file.
-    </x:label>
-    <x:scenario label="xsl:package Coverage Test Case">
-      <x:call function="csv:parse">
-        <x:param>
-          name,id,postal code
-          "Abel Braaksma",34291,1210 KA
-          "Anders Berglund",473892,9843 ZD
-        </x:param>
-      </x:call>
-      <x:expect label="Success">
-        <csv>
-          <row />
-          <row>
-            <field quoted="no">name</field>
-            <field quoted="no">id</field>
-            <field quoted="no">postal code</field>
-          </row>
-          <row>
-            <field quoted="yes">Abel Braaksma</field>
-            <field quoted="no">34291</field>
-            <field quoted="no">1210 KA</field>
-          </row>
-          <row>
-            <field quoted="yes">Anders Berglund</field>
-            <field quoted="no">473892</field>
-            <field quoted="no">9843 ZD</field>
-          </row>
-          <row />
-        </csv>
-      </x:expect>
-    </x:scenario>
-  </x:pending>
 </x:description>

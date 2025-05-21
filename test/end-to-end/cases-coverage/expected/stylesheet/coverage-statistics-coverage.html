@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />14</th>
+               <th class="totals">hit<br />15</th>
                <th class="totals emphasis">missed<br />2</th>
-               <th class="totals">unknown<br />2</th>
+               <th class="totals">unknown<br />1</th>
                <th class="totals">lines<br />55</th>
             </tr>
          </thead>
@@ -49,9 +49,9 @@
             <tr class="successful">
                <th><a href="#module2">coverage-statisticsA.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">3</th>
+               <th class="totals">4</th>
                <th class="totals">0</th>
-               <th class="totals">2</th>
+               <th class="totals">1</th>
                <th class="totals">16</th>
             </tr>
             <tr class="failed">
@@ -95,7 +95,7 @@
 27: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
       <div id="module2">
-         <h2 class="successful">module: coverage-statisticsA.xsl<span class="scenario-totals">hit: 3 / missed: 0 / unknown: 2</span></h2>
+         <h2 class="successful">module: coverage-statisticsA.xsl<span class="scenario-totals">hit: 4 / missed: 0 / unknown: 1</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
 03: <span class="ignored">     xmlns:local="http://local/xslt" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
@@ -109,7 +109,7 @@
 11: <span class="unknown">     '0 Supplied'</span>
 12: <span class="unknown">    </span><span class="hit">&lt;/xsl:if&gt;</span>
 13: 
-14: <span class="whitespace">    </span><span class="unknown">&lt;xsl:sequence select="$number * 2" /&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;xsl:sequence select="$number * 2" /&gt;</span>
 15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>
 16: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>

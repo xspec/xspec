@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />11</th>
+               <th class="totals">hit<br />12</th>
                <th class="totals emphasis">missed<br />3</th>
-               <th class="totals">unknown<br />1</th>
+               <th class="totals">unknown<br />0</th>
                <th class="totals">lines<br />81</th>
             </tr>
          </thead>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">external_xsl-override-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">11</th>
+               <th class="totals">12</th>
                <th class="totals">3</th>
-               <th class="totals">1</th>
+               <th class="totals">0</th>
                <th class="totals">81</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: external_xsl-override-01.xsl<span class="scenario-totals">hit: 11 / missed: 3 / unknown: 1</span></h2>
+         <h2 class="successful">module: external_xsl-override-01.xsl<span class="scenario-totals">hit: 12 / missed: 3 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"</span>
 03: <span class="ignored">   xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
@@ -99,9 +99,9 @@
 47: <span class="whitespace">               </span><span class="hit">&lt;xsl:param name="line" as="xs:string"/&gt;</span>
 48: <span class="whitespace">               </span><span class="hit">&lt;xsl:variable name="norm-line"</span>
 49: <span class="hit">                             select="normalize-space(xsl:original($line))"/&gt;</span>
-50: <span class="whitespace">               </span><span class="unknown">&lt;xsl:sequence select="if (string-length($norm-line) &gt; 0)</span>
-51: <span class="unknown">                                     then $norm-line</span>
-52: <span class="unknown">                                     else ()"/&gt;</span>
+50: <span class="whitespace">               </span><span class="hit">&lt;xsl:sequence select="if (string-length($norm-line) &gt; 0)</span>
+51: <span class="hit">                                     then $norm-line</span>
+52: <span class="hit">                                     else ()"/&gt;</span>
 53: <span class="whitespace">           </span><span class="hit">&lt;/xsl:function&gt;</span>
 54: <span class="whitespace">       </span><span class="ignored">&lt;/xsl:override&gt;</span>
 55: <span class="whitespace">   </span><span class="ignored">&lt;/xsl:use-package&gt;</span>

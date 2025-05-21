@@ -17,7 +17,7 @@
               class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}number"/>
    <hit lineNumber="9" columnNumber="23" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4" class="net.sf.saxon.expr.instruct.TraceExpression"/>
+   <traceable traceableId="4" class="net.sf.saxon.expr.instruct.NumberInstruction"/>
    <hit lineNumber="9" columnNumber="23" moduleId="0" traceableId="4"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test enable-coverage?>
-<?xspec-test require-xspec-issue-2071-fixed?>
 
 <!-- Calling a xsl:function when run-as="external" set. 
-     Related to https://saxonica.plan.io/issues/6688 as well as XSpec issue 2071. --> 
+     Related to https://saxonica.plan.io/issues/6688 (fixed in Saxon 12.6) as well as XSpec issue 2071. --> 
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:local="http://local/xslt"
                stylesheet="external_issue-2071-call-function.xsl"

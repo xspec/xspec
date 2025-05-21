@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />13</th>
+               <th class="totals">hit<br />14</th>
                <th class="totals emphasis">missed<br />7</th>
-               <th class="totals">unknown<br />7</th>
+               <th class="totals">unknown<br />6</th>
                <th class="totals">lines<br />60</th>
             </tr>
          </thead>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-analyze-string-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">13</th>
+               <th class="totals">14</th>
                <th class="totals">7</th>
-               <th class="totals">7</th>
+               <th class="totals">6</th>
                <th class="totals">60</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-analyze-string-01.xsl<span class="scenario-totals">hit: 13 / missed: 7 / unknown: 7</span></h2>
+         <h2 class="successful">module: xsl-analyze-string-01.xsl<span class="scenario-totals">hit: 14 / missed: 7 / unknown: 6</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -79,7 +79,7 @@
 27: <span class="whitespace">        </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="whitespace">                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 28: <span class="whitespace">        </span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
 29: <span class="whitespace">          </span><span class="hit">&lt;node type="non-matching-substring"&gt;</span>
-30: <span class="whitespace">            </span><span class="unknown">&lt;xsl:sequence select="string('No match')"/&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+30: <span class="whitespace">            </span><span class="hit">&lt;xsl:sequence select="string('No match')"/&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 31: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
 32: <span class="whitespace">        </span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
 33: <span class="whitespace">      </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>

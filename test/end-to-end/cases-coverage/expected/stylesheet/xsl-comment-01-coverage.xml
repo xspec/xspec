@@ -8,26 +8,31 @@
    <hit lineNumber="6" columnNumber="37" moduleId="0" traceableId="0"/>
    <traceable traceableId="1" class="net.sf.saxon.expr.instruct.FixedElement"/>
    <hit lineNumber="7" columnNumber="11" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2" class="net.sf.saxon.expr.instruct.Block"/>
+   <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="2"/>
    <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="1"/>
-   <traceable traceableId="2"
+   <traceable traceableId="3"
               class="net.sf.saxon.expr.instruct.FixedAttribute"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}attribute"/>
-   <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="2"/>
-   <traceable traceableId="3"
+   <hit lineNumber="8" columnNumber="28" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4"
               class="net.sf.saxon.expr.instruct.Comment"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}comment"/>
-   <hit lineNumber="9" columnNumber="22" moduleId="0" traceableId="3"/>
+   <hit lineNumber="9" columnNumber="22" moduleId="0" traceableId="4"/>
    <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="1"/>
-   <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="2"/>
-   <hit lineNumber="12" columnNumber="22" moduleId="0" traceableId="3"/>
-   <traceable traceableId="4"
-              class="net.sf.saxon.expr.instruct.TraceExpression"
+   <hit lineNumber="11" columnNumber="28" moduleId="0" traceableId="3"/>
+   <hit lineNumber="12" columnNumber="22" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5" class="net.sf.saxon.expr.AtomicSequenceConverter"/>
+   <hit lineNumber="13" columnNumber="21" moduleId="0" traceableId="5"/>
+   <traceable traceableId="6"
+              class="net.sf.saxon.expr.instruct.ValueOf"
               uqname="Q{http://www.w3.org/1999/XSL/Transform}text"/>
-   <hit lineNumber="13" columnNumber="21" moduleId="0" traceableId="4"/>
+   <hit lineNumber="13" columnNumber="21" moduleId="0" traceableId="6"/>
    <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="1"/>
-   <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="2"/>
-   <hit lineNumber="17" columnNumber="22" moduleId="0" traceableId="3"/>
-   <hit lineNumber="18" columnNumber="61" moduleId="0" traceableId="4"/>
+   <hit lineNumber="16" columnNumber="28" moduleId="0" traceableId="3"/>
+   <hit lineNumber="17" columnNumber="22" moduleId="0" traceableId="4"/>
+   <hit lineNumber="18" columnNumber="61" moduleId="0" traceableId="5"/>
+   <hit lineNumber="18" columnNumber="61" moduleId="0" traceableId="6"/>
    <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
    <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
    <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>

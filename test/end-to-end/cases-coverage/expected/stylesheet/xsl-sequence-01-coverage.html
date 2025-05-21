@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />12</th>
+               <th class="totals">hit<br />13</th>
                <th class="totals emphasis">missed<br />5</th>
-               <th class="totals">unknown<br />5</th>
+               <th class="totals">unknown<br />4</th>
                <th class="totals">lines<br />38</th>
             </tr>
          </thead>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-sequence-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">12</th>
+               <th class="totals">13</th>
                <th class="totals">5</th>
-               <th class="totals">5</th>
+               <th class="totals">4</th>
                <th class="totals">38</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-sequence-01.xsl<span class="scenario-totals">hit: 12 / missed: 5 / unknown: 5</span></h2>
+         <h2 class="successful">module: xsl-sequence-01.xsl<span class="scenario-totals">hit: 13 / missed: 5 / unknown: 4</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -59,7 +59,7 @@
 07: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
 08: <span class="whitespace">      </span><span class="comment">&lt;!-- Using select attribute --&gt;</span>
 09: <span class="whitespace">      </span><span class="hit">&lt;node type="sequence"&gt;</span>
-10: <span class="whitespace">        </span><span class="unknown">&lt;xsl:sequence select="'100'" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+10: <span class="whitespace">        </span><span class="hit">&lt;xsl:sequence select="'100'" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 11: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
 12: <span class="whitespace">      </span><span class="comment">&lt;!-- Using sequence constructor --&gt;</span>
 13: <span class="whitespace">      </span><span class="hit">&lt;node type="sequence"&gt;</span>
