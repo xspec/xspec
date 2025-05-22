@@ -314,10 +314,9 @@ assertion =
 
 test = attribute test { xpath }
 
- 
 result-type =
-    ## Data type of actual result.
-    attribute result-type { xsd:string { minLength = "1" } }
+	## Data type of actual result.
+	attribute result-type { xsd:string { minLength = "1" } }
 
 xml-ns-attributes = attribute xml:* { text }*
 common-attributes = xml-ns-attributes,
