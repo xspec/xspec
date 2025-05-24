@@ -18,6 +18,7 @@
                label="s2">
       <x:like label="s1"/>
       <x:expect label="assert"
-                test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
+                test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"
+                result-type="node()"/>
    </x:scenario>
 </description>

@@ -285,6 +285,7 @@
             <xsl:sequence select="@pending" />
             <xsl:attribute name="label" select="$label" />
             <xsl:attribute name="test" select="$test" />
+            <xsl:attribute name="result-type" select="'node()'"/>
         </xsl:element>
     </xsl:template>
 

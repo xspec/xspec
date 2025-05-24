@@ -21,10 +21,14 @@
          <expect select="()"/>
       </test>
       <test id="scenario1-expect3" successful="false">
-         <label>Expecting empty sequence using @as should be Failure</label>
+         <label>Ditto with @result-type that permits an empty sequence</label>
          <expect select="()"/>
       </test>
       <test id="scenario1-expect4" successful="false">
+         <label>Expecting empty sequence using @as should be Failure</label>
+         <expect select="()"/>
+      </test>
+      <test id="scenario1-expect5" successful="false">
          <label>Expecting empty sequence using @select should be Failure</label>
          <expect select="()"/>
       </test>
@@ -48,10 +52,14 @@
          <expect select="()"/>
       </test>
       <test id="scenario2-expect3" successful="true">
-         <label>Expecting empty sequence using @as should be Success</label>
+         <label>Ditto with @result-type that permits an empty sequence</label>
          <expect select="()"/>
       </test>
       <test id="scenario2-expect4" successful="true">
+         <label>Expecting empty sequence using @as should be Success</label>
+         <expect select="()"/>
+      </test>
+      <test id="scenario2-expect5" successful="true">
          <label>Expecting empty sequence using @select should be Success</label>
          <expect select="()"/>
       </test>

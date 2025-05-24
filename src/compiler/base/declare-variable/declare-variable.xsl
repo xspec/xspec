@@ -5,6 +5,8 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
+   <xsl:include href="sequencetype-with-uqnames.xsl"/>
+
    <!--
       mode="x:declare-variable"
       Generates XSLT or XQuery variable declaration(s) from the current element. Actual

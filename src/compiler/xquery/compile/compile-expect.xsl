@@ -47,6 +47,9 @@
          <!-- Flags for deq:deep-equal() enclosed in ''. -->
          <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>
 
+         <xsl:text>(: flag if @result-type is present but $x:result is not the right type :)&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">let $local:result-type-mismatch as xs:boolean := {x:result-type-mismatch-condition(.)}&#x0A;</xsl:text>
+
          <xsl:choose>
             <xsl:when test="@test">
                <!-- $local:test-items
@@ -57,7 +60,9 @@
                   TODO: Evaluate @test in the context of $local:test-items, if
                     $local:test-items is a node -->
                <xsl:text>let $local:test-result as item()* (: evaluate the predicate :) := (&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">{x:disable-escaping(@test)}&#x0A;</xsl:text>
+               <xsl:text>if ($local:result-type-mismatch)&#x0A;</xsl:text>
+               <xsl:text>then ((: In case of data type mismatch, do not process @test :))&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">else {x:disable-escaping(@test)}&#x0A;</xsl:text>
                <xsl:text>)&#x0A;</xsl:text>
 
                <!-- $local:boolean-test -->
@@ -65,7 +70,9 @@
 
                <!-- $local:successful -->
                <xsl:text>let $local:successful as xs:boolean (: did the test pass? :) := (&#x0A;</xsl:text>
-               <xsl:text>if ($local:boolean-test) then&#x0A;</xsl:text>
+               <xsl:text>if ($local:result-type-mismatch)&#x0A;</xsl:text>
+               <xsl:text>then false()&#x0A;</xsl:text>
+               <xsl:text>else if ($local:boolean-test) then&#x0A;</xsl:text>
                <xsl:choose>
                   <xsl:when test="x:has-comparison(.)">
                      <xsl:text expand-text="yes">error((), {x:boolean-with-comparison(.) => x:quote-with-apos()})&#x0A;</xsl:text>
@@ -89,6 +96,7 @@
             <xsl:otherwise>
                <!-- $local:successful -->
                <xsl:text>let $local:successful as xs:boolean :=&#x0A;</xsl:text>
+               <xsl:text>not($local:result-type-mismatch) and&#x0A;</xsl:text>
                <xsl:text expand-text="yes">{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
@@ -120,30 +128,52 @@
       <xsl:if test="empty($reason-for-pending)">
          <xsl:text>,&#x0A;</xsl:text>
 
+         <!-- Record data the report will need, based on outcomes fully known only at run time. -->
+         <xsl:if test="@result-type">
+            <xsl:text>if ( $local:result-type-mismatch )&#x0A;</xsl:text>
+            <!-- For failure due to data type mismatch, record the "instance of" expression. -->
+            <xsl:text>then (</xsl:text>
+            <xsl:call-template name="x:report-test-attribute">
+               <xsl:with-param name="attribute-local-name" select="'result-type'"/>
+            </xsl:call-template>
+            <xsl:text>)&#x0A;</xsl:text>
+            <xsl:text>else&#x0A;</xsl:text>
+         </xsl:if>
          <xsl:if test="@test">
+            <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
+            <!-- For failure due to boolean x:expect/@test, record @test. -->
+            <xsl:text>then (</xsl:text>
+            <xsl:call-template name="x:report-test-attribute" />
+            <xsl:text>)&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">else if (not($local:boolean-test))&#x0A;</xsl:text>
+            <!-- For failure due to non-boolean x:expect/@test, record @test and the result
+               of evaluating @test against $x:result. -->
+            <xsl:text>then (</xsl:text>
             <xsl:call-template name="x:report-test-attribute" />
             <xsl:text>,&#x0A;</xsl:text>
-
-            <xsl:text>(&#x0A;</xsl:text>
-            <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
-            <xsl:text>then ()&#x0A;</xsl:text>
-            <xsl:text>else </xsl:text>
             <xsl:call-template name="x:call-report-sequence">
-               <xsl:with-param name="sequence-variable-eqname" select="'local:test-result'" />
+               <xsl:with-param name="sequence-variable-eqname"
+                  select="'local:test-result'" />
             </xsl:call-template>
-            <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>),&#x0A;</xsl:text>
+            <xsl:text>)&#x0A;</xsl:text>
+            <xsl:text>else&#x0A;</xsl:text>
          </xsl:if>
+         <!-- Last "else" is empty. If there is no data type mismatch and no x:expect/@test,
+            there is nothing else to record here. -->
+         <xsl:text>()&#x0A;</xsl:text>
+         <xsl:text>&#x0A;</xsl:text>
+         <xsl:text>,&#x0A;</xsl:text>
 
          <xsl:call-template name="x:call-report-sequence">
             <xsl:with-param name="sequence-variable-eqname" select="x:variable-UQName(.)" />
             <xsl:with-param name="report-name" select="local-name()" />
          </xsl:call-template>
-         <xsl:text>&#x0A;</xsl:text>
+
       </xsl:if>
+      <xsl:text>}&#x0A;</xsl:text>
 
       <!-- </x:test> -->
-      <xsl:text>}&#x0A;</xsl:text>
+      <xsl:text>&#x0A;</xsl:text>
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>

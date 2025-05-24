@@ -348,6 +348,7 @@
          </div>
 
          <xsl:variable as="xs:boolean" name="boolean-test" select="x:is-boolean-test(.)" />
+         <xsl:variable as="xs:boolean" name="result-type-mismatch" select="x:is-result-type-mismatch(.)" />
 
          <table class="xspecResult">
             <thead>
@@ -355,7 +356,7 @@
                   <th>Result</th>
                   <th>
                      <xsl:choose>
-                        <xsl:when test="$boolean-test">Expecting</xsl:when>
+                        <xsl:when test="$boolean-test or $result-type-mismatch">Expecting</xsl:when>
                         <xsl:otherwise>Expected Result</xsl:otherwise>
                      </xsl:choose>
                   </th>
@@ -376,6 +377,13 @@
                         <xsl:when test="$boolean-test">
                            <pre>
                               <xsl:value-of select="x:test-attr(.)" />
+                           </pre>
+                        </xsl:when>
+
+                        <!-- Data type mismatch -->
+                        <xsl:when test="$result-type-mismatch">
+                           <pre>
+                              <xsl:value-of select="x:result-type-attr(.)" />
                            </pre>
                         </xsl:when>
 

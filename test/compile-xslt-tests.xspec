@@ -78,6 +78,9 @@
          <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-result"
                        as="item()*">
             <xsl:choose>
+               <xsl:when test="$Q{{urn:x-xspec:compile:impl}}result-type-mismatch">
+                  <!--In case of data type mismatch, do not process @test-->
+               </xsl:when>
                <xsl:when test="count($Q{{urn:x-xspec:compile:impl}}test-items) eq 1">
                   <xsl:for-each select="$Q{{urn:x-xspec:compile:impl}}test-items">
                      <xsl:sequence select="false()"
@@ -90,6 +93,12 @@
                </xsl:otherwise>
             </xsl:choose>
          </xsl:variable>
+      </t:expect>
+      <t:expect label="@result-type must be transformed to result-type-mismatch variable"
+         test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}result-type-mismatch']">
+         <xsl:variable name="Q{{urn:x-xspec:compile:impl}}result-type-mismatch"
+            as="Q{{http://www.w3.org/2001/XMLSchema}}boolean"
+            select="not($Q{{http://www.jenitennison.com/xslt/xspec}}result instance of item())" />
       </t:expect>
    </t:scenario>
 
