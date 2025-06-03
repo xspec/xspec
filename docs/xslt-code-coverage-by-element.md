@@ -152,7 +152,8 @@ XSLT 4.0 proposal.
 
 #### Comment
 
-Change from previous rule is due to checking trace output again.
+A 'hit' means the test evaluated to false.
+A 'miss' means the test either was not evaluated (i.e., the entire element was missed) or evaluated to true.
 
 ## xsl:attribute
 
