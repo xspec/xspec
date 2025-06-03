@@ -52,4 +52,17 @@
          </root>
       </x:expect>
    </x:scenario>
+
+   <x:scenario label="xsl:assert Coverage Tests Case where xsl:assert/@true is not evaluated">
+      <x:context mode="xsl-assert-not-evaluated">
+         <root>
+            <xsl-assert />
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="assert"></node>
+         </root>
+      </x:expect>
+   </x:scenario>
 </x:description>

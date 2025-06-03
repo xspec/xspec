@@ -38,4 +38,12 @@
    <hit lineNumber="40" columnNumber="27" moduleId="0" traceableId="1"/>
    <hit lineNumber="40" columnNumber="27" moduleId="0" traceableId="2"/>
    <hit lineNumber="42" columnNumber="19" moduleId="0" traceableId="4"/>
+   <hit lineNumber="47" columnNumber="68" moduleId="0" traceableId="0"/>
+   <hit lineNumber="48" columnNumber="11" moduleId="0" traceableId="1"/>
+   <hit lineNumber="49" columnNumber="27" moduleId="0" traceableId="1"/>
+   <hit lineNumber="49" columnNumber="27" moduleId="0" traceableId="2"/>
+   <traceable traceableId="5"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}if"/>
+   <hit lineNumber="50" columnNumber="33" moduleId="0" traceableId="5"/>
 </trace>

@@ -43,4 +43,18 @@
       </node>
     </root>
   </xsl:template>
+
+  <xsl:template match="xsl-assert" mode="xsl-assert-not-evaluated">
+    <root>
+      <node type="assert">
+        <xsl:if test="100 lt 0">
+          <xsl:text>can't get here</xsl:text>                                  <!-- Expected miss -->
+          <xsl:assert test="100 gt 0">                                         <!-- Expected miss -->
+            <xsl:text>Assert Message: 100 gt 0</xsl:text>                      <!-- Expected miss -->
+          </xsl:assert>                                                        <!-- Expected miss -->
+          <xsl:assert test="100 gt 0" />                                       <!-- Expected miss -->
+        </xsl:if>
+      </node>
+    </root>
+  </xsl:template>
 </xsl:stylesheet>
