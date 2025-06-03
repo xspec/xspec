@@ -3,8 +3,8 @@
 <?xspec-test saxon-custom-options=-ea?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="xsl-assert-01.xsl">
-   <x:scenario label="xsl:assert Coverage Test Case for false assertion" catch="yes">
-      <x:context mode="xsl-assert-false">
+   <x:scenario label="xsl:assert Coverage Test Case for false assertion with sequence constructor" catch="yes">
+      <x:context mode="xsl-assert-false-seq-constr">
          <root>
             <xsl-assert />
          </root>
@@ -15,9 +15,9 @@
    </x:scenario>
 
    <x:scenario
-      label="xsl:assert Coverage Test Case whose descendants are untraceable executed and traceable unexecuted"
+      label="xsl:assert Coverage Test Case for false assertion with no sequence constructor"
       catch="yes">
-      <x:context mode="xsl-assert-false-before-traceable">
+      <x:context mode="xsl-assert-false-no-seq-constr">
          <root>
             <xsl-assert />
          </root>
@@ -27,8 +27,8 @@
          select="''"/>
    </x:scenario>
 
-   <x:scenario label="xsl:assert Coverage Test Case for true assertion">
-      <x:context mode="xsl-assert-true">
+   <x:scenario label="xsl:assert Coverage Test Case for true assertion with sequence constructor">
+      <x:context mode="xsl-assert-true-seq-constr">
          <root>
             <xsl-assert />
          </root>
@@ -36,6 +36,19 @@
       <x:expect label="Success">
          <root>
             <node type="assert"></node>
+         </root>
+      </x:expect>
+   </x:scenario>
+
+   <x:scenario label="xsl:assert Coverage Test Case for true assertion with no sequence constructor">
+      <x:context mode="xsl-assert-true-no-seq-constr">
+         <root>
+            <xsl-assert />
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="assert">can get here</node>
          </root>
       </x:expect>
    </x:scenario>

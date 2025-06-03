@@ -141,18 +141,18 @@ XSLT 4.0 proposal.
 
 ## xsl:assert
 
-|          |                                    |
-| -------- | ---------------------------------- |
-| CATEGORY | Instruction                        |
-| PARENT   |                                    |
-| CHILDREN |                                    |
-| CONTENT  |                                    |
-| TRACE    | No                                 |
-| RULE     | Unknown, including all descendants |
+|          |                                                                 |
+| -------- | --------------------------------------------------------------- |
+| CATEGORY | Instruction                                                     |
+| PARENT   |                                                                 |
+| CHILDREN |                                                                 |
+| CONTENT  |                                                                 |
+| TRACE    | Yes (on descendant if sequence constructor)                     |
+| RULE     | Use Descendant Data if sequence constructor else Use Trace Data |
 
 #### Comment
 
-For this element, Saxon 12.4 produces incorrect data (trace hit points to first child), while Saxon 12.5 produces no data.
+Change from previous rule is due to checking trace output again.
 
 ## xsl:attribute
 
