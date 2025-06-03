@@ -35,10 +35,28 @@
     <xsl:text>Ignored</xsl:text>                                               <!-- Expected ignored -->
     <para>Top-level element is not in namespace
       <uri>http://www.w3.org/1999/XSL/Transform</uri></para>                   <!-- Expected ignored -->
-    <!-- Non-XSLT-top-level rule is higher priority than xsl:assert rule -->
-    <xsl:assert test="false()">                                                <!-- Expected ignored -->
+    <!-- Non-XSLT-top-level rule is higher priority than XSLT:sort/*/descendant::node() rule -->
+    <xsl:for-each select="1 to 5">                                             <!-- Expected ignored -->
       <xsl:text>Ignored, not unknown</xsl:text>                                <!-- Expected ignored -->
-    </xsl:assert>                                                              <!-- Expected ignored -->
+      <xsl:sort>                                                               <!-- Expected ignored -->
+        <xsl:choose>                                                           <!-- Expected ignored -->
+          <xsl:when test="1 eq 2">                                             <!-- Expected ignored -->
+            <xsl:value-of select="." />                                        <!-- Expected ignored -->
+          </xsl:when>                                                          <!-- Expected ignored -->
+          <xsl:otherwise>                                                      <!-- Expected ignored -->
+            <xsl:value-of select="." />                                        <!-- Expected ignored -->
+          </xsl:otherwise>                                                     <!-- Expected ignored -->
+        </xsl:choose>                                                          <!-- Expected ignored -->
+      </xsl:sort>                                                              <!-- Expected ignored -->
+    </xsl:for-each>                                                            <!-- Expected ignored -->
+    <!-- Non-XSLT-top-level rule is higher priority than XSLT:merge-key/descendant::node() rule -->
+    <xsl:merge>                                                                <!-- Expected ignored -->
+      <xsl:merge-source>                                                       <!-- Expected ignored -->
+        <xsl:merge-key>                                                        <!-- Expected ignored -->
+          <xsl:text>Ignored, not missed</xsl:text>                             <!-- Expected ignored -->
+        </xsl:merge-key>                                                       <!-- Expected ignored -->
+      </xsl:merge-source>                                                      <!-- Expected ignored -->
+    </xsl:merge>                                                               <!-- Expected ignored -->
   </template>                                                                  <!-- Expected ignored -->
 
 </xsl:stylesheet>
