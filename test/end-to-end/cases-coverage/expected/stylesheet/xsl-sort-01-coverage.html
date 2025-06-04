@@ -31,9 +31,9 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />45</th>
+               <th class="totals">hit<br />43</th>
                <th class="totals emphasis">missed<br />21</th>
-               <th class="totals">unknown<br />17</th>
+               <th class="totals">unknown<br />19</th>
                <th class="totals">lines<br />147</th>
             </tr>
          </thead>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-sort-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">45</th>
+               <th class="totals">43</th>
                <th class="totals">21</th>
-               <th class="totals">17</th>
+               <th class="totals">19</th>
                <th class="totals">147</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-sort-01.xsl<span class="scenario-totals">hit: 45 / missed: 21 / unknown: 17</span></h2>
+         <h2 class="successful">module: xsl-sort-01.xsl<span class="scenario-totals">hit: 43 / missed: 21 / unknown: 19</span></h2>
          <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -107,7 +107,7 @@
 055: <span class="whitespace">              </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 056: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:when&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 057: <span class="whitespace">            </span><span class="unknown">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-058: <span class="whitespace">              </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+058: <span class="whitespace">              </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span>
 059: <span class="whitespace">            </span><span class="unknown">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 060: <span class="whitespace">          </span><span class="hit">&lt;/xsl:choose&gt;</span>
 061: <span class="whitespace">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
@@ -121,7 +121,7 @@
 069: <span class="whitespace">      </span><span class="hit">&lt;xsl:apply-templates mode="sortMode"&gt;</span>
 070: <span class="whitespace">        </span><span class="hit">&lt;xsl:sort&gt;</span>
 071: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of&gt;</span>
-072: <span class="whitespace">            </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+072: <span class="whitespace">            </span><span class="unknown">&lt;xsl:value-of select="." /&gt;</span>
 073: <span class="whitespace">            </span><span class="unknown">&lt;xsl:copy-of select="()" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 074: <span class="whitespace">          </span><span class="hit">&lt;/xsl:value-of&gt;</span>
 075: <span class="whitespace">        </span><span class="hit">&lt;/xsl:sort&gt;</span>
