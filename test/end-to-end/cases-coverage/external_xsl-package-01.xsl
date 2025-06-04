@@ -74,27 +74,27 @@
     </xsl:attribute-set>
 
     <!--* Function declarations ... *-->
-    <xsl:function name="csv:parse" visibility="final">                         <!-- Expected miss -->
-        <xsl:param name="input" as="xs:string"/>                               <!-- Expected miss -->
-        <xsl:variable name="result" as="element()">                            <!-- Expected miss -->
-            <csv>                                                              <!-- Expected miss -->
+    <xsl:function name="csv:parse" visibility="final">
+        <xsl:param name="input" as="xs:string"/>
+        <xsl:variable name="result" as="element()">
+            <csv>
                 <xsl:apply-templates
                     select="(tokenize($input, $csv:line-separator)
                             ! csv:preprocess-line(.))"
-                    mode="csv:parse-line"/>                                    <!-- Expected miss -->
-            </csv>                                                             <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
+                    mode="csv:parse-line"/>
+            </csv>
+        </xsl:variable>
         <xsl:apply-templates select="$result"
-                            mode="csv:post-process"/>                          <!-- Expected miss -->
-    </xsl:function>                                                            <!-- Expected miss -->
+                            mode="csv:post-process"/>
+    </xsl:function>
 
 
     <xsl:function name="csv:preprocess-line"
                     as="xs:string?"
-                    visibility="public">                                       <!-- Expected miss -->
-        <xsl:param name="line" as="xs:string"/>                                <!-- Expected miss -->
-        <xsl:sequence select="normalize-space($line)"/>                        <!-- Expected miss -->
-    </xsl:function>                                                            <!-- Expected miss -->
+                    visibility="public">
+        <xsl:param name="line" as="xs:string"/>
+        <xsl:sequence select="normalize-space($line)"/>
+    </xsl:function>
 
 
     <xsl:function name="csv:preprocess-field"
