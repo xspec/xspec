@@ -34,7 +34,7 @@
                <th class="totals">hit<br />10</th>
                <th class="totals emphasis">missed<br />4</th>
                <th class="totals">unknown<br />0</th>
-               <th class="totals">lines<br />84</th>
+               <th class="totals">lines<br />120</th>
             </tr>
          </thead>
          <tbody>
@@ -44,7 +44,7 @@
                <th class="totals">6</th>
                <th class="totals">2</th>
                <th class="totals">0</th>
-               <th class="totals">44</th>
+               <th class="totals">62</th>
             </tr>
             <tr class="successful">
                <th><a href="#module2">non-xsl-top-level-element-01A.xsl</a></th>
@@ -52,7 +52,7 @@
                <th class="totals">4</th>
                <th class="totals">2</th>
                <th class="totals">0</th>
-               <th class="totals">40</th>
+               <th class="totals">58</th>
             </tr>
          </tbody>
       </table>
@@ -95,13 +95,31 @@
 35: <span class="whitespace">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 36: <span class="whitespace">    </span><span class="ignored">&lt;para&gt;</span><span class="ignored">Top-level element is not in namespace</span>
 37: <span class="ignored">      </span><span class="ignored">&lt;uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/uri&gt;</span><span class="ignored">&lt;/para&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-38: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than xsl:assert rule --&gt;</span>
-39: <span class="whitespace">    </span><span class="ignored">&lt;xsl:assert test="false()"&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+38: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than XSLT:sort/*/descendant::node() rule --&gt;</span>
+39: <span class="whitespace">    </span><span class="ignored">&lt;xsl:for-each select="1 to 5"&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 40: <span class="whitespace">      </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored, not unknown</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-41: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-42: <span class="whitespace">  </span><span class="ignored">&lt;/template&gt;</span><span class="whitespace">                                                                  </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-43: 
-44: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+41: <span class="whitespace">      </span><span class="ignored">&lt;xsl:sort&gt;</span><span class="whitespace">                                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+42: <span class="whitespace">        </span><span class="ignored">&lt;xsl:choose&gt;</span><span class="whitespace">                                                           </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+43: <span class="whitespace">          </span><span class="ignored">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+44: <span class="whitespace">            </span><span class="ignored">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+45: <span class="whitespace">          </span><span class="ignored">&lt;/xsl:when&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+46: <span class="whitespace">          </span><span class="ignored">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+47: <span class="whitespace">            </span><span class="ignored">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+48: <span class="whitespace">          </span><span class="ignored">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+49: <span class="whitespace">        </span><span class="ignored">&lt;/xsl:choose&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+50: <span class="whitespace">      </span><span class="ignored">&lt;/xsl:sort&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+51: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:for-each&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+52: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than XSLT:merge-key/descendant::node() rule --&gt;</span>
+53: <span class="whitespace">    </span><span class="ignored">&lt;xsl:merge&gt;</span><span class="whitespace">                                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+54: <span class="whitespace">      </span><span class="ignored">&lt;xsl:merge-source&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+55: <span class="whitespace">        </span><span class="ignored">&lt;xsl:merge-key&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+56: <span class="whitespace">          </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored, not missed</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+57: <span class="whitespace">        </span><span class="ignored">&lt;/xsl:merge-key&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+58: <span class="whitespace">      </span><span class="ignored">&lt;/xsl:merge-source&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+59: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:merge&gt;</span><span class="whitespace">                                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+60: <span class="whitespace">  </span><span class="ignored">&lt;/template&gt;</span><span class="whitespace">                                                                  </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+61: 
+62: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
       <div id="module2">
          <h2 class="successful">module: non-xsl-top-level-element-01A.xsl<span class="scenario-totals">hit: 4 / missed: 2 / unknown: 0</span></h2>
@@ -138,13 +156,31 @@
 31: <span class="whitespace">    </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 32: <span class="whitespace">    </span><span class="ignored">&lt;para&gt;</span><span class="ignored">Top-level element is not in namespace</span>
 33: <span class="ignored">      </span><span class="ignored">&lt;uri&gt;</span><span class="ignored">http://www.w3.org/1999/XSL/Transform</span><span class="ignored">&lt;/uri&gt;</span><span class="ignored">&lt;/para&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-34: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than xsl:assert rule --&gt;</span>
-35: <span class="whitespace">    </span><span class="ignored">&lt;xsl:assert test="false()"&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+34: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than XSLT:sort/*/descendant::node() rule --&gt;</span>
+35: <span class="whitespace">    </span><span class="ignored">&lt;xsl:for-each select="1 to 5"&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 36: <span class="whitespace">      </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored, not unknown</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-37: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-38: <span class="whitespace">  </span><span class="ignored">&lt;/template&gt;</span><span class="whitespace">                                                                  </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-39: 
-40: <span class="ignored">&lt;/xsl:transform&gt;</span></pre>
+37: <span class="whitespace">      </span><span class="ignored">&lt;xsl:sort&gt;</span><span class="whitespace">                                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+38: <span class="whitespace">        </span><span class="ignored">&lt;xsl:choose&gt;</span><span class="whitespace">                                                           </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+39: <span class="whitespace">          </span><span class="ignored">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+40: <span class="whitespace">            </span><span class="ignored">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+41: <span class="whitespace">          </span><span class="ignored">&lt;/xsl:when&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+42: <span class="whitespace">          </span><span class="ignored">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+43: <span class="whitespace">            </span><span class="ignored">&lt;xsl:value-of select="." /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+44: <span class="whitespace">          </span><span class="ignored">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+45: <span class="whitespace">        </span><span class="ignored">&lt;/xsl:choose&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+46: <span class="whitespace">      </span><span class="ignored">&lt;/xsl:sort&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+47: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:for-each&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+48: <span class="whitespace">    </span><span class="comment">&lt;!-- Non-XSLT-top-level rule is higher priority than XSLT:merge-key/descendant::node() rule --&gt;</span>
+49: <span class="whitespace">    </span><span class="ignored">&lt;xsl:merge&gt;</span><span class="whitespace">                                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+50: <span class="whitespace">      </span><span class="ignored">&lt;xsl:merge-source&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+51: <span class="whitespace">        </span><span class="ignored">&lt;xsl:merge-key&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+52: <span class="whitespace">          </span><span class="ignored">&lt;xsl:text&gt;</span><span class="ignored">Ignored, not missed</span><span class="ignored">&lt;/xsl:text&gt;</span><span class="whitespace">                             </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+53: <span class="whitespace">        </span><span class="ignored">&lt;/xsl:merge-key&gt;</span><span class="whitespace">                                                       </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+54: <span class="whitespace">      </span><span class="ignored">&lt;/xsl:merge-source&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+55: <span class="whitespace">    </span><span class="ignored">&lt;/xsl:merge&gt;</span><span class="whitespace">                                                               </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+56: <span class="whitespace">  </span><span class="ignored">&lt;/template&gt;</span><span class="whitespace">                                                                  </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+57: 
+58: <span class="ignored">&lt;/xsl:transform&gt;</span></pre>
       </div>
    </body>
 </html>

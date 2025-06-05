@@ -132,9 +132,9 @@
 					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
-							and ($x:saxon-version ne x:pack-version((12, 4)))">
-						<!-- https://saxonica.plan.io/issues/6223 -->
-						<xsl:text>XSLT Code Coverage requires Saxon version 12.4</xsl:text>
+							and ($x:saxon-version ne x:pack-version((12, 7)))">
+						<!-- Why not Saxon 10 or 11: https://saxonica.plan.io/issues/6223 -->
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.7</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -249,9 +249,6 @@
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
 					
-					<xsl:when test="$pis = 'require-xspec-issue-2071-fixed'">
-						<xsl:text>Requires xspec/xspec#2071 to have been fixed</xsl:text>
-					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 

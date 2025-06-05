@@ -31,66 +31,85 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />11</th>
-               <th class="totals emphasis">missed<br />2</th>
-               <th class="totals">unknown<br />7</th>
-               <th class="totals">lines<br />41</th>
+               <th class="totals">hit<br />21</th>
+               <th class="totals emphasis">missed<br />12</th>
+               <th class="totals">unknown<br />0</th>
+               <th class="totals">lines<br />60</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
                <th><a href="#module1">xsl-assert-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">11</th>
-               <th class="totals">2</th>
-               <th class="totals">7</th>
-               <th class="totals">41</th>
+               <th class="totals">21</th>
+               <th class="totals">12</th>
+               <th class="totals">0</th>
+               <th class="totals">60</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-assert-01.xsl<span class="scenario-totals">hit: 11 / missed: 2 / unknown: 7</span></h2>
+         <h2 class="successful">module: xsl-assert-01.xsl<span class="scenario-totals">hit: 21 / missed: 12 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
-04: <span class="comment">      xsl:assert Coverage Test Case (needs AssertEnabled option -ea). xsl:assert is always executed.</span>
+04: <span class="comment">      xsl:assert Coverage Test Case (needs AssertEnabled option -ea).</span>
 05: <span class="comment">  --&gt;</span>
-06: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-false"&gt;</span>
+06: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-false-seq-constr"&gt;</span>
 07: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
 08: <span class="whitespace">      </span><span class="comment">&lt;!-- Assert false --&gt;</span>
-09: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
-10: <span class="whitespace">        </span><span class="unknown">&lt;xsl:assert test="100 lt 0"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-11: <span class="whitespace">          </span><span class="unknown">&lt;xsl:text&gt;</span><span class="unknown">Assert Message: 100 lt 0</span><span class="unknown">&lt;/xsl:text&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-12: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-13: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-14: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-16: 
-17: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-false-before-traceable"&gt;</span>
-18: <span class="whitespace">      </span><span class="comment">&lt;!-- Use Descendant Data case of untraceable executed combined with traceable unexecuted --&gt;</span>
-19: <span class="whitespace">      </span><span class="comment">&lt;!-- xsl:iterate with xsl:on-completion executed but unknown status --&gt;</span>
-20: <span class="whitespace">      </span><span class="hit">&lt;node type="iterate/on-completion executed unknown"&gt;</span>
-21: <span class="whitespace">        </span><span class="hit">&lt;xsl:iterate select="1"&gt;</span>
-22: <span class="whitespace">          </span><span class="hit">&lt;xsl:on-completion&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-23: <span class="whitespace">            </span><span class="unknown">&lt;xsl:assert test="100 lt 0" /&gt;</span><span class="whitespace">                                     </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-24: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">can't get here</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-25: <span class="whitespace">          </span><span class="hit">&lt;/xsl:on-completion&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-26: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="concat(., ', ')" /&gt;</span>
-27: <span class="whitespace">        </span><span class="hit">&lt;/xsl:iterate&gt;</span>
-28: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-29: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-30: 
-31: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-true"&gt;</span>
-32: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
-33: <span class="whitespace">      </span><span class="comment">&lt;!-- Assert true --&gt;</span>
-34: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
-35: <span class="whitespace">        </span><span class="unknown">&lt;xsl:assert test="100 gt 0"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-36: <span class="whitespace">          </span><span class="unknown">&lt;xsl:text&gt;</span><span class="unknown">Assert Message: 100 gt 0</span><span class="unknown">&lt;/xsl:text&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-37: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-38: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-39: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-40: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-41: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+09: <span class="whitespace">      </span><span class="comment">&lt;!-- Trace appears on child xsl:text element so Use Descendant Data. --&gt;</span>
+10: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
+11: <span class="whitespace">        </span><span class="hit">&lt;xsl:assert test="100 lt 0"&gt;</span>
+12: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">Assert Message: 100 lt 0</span><span class="hit">&lt;/xsl:text&gt;</span>
+13: <span class="whitespace">        </span><span class="hit">&lt;/xsl:assert&gt;</span>
+14: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+15: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+16: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+17: 
+18: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-false-no-seq-constr"&gt;</span>
+19: <span class="whitespace">      </span><span class="comment">&lt;!-- Trace appears on xsl:assert element so Use Trace Data --&gt;</span>
+20: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
+21: <span class="whitespace">        </span><span class="hit">&lt;xsl:assert test="100 lt 0" /&gt;</span>
+22: <span class="whitespace">        </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">can't get here</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+23: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+24: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+25: 
+26: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-true-seq-constr"&gt;</span>
+27: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+28: <span class="whitespace">      </span><span class="comment">&lt;!-- Assert true --&gt;</span>
+29: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
+30: <span class="whitespace">        </span><span class="missed">&lt;xsl:assert test="100 gt 0"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+31: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">Assert Message: 100 gt 0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+32: <span class="whitespace">        </span><span class="missed">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+33: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+34: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+35: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+36: 
+37: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-true-no-seq-constr"&gt;</span>
+38: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+39: <span class="whitespace">      </span><span class="comment">&lt;!-- Assert true --&gt;</span>
+40: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
+41: <span class="whitespace">        </span><span class="missed">&lt;xsl:assert test="100 gt 0" /&gt;</span><span class="whitespace">                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+42: <span class="whitespace">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">can get here</span><span class="hit">&lt;/xsl:text&gt;</span>
+43: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+44: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+45: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+46: 
+47: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-assert" mode="xsl-assert-not-evaluated"&gt;</span>
+48: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+49: <span class="whitespace">      </span><span class="hit">&lt;node type="assert"&gt;</span>
+50: <span class="whitespace">        </span><span class="hit">&lt;xsl:if test="100 lt 0"&gt;</span>
+51: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">can't get here</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                  </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+52: <span class="whitespace">          </span><span class="missed">&lt;xsl:assert test="100 gt 0"&gt;</span><span class="whitespace">                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+53: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">Assert Message: 100 gt 0</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+54: <span class="whitespace">          </span><span class="missed">&lt;/xsl:assert&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+55: <span class="whitespace">          </span><span class="missed">&lt;xsl:assert test="100 gt 0" /&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+56: <span class="whitespace">        </span><span class="hit">&lt;/xsl:if&gt;</span>
+57: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+58: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+59: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+60: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
    </body>
 </html>
