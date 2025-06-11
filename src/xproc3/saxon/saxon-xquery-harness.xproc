@@ -22,7 +22,7 @@
             name="saxon-xquery-harness"
             type="t:saxon-xquery-harness"
             exclude-inline-prefixes="map xs pkg t c p"
-            version="3.0">
+            version="3.1">
 
    <p:documentation>
       <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>

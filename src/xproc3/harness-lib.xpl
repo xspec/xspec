@@ -21,7 +21,7 @@
            xmlns:map=" http://www.w3.org/2005/xpath-functions/map"
            pkg:import-uri="#none"
            exclude-inline-prefixes="map xs xsl x pkg p c"
-           version="3.0">
+           version="3.1">
 
    
    <!--
