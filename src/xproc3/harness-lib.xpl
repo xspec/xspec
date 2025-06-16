@@ -207,6 +207,7 @@
                <p:xslt name="format-report">
                   <p:with-input port="source" pipe="@indent"/>
                   <p:with-input port="stylesheet" pipe="@formatter"/>
+                  <p:with-option name="parameters" select="$parameters"/>
                </p:xslt>
             </p:when>
 
@@ -234,8 +235,9 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:cast-content-type content-type="text/plain"/>
-      <p:string-replace match="text()" replace="translate(., '&#xE801;&#xE803;', '&lt;&gt;')" />
+      <p:cast-content-type content-type="text/plain" parameters="map{'indent':1}"/>
+      <p:text-replace pattern="&#xE801;" replacement="&lt;"/>
+      <p:text-replace pattern="&#xE803;" replacement="&gt;"/>
    </p:declare-step>
 
    <!-- Serializes the source document with indentation and reloads it -->
@@ -246,7 +248,7 @@
       <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
       <!-- Serialize with indentation. -->
-      <p:cast-content-type content-type="text/plain" parameters="map{'indent':true()}"/>
+      <x:escape-markup/>
       
       <!-- Deserialize the string value. -->
       <p:cast-content-type content-type="text/xml"/>
