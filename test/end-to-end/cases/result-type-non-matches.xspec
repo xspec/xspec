@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
+	schematron="../../do-nothing.sch" stylesheet="../../do-nothing.xsl"
+	xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:ns="some-uri"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<x:scenario label="Failures due to @result-type">
+		<x:call function="data">
+			<x:param select="()"/>
+		</x:call>
+		<x:scenario label="preventing evaluation of @test">
+			<x:expect label="that would be boolean if it didn't raise an error"
+				test="exists(error() div 0)" result-type="element(ns:nonexistent)"/>
+			<x:expect label="that would be non-boolean if it didn't raise an error"
+				test="error() div 0" result-type="element(x:nonexistent)" select="()"/>
+			<x:expect label="For comparison: boolean @test without @result-type"
+				test="$x:result instance of element(ns:nonexistent)"/>
+		</x:scenario>
+		<x:scenario label="with no @test">
+			<x:expect label="and an explicit expected result" select="()"
+				result-type="element(ns:nonexistent)"/>
+			<x:expect label="and expected result is implicitly an empty sequence)"
+				result-type="element(ns:nonexistent)"/>
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="Failures because xs:integer is not an instance of xs:positiveInteger">
+		<x:call function="one-or-more">
+			<x:param select="xs:integer(1)"/>
+		</x:call>
+		<x:expect label="comparing actual result with expected result"
+			result-type="xs:positiveInteger" select="xs:integer(1)"/>
+		<x:expect label="with non-boolean @test" result-type="xs:positiveInteger"
+			test="-1 + $x:result" select="xs:integer(0)"/>
+		<x:expect label="with boolean @test" result-type="xs:positiveInteger"
+			test="exists($x:result)"/>
+	</x:scenario>
+	<x:scenario label="Failures illustrating catch='yes' usage" catch="yes">
+		<x:scenario label="Expected dynamic error does not occur">
+			<x:call function="data">
+				<x:param select="1"/>
+			</x:call>
+			<!--
+				@result-type prevents an error like this in Saxon or BaseX, respectively:
+				XPTY0004  The items on the LHS of the '?' operator must be maps or arrays; but value (1) was supplied
+				[XPTY0004] Input of lookup must be map or array: 1.
+			-->
+			<x:expect label="result-type prevents evaluation of @test" result-type="map(*)"
+				test="$x:result?err?description" select="'I expected an error.'"/>
+		</x:scenario>
+		<x:scenario label="Unexpected dynamic error occurs">
+			<!-- Fake a dynamic error by explicitly producing a map similar to
+				the one XSpec creates when a scenario with catch="yes" raises
+				a dynamic error. The map here avoids nonreproducible values
+				like the compiled test file's line/column numbers and location
+				in a temporary directory. -->
+			<x:call function="map:entry">
+				<x:param select="'err'"/>
+				<x:param select="map:entry('description','Error message')"/>
+			</x:call>
+			<!--
+				@result-type prevents an error like this in Saxon or BaseX, respectively:
+				XPTY0019  The required item type of the first operand of '/' is node(); the supplied value map{"err":map{"description":"Error message"}} is a map
+				[XPTY0019] child-element: node expected, map(xs:string, map(xs:string, xs:string)) found: { "err": { "description": .... } }
+			-->
+			<x:expect label="result-type prevents evaluation of @test"
+				result-type="document-node(element(child-element))" test="$x:result/child-element">
+				<child-element/>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="Failures to check qualified name notation on Expected side of report">
+		<x:call function="data">
+			<x:param select="1"/>
+		</x:call>
+		<t:expect label="when expect element uses prefix 't', report uses $t:result" select="0"
+			result-type="element()" xmlns:t="http://www.jenitennison.com/xslt/xspec"/>
+		<expect label="when expect element does not use a prefix, report uses $result" select="0"
+			result-type="element()" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+	</x:scenario>
+</x:description>

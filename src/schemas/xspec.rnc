@@ -310,9 +310,13 @@ assertion =
 	## assertion succeeds only if the sequence is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
-		label, pending-attribute?, test?, selection }
+		label, pending-attribute?, test?, result-type?, selection }
 
 test = attribute test { xpath }
+
+result-type =
+	## Data type of actual result.
+	attribute result-type { xsd:string { minLength = "1" } }
 
 xml-ns-attributes = attribute xml:* { text }*
 common-attributes = xml-ns-attributes,
