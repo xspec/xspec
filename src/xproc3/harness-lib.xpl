@@ -89,7 +89,8 @@
          <!-- actually compile the suite in a stylesheet -->
          <p:xslt>
             <p:with-input port="source" pipe="source@compile-xsl"/>
-            <p:with-input port="stylesheet" pipe="@compiler"/>               
+            <p:with-input port="stylesheet" pipe="@compiler"/>
+            <p:with-option name="parameters" select="$parameters"/>
          </p:xslt>
       </p:group>
 
