@@ -103,10 +103,10 @@
    <!--
        Compile the suite on source into a query on result.
        
-       Parameters to the XSpec
-       XQuery compiler, AKA compile-xquery-tests.xsl, can be passed on the
-       parameters port (e.g. utils-library-at to suppress the at location hint to use
-       to import the XSpec utils library modules in the generated query).
+       Parameters to the XSpec XQuery compiler, AKA compile-xquery-tests.xsl, 
+       can be passed on the parameters option (e.g. utils-library-at to suppress 
+       the at location hint to use to import the XSpec utils library modules in the 
+       generated query).
    -->
    <p:declare-step type="x:compile-xquery" name="compile-xq">
       <!-- the port declarations -->
@@ -155,6 +155,7 @@
          <p:xslt name="do-it">
             <p:with-input port="source" pipe="source@compile-xq"/>
             <p:with-input port="stylesheet" pipe="@compiler"/>
+            <p:with-option name="parameters" select="$parameters"/>
          </p:xslt>
       </p:group>
       
