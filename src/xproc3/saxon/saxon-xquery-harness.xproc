@@ -53,12 +53,15 @@
       <p:with-option name="parameters" select="$parameters"/> 
    </t:compile-xquery>
 
+   <t:escape-markup/>   
+   <p:text-replace pattern="^&lt;query(.*)>" replacement=""/>
+   <p:text-replace pattern="&lt;/query>\s$" replacement="" name="queryText"/>
+    
    
-
    <!-- run it on saxon -->
    <p:xquery name="run">
       <p:with-input port="source"><p:empty/></p:with-input>
-      <p:with-input port="query" select="/*/." pipe="@compile"/>
+      <p:with-input port="query" pipe="@queryText"/>
    </p:xquery>
 
    <!-- format the report -->
