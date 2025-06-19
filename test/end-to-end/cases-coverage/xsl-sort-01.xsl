@@ -3,7 +3,7 @@
   <!--
       xsl:sort Coverage Test Case
   -->
-  <xsl:mode name="sortMode" />
+  <xsl:mode name="sortMode" />                                                 <!-- Expected ignored -->
   <xsl:template match="xsl-sort">
     <root>
       <!-- xsl:for-each child, using select attribute -->
@@ -76,11 +76,11 @@
       </xsl:apply-templates>
 
       <!-- perform-sort child -->
-      <xsl:variable name="sortedSet">
+      <xsl:variable name="sortedSet">                                          <!-- Expected miss (optim inlined) -->
         <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
           <xsl:sort />                                                         <!-- Expected unknown -->
         </xsl:perform-sort>                                                    <!-- Expected unknown -->
-      </xsl:variable>
+      </xsl:variable>                                                          <!-- Expected miss (optim inlined) -->
       <xsl:for-each select="$sortedSet/*">
         <node type="sort - perform-sort">
           <xsl:value-of select="." />

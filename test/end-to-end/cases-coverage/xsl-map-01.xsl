@@ -22,9 +22,9 @@
             <xsl:text>300</xsl:text>
           </xsl:for-each>
         </xsl:map-entry>
-        <xsl:map-entry key="'Four'">
+        <xsl:map-entry key="'Four'">                                           <!-- Expected unknown -->
           <xsl:sequence select="400" />                                        <!-- Expected unknown -->
-        </xsl:map-entry>
+        </xsl:map-entry>                                                       <!-- Expected unknown -->
       </xsl:map>
     </xsl:param>
     <xsl:variable name="hundreds-variable" as="map(xs:string, item())">
@@ -40,19 +40,19 @@
             </xsl:for-each>
           </xsl:sequence>
         </xsl:map-entry>
-        <xsl:map-entry key="'Four'">
+        <xsl:map-entry key="'Four'">                                           <!-- Expected unknown -->
           <xsl:sequence select="400" />                                        <!-- Expected unknown -->
-        </xsl:map-entry>
+        </xsl:map-entry>                                                       <!-- Expected unknown -->
       </xsl:map>
     </xsl:variable>
     <!-- xsl:map with child that is not xsl:map-entry -->
-    <xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)">
+    <xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)">       <!-- Expected miss (optim inlined) -->
       <xsl:map>
         <xsl:for-each select="1 to 5">
           <xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/>  <!-- Expected unknown -->
         </xsl:for-each>
       </xsl:map>
-    </xsl:variable>
+    </xsl:variable>                                                            <!-- Expected miss (optim inlined) -->
     <!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. -->
     <xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)">
       <xsl:map>                                                                <!-- Expected unknown -->
@@ -118,9 +118,9 @@
           <xsl:text>300</xsl:text>
         </xsl:for-each>
       </xsl:map-entry>
-      <xsl:map-entry key="'Four'">
+      <xsl:map-entry key="'Four'">                                             <!-- Expected unknown -->
         <xsl:sequence select="400" />                                          <!-- Expected unknown -->
-      </xsl:map-entry>
+      </xsl:map-entry>                                                         <!-- Expected unknown -->
     </xsl:map>
   </xsl:function>
 </xsl:stylesheet>
