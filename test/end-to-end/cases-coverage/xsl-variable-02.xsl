@@ -23,17 +23,17 @@
       <!-- Local variable trivial with select attribute
            xsl:sequence is needed to make it trivial, xsl:value-of causes inlined -->
       <node type="variable - trivial">
-        <xsl:variable name="trivial01" select="node * 1" />                    <!-- Expected hit (optim trivial) -->
-        <xsl:sequence select="$trivial01" />                                   <!-- Expected unknown -->
+        <xsl:variable name="trivial01" select="node * 1" />
+        <xsl:sequence select="$trivial01" />
       </node>
       <!-- Local variable trivial with sequence constructor
            xsl:sequence is needed to make it trivial, xsl:value-of causes inlined -->
       <node type="variable - trivial">
-        <xsl:variable name="trivial02">                                        <!-- Expected miss (optim trivial) -->
+        <xsl:variable name="trivial02">
           <xsl:text>1</xsl:text>
           <xsl:text>00</xsl:text>
-        </xsl:variable>                                                        <!-- Expected miss (optim trivial) -->
-        <xsl:sequence select="$trivial02" />                                   <!-- Expected unknown -->
+        </xsl:variable>
+        <xsl:sequence select="$trivial02" />
       </node>
       <!-- Local variable constant with select attribute -->
       <xsl:variable name="constant01" select="200" />                          <!-- Expected miss (optim constant) -->
@@ -50,15 +50,15 @@
         <xsl:value-of select="$constant02" separator="" />
       </node>
       <!-- Local variable inlined with select attribute -->
-      <xsl:variable name="inlined01" select="node || '0'" />                   <!-- Expected miss (optim inlined)  -->
+      <xsl:variable name="inlined01" select="node || '0'" />
       <node type="variable - inlined">
         <xsl:value-of select="$inlined01" />
       </node>
       <!-- Local variable inlined with sequence constructor -->
-      <xsl:variable name="inlined02">                                          <!-- Expected miss (optim inlined)  -->
+      <xsl:variable name="inlined02">
         <xsl:value-of select="node" />
         <xsl:text>0</xsl:text>
-      </xsl:variable>                                                          <!-- Expected miss (optim inlined)  -->
+      </xsl:variable>
       <node type="variable - inlined">
         <xsl:value-of select="$inlined02" />
       </node>

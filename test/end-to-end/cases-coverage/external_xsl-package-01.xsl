@@ -42,7 +42,7 @@
     <xsl:variable name="csv:line-separator"
                 as="xs:string"
                 select="'\r\n?|\n\r?'"
-                visibility="public"/>                                          <!-- Expected miss -->
+                visibility="public"/>
 
 
     <xsl:variable name="csv:field-separator"
@@ -74,34 +74,34 @@
     </xsl:attribute-set>                                                       <!-- Expected ignored -->
 
     <!--* Function declarations ... *-->
-    <xsl:function name="csv:parse" visibility="final">                         <!-- Expected miss -->
-        <xsl:param name="input" as="xs:string"/>                               <!-- Expected miss -->
-        <xsl:variable name="result" as="element()">                            <!-- Expected miss -->
-            <csv>                                                              <!-- Expected miss -->
+    <xsl:function name="csv:parse" visibility="final">
+        <xsl:param name="input" as="xs:string"/>
+        <xsl:variable name="result" as="element()">
+            <csv>
                 <xsl:apply-templates
                     select="(tokenize($input, $csv:line-separator)
                             ! csv:preprocess-line(.))"
-                    mode="csv:parse-line"/>                                    <!-- Expected miss -->
-            </csv>                                                             <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
+                    mode="csv:parse-line"/>
+            </csv>
+        </xsl:variable>
         <xsl:apply-templates select="$result"
-                            mode="csv:post-process"/>                          <!-- Expected miss -->
-    </xsl:function>                                                            <!-- Expected miss -->
+                            mode="csv:post-process"/>
+    </xsl:function>
 
 
     <xsl:function name="csv:preprocess-line"
                     as="xs:string?"
-                    visibility="public">                                       <!-- Expected miss -->
-        <xsl:param name="line" as="xs:string"/>                                <!-- Expected miss -->
-        <xsl:sequence select="normalize-space($line)"/>                        <!-- Expected unknown -->
-    </xsl:function>                                                            <!-- Expected miss -->
+                    visibility="public">
+        <xsl:param name="line" as="xs:string"/>
+        <xsl:sequence select="normalize-space($line)"/>
+    </xsl:function>
 
 
     <xsl:function name="csv:preprocess-field"
                 as="xs:string">
         <xsl:param name="field"
                 as="xs:string"/>
-        <xsl:sequence select="$field"/>                                        <!-- Expected unknown -->
+        <xsl:sequence select="$field"/>
     </xsl:function>
 
     <!--* Templates ... *-->
@@ -123,10 +123,10 @@
                     as="xs:string"
                     select="$csv:validated-quote
                             || $string-body-pattern
-                            || $csv:validated-quote"/>
+                            || $csv:validated-quote"/>                         <!-- Expected miss (optim inlined) -->
         <xsl:variable name="unquoted-value"
                     as="xs:string"
-                    select="'(.+)'"/>
+                    select="'(.+)'"/>                                          <!-- Expected miss (optim constant) -->
 
         <field xsl:use-attribute-sets="csv:field-attributes">{
             csv:preprocess-field(

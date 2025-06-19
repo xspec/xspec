@@ -7,23 +7,23 @@
   <xsl:template match="xsl-perform-sort">
     <root>
       <!-- Using select attribute -->
-      <xsl:variable name="sortedSet1">                                         <!-- Expected miss (optim inlined) -->
+      <xsl:variable name="sortedSet1">
         <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
           <xsl:sort />                                                         <!-- Expected unknown -->
         </xsl:perform-sort>                                                    <!-- Expected unknown -->
-      </xsl:variable>                                                          <!-- Expected miss (optim inlined) -->
+      </xsl:variable>
       <xsl:for-each select="$sortedSet1/*">
         <node type="perform-sort">
           <xsl:value-of select="." />
         </node>
       </xsl:for-each>
       <!-- Using sequence constructor (Didn't use xsl:sequence as it isn't traced so used xsl:copy-of.) -->
-      <xsl:variable name="sortedSet2" as="xs:string*">                         <!-- Expected miss (optim inlined) -->
+      <xsl:variable name="sortedSet2" as="xs:string*">
         <xsl:perform-sort>
           <xsl:sort select="." />
           <xsl:copy-of select="node" />
         </xsl:perform-sort>
-      </xsl:variable>                                                          <!-- Expected miss (optim inlined) -->
+      </xsl:variable>
       <node type="perform-sort">
         <xsl:value-of select="$sortedSet2" separator=" " />
       </node>

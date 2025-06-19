@@ -46,13 +46,13 @@
       </xsl:map>
     </xsl:variable>
     <!-- xsl:map with child that is not xsl:map-entry -->
-    <xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)">       <!-- Expected miss (optim inlined) -->
+    <xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)">
       <xsl:map>
         <xsl:for-each select="1 to 5">
           <xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/>  <!-- Expected unknown -->
         </xsl:for-each>
       </xsl:map>
-    </xsl:variable>                                                            <!-- Expected miss (optim inlined) -->
+    </xsl:variable>
     <!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. -->
     <xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)">
       <xsl:map>                                                                <!-- Expected unknown -->

@@ -76,11 +76,11 @@
       </xsl:apply-templates>
 
       <!-- perform-sort child -->
-      <xsl:variable name="sortedSet">                                          <!-- Expected miss (optim inlined) -->
+      <xsl:variable name="sortedSet">
         <xsl:perform-sort select="node">                                       <!-- Expected unknown -->
           <xsl:sort />                                                         <!-- Expected unknown -->
         </xsl:perform-sort>                                                    <!-- Expected unknown -->
-      </xsl:variable>                                                          <!-- Expected miss (optim inlined) -->
+      </xsl:variable>
       <xsl:for-each select="$sortedSet/*">
         <node type="sort - perform-sort">
           <xsl:value-of select="." />
