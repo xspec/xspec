@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<?xspec-test saxon-custom-options=-opt:0?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-variable-02.xsl">
+   <!-- When executing this test with the Saxon -opt:0 setting, the
+      "Expected miss" lines in xsl-variable-02.xsl should be hit. -->
+   <x:import href="xsl-variable-02.xspec"/>
+</x:description>
