@@ -98,13 +98,13 @@
 046: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map&gt;</span>
 047: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
 048: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map with child that is not xsl:map-entry --&gt;</span>
-049: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)"&gt;</span><span class="whitespace">       </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+049: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-variable01" as="map(xs:string, xs:decimal)"&gt;</span>
 050: <span class="whitespace">      </span><span class="hit">&lt;xsl:map&gt;</span>
 051: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each select="1 to 5"&gt;</span>
 052: <span class="whitespace">          </span><span class="unknown">&lt;xsl:map-entry key="string(.)" select="xs:decimal(. * 600 div 6)"/&gt;</span><span class="whitespace">  </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 053: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 054: <span class="whitespace">      </span><span class="hit">&lt;/xsl:map&gt;</span>
-055: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+055: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
 056: <span class="whitespace">    </span><span class="comment">&lt;!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. --&gt;</span>
 057: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)"&gt;</span>
 058: <span class="whitespace">      </span><span class="unknown">&lt;xsl:map&gt;</span><span class="whitespace">                                                                </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>

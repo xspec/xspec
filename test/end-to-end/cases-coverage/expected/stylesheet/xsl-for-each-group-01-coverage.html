@@ -64,11 +64,11 @@
 12: <span class="whitespace">        </span><span class="hit">&lt;/node&gt;</span>
 13: <span class="whitespace">      </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
 14: <span class="whitespace">      </span><span class="comment">&lt;!-- Child of xsl:for-each-group is not traced --&gt;</span>
-15: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="my-map" as="map(*)"&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+15: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="my-map" as="map(*)"&gt;</span>
 16: <span class="whitespace">        </span><span class="hit">&lt;xsl:for-each-group select="1" group-by="1"&gt;</span>
 17: <span class="whitespace">          </span><span class="unknown">&lt;xsl:map-entry key="current-grouping-key()" select="'100'"/&gt;</span><span class="whitespace">         </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 18: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
-19: <span class="whitespace">      </span><span class="hit">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+19: <span class="whitespace">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 20: <span class="whitespace">      </span><span class="hit">&lt;node type="for-each-group - untraced child"&gt;</span>
 21: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$my-map(1)"/&gt;</span>
 22: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>

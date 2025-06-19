@@ -128,11 +128,11 @@
 076: <span class="whitespace">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
 077: 
 078: <span class="whitespace">      </span><span class="comment">&lt;!-- perform-sort child --&gt;</span>
-079: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="sortedSet"&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+079: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="sortedSet"&gt;</span>
 080: <span class="whitespace">        </span><span class="unknown">&lt;xsl:perform-sort select="node"&gt;</span><span class="whitespace">                                       </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 081: <span class="whitespace">          </span><span class="unknown">&lt;xsl:sort /&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 082: <span class="whitespace">        </span><span class="unknown">&lt;/xsl:perform-sort&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
-083: <span class="whitespace">      </span><span class="hit">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss (optim inlined) --&gt;</span>
+083: <span class="whitespace">      </span><span class="hit">&lt;/xsl:variable&gt;</span>
 084: <span class="whitespace">      </span><span class="hit">&lt;xsl:for-each select="$sortedSet/*"&gt;</span>
 085: <span class="whitespace">        </span><span class="hit">&lt;node type="sort - perform-sort"&gt;</span>
 086: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
