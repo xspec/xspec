@@ -31,8 +31,8 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />40</th>
-               <th class="totals emphasis">missed<br />1</th>
+               <th class="totals">hit<br />39</th>
+               <th class="totals emphasis">missed<br />2</th>
                <th class="totals">unknown<br />0</th>
                <th class="totals">lines<br />69</th>
             </tr>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-evaluate-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">40</th>
-               <th class="totals">1</th>
+               <th class="totals">39</th>
+               <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">69</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-evaluate-01.xsl<span class="scenario-totals">hit: 40 / missed: 1 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-evaluate-01.xsl<span class="scenario-totals">hit: 39 / missed: 2 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -85,7 +85,7 @@
 33: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 34: 
 35: <span class="whitespace">        </span><span class="comment">&lt;!-- Circuitous ways to get $data/data[2] content --&gt;</span>
-36: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
+36: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="index" select="2" /&gt;</span><span class="whitespace">                               </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
 37: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
 38: <span class="whitespace">          </span><span class="comment">&lt;!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced --&gt;</span>
 39: <span class="whitespace">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data"&gt;</span>

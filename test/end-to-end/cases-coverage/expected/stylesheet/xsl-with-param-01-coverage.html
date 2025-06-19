@@ -31,8 +31,8 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />57</th>
-               <th class="totals emphasis">missed<br />15</th>
+               <th class="totals">hit<br />56</th>
+               <th class="totals emphasis">missed<br />16</th>
                <th class="totals">unknown<br />0</th>
                <th class="totals">lines<br />130</th>
             </tr>
@@ -41,8 +41,8 @@
             <tr class="successful">
                <th><a href="#module1">xsl-with-param-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">49</th>
-               <th class="totals">15</th>
+               <th class="totals">48</th>
+               <th class="totals">16</th>
                <th class="totals">0</th>
                <th class="totals">111</th>
             </tr>
@@ -57,19 +57,19 @@
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-with-param-01.xsl<span class="scenario-totals">hit: 49 / missed: 15 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-with-param-01.xsl<span class="scenario-totals">hit: 48 / missed: 16 / unknown: 0</span></h2>
          <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
 004: <span class="comment">      xsl:with-param Coverage Test Case (Quite complex because it covers xsl:iterate, xsl:call-template, xsl:apply-templates, xsl:apply-import, xsl:next-match and xsl:evaluate)</span>
 005: <span class="comment">  --&gt;</span>
-006: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-with-param-01A.xsl" /&gt;</span>
+006: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-with-param-01A.xsl" /&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 007: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for apply-templates --&gt;</span>
-008: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamMode" /&gt;</span>
+008: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamMode" /&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 009: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for apply-imports --&gt;</span>
-010: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeAI" /&gt;</span>
+010: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeAI" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 011: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for next-match --&gt;</span>
-012: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeNM" /&gt;</span>
+012: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeNM" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 013: 
 014: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-with-param"&gt;</span>
 015: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
@@ -101,7 +101,7 @@
 041: <span class="whitespace">        </span><span class="hit">&lt;xsl:with-param name="withParam-NM-Param01"&gt;</span><span class="hit">1300</span><span class="hit">&lt;/xsl:with-param&gt;</span>
 042: <span class="whitespace">      </span><span class="hit">&lt;/xsl:apply-templates&gt;</span>
 043: <span class="whitespace">      </span><span class="comment">&lt;!-- Evaluate with-param (200) --&gt;</span>
-044: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="index" select="2" /&gt;</span>
+044: <span class="whitespace">      </span><span class="missed">&lt;xsl:variable name="index" select="2" /&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
 045: <span class="whitespace">      </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
 046: <span class="whitespace">        </span><span class="hit">&lt;xsl:evaluate xpath="'string(node[$index])'" context-item="."&gt;</span>
 047: <span class="whitespace">          </span><span class="hit">&lt;xsl:with-param name="index" select="$index" /&gt;</span>
