@@ -237,7 +237,7 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:cast-content-type content-type="text/plain" parameters="map{'indent':1}"/>
+      <p:cast-content-type content-type="text/plain"/>
       <p:text-replace pattern="&#xE801;" replacement="&lt;"/>
       <p:text-replace pattern="&#xE803;" replacement="&gt;"/>
    </p:declare-step>
@@ -250,7 +250,7 @@
       <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
       <!-- Serialize with indentation. -->
-      <x:escape-markup/>
+      <p:cast-content-type content-type="text/plain" parameters="map{'indent':1}"/>
       
       <!-- Deserialize the string value. -->
       <p:cast-content-type content-type="text/xml"/>

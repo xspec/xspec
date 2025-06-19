@@ -55,7 +55,7 @@
 
    <t:escape-markup/>   
    <p:text-replace pattern="^&lt;query(.*)>" replacement=""/>
-   <p:text-replace pattern="&lt;/query>\s$" replacement="" name="queryText"/>
+   <p:text-replace pattern="&lt;/query>\s?$" replacement="" name="queryText"/>
     
    
    <!-- run it on saxon -->
