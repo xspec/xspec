@@ -17,7 +17,7 @@
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
             xmlns:pkg="http://expath.org/ns/pkg"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:map=" http://www.w3.org/2005/xpath-functions/map"
+            xmlns:map="http://www.w3.org/2005/xpath-functions/map"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
             name="saxon-xquery-harness"
             type="t:saxon-xquery-harness"
