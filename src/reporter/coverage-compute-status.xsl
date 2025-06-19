@@ -214,29 +214,6 @@
         <xsl:sequence select="accumulator-before('category-based-on-trace-data')"/>
     </xsl:template>
 
-    <!-- Element-Specific rule for XSLT:variable -->
-    <xsl:template match="XSLT:variable"
-        as="xs:string"
-        mode="coverage">
-        <xsl:choose>
-            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
-                <xsl:sequence select="'hit'"/>
-            </xsl:when>
-            <xsl:when test="parent::XSLT:stylesheet or parent::XSLT:transform">
-                <!-- Global variables effectively follow the Use Trace Data rule. -->
-                <xsl:sequence select="'missed'"/>
-            </xsl:when>
-            <xsl:when test="following-sibling::*[not(self::XSLT:variable)]">
-                <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
-                    mode="#current"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <!-- Local variable with no following siblings except other local variables -->
-                <xsl:sequence select="'missed'"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
     <!-- Element-Specific rule for XSLT:merge-key -->
     <xsl:template match="XSLT:merge-key"
         as="xs:string"
