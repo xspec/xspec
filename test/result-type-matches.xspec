@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="@result-type combines with x:expect syntax">
+		<x:call function="data">
+			<x:param select="()"/>
+		</x:call>
+		<x:expect label="with boolean @test" test="empty($x:result)" result-type="empty-sequence()"/>
+		<x:expect label="with non-boolean @test" test="head($x:result)" as="element()?"
+			result-type="document-node()*"/>
+		<x:expect label="with no @test and an expected result" select="()" result-type="map(*)*"/>
+		<x:expect label="with no @test and no explicit expected result"
+			result-type="xs:string?"/>
+	</x:scenario>
+	<x:scenario label="xs:integer is an instance of xs:numeric">
+		<x:call function="one-or-more">
+			<x:param select="xs:integer(1)"/>
+		</x:call>
+		<x:expect label="comparing actual result with expected result" result-type="xs:numeric"
+			select="1"/>
+		<x:expect label="with non-boolean @test" result-type="xs:numeric"
+			test="-1 + $x:result" select="xs:integer(0)"/>
+		<x:expect label="with boolean @test" result-type="xs:numeric"
+			test="exists($x:result)"/>
+	</x:scenario>
+</x:description>
