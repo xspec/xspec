@@ -1073,20 +1073,18 @@ Should this be marked as 'hit'? It isn't traced but it has to be executed (unles
 
 ## xsl:try
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                                                                                     |
+| -------- | ----------------------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                                         |
+| PARENT   |                                                                                     |
+| CHILDREN |                                                                                     |
+| CONTENT  |                                                                                     |
+| TRACE    | Yes (on descendant if no select attribute)                                          |
+| RULE     | Use Trace Data if select attribute else Use Descendant Data if not select attribute |
 
 #### Comment
 
-With a select attribute, this element is traced, but the column number is wrong (7 and 0 occur in the xsl-try-01.xsl trace output). In all cases, the class is net.sf.saxon.expr.TryCatch.
-
-With a sequence constructor, xsl:try is not traced, but the first child is traced and has a class of net.sf.saxon.expr.TryCatch (the first child may also be traced in its own right as well). Other children are traced.
+The element can have a select attribute and a sequence constructor which contains `xsl:catch` and/or `xsl:fallback` so the rule test has to be that there isn't a select attribute, not that are child nodes.
 
 ## xsl:use-package
 

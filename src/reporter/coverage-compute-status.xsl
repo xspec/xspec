@@ -130,6 +130,7 @@
     <xsl:template
         match="
         XSLT:assert[child::node()]
+        | XSLT:catch
         | XSLT:fallback
         | XSLT:map
         | XSLT:map-entry
@@ -138,6 +139,7 @@
         | XSLT:on-completion
         | XSLT:perform-sort
         | XSLT:otherwise
+        | XSLT:try[not(exists(@select))]
         | XSLT:when
         | XSLT:where-populated"
         as="xs:string"
@@ -368,7 +370,6 @@
         | XSLT:sequence[empty(node())]
         | XSLT:sort
         | XSLT:template/XSLT:param[@select]
-        | XSLT:try
         | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"
