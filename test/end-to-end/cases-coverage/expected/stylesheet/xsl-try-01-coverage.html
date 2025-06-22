@@ -31,25 +31,25 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />15</th>
-               <th class="totals emphasis">missed<br />10</th>
-               <th class="totals">unknown<br />0</th>
-               <th class="totals">lines<br />48</th>
+               <th class="totals">hit<br />32</th>
+               <th class="totals emphasis">missed<br />12</th>
+               <th class="totals">unknown<br />4</th>
+               <th class="totals">lines<br />76</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
                <th><a href="#module1">xsl-try-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">15</th>
-               <th class="totals">10</th>
-               <th class="totals">0</th>
-               <th class="totals">48</th>
+               <th class="totals">32</th>
+               <th class="totals">12</th>
+               <th class="totals">4</th>
+               <th class="totals">76</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-try-01.xsl<span class="scenario-totals">hit: 15 / missed: 10 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-try-01.xsl<span class="scenario-totals">hit: 32 / missed: 12 / unknown: 4</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"</span>
 03: <span class="ignored">                xmlns:err="http://www.w3.org/2005/xqt-errors"&gt;</span>
@@ -61,43 +61,71 @@
 09: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try select attribute - xsl:catch not executed--&gt;</span>
 10: <span class="whitespace">      </span><span class="hit">&lt;node type="try"&gt;</span>
 11: <span class="whitespace">        </span><span class="hit">&lt;xsl:try select="string(100)"&gt;</span>
-12: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch select="'inside xsl:catch'" /&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+12: <span class="whitespace">          </span><span class="unknown">&lt;xsl:catch select="'inside xsl:catch'" /&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 13: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
 14: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
 15: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try sequence constructor - xsl:catch not executed --&gt;</span>
 16: <span class="whitespace">      </span><span class="hit">&lt;node type="try"&gt;</span>
-17: <span class="whitespace">        </span><span class="missed">&lt;xsl:try&gt;</span>
+17: <span class="whitespace">        </span><span class="hit">&lt;xsl:try&gt;</span>
 18: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">200</span><span class="hit">&lt;/xsl:text&gt;</span>
-19: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch /&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-20: <span class="whitespace">        </span><span class="missed">&lt;/xsl:try&gt;</span>
+19: <span class="whitespace">          </span><span class="unknown">&lt;xsl:catch /&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+20: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
 21: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
 22: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try select attribute - xsl:catch select attribute executed--&gt;</span>
 23: <span class="whitespace">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
 24: <span class="whitespace">        </span><span class="hit">&lt;xsl:try select="error()"&gt;</span>
-25: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch select="string(300)" /&gt;</span>
+25: <span class="whitespace">          </span><span class="unknown">&lt;xsl:catch select="string(300)" /&gt;</span><span class="whitespace">                                   </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 26: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
 27: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
 28: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try select attribute - xsl:catch executed but no-op--&gt;</span>
 29: <span class="whitespace">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
 30: <span class="whitespace">        </span><span class="hit">&lt;xsl:try select="error()"&gt;</span>
-31: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch /&gt;</span>
+31: <span class="whitespace">          </span><span class="unknown">&lt;xsl:catch /&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
 32: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
 33: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-34: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try sequence constructor - first xsl:catch sequence constructor executed--&gt;</span>
+34: <span class="whitespace">      </span><span class="comment">&lt;!-- Using xsl:try sequence constructor - second xsl:catch sequence constructor executed--&gt;</span>
 35: <span class="whitespace">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
-36: <span class="whitespace">        </span><span class="missed">&lt;xsl:try&gt;</span>
+36: <span class="whitespace">        </span><span class="hit">&lt;xsl:try&gt;</span>
 37: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="error()" /&gt;</span>
-38: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch errors="err:FOER0000"&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- this is code for error() function by default --&gt;</span>
-39: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">400</span><span class="hit">&lt;/xsl:text&gt;</span>
-40: <span class="whitespace">          </span><span class="missed">&lt;/xsl:catch&gt;</span>
-41: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-42: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">500</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-43: <span class="whitespace">          </span><span class="missed">&lt;/xsl:catch&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-44: <span class="whitespace">        </span><span class="missed">&lt;/xsl:try&gt;</span>
-45: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-46: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-47: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-48: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+38: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch errors="err:FOAR0001"&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- divide by zero error --&gt;</span><span class="whitespace">      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+39: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">999</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+40: <span class="whitespace">          </span><span class="missed">&lt;/xsl:catch&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+41: <span class="whitespace">          </span><span class="hit">&lt;xsl:catch errors="err:FOER0000"&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- error() function error --&gt;</span>
+42: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">400</span><span class="hit">&lt;/xsl:text&gt;</span>
+43: <span class="whitespace">          </span><span class="hit">&lt;/xsl:catch&gt;</span>
+44: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+45: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">999</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+46: <span class="whitespace">          </span><span class="missed">&lt;/xsl:catch&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+47: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
+48: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+49: <span class="whitespace">      </span><span class="comment">&lt;!-- Nested try/catch scenario with error re-thrown --&gt;</span>
+50: <span class="whitespace">      </span><span class="hit">&lt;node type="try/catch"&gt;</span>
+51: <span class="whitespace">        </span><span class="hit">&lt;xsl:try&gt;</span>
+52: <span class="whitespace">          </span><span class="hit">&lt;xsl:value-of select="string(999)" /&gt;</span>
+53: <span class="whitespace">          </span><span class="hit">&lt;node type="try/catch"&gt;</span>
+54: <span class="whitespace">            </span><span class="hit">&lt;xsl:try&gt;</span>
+55: <span class="whitespace">              </span><span class="hit">&lt;xsl:value-of select="string(999)" /&gt;</span>
+56: <span class="whitespace">              </span><span class="hit">&lt;xsl:value-of select="error()" /&gt;</span>
+57: <span class="whitespace">              </span><span class="missed">&lt;xsl:value-of select="string(999)" /&gt;</span><span class="whitespace">                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+58: <span class="whitespace">              </span><span class="hit">&lt;xsl:catch errors="err:FOER0000"&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- error() function error --&gt;</span>
+59: <span class="whitespace">                </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">999</span><span class="hit">&lt;/xsl:text&gt;</span>
+60: <span class="whitespace">                </span><span class="hit">&lt;xsl:value-of select="error()" /&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- re-throw the error --&gt;</span>
+61: <span class="whitespace">              </span><span class="hit">&lt;/xsl:catch&gt;</span>
+62: <span class="whitespace">            </span><span class="hit">&lt;/xsl:try&gt;</span>
+63: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
+64: <span class="whitespace">          </span><span class="missed">&lt;xsl:value-of select="error()" /&gt;</span><span class="whitespace">                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+65: <span class="whitespace">          </span><span class="missed">&lt;xsl:value-of select="string(999)" /&gt;</span><span class="whitespace">                                </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+66: <span class="whitespace">          </span><span class="hit">&lt;xsl:catch errors="err:FOER0000"&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- error() function error --&gt;</span>
+67: <span class="whitespace">            </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
+68: <span class="whitespace">          </span><span class="hit">&lt;/xsl:catch&gt;</span>
+69: <span class="whitespace">          </span><span class="missed">&lt;xsl:catch&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+70: <span class="whitespace">            </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">999</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+71: <span class="whitespace">          </span><span class="missed">&lt;/xsl:catch&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+72: <span class="whitespace">        </span><span class="hit">&lt;/xsl:try&gt;</span>
+73: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+74: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+75: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+76: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
    </body>
 </html>
