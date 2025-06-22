@@ -71,6 +71,31 @@
           </xsl:catch>                                                         <!-- Expected miss -->
         </xsl:try>
       </node>
+
+      <!-- Entire try/catch block not executed -->
+      <xsl:if test="1 eq 2">
+        <!-- Using xsl:try select attribute - not executed -->
+        <xsl:try select="999">                                               <!-- Expected miss -->
+          <xsl:catch>                                                        <!-- Expected unknown -->
+            <xsl:map-entry key="999" select="()"/>                           <!-- Expected unknown -->
+          </xsl:catch>                                                       <!-- Expected unknown -->
+        </xsl:try>                                                           <!-- Expected miss -->
+        <!-- Using xsl:try sequence constructor - not executed, and xsl:catch has untraceable child -->
+        <xsl:try>                                                            <!-- Expected unknown -->
+          <xsl:text>999</xsl:text>                                           <!-- Expected miss -->
+          <xsl:catch>                                                        <!-- Expected unknown -->
+            <xsl:map-entry key="999" select="()"/>                           <!-- Expected unknown -->
+          </xsl:catch>                                                       <!-- Expected unknown -->
+        </xsl:try>                                                           <!-- Expected unknown -->
+        <!-- Using xsl:try sequence constructor - not executed, and xsl:catch has no untraceable children -->
+        <xsl:try>                                                            <!-- Expected unknown -->
+          <xsl:text>999</xsl:text>                                           <!-- Expected miss -->
+          <xsl:catch>                                                        <!-- Expected miss-->
+            <xsl:text>999</xsl:text>                                         <!-- Expected miss -->
+          </xsl:catch>                                                       <!-- Expected miss -->
+        </xsl:try>                                                           <!-- Expected unknown -->
+      </xsl:if>
+
     </root>
   </xsl:template>
 </xsl:stylesheet>
