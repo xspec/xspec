@@ -166,6 +166,35 @@
 		</delete>
 	</target>
 
+	<target if="env.XMLCALABASH3_VERSION" name="xml-calabash3">
+		<echo message="Install XML Calabash ${env.XMLCALABASH3_VERSION}" />
+		
+		<!--
+			Download ZIP file
+		-->
+		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash3_deleteonexit_"
+			property="xmlcalabash3.zip" suffix=".zip" />
+		<download dest="${xmlcalabash3.zip}"
+			src="https://codeberg.org/xmlcalabash/xmlcalabash3/releases/download/${env.XMLCALABASH3_VERSION}/xmlcalabash-${env.XMLCALABASH3_VERSION}.zip" />
+		
+		<!--
+			Extract ZIP file
+		-->
+		<dirname file="${env.XMLCALABASH3_JAR}" property="xmlcalabash3.jar.dir" />
+		<dirname file="${xmlcalabash3.jar.dir}" property="xmlcalabash3.unzip.dest" />
+		<unzip dest="${xmlcalabash3.unzip.dest}" src="${xmlcalabash3.zip}" />
+		
+		<!--
+			Unlike the target for XML Calabash 1, this target does not delete
+			the Saxon or XMLResolver.org XML Resolver files in the lib/ subdirectory.
+			The XML Calabash 3 documentation, https://docs.xmlcalabash.com/userguide/current/running.html,
+			mentions a messy short term (as of June 2025) that will change eventually.
+			When XML Calabash 3 is more mature, we can reconsider whether to delete
+			jar files from lib/ and whether to run XML Calabash 3 by running the main class
+			directly instead of from the jar file.
+		-->
+	</target>
+
 	<target if="env.SLF4J_VERSION" name="slf4j">
 		<echo message="Install SLF4J ${env.SLF4J_VERSION}" />
 
@@ -218,6 +247,7 @@
 			<antcall target="apache-xmlresolver" />
 			<antcall target="xmlresolverorg-xmlresolver" />
 			<antcall target="xml-calabash" />
+			<antcall target="xml-calabash3" />
 			<antcall target="basex" />
 		</parallel>
 	</target>
