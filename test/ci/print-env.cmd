@@ -23,8 +23,12 @@ echo === Print Saxon version
 java -cp "%SAXON_JAR%" net.sf.saxon.Version
 
 echo:
-echo === Check XML Calabash
+echo === Check XML Calabash for XProc 1
 java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main 2> NUL
+
+echo:
+echo === Check XML Calabash for XProc 3
+java -jar "%XMLCALABASH3_JAR%" info version
 
 echo:
 echo === Print Apache XML Resolver version
