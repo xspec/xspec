@@ -1073,14 +1073,14 @@ Should this be marked as 'hit'? It isn't traced but it has to be executed (unles
 
 ## xsl:try
 
-|          |                                                                                     |
-| -------- | ----------------------------------------------------------------------------------- |
-| CATEGORY | Instruction                                                                         |
-| PARENT   |                                                                                     |
-| CHILDREN |                                                                                     |
-| CONTENT  |                                                                                     |
-| TRACE    | Yes (on descendant if no select attribute)                                          |
-| RULE     | Use Trace Data if select attribute else Use Descendant Data if not select attribute |
+|          |                                                                                    |
+| -------- | ---------------------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                                        |
+| PARENT   |                                                                                    |
+| CHILDREN |                                                                                    |
+| CONTENT  |                                                                                    |
+| TRACE    | Yes (on descendant if no select attribute)                                         |
+| RULE     | Use Trace Data if select attribute else Use Descendant Data if no select attribute |
 
 #### Comment
 
