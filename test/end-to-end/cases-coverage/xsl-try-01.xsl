@@ -81,16 +81,24 @@
           </xsl:catch>                                                       <!-- Expected unknown -->
         </xsl:try>                                                           <!-- Expected miss -->
         <!-- Using xsl:try sequence constructor - not executed, and xsl:catch has untraceable child -->
-        <xsl:try>                                                            <!-- Expected unknown -->
+        <xsl:try>                                                            <!-- Expected miss -->
           <xsl:text>999</xsl:text>                                           <!-- Expected miss -->
           <xsl:catch>                                                        <!-- Expected unknown -->
             <xsl:map-entry key="999" select="()"/>                           <!-- Expected unknown -->
           </xsl:catch>                                                       <!-- Expected unknown -->
-        </xsl:try>                                                           <!-- Expected unknown -->
+        </xsl:try>                                                           <!-- Expected miss -->
         <!-- Using xsl:try sequence constructor - not executed, and xsl:catch has no untraceable children -->
-        <xsl:try>                                                            <!-- Expected unknown -->
+        <xsl:try>                                                            <!-- Expected miss -->
           <xsl:text>999</xsl:text>                                           <!-- Expected miss -->
           <xsl:catch>                                                        <!-- Expected miss-->
+            <xsl:text>999</xsl:text>                                         <!-- Expected miss -->
+          </xsl:catch>                                                       <!-- Expected miss -->
+        </xsl:try>                                                           <!-- Expected miss -->
+        <!-- Using xsl:try sequence constructor - not executed, and xsl:try has untraceable child -->
+        <xsl:try>                                                            <!-- Expected unknown -->
+          <xsl:text>999</xsl:text>                                           <!-- Expected miss -->
+          <xsl:map-entry key="999" select="'try'"/>                          <!-- Expected unknown -->
+          <xsl:catch>                                                        <!-- Expected miss -->
             <xsl:text>999</xsl:text>                                         <!-- Expected miss -->
           </xsl:catch>                                                       <!-- Expected miss -->
         </xsl:try>                                                           <!-- Expected unknown -->
