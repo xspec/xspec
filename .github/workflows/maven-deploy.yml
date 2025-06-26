@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - Issue-2134-ossrh-to-central-portal-migration
 
 jobs:
   maven-deploy:
