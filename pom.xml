@@ -264,6 +264,7 @@
               <publishingServerId>xspec-io.ossrh</publishingServerId>
               <autoPublish>true</autoPublish>
               <waitUntil>published</waitUntil>
+              <centralSnapshotsUrl>https://central.sonatype.com</centralSnapshotsUrl>
             </configuration>
           </plugin>
         </plugins>
