@@ -34,7 +34,7 @@ jobs:
       - name: Check Maven and Java versions
         run: mvn -v
 
-      - run: mvn -X -Dorg.slf4j.simpleLogger.log.org.apache.http.headers=debug -Dorg.slf4j.simpleLogger.log.org.apache.maven.wagon.providers.http.httpclient=debug clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
+      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
           NEXUS_USERNAME: ${{ secrets.maven_username }}
           NEXUS_PASSWORD: ${{ secrets.maven_password }}
