@@ -27,8 +27,11 @@
    <!--
        Pass through and possibly log the input.
        
-       If there is a parameter with the name $if-set, its value must be a URI, where
-       to log the input.  If there is not, then no log is produced.
+       If there is an option whose name is the $if-set value
+       (e.g., 'log-xml-report'), the option value must be a
+       URI that indicates where to log the input to this step.
+
+       If there is no such option, no log is produced.
    -->
    <p:declare-step type="x:log" name="log">
       <!-- the port declarations -->
@@ -181,7 +184,7 @@
       <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
       <p:group>
-        <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
+        <!-- option: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
          <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
          
@@ -217,7 +220,7 @@
                <p:error code="x:ERR001">
                   <p:with-input port="source">
                      <p:inline>
-                        <message>Not a x:report document</message>
+                        <message>Not an x:report document</message>
                      </p:inline>
                   </p:with-input>
                </p:error>

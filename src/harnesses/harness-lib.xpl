@@ -305,7 +305,7 @@
                <p:error code="x:ERR001">
                   <p:input port="source">
                      <p:inline>
-                        <message>Not a x:report document</message>
+                        <message>Not an x:report document</message>
                      </p:inline>
                   </p:input>
                </p:error>
