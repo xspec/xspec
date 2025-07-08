@@ -45,7 +45,7 @@
          <p:variable name="uri" select="map:get($parameters, xs:QName($if-set))"/>
          <p:choose>
             <p:when test="$uri != ''">
-               <p:store>
+               <p:store message="[x:log] Saving {$if-set} to {$uri}.">
                   <p:with-option name="href" select="$uri"/>
                </p:store>
                <p:identity>
