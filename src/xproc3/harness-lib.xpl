@@ -253,7 +253,7 @@
 
       <x:escape-markup/>   
       <p:text-replace pattern="^&lt;query(.*)>" replacement=""/>
-      <p:text-replace pattern="&lt;/query>\s?$" replacement="" name="queryText"/>
+      <p:text-replace pattern="&lt;/query>\s?$" replacement=""/>
    </p:declare-step>
 
    <!-- Serializes the source document with indentation and reloads it -->
