@@ -490,7 +490,6 @@
 
     rem Run
     call :run java -jar "%XMLCALABASH3_JAR%" ^
-        --configuration:../src/xproc3/xmlcalabash3-config.xml ^
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -514,7 +513,6 @@
 
     rem Run
     call :run java -jar "%XMLCALABASH3_JAR%" ^
-        --configuration:../src/xproc3/xmlcalabash3-config.xml ^
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -531,7 +529,6 @@
 
     rem Run again (ndw/xmlcalabash1#322)
     call :run java -jar "%XMLCALABASH3_JAR%" ^
-        --configuration:../src/xproc3/xmlcalabash3-config.xml ^
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -541,7 +538,6 @@
 
 	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness for Saxon (XQuery with special characters in expression #1020)">
     call :run java -jar "%XMLCALABASH3_JAR%" ^
-        --configuration:../src/xproc3/xmlcalabash3-config.xml ^
         --input:source=issue-1020.xspec ^
         --output:result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
