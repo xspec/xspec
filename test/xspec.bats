@@ -557,7 +557,6 @@ load bats-helper
 
     # Run
     java -jar "${XMLCALABASH3_JAR}" \
-        --configuration:../src/xproc3/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
@@ -583,7 +582,6 @@ load bats-helper
 
     # Run
     java -jar "${XMLCALABASH3_JAR}" \
-        --configuration:../src/xproc3/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
@@ -598,7 +596,6 @@ load bats-helper
 
     # Run again (ndw/xmlcalabash1#322)
     java -jar "${XMLCALABASH3_JAR}" \
-        --configuration:../src/xproc3/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
@@ -611,7 +608,6 @@ load bats-helper
     fi
 
     myrun java -jar "${XMLCALABASH3_JAR}" \
-        --configuration:../src/xproc3/xmlcalabash3-config.xml \
         --input:source=issue-1020.xspec \
         --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
