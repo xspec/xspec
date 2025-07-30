@@ -38,23 +38,23 @@
     <xsl:variable name="variableLocalAs01" as="text()">
       <xsl:text>500</xsl:text>
     </xsl:variable>
-    <xsl:variable name="variableLocalEmptySequence01" as="element()?" />
-    <xsl:variable name="variableLocalEmptyString01" />
+    <xsl:variable name="variableLocalEmptySequence01" as="element()?" />       <!-- Expected miss (optim constant) -->
+    <xsl:variable name="variableLocalEmptyString01" />                         <!-- Expected miss (optim constant) -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalSelectUnused01" select="string(600)" />   <!-- Expected miss -->
+    <xsl:variable name="variableLocalSelectUnused01" select="string(600)" />   <!-- Expected miss (optim unused) -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalDocNodeUnused01">                         <!-- Expected miss -->
-      <xsl:text>70</xsl:text>                                                  <!-- Expected miss -->
-      <element>0</element>                                                     <!-- Expected miss -->
-    </xsl:variable>                                                            <!-- Expected miss -->
+    <xsl:variable name="variableLocalDocNodeUnused01">                         <!-- Expected miss (optim unused) -->
+      <xsl:text>70</xsl:text>                                                  <!-- Expected miss (optim unused) -->
+      <element>0</element>                                                     <!-- Expected miss (optim unused) -->
+    </xsl:variable>                                                            <!-- Expected miss (optim unused) -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalasUnused01" as="text()">                  <!-- Expected miss -->
-      <xsl:text>700</xsl:text>                                                 <!-- Expected miss -->
-    </xsl:variable>                                                            <!-- Expected miss -->
+    <xsl:variable name="variableLocalAsUnused01" as="text()">                  <!-- Expected miss (optim unused) -->
+      <xsl:text>700</xsl:text>                                                 <!-- Expected miss (optim unused) -->
+    </xsl:variable>                                                            <!-- Expected miss (optim unused) -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /> <!-- Expected miss -->
+    <xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /> <!-- Expected miss (optim constant) -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalEmptyStringUnused01" />                   <!-- Expected miss -->
+    <xsl:variable name="variableLocalEmptyStringUnused01" />                   <!-- Expected miss (optim constant) -->
 
     <xsl:choose>
       <xsl:when test="1 eq 2">                                                 <!-- Expected miss -->
