@@ -3,71 +3,70 @@
 <!--  File:       saxon-xquery-harness.xproc                               -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
+<!--  Contributors:                                                        -->
+<!--        George Bina - updated to use XProc 3                           -->
+<!--  Date:       2025-06-09                                               -->
 <!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<p:pipeline xmlns:p="http://www.w3.org/ns/xproc"
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
             xmlns:c="http://www.w3.org/ns/xproc-step"
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
             xmlns:pkg="http://expath.org/ns/pkg"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:map="http://www.w3.org/2005/xpath-functions/map"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
             name="saxon-xquery-harness"
             type="t:saxon-xquery-harness"
-            version="1.0">
+            exclude-inline-prefixes="map xs pkg t c p"
+            version="3.1">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite for XQuery with the Saxon embedded in XML Calabash 1.</p>
+      <p>This pipeline executes an XSpec test suite for XQuery with the Saxon embedded in XML Calabash 3.</p>
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
-      <p>'xspec-home' parameter: The directory where you unzipped the XSpec archive on your filesystem.</p>
+      <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true" method="xhtml"
-                    encoding="UTF-8" include-content-type="true"
-                    omit-xml-declaration="false" />
-
    <p:import href="../harness-lib.xpl"/>
+   
+   <p:input port="source" primary="true" sequence="false"/>
+   <p:output port="result" 
+      serialization="map{
+         'indent':true(), 
+         'method':'xhtml', 
+         'encoding':'UTF-8', 
+         'include-content-type':true(), 
+         'omit-xml-declaration':false()
+      }" 
+      primary="true"/>
+   
+   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
-   <t:parameters name="params"/>
+   
+   <!-- compile the suite into a query -->
+   <t:compile-xquery name="compile">
+      <p:with-option name="parameters" select="$parameters"/> 
+   </t:compile-xquery>
 
-   <p:group>
-      <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
-         <p:pipe step="params" port="parameters"/>
-      </p:variable>
-      <p:variable name="utils-library-at"
-         select="/c:param-set/c:param[@name eq 'utils-library-at']/@value">
-         <p:pipe step="params" port="parameters"/>
-      </p:variable>
+   <!-- get the XQuery script as text -->
+   <t:extract-xquery name="queryText"/>
+    
+   <!-- run it on saxon -->
+   <p:xquery name="run">
+      <p:with-input port="source"><p:empty/></p:with-input>
+      <p:with-input port="query" pipe="@queryText"/>
+   </p:xquery>
 
-      <!-- compile the suite into a query -->
-      <t:compile-xquery>
-         <p:with-param name="utils-library-at" select="$utils-library-at" />
-      </t:compile-xquery>
+   <!-- format the report -->
+   <t:format-report>
+      <p:with-option name="parameters" select="$parameters"/>
+   </t:format-report>
 
-      <!-- escape the query as text -->
-      <t:escape-markup name="escape" />
-
-      <!-- run it on saxon -->
-      <p:xquery name="run">
-         <p:input port="source">
-            <p:empty/>
-         </p:input>
-         <p:input port="query">
-            <p:pipe step="escape" port="result"/>
-         </p:input>
-         <p:input port="parameters">
-            <p:empty/>
-         </p:input>
-      </p:xquery>
-
-      <!-- format the report -->
-      <t:format-report/>
-   </p:group>
-
-</p:pipeline>
+</p:declare-step>
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
