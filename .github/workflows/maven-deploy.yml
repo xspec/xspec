@@ -33,9 +33,9 @@ jobs:
       - name: Check Maven and Java versions
         run: mvn -v
 
-      - run: mvn clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
+      - run: mvn -e clean deploy --batch-mode --activate-profiles release -Dgpg.signer=bc
         env:
-          NEXUS_USERNAME: ${{ secrets.nexus_username }}
-          NEXUS_PASSWORD: ${{ secrets.nexus_password }}
+          NEXUS_USERNAME: ${{ secrets.maven_username }}
+          NEXUS_PASSWORD: ${{ secrets.maven_password }}
           MAVEN_GPG_KEY: ${{ secrets.gpg_private_key }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg_passphrase }}
