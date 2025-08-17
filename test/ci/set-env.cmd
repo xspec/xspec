@@ -83,9 +83,14 @@ if not errorlevel 1 set XMLCALABASH3_VERSION=
 
 if defined XMLCALABASH3_VERSION (
     rem Depends on the archive file structure
-    set "XMLCALABASH3_JAR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%\xmlcalabash-app-%XMLCALABASH3_VERSION%.jar"
+    set "XMLCALABASH3_DIR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%"
 ) else (
     echo XML Calabash 3 will not be installed
+    set XMLCALABASH3_DIR=
+)
+if defined XMLCALABASH3_VERSION if defined XMLCALABASH3_DIR (
+    set "XMLCALABASH3_JAR=%XMLCALABASH3_DIR%\xmlcalabash-app-%XMLCALABASH3_VERSION%.jar"
+) else (
     set XMLCALABASH3_JAR=
 )
 
