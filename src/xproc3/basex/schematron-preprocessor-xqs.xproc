@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
+            xmlns:c="http://www.w3.org/ns/xproc-step"
+            xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+            name="schematron-preprocessor-xqs"
+            type="x:schematron-preprocessor-xqs"
+            exclude-inline-prefixes="map xs x c p"
+            version="3.1">
+
+   <p:documentation>
+      <p>This pipeline executes an XSpec test suite for Schematron with BaseX using the XQS implementation of Schematron.</p>
+      <p><b>Primary input:</b> An XSpec test suite document for testing Schematron schema whose query binding is XQuery.</p>
+      <p><b>Primary output:</b> An XSpec test suite document for testing XQS validation using XQuery.</p>
+      <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
+      <p>'xqs-location' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
+   </p:documentation>
+
+   <p:import href="../harness-lib.xpl"/>
+
+   <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
+   <p:output port="result" content-types="application/xml"
+      serialization="map{
+         'indent':true(),
+         'method':'xml',
+         'encoding':'UTF-8',
+         'include-content-type':true(),
+         'omit-xml-declaration':false()
+      }"
+      primary="true"/>
+
+   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+
+   <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
+
+   <p:variable name="preprocessor"
+      select="if ( $xspec-home != '') then
+      resolve-uri('src/schematron/schut-to-xspec.xsl', $xspec-home)
+      else
+      resolve-uri('../../schematron/schut-to-xspec.xsl')"/>
+
+   <p:if test="empty(/x:description/@schematron)">
+      <p:error code="x:ERR002">
+         <p:with-input port="source">
+            <p:inline>
+               <message>Source document must be an XSpec test suite with @schematron attribute</message>
+            </p:inline>
+         </p:with-input>
+      </p:error>
+   </p:if>
+   
+   <!-- load the preprocessor -->
+   <p:load name="preprocessor">
+      <p:with-option name="href" select="$preprocessor"/>
+   </p:load>
+
+   <!-- from this test suite for Schematron, generate a test suite for XQuery -->
+   <p:xslt>
+      <p:with-input port="source" pipe="source@schematron-preprocessor-xqs"/>
+      <p:with-input port="stylesheet" pipe="@preprocessor"/>
+      <p:with-option name="parameters" select="map:merge((map{
+         xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty',
+         xs:QName('sch-impl-name'): 'xqs'
+         }, $parameters))"/>
+   </p:xslt>
+
+   <!-- log the result? -->
+   <x:log if-set="log-generated-xspec">
+      <p:with-option name="parameters" select="$parameters"/>
+   </x:log>
+
+</p:declare-step>
