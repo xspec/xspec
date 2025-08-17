@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             original-xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-no-phase-in.xspec"
+             query="http://www.andrewsales.com/ns/xqs" query-at="%TEST_BASE%/../lib/XQS/xqs.xqm"
+             xquery-version="3.1">
+   <x:variable name="Q{urn:x-xspec:compile:impl}schema-uri" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
+               select="'%TEST_BASE%/schematron/schut-to-xspec-test.sch'" />
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-no-phase-in.xspec"
+               label="Schematron test scenario">
+      <x:variable name="Q{http://www.jenitennison.com/xslt/xspec}context" select="self::document-node()">
+         <element/>
+      </x:variable>
+      <x:call function="Q{http://www.andrewsales.com/ns/xqs}validate">
+         <x:param name="instance" as="node()" select="$Q{http://www.jenitennison.com/xslt/xspec}context" />
+         <x:param name="schema" as="element()" select="doc($Q{urn:x-xspec:compile:impl}schema-uri)/*" />
+      </x:call>
+   </x:scenario>
+</description>

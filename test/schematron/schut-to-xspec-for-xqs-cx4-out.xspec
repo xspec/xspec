@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             original-xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-cx4-in.xspec"
+             query="http://www.andrewsales.com/ns/xqs" query-at="%TEST_BASE%/../lib/XQS/xqs.xqm"
+             xquery-version="3.1">
+   <x:variable name="Q{urn:x-xspec:compile:impl}schema-uri" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+      as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
+      select="'%TEST_BASE%/schematron/schut-to-xspec-test.sch'" />
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-cx4-in.xspec"
+               label="Schematron test scenario">
+      <x:variable name="Q{http://www.jenitennison.com/xslt/xspec}context"
+         select="if ((child) => Q{urn:x-xspec:common:wrap}wrappable-sequence()) then Q{urn:x-xspec:common:wrap}wrap-nodes((child)) else trace((child), 'WARNING: Failed to wrap x:context/@select')">
+         <snippet xmlns="">
+            <child/>
+         </snippet>
+      </x:variable>
+      <x:call function="Q{http://www.andrewsales.com/ns/xqs}validate">
+         <x:param name="instance" as="node()" select="$Q{http://www.jenitennison.com/xslt/xspec}context" />
+         <x:param name="schema" as="element()"
+            select="doc($Q{urn:x-xspec:compile:impl}schema-uri)/*" />
+      </x:call>
+   </x:scenario>
+</description>

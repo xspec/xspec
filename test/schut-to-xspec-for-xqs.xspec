@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:helper="x-urn:test:schut-to-xspec_helper"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    stylesheet="../src/schematron/schut-to-xspec.xsl">
+
+    <x:param name="sch-impl-name" as="xs:string" select="'xqs'"/>
+
+    <x:helper stylesheet="schematron/schut-to-xspec_helper.xsl" />
+
+    <x:scenario label="description element">
+        <!-- Modeled on schematron/schut-to-xspec-001-in.xspec -->
+        <x:context href="schematron/schut-to-xspec-for-xqs-att-in.xspec" />
+        <x:expect label="has attributes query, query-at, schematron, original-xspec"
+            href="schematron/schut-to-xspec-for-xqs-att-out.xspec"
+            select="helper:expect(.)" />
+    </x:scenario>
+
+    <x:scenario label="phase value">
+        <x:scenario label="absent">
+            <!-- Modeled on schematron/schut-to-xspec-001-in.xspec but adds x:context -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-no-phase-in.xspec"/>
+            <x:expect label="calls xqs:validate with 2 arguments"
+                href="schematron/schut-to-xspec-for-xqs-no-phase-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+
+        <x:scenario label="in user-content">
+            <!-- Modeled on schematron/schut-to-xspec-011-in.xspec but adds x:context -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-phase-text-in.xspec"/>
+            <x:expect label="defines global variable and calls xqs:validate with 3 arguments"
+                href="schematron/schut-to-xspec-for-xqs-phase-text-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+
+        <x:scenario label="in @select">
+            <!-- Modeled on schematron/schut-to-xspec-013-in.xspec but adds x:context -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-phase-string-in.xspec"/>
+            <x:expect label="defines global variable and calls xqs:validate with 3 arguments" 
+                href="schematron/schut-to-xspec-for-xqs-phase-string-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="context">
+        <x:scenario label="file">
+            <!-- Modeled on schematron/schut-to-xspec-007-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-cx1-in.xspec"/>
+            <x:expect label="call, param with href"
+                href="schematron/schut-to-xspec-for-xqs-cx1-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+        
+        <x:scenario label="file with select">
+            <!-- Modeled on schematron/schut-to-xspec-007-select-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-cx2-in.xspec"/>
+            <x:expect label="call, param with wrapper document node via wrap:wrap-nodes"
+                href="schematron/schut-to-xspec-for-xqs-cx2-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+        
+        <x:scenario label="inline">
+            <!-- Modeled on schematron/schut-to-xspec-008-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-cx3-in.xspec"/>
+            <x:expect label="call, param with wrapper document node"
+                href="schematron/schut-to-xspec-for-xqs-cx3-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+        
+        <x:scenario label="inline with select">
+            <!-- Modeled on schematron/schut-to-xspec-008-select-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-cx4-in.xspec"/>
+            <x:expect label="call, param with wrapper document node via wrap:wrap-nodes"
+                href="schematron/schut-to-xspec-for-xqs-cx4-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="import">
+        <x:scenario label="type schut, i.e., XSpec file with @schematron">
+            <!-- Modeled on schematron/schut-to-xspec-009-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-import1-in.xspec"/>
+            <x:expect label="resolve contents of imported file but $impl:schema-uri is from top-level file"
+                href="schematron/schut-to-xspec-for-xqs-import1-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+        
+        <x:scenario label="type xspec, i.e., XSpec file without @schematron">
+            <!-- Modeled on schematron/schut-to-xspec-010-in.xspec -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-import2-in.xspec"/>
+            <x:expect label="resolve contents of imported file"
+                href="schematron/schut-to-xspec-for-xqs-import2-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="assertions">
+        <!-- Modeled on schematron-012.xspec -->
+        <x:context href="xqs/schematron-for-xqs-expect.xspec" />
+        <x:expect label="expect elements with correct label and test; SVRL paths from $x:result"
+            href="schematron/schut-to-xspec-for-xqs-expect-out.xspec"
+            select="helper:expect(.)" />
+    </x:scenario>
+
+</x:description>
