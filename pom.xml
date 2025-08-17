@@ -71,17 +71,6 @@
     <tag>HEAD</tag>
   </scm>
 
-  <!--distributionManagement>
-    <snapshotRepository>
-      <id>xspec-io.ossrh</id>
-      <url>https://oss.sonatype.org/repository/maven-snapshots/</url>
-    </snapshotRepository>
-    <repository>
-      <id>xspec-io.ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement-->
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <xspec.resources.target.root>io/xspec/xspec/impl</xspec.resources.target.root>
