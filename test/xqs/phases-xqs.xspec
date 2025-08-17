@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="phases-xqs.sch">
+    <x:param name="phase">P1</x:param>
+    <x:scenario label="Phase P1 includes title check but not subtitle check">
+        <x:context>
+            <section/>
+        </x:context>
+        <x:expect-assert id="check-title"/>
+        <x:expect-not-assert id="check-subtitle"/>
+    </x:scenario>
+</x:description>
