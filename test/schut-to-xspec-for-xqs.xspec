@@ -42,6 +42,43 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="namespaces defined in Schematron">
+        <x:context href="schematron/schut-to-xspec-002-in.xspec"/>
+        <x:expect label="transformed"
+            href="schematron/schut-to-xspec-for-xqs-002-out.xspec"
+            select="helper:expect(.)" />
+        <x:expect label="namespaces not copied from sch:ns to x:description"
+            test="not('xlink' = (x:copy-of-namespaces(x:description) ! name(.)))" />
+    </x:scenario>
+
+    <x:scenario label="scenario">
+        <x:scenario label="nested">
+            <x:context href="schematron/schut-to-xspec-003-in.xspec"/>
+            <x:expect label="nested scenarios" test="/x:description/x:scenario"
+                href="schematron/schut-to-xspec-003-out.xspec"
+                select="helper:expect(.)/x:description/x:scenario" />
+        </x:scenario>
+        
+        <x:scenario label="pending">
+            <x:context href="schematron/schut-to-xspec-004-in.xspec"/>
+            <x:expect label="pending scenarios" href="schematron/schut-to-xspec-for-xqs-004-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+        
+        <x:scenario label="focus">
+            <x:context href="schematron/schut-to-xspec-005-in.xspec"/>
+            <x:expect label="focused scenario" test="/x:description/x:scenario" 
+                href="schematron/schut-to-xspec-005-out.xspec"
+                select="helper:expect(.)/x:description/x:scenario" />
+        </x:scenario>
+        
+        <x:scenario label="shared">
+            <x:context href="schematron/schut-to-xspec-006-in.xspec"/>
+            <x:expect label="shared scenarios" href="schematron/schut-to-xspec-for-xqs-006-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
+    </x:scenario>
+
     <x:scenario label="context">
         <x:scenario label="file">
             <!-- Modeled on schematron/schut-to-xspec-007-in.xspec -->
