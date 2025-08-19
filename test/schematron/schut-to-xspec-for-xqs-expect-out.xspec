@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description xmlns="http://www.jenitennison.com/xslt/xspec"
+             xmlns:x="http://www.jenitennison.com/xslt/xspec"
              schematron="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-expect.sch"
              original-xspec="%TEST_BASE%/xqs/schematron-for-xqs-expect.xspec"
              query="http://www.andrewsales.com/ns/xqs" query-at="%TEST_BASE%/../lib/XQS/xqs.xqm">
-   <x:variable name="Q{urn:x-xspec:compile:impl}schema-uri" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   <x:variable xmlns=""
+      name="Q{urn:x-xspec:compile:impl}schema-uri"
       as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
       select="'%TEST_BASE%/schematron/schut-to-xspec-for-xqs-expect.sch'" />
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
+   <x:scenario xmlns=""
                xslt-version="3"
                xspec="%TEST_BASE%/xqs/schematron-for-xqs-expect.xspec"
                label="expect-valid">
@@ -20,8 +21,7 @@
                 test="$Q{http://www.jenitennison.com/xslt/xspec}result/self::Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty($Q{http://www.jenitennison.com/xslt/xspec}result/self::Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
                 result-type="node()"/>
    </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
+   <x:scenario xmlns=""
                xslt-version="3"
                xspec="%TEST_BASE%/xqs/schematron-for-xqs-expect.xspec"
                label="assertions">
@@ -210,8 +210,7 @@
                    result-type="node()" />
       </x:scenario>
    </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
+   <x:scenario xmlns=""
                xslt-version="3"
                xspec="%TEST_BASE%/xqs/schematron-for-xqs-expect.xspec"
                label="inherit from rule">
@@ -270,8 +269,7 @@
                    result-type="node()" />
       </x:scenario>
    </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
+   <x:scenario xmlns=""
                xslt-version="3"
                xspec="%TEST_BASE%/xqs/schematron-for-xqs-expect.xspec"
                label="inherit from pattern">

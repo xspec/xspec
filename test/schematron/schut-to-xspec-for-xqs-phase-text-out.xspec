@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description xmlns="http://www.jenitennison.com/xslt/xspec"
+             xmlns:x="http://www.jenitennison.com/xslt/xspec"
              schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
              original-xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-phase-text-in.xspec"
              query="http://www.andrewsales.com/ns/xqs" query-at="%TEST_BASE%/../lib/XQS/xqs.xqm"
              xquery-version="3.1">
-   <x:variable name="Q{urn:x-xspec:compile:impl}schema-uri" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-      as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
-      select="'%TEST_BASE%/schematron/schut-to-xspec-test.sch'" />
-   <x:variable xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="" name="Q{urn:x-xspec:compile:impl}phase">
+   <x:variable xmlns=""
+               name="Q{urn:x-xspec:compile:impl}schema-uri"
+               as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
+               select="'%TEST_BASE%/schematron/schut-to-xspec-test.sch'" />
+   <x:variable xmlns="" name="Q{urn:x-xspec:compile:impl}phase">
       <x:text>P1</x:text>
    </x:variable>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
+   <x:scenario xmlns=""
                xslt-version="3"
                xspec="%TEST_BASE%/schematron/schut-to-xspec-for-xqs-phase-text-in.xspec"
                label="Schematron test scenario">
