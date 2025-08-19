@@ -60,9 +60,10 @@
       <p:with-input port="source" pipe="source@schematron-preprocessor-xqs"/>
       <p:with-input port="stylesheet" pipe="@preprocessor"/>
       <p:with-option name="parameters" select="map:merge((map{
-         xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty',
-         xs:QName('sch-impl-name'): 'xqs'
+         xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty'
          }, $parameters))"/>
+      <p:with-option name="static-parameters"
+         select="map{xs:QName('sch-impl-name'): 'xqs'}"/>
    </p:xslt>
 
    <!-- log the result? -->
