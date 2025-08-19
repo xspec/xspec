@@ -195,6 +195,30 @@
 		-->
 	</target>
 
+	<target depends="xml-calabash3" if="env.XMLCALABASH3_VERSION" name="xml-calabash3-basex">
+		<echo message="Install BaseX extension for XML Calabash ${env.XMLCALABASH3_VERSION}" />
+		
+		<!--
+			Download ZIP file
+		-->
+		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash3_deleteonexit_"
+			property="xmlcalabash3-basex.zip" suffix=".zip" />
+		<download dest="${xmlcalabash3-basex.zip}"
+			src="https://codeberg.org/xmlcalabash/xmlcalabash3/releases/download/${env.XMLCALABASH3_VERSION}/basex-${env.XMLCALABASH3_VERSION}.zip" />
+		
+		<!--
+			Extract .jar files from ZIP file and place them directly in xmlcalabash-{VERSION}/extra/.
+			The placement is why this target depends on the xml-calabash3 target being completed first.
+		-->
+		<dirname file="${env.XMLCALABASH3_JAR}" property="xmlcalabash3.jar.dir" />
+		<unzip dest="${xmlcalabash3.jar.dir}/extra" src="${xmlcalabash3-basex.zip}">
+			<patternset>
+				<include name="**/*.jar"/>
+			</patternset>
+			<mapper type="flatten"/>
+		</unzip>
+	</target>
+
 	<target if="env.SLF4J_VERSION" name="slf4j">
 		<echo message="Install SLF4J ${env.SLF4J_VERSION}" />
 
@@ -247,7 +271,7 @@
 			<antcall target="apache-xmlresolver" />
 			<antcall target="xmlresolverorg-xmlresolver" />
 			<antcall target="xml-calabash" />
-			<antcall target="xml-calabash3" />
+			<antcall target="xml-calabash3-basex" />
 			<antcall target="basex" />
 		</parallel>
 	</target>

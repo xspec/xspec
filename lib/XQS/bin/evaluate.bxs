@@ -1,0 +1,14 @@
+<commands>
+<xquery>import module namespace xqs = 'http://www.andrewsales.com/ns/xqs' at
+'../xqs.xqm';
+
+declare variable $uri external;
+declare variable $schema external;
+declare variable $phase external := '';
+declare variable $report-edition external := '';
+declare variable $options := map{'report-edition':string($report-edition), 
+  'phase':string($phase)};
+
+xqs:validate(doc($uri), doc($schema)/*, $options)
+</xquery>
+</commands>

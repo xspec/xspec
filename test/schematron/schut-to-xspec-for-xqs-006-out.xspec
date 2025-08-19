@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             original-xspec="%TEST_BASE%/schematron/schut-to-xspec-006-in.xspec"
+             query="http://www.andrewsales.com/ns/xqs"
+             query-at="%TEST_BASE%/../lib/XQS/xqs.xqm">
+   <x:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
+             name="Q{urn:x-xspec:compile:impl}schema-uri"
+             as="Q{http://www.w3.org/2001/XMLSchema}anyURI"
+             select="'%TEST_BASE%/schematron/schut-to-xspec-test.sch'" />
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-006-in.xspec"
+               label="s1"
+               shared="yes">
+      <x:variable name="Q{http://www.jenitennison.com/xslt/xspec}context" href="%TEST_BASE%/schematron/schut-to-xspec-test.sch"/>
+      <x:call function="Q{http://www.andrewsales.com/ns/xqs}validate">
+         <x:param name="instance" as="node()" select="$Q{http://www.jenitennison.com/xslt/xspec}context" />
+         <x:param name="schema" as="element()"
+            select="doc($Q{urn:x-xspec:compile:impl}schema-uri)/*" />
+      </x:call>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-006-in.xspec"
+               label="s2">
+      <x:like label="s1"/>
+      <x:expect label="assert"
+                test="exists($Q{http://www.jenitennison.com/xslt/xspec}result/self::Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"
+                result-type="node()"/>
+   </x:scenario>
+</description>

@@ -1,0 +1,13 @@
+<commands>
+<xquery>declare variable $uri external;
+declare variable $schema external;
+
+xquery:eval(
+  file:read-text($schema),
+  map{
+    '$Q{http://www.andrewsales.com/ns/xqs}uri':$uri
+  },
+  map{'pass':'yes'}
+)
+</xquery>
+</commands>

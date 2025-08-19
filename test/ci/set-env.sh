@@ -104,9 +104,14 @@ fi
 
 if [ -n "${XMLCALABASH3_VERSION}" ]; then
     # Depends on the archive file structure
-    export XMLCALABASH3_JAR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}/xmlcalabash-app-${XMLCALABASH3_VERSION}.jar"
+    export XMLCALABASH3_DIR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}"
 else
     echo "XML Calabash 3 will not be installed"
+    unset XMLCALABASH3_DIR
+fi
+if [ -n "${XMLCALABASH3_VERSION}" ] && [ -n "${XMLCALABASH3_DIR}" ]; then
+    export XMLCALABASH3_JAR="${XMLCALABASH3_DIR}/xmlcalabash-app-${XMLCALABASH3_VERSION}.jar"
+else
     unset XMLCALABASH3_JAR
 fi
 

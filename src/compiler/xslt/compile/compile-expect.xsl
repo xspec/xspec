@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
+                xmlns:wrap="urn:x-xspec:common:wrap"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -74,8 +75,8 @@
                            Have to experiment a bit to see if that really is the case.
                            TODO: To remove. Use directly $x:result instead. (expath/xspec#14) -->
                         <when
-                           test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('x:wrappable-sequence')}(${x:known-UQName('x:result')})">
-                           <sequence select="{x:known-UQName('x:wrap-nodes')}(${x:known-UQName('x:result')})" />
+                           test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('wrap:wrappable-sequence')}(${x:known-UQName('x:result')})">
+                           <sequence select="{x:known-UQName('wrap:wrap-nodes')}(${x:known-UQName('x:result')})" />
                         </when>
                         <otherwise>
                            <sequence select="${x:known-UQName('x:result')}" />
