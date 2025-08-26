@@ -10,11 +10,12 @@
             version="3.1">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite for Schematron with BaseX using the XQS implementation of Schematron.</p>
+      <p>This pipeline transforms an XSpec test suite for Schematron into an XSpec test suite for XQuery that validates using XQS.</p>
       <p><b>Primary input:</b> An XSpec test suite document for testing Schematron schema whose query binding is XQuery.</p>
-      <p><b>Primary output:</b> An XSpec test suite document for testing XQS validation using XQuery.</p>
+      <p><b>Primary output:</b> An XSpec test suite document for testing validation using XQS.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
-      <p>'xqs-location' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
+      <p>'xqs-location' option: Directory of XQS archive on your filesystem, accessed when the output test suite executes.
+         Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
    <p:import href="../harness-lib.xpl"/>
@@ -59,6 +60,7 @@
    <p:xslt>
       <p:with-input port="source" pipe="source@schematron-preprocessor-xqs"/>
       <p:with-input port="stylesheet" pipe="@preprocessor"/>
+      <!-- Uses xqs-location option value in $parameters to configure the output test suite. -->
       <p:with-option name="parameters" select="map:merge((map{
          xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty'
          }, $parameters))"/>
