@@ -9,8 +9,8 @@ trigger:
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java8
-      javaVersion: 8
+      jobName: Win_Java11
+      javaVersion: 11
       testOxygen: false
 
   - template: test/ci/azure-pipelines_windows.yml
@@ -30,7 +30,7 @@ jobs:
     steps:
       - task: JavaToolInstaller@0
         inputs:
-          versionSpec: '8'
+          versionSpec: '11'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'PreInstalled'
       - script: >
