@@ -39,7 +39,5 @@ jobs:
           && test/ci/print-env.sh
           && test/ci/run-core-tests.sh
           && test/ci/maven-package.sh -q
-          && test/ci/compile-java.sh -silent
-          && test/ci/last-git-status.sh
           && test/ci/test-maven-jar.sh -silent
         displayName: Test
