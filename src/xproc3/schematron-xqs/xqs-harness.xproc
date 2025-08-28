@@ -4,8 +4,8 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="basex-xqs-harness"
-            type="x:basex-xqs-harness"
+            name="xqs-harness"
+            type="x:xqs-harness"
             exclude-inline-prefixes="map xs x c p"
             version="3.1">
 
@@ -19,7 +19,7 @@
    </p:documentation>
 
    <p:import href="schematron-preprocessor-xqs.xproc"/>
-   <p:import href="../saxon/saxon-xquery-harness.xproc"/>
+   <p:import href="../xquery-harness.xproc"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
@@ -40,8 +40,8 @@
    </x:schematron-preprocessor-xqs>
 
    <!-- run generated test and produce report; uses xspec-home option -->
-   <x:saxon-xquery-harness>
+   <x:xquery-harness>
       <p:with-option name="parameters" select="$parameters"/>
-   </x:saxon-xquery-harness>
+   </x:xquery-harness>
 
 </p:declare-step>

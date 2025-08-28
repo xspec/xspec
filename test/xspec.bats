@@ -632,7 +632,7 @@ load bats-helper
     # Run series of tests, and return error messages if anything fails
     myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
         com.xmlcalabash.app.Main \
-        --configuration:../src/xproc3/basex/xmlcalabash3-config.xml \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         xqs/run-tests-with-basex.xproc
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
