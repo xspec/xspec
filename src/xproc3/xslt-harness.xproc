@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       saxon-xquery-harness.xproc                               -->
+<!--  File:       xslt-harness.xproc                                 -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
 <!--  Contributors:                                                        -->
@@ -14,24 +14,25 @@
 
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
             xmlns:c="http://www.w3.org/ns/xproc-step"
-            xmlns:t="http://www.jenitennison.com/xslt/xspec"
-            xmlns:pkg="http://expath.org/ns/pkg"
+            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
-            name="saxon-xquery-harness"
-            type="t:saxon-xquery-harness"
-            exclude-inline-prefixes="map xs pkg t c p"
+            xmlns:t="http://www.jenitennison.com/xslt/xspec"
+            xmlns:pkg="http://expath.org/ns/pkg"
+            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xslt.xproc"
+            name="xslt-harness"
+            type="t:xslt-harness"
+            exclude-inline-prefixes="pkg t map xs xsl c p"
             version="3.1">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite for XQuery with the Saxon embedded in XML Calabash 3.</p>
+      <p>This pipeline executes an XSpec test suite for XSLT.</p>
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
    </p:documentation>
 
-   <p:import href="../harness-lib.xpl"/>
+   <p:import href="harness-lib.xpl"/>
    
    <p:input port="source" primary="true" sequence="false"/>
    <p:output port="result" 
@@ -46,26 +47,24 @@
    
    <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
-   
-   <!-- compile the suite into a query -->
-   <t:compile-xquery name="compile">
-      <p:with-option name="parameters" select="$parameters"/> 
-   </t:compile-xquery>
+   <!-- compile the suite into a stylesheet -->
+   <t:compile-xslt name="compile">
+      <p:with-option name="parameters" select="$parameters"/>
+   </t:compile-xslt>
 
-   <!-- get the XQuery script as text -->
-   <t:extract-xquery name="queryText"/>
-    
-   <!-- run it on saxon -->
-   <p:xquery name="run">
-      <p:with-input port="source"><p:empty/></p:with-input>
-      <p:with-input port="query" pipe="@queryText"/>
-   </p:xquery>
+   <!-- run it -->
+   <p:xslt name="run" template-name="t:main">
+      <p:with-input port="source">
+         <p:empty/>
+      </p:with-input>
+      <p:with-input port="stylesheet" pipe="@compile"/>
+   </p:xslt>
 
    <!-- format the report -->
    <t:format-report>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
-
+   
 </p:declare-step>
 
 
