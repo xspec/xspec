@@ -482,7 +482,7 @@
 		XProc 3 (Saxon)
 	-->
 
-	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness for Saxon (XSLT)">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT)">
     rem HTML report file
     set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
     call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -493,7 +493,7 @@
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
-        ..\src\xproc3\saxon\saxon-xslt-harness.xproc
+        ..\src\xproc3\xslt-harness.xproc
     call :verify_retval 0
 
     rem Verify HTML report including #72
@@ -505,7 +505,7 @@
     call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness for Saxon (XQuery)">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery)">
     rem HTML report file
     set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\query"
     call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -516,7 +516,7 @@
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
-        ..\src\xproc3\saxon\saxon-xquery-harness.xproc
+        ..\src\xproc3\xquery-harness.xproc
     call :verify_retval 0
 
     rem Verify HTML report including #72
@@ -532,16 +532,16 @@
         --input:source=end-to-end/cases/serialize.xspec ^
         --output:result="file:///%ACTUAL_REPORT:\=/%" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
-        ..\src\xproc3\saxon\saxon-xquery-harness.xproc
+        ..\src\xproc3\xquery-harness.xproc
     call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness for Saxon (XQuery with special characters in expression #1020)">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery with special characters in expression #1020)">
     call :run java -jar "%XMLCALABASH3_JAR%" ^
         --input:source=issue-1020.xspec ^
         --output:result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         parameters::xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
-        ..\src\xproc3\saxon\saxon-xquery-harness.xproc
+        ..\src\xproc3\xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 3
     call :verify_line 3 x "passed: 12 / pending: 0 / failed: 0 / total: 12"

@@ -545,7 +545,7 @@ load bats-helper
 # XProc 3 (Saxon)
 #
 
-@test "XProc 3 harness for Saxon (XSLT)" {
+@test "XProc 3 harness with Saxon (XSLT)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -560,7 +560,7 @@ load bats-helper
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/saxon/saxon-xslt-harness.xproc
+        ../src/xproc3/xslt-harness.xproc
 
     # Verify HTML report including #72
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -570,7 +570,7 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 }
 
-@test "XProc 3 harness for Saxon (XQuery)" {
+@test "XProc 3 harness with Saxon (XQuery)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -585,7 +585,7 @@ load bats-helper
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/saxon/saxon-xquery-harness.xproc
+        ../src/xproc3/xquery-harness.xproc
 
     # Verify HTML report including #72
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -599,10 +599,10 @@ load bats-helper
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/saxon/saxon-xquery-harness.xproc
+        ../src/xproc3/xquery-harness.xproc
 }
 
-@test "XProc 3 harness for Saxon (XQuery with special characters in expression #1020)" {
+@test "XProc 3 harness with Saxon (XQuery with special characters in expression #1020)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -611,7 +611,7 @@ load bats-helper
         --input:source=issue-1020.xspec \
         --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/saxon/saxon-xquery-harness.xproc
+        ../src/xproc3/xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]
     [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]

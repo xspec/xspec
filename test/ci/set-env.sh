@@ -129,8 +129,12 @@ fi
 # BaseX
 #
 
-# BaseX 10 requires Java 11
+# BaseX 12 requires Java 17
 if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
+    unset BASEX_VERSION
+fi
+
+if java -version 2>&1 | grep -F " 11." > /dev/null; then
     unset BASEX_VERSION
 fi
 
