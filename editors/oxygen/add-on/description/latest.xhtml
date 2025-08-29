@@ -16,6 +16,19 @@
 		<div>
 			<h2 style="margin-top: 8mm">Changelog (not inclusive)</h2>
 			<div>
+				<h3>v3.3.1</h3>
+				<ul>
+					<li>Release Candidate of the stable release</li>
+					<li>You can execute an XSpec test for XSLT or XQuery using an XProc 3 pipeline (<a href="https://github.com/xspec/xspec/pull/2127"
+							>#2127</a>)</li>
+					<li>You can execute an XSpec test for a Schematron schema that has an XQuery-based queryBinding, using XQS as the Schematron implementation (<a href="https://github.com/xspec/xspec/pull/2157"
+							>#2157</a>)</li>
+					<li> In the x:expect element, the new, optional 'result-type' attribute describes the sequence type you expect for the actual result). XSpec checks the type before evaluating @test, so an unexpected type leads to an ordinary failure instead of a type error. (<a href="https://github.com/xspec/xspec/pull/2122"
+							>#2122</a>)</li>
+					<li>Tested with BaseX 12.0</li>
+				</ul>
+			</div>
+			<div>
 				<h3>v3.2.2</h3>
 				<ul>
 					<li>Official release of v3.2</li>
@@ -71,18 +84,6 @@
 				<h3>v3.0.3</h3>
 				<ul>
 					<li>Official release of v3.0</li>
-				</ul>
-			</div>
-			<div>
-				<h3>v3.0.2</h3>
-				<ul>
-					<li>Release Candidate of the stable release</li>
-					<li>feat(xslt): code coverage for Saxon 12.4+ (<a href="https://github.com/xspec/xspec/pull/1833"
-							>#1833</a>)</li>
-					<li>Removes Saxon 9.9 support</li>
-					<li>Saxon versions earlier than 12.4 are no longer recommended</li>
-					<li>Tested with Saxon 10.9, 11.6, and 12.4</li>
-					<li>Tested with Oxygen 26.1</li>
 				</ul>
 			</div>
 		</div>
