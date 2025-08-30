@@ -8,7 +8,7 @@
                xslt-version="3"
                xspec="%TEST_BASE%/schematron/schut-to-xspec-008-select-in.xspec"
                label="Schematron test scenario">
-      <x:context select="if ((child) => Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence()) then Q{http://www.jenitennison.com/xslt/xspec}wrap-nodes((child)) else trace((child), 'WARNING: Failed to wrap x:context/@select')">
+      <x:context select="if ((child) => Q{urn:x-xspec:common:wrap}wrappable-sequence()) then Q{urn:x-xspec:common:wrap}wrap-nodes((child)) else trace((child), 'WARNING: Failed to wrap x:context/@select')">
          <snippet>
             <child/>
          </snippet>

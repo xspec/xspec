@@ -42,10 +42,20 @@
 			x:context/@href |
 			x:description/@original-xspec |
 			x:description/@schematron |
-			x:scenario/@xspec"
+			x:param/@href |
+			x:scenario/@xspec |
+			x:variable/@href |
+			x:variable/@select"
 		mode="worker:expect">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="replace(., '%TEST_BASE%/', resolve-uri('../'), 'q')" />
+	</xsl:template>
+
+	<!-- Resolve "%TEST_BASE%/../" in URI for path under lib/ -->
+	<xsl:template as="attribute()"
+		match="x:description/@query-at" mode="worker:expect">
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="replace(., '%TEST_BASE%/../', resolve-uri('../../'), 'q')" />
 	</xsl:template>
 
 </xsl:stylesheet>

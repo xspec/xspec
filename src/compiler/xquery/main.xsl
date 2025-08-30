@@ -55,13 +55,24 @@
       <!-- Import utils -->
       <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: XSpec library modules providing tools :)&#x0A;</xsl:text>
-      <xsl:variable name="utils" as="map(xs:anyURI, xs:string)"
+      <xsl:variable name="utils-for-all-xquery-tests" as="map(xs:anyURI, xs:string)"
          select="
             map {
                $x:xspec-namespace: '../../common/common-utils.xqm',
                $x:deq-namespace:   '../../common/deep-equal.xqm',
                $x:rep-namespace:   '../../common/report-sequence.xqm'
             }" />
+      <xsl:variable name="utils-for-xqs" as="map(xs:anyURI, xs:string)"
+         select="
+            map {
+               $x:sn-namespace:    '../../schematron/select-node.xqm',
+               $x:wrap-namespace:  '../../common/wrap.xqm'
+            }" />
+      <xsl:variable name="utils" as="map(xs:anyURI, xs:string)"
+         select="(
+            $utils-for-all-xquery-tests,
+            $utils-for-xqs[exists($this/@schematron)][exists($this/@original-xspec)]
+         ) => map:merge()" />
       <xsl:for-each select="map:keys($utils)">
          <xsl:sort />
 
@@ -113,10 +124,19 @@
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="attribute()+">
             <xsl:attribute name="xspec" select="$initial-document-actual-uri" />
-            <xsl:attribute name="query" select="$this/@query" />
-            <xsl:if test="exists($query-at)">
-               <xsl:attribute name="query-at" select="$query-at" />
-            </xsl:if>
+            <xsl:choose>
+               <xsl:when test="exists($this/@schematron) and exists($this/@original-xspec)">
+                  <!-- If this file is derived from a test for Schematron, record @schematron.
+                     That way, the HTML report indicates the schema, not the XQS module. -->
+                  <xsl:attribute name="schematron" select="$this/@schematron" />                  
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:attribute name="query" select="$this/@query" />
+                  <xsl:if test="exists($query-at)">
+                     <xsl:attribute name="query-at" select="$query-at" />
+                  </xsl:if>                  
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:with-param>
       </xsl:call-template>
       <xsl:text>,&#x0A;</xsl:text>

@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:description xmlns:items="x-urn:test:xspec-items"
                xmlns:local="urn:x-xspec:common:wrap:local"
+               xmlns:wrap="urn:x-xspec:common:wrap"
                xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               query="x-urn:test:xspec-items" query-at="items.xqm"
                stylesheet="items.xsl">
 
    <!--
        Test the source file wrap.xsl.
 
-       The test target (../src/common/wrap.xsl) is included implicitly by the XSpec compiler. You
-       don't need to specify it in /t:description/@stylesheet. If you specify it explicitly, you'll
+       For XSLT tests, the test target (../src/common/wrap.xsl) is included implicitly by the XSpec compiler.
+       You don't need to specify it in /t:description/@stylesheet. If you specify it explicitly, you'll
        get a warning: "Stylesheet module ../src/common/wrap.xsl is included or imported more than
        once."
+
+       For XQuery tests, wrap.xqm is not included, as its only relevance in production is for Schematron
+       tests that use the XQS implementation of Schematron. Therefore, include it as a helper module. 
    -->
+   <t:helper query="urn:x-xspec:common:wrap" query-at="../src/common/wrap.xqm"/>
 
    <!--
-       Function t:wrappable-sequence
+       Function wrap:wrappable-sequence
    -->
-   <t:scenario label="t:wrappable-sequence">
-      <!-- TODO: These scenarios do not run on XQuery
-           t:wrappable-sequence() has not been implemented for XQuery -->
-
-      <t:call function="t:wrappable-sequence" />
+   <t:scenario label="wrap:wrappable-sequence">
+      <t:call function="wrap:wrappable-sequence" />
 
       <t:scenario label="All kinds of nodes">
          <t:call>
@@ -60,13 +63,10 @@
    </t:scenario>
 
    <!--
-       Function local:wrappable-node
+       Function wrap:wrappable-node
    -->
-   <t:scenario label="t:wrappable-node">
-      <!-- TODO: These scenarios do not run on XQuery
-           local:wrappable-node() has not been implemented for XQuery -->
-
-      <t:call function="local:wrappable-node" />
+   <t:scenario label="wrap:wrappable-node">
+      <t:call function="wrap:wrappable-node" />
 
       <t:scenario label="Nodes">
 
@@ -131,13 +131,10 @@
    </t:scenario>
 
    <!--
-       Function t:wrap-nodes
+       Function wrap:wrap-nodes
    -->
-   <t:scenario label="t:wrap-nodes">
-      <!-- TODO: These scenarios do not run on XQuery
-           t:wrap-nodes() has not been implemented for XQuery -->
-
-      <t:call function="t:wrap-nodes" />
+   <t:scenario label="wrap:wrap-nodes">
+      <t:call function="wrap:wrap-nodes" />
 
       <t:scenario label="All nodes that can be wrapped">
          <t:call>

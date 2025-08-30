@@ -618,6 +618,30 @@ load bats-helper
 }
 
 #
+# XProc 3 support for Schematron testing using XQS
+#
+
+@test "XProc 3 support for Schematron testing using XQS" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xproc
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+#
 # Path containing special chars (CLI)
 #
 

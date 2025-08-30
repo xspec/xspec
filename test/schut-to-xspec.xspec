@@ -82,7 +82,7 @@
 
         <x:scenario label="file with select">
             <x:context href="schematron/schut-to-xspec-007-select-in.xspec"/>
-            <x:expect label="wrapper document node via x:wrap-nodes"
+            <x:expect label="wrapper document node via wrap:wrap-nodes"
                 href="schematron/schut-to-xspec-007-select-out.xspec"
                 select="helper:expect(.)" />
         </x:scenario>
@@ -95,7 +95,7 @@
 
         <x:scenario label="inline with select">
             <x:context href="schematron/schut-to-xspec-008-select-in.xspec"/>
-            <x:expect label="wrapper document node via x:wrap-nodes"
+            <x:expect label="wrapper document node via wrap:wrap-nodes"
                 href="schematron/schut-to-xspec-008-select-out.xspec"
                 select="helper:expect(.)" />
         </x:scenario>
