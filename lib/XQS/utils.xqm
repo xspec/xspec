@@ -195,14 +195,22 @@ declare function utils:eval(
   then
     (<svrl:fired-rule context='{$node/path()}'/>,
     try{
-      xquery:parse($query, map{'pass':'true'})
+      xquery:parse($query, map{'pass':true()})
     }
     catch * {
       <svrl:failed-assert err:code='{$err:code}' location='{$node/path()}' 
       test='xquery:parse(.)'>
       <svrl:text>{$err:description}{' @'||$node/name()}='{$node/data()}'</svrl:text></svrl:failed-assert>
     })
-  else xquery:eval($query, $bindings, map{'pass':'true'})
+  else 
+  xquery:eval(
+    $query, 
+    $bindings, 
+    map{
+      'pass':if($options?pass) then $options?pass else true(),
+      'base-uri':$node/base-uri()
+    }
+  )
 };
 
 (:~ Obtain the (XPath) location of a node which has failed an assertion.
@@ -242,7 +250,7 @@ as element()+
 {
   <svrl:fired-rule context='{$node/path()}'/>,
   try{
-    xquery:parse($node || 0, map{'pass':'true'})
+    xquery:parse($node || 0, map{'pass':true()})
   }
   catch * {
     <svrl:failed-assert err:code='{$err:code}' location='{$node/path()}' 

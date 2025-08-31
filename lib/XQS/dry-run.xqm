@@ -63,8 +63,38 @@ declare function dr:rule(
       return 
       $variable-errors[self::svrl:*],
       $rule-context[self::svrl:*],
-      eval:assertions($rule, $prolog, <_/>, $context)	(:pass dummy context node:)
+      dr:assertions($rule, $prolog, <_/>, $context)	(:pass dummy context node:)
     )
+};
+
+(:~ Evaluates assertions within a rule (dry-run version of eval:assertions()).
+ : @param rule the containing rule
+ : @param prolog the query prolog consisting of any variable and namespace declarations
+ : @param rule-context the rule context
+ : @param context the validation context
+ :)
+declare function dr:assertions(
+  $rule as element(sch:rule),
+  $prolog as xs:string?,
+  $rule-context as node()+,
+  $validation-context as map(*)
+)
+as element()*
+{
+  let $prolog := $prolog || utils:local-variable-decls($rule/sch:let)
+    || (if($rule/sch:let) then ' return ' else '')
+  let $context := eval:visit-each($rule, $prolog, $rule-context, $validation-context)
+  
+  for $context in $context    
+    return 
+    ($rule/(sch:assert|sch:report) 
+    ! 
+    eval:assertion(
+      ., 
+      $prolog,
+      $context,
+      $validation-context
+    ))
 };
 
 declare function dr:assertion(

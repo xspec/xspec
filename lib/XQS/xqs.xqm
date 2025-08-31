@@ -27,8 +27,7 @@ declare function xqs:validate(
 (:~ Validates a document against a Schematron schema, applying an optional phase.
  : @param instance the instance document
  : @param schema the Schematron schema
- : @param phase the active phase
- : @param options map of options
+ : @param options map of options: key 'phase' specifies the active phase
  :)
 declare function xqs:validate(
   $instance as node(),
@@ -42,8 +41,7 @@ declare function xqs:validate(
 
 (:~ Compiles a Schematron schema.
  : @param schema the Schematron schema
- : @param phase the active phase
- : @param options map of options
+ : @param options map of options: key 'phase' specifies the active phase
  :)
 declare function xqs:compile(
   $schema as element(sch:schema),

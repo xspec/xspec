@@ -259,12 +259,7 @@ declare function eval:process-rule(
     then dr:rule($rule, $prolog, $rule-context, $context)
     else
   if(exists($rule-context) and empty($rule-context intersect $context?matched))
-  then
-  (<svrl:fired-rule>
-      {$rule/(@id, @name, @context, @visit-each, @role, @flag),
-      if($rule/../@documents) then attribute{'document'}{$context?instance/base-uri()} else ()}
-      </svrl:fired-rule>,
-      eval:assertions($rule, $prolog, $rule-context, $context))
+  then eval:assertions($rule, $prolog, $rule-context, $context)
   else ()
 };
 
@@ -287,14 +282,19 @@ as element()*
   let $context := eval:visit-each($rule, $prolog, $rule-context, $validation-context)
   
   for $context in $context    
-    return $rule/(sch:assert|sch:report) 
+    return 
+    (<svrl:fired-rule>
+      {$rule/(@id, @name, @context, @visit-each, @role, @flag),
+      if($rule/../@documents) then attribute{'document'}{$validation-context?instance/base-uri()} else ()}
+      </svrl:fired-rule>,
+    ($rule/(sch:assert|sch:report) 
     ! 
     eval:assertion(
       ., 
       $prolog,
       $context,
       $validation-context
-    )
+    )))
 };
 
 (:~ Adjust the rule context by evaluating attribute visit-each against it.

@@ -19,8 +19,7 @@ declare variable $c:ANY_PHASE as xs:string := '#ANY';
  : active phase (if configured) and patterns.
  : @param instance the document instance
  : @param schema the Schematron schema
- : @param phase the active phase
- : @param options map of options
+ : @param options map of options: key 'phase' specifies the active phase
  :)
 declare function c:get-context(
   $instance as node(),
@@ -92,7 +91,7 @@ as xs:string
  : whose introduction means the active phase cannot be determined statically.
  : @see ISO2025 5.5.22
  : @param schema the Schematron schema
- : @param the active phase
+ : @param options map of options: key 'phase' specifies the active phase
  : @return the active phase, or the empty sequence if none is defined or can be
  : determined
  :)
@@ -109,8 +108,9 @@ as element(sch:phase)?
 (:~ Determines the active phase.
  : @see ISO2020 5.4.11
  : @param schema the Schematron schema
- : @param the active phase
  : @param instance the instance document
+ : @param globals map of global variables
+ : @param options map of options: key 'phase' specifies the active phase
  : @return the active phase, or the empty sequence if none is defined or can be
  : determined
  :)
@@ -356,7 +356,7 @@ as map(*)
     then utils:eval(
       $query => utils:escape(),
       map:merge(($bindings, map{'':$instance})),
-      map:merge($options, map{'pass':'true'}),
+      map:merge(($options, map{'pass':true()})),
       $variable/@value
     )
     else $variable/*
@@ -392,7 +392,7 @@ as map(*)
     let $uris := utils:eval(
       utils:make-query-prolog($context) || $documents => utils:escape(),
       map:merge(($context?globals, map{'':$context?instance})),
-      map{'pass':'true'},       (:report exception details:)
+      map{'pass':true()},       (:report exception details:)
       $documents
     )
     return map:put(

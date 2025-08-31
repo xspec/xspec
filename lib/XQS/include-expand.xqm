@@ -9,12 +9,14 @@ declare namespace sch = "http://purl.oclc.org/dsdl/schematron";
 (:~ Perform inclusion and expansion.
  :)
 declare function ie:include-expand($schema as element(sch:schema)) 
+as element(sch:schema)
 {
   ie:process-includes($schema) => ie:process-abstracts()
 };
 
 (:~ Perform abstract rule and pattern expansion. :)
 declare function ie:process-abstracts($schema as element(sch:schema))
+as element(sch:schema)
 {
   ie:expand-rules($schema) => ie:expand-patterns()
 };
@@ -25,6 +27,7 @@ declare function ie:process-abstracts($schema as element(sch:schema))
 declare function ie:process-includes(
   $schema as element(sch:schema)
 )
+as element(sch:schema)
 {
   (: let $_ := trace('SCHEMA base URI=' || $schema/base-uri()) :)
   let $copy :=
@@ -42,7 +45,14 @@ declare function ie:process-includes(
   return 
   if($copy//sch:include | $copy//sch:extends[@href])
   then ie:process-includes($copy)
-  else $copy
+  else
+    if($copy/@xml:base)	(:don't replace:)
+    then $copy
+    else
+      copy $copy := $copy
+      modify
+        insert node attribute{'xml:base'}{$schema/base-uri()} into $copy
+    return $copy
 };
 
 (:~ For a given inclusion instruction, retrieve the element to be included,

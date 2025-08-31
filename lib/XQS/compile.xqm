@@ -228,6 +228,7 @@ declare function compile:active-phase(
 declare function compile:prolog($schema as element(sch:schema))
 as xs:string*
 {
+  'declare base-uri "' || $schema/base-uri() || '";' ||
   string-join($schema/sch:ns ! context:make-ns-decls(.)) => utils:escape() ||
   $compile:EXTERNAL_VARIABLES ||
   string-join(
@@ -425,11 +426,8 @@ declare function compile:rule-documents(
         $compile:SUBORDINATE_DOCS || '/(' || $rule/@context => utils:escape() || ')'
       ) ||
       ' return if(exists(' || $compile:RULE_CONTEXT || ') and empty(' || 
-      $compile:RULE_CONTEXT || ' intersect ' || $compile:RULE_MATCHED || ')) then (',
-      <svrl:fired-rule document='{{base-uri({$compile:SUBORDINATE_DOCS})}}'>
-      {$rule/(@id, @name, @context, @role, @flag)}
-      </svrl:fired-rule>,
-      ', ' || $compile:RULE_CONTEXT || '! (',
+      $compile:RULE_CONTEXT || ' intersect ' || $compile:RULE_MATCHED || ')) then ('
+      || $compile:RULE_CONTEXT || '! (',
       string-join(
         for $assertion in $assertions
         return compile:function-name($assertion, true()) || '(.)', 
@@ -460,11 +458,8 @@ declare function compile:group-rule-documents(
         $compile:RULE_CONTEXT_NAME,
         $compile:SUBORDINATE_DOCS || '/(' || $rule/@context => utils:escape() || ')'
       ) ||
-      ' return if(exists(' || $compile:RULE_CONTEXT || ')) then (',
-      <svrl:fired-rule document='{{base-uri({$compile:SUBORDINATE_DOCS})}}'>
-      {$rule/(@id, @name, @context, @role, @flag)}
-      </svrl:fired-rule>,
-      ', ' || $compile:RULE_CONTEXT || '! (',
+      ' return if(exists(' || $compile:RULE_CONTEXT || ')) then ('
+      || $compile:RULE_CONTEXT || '! (',
       string-join(
         for $assertion in $assertions
         return compile:function-name($assertion, true()) || '(.)', 
@@ -541,11 +536,8 @@ declare function compile:rule(
       ($compile:RULE_CONTEXT, $compile:RULE_MATCHED),
       (
         'if(exists(' || $compile:RULE_CONTEXT || ') and empty(' || 
-        $compile:RULE_CONTEXT || ' intersect ' || $compile:RULE_MATCHED || ')) then (',
-        <svrl:fired-rule>
-        {$rule/(@id, @name, @context, @visit-each, @role, @flag)}
-        </svrl:fired-rule>,
-        ', ' || $compile:RULE_CONTEXT || '! (' ||
+        $compile:RULE_CONTEXT || ' intersect ' || $compile:RULE_MATCHED || ')) then ('
+        || $compile:RULE_CONTEXT || '! (' ||
         string-join(
           for $assertion in $assertions
           return compile:function-name($assertion) || '(.)', 
@@ -573,11 +565,7 @@ declare function compile:group-rule(
       compile:function-name($rule),
       ($compile:RULE_CONTEXT, ()),
       (
-        'if(exists(' || $compile:RULE_CONTEXT || ')) then (',
-        <svrl:fired-rule>
-        {$rule/(@id, @name, @context, @role, @flag)}
-        </svrl:fired-rule>,
-        ', ' || $compile:RULE_CONTEXT || '! (' ||
+        'if(exists(' || $compile:RULE_CONTEXT || ')) then (' || $compile:RULE_CONTEXT || '! (' ||
         string-join(
           for $assertion in $assertions
           return compile:function-name($assertion) || '(.)', 
@@ -600,17 +588,22 @@ declare function compile:assertion(
   else
   compile:declare-function(
     compile:function-name($assertion, $distinct-name),
-    $compile:RULE_CONTEXT,
-    compile:variables($assertion, $phase) || ' ' ||
-    utils:declare-variable(
-      $compile:RESULT_NAME,
-      $compile:RULE_CONTEXT || '/(' || $assertion/@test => utils:escape() || ')'
-    ) ||
-    ' return if(' || $compile:RESULT || ') then ' ||
+    $compile:RULE_CONTEXT,    
     (
-      if($assertion/self::sch:assert) 
+      compile:variables($assertion, $phase) || ' ' ||    
+      utils:declare-variable(
+        $compile:RESULT_NAME,
+        $compile:RULE_CONTEXT || '/(' || $assertion/@test => utils:escape() || ')'
+      ) || ' return (',
+      <svrl:fired-rule>
+      {$assertion/../(@id, @name, @context, @visit-each, @role, @flag)}
+      {if($assertion/../../@documents) then attribute{'document'}{'{base-uri(' || $compile:RULE_CONTEXT || ')}'} else ()}
+      </svrl:fired-rule>,
+      ', if(' || $compile:RESULT || ') then ',
+      if($assertion/self::sch:assert)
       then '() else ' || compile:assertion-message($assertion)
-      else compile:assertion-message($assertion) || ' else ()'
+      else compile:assertion-message($assertion) || ' else ()',
+      ')'
     )
   )
 };
