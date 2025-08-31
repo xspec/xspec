@@ -261,8 +261,8 @@ result as parameter.
    <!-- wrap $x:result into a document node if possible -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-items" as="item()*">
       <xsl:choose>
-         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
-            <xsl:sequence select="Q{http://www.jenitennison.com/xslt/xspec}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
+         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{urn:x-xspec:common:wrap}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
+            <xsl:sequence select="Q{urn:x-xspec:common:wrap}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:sequence select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>

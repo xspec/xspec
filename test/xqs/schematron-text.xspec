@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    schematron="schematron-text-xqs.sch">
+    <!-- XQS preserves WSOT nodes in sch:property, as of v1.0.3. If that changes,
+        schematron-text-xqs.sch can have sch:property[@id='prop-data'] indented
+        normally, just like the original schematron-text.sch schema. -->
+    <x:import href="../schematron-text.xspec"/>
+</x:description>

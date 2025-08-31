@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="do-nothing-xqs.sch"
+    query="x-urn:test:do-nothing" query-at="../do-nothing.xqm">
+    <!-- This test suite exercises the ability of run-tests-with-basex.xproc to
+        execute the same .xspec file with two languages, Schematron and XQuery. -->
+    <x:scenario label="Scenario that uses XPath only">
+        <x:call function="true"/>
+        <x:expect label="true" select="true()"/>
+    </x:scenario>
+</x:description>

@@ -48,8 +48,14 @@
 				<xsl:when test="$prefix eq 'saxon'">
 					<xsl:sequence select="$x:saxon-namespace" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'sn'">
+					<xsl:sequence select="$x:sn-namespace" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'svrl'">
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'wrap'">
+					<xsl:sequence select="$x:wrap-namespace" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'x'">
 					<xsl:sequence select="$x:xspec-namespace" />

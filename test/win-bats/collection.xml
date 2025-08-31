@@ -548,6 +548,19 @@
 	</case>
 
 	<!--
+		XProc 3 support for Schematron testing using XQS
+	-->
+
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 support for Schematron testing using XQS">
+    rem Run series of tests, and return error messages if anything fails
+    call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
+        xqs\run-tests-with-basex.xproc
+    call :verify_line * r "--- Testing completed with no failures! ---"
+	</case>
+
+	<!--
 		Path containing special chars (CLI)
 	-->
 
