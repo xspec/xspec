@@ -64,7 +64,7 @@ rem Depends on the archive file structure
 set "XMLRESOLVERORG_XMLRESOLVER_LIB=%XSPEC_TEST_DEPS%\xmlresolver-%XMLRESOLVERORG_XMLRESOLVER_VERSION%\lib"
 
 rem
-rem XML Calabash jar
+rem XML Calabash jar for XProc 1
 rem
 if defined XMLCALABASH_VERSION (
     rem Depends on the archive file structure
@@ -72,6 +72,26 @@ if defined XMLCALABASH_VERSION (
 ) else (
     echo XML Calabash will not be installed
     set XMLCALABASH_JAR=
+)
+
+rem
+rem XML Calabash 3 jar for XProc 3
+rem Requires Java 11 or later
+rem
+java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
+if not errorlevel 1 set XMLCALABASH3_VERSION=
+
+if defined XMLCALABASH3_VERSION (
+    rem Depends on the archive file structure
+    set "XMLCALABASH3_DIR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%"
+) else (
+    echo XML Calabash 3 will not be installed
+    set XMLCALABASH3_DIR=
+)
+if defined XMLCALABASH3_VERSION if defined XMLCALABASH3_DIR (
+    set "XMLCALABASH3_JAR=%XMLCALABASH3_DIR%\xmlcalabash-app-%XMLCALABASH3_VERSION%.jar"
+) else (
+    set XMLCALABASH3_JAR=
 )
 
 rem
@@ -88,8 +108,11 @@ rem
 rem BaseX
 rem
 
-rem BaseX 10 requires Java 11
+rem BaseX 12 requires Java 17
 java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
+if not errorlevel 1 set BASEX_VERSION=
+
+java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 11." > NUL
 if not errorlevel 1 set BASEX_VERSION=
 
 if defined BASEX_VERSION (
@@ -107,7 +130,7 @@ rem
 rem XMLResolver.org XML Resolver
 set "XMLRESOLVERORG_XMLRESOLVER_CP=%XMLRESOLVERORG_XMLRESOLVER_LIB%\*"
 
-rem XML Calabash
+rem XML Calabash for XProc 1
 rem Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
 set XMLCALABASH_CP=
 if defined XMLCALABASH_JAR (

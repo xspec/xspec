@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:common:wrap:local"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:wrap="urn:x-xspec:common:wrap"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -8,14 +7,14 @@
 
    <!-- Returns true if every item in sequence can be wrapped in document node.
       Empty sequence is considered to be able to be wrapped. -->
-   <xsl:function name="x:wrappable-sequence" as="xs:boolean">
+   <xsl:function name="wrap:wrappable-sequence" as="xs:boolean">
       <xsl:param name="sequence" as="item()*" />
 
-      <xsl:sequence select="every $item in $sequence satisfies local:wrappable-node($item)" />
+      <xsl:sequence select="every $item in $sequence satisfies wrap:wrappable-node($item)" />
    </xsl:function>
 
    <!-- Returns true if item is node and can be wrapped in document node -->
-   <xsl:function name="local:wrappable-node" as="xs:boolean">
+   <xsl:function name="wrap:wrappable-node" as="xs:boolean">
       <xsl:param name="item" as="item()" />
 
       <!-- Document node cannot wrap attribute node or namespace node, according to
@@ -28,7 +27,7 @@
    </xsl:function>
 
    <!-- Wraps nodes in document node with their type annotations kept -->
-   <xsl:function name="x:wrap-nodes" as="document-node()">
+   <xsl:function name="wrap:wrap-nodes" as="document-node()">
       <xsl:param name="nodes" as="node()*" />
 
       <!-- $wrap aims to create an implicit document node as described

@@ -465,10 +465,10 @@ load bats-helper
 }
 
 #
-# XProc (Saxon)
+# XProc 1 (Saxon)
 #
 
-@test "XProc harness for Saxon (XSLT)" {
+@test "XProc 1 harness for Saxon (XSLT)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -493,7 +493,7 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 }
 
-@test "XProc harness for Saxon (XQuery)" {
+@test "XProc 1 harness for Saxon (XQuery)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -525,7 +525,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
 }
 
-@test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
+@test "XProc 1 harness for Saxon (XQuery with special characters in expression #1020)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -537,7 +537,108 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]
+    # Use assert_regex because of other text before the content of interest in XProc 1.
     assert_regex "${lines[2]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
+}
+
+#
+# XProc 3 (Saxon)
+#
+
+@test "XProc 3 harness with Saxon (XSLT)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+
+    # Run
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        parameters::xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xslt-harness.xproc
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+}
+
+@test "XProc 3 harness with Saxon (XQuery)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+
+    # Run
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        parameters::xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xquery-harness.xproc
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Run again (ndw/xmlcalabash1#322)
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        parameters::xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xquery-harness.xproc
+}
+
+@test "XProc 3 harness with Saxon (XQuery with special characters in expression #1020)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=issue-1020.xspec \
+        --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
+        parameters::xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xquery-harness.xproc
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
+}
+
+#
+# XProc 3 support for Schematron testing using XQS
+#
+
+@test "XProc 3 support for Schematron testing using XQS" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xproc
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 }
 
 #

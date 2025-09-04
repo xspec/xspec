@@ -84,7 +84,7 @@ export APACHE_XMLRESOLVER_JAR="${XSPEC_TEST_DEPS}/apache-xmlresolver-${APACHE_XM
 export XMLRESOLVERORG_XMLRESOLVER_LIB="${XSPEC_TEST_DEPS}/xmlresolver-${XMLRESOLVERORG_XMLRESOLVER_VERSION}/lib"
 
 #
-# XML Calabash jar
+# XML Calabash jar for XProc 1
 #
 if [ -n "${XMLCALABASH_VERSION}" ]; then
     # Depends on the archive file structure
@@ -92,6 +92,27 @@ if [ -n "${XMLCALABASH_VERSION}" ]; then
 else
     echo "XML Calabash will not be installed"
     unset XMLCALABASH_JAR
+fi
+
+#
+# XML Calabash jar for XProc 3
+# Requires Java 11 or later
+#
+if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
+    unset XMLCALABASH3_VERSION
+fi
+
+if [ -n "${XMLCALABASH3_VERSION}" ]; then
+    # Depends on the archive file structure
+    export XMLCALABASH3_DIR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}"
+else
+    echo "XML Calabash 3 will not be installed"
+    unset XMLCALABASH3_DIR
+fi
+if [ -n "${XMLCALABASH3_VERSION}" ] && [ -n "${XMLCALABASH3_DIR}" ]; then
+    export XMLCALABASH3_JAR="${XMLCALABASH3_DIR}/xmlcalabash-app-${XMLCALABASH3_VERSION}.jar"
+else
+    unset XMLCALABASH3_JAR
 fi
 
 #
@@ -108,8 +129,12 @@ fi
 # BaseX
 #
 
-# BaseX 10 requires Java 11
+# BaseX 12 requires Java 17
 if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
+    unset BASEX_VERSION
+fi
+
+if java -version 2>&1 | grep -F " 11." > /dev/null; then
     unset BASEX_VERSION
 fi
 
@@ -128,7 +153,7 @@ fi
 # XMLResolver.org XML Resolver
 export XMLRESOLVERORG_XMLRESOLVER_CP="${XMLRESOLVERORG_XMLRESOLVER_LIB}/*"
 
-# XML Calabash
+# XML Calabash for XProc 1
 # Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
 unset XMLCALABASH_CP
 if [ -n "${XMLCALABASH_JAR}" ]; then

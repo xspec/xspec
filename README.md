@@ -1,7 +1,7 @@
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/master)
 [![Azure Pipelines Build Status](https://dev.azure.com/xspec/xspec/_apis/build/status/xspec.xspec?branchName=master)](https://dev.azure.com/xspec/xspec/_build/latest?definitionId=1&branchName=master)
-[![GitHub Actions Test Workflow Status](https://github.com/xspec/xspec/workflows/Test/badge.svg?branch=master&event=push)](https://github.com/xspec/xspec/actions?query=branch%3Amaster+event%3Apush+workflow%3ATest)
-[![GitHub Actions Lint Workflow Status](https://github.com/xspec/xspec/workflows/Lint/badge.svg?branch=master&event=push)](https://github.com/xspec/xspec/actions?query=branch%3Amaster+event%3Apush+workflow%3ALint)
+[![Test](https://github.com/xspec/xspec/actions/workflows/test.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/test.yml)
+[![Lint](https://github.com/xspec/xspec/actions/workflows/lint.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/lint.yml)
 
 ## XSpec [![Release](https://img.shields.io/github/v/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
@@ -25,8 +25,10 @@ If you wish to contribute to XSpec, please read the [contributing guidelines](ht
 
 ## License
 
-XSpec code is released under the [MIT License](LICENSE). [Few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).
+XSpec code is released under the [MIT License](LICENSE), except:
 
-Some files are derived from code examples that are licensed under the [W3C Software License](https://www.w3.org/copyright/software-license-2023/). Such files indicate their license in a code comment that includes "W3C Software License" text.
+- The `lib/` directory consists of third-party code in subdirectories that each contain their own `LICENSE` files.
+- [A few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).
+- Some files are derived from code examples that are licensed under the [W3C Software License](https://www.w3.org/copyright/software-license-2023/). Such files indicate their license in a code comment that includes "W3C Software License" text.
 
 The content of the XSpec wiki is released under the [Creative Commons 3.0 BY](https://creativecommons.org/licenses/by/3.0/) license.
