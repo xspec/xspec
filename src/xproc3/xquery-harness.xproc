@@ -44,7 +44,7 @@
       }" 
       primary="true"/>
    
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+   <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    
    <!-- compile the suite into a query -->

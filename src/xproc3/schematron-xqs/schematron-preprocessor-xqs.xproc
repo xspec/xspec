@@ -31,7 +31,7 @@
       }"
       primary="true"/>
 
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+   <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
 

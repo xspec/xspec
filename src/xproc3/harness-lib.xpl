@@ -38,7 +38,7 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
       
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
       <p:option name="if-set" required="true"/>
       
       <p:group>
@@ -67,7 +67,7 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
       
       
       <p:group>
@@ -116,7 +116,7 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
       
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
@@ -181,7 +181,7 @@
       <p:input port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
       <p:group>
         <!-- option: xspec-home: the dir with the sources of XSpec if EXPath packaging
@@ -261,7 +261,7 @@
       <p:input port="source" primary="true" />
       <p:output port="result" primary="true" />
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
       <!-- Serialize with indentation. -->
       <p:cast-content-type content-type="text/plain" parameters="map{'indent':1}"/>
