@@ -134,9 +134,16 @@
                else
                   'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
 
+         <!-- get resolved uri, needed for the string replacement in xsl:import --> 
+         <p:load name="compiler-loaded" pkg:kind="xslt">
+            <p:with-option name="href" select="$compiler"/>
+         </p:load>
+         <p:variable name="compiler-uri-resolved"
+            select="p:document-property(/, 'base-uri')"/>
+
          <!-- wrap the generated query in a c:query element -->
          <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
-            <p:with-option name="replace" select="'''' || $compiler || ''''"/>
+            <p:with-option name="replace" select="'''' || $compiler-uri-resolved || ''''"/>
             <p:with-input port="source" expand-text="false">
                <p:inline exclude-inline-prefixes="#all"><xsl:stylesheet
                   exclude-result-prefixes="#all"
