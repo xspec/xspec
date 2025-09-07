@@ -9,5 +9,7 @@
 	
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xquery"
 		uri="xquery-harness.xproc" />
+	
+	<nextCatalog catalog="schematron-xqs/catalog.xml" />
 			
 </catalog>
