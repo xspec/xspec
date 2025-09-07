@@ -14,7 +14,7 @@
       <p><b>Primary input:</b> An XSpec test suite document for testing Schematron schema whose query binding is XQuery.</p>
       <p><b>Primary output:</b> An XSpec test suite document for testing validation using XQS.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
-      <p>'xqs-location' option: Directory of XQS archive on your filesystem, accessed when the output test suite executes.
+      <p>'xqs-home' option: Directory of XQS archive on your filesystem, accessed when the output test suite executes.
          Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
@@ -31,9 +31,9 @@
       }"
       primary="true"/>
 
+   <p:option name="xspec-home" as="xs:string?"/>
+   <p:option name="xqs-home" as="xs:string?"/>
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
-
-   <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
 
    <p:variable name="preprocessor"
       select="if ( $xspec-home != '') then
@@ -50,7 +50,7 @@
          </p:with-input>
       </p:error>
    </p:if>
-   
+
    <!-- load the preprocessor -->
    <p:load name="preprocessor">
       <p:with-option name="href" select="$preprocessor"/>
@@ -60,10 +60,10 @@
    <p:xslt>
       <p:with-input port="source" pipe="source@schematron-preprocessor-xqs"/>
       <p:with-input port="stylesheet" pipe="@preprocessor"/>
-      <!-- Uses xqs-location option value in $parameters to configure the output test suite. -->
-      <p:with-option name="parameters" select="map:merge((map{
-         xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty'
-         }, $parameters))"/>
+      <p:with-option name="parameters" select="map{
+         xs:QName('stylesheet-uri'): 'irrelevant for XQS but make it nonempty',
+         xs:QName('xqs-home'): ($xqs-home, '../../lib/XQS/')[1]
+         }"/>
       <p:with-option name="static-parameters"
          select="map{xs:QName('sch-impl-name'): 'xqs'}"/>
    </p:xslt>
