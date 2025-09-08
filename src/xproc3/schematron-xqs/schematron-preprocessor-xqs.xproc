@@ -4,8 +4,8 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="schematron-preprocessor-xqs"
-            type="x:schematron-preprocessor-xqs"
+            name="preprocess-schematron-xqs"
+            type="x:preprocess-schematron-xqs"
             exclude-inline-prefixes="map xs x c p"
             version="3.1">
 
@@ -58,7 +58,7 @@
 
    <!-- from this test suite for Schematron, generate a test suite for XQuery -->
    <p:xslt>
-      <p:with-input port="source" pipe="source@schematron-preprocessor-xqs"/>
+      <p:with-input port="source" pipe="source@preprocess-schematron-xqs"/>
       <p:with-input port="stylesheet" pipe="@preprocessor"/>
       <!-- Uses xqs-location option value in $parameters to configure the output test suite. -->
       <p:with-option name="parameters" select="map:merge((map{

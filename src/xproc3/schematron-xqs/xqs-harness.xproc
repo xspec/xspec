@@ -4,8 +4,8 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="xqs-harness"
-            type="x:xqs-harness"
+            name="run-schematron-xqs"
+            type="x:run-schematron-xqs"
             exclude-inline-prefixes="map xs x c p"
             version="3.1">
 
@@ -35,13 +35,13 @@
    <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
    <!-- preprocess; uses xspec-home and xqs-location options -->
-   <x:schematron-preprocessor-xqs>
+   <x:preprocess-schematron-xqs>
       <p:with-option name="parameters" select="$parameters"/>
-   </x:schematron-preprocessor-xqs>
+   </x:preprocess-schematron-xqs>
 
    <!-- run generated test and produce report; uses xspec-home option -->
-   <x:xquery-harness>
+   <x:run-xquery>
       <p:with-option name="parameters" select="$parameters"/>
-   </x:xquery-harness>
+   </x:run-xquery>
 
 </p:declare-step>

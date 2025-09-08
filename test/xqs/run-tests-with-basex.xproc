@@ -43,18 +43,18 @@
             <p:when test="$test-type eq 'schematron'">
                <!-- Test for Schematron schema with XQuery language binding -->
                <p:identity message="&#10;--- Running { $test-filename } (test for Schematron) ---"/>
-               <x:xqs-harness>
+               <x:run-schematron-xqs>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="parameters" select="$parameters-augmented"/>
-               </x:xqs-harness>            
+               </x:run-schematron-xqs>            
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->
                <p:identity message="&#10;--- Running { $test-filename } (test for XQuery) ---"/>
-               <x:xquery-harness>
+               <x:run-xquery>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="parameters" select="$parameters-augmented"/>
-               </x:xquery-harness>
+               </x:run-xquery>
             </p:otherwise>
          </p:choose>
 

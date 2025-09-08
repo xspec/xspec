@@ -20,8 +20,8 @@
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
             xmlns:pkg="http://expath.org/ns/pkg"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xslt.xproc"
-            name="xslt-harness"
-            type="t:xslt-harness"
+            name="run-xslt"
+            type="t:run-xslt"
             exclude-inline-prefixes="pkg t map xs xsl c p"
             version="3.1">
 
