@@ -19,8 +19,8 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
-            name="xquery-harness"
-            type="t:xquery-harness"
+            name="run-xquery"
+            type="t:run-xquery"
             exclude-inline-prefixes="map xs pkg t c p"
             version="3.1">
 
@@ -29,32 +29,44 @@
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
+      <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
+      <p>'report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
+         `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
    </p:documentation>
 
    <p:import href="harness-lib.xpl"/>
-   
-   <p:input port="source" primary="true" sequence="false"/>
-   <p:output port="result" 
-      serialization="map{
-         'indent':true(), 
-         'method':'xhtml', 
-         'encoding':'UTF-8', 
-         'include-content-type':true(), 
-         'omit-xml-declaration':false()
-      }" 
-      primary="true"/>
-   
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 
-   
+   <p:input port="source" primary="true" sequence="false"/>
+   <p:output port="result"
+      serialization="map{
+         'indent':true(),
+         'method':'xhtml',
+         'encoding':'UTF-8',
+         'include-content-type':true(),
+         'omit-xml-declaration':false()
+      }"
+      primary="true"/>
+
+   <p:option name="xspec-home" as="xs:string?"/>
+   <p:option name="force-focus" as="xs:string?"/>
+   <p:option name="report-theme" as="xs:string" select="'default'"/>
+   <!-- TODO: Declare inline-css option, when we can support it. -->
+   <!-- TODO: Decide whether to support measure-time for t:compile-xquery. -->
+   <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+
+   <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+
+
    <!-- compile the suite into a query -->
    <t:compile-xquery name="compile">
-      <p:with-option name="parameters" select="$parameters"/> 
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+      <p:with-option name="force-focus" select="$force-focus"/>
+      <p:with-option name="parameters" select="$parameters"/>
    </t:compile-xquery>
 
    <!-- get the XQuery script as text -->
    <t:extract-xquery name="queryText"/>
-    
+
    <!-- run it on Saxon bundled with XML Calabash 3 (default) or another
       XQuery processor, based on XProc processor configuration -->
    <p:xquery name="run">
@@ -64,6 +76,9 @@
 
    <!-- format the report -->
    <t:format-report>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+      <p:with-option name="force-focus" select="$force-focus"/>
+      <p:with-option name="report-theme" select="$report-theme"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
 

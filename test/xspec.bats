@@ -559,8 +559,8 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/xslt-harness.xproc
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl
 
     # Verify HTML report including #72
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -584,8 +584,8 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/xquery-harness.xproc
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
 
     # Verify HTML report including #72
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -598,8 +598,8 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/xquery-harness.xproc
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
 }
 
 @test "XProc 3 harness with Saxon (XQuery with special characters in expression #1020)" {
@@ -610,11 +610,35 @@ load bats-helper
     myrun java -jar "${XMLCALABASH3_JAR}" \
         --input:source=issue-1020.xspec \
         --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/xquery-harness.xproc
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]
     [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
+}
+
+@test "XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=../tutorial/escape-for-regex.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-xslt-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xslt.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=../tutorial/xquery-tutorial.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-xquery-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xquery.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 #
@@ -636,9 +660,33 @@ load bats-helper
     myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
-        xqs/run-tests-with-basex.xproc
+        xqs/run-tests-with-basex.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=xqs/phases-xqs.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #

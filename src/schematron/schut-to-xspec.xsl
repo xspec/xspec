@@ -7,7 +7,7 @@
                 exclude-result-prefixes="#all">
 
     <xsl:param name="sch-impl-name" as="xs:string" select="'schxslt'" static="yes"/>
-    <xsl:param name="xqs-location" as="xs:string" select="'../../lib/XQS/'"/>
+    <xsl:param name="xqs-home" as="xs:string" select="'../../lib/XQS/'"/>
     <xsl:variable name="result-path-start" as="xs:string?">
         <xsl:sequence expand-text="yes"
             use-when="$sch-impl-name eq 'xqs'">${x:known-UQName('x:result')}/self::</xsl:sequence>
@@ -98,7 +98,7 @@
                     <xsl:sequence use-when="$sch-impl-name eq 'xqs'">
                         <xsl:attribute name="query">http://www.andrewsales.com/ns/xqs</xsl:attribute>
                         <xsl:attribute name="query-at"
-                            select="resolve-uri($xqs-location || 'xqs.xqm')"/>
+                            select="resolve-uri($xqs-home || 'xqs.xqm')"/>
                         <!-- Copy @xquery-version. XSpec uses the value only at the top of the compiled
                             query, as a pass-through to the XQuery processor. -->
                         <xsl:sequence select="@xquery-version" />
