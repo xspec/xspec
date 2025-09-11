@@ -15,19 +15,18 @@
       <p><b>Input ports:</b> None.</p>
       <p><b>Output ports:</b> None. This pipeline raises an error if any tests fail.</p>
       <p>'xspec-home' option: Directory of XSpec. Default: Root of this XSpec installation.</p>
-      <p>'xqs-location' option: Directory of XQS. Default: lib/XQS/ under xspec-home.</p>
+      <p>'xqs-home' option: Directory of XQS. Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
    <p:import href="../../src/xproc3/schematron-xqs/xqs-harness.xproc"/>
    <p:import href="../../src/xproc3/xquery-harness.xproc"/>
 
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+   <p:option name="xspec-home" as="xs:string?"/>
+   <p:option name="xqs-home" as="xs:string?"/>
+   <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
-   <p:variable name="parameters-augmented" as="map(xs:QName, item()*)?"
-      select="map:merge(
-         ($parameters, map{'xspec-home': resolve-uri('../../')}),
-         map{'duplicates': 'use-first'}
-      )"/>
+   <p:variable name="xspec-home-to-use" as="xs:string"
+      select="($xspec-home, resolve-uri('../../'))[1]"/>
 
    <p:variable name="test-dir" select="resolve-uri('.')"/>
    <p:directory-list path="{$test-dir}" max-depth="1" include-filter="\.xspec$"/>
@@ -45,15 +44,18 @@
                <p:identity message="&#10;--- Running { $test-filename } (test for Schematron) ---"/>
                <x:xqs-harness>
                   <p:with-input pipe="result@test-file"/>
-                  <p:with-option name="parameters" select="$parameters-augmented"/>
-               </x:xqs-harness>            
+                  <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
+                  <p:with-option name="xqs-home" select="$xqs-home"/>
+                  <p:with-option name="parameters" select="$parameters"/>
+               </x:xqs-harness>
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->
                <p:identity message="&#10;--- Running { $test-filename } (test for XQuery) ---"/>
                <x:xquery-harness>
                   <p:with-input pipe="result@test-file"/>
-                  <p:with-option name="parameters" select="$parameters-augmented"/>
+                  <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
+                  <p:with-option name="parameters" select="$parameters"/>
                </x:xquery-harness>
             </p:otherwise>
          </p:choose>
@@ -83,14 +85,14 @@
                            empty(//h:body/h:p/text()[.='Schematron: '])">
                            <message>
                               <xsl:value-of select="concat($xspec-file, ' report header does not indicate schema')"/>
-                           </message>                              
+                           </message>
                         </xsl:if>
                      </xsl:template>
                   </xsl:stylesheet>
                </p:inline>
             </p:with-input>
             <p:with-option name="parameters" select="map{'test-type': $test-type}"/>
-         </p:xslt>            
+         </p:xslt>
       </p:for-each>
    </p:for-each>
    <p:wrap-sequence>

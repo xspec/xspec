@@ -559,7 +559,7 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
+        xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/xslt-harness.xproc
 
     # Verify HTML report including #72
@@ -584,7 +584,7 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
+        xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/xquery-harness.xproc
 
     # Verify HTML report including #72
@@ -598,7 +598,7 @@ load bats-helper
     java -jar "${XMLCALABASH3_JAR}" \
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
+        xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/xquery-harness.xproc
 }
 
@@ -610,7 +610,7 @@ load bats-helper
     myrun java -jar "${XMLCALABASH3_JAR}" \
         --input:source=issue-1020.xspec \
         --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
-        parameters::xspec-home="file:${parent_dir_abs}/" \
+        xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]

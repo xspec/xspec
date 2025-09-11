@@ -23,10 +23,10 @@
            exclude-inline-prefixes="map xs xsl x pkg p c"
            version="3.1">
 
-   
+
    <!--
        Pass through and possibly log the input.
-       
+
        If there is an option whose name is the $if-set value
        (e.g., 'log-xml-report'), the option value must be a
        URI that indicates where to log the input to this step.
@@ -37,10 +37,10 @@
       <!-- the port declarations -->
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
-      
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
       <p:option name="if-set" required="true"/>
-      
+
       <p:group>
          <p:variable name="uri" select="map:get($parameters, xs:QName($if-set))"/>
          <p:choose>
@@ -67,19 +67,15 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
-      
-      
-      <p:group>
-         <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
-         <p:variable name="compiler-uri" select="map:get($parameters, xs:QName('compiler-uri'))"/>
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:option name="force-focus" as="xs:string?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
-         <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
+
+      <p:group>
          <!-- if xspec-home is not passed, then use the packaging public URI -->
          <p:variable name="compiler"
-            select="if ( $compiler-uri != '') then
-                  $compiler-uri
-               else if ( $xspec-home != '') then
+            select="if ( $xspec-home != '') then
                   resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
                else
                   'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
@@ -93,22 +89,49 @@
          <p:xslt>
             <p:with-input port="source" pipe="source@compile-xsl"/>
             <p:with-input port="stylesheet" pipe="@compiler"/>
-            <p:with-option name="parameters" select="$parameters"/>
+            <p:with-option name="parameters" select="map{
+               xs:QName('force-focus'): $force-focus
+               }"/>
          </p:xslt>
       </p:group>
 
       <!-- log the result? -->
       <x:log if-set="log-compilation">
-         <p:with-option name="parameters" select="$parameters"/>         
+         <p:with-option name="parameters" select="$parameters"/>
       </x:log>
    </p:declare-step>
 
    <!--
-       Compile the suite on source into a query on result.
-       
-       Parameters to the XSpec XQuery compiler, AKA compile-xquery-tests.xsl, 
-       can be passed on the parameters option (e.g. utils-library-at to suppress 
-       the at location hint to use to import the XSpec utils library modules in the 
+       Augment XSpec compiler to wrap generated query in <c:query>.
+   -->
+   <p:declare-step type="x:make-xquery-compiler" name="make-xq-compiler">
+      <!-- the port declarations -->
+      <p:input port="source" primary="true"/>
+      <p:output port="result" primary="true"/>
+
+      <p:option name="href-to-import" as="xs:anyURI"/>
+
+      <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
+         <p:with-option name="replace" select="'''' || $href-to-import || ''''"/>
+         <p:with-input port="source" expand-text="false">
+            <p:inline exclude-inline-prefixes="#all"><xsl:stylesheet
+                  exclude-result-prefixes="#all"
+                  version="3.0">
+                  <xsl:import href="[to be replaced]" />
+                  <xsl:template match="document-node()" as="element(Q{http://www.w3.org/ns/xproc-step}query)">
+                     <query xmlns="http://www.w3.org/ns/xproc-step"><xsl:next-match /></query>
+                  </xsl:template>
+            </xsl:stylesheet></p:inline>
+         </p:with-input>
+      </p:string-replace>
+   </p:declare-step>
+
+   <!--
+       Compile the suite on source port into a query on result port.
+
+       Parameters to the XSpec XQuery compiler, AKA compile-xquery-tests.xsl,
+       can be passed on the parameters option (e.g. utils-library-at to suppress
+       the at location hint to use to import the XSpec utils library modules in the
        generated query).
    -->
    <p:declare-step type="x:compile-xquery" name="compile-xq">
@@ -116,78 +139,74 @@
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
-      
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:option name="force-focus" as="xs:string?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+
       <p:group>
-        <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
-             is not supported -->
-         <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
-         <p:variable name="compiler-uri" select="map:get($parameters, xs:QName('compiler-uri'))"/>
-
-         <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
-         <!-- if xspec-home is not passed, then use the packaging public URI -->
-         <p:variable name="compiler"
-            select="if ( $compiler-uri ) then
-                  $compiler-uri
-               else if ( $xspec-home ) then
-                  resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
-               else
-                  'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
-
-         <!-- wrap the generated query in a c:query element -->
-         <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
-            <p:with-option name="replace" select="'''' || $compiler || ''''"/>
-            <p:with-input port="source" expand-text="false">
-               <p:inline exclude-inline-prefixes="#all"><xsl:stylesheet
-                  exclude-result-prefixes="#all"
-                  version="3.0">
-   <xsl:import href="[to be replaced]" />
-   <xsl:template match="document-node()" as="element(Q{http://www.w3.org/ns/xproc-step}query)">
-      <query xmlns="http://www.w3.org/ns/xproc-step"><xsl:next-match /></query>
-   </xsl:template>
-</xsl:stylesheet></p:inline>
-            </p:with-input>
-         </p:string-replace>
+         <p:choose name="compiler">
+            <p:when test="$xspec-home ne ''">
+               <x:make-xquery-compiler>
+                  <p:with-option name="href-to-import"
+                     select="resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)"/>
+               </x:make-xquery-compiler>
+            </p:when>
+            <p:otherwise>
+               <!-- get resolved uri, needed for the string replacement in xsl:import -->
+               <p:load name="compiler-loaded" pkg:kind="xslt">
+                  <p:with-option name="href"
+                     select="'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
+               </p:load>
+               <x:make-xquery-compiler>
+                  <p:with-option name="href-to-import" select="p:document-property(/, 'base-uri')"/>
+               </x:make-xquery-compiler>
+            </p:otherwise>
+         </p:choose>
 
          <!-- log the temp compiler? -->
          <x:log if-set="log-compiler">
-            <p:with-option name="parameters" select="$parameters"/>         
+            <p:with-option name="parameters" select="$parameters"/>
          </x:log>
 
          <!-- actually compile the suite in a query -->
          <p:xslt name="do-it">
             <p:with-input port="source" pipe="source@compile-xq"/>
             <p:with-input port="stylesheet" pipe="@compiler"/>
-            <p:with-option name="parameters" select="$parameters"/>
+            <p:with-option name="parameters" select="map{
+               xs:QName('force-focus'): $force-focus
+               }"/>
+
          </p:xslt>
       </p:group>
-      
+
       <!-- log the result? -->
       <x:log if-set="log-compilation">
-         <p:with-option name="parameters" select="$parameters"/>         
+         <p:with-option name="parameters" select="$parameters"/>
       </x:log>
    </p:declare-step>
 
    <!--
        Get the XML report on source, and give the HTML report on result.
-       
+
        If xspec-home is set, it is used to resolve the XSLT that formats the
        report.  If not, its public URI is used, to be resolved through the
-       EXPath packaging system.  If the document element is not an XSpec
-       x:report, the error x:ERR001 is thrown.
+       EXPath packaging system or an XML catalog.
+
+       If the document element is not an XSpec x:report, the error x:ERR001
+       is thrown.
    -->
    <p:declare-step type="x:format-report" name="format">
       <!-- the port declarations -->
       <p:input port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:option name="force-focus" as="xs:string?"/>
+      <p:option name="report-theme" as="xs:string" select="'default'"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
       <p:group>
-        <!-- option: xspec-home: the dir with the sources of XSpec if EXPath packaging
-             is not supported -->
-         <p:variable name="xspec-home" select="map:get($parameters, xs:QName('xspec-home'))"/>
-         
+
          <p:variable name="formatter"
             select="if ( $xspec-home ) then
                   resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
@@ -196,7 +215,7 @@
 
          <!-- log the report? -->
          <x:log if-set="log-xml-report">
-            <p:with-option name="parameters" select="$parameters"/>         
+            <p:with-option name="parameters" select="$parameters"/>
          </x:log>
 
          <!-- if there is a report, format it, or it is an error -->
@@ -212,7 +231,10 @@
                <p:xslt name="format-report">
                   <p:with-input port="source" pipe="@indent"/>
                   <p:with-input port="stylesheet" pipe="@formatter"/>
-                  <p:with-option name="parameters" select="$parameters"/>
+                  <p:with-option name="parameters" select="map{
+                     xs:QName('force-focus'): $force-focus,
+                     xs:QName('report-theme'): $report-theme
+                     }"/>
                </p:xslt>
             </p:when>
 
@@ -230,7 +252,7 @@
 
       <!-- log the report? -->
       <x:log if-set="log-report">
-         <p:with-option name="parameters" select="$parameters"/>         
+         <p:with-option name="parameters" select="$parameters"/>
       </x:log>
    </p:declare-step>
 
@@ -245,13 +267,13 @@
       <p:text-replace pattern="&#xE803;" replacement="&gt;"/>
    </p:declare-step>
 
-   <!-- Extract XQuery script as text from the XML document that is generated by the compile step. 
+   <!-- Extract XQuery script as text from the XML document that is generated by the compile step.
       That generates the script inside a query XML element -->
    <p:declare-step type="x:extract-xquery" name="extract-xquery">
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
-      <x:escape-markup/>   
+      <x:escape-markup/>
       <p:text-replace pattern="^&lt;query(.*)>" replacement=""/>
       <p:text-replace pattern="&lt;/query>\s?$" replacement=""/>
    </p:declare-step>
@@ -261,17 +283,17 @@
       <p:input port="source" primary="true" />
       <p:output port="result" primary="true" />
 
-      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
       <!-- Serialize with indentation. -->
       <p:cast-content-type content-type="text/plain" parameters="map{'indent':1}"/>
-      
+
       <!-- Deserialize the string value. -->
       <p:cast-content-type content-type="text/xml"/>
 
       <!-- Log? -->
       <x:log if-set="log-indent">
-         <p:with-option name="parameters" select="$parameters"/>         
+         <p:with-option name="parameters" select="$parameters"/>
       </x:log>
    </p:declare-step>
 
