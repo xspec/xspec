@@ -547,6 +547,24 @@
     call :verify_line 3 x "passed: 12 / pending: 0 / failed: 0 / total: 12"
 	</case>
 
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)">
+    call :run java -jar "%XMLCALABASH3_JAR%" ^
+        --input:source=../tutorial/escape-for-regex.xspec ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-xproc3-xslt-test-result_%RANDOM%.html" ^
+        --catalog:../catalog.xml ^
+        ..\src\xproc3\run-xslt.xpl
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
+
+    call :run java -jar "%XMLCALABASH3_JAR%" ^
+        --input:source=../tutorial/xquery-tutorial.xspec ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-xproc3-xquery-test-result_%RANDOM%.html" ^
+        --catalog:../catalog.xml ^
+        ..\src\xproc3\run-xquery.xpl
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
 	<!--
 		XProc 3 support for Schematron testing using XQS
 	-->
@@ -558,6 +576,18 @@
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
         xqs\run-tests-with-basex.xpl
     call :verify_line * r "--- Testing completed with no failures! ---"
+	</case>
+
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness using catalog instead of xspec-home, Schematron with XQS">
+    call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
+        --input:source=xqs/phases-xqs.xspec ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-xproc3-schematron-xqs-test-result_%RANDOM%.html" ^
+        --catalog:../catalog.xml ^
+        ..\src\xproc3\schematron-xqs\run-schematron-xqs.xpl
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<!--

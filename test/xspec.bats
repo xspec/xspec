@@ -617,6 +617,30 @@ load bats-helper
     [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
 }
 
+@test "XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=../tutorial/escape-for-regex.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-xslt-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xslt.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=../tutorial/xquery-tutorial.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-xquery-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xquery.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
 #
 # XProc 3 support for Schematron testing using XQS
 #
@@ -639,6 +663,30 @@ load bats-helper
         xqs/run-tests-with-basex.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=xqs/phases-xqs.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #
