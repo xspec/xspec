@@ -15,7 +15,10 @@
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
-      <p>'xqs-location' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
+      <p>'xqs-home' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
+      <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
+      <p>'report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
+         `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
    </p:documentation>
 
    <p:import href="preprocess-schematron-xqs.xpl"/>
@@ -32,15 +35,28 @@
       }"
       primary="true"/>
 
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+   <p:option name="xspec-home" as="xs:string?"/>
+   <p:option name="xqs-home" as="xs:string?"/>
+   <p:option name="force-focus" as="xs:string?"/>
+   <p:option name="report-theme" as="xs:string" select="'default'"/>
+   <!-- TODO: Declare inline-css option, when we can support it. -->
+   <!-- TODO: Decide whether to support measure-time for t:compile-xquery. -->
+   <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+   
+   <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
-   <!-- preprocess; uses xspec-home and xqs-location options -->
+   <!-- preprocess -->
    <x:preprocess-schematron-xqs>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+      <p:with-option name="xqs-home" select="$xqs-home"/>
       <p:with-option name="parameters" select="$parameters"/>
    </x:preprocess-schematron-xqs>
 
-   <!-- run generated test and produce report; uses xspec-home option -->
+   <!-- run generated test and produce report -->
    <x:run-xquery>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+      <p:with-option name="force-focus" select="$force-focus"/>
+      <p:with-option name="report-theme" select="$report-theme"/>
       <p:with-option name="parameters" select="$parameters"/>
    </x:run-xquery>
 
