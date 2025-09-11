@@ -18,8 +18,8 @@
       <p>'xqs-home' option: Directory of XQS. Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
-   <p:import href="../../src/xproc3/schematron-xqs/xqs-harness.xproc"/>
-   <p:import href="../../src/xproc3/xquery-harness.xproc"/>
+   <p:import href="../../src/xproc3/schematron-xqs/run-schematron-xqs.xpl"/>
+   <p:import href="../../src/xproc3/run-xquery.xpl"/>
 
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="xqs-home" as="xs:string?"/>
@@ -42,21 +42,21 @@
             <p:when test="$test-type eq 'schematron'">
                <!-- Test for Schematron schema with XQuery language binding -->
                <p:identity message="&#10;--- Running { $test-filename } (test for Schematron) ---"/>
-               <x:xqs-harness>
+               <x:run-schematron-xqs>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
                   <p:with-option name="xqs-home" select="$xqs-home"/>
                   <p:with-option name="parameters" select="$parameters"/>
-               </x:xqs-harness>
+               </x:run-schematron-xqs>
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->
                <p:identity message="&#10;--- Running { $test-filename } (test for XQuery) ---"/>
-               <x:xquery-harness>
+               <x:run-xquery>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
                   <p:with-option name="parameters" select="$parameters"/>
-               </x:xquery-harness>
+               </x:run-xquery>
             </p:otherwise>
          </p:choose>
 

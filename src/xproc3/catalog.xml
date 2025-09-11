@@ -5,10 +5,10 @@
 		uri="harness-lib.xpl" />
 	
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xslt"
-		uri="xslt-harness.xproc" />
+		uri="run-xslt.xpl" />
 	
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xquery"
-		uri="xquery-harness.xproc" />
+		uri="run-xquery.xpl" />
 	
 	<nextCatalog catalog="schematron-xqs/catalog.xml" />
 			

@@ -19,8 +19,8 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
-            name="xquery-harness"
-            type="t:xquery-harness"
+            name="run-xquery"
+            type="t:run-xquery"
             exclude-inline-prefixes="map xs pkg t c p"
             version="3.1">
 

@@ -4,8 +4,8 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="xqs-harness"
-            type="x:xqs-harness"
+            name="run-schematron-xqs"
+            type="x:run-schematron-xqs"
             exclude-inline-prefixes="map xs x c p"
             version="3.1">
 
@@ -21,8 +21,8 @@
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
    </p:documentation>
 
-   <p:import href="schematron-preprocessor-xqs.xproc"/>
-   <p:import href="../xquery-harness.xproc"/>
+   <p:import href="preprocess-schematron-xqs.xpl"/>
+   <p:import href="../run-xquery.xpl"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
@@ -46,18 +46,18 @@
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    <!-- preprocess -->
-   <x:schematron-preprocessor-xqs>
+   <x:preprocess-schematron-xqs>
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="xqs-home" select="$xqs-home"/>
       <p:with-option name="parameters" select="$parameters"/>
-   </x:schematron-preprocessor-xqs>
+   </x:preprocess-schematron-xqs>
 
    <!-- run generated test and produce report -->
-   <x:xquery-harness>
+   <x:run-xquery>
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="report-theme" select="$report-theme"/>
       <p:with-option name="parameters" select="$parameters"/>
-   </x:xquery-harness>
+   </x:run-xquery>
 
 </p:declare-step>
