@@ -4,7 +4,7 @@
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-schematron-xqs"
 		uri="xqs-harness.xproc" />
 	
-	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/compile-schematron-xqs"
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/preprocess-schematron-xqs"
 		uri="schematron-preprocessor-xqs.xproc" />
 			
 </catalog>
