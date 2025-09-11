@@ -585,7 +585,7 @@ load bats-helper
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/run-xquery-harness.xpl
+        ../src/xproc3/run-xquery.xpl
 
     # Verify HTML report including #72
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -599,7 +599,7 @@ load bats-helper
         --input:source=end-to-end/cases/serialize.xspec \
         --output:result="file:${actual_report}" \
         xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/run-xquery-harness.xpl
+        ../src/xproc3/run-xquery.xpl
 }
 
 @test "XProc 3 harness with Saxon (XQuery with special characters in expression #1020)" {
@@ -611,7 +611,7 @@ load bats-helper
         --input:source=issue-1020.xspec \
         --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         xspec-home="file:${parent_dir_abs}/" \
-        ../src/xproc3/run-xquery-harness.xpl
+        ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]
     [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
