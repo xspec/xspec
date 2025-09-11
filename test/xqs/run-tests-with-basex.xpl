@@ -18,8 +18,8 @@
       <p>'xqs-location' option: Directory of XQS. Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
-   <p:import href="../../src/xproc3/schematron-xqs/xqs-harness.xproc"/>
-   <p:import href="../../src/xproc3/xquery-harness.xproc"/>
+   <p:import href="../../src/xproc3/schematron-xqs/run-schematron-xqs.xpl"/>
+   <p:import href="../../src/xproc3/run-xquery.xpl"/>
 
    <p:option name="parameters" as="map(xs:QName,item()*)?"/>
 

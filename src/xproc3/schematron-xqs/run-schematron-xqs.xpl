@@ -18,8 +18,8 @@
       <p>'xqs-location' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
    </p:documentation>
 
-   <p:import href="schematron-preprocessor-xqs.xproc"/>
-   <p:import href="../xquery-harness.xproc"/>
+   <p:import href="preprocess-schematron-xqs.xpl"/>
+   <p:import href="../run-xquery.xpl"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
