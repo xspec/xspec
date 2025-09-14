@@ -107,6 +107,6 @@ declare function dr:assertion(
 {
   (
     $result[self::svrl:*],
-    output:assertion-message($assertion, $prolog, $rule-context, $context)
+    output:assertion($assertion, $prolog, $rule-context, $context)
   )
 };
