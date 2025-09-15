@@ -346,10 +346,10 @@ declare function eval:assertion(
   typeswitch($assertion)
     case element(sch:assert)
       return if($result) then () 
-        else output:assertion-message($assertion, $prolog, $rule-context, $context)
+        else output:assertion($assertion, $prolog, $rule-context, $context)
     case element(sch:report)
       return if($result) 
-        then output:assertion-message($assertion, $prolog, $rule-context, $context) 
+        then output:assertion($assertion, $prolog, $rule-context, $context) 
         else ()
   default return error(
     xs:QName('eval:invalid-assertion-element'), 

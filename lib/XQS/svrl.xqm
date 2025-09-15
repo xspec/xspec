@@ -26,7 +26,7 @@ as element(svrl:ns-prefix-in-attribute-values)*
 };
 
 (:~ Outputs a failed-assert or successful-report element. :)
-declare function output:assertion-message(
+declare function output:assertion(
   $assertion as element(),
   $prolog as xs:string?,
   $rule-context as node(),
@@ -34,7 +34,7 @@ declare function output:assertion-message(
 )
 {
   if($context?dry-run eq 'true')
-  then output:assertion-message-content(
+  then output:assertion-message(
         $assertion/node(), 
         $prolog, 
         $rule-context,
@@ -69,7 +69,7 @@ declare function output:assertion-message(
         $rule-context,
         $context
       ),
-      output:assertion-message-content(
+      output:assertion-message(
         $assertion/node(), 
         $prolog, 
         $rule-context,
@@ -108,7 +108,7 @@ declare function output:assertion-child-elements($element as element())
 as element()
 {
   element{QName("http://purl.oclc.org/dsdl/svrl", local-name($element))}
-  {$element/@*, $element/node()}
+  {$element/@*, utils:escape-literal-braces($element/node())}
 };
 
 declare function output:diagnostics(
@@ -121,7 +121,7 @@ as element(svrl:diagnostic-reference)*
 {
   $diagnostics ! 
   <svrl:diagnostic-reference diagnostic='{@id}'>
-  {output:assertion-message-content(node(), $prolog, $rule-context, $context)}
+  {output:assertion-message(node(), $prolog, $rule-context, $context)}
   </svrl:diagnostic-reference>
 };
 
@@ -136,7 +136,7 @@ as element(svrl:property-reference)*
   $properties ! 
   <svrl:property-reference property='{@id}'>
   {@role, @scheme, 
-  output:assertion-message-content(node(), $prolog, $rule-context, $context)}
+  output:assertion-message(node(), $prolog, $rule-context, $context)}
   </svrl:property-reference>
 };
 
@@ -144,7 +144,7 @@ as element(svrl:property-reference)*
  : in the SVRL schema.
  : @see ISO2020, Annex D
  :)
-declare function output:assertion-message-content(
+declare function output:assertion-message(
   $content as node()*,
   $prolog as xs:string?,
   $rule-context as node(),
@@ -174,19 +174,39 @@ as item()*
       case element(sch:name)
         return if($node/@path) 
           then output:name-value-of($node/@path, $prolog, $rule-context, $context)
-          => string()
           else name($rule-context)
       case element(sch:value-of)
-        return output:name-value-of($node/@select, $prolog, $rule-context, $context)
-        => string()
-      case element(sch:emph)
-        return output:assertion-child-elements($node)
-      case element(sch:dir)
-        return output:assertion-child-elements($node)
-      case element(sch:span)
-        return output:assertion-child-elements($node)      
+        return text{output:name-value-of($node/@select, $prolog, $rule-context, $context)}
+      case element(sch:emph) | element(sch:dir) | element(sch:span)
+        return 
+        element{QName("http://purl.oclc.org/dsdl/svrl", local-name($node))}
+        {
+          $node/@*, 
+          output:assertion-message-content($node/node(), $prolog, $rule-context, $context)
+        } 
     default return $node
   }</svrl:text>
+};
+
+declare function output:assertion-message-content(
+  $content as node()*,
+  $prolog as xs:string?,
+  $rule-context as node(),
+  $context as map(*)
+)
+as item()*
+{
+  (:TODO dry-run?:)
+  for $node in $content
+    return
+    typeswitch($node)
+      case element(sch:name)
+        return if($node/@path) 
+          then text{output:name-value-of($node/@path, $prolog, $rule-context, $context)}
+          else name($rule-context)
+      case element(sch:value-of)
+        return text{output:name-value-of($node/@select, $prolog, $rule-context, $context)}
+    default return $node
 };
 
 declare function output:name-value-of(

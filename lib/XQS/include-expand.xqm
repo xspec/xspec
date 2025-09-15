@@ -4,6 +4,9 @@
 
 module namespace ie = 'http://www.andrewsales.com/ns/xqs-include-expand';
 
+import module namespace util = 'http://www.andrewsales.com/ns/xqs-utils' at
+  'utils.xqm';
+
 declare namespace sch = "http://purl.oclc.org/dsdl/schematron";
 
 (:~ Perform inclusion and expansion.
@@ -46,13 +49,13 @@ as element(sch:schema)
   if($copy//sch:include | $copy//sch:extends[@href])
   then ie:process-includes($copy)
   else
-    if($copy/@xml:base)	(:don't replace:)
+    (if($copy/@xml:base)	(:don't replace:)
     then $copy
     else
       copy $copy := $copy
       modify
         insert node attribute{'xml:base'}{$schema/base-uri()} into $copy
-    return $copy
+    return $copy) => util:elements-to-attributes()
 };
 
 (:~ For a given inclusion instruction, retrieve the element to be included,
