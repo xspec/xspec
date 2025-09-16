@@ -101,6 +101,20 @@ as xs:string
   => replace('\}', '&amp;#x7D;') :)
 };
 
+(:~ Escape literal braces (in compiled schemas).
+ : @param nodes nodes to escape
+ :)
+declare function utils:escape-literal-braces($nodes as node()*)
+as node()*
+{
+    for $node in $nodes
+    return
+    typeswitch($node)
+      case text()
+        return text{replace($node, '\{', '{{') => replace('\}', '}}')}  (:CHECKME node constructor required, else padded with space:)
+    default return $node
+};
+
 declare function utils:declare-variable(
   $name as xs:string,
   $value as item()+
@@ -276,4 +290,32 @@ declare function utils:report-edition(
   then 
   trace(<sch:schema>{$schema/@schematronEdition}</sch:schema>)    
   else ()
+};
+
+declare function utils:attributes-to-elements(
+  $schema as element(sch:schema)
+)
+as element(sch:schema)
+{
+  copy $copy := $schema
+  modify
+    for $att in ($copy//sch:param/@value | $copy//sch:let/@value | $copy//sch:phase/(@from, @when) | $copy//sch:pattern/@documents | $copy//sch:rule/(@context, @subject, @visit-each) | $copy//(sch:assert | sch:report)/(@test, @subject) | $copy//sch:name/@path | $copy//sch:value-of/@select)
+      return
+      (delete node $att,
+      insert node element{$att/name()}{$att/data()} as first into $att/..)
+  return $copy
+};
+
+declare function utils:elements-to-attributes(
+  $schema as element(sch:schema)
+)
+as element(sch:schema)
+{
+  copy $copy := $schema
+  modify
+    for $elem in ($copy//sch:param/sch:value | $copy//sch:let/sch:value | $copy//sch:phase/(sch:from, sch:when) | $copy//sch:pattern/sch:documents | $copy//sch:rule/(sch:context | sch:subject | sch:visit-each) | $copy//(sch:assert | sch:report)/(sch:test | sch:subject) | $copy//sch:name/sch:path | $copy//sch:value-of/sch:select)
+      return
+    (insert node attribute{$elem/local-name()}{$elem/data()} into $elem/..,
+      delete node $elem)
+  return $copy
 };
