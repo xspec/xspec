@@ -9,6 +9,9 @@
     <p:import href="../src/xproc3/run-xslt.xpl"/>
 
     <p:declare-step type="xt:test-html-report-theme">
+        <!-- TODO: When https://codeberg.org/xmlcalabash/xmlcalabash3/issues/239 is closed,
+            remove input port here and remove argument from function call. Same for xt:test-force-focus. -->
+        <p:input port="source" sequence="true"><p:empty/></p:input>
         <p:output port="result"/>
         <xspec:run-xquery p:message="&#10;--- Testing html-report-theme ---">
             <p:with-input href="../tutorial/xquery-tutorial.xspec"/>
@@ -33,6 +36,7 @@
     </p:declare-step>
 
     <p:declare-step type="xt:test-force-focus">
+        <p:input port="source" sequence="true"><p:empty/></p:input>
         <p:output port="result"/>
         <p:option name="force-focus-value" as="xs:string" select="'#none'"/>
         <p:option name="expected-pending-value" as="xs:string" select="'0'"/>
