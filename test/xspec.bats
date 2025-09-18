@@ -641,6 +641,16 @@ load bats-helper
     [ "${lines[${#lines[@]} - 1]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+@test "XProc 3 harness options" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" check-xproc-harness-options.xpl
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
 #
 # XProc 3 support for Schematron testing using XQS
 #
