@@ -21,9 +21,9 @@
                   <messages>
                      <!-- Each test case is an XProc step. Call each one as an XPath function.
                         https://docs.xmlcalabash.com/userguide/current/pipelineception.html -->
-                     <xsl:sequence select="xt:test-html-report-theme(())?result"/>
-                     <xsl:sequence select="xt:test-force-focus(())?result"/>
-                     <xsl:sequence select="xt:test-force-focus((), map{{
+                     <xsl:sequence select="xt:test-html-report-theme()?result"/>
+                     <xsl:sequence select="xt:test-force-focus()?result"/>
+                     <xsl:sequence select="xt:test-force-focus(map{{
                               'force-focus-value': 'scenario1-scenario2',
                               'expected-pending-value': '3'}}
                               )?result"/>
