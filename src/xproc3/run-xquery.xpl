@@ -30,7 +30,7 @@
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
       <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
-      <p>'report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
+      <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
    </p:documentation>
 
@@ -49,7 +49,7 @@
 
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="force-focus" as="xs:string?"/>
-   <p:option name="report-theme" as="xs:string" select="'default'"/>
+   <p:option name="html-report-theme" as="xs:string" select="'default'"/>
    <!-- TODO: Declare inline-css option, when we can support it. -->
    <!-- TODO: Decide whether to support measure-time for t:compile-xquery. -->
    <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
@@ -78,7 +78,7 @@
    <t:format-report>
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
-      <p:with-option name="report-theme" select="$report-theme"/>
+      <p:with-option name="html-report-theme" select="$html-report-theme"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
 
