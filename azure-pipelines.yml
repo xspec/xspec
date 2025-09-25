@@ -9,14 +9,14 @@ trigger:
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java11
-      javaVersion: 11
+      jobName: Win_Java17
+      javaVersion: 17
       testOxygen: false
 
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java17
-      javaVersion: 17
+      jobName: Win_Java21
+      javaVersion: 21
 
   - job: macOS
 
@@ -39,5 +39,7 @@ jobs:
           && test/ci/print-env.sh
           && test/ci/run-core-tests.sh
           && test/ci/maven-package.sh -q
+          && test/ci/compile-java.sh -silent
+          && test/ci/last-git-status.sh
           && test/ci/test-maven-jar.sh -silent
         displayName: Test
