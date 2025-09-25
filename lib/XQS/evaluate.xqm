@@ -210,8 +210,7 @@ declare function eval:rule-context(
 {
   let $_ := utils:check-duplicate-variable-names($rule/sch:let)
   let $query := string-join(
-      ($prolog, utils:local-variable-decls($rule/sch:let),
-      if($rule/sch:let) then 'return ' else '', $rule/@context),
+      ($prolog, $rule/@context),
       ' '
     )
   let $evaluation-context := context:rule-evaluation-context($context)

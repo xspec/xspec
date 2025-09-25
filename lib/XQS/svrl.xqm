@@ -52,6 +52,7 @@ declare function output:assertion(
         $context
       )},
       $assertion/(@id, @test),
+      output:pattern-rule-id($assertion),
       output:dynamic-attributes(
         $assertion/(@role, @flag, @severity),
         $prolog,
@@ -222,4 +223,16 @@ declare function output:name-value-of(
     map{'dry-run':$context?dry-run},
     $attr
   )
+};
+
+(:~ Output ruleId and patternId attributes where an assertion's ancestors have 
+ : these.
+ : @param assertion the assertion
+ : @see https://github.com/Schematron/schematron-enhancement-proposals/issues/82 
+ :)
+declare function output:pattern-rule-id($assertion as element())
+as attribute()*
+{
+  if($assertion/../@id) then attribute{'ruleId'}{$assertion/../@id},
+  if($assertion/../../@id) then attribute{local-name($assertion/../..)||'Id'}{$assertion/../../@id}
 };
