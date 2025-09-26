@@ -582,6 +582,12 @@
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
         xqs\run-tests-with-basex.xpl
     call :verify_line * r "--- Testing completed with no failures! ---"
+
+    call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
+        xqs\run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+    call :verify_line * r "--- Testing completed with no failures! ---"
 	</case>
 
 	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness using catalog instead of xspec-home, Schematron with XQS">
