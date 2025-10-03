@@ -11,6 +11,9 @@ rem ## dir Saxon has been installed to (i.e. the containing the Saxon JAR
 rem ## file), or on SAXON_CP to be set to a full classpath containing
 rem ## Saxon (and maybe more).  The latter has precedence over the former.
 rem ##
+rem ## When running tests for Schematron via XQS, the environment variable
+rem ## BASEX_JAR must be set to the BaseX.jar file in a BaseX installation.
+rem ##
 rem ## It also uses the environment variable XSPEC_HOME.  It must be set
 rem ## to the XSpec install directory.  By default, it uses this script's
 rem ## parent dir.
@@ -84,6 +87,10 @@ rem ##
     java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
+:basex
+    call "%BASEX_JAR%\..\bin\basex.bat" %*
+    goto :EOF
+
 :win_reset_options
     set XSLT=
     set XQUERY=
@@ -95,6 +102,7 @@ rem ##
     set WIN_EXTRA_OPTION=
     set XSPEC=
     set CATALOG=
+    set BASEX_CATALOG=
     set REPORT_THEME=default
     set ERROR_ON_TEST_FAILURE=
     goto :EOF
@@ -133,6 +141,30 @@ rem ##
     shift
     goto :win_get_options
 
+:classify_and_process_schematron
+    rem # Set QUERYLANGUAGE variable to stylesheet output, which should be xslt or xquery
+    FOR /F "delims=" %%V IN ('java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:"%XSPEC%" -xsl:"%XSPEC_HOME%\src\schematron\get-query-binding.xsl" -it %CATALOG%') DO SET "QUERYLANGUAGE=%%V"
+    if "%QUERYLANGUAGE%"=="xquery" (
+        call :preprocess_schematron-xqs
+        set XSLT=
+    ) else (
+        call :preprocess_schematron
+    )
+    goto :EOF
+
+:preprocess_schematron-xqs
+    set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
+    echo:
+    echo Converting Schematron XSpec into XQuery XSpec...
+    call :xslt -o:"%SCH_PREPROCESSED_XSPEC%" ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
+        stylesheet-uri="irrelevant for XQS but make it nonempty" ^
+        sch-impl-name="xqs" ^
+        || ( call :die "Error converting Schematron XSpec into XQuery XSpec" & goto :win_main_error_exit )
+    set "XSPEC=%SCH_PREPROCESSED_XSPEC%"
+    echo:
+    goto :EOF
 
 :preprocess_schematron
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
@@ -330,10 +362,11 @@ if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
 )
 
 rem
-rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem # set CATALOG option for Saxon and BaseX if XML_CATALOG has been set
 rem
 if defined XML_CATALOG (
     set CATALOG=-catalog:"%XML_CATALOG%"
+    set BASEX_CATALOG=-OCATALOG="%XML_CATALOG%" -ODTD=true
 )
 
 rem
@@ -367,12 +400,6 @@ if not defined TEST_DIR for %%I in ("%XSPEC%") do set "TEST_DIR=%%~dpIxspec"
 
 for %%I in ("%XSPEC%") do set "TARGET_FILE_NAME=%%~nI"
 
-set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
-if defined XSLT (
-    set "COMPILED=%COMPILED%.xsl"
-) else (
-    set "COMPILED=%COMPILED%.xq"
-)
 set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
 if not defined COVERAGE_HTML set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
 set "RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml"
@@ -386,13 +413,20 @@ if not exist "%TEST_DIR%" (
     echo:
 )
 
+if defined SCHEMATRON call :classify_and_process_schematron || goto :win_main_error_exit
+
+set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
+if defined XSLT (
+    set "COMPILED=%COMPILED%.xsl"
+) else (
+    set "COMPILED=%COMPILED%.xq"
+)
+
 rem
 rem ##
 rem ## compile the suite #########################################################
 rem ##
 rem
-
-if defined SCHEMATRON call :preprocess_schematron || goto :win_main_error_exit
 
 if defined XSLT (
     set COMPILE_SHEET=compile-xslt-tests.xsl
@@ -414,7 +448,7 @@ rem
 echo Running Tests...
 if defined XSLT (
     rem
-    rem # for XSLT
+    rem # for XSLT or XSLT-based Schematron
     rem
     if defined COVERAGE (
         echo Collecting test coverage data...
@@ -428,6 +462,15 @@ if defined XSLT (
             -o:"%RESULT%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
+    )
+) else if defined SCHEMATRON (
+    rem
+    rem # for Schematron via XQS
+    if defined BASEX_JAR (
+      call :basex %BASEX_CATALOG% -Q"%COMPILED%" > "%RESULT%" ^
+      || ( call :die "Error running the test suite" & goto :win_main_error_exit )
+    ) else (
+      call :die "Executing test for Schematron with XQS requires BASEX_JAR to be defined" & goto :win_main_error_exit
     )
 ) else (
     rem
