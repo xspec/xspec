@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+    <x:scenario label="Outermost element should fire">
+        <x:context>
+            <root/>
+        </x:context>
+        <x:expect-report id="element-fired"/>
+    </x:scenario>
+</x:description>
