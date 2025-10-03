@@ -10,6 +10,9 @@
 ## file), or on $SAXON_CP to be set to a full classpath containing
 ## Saxon (and maybe more).  The latter has precedence over the former.
 ##
+## When running tests for Schematron via XQS, the environment variable
+## BASEX_JAR must be set to the BaseX.jar file in a BaseX installation.
+##
 ## It also uses the environment variable XSPEC_HOME.  It must be set
 ## to the XSpec install directory.  By default, it uses this script's
 ## parent dir.
@@ -56,6 +59,81 @@ xslt() {
 }
 xquery() {
     java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+}
+
+basex() {
+    # BaseX dir
+    basex_home=$(dirname -- "${BASEX_JAR}")
+    "${basex_home}/bin/basex" "$@"
+}
+
+classify_and_process_schematron() {
+    # stylesheet output should be xslt or xquery
+    if xslt -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/get-query-binding.xsl" -it | grep "xquery" > /dev/null 2>&1; then
+        preprocess_schematron-xqs
+        XSLT=
+    else
+        preprocess_schematron
+    fi
+}
+
+preprocess_schematron-xqs() {
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    echo
+    echo "Converting Schematron XSpec into XQuery XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
+        stylesheet-uri="irrelevant for XQS but make it nonempty" \
+        sch-impl-name="xqs" \
+        || die "Error converting Schematron XSpec into XQuery XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
+
+    echo
+}
+
+preprocess_schematron() {
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
+
+    SCHUT_TO_XSLT_PARAMS=()
+    if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
+        if [ "${SCHEMATRON_XSLT_INCLUDE}" = "#none" ]; then
+            SCHUT_TO_XSLT_PARAMS+=("STEP1-PREPROCESSOR-URI=${SCHEMATRON_XSLT_INCLUDE}")
+        else
+            SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
+        fi
+    fi
+    if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
+        if [ "${SCHEMATRON_XSLT_EXPAND}" = "#none" ]; then
+            SCHUT_TO_XSLT_PARAMS+=("STEP2-PREPROCESSOR-URI=${SCHEMATRON_XSLT_EXPAND}")
+        else
+            SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
+        fi
+    fi
+    if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
+    fi
+
+    echo
+    echo "Converting Schematron into XSLT..."
+    xslt \
+        -o:"${SCH_PREPROCESSED_XSL}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xslt.xsl" \
+        "${SCHUT_TO_XSLT_PARAMS[@]}" \
+        || die "Error converting Schematron into XSLT"
+
+    echo
+    echo "Converting Schematron XSpec into XSLT XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
+        +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
+        || die "Error converting Schematron XSpec into XSLT XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
+
+    echo
 }
 
 ##
@@ -205,11 +283,13 @@ if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
     exit 1
 fi
 
-# set CATALOG option for Saxon if XML_CATALOG has been set
+# set CATALOG option for Saxon and BaseX if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
     CATALOG="-catalog:$XML_CATALOG"
+    BASEX_CATALOG="-OCATALOG=$XML_CATALOG -ODTD=true"
 else
     CATALOG=
+    BASEX_CATALOG=
 fi
 
 # set XSLT if XQuery has not been set (that's the default)
@@ -239,12 +319,6 @@ fi
 
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
-COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
-if test -n "$XSLT"; then
-    COMPILED="${COMPILED}.xsl"
-else
-    COMPILED="${COMPILED}.xq"
-fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 if [ -z "${COVERAGE_HTML}" ]; then
     COVERAGE_HTML="${TEST_DIR}/${TARGET_FILE_NAME}-coverage.html"
@@ -260,53 +334,20 @@ if [ ! -d "$TEST_DIR" ]; then
     echo
 fi
 
+if test -n "$SCHEMATRON"; then
+    classify_and_process_schematron
+fi
+
+COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
+if test -n "$XSLT"; then
+    COMPILED="${COMPILED}.xsl"
+else
+    COMPILED="${COMPILED}.xq"
+fi
+
 ##
 ## compile the suite #########################################################
 ##
-
-if test -n "$SCHEMATRON"; then
-    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
-    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
-
-    SCHUT_TO_XSLT_PARAMS=()
-    if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
-        if [ "${SCHEMATRON_XSLT_INCLUDE}" = "#none" ]; then
-            SCHUT_TO_XSLT_PARAMS+=("STEP1-PREPROCESSOR-URI=${SCHEMATRON_XSLT_INCLUDE}")
-        else
-            SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
-        fi
-    fi
-    if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
-        if [ "${SCHEMATRON_XSLT_EXPAND}" = "#none" ]; then
-            SCHUT_TO_XSLT_PARAMS+=("STEP2-PREPROCESSOR-URI=${SCHEMATRON_XSLT_EXPAND}")
-        else
-            SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
-        fi
-    fi
-    if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
-    fi
-
-    echo
-    echo "Converting Schematron into XSLT..."
-    xslt \
-        -o:"${SCH_PREPROCESSED_XSL}" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xslt.xsl" \
-        "${SCHUT_TO_XSLT_PARAMS[@]}" \
-        || die "Error converting Schematron into XSLT"
-
-    echo
-    echo "Converting Schematron XSpec into XSLT XSpec..."
-    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
-        || die "Error converting Schematron XSpec into XSLT XSpec"
-    XSPEC="${SCH_PREPROCESSED_XSPEC}"
-
-    echo
-fi
 
 if test -n "$XSLT"; then
     COMPILE_SHEET=compile-xslt-tests.xsl
@@ -332,7 +373,7 @@ declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
 
 echo "Running Tests..."
 if test -n "$XSLT"; then
-    # for XSLT
+    # for XSLT or XSLT-based Schematron
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data..."
         xslt "${saxon_custom_options_array[@]}" \
@@ -347,10 +388,20 @@ if test -n "$XSLT"; then
             || die "Error running the test suite"
     fi
 else
-    # for XQuery
-    xquery "${saxon_custom_options_array[@]}" \
-        -o:"$RESULT" -q:"$COMPILED" \
-        || die "Error running the test suite"
+    if test -n "$SCHEMATRON"; then
+        # for Schematron via XQS
+        if test -n "$BASEX_JAR"; then
+            basex ${BASEX_CATALOG:+"$BASEX_CATALOG"} -Q"$COMPILED" > "$RESULT" \
+                || die "Error running the test suite"
+        else
+            die "Executing test for Schematron with XQS requires BASEX_JAR to be defined"
+        fi
+    else
+        # for XQuery
+        xquery "${saxon_custom_options_array[@]}" \
+            -o:"$RESULT" -q:"$COMPILED" \
+            || die "Error running the test suite"
+    fi
 fi
 
 ##
