@@ -283,13 +283,11 @@ if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
     exit 1
 fi
 
-# set CATALOG option for Saxon and BaseX if XML_CATALOG has been set
+# set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
     CATALOG="-catalog:$XML_CATALOG"
-    BASEX_CATALOG="-OCATALOG=$XML_CATALOG -ODTD=true"
 else
     CATALOG=
-    BASEX_CATALOG=
 fi
 
 # set XSLT if XQuery has not been set (that's the default)
@@ -391,8 +389,13 @@ else
     if test -n "$SCHEMATRON"; then
         # for Schematron via XQS
         if test -n "$BASEX_JAR"; then
-            basex ${BASEX_CATALOG:+"$BASEX_CATALOG"} -Q"$COMPILED" > "$RESULT" \
-                || die "Error running the test suite"
+            if test -n "$XML_CATALOG"; then
+                basex -OCATALOG="$XML_CATALOG" -ODTD=true -Q"$COMPILED" > "$RESULT" \
+                    || die "Error running the test suite"
+            else
+                basex -Q"$COMPILED" > "$RESULT" \
+                    || die "Error running the test suite"
+            fi
         else
             die "Executing test for Schematron with XQS requires BASEX_JAR to be defined"
         fi
