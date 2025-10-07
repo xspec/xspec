@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="mirror.xsl">
+    <x:scenario>
+        <x:label>Interspersing x:variable and x:like</x:label>
+        <x:context>
+            <section>
+                <link/>
+                <xref/>
+            </section>
+        </x:context>
+        <x:scenario label="in a named template scenario">
+            <x:call template="mirror:context-mirror"/>
+            <x:like label="interspersed x:variable and x:like"/>
+        </x:scenario>
+        <x:scenario label="in a matching template rule scenario">
+            <x:context mode="mirror:context-mirror"/>
+            <x:like label="interspersed x:variable and x:like"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="interspersed x:variable and x:like" shared="yes">
+        <x:variable name="parent-name" select="'section'"/>
+        <x:like label="verify-parent"/>
+        <x:variable name="child-name" select="'link'"/>
+        <x:like label="verify-child1"/>
+        <x:variable name="child-name" select="'xref'"/>
+        <x:like label="verify-child2"/>
+    </x:scenario>
+    <x:import href="variable-like.xspec"/>
+</x:description>
