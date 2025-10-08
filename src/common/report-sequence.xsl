@@ -355,10 +355,7 @@
 
                   <!-- Derived from xs:dateTime -->
                   <xsl:when test="$value instance of xs:dateTimeStamp" use-when="
-                     type-available('xs:dateTimeStamp')
-                     (: TODO: Remove system-property() condition after
-                        https://saxonica.plan.io/issues/4861 gets fixed :)
-                     and (xs:decimal(system-property('xsl:xsd-version')) ge 1.1)">dateTimeStamp</xsl:when>
+                     type-available('xs:dateTimeStamp')">dateTimeStamp</xsl:when>
 
                   <!-- Derived from xs:decimal -->
                   <xsl:when test="$value instance of xs:byte">byte</xsl:when>
