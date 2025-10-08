@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-saxon-bug-4621-fixed?>
 <x:description stylesheet="issue-1029.xsl" xmlns:issue-1029="x-urn:test:issue-1029"
 	xmlns:myv="x-urn:test:issue-1029:xspec-variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
