@@ -98,75 +98,12 @@
 				way, we can safely delete a scenario set when we drop supporting its corresponding
 				Saxon major release. -->
 			
-			<x:scenario label="9">
-				<x:scenario label="Typical xsl:product-version">
-					<x:call>
-						<x:param select="'HE 9.9.1.5'" />
-					</x:call>
-					<x:expect label="Extracted" select="9, 9, 1, 5" />
-				</x:scenario>
-
-				<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-					<x:call>
-						<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
-					</x:call>
-					<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5"
-					 />
-				</x:scenario>
-			</x:scenario>
-
 			<!--
-				On 10.0 major release, Saxon changed its version number structure.
+				FYI: On 10.0 major release, Saxon changed its version number structure.
 				https://saxonica.plan.io/projects/saxon/activity?from=2020-03-17
 				> In future we intend to use two-part version numbers rather than four-part:
 				> the next major release will be 11.0, the next maintenance release 10.1.
 			-->
-
-			<x:scenario label="10">
-				<x:scenario label="Typical xsl:product-version">
-					<x:scenario label="major.0">
-						<x:call>
-							<x:param select="'HE 10.0'" />
-						</x:call>
-						<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
-					</x:scenario>
-
-					<x:scenario label="major.1+">
-						<x:call>
-							<x:param select="'HE 10.1'" />
-						</x:call>
-						<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
-					</x:scenario>
-				</x:scenario>
-
-				<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-					<x:call>
-						<x:param select="'SAXON-HE 10.0J from Saxonica (build 31609)'" />
-					</x:call>
-					<x:expect label="Extracted, stripping platform suffix ('J')"
-						select="10, 0, 0, 0" />
-				</x:scenario>
-			</x:scenario>
-
-			<x:scenario label="11">
-				<x:scenario label="Typical xsl:product-version">
-					<!-- major.0: 11.0 not released for Java -->
-
-					<x:scenario label="major.1+">
-						<x:call>
-							<x:param select="'HE 11.5'" />
-						</x:call>
-						<x:expect label="Extracted as major.minor.0.0" select="11, 5, 0, 0" />
-					</x:scenario>
-				</x:scenario>
-
-				<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-					<x:call>
-						<x:param select="'SAXON-J-HE 11.5 from Saxonica (build 20809)'" />
-					</x:call>
-					<x:expect label="Extracted" select="11, 5, 0, 0" />
-				</x:scenario>
-			</x:scenario>
 
 			<x:scenario label="12">
 				<x:scenario label="Typical xsl:product-version">
