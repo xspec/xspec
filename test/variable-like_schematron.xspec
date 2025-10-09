@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="variable.sch">
+    <x:scenario>
+        <x:label>Interspersing x:variable and x:like in a Schematron scenario</x:label>
+        <x:context>
+            <mycontext role="after_context"/>
+        </x:context>
+        <x:variable name="data" select="'mycontext'"/>
+        <x:like label="verify-location-using-name"/>
+        <x:variable name="data" select="'after_context'"/>
+        <x:like label="verify-location-using-role"/>
+    </x:scenario>
+    <x:scenario label="verify-location-using-name" shared="yes">
+        <x:expect-report location="/*[name()=$data]"/>
+    </x:scenario>
+    <x:scenario label="verify-location-using-role" shared="yes">
+        <x:expect-report location="/*[@role=$data]"/>
+    </x:scenario>
+</x:description>

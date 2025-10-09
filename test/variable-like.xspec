@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" query="x-urn:test:do-nothing"
+    query-at="do-nothing.xqm" schematron="do-nothing.sch">
+    <x:scenario>
+        <x:label>Interspersing x:variable and x:like in a function call scenario</x:label>
+        <x:call function="one-or-more">
+            <x:param>
+                <section>
+                    <link/>
+                    <xref/>
+                </section>
+            </x:param>
+        </x:call>
+        <x:variable name="parent-name" select="'section'"/>
+        <x:like label="verify-parent"/>
+        <x:variable name="child-name" select="'link'"/>
+        <x:like label="verify-child1"/>
+        <x:variable name="child-name" select="'xref'"/>
+        <x:like label="verify-child2"/>
+    </x:scenario>
+    <x:scenario label="verify-parent" shared="yes">
+        <x:expect label="should work" test="$x:result/name()" select="$parent-name"/>
+    </x:scenario>
+    <x:scenario label="verify-child1" shared="yes">
+        <x:expect label="should work" test="$x:result/*[1]/name()" select="$child-name"/>
+    </x:scenario>
+    <x:scenario label="verify-child2" shared="yes">
+        <x:expect label="and should preserve order of elements" test="$x:result/*[2]/name()"
+            select="$child-name"/>
+    </x:scenario>
+</x:description>
