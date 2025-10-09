@@ -771,6 +771,25 @@ load bats-helper
 }
 
 #
+# Schematron running with XQS (CLI)
+#
+
+@test "invoking xspec with -s where schema being tested requires XQS (CLI)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    unset BASEX_JAR
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[${#lines[@]} - 1]}" '.+Executing test for Schematron with XQS requires BASEX_JAR to be defined'
+}
+
+#
 # Skip Schematron Step (CLI)
 #
 
@@ -1475,6 +1494,29 @@ load bats-helper
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
+@test "CLI with -catalog file path (Schematron via XQS)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    mkdir -p "${space_dir}/03"
+    cp catalog/catalog-03* "${space_dir}"
+    cp catalog/03/* "${space_dir}/03"
+
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "${space_dir}/03/catalog-rewriteURI.xml" \
+        -s \
+        "${space_dir}/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
 #
 # Catalog file URI (CLI) (-catalog)
 #
@@ -1508,6 +1550,20 @@ load bats-helper
         catalog/catalog-01_schematron.xspec
     [ "$status" -eq 0 ]
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "CLI with -catalog file URI (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -s \
+        catalog/catalog-03_schematron-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="catalog-xqs:/schematron-via-catalog-xqs.sch">
+    <x:import href="catalog-xqs:/test-via-catalog.xspec"/>
+    <x:scenario label="Outermost element of external document should fire">
+        <x:context href="catalog-xqs:/document.xml"/>
+        <x:expect-report id="element-fired"/>
+    </x:scenario>
+</x:description>

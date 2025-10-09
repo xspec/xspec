@@ -661,6 +661,22 @@
 	</case>
 
 	<!--
+		Schematron running with XQS (CLI)
+	-->
+
+	<case ifdef="BASEX_JAR" name="invoking xspec with -s where schema being tested requires XQS (CLI)">
+    call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
+    call :verify_retval 0
+    call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+    call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    set BASEX_JAR=
+    call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
+    call :verify_retval 1
+    call :verify_line -1 r "..*Executing test for Schematron with XQS requires BASEX_JAR to be defined"
+	</case>
+
+	<!--
 		Skip Schematron Step (CLI)
 	-->
 
@@ -1322,6 +1338,23 @@
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
+	<case ifdef="BASEX_JAR" name="CLI with -catalog file path (Schematron via XQS)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-03* "%SPACE_DIR%"
+    call :copy catalog\03          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+    call :run ..\bin\xspec.bat ^
+        -catalog "catalog\03\catalog-rewriteURI.xml" ^
+        -s ^
+        "%SPACE_DIR%\catalog-03_schematron-xqs.xspec"
+    call :verify_retval 0
+    call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+    call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
 	<!--
 		Catalog file URI (CLI) (-catalog)
 
@@ -1355,6 +1388,17 @@
         catalog\catalog-01_schematron.xspec
     call :verify_retval 0
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
+	</case>
+
+	<case ifdef="BASEX_JAR" name="CLI with -catalog file URI (Schematron via XQS)">
+    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+    call :run ..\bin\xspec.bat ^
+        -catalog "file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
+        -s ^
+        catalog\catalog-03_schematron-xqs.xspec
+    call :verify_retval 0
+    call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+    call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<!--
