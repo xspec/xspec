@@ -33,9 +33,6 @@
 
    <p:import href="../harness-lib.xpl"/>
 
-   <!-- TODO: Does not work yet... -->
-   <!--t:ensure-input/-->
-
    <!-- compile the suite into a stylesheet -->
    <t:compile-xslt name="compile"/>
 

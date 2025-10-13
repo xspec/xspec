@@ -25,12 +25,6 @@ jobs:
         Saxon-12:
           XSPEC_TEST_ENV: saxon-12
 
-        Saxon-11:
-          XSPEC_TEST_ENV: saxon-11
-
-        Saxon-10:
-          XSPEC_TEST_ENV: saxon-10
-
         ${{ if eq(parameters.testOxygen, true) }}:
           Oxygen:
             XSPEC_TEST_ENV: oxygen
