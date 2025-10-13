@@ -4,11 +4,8 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <!-- Serialization parameters for the test result report XML
-      TODO: Put @parameter-document="xml-report-serialization-parameters.xml" and remove the other
-         parameters after the fixes for https://saxonica.plan.io/issues/4599 and
-         https://saxonica.plan.io/issues/4602 are made available on all the supported versions of
-         Saxon. -->
-   <xsl:output name="x:xml-report-serialization-parameters" method="xml" indent="yes" />
+   <!-- Serialization parameters for the test result report XML -->
+   <xsl:output name="x:xml-report-serialization-parameters"
+      parameter-document="xml-report-serialization-parameters.xml" />
 
 </xsl:stylesheet>
