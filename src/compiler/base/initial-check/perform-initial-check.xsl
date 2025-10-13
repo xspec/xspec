@@ -12,8 +12,8 @@
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((12, 0))">
-               <xsl:text>Saxon version 11 or earlier is not supported.</xsl:text>
+            <xsl:when test="$x:saxon-version lt x:pack-version((11, 0))">
+               <xsl:text>Saxon version 10 or earlier is not supported.</xsl:text>
             </xsl:when>
            <xsl:when test="$x:saxon-version lt x:pack-version((12, 4))">
              <xsl:text>Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later.</xsl:text>
