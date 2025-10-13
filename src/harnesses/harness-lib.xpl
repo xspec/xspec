@@ -18,29 +18,6 @@
            version="1.0">
 
    <!--
-       Ensure there is exactly one document on the input port.
-       
-       If this is the case, it behaves like p:identity, if not, it throws an error.
-       
-       TODO: Does not work as is...
-   -->
-   <!--p:declare-step type="x:ensure-input">
-      <p:input  port="source" primary="true"/>
-      <p:output port="result" primary="true"/>
-      <p:choose>
-         <p:xpath-context>
-            <p:pipe step="ensure-input" port="source"/>
-         </p:xpath-context>
-         <p:when test="empty(/)">
-            <p:error code="x:ERR002"/>
-         </p:when>
-         <p:otherwise>
-            <p:identity/>
-         </p:otherwise>
-      </p:choose>
-   </p:declare-step-->
-
-   <!--
        Short-cut for p:parameters which passes through input, with primary parameters input.
        
        Inspired from Geert Josten util library:

@@ -70,8 +70,7 @@
 
    <xsl:template match="text()[normalize-space() => not()]" as="text()?" mode="x:gather-specs">
       <xsl:if test="parent::x:label">
-         <!-- TODO: The specification of @label and x:label is not clear about whitespace.
-            Preserve it for now. -->
+         <!-- FYI: Preserve whitespace in x:label and @label. -->
          <xsl:sequence select="." />
       </xsl:if>
    </xsl:template>
