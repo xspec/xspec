@@ -8,6 +8,7 @@ import module namespace utils = 'http://www.andrewsales.com/ns/xqs-utils' at
 
 declare namespace sch = "http://purl.oclc.org/dsdl/schematron";
 declare namespace svrl = "http://purl.oclc.org/dsdl/svrl";
+declare namespace xqs = 'http://www.andrewsales.com/ns/xqs';
 
 declare function output:schema-title($title as element(sch:title)?)
 as attribute(title)?
@@ -143,6 +144,8 @@ as element(svrl:property-reference)*
 
 (:~ Outputs svrl:text, which corresponds to the model <code>human-text</code>
  : in the SVRL schema.
+ : This implementation includes an extension to allow processing of 
+ : <xqs:copy-of/>.
  : @see ISO2020, Annex D
  :)
 declare function output:assertion-message(
@@ -166,6 +169,7 @@ as item()*
       case element(sch:value-of)
         return output:name-value-of($node/@select, $prolog, $rule-context, $context)
         [self::svrl:*]
+      (:TODO xqs:copy-of:)
     default return ()
   else
   <svrl:text>{(:TODO attributes:)
@@ -184,7 +188,9 @@ as item()*
         {
           $node/@*, 
           output:assertion-message-content($node/node(), $prolog, $rule-context, $context)
-        } 
+        }
+     case element(xqs:copy-of)
+       return output:name-value-of($node/@select, $prolog, $rule-context, $context)
     default return $node
   }</svrl:text>
 };

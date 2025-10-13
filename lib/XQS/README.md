@@ -10,6 +10,7 @@ See also https://github.com/AndrewSales/XQS/issues/29.
 
 # Pre-requisites
 Tested under [BaseX](https://basex.org/) 10.x.
+Note that the codebase is now also tested against BaseX 12.0.
 
 # Installation
 1. Install [BaseX](https://basex.org/download/) version 10 or later.
@@ -136,6 +137,10 @@ Please refer to the issues for a list of known bugs and planned enhancements.
 ## Query language binding
 Your schema should specify a `queryBinding` value of : `xquery`, `xquery3` or `xquery31`, in any combination of upper or lower case.
 
+## Implementation-specific extensions
+1. Attributes which contain expressions to be evaluated may be represented by elements instead (see https://github.com/AndrewSales/XQS/issues/71).
+2. Element `xqs:copy-of` (by analogy with `xsl:copy`) is allowed in schemas wherever there is dynamic evaluation of messages for SVRL output - its `select` attribute is evaluated against the relevant context (see https://github.com/AndrewSales/XQS/issues/78 and https://github.com/Schematron/schematron-enhancement-proposals/issues/86).
+
 # Troubleshooting
 
 ## My existing schema produces different results with XQS: rules don't fire that I expect to.
@@ -157,3 +162,23 @@ XQS is a pure XQuery implementation and doesn't recognize these, so they need to
       $i * $i
     };
     </function>
+    
+## How do I import XQuery modules?    
+
+You can use the XQS extension `<xqy:prolog>` to do this, e.g.
+
+    <prolog xmlns='http://www.w3.org/2012/xquery'>
+    import module namespace fun = 'my-functions' at '../fun.xqm';
+    </prolog>
+
+A working example is shown in https://github.com/AndrewSales/XQS/tree/main/test/test-cases/xquery-module-import.sch.
+
+Imports will be resolved against the base URI of the schema.    
+
+## Is there an equivalent to `xsl:copy-of` for use within a `property`?
+
+Yes: the XQS extension `xqs:copy-of` behaves in the same way, allowing e.g.
+
+    <sch:property id='p1' scheme='abc' role='def'>wrong=<xqs:copy-of select='.'/></sch:property>
+
+The instruction is not limited to use in that context alone, so is also permitted within assertion messages.
