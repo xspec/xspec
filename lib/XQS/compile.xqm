@@ -9,6 +9,7 @@ import module namespace output = 'http://www.andrewsales.com/ns/xqs-output' at
 declare namespace sch = "http://purl.oclc.org/dsdl/schematron";
 declare namespace svrl = "http://purl.oclc.org/dsdl/svrl";
 declare namespace xqy = 'http://www.w3.org/2012/xquery';
+declare namespace xqs = 'http://www.andrewsales.com/ns/xqs';
 
 declare variable $compile:INSTANCE_PARAM := '$Q{http://www.andrewsales.com/ns/xqs}uri';
 declare variable $compile:INSTANCE_DOC := '$Q{http://www.andrewsales.com/ns/xqs}doc';
@@ -232,6 +233,7 @@ as xs:string*
 {
   'declare base-uri "' || $schema/base-uri() || '";' ||
   string-join($schema/sch:ns ! context:make-ns-decls(.)) => utils:escape() ||
+  compile:user-defined-prolog($schema/xqy:prolog) ||
   $compile:EXTERNAL_VARIABLES ||
   string-join(
     $schema/(sch:let|sch:param) => compile:global-variable-decls()
@@ -651,6 +653,8 @@ as element(svrl:text)
         return output:assertion-child-elements($node)
       case element(sch:span)
         return output:assertion-child-elements($node)
+      case element(xqs:copy-of)
+        return '{(' || $compile:RULE_CONTEXT || ')/' || $node/@select || '}'
       case text()
         return utils:escape-literal-braces($node)
     default return $node
@@ -683,6 +687,13 @@ declare function compile:user-defined-functions($functions as element(xqy:functi
 as xs:string*
 {
   $functions ! string(.)
+};
+
+(:~ Adds user-defined prolog declared in the schema. :)
+declare function compile:user-defined-prolog($prolog as element(xqy:prolog)?)
+as xs:string?
+{
+  $prolog ! string(.)
 };
 
 (:~ Declare a function.

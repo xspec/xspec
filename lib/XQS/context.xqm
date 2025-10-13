@@ -61,7 +61,8 @@ as map(*)
       'instance' : $instance,
       'diagnostics' : $schema/sch:diagnostics/sch:diagnostic,
       'properties' : $schema/sch:properties/sch:property,
-      'functions' : $schema/xqy:function
+      'functions' : $schema/xqy:function,
+      'prolog' : $schema/xqy:prolog
       }
     ),
     map{'duplicates':'use-last'}    (:ensure existing keys are overwritten:)

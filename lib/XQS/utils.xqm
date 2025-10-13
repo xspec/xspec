@@ -62,14 +62,16 @@ as xs:string
   if($var/@value) then $var/@value/data() => utils:escape() else serialize($var/*)
 };
 
-(:~ Assembles the query prolog of namespace and variable declarations.
+(:~ Assembles the query prolog of namespace and variable declarations, plus any
+ : user-defined prolog declarations/functions.
  : @param context the validation context
  :)
 declare function utils:make-query-prolog($context as map(*))
 as xs:string?
 {
-  ($context?ns-decls || utils:global-variable-external-decls($context?globals))
-  => utils:escape() || $context?functions ! string(.)
+  ($context?ns-decls || $context?prolog => string() || 
+  utils:global-variable-external-decls($context?globals)) => utils:escape() || 
+  $context?functions ! string(.)
 };
 
 (:~ Creates a QName from a prefixed variable name, looking up any URI from the
