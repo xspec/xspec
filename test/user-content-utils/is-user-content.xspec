@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Comment and PI nodes below are for testing purposes -->
+<description xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:local="local"
+	xmlns:mirror="x-urn:test:mirror" stylesheet="../mirror.xsl">
+	<scenario label="x:expect/x:label">
+		<call function="one-or-more">
+			<param>
+				<local:foo/>
+			</param>
+		</call>
+		<scenario label="preceded by comment sibling not in actual result">
+			<expect>
+				<!--comment is part of user content-->
+				<label>Fails because comment is part of expected result</label>
+				<local:foo/>
+			</expect>
+		</scenario>
+		<scenario label="preceded by PI sibling not in actual result">
+			<expect>
+				<?pi node is part of user content?>
+				<label>Fails because PI is part of expected result</label>
+				<local:foo/>
+			</expect>
+		</scenario>
+		<scenario label="preceded by comment sibling, with boolean @test"
+			pending="Boolean @test must not be accompanied by @as, @href, @select, or child node.">
+			<expect test="true()">
+				<!--comment is part of user content-->
+				<label>Would raise error because comment is part of expected result</label>
+			</expect>
+		</scenario>
+		<scenario label="preceded by PI sibling, with boolean @test"
+			pending="Boolean @test must not be accompanied by @as, @href, @select, or child node.">
+			<expect test="true()">
+				<?pi node is part of user content?>
+				<label>Would raise error because PI is part of expected result</label>
+			</expect>
+		</scenario>
+	</scenario>
+	<scenario label="x:context/x:param">
+		<scenario label="preceded by comment sibling">
+			<context mode="mirror:context-mirror">
+				<!--comment is part of user content-->
+				<param name="irrelevant-param"/>
+				<local:foo/>
+			</context>
+			<expect>
+				<label>Fails because comment is part of context but not reflected in expected result</label>
+				<local:foo/>
+			</expect>
+		</scenario>
+		<scenario label="preceded by PI sibling">
+			<context mode="mirror:context-mirror">
+				<?pi node is part of user content?>
+				<param name="irrelevant-param"/>
+				<local:foo/>
+			</context>
+			<expect>
+				<label>Fails because PI is part of context but not reflected in expected result</label>
+				<local:foo/>
+			</expect>
+		</scenario>
+	</scenario>
+</description>
