@@ -205,14 +205,14 @@
 					<x:expect label="True" select="true()" />
 				</x:scenario>
 
-				<x:scenario label="comment as preceding sibling of x:expect/x:label">
+				<x:scenario label="comment as sibling of x:expect/x:label">
 					<x:call>
 						<x:param href="user-content-utils/is-user-content.xspec" select="(//x:expect/x:label/preceding-sibling::comment())[1]" />
 					</x:call>
 					<x:expect label="True" select="true()" />
 				</x:scenario>
 
-				<x:scenario label="PI as preceding sibling of x:expect/x:label">
+				<x:scenario label="PI as sibling of x:expect/x:label">
 					<x:call>
 						<x:param href="user-content-utils/is-user-content.xspec" select="(//x:expect/x:label/preceding-sibling::processing-instruction())[1]" />
 					</x:call>
@@ -255,14 +255,14 @@
 					<x:expect label="True" select="true()" />
 				</x:scenario>
 
-				<x:scenario label="comment as preceding sibling of x:context/x:param">
+				<x:scenario label="comment as sibling of x:context/x:param">
 					<x:call>
 						<x:param href="user-content-utils/is-user-content.xspec" select="//x:context/x:param/preceding-sibling::comment()" />
 					</x:call>
 					<x:expect label="True" select="true()" />
 				</x:scenario>
 				
-				<x:scenario label="PI as preceding sibling of x:context/x:param">
+				<x:scenario label="PI as sibling of x:context/x:param">
 					<x:call>
 						<x:param href="user-content-utils/is-user-content.xspec" select="//x:context/x:param/preceding-sibling::processing-instruction()" />
 					</x:call>
