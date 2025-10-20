@@ -61,5 +61,11 @@ jobs:
       - script: call test\ci\maven-package.cmd --no-transfer-progress
         displayName: Maven package
 
+      - script: call test\ci\compile-java.cmd -verbose
+        displayName: Compile Java
+
+      - script: call test\ci\last-git-status.cmd
+        displayName: Check git status
+
       - script: call test\ci\test-maven-jar.cmd
         displayName: Test Maven jar
