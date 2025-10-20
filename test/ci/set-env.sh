@@ -121,11 +121,6 @@ fi
 # BaseX
 #
 
-# BaseX 12 requires Java 17
-if java -version 2>&1 | grep -F " 11." > /dev/null; then
-    unset BASEX_VERSION
-fi
-
 if [ -n "${BASEX_VERSION}" ]; then
     # Depends on the archive file structure
     export BASEX_JAR="${XSPEC_TEST_DEPS}/basex-${BASEX_VERSION}/basex/BaseX.jar"

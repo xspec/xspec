@@ -101,10 +101,6 @@ rem
 rem BaseX
 rem
 
-rem BaseX 12 requires Java 17
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 11." > NUL
-if not errorlevel 1 set BASEX_VERSION=
-
 if defined BASEX_VERSION (
     rem Depends on the archive file structure
     set "BASEX_JAR=%XSPEC_TEST_DEPS%\basex-%BASEX_VERSION%\basex\BaseX.jar"
