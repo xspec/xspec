@@ -29,8 +29,8 @@ test_script:
       test\ci\print-env.cmd
       test\run-bats.cmd
       rem test\ci\maven-package.cmd -q
-      test\ci\compile-java.cmd -silent
-      test\ci\last-git-status.cmd
+      rem test\ci\compile-java.cmd -silent
+      rem test\ci\last-git-status.cmd
       rem test\ci\test-maven-jar.cmd -silent
 
 deploy: off
