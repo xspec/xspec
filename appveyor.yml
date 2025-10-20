@@ -6,19 +6,26 @@ skip_tags: true
 
 skip_branch_with_pr: true
 
+image: Visual Studio 2019
+
 environment:
   matrix:
     # Non-mainstream jobs are not included in favor of GitHub Actions and Azure Pipelines
     - XSPEC_TEST_ENV: saxon-12
 
 install:
-  - cmd: test\ci\install-deps.cmd
+  - cmd: |
+      set JAVA_HOME=C:\Program Files\Java\jdk17
+      set PATH=%JAVA_HOME%\bin;%PATH%
+      test\ci\install-deps.cmd
 
 build: off
 
 test_script:
   # XSpec unit tests and end-to-end tests omitted due to time limit. They run on GitHub Actions and Azure Pipelines.
   - cmd: |
+      set JAVA_HOME=C:\Program Files\Java\jdk17
+      set PATH=%JAVA_HOME%\bin;%PATH%
       test\ci\print-env.cmd
       test\run-bats.cmd
       rem test\ci\maven-package.cmd -q
