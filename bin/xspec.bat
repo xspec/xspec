@@ -433,7 +433,7 @@ if defined XSLT (
 ) else (
     set COMPILE_SHEET=compile-xquery-tests.xsl
 )
-echo Creating Test Stylesheet...
+echo Creating Test Runner...
 call :xslt -o:"%COMPILED%" -s:"%XSPEC%" ^
     -xsl:"%XSPEC_HOME%\src\compiler\%COMPILE_SHEET%" ^
     || ( call :die "Error compiling the test suite" & goto :win_main_error_exit )
