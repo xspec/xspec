@@ -15,7 +15,9 @@
 				<!-- ws-only-text-copy.xml is identical to ws-only-text.xml. In Saxon 11,
 				the test fails if the same XML file is read with and without the URI
 				query parameter in the same test session.-->
-				<x:param href="ws-only-text-copy.xml?strip-space=yes;xinclude=yes" />
+				<!-- Use of XML catalog demonstrates compatibility with
+					RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later -->
+				<x:param href="catalog-01:/ws-only-text-copy.xml?strip-space=yes;xinclude=yes" />
 			</x:call>
 			<x:expect label="Whitespace-only text nodes are stripped" select="'AB'"
 				test="string($x:result)" />
