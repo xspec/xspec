@@ -1556,7 +1556,7 @@
         rem ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
         rem from SAXON_HOME/lib/ subdirectory deliberately.
         call :verify_retval 1
-        call :verify_line * x "Creating Test Stylesheet..."
+        call :verify_line * x "Creating Test Runner..."
         call :verify_line * r "Exception in thread "
         call :verify_line * r "	at net\.sf\.saxon\.Transform\.main\("
         call :verify_line * r "Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver"
