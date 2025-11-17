@@ -1,0 +1,38 @@
+FROM openjdk:8-jdk-slim as builder
+
+# Install tools required to build the project
+WORKDIR /usr/local
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  git \
+  curl \
+  bats \
+  unzip \
+  @@EXTRA_PACKAGES@@ \
+  && curl -fsSL --create-dirs --retry 5 -o @@SAXON_JAR@@ http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/@@SAXON_VERSION@@/Saxon-HE-@@SAXON_VERSION@@.jar \
+  && chmod 755 /saxon \
+  && curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-@@ANT_VERSION@@-bin.tar.gz \
+  && mkdir /ant \
+  && chmod 755 /ant \
+  && tar xf /tmp/xspec/ant/ant.tar.gz -C /ant \
+  && curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/@@XMLCALABASH_VERSION@@/xmlcalabash-@@XMLCALABASH_VERSION@@.zip \
+  && mkdir /xmlcalabash \
+  && chmod 755 /xmlcalabash \
+  && unzip /tmp/xspec/xmlcalabash/xmlcalabash.zip -d /xmlcalabash \
+  && rm -rf /tmp/xspec \
+  && curl -fsSL --create-dirs --retry 5 -o @@XML_RESOLVER_JAR@@ http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar \
+  && chmod 755 /xml-resolver
+
+ENV PATH /ant/apache-ant-@@ANT_VERSION@@/bin:$PATH
+ENV SAXON_JAR /saxon/saxon9he.jar
+ENV XML_RESOLVER_JAR @@XML_RESOLVER_JAR@@
+ENV XMLCALABASH_JAR /xmlcalabash/xmlcalabash-@@XMLCALABASH_VERSION@@/xmlcalabash-@@XMLCALABASH_VERSION@@.jar
+
+LABEL maintainer="@@XSPEC_ISSUES_URL@@"
+
+WORKDIR /xspec/test
+
+RUN groupadd -g @@GID@@ xspec_grp && useradd -u @@UID@@ -g xspec_grp xspec
+
+USER @@UID@@:@@GID@@
+
+ENTRYPOINT ["./run-all-tests.sh"]
