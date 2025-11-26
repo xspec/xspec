@@ -613,8 +613,8 @@ load bats-helper
         xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "3" ]
-    [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
+    [ "${#lines[@]}" = "8" ]
+    [ "${lines[7]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
 }
 
 @test "XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)" {
