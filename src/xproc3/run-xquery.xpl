@@ -58,7 +58,7 @@
 
 
    <!-- compile the suite into a query -->
-   <t:compile-xquery name="compile">
+   <t:compile-xquery name="compile" p:message="Creating Test Runner...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="parameters" select="$parameters"/>
@@ -69,13 +69,13 @@
 
    <!-- run it on Saxon bundled with XML Calabash 3 (default) or another
       XQuery processor, based on XProc processor configuration -->
-   <p:xquery name="run">
+   <p:xquery name="run" message="&#10;Running Tests...">
       <p:with-input port="source"><p:empty/></p:with-input>
       <p:with-input port="query" pipe="@queryText"/>
    </p:xquery>
 
    <!-- format the report -->
-   <t:format-report>
+   <t:format-report p:message="&#10;Formatting Report...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>

@@ -613,8 +613,8 @@ load bats-helper
         xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "3" ]
-    [ "${lines[2]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
+    [ "${#lines[@]}" = "8" ]
+    [ "${lines[7]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
 }
 
 @test "XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)" {
@@ -1734,7 +1734,7 @@ load bats-helper
         # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
         # from SAXON_HOME/lib/ subdirectory deliberately.
         [ "$status" -eq 1 ]
-        assert_regex "${output}" $'\n''Creating Test Stylesheet\.\.\.'$'\n''Exception in thread '
+        assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
         assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
         assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver'$'\n'
     fi

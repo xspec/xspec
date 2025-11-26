@@ -374,7 +374,7 @@
               location="${xspec.compiler.saxon.config}"
               if:set="xspec.compiler.saxon.config" />
 
-    <echo message="Compiling Tests..."
+    <echo message="Creating Test Runner..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
@@ -393,7 +393,7 @@
 
   <!-- Runs the compiled XSpec for XQuery -->
   <target name="run-xquery-test" depends="compile" if="${xspec.is.xquery}">
-    <echo message="Running XQuery Tests..."
+    <echo message="Running Tests..."
           level="info" />
 
     <java classname="net.sf.saxon.Query" fork="true" failonerror="true">
@@ -413,7 +413,7 @@
 
   <!-- Runs the compiled XSpec for XSLT -->
   <target name="run-xslt-test" depends="compile" unless="${xspec.is.xquery}">
-    <echo message="Running XSLT Tests..."
+    <echo message="Running Tests..."
           level="info" />
 
     <!-- Absolute path for code coverage, with '/' and '\' adapted to
@@ -479,6 +479,8 @@
     <makeurl property="xspec.result.html.css.url"
              file="${xspec.result.html.css}"
              if:set="xspec.result.html.css" />
+    <echo message="Formatting Report..."
+          level="info" />
 
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"

@@ -46,7 +46,7 @@
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    <!-- preprocess -->
-   <x:preprocess-schematron-xqs>
+   <x:preprocess-schematron-xqs p:message="Converting Schematron XSpec into XQuery XSpec...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="xqs-home" select="$xqs-home"/>
       <p:with-option name="parameters" select="$parameters"/>

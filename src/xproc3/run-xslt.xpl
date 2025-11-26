@@ -58,14 +58,14 @@
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    <!-- compile the suite into a stylesheet -->
-   <t:compile-xslt name="compile">
+   <t:compile-xslt name="compile" p:message="Creating Test Runner...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:compile-xslt>
 
    <!-- run it -->
-   <p:xslt name="run" template-name="t:main">
+   <p:xslt name="run" template-name="t:main" message="&#10;Running Tests...">
       <p:with-input port="source">
          <p:empty/>
       </p:with-input>
@@ -73,7 +73,7 @@
    </p:xslt>
 
    <!-- format the report -->
-   <t:format-report>
+   <t:format-report p:message="&#10;Formatting Report...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
