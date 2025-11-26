@@ -1780,9 +1780,11 @@ load bats-helper
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
 
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog="${PWD}/saxon-custom-options/catalog-rewriteURI.xml" \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     [ "$status" -eq 0 ]
@@ -1802,9 +1804,11 @@ load bats-helper
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
 
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog="${PWD}/saxon-custom-options/catalog-rewriteURI.xml" \
         -Dtest.type=q \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
@@ -1826,7 +1830,8 @@ load bats-helper
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
-    myrun ../bin/xspec.sh saxon-custom-options/test.xspec
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    myrun ../bin/xspec.sh -catalog saxon-custom-options/catalog-rewriteURI.xml saxon-custom-options/test.xspec
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
@@ -1840,7 +1845,8 @@ load bats-helper
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
-    myrun ../bin/xspec.sh -q saxon-custom-options/test.xspec
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    myrun ../bin/xspec.sh -catalog saxon-custom-options/catalog-rewriteURI.xml -q saxon-custom-options/test.xspec
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
