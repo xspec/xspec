@@ -109,8 +109,8 @@ declare function compile:schema(
   (
     compile:prolog($schema),
     compile:user-defined-functions($schema/xqy:function),
-    compile:any-phase($schema, $phase),
-    ($active-patterns|$active-groups) ! compile:pattern(., $active-phase),
+    compile:any-phase-variable($schema, $phase),
+    ($active-patterns|$active-groups) ! compile:pattern(., $active-phase, $options),
     compile:declare-function(
       'local:schema',
       (),
@@ -159,7 +159,7 @@ declare function compile:choose-phase(
  : @param schema the schema
  : @param phase the selected phase
  :)
-declare function compile:any-phase(
+declare function compile:any-phase-variable(
   $schema as element(sch:schema),
   $phase as xs:string?
 )
@@ -224,7 +224,7 @@ declare function compile:active-phase(
 {
   if($phase eq $context:ANY_PHASE)
   then '{if(exists(' || $compile:ANY_PHASE || ')) then attribute{"phase"}{' 
-  || $compile:ANY_PHASE || '}}'
+  || $compile:ANY_PHASE || '} else ()}'
   else if($active-phase) then attribute{'phase'}{$active-phase/@id} else ()
 };
 
@@ -253,14 +253,15 @@ as xs:string*
  :)
 declare function compile:pattern(
   $pattern as element(sch:*),
-  $phase as element(sch:phase)?
+  $phase as element(sch:phase)?,
+  $options as map(xs:string, item())?
 )
 {
   let $_ := (utils:check-duplicate-variable-names($pattern/sch:let),
     utils:check-duplicate-variable-names($phase/sch:let))
   return
   if($pattern/@documents)
-  then compile:documents($pattern, $phase)
+  then compile:documents($pattern, $phase, $options)
   else
     (compile:declare-function(
       compile:function-name($pattern),
@@ -287,7 +288,7 @@ declare function compile:pattern(
       )
       ),
       $pattern/sch:rule ! 
-      (compile:rule(., $phase), compile:rule-context(., $phase))
+      (compile:rule(., $phase, $options), compile:rule-context(., $phase))
     )
 };
 
@@ -306,7 +307,8 @@ as xs:string
  :)
 declare function compile:documents(
   $pattern as element(sch:*),
-  $phase as element(sch:phase)?
+  $phase as element(sch:phase)?,
+  $options as map(xs:string, item())?
 )
 {
   compile:declare-function(
@@ -342,7 +344,7 @@ declare function compile:documents(
   ),
     $pattern/sch:rule ! 
     (
-      compile:rule-documents(., $phase), 
+      compile:rule-documents(., $phase, $options), 
       compile:rule-context-documents(., $phase)
     )
 };
@@ -350,7 +352,8 @@ declare function compile:documents(
 (:~ Creates a function for a rule to process a subordinate document. :)
 declare function compile:rule-documents(
   $rule as element(sch:rule),
-  $phase as element(sch:phase)?
+  $phase as element(sch:phase)?,
+  $options as map(xs:string, item())?
 )
 {
   let $_ := utils:check-duplicate-variable-names($rule/sch:let)
@@ -380,7 +383,7 @@ declare function compile:rule-documents(
       ) 
       || ')) else ()'
       )
-  ) || string-join($assertions ! compile:assertion(., $phase, true()))
+  ) || string-join($assertions ! compile:assertion(., $phase, true(), $options))
   )
 };
 
@@ -438,7 +441,8 @@ as xs:string
  :) 
 declare function compile:rule(
   $rule as element(sch:rule),
-  $phase as element(sch:phase)?
+  $phase as element(sch:phase)?,
+  $options as map(xs:string, item())?
 )
 {
   let $_ := utils:check-duplicate-variable-names($rule/sch:let)
@@ -460,16 +464,22 @@ declare function compile:rule(
         ) 
         || ')) else ()'
       )
-    ) || string-join($assertions ! compile:assertion(., $phase, false()))
+    ) || string-join($assertions ! compile:assertion(., $phase, false(), $options))
   )
 };
 
 declare function compile:assertion(
   $assertion as element(),
   $phase as element(sch:phase)?,
-  $distinct-name as xs:boolean
+  $distinct-name as xs:boolean,
+  $options as map(xs:string, item())?
 )
 {
+  let $result-variable := utils:declare-variable(
+        $compile:RESULT_NAME,
+        $compile:RULE_CONTEXT || '/(' || $assertion/@test => utils:escape() || ')'
+      )
+  return
   if(not($assertion/(self::sch:assert|self::sch:report)))
   then error()	(:shouldn't happen if schema is valid:)
   else
@@ -478,21 +488,53 @@ declare function compile:assertion(
     $compile:RULE_CONTEXT,    
     (
       compile:variables($assertion, $phase) || ' ' ||    
-      utils:declare-variable(
-        $compile:RESULT_NAME,
-        $compile:RULE_CONTEXT || '/(' || $assertion/@test => utils:escape() || ')'
-      ) || ' return (',
+      $result-variable || ' return (',
       <svrl:fired-rule>
       {$assertion/../(@id, @name, @context, @visit-each, @role, @flag)}
       {if($assertion/../../@documents) then attribute{'document'}{'{base-uri(' || $compile:RULE_CONTEXT || ')}'} else ()}
       </svrl:fired-rule>,
-      ', if(' || $compile:RESULT || ') then ',
-      if($assertion/self::sch:assert)
-      then '() else ' || compile:assertion-message($assertion)
-      else compile:assertion-message($assertion) || ' else ()',
-      ')'
+      ', ' || compile:assertion-logic($assertion, $result-variable, $options?phase eq $context:ANY_PHASE) || ')' 
     )
   )
+};
+
+(:~ If #ANY is used and phases contain variables, these need to be in scope at 
+ : validation-time.
+ : This implementation creates a switch statement whose cases, varying by phase ID,
+ : contain any phase variable declarations and evaluation of the assertion.
+ :)
+declare %private function compile:assertion-logic(
+    $assertion as element(), 
+    $result as xs:string,
+    $any-phase as xs:boolean?
+)
+as xs:string
+{
+    let $default :=
+    'if(' || $compile:RESULT || ') then ' ||
+    (if($assertion/self::sch:assert)
+      then '() else ' || compile:assertion-message($assertion)
+      else compile:assertion-message($assertion) || ' else ()')
+      
+    let $phase-variables as element(sch:let)* := $assertion/ancestor::sch:schema/sch:phase/sch:let
+    return
+        if($any-phase and exists($phase-variables))
+        then 'switch(' || $compile:ANY_PHASE || ')' ||
+            $phase-variables/.. ! compile:any-phase(., $result, $default) ||
+            ' default return ' || $default
+        else $default
+};
+
+declare %private function compile:any-phase(
+    $phase as element(sch:phase),
+    $result as xs:string,
+    $assertion-logic as xs:string
+)
+as xs:string
+{
+    ' case "' || $phase/@id || '" return ' || 
+    (if($phase/sch:let) then ($phase/sch:let ! utils:declare-variable(.) || $result) || ' return ') 
+    || $assertion-logic
 };
 
 declare %private function compile:assertion-message($assertion as element())
@@ -535,7 +577,7 @@ declare %private function compile:dynamic-attributes($atts as attribute()*)
   else $att
 };
 
-(:~ Compile in-scope variables :
+(:~ Compile in-scope variables.
  : @param context the schema element context, i.e. a rule or assertion 
  : @param phase the optional phase
  :)
