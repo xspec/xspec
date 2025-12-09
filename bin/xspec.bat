@@ -52,12 +52,13 @@ rem ##
     )
     echo XSpec v%XSPEC_VERSION%
     echo:
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-e^|-h] file
+    echo Usage: xspec [-t^|-q^|-s^|-p^|-c^|-j^|-catalog file^|-e^|-h] file
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
-    echo   -q             test an XQuery module (mutually exclusive with -t and -s)
-    echo   -s             test a Schematron schema (mutually exclusive with -t and -q)
+    echo   -q             test an XQuery module (mutually exclusive with -t, -s, and -p)
+    echo   -s             test a Schematron schema (mutually exclusive with -t, -q, and -p)
+    echo   -p             test an XProc step (mutually exclusive with -t, -q, and -s)
     echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
@@ -72,6 +73,23 @@ rem ##
     rem Now, to exit the batch file, you must go to :win_main_error_exit from
     rem the main code flow.
     rem
+    goto :EOF
+
+:xslt-with-pipeline
+    set "PIPELINES=%TEST_DIR%\%TARGET_FILE_NAME%-pipelines.xpl"
+    java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\xproc3\xproc-testing\generate-xproc-imports.xsl" ^
+        -o:"%PIPELINES%" %CATALOG%
+    java ^
+        -Dxspec.coverage.ignore="%TEST_DIR%" ^
+        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.home="%XSPEC_HOME%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
+        -Dcom.xmlcalabash.pipelines="%PIPELINES%" ^
+        -cp "%CP%" net.sf.saxon.Transform ^
+        -init:com.xmlcalabash.api.RegisterSaxonFunctions ^
+        %CATALOG% %*
     goto :EOF
 
 :xslt
@@ -95,6 +113,7 @@ rem ##
     set XSLT=
     set XQUERY=
     set SCHEMATRON=
+    set XPROC=
     set COVERAGE=
     set JUNIT=
     set WIN_HELP=
@@ -118,6 +137,8 @@ rem ##
         set XQUERY=1
     ) else if "%WIN_ARGV%"=="-s" (
         set SCHEMATRON=1
+    ) else if "%WIN_ARGV%"=="-p" (
+        set XPROC=1
     ) else if "%WIN_ARGV%"=="-c" (
         set COVERAGE=1
     ) else if "%WIN_ARGV%"=="-j" (
@@ -338,6 +359,33 @@ if defined XSLT if defined XQUERY (
 )
 
 rem
+rem # XProc
+rem # XSLT
+rem
+if defined XPROC if defined XSLT (
+    call :usage "-p and -t are mutually exclusive"
+    exit /b 1
+)
+
+rem
+rem # XProc
+rem # XQuery
+rem
+if defined XPROC if defined XQUERY (
+    call :usage "-p and -q are mutually exclusive"
+    exit /b 1
+)
+
+rem
+rem # XProc
+rem # Schematron
+rem
+if defined XPROC if defined SCHEMATRON (
+    call :usage "-p and -s are mutually exclusive"
+    exit /b 1
+)
+
+rem
 rem # Help!
 rem
 if defined WIN_HELP (
@@ -356,7 +404,7 @@ if defined WIN_UNKNOWN_OPTION (
 rem
 rem # Coverage is only for XSLT
 rem
-if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
+if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%%XPROC%" (
     call :usage "Coverage is supported only for XSLT"
     exit /b 1
 )
@@ -370,9 +418,9 @@ if defined XML_CATALOG (
 )
 
 rem
-rem # set XSLT if XQuery has not been set (that's the default)
+rem # set XSLT if XQuery and XProc have not been set (XSLT is the default)
 rem
-if not defined XSLT if not defined XQUERY set XSLT=1
+if not defined XSLT if not defined XQUERY if not defined XPROC set XSLT=1
 
 if not exist "%XSPEC%" (
     call :usage "Error: File not found."
@@ -416,10 +464,10 @@ if not exist "%TEST_DIR%" (
 if defined SCHEMATRON call :classify_and_process_schematron || goto :win_main_error_exit
 
 set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
-if defined XSLT (
-    set "COMPILED=%COMPILED%.xsl"
-) else (
+if defined XQUERY (
     set "COMPILED=%COMPILED%.xq"
+) else (
+    set "COMPILED=%COMPILED%.xsl"
 )
 
 rem
@@ -430,6 +478,8 @@ rem
 
 if defined XSLT (
     set COMPILE_SHEET=compile-xslt-tests.xsl
+) else if defined XPROC (
+    set COMPILE_SHEET=compile-xproc-tests.xsl
 ) else (
     set COMPILE_SHEET=compile-xquery-tests.xsl
 )
@@ -466,12 +516,21 @@ if defined XSLT (
 ) else if defined SCHEMATRON (
     rem
     rem # for Schematron via XQS
+    rem
     if defined BASEX_JAR (
       call :basex %BASEX_CATALOG% -Q"%COMPILED%" > "%RESULT%" ^
       || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     ) else (
       call :die "Executing test for Schematron with XQS requires BASEX_JAR to be defined" & goto :win_main_error_exit
     )
+) else if defined XPROC (
+    rem
+    rem # for XProc
+    rem
+    call :xslt-with-pipeline %SAXON_CUSTOM_OPTIONS% ^
+            -o:"%RESULT%" -xsl:"%COMPILED%" ^
+            -it:{http://www.jenitennison.com/xslt/xspec}main ^
+            || ( call :die "Error running the test suite" & goto :win_main_error_exit )
 ) else (
     rem
     rem # for XQuery

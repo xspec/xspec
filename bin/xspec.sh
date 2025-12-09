@@ -30,12 +30,13 @@ usage() {
     fi
     echo "XSpec v${XSPEC_VERSION}"
     echo
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
+    echo "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file"
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
-    echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
-    echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
+    echo "  -q             test an XQuery module (mutually exclusive with -t, -s, and -p)"
+    echo "  -s             test a Schematron schema (mutually exclusive with -t, -q, and -p)"
+    echo "  -p             test an XProc step (mutually exclusive with -t, -q, and -s)"
     echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
@@ -49,6 +50,22 @@ die() {
     exit 1
 }
 
+xslt-with-pipeline() {
+    PIPELINES="${TEST_DIR}/${TARGET_FILE_NAME}-pipelines.xpl"
+    xslt \
+        -s:"$XSPEC" \
+        -xsl:"$XSPEC_HOME/src/xproc3/xproc-testing/generate-xproc-imports.xsl" \
+        -o:"${PIPELINES}"
+    java \
+        -Dxspec.coverage.ignore="${TEST_DIR}" \
+        -Dxspec.coverage.xml="${COVERAGE_XML}" \
+        -Dxspec.home="${XSPEC_HOME}" \
+        -Dxspec.xspecfile="${XSPEC}" \
+        -Dcom.xmlcalabash.pipelines="${PIPELINES}" \
+        -cp "$CP" net.sf.saxon.Transform \
+        -init:com.xmlcalabash.api.RegisterSaxonFunctions \
+        ${CATALOG:+"$CATALOG"} "$@"
+}
 xslt() {
     java \
         -Dxspec.coverage.ignore="${TEST_DIR}" \
@@ -220,6 +237,10 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
+            if test -n "$XPROC"; then
+                usage "-p and -t are mutually exclusive"
+                exit 1
+            fi
             XSLT=1
             ;;
         # XQuery
@@ -230,6 +251,10 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
             fi
             if test -n "$SCHEMATRON"; then
                 usage "-s and -q are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$XPROC"; then
+                usage "-p and -q are mutually exclusive"
                 exit 1
             fi
             XQUERY=1
@@ -244,9 +269,29 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
+            if test -n "$XPROC"; then
+                usage "-p and -s are mutually exclusive"
+                exit 1
+            fi
             SCHEMATRON=1
             ;;
-        # Coverage
+        # XProc
+        -p)
+            if test -n "$XQUERY"; then
+                usage "-p and -q are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$XSLT"; then
+                usage "-p and -t are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$SCHEMATRON"; then
+                usage "-p and -s are mutually exclusive"
+                exit 1
+            fi
+            XPROC=1
+            ;;
+            # Coverage
         -c)
             COVERAGE=1
             ;;
@@ -278,7 +323,7 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
 done
 
 # Coverage is only for XSLT
-if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
+if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}${XPROC}" ]; then
     usage "Coverage is supported only for XSLT"
     exit 1
 fi
@@ -290,8 +335,8 @@ else
     CATALOG=
 fi
 
-# set XSLT if XQuery has not been set (that's the default)
-if test -z "$XQUERY"; then
+# set XSLT if XQuery and XProc have not been set (XSLT is the default)
+if [ -z "$XQUERY" ] && [ -z "$XPROC" ]; then
     XSLT=1
 fi
 
@@ -337,10 +382,10 @@ if test -n "$SCHEMATRON"; then
 fi
 
 COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
-if test -n "$XSLT"; then
-    COMPILED="${COMPILED}.xsl"
-else
+if test -n "$XQUERY"; then
     COMPILED="${COMPILED}.xq"
+else
+    COMPILED="${COMPILED}.xsl"
 fi
 
 ##
@@ -350,7 +395,11 @@ fi
 if test -n "$XSLT"; then
     COMPILE_SHEET=compile-xslt-tests.xsl
 else
-    COMPILE_SHEET=compile-xquery-tests.xsl
+    if test -n "$XPROC"; then
+        COMPILE_SHEET=compile-xproc-tests.xsl
+    else
+        COMPILE_SHEET=compile-xquery-tests.xsl
+    fi
 fi
 echo "Creating Test Runner..."
 xslt -o:"$COMPILED" -s:"$XSPEC" \
@@ -400,10 +449,18 @@ else
             die "Executing test for Schematron with XQS requires BASEX_JAR to be defined"
         fi
     else
-        # for XQuery
-        xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -q:"$COMPILED" \
-            || die "Error running the test suite"
+        if test -n "$XPROC"; then
+            # For XProc
+            xslt-with-pipeline "${saxon_custom_options_array[@]}" \
+                -o:"$RESULT" -xsl:"$COMPILED" \
+                -it:"{http://www.jenitennison.com/xslt/xspec}main" \
+                || die "Error running the test suite"
+        else
+            # for XQuery
+            xquery "${saxon_custom_options_array[@]}" \
+                -o:"$RESULT" -q:"$COMPILED" \
+                || die "Error running the test suite"
+        fi
     fi
 fi
 
