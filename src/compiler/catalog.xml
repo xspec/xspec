@@ -7,4 +7,6 @@
 	<system systemId="http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl"
 		uri="compile-xquery-tests.xsl" />
 	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/compile-xproc-tests.xsl"
+		uri="compile-xproc-tests.xsl" />
 </catalog>

@@ -102,6 +102,48 @@
    </p:declare-step>
 
    <!--
+       Compile the suite on source into a stylesheet on result.
+   -->
+   <p:declare-step type="x:compile-xproc" name="compile-xproc">
+      <!-- the port declarations -->
+      <p:input  port="source" primary="true"/>
+      <p:output port="result" primary="true"/>
+      
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:option name="force-focus" as="xs:string?"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+      
+      
+      <p:group>
+         <!-- if xspec-home is not passed, then use the packaging public URI -->
+         <p:variable name="compiler"
+            select="if ( $xspec-home != '') then
+            resolve-uri('src/compiler/compile-xproc-tests.xsl', $xspec-home)
+            else
+            'http://www.jenitennison.com/xslt/xspec/compile-xproc-tests.xsl'"/>
+         
+         <!-- load the compiler -->
+         <p:load name="compiler" pkg:kind="xslt">
+            <p:with-option name="href" select="$compiler"/>
+         </p:load>
+         
+         <!-- actually compile the suite in a stylesheet -->
+         <p:xslt>
+            <p:with-input port="source" pipe="source@compile-xproc"/>
+            <p:with-input port="stylesheet" pipe="@compiler"/>
+            <p:with-option name="parameters" select="map{
+               xs:QName('force-focus'): $force-focus
+               }"/>
+         </p:xslt>
+      </p:group>
+      
+      <!-- log the result? -->
+      <x:log if-set="log-compilation">
+         <p:with-option name="parameters" select="$parameters"/>
+      </x:log>
+   </p:declare-step>
+
+   <!--
        Augment XSpec compiler to wrap generated query in <c:query>.
    -->
    <p:declare-step type="x:make-xquery-compiler" name="make-xq-compiler">
