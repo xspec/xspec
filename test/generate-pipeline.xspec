@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/xproc3/xproc-testing/generate-pipeline.xsl">
+
+    <x:scenario label="At a high level, the generate-pipeline template">
+        <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
+        <x:call template="generate-pipeline"/>
+        <x:expect label="generates an XProc step">
+            <p:declare-step version="3.1">...</p:declare-step>
+        </x:expect>
+        <x:expect label="that imports the pipeline being tested,"
+            test="ends-with(p:declare-step/p:import[1]/@href, '/tested.xpl')"/>
+        <x:expect label="imports helper pipelines and puts necessary step functions in scope,"
+            test="exists(p:declare-step/p:import/following-sibling::p:import)"/>
+        <x:expect label="declares a substep for testing in-scope step functions,"
+            test="p:declare-step/p:declare-step">
+            <p:declare-step name="test-in-scope-step-functions"
+                type="x:test-in-scope-step-functions">...</p:declare-step>
+        </x:expect>
+        <x:expect label="and then executes the substep"
+            test="p:declare-step/p:declare-step/following-sibling::*/local-name()"
+            select="'test-in-scope-step-functions'"/>
+    </x:scenario>
+</x:description>

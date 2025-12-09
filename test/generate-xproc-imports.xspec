@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test additional-classpath=${env.APACHE_XMLRESOLVER_JAR}?>
+<?xspec-test saxon-custom-options=-catalog:"${xspec.project.dir}/test/catalog/01/catalog-rewriteURI.xml"?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/xproc3/xproc-testing/generate-xproc-imports.xsl">
+
+    <x:scenario label="Tests for generate-imports template">
+        <x:scenario label="XSpec file with no XProc helpers">
+            <x:context href="xproc/cases/circular-import1.xspec"/>
+            <x:call template="generate-imports"/>
+            <x:expect label="Comments and two p:import elements,">
+                <!--Import the pipeline referenced in x:description/@xproc-->
+                <p:import href="..."/>
+                <!--Import a library that the test runner uses-->
+                <p:import href="..."/>
+            </x:expect>
+            <x:expect label="one for the tested pipeline" test="ends-with(
+                $x:result[self::p:import][1]/@href,
+                '/circular-import1.xpl'
+                )"/>
+            <x:expect label="and one for an internal library" test="ends-with(
+                $x:result[self::p:import][2]/@href,
+                '/src/xproc3/xproc-testing/wrap-standard-functions.xpl'
+                )"/>
+        </x:scenario>
+        <x:scenario>
+            <x:label>XSpec file with a total of 4 XProc helpers, following x:import</x:label>
+            <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
+            <x:call template="generate-imports"/>
+            <x:expect label="Comments and additional 4 p:import elements,">
+                <!--Import the pipeline referenced in x:description/@xproc-->
+                <p:import href="..."/>
+                <!--Import a library that the test runner uses-->
+                <p:import href="..."/>
+                <!--Import pipelines referenced by @xproc in x:helper, recursively across imported XSpec files-->
+                <p:import href="..."/>
+                <p:import href="..."/>
+                <p:import href="..."/>
+                <p:import href="..."/>
+            </x:expect>            
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Test for match='/' template rule">
+        <x:scenario>
+            <x:label>XSpec file with a total of 4 XProc helpers, following x:import</x:label>
+            <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
+            <x:expect label="p:library with content from generate-imports">
+                <p:library version="3.1">
+                    <!--Import the pipeline referenced in x:description/@xproc-->
+                    <p:import href="..."/>
+                    <!--Import a library that the test runner uses-->
+                    <p:import href="..."/>
+                    <!--Import pipelines referenced by @xproc in x:helper, recursively across imported XSpec files-->
+                    <p:import href="..."/>
+                    <p:import href="..."/>
+                    <p:import href="..."/>
+                    <p:import href="..."/>
+                </p:library>
+            </x:expect>            
+        </x:scenario>       
+    </x:scenario>
+    <x:scenario label="Tests for x:description template rule">
+        <x:scenario label="When top-level XSpec file has a helper XProc file">
+            <x:context href="catalog/catalog-01_xproc.xspec" select="/x:description"/>
+            <x:expect label="a resulting p:import element points to the helper"
+                result-type="element(p:import)" test="ends-with(p:import/@href, '/helper.xpl')"/>
+        </x:scenario>
+        <x:scenario label="When imported XSpec file has a helper XProc file">
+            <x:context href="xproc/cases/import_html-documents.xspec" select="/x:description"/>
+            <x:expect
+                label="a resulting p:import element points to the imported XSpec file's helper"
+                result-type="element(p:import)"
+                test="ends-with(p:import/@href, '/test-helper-load.xpl')"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Tests for x:helper template rule">
+        <x:scenario label="XProc helper">
+            <x:context href="catalog/catalog-01_xproc.xspec" select="//x:helper[@xproc]"/>
+            <x:expect label="p:import element" as="element(p:import)">
+                <p:import href="..."/>
+            </x:expect>
+            <x:expect label="with href resolved with catalog" test="p:import/@href/string()"
+                select="concat(
+                substring-before($x:xspec-uri,'/test/'),
+                '/test/catalog/01/helper.xpl'
+                )"/>
+        </x:scenario>
+        <x:scenario label="Non-XProc helper">
+            <x:context href="catalog/catalog-01_xproc.xspec" select="//x:helper[empty(@xproc)]"/>
+            <x:expect label="Nothing" as="empty-sequence()"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Test for import-function-wrappers template">
+        <x:call template="import-function-wrappers"/>
+        <x:expect label="p:import element" as="element(p:import)">
+            <p:import href="..."/>
+        </x:expect>
+        <x:expect label="with resolved href" test="p:import/@href/string()" select="concat(
+            substring-before($x:xspec-uri,'/test/'),
+            '/src/xproc3/xproc-testing/wrap-standard-functions.xpl'
+            )"/>
+    </x:scenario>
+</x:description>

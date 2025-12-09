@@ -45,6 +45,8 @@
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
 			<exclude name="test/compile-xslt-tests/compile-expect.xspec" />
 			<exclude name="test/compile-xslt-tests/compile-scenario.xspec" />
+			<exclude name="test/compile-xproc-tests/compile-expect.xspec" />
+			<exclude name="test/compile-xproc-tests/compile-scenario.xspec" />
 
 			<!-- Tests invalid @threads -->
 			<exclude name="test/threads/invalid/zero-length.xspec" />
