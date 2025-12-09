@@ -58,8 +58,7 @@
 
          <xsl:choose>
             <xsl:when test="$temp-doc-uqname">
-               <xsl:variable name="selection" as="xs:string"
-                  select="(@select, '.'[current()/@href], 'node()')[1]" />
+               <xsl:variable name="selection" as="xs:string" select="x:selection-from-doc(current())"/>
                <xsl:attribute name="select">
                   <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {$selection} )</xsl:text>
                </xsl:attribute>
