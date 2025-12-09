@@ -117,6 +117,13 @@ as node()*
     default return $node
 };
 
+declare function utils:declare-variable($let as element(sch:let))
+as xs:string
+{
+  'let $' || $let/@name || (if($let/@as) then (' as ' || $let/@as || ' ') else '') 
+  || ':=' || $let/@value
+};
+
 declare function utils:declare-variable(
   $name as xs:string,
   $value as item()+

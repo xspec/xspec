@@ -543,8 +543,8 @@
         xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\xproc3\run-xquery.xpl
     call :verify_retval 0
-    call :verify_line_count 3
-    call :verify_line 3 x "passed: 12 / pending: 0 / failed: 0 / total: 12"
+    call :verify_line_count 8
+    call :verify_line 8 x "passed: 12 / pending: 0 / failed: 0 / total: 12"
 	</case>
 
 	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)">
@@ -1556,7 +1556,7 @@
         rem ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
         rem from SAXON_HOME/lib/ subdirectory deliberately.
         call :verify_retval 1
-        call :verify_line * x "Creating Test Stylesheet..."
+        call :verify_line * x "Creating Test Runner..."
         call :verify_line * r "Exception in thread "
         call :verify_line * r "	at net\.sf\.saxon\.Transform\.main\("
         call :verify_line * r "Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver"
@@ -1599,9 +1599,11 @@
     set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
+    rem Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
+        -Dcatalog="%CD%\saxon-custom-options\catalog-rewriteURI.xml" ^
         -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
     call :verify_retval 0
@@ -1617,9 +1619,11 @@
     set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
+    rem Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
+        -Dcatalog="%CD%\saxon-custom-options\catalog-rewriteURI.xml" ^
         -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" ^
         -Dtest.type=q ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
@@ -1641,7 +1645,8 @@
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
-    call :run ..\bin\xspec.bat saxon-custom-options\test.xspec
+    rem Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    call :run ..\bin\xspec.bat -catalog saxon-custom-options\catalog-rewriteURI.xml saxon-custom-options\test.xspec
     call :verify_retval 0
     call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 
@@ -1655,7 +1660,8 @@
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
-    call :run ..\bin\xspec.bat -q saxon-custom-options\test.xspec
+    rem Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    call :run ..\bin\xspec.bat -catalog saxon-custom-options\catalog-rewriteURI.xml -q saxon-custom-options\test.xspec
     call :verify_retval 0
     call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 
