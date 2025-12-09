@@ -10,7 +10,7 @@
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
-    call :verify_line 5 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
+    call :verify_line 5 x "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined">
@@ -65,6 +65,24 @@
     call :run ..\bin\xspec.bat -t -q
     call :verify_retval 1
     call :verify_line 1 x "-t and -q are mutually exclusive"
+	</case>
+
+	<case name="invoking xspec with -p and -q prints error message">
+    call :run ..\bin\xspec.bat -p -q
+    call :verify_retval 1
+    call :verify_line 1 x "-p and -q are mutually exclusive"
+	</case>
+
+	<case name="invoking xspec with -p and -t prints error message">
+    call :run ..\bin\xspec.bat -p -t
+    call :verify_retval 1
+    call :verify_line 1 x "-p and -t are mutually exclusive"
+	</case>
+
+	<case name="invoking xspec with -p and -s prints error message">
+    call :run ..\bin\xspec.bat -p -s
+    call :verify_retval 1
+    call :verify_line 1 x "-p and -s are mutually exclusive"
 	</case>
 
 	<!--
@@ -166,6 +184,12 @@
 
 	<case name="invoking xspec -c -s prints error message">
     call :run ..\bin\xspec.bat -c -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_retval 1
+    call :verify_line 1 x "Coverage is supported only for XSLT"
+	</case>
+
+	<case name="invoking xspec -c -p prints error message">
+    call :run ..\bin\xspec.bat -c -p ..\tutorial\xproc\xproc-testing-demo.xspec
     call :verify_retval 1
     call :verify_line 1 x "Coverage is supported only for XSLT"
 	</case>
@@ -345,6 +369,15 @@
     call :verify_line 25 x "*** Found a test failure"
 	</case>
 
+	<case ifdef="XMLCALABASH3_JAR" name="CLI -e with some failures (XProc)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%"
+    call :run ..\bin\xspec.bat -e -p some-failures\step.xspec
+    call :verify_retval 2
+    call :verify_line 17 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 18 x "Report available at %TEST_DIR%\step-result.html"
+    call :verify_line 20 x "*** Found a test failure"
+	</case>
+
 	<!--
 		CLI -e with no failures
 	-->
@@ -371,6 +404,15 @@
     call :verify_line 22 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
     call :verify_line 23 x "Report available at %TEST_DIR%\demo-01-result.html"
     call :verify_line 24 x "Done."
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="CLI -e with no failures (XProc)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%"
+    call :run ..\bin\xspec.bat -e -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 14 x "Report available at %TEST_DIR%\one-input-no-option-one-output-result.html"
+    call :verify_line 15 x "Done."
 	</case>
 
 	<!--
@@ -594,6 +636,29 @@
         ..\src\xproc3\schematron-xqs\run-schematron-xqs.xpl
     call :verify_retval 0
     call :verify_line -1 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
+	<!--
+		Test cases for testing XProc steps
+	-->
+
+	<case ifdef="XMLCALABASH3_JAR" name="Passing test cases for testing XProc steps">
+    rem Run series of tests, and return error messages if anything fails
+    call :run java -jar "%XMLCALABASH3_JAR%" xproc\run-xproc-cases.xpl
+    call :verify_retval 0
+    call :verify_line * r "--- Testing completed with no failures! ---"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="Error cases for testing XProc steps">
+    rem Run series of tests, and indicate if anything does not raise the expected compiler error
+    call :run java -jar "%XMLCALABASH3_JAR%" xproc\run-xproc-error-cases.xpl error-phase=compiler
+    call :verify_retval 0
+    call :verify_line * r "--- Each test raised the expected error. ---"
+
+    rem Run series of tests, and indicate if anything does not raise the expected test runner error
+    call :run java -jar "%XMLCALABASH3_JAR%" xproc\run-xproc-error-cases.xpl error-phase=runner
+    call :verify_retval 0
+    call :verify_line * r "--- Each test raised the expected error. ---"
 	</case>
 
 	<!--
@@ -1073,6 +1138,48 @@
     call :verify_line 6 x demo-03-sch-preprocessed.xspec
 	</case>
 
+	<case ifdef="XMLCALABASH3_JAR" name="Ant with minimum properties (XProc)">
+    rem Unset any preset args
+    set ANT_ARGS=
+
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xproc\*demo.* "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xproc\document.xml "%TUTORIAL_COPY%"
+
+    rem Run
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dxspec.xml="%TUTORIAL_COPY%\xproc-testing-demo.xspec"
+
+    rem Default xspec.fail is true
+    call :verify_retval 1
+    call :verify_line  * x "     [xslt] passed: 4 / pending: 0 / failed: 1 / total: 5"
+    call :verify_line -4 x "BUILD FAILED"
+
+    rem Verify default output dir
+    rem * Default clean.output.dir is false
+    rem * Default xspec.junit.enabled is false
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :verify_line_count 5
+    call :verify_line 1 x xproc-testing-demo_xml-to-properties.xml
+    call :verify_line 2 x xproc-testing-demo-compiled.xsl
+    call :verify_line 3 x xproc-testing-demo-pipelines.xpl
+    call :verify_line 4 x xproc-testing-demo-result.html
+    call :verify_line 5 x xproc-testing-demo-result.xml
+
+    rem HTML report file contains CSS inline
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TUTORIAL_COPY%\xspec\xproc-testing-demo-result.html" ^
+        -xsl:check-html-css.xsl
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
 	<!--
 		Catalog file path (Ant)
 		
@@ -1114,6 +1221,20 @@
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="Ant with catalog file path (XProc)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
+        -Dxspec.xml="%CD%\catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
@@ -1161,6 +1282,21 @@
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="Ant with catalog file URI (XProc)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
+        -Dcatalog.is.uri=true ^
+        -Dxspec.xml="%CD%\catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
@@ -1355,6 +1491,21 @@
     call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
+	<case ifdef="XMLCALABASH3_JAR" name="CLI with -catalog file path (XProc)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%XMLCALABASH3_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    call :run ..\bin\xspec.bat -p ^
+        -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
+        "%SPACE_DIR%\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+	</case>
+
 	<!--
 		Catalog file URI (CLI) (-catalog)
 
@@ -1399,6 +1550,15 @@
     call :verify_retval 0
     call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
     call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="CLI with -catalog file URI (XProc)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    call :run ..\bin\xspec.bat -p ^
+        -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
+        catalog\catalog-01_xproc.xspec
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1452,6 +1612,21 @@
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
+	<case ifdef="XMLCALABASH3_JAR" name="CLI with XML_CATALOG file path (XProc)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%XMLCALABASH3_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -p "%SPACE_DIR%\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+	</case>
+
 	<!--
 		Catalog file URI (CLI) (XML_CATALOG)
 		
@@ -1483,6 +1658,15 @@
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="CLI with XML_CATALOG file URI (XProc)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%;%APACHE_XMLRESOLVER_JAR%"
+    set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -p "catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
