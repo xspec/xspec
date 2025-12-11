@@ -46,4 +46,6 @@
       </xsl:element>
    </xsl:template>
 
+   <!-- Should not reach for XSLT, only for XProc -->
+   <xsl:template name="x:record-port-specific-result"/>
 </xsl:stylesheet>
