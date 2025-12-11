@@ -79,7 +79,7 @@ rem ##
     set "PIPELINES=%TEST_DIR%\%TARGET_FILE_NAME%-pipelines.xpl"
     java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\xproc3\xproc-testing\generate-xproc-imports.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\compiler\xproc\in-scope-steps\generate-xproc-imports.xsl" ^
         -o:"%PIPELINES%" %CATALOG%
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^

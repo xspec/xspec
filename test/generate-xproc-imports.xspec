@@ -2,7 +2,7 @@
 <?xspec-test additional-classpath=${env.APACHE_XMLRESOLVER_JAR}?>
 <?xspec-test saxon-custom-options=-catalog:"${xspec.project.dir}/test/catalog/01/catalog-rewriteURI.xml"?>
 <x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    stylesheet="../src/xproc3/xproc-testing/generate-xproc-imports.xsl">
+    stylesheet="../src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl">
 
     <x:scenario label="Tests for generate-imports template">
         <x:scenario label="XSpec file with no XProc helpers">
@@ -20,7 +20,7 @@
                 )"/>
             <x:expect label="and one for an internal library" test="ends-with(
                 $x:result[self::p:import][2]/@href,
-                '/src/xproc3/xproc-testing/wrap-standard-functions.xpl'
+                '/src/compiler/xproc/wrap-standard-functions/wrap-standard-functions.xpl'
                 )"/>
         </x:scenario>
         <x:scenario>
@@ -97,7 +97,7 @@
         </x:expect>
         <x:expect label="with resolved href" test="p:import/@href/string()" select="concat(
             substring-before($x:xspec-uri,'/test/'),
-            '/src/xproc3/xproc-testing/wrap-standard-functions.xpl'
+            '/src/compiler/xproc/wrap-standard-functions/wrap-standard-functions.xpl'
             )"/>
     </x:scenario>
 </x:description>

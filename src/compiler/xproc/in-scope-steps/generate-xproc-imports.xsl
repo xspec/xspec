@@ -3,7 +3,7 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
 
-    <xsl:import href="../../common/uri-utils.xsl"/>
+    <xsl:import href="../../../common/uri-utils.xsl"/>
 
     <!-- Entry point from xspec.bat and xspec.sh -->
     <xsl:template match="/" as="element(p:library)">
@@ -41,7 +41,7 @@
         <xsl:apply-templates select="@xproc"/>
     </xsl:template>
 
-    <xsl:template match="@xproc" as="element(p:import)">
+    <xsl:template match="x:description/@xproc | x:helper/@xproc" as="element(p:import)">
         <!-- Resolve @xproc to get actual base URI -->
         <xsl:variable name="resolved-uri" select="
                 resolve-uri(., base-uri())
@@ -51,7 +51,7 @@
 
     <xsl:template name="import-function-wrappers" as="element(p:import)">
         <xsl:variable name="resolved-uri" select="
-            resolve-uri('wrap-standard-functions.xpl')"/>
+                resolve-uri('../wrap-standard-functions/wrap-standard-functions.xpl')"/>
         <p:import href="{$resolved-uri}"/>
     </xsl:template>
 </xsl:stylesheet>

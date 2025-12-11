@@ -516,7 +516,7 @@
     <property name="xspec.pipelines" location="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-pipelines.xpl"/>
     <saxon-xslt in="${xspec.xspecfile.original}"
       out="${xspec.pipelines}"
-      style="${xspec.project.dir}/src/xproc3/xproc-testing/generate-xproc-imports.xsl" />
+      style="${xspec.project.dir}/src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl" />
     <makeurl property="xspec.pipelines.url"
       file="${xspec.pipelines}"
       if:set="xspec.pipelines" />

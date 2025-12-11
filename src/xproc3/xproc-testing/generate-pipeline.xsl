@@ -5,7 +5,7 @@
     <xsl:param name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
     <xsl:param name="force-focus" as="xs:string?"/>
     <xsl:param name="html-report-theme" as="xs:string" select="'default'"/>
-    <xsl:import href="generate-xproc-imports.xsl"/>
+    <xsl:import href="../../compiler/xproc/in-scope-steps/generate-xproc-imports.xsl"/>
 
     <xsl:template name="generate-pipeline" as="element(p:declare-step)">
         <xsl:context-item as="document-node(element(x:description))" use="required"/>
