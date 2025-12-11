@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="multiple-document-nodes_stylesheet.xspec">
+   <testsuite name="In XSLT, XSpec does not distinguish boundaries between adjacent document nodes in&#xA;&#x9;&#x9;&#x9;a sequence"
+              tests="7"
+              failures="2">
+      <testcase name="Verify number of nodes:  $my:two-docs has two" status="passed"/>
+      <testcase name="Verify number of nodes:  $my:merged-doc has one" status="passed"/>
+      <testcase name="Verify number of nodes:  $my:two-docs-wrong-boundary has two"
+                status="passed"/>
+      <testcase name="Comparing two document nodes to one document node having same children passes (surprise?)"
+                status="passed"/>
+      <testcase name="Comparing two document nodes to one document node having same children and executing deq:deep-equal directly (with no 'd' flag) returns true"
+                status="passed"/>
+      <testcase name="Failure appearing in HTML result report says '/node()' for unmerged on left and '/self::document-node()' for wrong&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;merged on right"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="Failure appearing in HTML result report says '/node()' for both two-document sequences having different boundaries.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;From the report, you can't tell why the failure occurred (surprise?)."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+</testsuites>

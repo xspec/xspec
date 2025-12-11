@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-connections.xpl">
+    <x:scenario label="No input, no option, one output">
+        <x:call step="s:no-input-no-option-one-output"/>
+        <x:expect label="Document with root" port="xproc-result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+    <x:scenario label="Q{} notation in x:call/@step">
+        <x:call step="Q{x-urn:test:xproc:steplibrary}no-input-no-option-one-output"/>
+        <x:expect label="also works" port="xproc-result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+</x:description>

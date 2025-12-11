@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.30?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:wrap="urn:x-xspec:common:wrap"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-content-types.xpl">
+
+    <x:helper xproc="../../../tutorial/helper/document-nodes/test-helper-load.xpl"
+        stylesheet="../../../tutorial/helper/document-nodes/test-helper-load.xsl"/>
+
+    <x:variable name="text-file-as-string" as="xs:string"
+        select="'document.txt' => resolve-uri($x:xspec-uri) => unparsed-text()"/>
+    <x:variable name="text-file-as-text-node" as="text()" expand-text="yes">{ $text-file-as-string
+        }</x:variable>
+    <!-- wrap:wrap-nodes is defined in XSpec and available to the test runner, but it is
+        not documented for end users. -->
+    <x:variable name="text-in-document-node" as="document-node()"
+        select="wrap:wrap-nodes($text-file-as-text-node)"/>
+
+    <x:scenario label="s:get-text-line using text from external file">
+        <x:scenario label="using thd:load-via-xproc()">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="thd:load-via-xproc('document.txt', $x:xspec-uri)"
+                    as="document-node()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using thd:load-via-xproc() for CSV file">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="thd:load-via-xproc('document.csv', $x:xspec-uri)"
+                    as="document-node()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using unparsed-text() and text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="$text-file-as-text-node" as="text()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using unparsed-text() and wrapped text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="$text-in-document-node" as="document-node()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using one text node and one wrapped text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="($text-file-as-text-node, $text-in-document-node)"
+                    as="node()+"/>
+            </x:call>
+            <x:expect label="returns a sequence of document nodes" port="xproc-result"
+                test="$x:result instance of document-node()+"/>
+            <x:expect label="each containing a text node" port="xproc-result"
+                test="every $doc in $x:result satisfies $doc/node() instance of text()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="s:get-text-line using text embedded in XSpec file">
+        <x:scenario label="using x:text">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()">
+                    <x:text>1, 10&#10;</x:text>
+                    <x:text>2, 20&#10;</x:text>
+                </x:input>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="without using x:text">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()">1, 10&#10;2, 20&#10;</x:input>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="forming multiple text documents">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()+" select="/wrapper/text()">
+                    <wrapper>1, 10&#10;</wrapper>
+                    <wrapper>2, 20&#10;</wrapper>
+                </x:input>
+            </x:call>
+            <x:expect label="returns a sequence of document nodes," port="xproc-result"
+                test="$x:result instance of document-node()+"/>
+            <x:expect label="two of them," port="xproc-result" test="count($x:result)" select="2"/>
+            <x:expect label="each containing a text node" port="xproc-result"
+                test="every $doc in $x:result satisfies $doc/node() instance of text()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Content type">
+        <x:scenario label="of txt input file loaded with thd:load-via-xproc()">
+            <x:variable name="text-input" select="thd:load-via-xproc('document.txt', $x:xspec-uri)"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+        <x:scenario label="of CSV input file loaded with thd:load-via-xproc()">
+            <x:variable name="text-input" select="thd:load-via-xproc('document.csv', $x:xspec-uri)"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+        <x:scenario label="of text node">
+            <x:variable name="text-input" select="$text-file-as-text-node"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+        <x:scenario label="of text node wrapped in document node">
+            <x:variable name="text-input" select="$text-in-document-node"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- Shared scenarios -->
+    <x:scenario shared="yes" label="verify returned text">
+        <x:expect label="returns a document node" port="xproc-result"
+            test="$x:result instance of document-node()"/>
+        <x:expect label="containing a text node" port="xproc-result"
+            test="$x:result/node() instance of text()"/>
+        <x:expect label="containing the first line of the text file, including line break"
+            port="xproc-result" select="/">1, 10&#10;</x:expect>
+        <x:expect label="(In x:expect[@port][not(@test)][node()], select='/' is optional.)"
+            port="xproc-result">1, 10&#10;</x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="check content type">
+        <x:call step="s:get-content-type">
+            <x:input port="source" select="$text-input"/>
+        </x:call>
+        <x:expect label="is text/plain" port="xproc-result" select="'text/plain'"/>
+    </x:scenario>
+</x:description>

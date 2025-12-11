@@ -30,6 +30,7 @@
 	<xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
 	<xsl:include href="../compiler/base/util/compiler-pending-utils.xsl" />
 	<xsl:include href="../compiler/xslt/declare-variable/declare-variable.xsl" />
+	<xsl:include href="../compiler/xslt/declare-variable/selection-from-doc.xsl" />
 	<xsl:include href="../compiler/xslt/node-constructor/node-constructor.xsl" />
 	<xsl:include href="preprocessor.xsl" />
 

@@ -550,7 +550,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron)!substring(name(),1,1)),'t')[1])}</String>
+												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron,@xproc)!substring(name()!replace(.,'x',''),1,1)),'t')[1])}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -689,6 +689,29 @@
 											</field>
 											<field name="value">
 												<null/>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xmlcalabash.classpath</String>
+											</field>
+											<field name="description">
+												<String>Classpath for XML Calabash. Required to run XSpec tests for XProc.</String>
+											</field>
+											<field name="value">
+												<String>${env(XMLCALABASH3_JAR)}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>

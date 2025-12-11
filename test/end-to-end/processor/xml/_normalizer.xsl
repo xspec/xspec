@@ -18,10 +18,12 @@
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
 	<xsl:template as="attribute()" match="
-			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec')]
+			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec', 'xproc')]
 			| /x:report[not(@schematron)]/@stylesheet
 			| x:scenario/@xspec
 			| x:scenario/input-wrap/x:call/x:param/@href
+			| x:scenario/input-wrap/x:call/x:input/@href
+			| x:scenario/input-wrap/x:call/x:option/@href
 			| x:scenario/input-wrap/x:context/@href
 			|
 			/x:report[local:svrl-creator(.) eq 'skeleton']//x:scenario/x:result/content-wrap

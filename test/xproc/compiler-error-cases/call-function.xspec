@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:scenario ('x:call/@function is not allowed in test for XProc'): x:call/@function not supported for XProc?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../cases/library.xpl">
+    <x:scenario label="x:call/@function is not allowed in test for XProc">
+        <x:call function="something"/>
+    </x:scenario>
+</x:description>

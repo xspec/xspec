@@ -83,7 +83,7 @@
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
-   <xsl:template match="@as | @function | @mode | @name | @template" as="attribute()"
+   <xsl:template match="@as | @function | @mode | @name | @port | @template" as="attribute()"
       mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>

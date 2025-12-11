@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:opt-ns="x-urn:test:xproc:steplibrary:options"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="Providing options in the order the step declares them should work">
+        <x:call step="s:no-input-two-options-one-output">
+            <x:option name="opt-ns:attrval2" select="2"/>
+            <x:option name="attrval1" select="1"/>
+        </x:call>
+        <x:like label="root with attributes 1 and 2"/>
+    </x:scenario>
+    <x:scenario label="Providing options out of order should work">
+        <x:call step="s:no-input-two-options-one-output">
+            <x:option name="attrval1" select="1"/>
+            <x:option name="opt-ns:attrval2" select="2"/>
+        </x:call>
+        <x:like label="root with attributes 1 and 2"/>
+    </x:scenario>
+    <x:scenario label="Q{} notation in x:option/@name should work">
+        <x:call step="s:no-input-two-options-one-output">
+            <x:option name="attrval1" select="1"/>
+            <x:option name="Q{x-urn:test:xproc:steplibrary:options}attrval2" select="2"/>
+        </x:call>
+        <x:like label="root with attributes 1 and 2"/>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="root with attributes 1 and 2">
+        <x:expect label="root with attributes 1 and 2" port="xproc-result">
+            <root attr1="1" attr2="2"/>
+        </x:expect>
+    </x:scenario>
+</x:description>
