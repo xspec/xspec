@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:my="my-namespace"
+    xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:wrap="urn:x-xspec:common:wrap"
+    xproc="../../xproc/cases/library-mirror.xpl">
+
+    <x:helper stylesheet="../../../tutorial/helper/document-nodes/test-helper-documents.xsl"/>
+
+    <!-- Prepare input -->
+    <x:variable name="my:one-doc" select="/" as="document-node()">
+        <document/>
+        <!-- comment -->
+    </x:variable>
+    <x:variable name="my:two-docs" select="($my:one-doc, $my:one-doc)" as="document-node()+"/>
+
+    <!-- Prepare expected results -->
+    <x:variable name="my:merged-doc" select="/" as="document-node()">
+        <document/>
+        <!-- comment -->
+        <document/>
+        <!-- comment -->
+    </x:variable>
+    <x:variable name="my:partial1" select="/" as="document-node()">
+        <document/>
+        <!-- comment -->
+        <document/>
+    </x:variable>
+    <x:variable name="my:partial2" select="/" as="document-node()">
+        <!-- comment -->
+    </x:variable>
+    <x:variable name="my:two-docs-wrong-boundary" select="($my:partial1, $my:partial2)"
+        as="document-node()+"/>
+    <x:variable name="my:each-child-node-wrapped"
+        select="($my:one-doc/node(), $my:one-doc/node()) => thd:wrap-each()"
+        as="document-node()+"/>
+
+    <x:scenario label="Input port has 2 document nodes with a total of 4 child nodes">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="$my:two-docs"/>
+        </x:call>
+        <x:scenario label="Verify number of nodes: ">
+            <x:expect label="$my:two-docs has two" test="count($my:two-docs)" select="2"/>
+            <x:expect label="$my:merged-doc has one" test="count($my:merged-doc)" select="1"/>
+            <x:expect label="$my:two-docs-wrong-boundary has two"
+                test="count($my:two-docs-wrong-boundary)" select="2"/>
+            <x:expect label="$my:each-child-node-wrapped has four"
+                test="count($my:each-child-node-wrapped)" select="4"/>
+        </x:scenario>
+        <x:scenario label="x:expect syntax options for verifying multiple document nodes include">
+            <x:expect port="xproc-result" label="@select with an XSpec variable"
+                select="$my:two-docs"/>
+            <!-- The next x:expect uses doc() but you can use json-doc() or unparsed-text() as
+                appropriate for non-XML file types. -->
+            <x:expect label="@select to read external documents" port="xproc-result"
+                select="('document-node-boundaries.xml', 'document-node-boundaries.xml')
+                    ! resolve-uri(., $x:xspec-uri) ! doc(.)"/>
+            <x:expect port="xproc-result" href="document-node-boundaries.xml" select="(/, /)">
+                <x:label>@href and @select, but select=(/, /) works here only because the documents
+                    are the same</x:label>
+            </x:expect>
+            <x:expect port="xproc-result" label="embedded element-wrapped nodes and helper function"
+                select="thd:rewrap-as-doc-node(/*)">
+                <my:document-wrapper>
+                    <document/>
+                    <!-- comment -->
+                </my:document-wrapper>
+                <my:document-wrapper>
+                    <document/>
+                    <!-- comment -->
+                </my:document-wrapper>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="x:input syntax options for multiple input documents include">
+            <x:scenario label="@select with an XSpec variable">
+                <x:call step="mirror:identity">
+                    <x:input port="source" select="$my:two-docs"/>
+                </x:call>
+                <x:expect port="xproc-result" label="Success" select="$my:two-docs"/>
+            </x:scenario>
+            <x:scenario label="@select to read external documents">
+                <x:call step="mirror:identity">
+                    <x:input port="source"
+                        select="('document-node-boundaries.xml', 'document-node-boundaries.xml')
+                        ! resolve-uri(., $x:xspec-uri) ! doc(.)"/>
+                </x:call>
+                <x:expect port="xproc-result" label="Success" select="$my:two-docs"/>
+            </x:scenario>
+            <x:scenario>
+                <x:label>@href and @select, but select=(/, /) works here only because the documents
+                    are the same</x:label>
+                <x:call step="mirror:identity">
+                    <x:input port="source" href="document-node-boundaries.xml" select="(/, /)"/>
+                </x:call>
+                <x:expect port="xproc-result" label="Success" select="$my:two-docs"/>
+            </x:scenario>
+            <x:scenario label="embedded element-wrapped nodes and helper function">
+                <x:call step="mirror:identity">
+                    <x:input port="source" select="
+                        for $idx in (1 to count(/my:document-wrapper))
+                        return
+                        (/my:document-wrapper[$idx]/node() => thd:wrap-all())">
+                        <my:document-wrapper>
+                            <document/>
+                            <!-- comment -->
+                        </my:document-wrapper>
+                        <my:document-wrapper>
+                            <document/>
+                            <!-- comment -->
+                        </my:document-wrapper>
+                    </x:input>
+                </x:call>
+                <x:expect port="xproc-result" label="Success" select="$my:two-docs"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="When expected result is 1 merged document node">
+            <x:expect port="xproc-result" label="Failure" select="$my:merged-doc"/>
+        </x:scenario>
+        <x:scenario label="When expected result is 2 document nodes with wrong boundaries">
+            <x:expect port="xproc-result" label="Failure" select="$my:two-docs-wrong-boundary"/>
+            <x:expect port="xproc-result" test="$x:result[1]"
+                select="$my:two-docs-wrong-boundary[1]">
+                <x:label>For unambiguous report, compare individual document nodes.</x:label>
+            </x:expect>
+            <!-- Next, select="/" is needed because x:expect uses @test to filter $x:result -->
+            <x:expect label="Same thing with embedded child nodes." port="xproc-result"
+                test="$x:result[1]" select="/">
+                <document/>
+                <!-- comment -->
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When expected result is 4 document nodes with 1 child node each">
+            <x:expect port="xproc-result" label="Failure" select="$my:each-child-node-wrapped"/>
+            <x:expect port="xproc-result" test="$x:result[1]"
+                select="$my:each-child-node-wrapped[1]">
+                <x:label>For unambiguous report, compare individual document nodes.</x:label>
+            </x:expect>
+            <!-- Next, select="/" is needed because x:expect uses @test to filter $x:result -->
+            <x:expect label="Same thing with embedded child node." port="xproc-result"
+                test="$x:result[1]" select="/">
+                <document/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+</x:description>

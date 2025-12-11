@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="circular-import1.xpl">
+    <x:scenario label="Calling a step in a library having circular imports">
+        <x:call step="s:step1">
+            <x:input port="source">
+                <root/>
+            </x:input>
+        </x:call>
+        <x:expect label="should work" port="result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+</x:description>

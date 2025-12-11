@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-mirror.xpl">
+    <!-- This file is similar to option-element.xspec -->
+    <x:helper stylesheet="../../items.xsl"/>
+    <x:scenario label="x:input can specify a value using">
+        <x:scenario label="embedded child nodes">
+            <x:call step="mirror:identity">
+                <x:input port="source"><document/></x:input>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="embedded child nodes and @select">
+            <x:call step="mirror:identity">
+                <x:input port="source" select="//document">
+                    <root>
+                        <document/>
+                    </root>
+                </x:input>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@href pointing to an XML document">
+            <x:call step="mirror:identity">
+                <x:input port="source" href="document.xml"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@href and @select">
+            <x:call step="mirror:identity">
+                <x:input port="source" href="document.xml" select="root()"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@select alone">
+            <x:call step="mirror:identity">
+                <x:input port="source" select="parse-xml('&lt;document/>')"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="When source is a sequence of nodes other than attribute and namespace nodes">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="$items:wrappable-nodes"/>
+        </x:call>
+        <x:expect port="xproc-result" result-type="document-node()+" test="count($x:result)"
+            select="count($items:wrappable-nodes)">
+            <x:label>the identity step returns a sequence of document nodes, one for each item
+                in the original sequence</x:label>
+        </x:expect>
+        <x:expect label="the comment node matches" port="xproc-result"
+            test="$x:result/comment()" select="$items:wrappable-nodes[self::comment()]"/>
+        <x:expect label="the element node matches" port="xproc-result"
+            test="$x:result/element()" select="$items:wrappable-nodes[self::element()]"/>
+        <x:expect port="xproc-result" test="$x:result/text()"
+            select="(
+            $items:wrappable-nodes[self::document-node()]/text(),
+            $items:wrappable-nodes[self::text()]
+            )">
+            <x:label>the two text nodes match (the original text node became wrapped in a document
+                node)</x:label>
+        </x:expect>
+        <x:expect label="the PI node matches" port="xproc-result"
+            test="$x:result/processing-instruction()"
+            select="$items:wrappable-nodes[self::processing-instruction()]"/>        
+    </x:scenario>
+    <x:scenario label="When source is a number">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="1"/>
+        </x:call>
+        <x:expect label="the result is the number" port="xproc-result" select="1"/>
+    </x:scenario>
+    <x:scenario label="When source is an array" pending="Requires XML Calabash fix">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="[1, 2]"/>
+        </x:call>
+        <x:expect label="the result is the array" port="xproc-result" select="[1, 2]"/>
+    </x:scenario>
+    <x:scenario label="When source is a map">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="map{1: 2}"/>
+        </x:call>
+        <x:expect label="the result is the map" port="xproc-result" select="map{1: 2}"/>
+    </x:scenario>
+    <x:scenario label="When source is a string">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="'one'"/>
+        </x:call>
+        <x:expect label="the result is the string" port="xproc-result" select="'one'"/>
+    </x:scenario>
+    <x:scenario label="If an input name duplicates an XSpec variable name">
+        <x:call step="mirror:identity">
+            <x:input port="source"><xproc-input/></x:input>
+        </x:call>
+        <x:variable name="opt"><xspec-variable/></x:variable>
+        <x:expect label="there is no conflict; the input has its value" port="xproc-result">
+            <xproc-input/>
+        </x:expect>
+        <x:expect label="and the variable has its own value" test="$opt">
+            <xspec-variable/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="verify result document">
+        <x:expect label="and the identity step returns the value" port="xproc-result">
+            <document/>
+        </x:expect>
+    </x:scenario>
+</x:description>

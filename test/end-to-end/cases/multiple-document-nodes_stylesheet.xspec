@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../../do-nothing.xsl" xmlns:deq="urn:x-xspec:common:deep-equal"
+	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This test records a certain longstanding behavior. Not sure if it is the best behavior,
+		but if we ever change it, we should do so knowingly. It appears to date back to 2010.
+		https://github.com/xspec/xspec/commit/6867ec1ec48aa5bff5f9701a7cc0b360a4c0b822 -->
+	<x:scenario>
+		<x:label>In XSLT, XSpec does not distinguish boundaries between adjacent document nodes in
+			a sequence</x:label>
+		<x:call function="false"/>
+
+		<x:variable name="my:one-doc" select="/" as="document-node()">
+			<document/>
+			<!-- comment -->
+		</x:variable>
+		<x:variable name="my:two-docs" select="($my:one-doc, $my:one-doc)" as="document-node()+"/>
+		<x:variable name="my:merged-doc" select="/" as="document-node()">
+			<document/>
+			<!-- comment -->
+			<document/>
+			<!-- comment -->
+		</x:variable>
+		<x:variable name="my:wrong-merged-doc" select="/" as="document-node()">
+			<document/>
+			<!-- comment -->
+			<document/>
+			<!-- wrong comment -->
+		</x:variable>
+		<x:variable name="my:partial1" select="/" as="document-node()">
+			<document/>
+			<!-- comment -->
+			<document/>
+		</x:variable>
+		<x:variable name="my:partial2" select="/" as="document-node()">
+			<!-- comment -->
+		</x:variable>
+		<x:variable name="my:two-docs-wrong-boundary" select="($my:partial1, $my:partial2)"
+			as="document-node()+"/>
+
+		<x:scenario label="Verify number of nodes: ">
+			<x:expect label="$my:two-docs has two" test="count($my:two-docs)" select="2"/>
+			<x:expect label="$my:merged-doc has one" test="count($my:merged-doc)" select="1"/>
+			<x:expect label="$my:two-docs-wrong-boundary has two"
+				test="count($my:two-docs-wrong-boundary)" select="2"/>
+		</x:scenario>
+		<x:scenario label="Comparing two document nodes to one document node having same children">
+			<x:expect label="passes (surprise?)" test="$my:two-docs" select="$my:merged-doc"/>
+			<x:expect label="and executing deq:deep-equal directly (with no 'd' flag) returns true" 
+				test="deq:deep-equal($my:two-docs, $my:merged-doc, '')"/>
+		</x:scenario>
+		<x:scenario label="Failure appearing in HTML result report">
+			<x:expect test="$my:two-docs" select="$my:wrong-merged-doc">
+				<x:label>says '/node()' for unmerged on left and '/self::document-node()' for wrong
+					merged on right</x:label>
+			</x:expect>
+			<x:expect test="$my:two-docs" select="$my:two-docs-wrong-boundary">
+				<x:label>says '/node()' for both two-document sequences having different boundaries.
+					From the report, you can't tell why the failure occurred (surprise?).</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

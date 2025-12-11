@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Unknown input'): Too many x:input elements for calling step s:one-input-no-option-one-output.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+    <x:scenario label="Unknown input">
+        <!-- If x:call had only the first x:input child shown here, the error would flag the lack
+        of an x:input element for "source", not the problem with the port name "nonexistent". -->
+        <x:call step="s:one-input-no-option-one-output">
+            <x:input port="nonexistent"/>
+            <x:input port="source"/>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

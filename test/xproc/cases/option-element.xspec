@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-mirror.xpl">
+    <x:helper stylesheet="../../items.xsl"/>
+    <x:scenario label="x:option can specify a value using">
+        <x:scenario label="embedded child nodes">
+            <x:call step="mirror:option-value">
+                <x:option name="opt"><document/></x:option>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="embedded child nodes and @select">
+            <x:call step="mirror:option-value">
+                <x:option name="opt" select="//document">
+                    <root>
+                        <document/>
+                    </root>
+                </x:option>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@href pointing to an XML document">
+            <x:call step="mirror:option-value">
+                <x:option name="opt" href="document.xml"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@href and @select">
+            <x:call step="mirror:option-value">
+                <x:option name="opt" href="document.xml" select="root()"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@select alone">
+            <x:call step="mirror:option-value">
+                <x:option name="opt" select="parse-xml('&lt;document/>')"/>
+            </x:call>
+            <x:like label="verify result document"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="When opt is not provided in x:call">
+        <x:call step="mirror:option-value"/>
+        <x:expect label="the option-value step returns the option's default value"
+            port="xproc-result" select="'default'"/>
+    </x:scenario>
+    <x:scenario label="When opt is a sequence of nodes other than attribute and namespace nodes">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="$items:wrappable-nodes"/>
+        </x:call>
+        <x:expect port="xproc-result" result-type="document-node()+" test="count($x:result)"
+            select="count($items:wrappable-nodes)">
+            <x:label>the option-value step returns a sequence of document nodes, one for each item
+                in the original sequence</x:label>
+        </x:expect>
+        <x:expect label="the comment node matches" port="xproc-result"
+            test="$x:result/comment()" select="$items:wrappable-nodes[self::comment()]"/>
+        <x:expect label="the element node matches" port="xproc-result"
+            test="$x:result/element()" select="$items:wrappable-nodes[self::element()]"/>
+        <x:expect port="xproc-result" test="$x:result/text()"
+            select="(
+            $items:wrappable-nodes[self::document-node()]/text(),
+            $items:wrappable-nodes[self::text()]
+            )">
+            <x:label>the two text nodes match (the original text node became wrapped in a document
+                node)</x:label>
+        </x:expect>
+        <x:expect label="the PI node matches" port="xproc-result"
+            test="$x:result/processing-instruction()"
+            select="$items:wrappable-nodes[self::processing-instruction()]"/>        
+    </x:scenario>
+    <x:scenario label="When opt is a number">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="1"/>
+        </x:call>
+        <x:expect label="the result is the number" port="xproc-result" select="1"/>
+    </x:scenario>
+    <x:scenario label="When opt is an array">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="[1, 2]"/>
+        </x:call>
+        <x:expect label="the result is the array" port="xproc-result" select="[1, 2]"/>
+    </x:scenario>
+    <x:scenario label="When opt is a map">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="map{1: 2}"/>
+        </x:call>
+        <x:expect label="the result is the map" port="xproc-result" select="map{1: 2}"/>
+    </x:scenario>
+    <x:scenario label="When opt is a string (which gets converted to application/json)">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="'one'"/>
+        </x:call>
+        <x:expect label="the result is a document node whose one child is a text node"
+            port="xproc-result" result-type="document-node()"
+            test="$x:result/node() instance of text()"/>
+        <x:expect label="containing that text" port="xproc-result" test="$x:result/node()"
+            >one</x:expect>
+    </x:scenario>
+    <x:scenario label="If an option name duplicates an XSpec variable name">
+        <x:call step="mirror:option-value">
+            <x:option name="opt"><xproc-option/></x:option>
+        </x:call>
+        <x:variable name="opt"><xspec-variable/></x:variable>
+        <x:expect label="there is no conflict; the option has its value" port="xproc-result">
+            <xproc-option/>
+        </x:expect>
+        <x:expect label="and the variable has its own value" test="$opt">
+            <xspec-variable/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="verify result document">
+        <x:expect label="and the option-value step returns the value" port="xproc-result">
+            <document/>
+        </x:expect>
+    </x:scenario>
+</x:description>
