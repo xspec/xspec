@@ -68,6 +68,56 @@
             test="$x:result/processing-instruction()"
             select="$items:wrappable-nodes[self::processing-instruction()]"/>        
     </x:scenario>
+    <x:scenario label="When x:option has multiple child nodes">
+        <x:call step="mirror:option-value">
+            <x:option name="opt">
+                <node1/>
+                <!-- node2 -->
+                <node3/>
+                <?node4?>
+                <x:text>node 5</x:text>
+            </x:option>
+        </x:call>
+        <x:expect port="xproc-result" result-type="document-node()+" test="count($x:result)"
+            select="5">
+            <x:label>the option-value step returns a sequence of document nodes, one for each item
+                in the original sequence.</x:label>
+        </x:expect>
+        <x:expect port="xproc-result">
+            <x:label>x:expect[@port][not(@test)][not(@select)] with multiple child nodes
+                automatically wraps each node in a document node. The sequence of document nodes
+                is the expected result.</x:label>
+            <node1/>
+            <!-- node2 -->
+            <node3/>
+            <?node4?>
+            <x:text>node 5</x:text>            
+        </x:expect>
+    </x:scenario>
+    <x:scenario label="When x:option has multiple child nodes and also has select='/'">
+        <x:call step="mirror:option-value">
+            <x:option name="opt" select="/">
+                <node1/>
+                <!-- node2 -->
+                <node3/>
+                <?node4?>
+                <x:text>node 5</x:text>
+            </x:option>
+        </x:call>
+        <x:expect port="xproc-result" result-type="document-node()" test="count($x:result)"
+            select="1">
+            <x:label>the option-value step returns one document node.</x:label>
+        </x:expect>
+        <x:expect port="xproc-result"
+            label="x:expect[@port][not(@test)] can use select='/' to wrap all the children"
+            select="/">
+            <node1/>
+            <!-- node2 -->
+            <node3/>
+            <?node4?>
+            <x:text>node 5</x:text>            
+        </x:expect>
+    </x:scenario>
     <x:scenario label="When opt is a number">
         <x:call step="mirror:option-value">
             <x:option name="opt" select="1"/>

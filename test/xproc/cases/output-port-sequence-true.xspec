@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test min-xmlcalabash-version=3.0.30?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
-    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:wrap="urn:x-xspec:common:wrap"
-    xproc="library.xpl">
-
-    <x:helper stylesheet="../../../tutorial/helper/document-nodes/test-helper-documents.xsl"/>
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
 
     <x:scenario label="Request 0 documents">
         <x:call step="s:output-port-sequence-true">
@@ -45,9 +41,10 @@
             label="Output port has 2 documents, each with output-document as outermost element"
             port="xproc-result" result-type="document-node(element(output-document))+"
             test="$x:result => count()" select="2"/>
-        <x:expect port="xproc-result" select="/node() => thd:wrap-each()">
-            <x:label>x:expect[@port][not(@test)] with two child elements must wrap them or else they
-                will be in a single document node instead of two</x:label>
+        <x:expect port="xproc-result">
+            <x:label>x:expect[@port][not(@test)][not(@select)] with two child elements automatically
+                wraps each element in a document node. The sequence of document nodes is the
+                expected result.</x:label>
             <output-document/>
             <output-document/>
         </x:expect>

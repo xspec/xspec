@@ -96,10 +96,7 @@
             </x:scenario>
             <x:scenario label="embedded element-wrapped nodes and helper function">
                 <x:call step="mirror:identity">
-                    <x:input port="source" select="
-                        for $idx in (1 to count(/my:document-wrapper))
-                        return
-                        (/my:document-wrapper[$idx]/node() => thd:wrap-all())">
+                    <x:input port="source" select="thd:rewrap-as-doc-node(/*)">
                         <my:document-wrapper>
                             <document/>
                             <!-- comment -->

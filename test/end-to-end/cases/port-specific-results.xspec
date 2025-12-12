@@ -69,7 +69,7 @@
             port="xproc-result"
             test="$x:result instance of document-node()+ and count($x:result) eq 2"/>
         <x:scenario label="without @test and with single document node as expected result">
-            <x:expect port="xproc-result">
+            <x:expect port="xproc-result" select="/">
                 <x:label>the report shows the output at that port labeled as "XPath /node() from"
                     (without depicting boundaries between adjacent document nodes) vs. the expected
                     result labeled as "XPath /self::document-node() from"</x:label>

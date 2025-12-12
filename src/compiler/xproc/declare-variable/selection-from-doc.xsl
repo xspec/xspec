@@ -6,11 +6,11 @@
    <xsl:function name="x:selection-from-doc" as="xs:string">
       <xsl:param name="element" as="element()"/>
       <!-- When testing XProc, if you embed nodes for an expected result and aren't filtering
-         the actual result via @test, then you should receive a document node containing the
-         embedded nodes. That is better than receiving just the embedded nodes, because if an
+         the actual result via @test, then you should receive a document node for each embedded
+         child node. That is better than receiving just the embedded nodes, because if an
          XProc step returns a node at all, it's always a document node. -->
       <xsl:variable name="wrap-embedded-nodes" expand-text="yes" as="xs:string">. !
-         {x:known-UQName('wrap:wrap-nodes')}(.)</xsl:variable>
+         {x:known-UQName('wrap:wrap-each')}(child::node())</xsl:variable>
       <xsl:sequence select="
             (
             $element/@select,
