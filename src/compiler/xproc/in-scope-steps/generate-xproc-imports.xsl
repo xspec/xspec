@@ -3,7 +3,11 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
 
-    <xsl:import href="../../../common/uri-utils.xsl"/>
+    <xsl:include href="../../../common/uri-utils.xsl"/>
+    <xsl:include href="../../../common/common-utils.xsl"/>
+    <xsl:include href="../../../common/uqname-utils.xsl"/>
+    <xsl:include href="../../../common/namespace-vars.xsl"/>
+    <xsl:include href="../../base/util/compiler-misc-utils.xsl"/>
 
     <!-- Entry point from xspec.bat and xspec.sh -->
     <xsl:template match="/" as="element(p:library)">
@@ -43,10 +47,29 @@
 
     <xsl:template match="x:description/@xproc | x:helper/@xproc" as="element(p:import)">
         <!-- Resolve @xproc to get actual base URI -->
-        <xsl:variable name="resolved-uri" select="
+        <xsl:variable name="resolved-xproc" select="
                 resolve-uri(., base-uri())
                 => x:resolve-xml-uri-with-catalog()"/>
-        <p:import href="{$resolved-uri}"/>
+        <xsl:choose>
+            <xsl:when test="exists(doc($resolved-xproc)/(p:declare-step | p:library))">
+                <p:import href="{$resolved-xproc}"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="..">
+                    <xsl:message terminate="yes">
+                        <xsl:call-template name="x:prefix-diag-message">
+                            <xsl:with-param name="message">
+                                <xsl:text expand-text="yes">File at {@xproc} is not XProc. </xsl:text>
+                                <xsl:text>It should have /p:declare-step or /p:library. </xsl:text>
+                                <xsl:text expand-text="yes">Instead, it has /{
+                                    doc($resolved-xproc)/element() => name()
+                                    }.</xsl:text>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:message>
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template name="import-function-wrappers" as="element(p:import)">

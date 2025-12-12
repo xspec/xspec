@@ -15,7 +15,7 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:for-each>
-      <!-- Computing positions requires accessing the pipeline being tested,
+      <!-- Setting up the call to the step requires accessing the pipeline being tested,
          so check availability early. -->
       <xsl:variable name="resolved-xproc" as="xs:anyURI?"
          select="x:description/@xproc ! resolve-uri(string(.), base-uri(.))"/>
