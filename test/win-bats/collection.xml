@@ -543,8 +543,8 @@
         xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\xproc3\run-xquery.xpl
     call :verify_retval 0
-    call :verify_line_count 3
-    call :verify_line 3 x "passed: 12 / pending: 0 / failed: 0 / total: 12"
+    call :verify_line_count 8
+    call :verify_line 8 x "passed: 12 / pending: 0 / failed: 0 / total: 12"
 	</case>
 
 	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)">
@@ -1556,7 +1556,7 @@
         rem ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
         rem from SAXON_HOME/lib/ subdirectory deliberately.
         call :verify_retval 1
-        call :verify_line * x "Creating Test Stylesheet..."
+        call :verify_line * x "Creating Test Runner..."
         call :verify_line * r "Exception in thread "
         call :verify_line * r "	at net\.sf\.saxon\.Transform\.main\("
         call :verify_line * r "Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver"

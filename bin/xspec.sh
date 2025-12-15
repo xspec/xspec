@@ -352,7 +352,7 @@ if test -n "$XSLT"; then
 else
     COMPILE_SHEET=compile-xquery-tests.xsl
 fi
-echo "Creating Test Stylesheet..."
+echo "Creating Test Runner..."
 xslt -o:"$COMPILED" -s:"$XSPEC" \
     -xsl:"$XSPEC_HOME/src/compiler/$COMPILE_SHEET" \
     || die "Error compiling the test suite"
