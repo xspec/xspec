@@ -13,7 +13,7 @@
         <p:output port="original" pipe="source@demo"/>
 
         <!-- Options -->
-        <p:option name="wrapper" as="xs:string" select="'wrapper-element'"/>
+        <p:option name="wrapper" as="xs:QName" select="QName('','wrapper-element')"/>
 
         <!-- Body of step -->
         <p:wrap-sequence wrapper="{$wrapper}"/>
