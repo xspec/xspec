@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="port-specific-results.xspec">
+   <testsuite name="When x:expect[@port] fails" tests="9" failures="9">
+      <testcase name="due to @result-type the report shows the output at that port vs. the sequence type&#xA;                    condition"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="due to boolean @test the report shows the output at that port vs. the @test value"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: empty($x:result)</failure>
+      </testcase>
+      <testcase name="without @test and with non-matching document node as expected result the report shows the output at that port vs. the expected result and both&#xA;                    sides say &#34;XPath /self::document-node() from:&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="without @test and with non-matching document node as expected result Same thing without @select"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="without @test and with element as expected result the report shows the output at that port vs. the expected result. Left side&#xA;                    says &#34;XPath /self::document-node() from:&#34; and right side says &#34;XPath /element()&#xA;                    from:&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces a document node the report shows the filtered output at that port vs. the expected result&#xA;                    and label above box says &#34;XPath /self::document-node() from:&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces an element the report shows the filtered output at that port vs. the expected result&#xA;                    and label above box says &#34;XPath /element() from:&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces an element Same thing without @select"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces an atomic value the report shows the atomic value vs. the expected result"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: 'wrong-output-document'</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="When the output port has multiple documents and x:expect[@port] fails"
+              tests="7"
+              failures="6">
+      <testcase name="(Confirm that output at that port is a pair of document nodes)"
+                status="passed"/>
+      <testcase name="without @test and with single document node as expected result the report shows the output at that port labeled as &#34;XPath /node() from&#34;&#xA;                    (without depicting boundaries between adjacent document nodes) vs. the expected&#xA;                    result labeled as &#34;XPath /self::document-node() from&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="without @test and with element sequence as expected result the report shows the output at that port labeled as &#34;XPath /node() from&#34;&#xA;                    (without depicting boundaries between adjacent document nodes) vs. the expected&#xA;                    result labeled as &#34;XPath /element() from&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces multiple document nodes and sequence of multiple&#xA;                document nodes as expected result the report shows the output at that port vs. the expected result, both&#xA;                    labeled with &#34;XPath /node() from&#34; to indicate multiple nodes (without depicting&#xA;                    boundaries between adjacent document nodes)"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces element nodes the report shows the filtered output at that port vs. the expected result&#xA;                    and both sides say &#34;XPath /element() from:&#34;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces element nodes Same thing without @select"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces an atomic value the report shows the atomic value vs. the expected result"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: 'wrong-output-document'</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

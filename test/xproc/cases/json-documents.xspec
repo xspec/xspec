@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:wrap="urn:x-xspec:common:wrap"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-content-types.xpl">
+
+    <x:helper xproc="../../../tutorial/helper/document-nodes/test-helper-load.xpl"
+        stylesheet="../../../tutorial/helper/document-nodes/test-helper-load.xsl"/>
+
+    <x:scenario label="s:json-join for arrays, using external JSON file and embedded array">
+        <x:scenario label="using thd:load-via-xproc()">
+            <x:call step="s:json-join">
+                <x:input port="source" select="(
+                    thd:load-via-xproc('document-array.json', $x:xspec-uri),
+                    [0, 1]
+                    )" as="array(*)+"/>
+            </x:call>
+            <x:like label="verify returned array"/>
+        </x:scenario>
+        <x:scenario label="using json-doc() and embedded array">
+            <x:variable name="array" as="array(*)"
+                select="'document-array.json' => resolve-uri($x:xspec-uri) => json-doc()"/>
+            <x:call step="s:json-join">
+                <x:input port="source" select="($array, [0, 1])" as="array(*)+"/>
+            </x:call>
+            <x:like label="verify returned array"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="s:json-join for objects, using external JSON file and embedded map">
+        <x:scenario label="using thd:load-via-xproc()">
+            <x:call step="s:json-join">
+                <x:input port="source" select="(
+                    thd:load-via-xproc('document-object.json', $x:xspec-uri),
+                    map{'embedded': 'in-xspec-file'}
+                    )" as="map(*)+"/>
+            </x:call>
+            <x:like label="verify returned array of maps"/>
+        </x:scenario>
+        <x:scenario label="using json-doc() and embedded map">
+            <x:variable name="map" as="map(*)"
+                select="'document-object.json' => resolve-uri($x:xspec-uri) => json-doc()"/>
+            <x:call step="s:json-join">
+                <x:input port="source" select="($map, map{'embedded': 'in-xspec-file'})"
+                    as="map(*)+"/>
+            </x:call>
+            <x:like label="verify returned array of maps"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Content type">
+        <x:scenario label="of JSON array input file">
+            <x:call step="s:get-content-type">
+                <x:input port="source"
+                    select="thd:load-via-xproc('document-array.json', $x:xspec-uri)"/>
+            </x:call>
+            <x:expect label="is application/json" port="xproc-result" select="'application/json'"/>
+        </x:scenario>
+        <x:scenario label="of JSON object input file">
+            <x:call step="s:get-content-type">
+                <x:input port="source"
+                    select="thd:load-via-xproc('document-object.json', $x:xspec-uri)"/>
+            </x:call>
+            <x:expect label="is application/json" port="xproc-result" select="'application/json'"/>
+        </x:scenario>
+        <x:scenario label="of integer">
+            <x:call step="s:get-content-type">
+                <x:input port="source" select="xs:integer(0)"/>
+            </x:call>
+            <x:expect label="is application/json" port="xproc-result" select="'application/json'"/>
+        </x:scenario>
+        <x:scenario label="of boolean">
+            <x:call step="s:get-content-type">
+                <x:input port="source" select="true()"/>
+            </x:call>
+            <x:expect label="is application/json" port="xproc-result" select="'application/json'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- Shared scenarios -->
+    <x:scenario shared="yes" label="verify returned array">
+        <x:expect label="returns an array" port="xproc-result" test="$x:result instance of array(*)"/>
+        <x:expect label="listing members from the JSON file and embedded data" port="xproc-result"
+            as="array(*)" select="['val1', 'val2', 0, 1]"/>
+    </x:scenario>
+    <x:scenario shared="yes" label="verify returned array of maps">
+        <x:expect label="returns an array" port="xproc-result" test="$x:result instance of array(*)"/>
+        <x:expect label="of maps." port="xproc-result"
+            test="$x:result(1) instance of map(*) and $x:result(2) instance of map(*)"/>
+        <x:expect label="The first map's value for 'key1' is 'val1' from the JSON file."
+            port="xproc-result" as="xs:string" test="$x:result(1)('key1')" select="'val1'"/>
+        <x:expect label="The second map's value for 'embedded' is 'in-xspec-file'."
+            port="xproc-result" as="xs:string" test="$x:result(2)('embedded')"
+            select="'in-xspec-file'"/>
+    </x:scenario>
+</x:description>

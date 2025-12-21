@@ -40,4 +40,15 @@
       <xsl:sequence select="$wrap" />
    </xsl:function>
 
+   <!-- wrap:wrap-each individually wraps each node in $nodes in a document node.
+        Example: (<a/>, <b/>, <c/>) yields a document node containing <a/>,
+        one containing <b/>, and one containing <c/>.
+    -->
+   <xsl:function name="wrap:wrap-each" as="document-node()*">
+      <xsl:param name="nodes" as="node()*"/>
+      <xsl:for-each select="$nodes">
+         <xsl:sequence select="wrap:wrap-nodes(.)"/>
+      </xsl:for-each>
+   </xsl:function>
+
 </xsl:stylesheet>

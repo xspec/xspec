@@ -17,6 +17,8 @@
 				$node/ancestor::x:context/node()[not(self::x:param)]
 				| $node/ancestor::x:expect/node()[not(self::x:label)]
 				| $node/ancestor::x:param/node()
+				| $node/ancestor::x:input/node()
+				| $node/ancestor::x:option/node()
 				| $node/ancestor::x:variable/node()
 				)
 				)"

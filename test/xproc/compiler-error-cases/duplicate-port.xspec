@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Duplication of x:input/@port'): Multiple x:input elements for port 'source'.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+
+    <x:scenario label="Duplication of x:input/@port">
+        <x:call step="s:one-input-no-option-one-output">
+            <x:input port="source" select="()"/>
+            <x:input port="source">
+                <foo/>
+            </x:input>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

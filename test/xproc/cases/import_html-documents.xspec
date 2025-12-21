@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-content-types.xpl">
+    <!-- This test is for verifying that x:helper[@xproc] in an imported
+        XSpec file gets processed. -->
+    <x:import href="html-documents.xspec"/>
+</x:description>

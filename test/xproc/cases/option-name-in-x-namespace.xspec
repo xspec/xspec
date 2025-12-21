@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:t="http://www.jenitennison.com/xslt/xspec" xproc="option-name-in-x-namespace.xpl">
+
+    <!-- Naming an XProc option in the XSpec namespace might be unwise, but it doesn't cause an
+        error. In the test runner, the URI-qualified name appears as a key in the map that gets
+        sent to the XProc step function. The option name isn't used as an XSLT variable name in the
+        test runner. -->
+    <x:scenario label="x:option/@name value in XSpec namespace">
+        <x:scenario label="using prefix">
+            <x:call step="s:option-name-in-x-namespace">
+                <x:input port="source">
+                    <document/>
+                </x:input>
+                <x:option name="t:opt">0</x:option>
+            </x:call>
+            <x:expect label="should work" port="xproc-result">
+                <document opt="0"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="using Q{} notation">
+            <x:call step="s:option-name-in-x-namespace">
+                <x:input port="source">
+                    <document/>
+                </x:input>
+                <x:option name="Q{http://www.jenitennison.com/xslt/xspec}opt">0</x:option>
+            </x:call>
+            <x:expect label="should work" port="xproc-result">
+                <document opt="0"/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+</x:description>
