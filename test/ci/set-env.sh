@@ -94,14 +94,6 @@ else
     unset XMLCALABASH_JAR
 fi
 
-#
-# XML Calabash jar for XProc 3
-# Requires Java 11 or later
-#
-if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
-    unset XMLCALABASH3_VERSION
-fi
-
 if [ -n "${XMLCALABASH3_VERSION}" ]; then
     # Depends on the archive file structure
     export XMLCALABASH3_DIR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}"
@@ -128,15 +120,6 @@ fi
 #
 # BaseX
 #
-
-# BaseX 12 requires Java 17
-if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
-    unset BASEX_VERSION
-fi
-
-if java -version 2>&1 | grep -F " 11." > /dev/null; then
-    unset BASEX_VERSION
-fi
 
 if [ -n "${BASEX_VERSION}" ]; then
     # Depends on the archive file structure

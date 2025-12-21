@@ -19,11 +19,11 @@ jobs:
 
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [8, 17]
+        java: [17, 21]
         env: [saxon-12, oxygen, saxon-11]
         exclude:
-          - java: 8
-            env: oxygen
+          - os: macos-latest
+            env: saxon-11
 
     steps:
       - uses: actions/checkout@v6
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
-          distribution: ${{ runner.os == 'macOS' && matrix.java == '8' && 'liberica' || 'temurin' }}
+          distribution: ${{ 'temurin' }}
 
       - name: Run tests for *nix
         if: runner.os != 'Windows'
