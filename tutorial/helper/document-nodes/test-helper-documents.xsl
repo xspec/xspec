@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
     version="3.0">
 
@@ -21,14 +22,28 @@
         Example: (<a/>, <b/>, <c/>) yields a document node containing <a/>,
         one containing <b/>, and one containing <c/>.
     -->
-    <!-- The body of thd:wrap-each is analogous to wrap:wrap-nodes-separately in src/common/wrap/xsl.
+    <!-- The body of thd:wrap-each is analogous to wrap:wrap-each in src/common/wrap.xsl.
         The reason for making a copy is that wrap.xsl is not user-facing. If necessary,
         this function can adapt to user needs without affecting wrap.xsl. -->
-    <xsl:function name="thd:wrap-each" as="document-node()*">
-        <xsl:param name="nodes" as="node()*"/>
-        <xsl:for-each select="$nodes">
-            <xsl:sequence select="thd:wrap-all(.)"/>
+    <xsl:function name="thd:wrap-each" as="item()*">
+        <xsl:param name="items" as="item()*"/>
+        <xsl:for-each select="$items">
+            <xsl:sequence select="if (thd:wrappable-node(.)) then thd:wrap-all(.) else ."/>
         </xsl:for-each>
+    </xsl:function>
+
+    <!-- The body of thd:wrappable-node is identical to wrap:wrappable-node in src/common/wrap.xsl. -->
+    <!-- Returns true if item is node and can be wrapped in document node -->
+    <xsl:function name="thd:wrappable-node" as="xs:boolean">
+        <xsl:param name="item" as="item()" />
+        
+        <!-- Document node cannot wrap attribute node or namespace node, according to
+         https://www.w3.org/TR/xslt-30/#err-XTDE0420 -->
+        <xsl:sequence
+            select="
+            $item instance of node()
+            and not($item instance of attribute()
+            or $item instance of namespace-node())" />
     </xsl:function>
 
     <!-- thd:wrap-all wraps all nodes in $nodes in a single document node.

@@ -17,7 +17,7 @@
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="without @test and with element as expected result the report shows the output at that port vs. the expected result. Left side&#xA;                    says &#34;XPath /self::document-node() from:&#34; and right side says &#34;XPath /element()&#xA;                    from:&#34;"
+      <testcase name="without @test and with element as expected result the report shows the output at that port vs. the expected result and both&#xA;                    sides say &#34;XPath /self::document-node() from:&#34;"
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -59,7 +59,7 @@
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="without @test and with element sequence as expected result the report shows the output at that port labeled as &#34;XPath /node() from&#34;&#xA;                    (without depicting boundaries between adjacent document nodes) vs. the expected&#xA;                    result labeled as &#34;XPath /element() from&#34;"
+      <testcase name="without @test and with element sequence as expected result the report shows the output at that port labeled as &#34;XPath /node() from&#34;&#xA;                    (without depicting boundaries between adjacent document nodes) vs. the expected&#xA;                    result labeled as &#34;XPath /node() from&#34;"
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>

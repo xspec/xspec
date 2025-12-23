@@ -31,9 +31,8 @@
         </x:scenario>
         <x:scenario label="without @test and with element as expected result">
             <x:expect port="xproc-result" select="/*">
-                <x:label>the report shows the output at that port vs. the expected result. Left side
-                    says "XPath /self::document-node() from:" and right side says "XPath /element()
-                    from:"</x:label>
+                <x:label>the report shows the output at that port vs. the expected result and both
+                    sides say "XPath /self::document-node() from:"</x:label>
                 <wrong-output-document/>
             </x:expect>
         </x:scenario>
@@ -99,7 +98,7 @@
             <x:expect port="xproc-result" select="/*">
                 <x:label>the report shows the output at that port labeled as "XPath /node() from"
                     (without depicting boundaries between adjacent document nodes) vs. the expected
-                    result labeled as "XPath /element() from"</x:label>
+                    result labeled as "XPath /node() from"</x:label>
                 <wrong-output-document/>
                 <output-document/>
             </x:expect>

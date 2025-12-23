@@ -43,11 +43,13 @@
    <!-- wrap:wrap-each individually wraps each node in $nodes in a document node.
         Example: (<a/>, <b/>, <c/>) yields a document node containing <a/>,
         one containing <b/>, and one containing <c/>.
+        
+        Unwrappable items pass through unchanged.
    -->
-   <xsl:function name="wrap:wrap-each" as="document-node()*">
-      <xsl:param name="nodes" as="node()*"/>
-      <xsl:for-each select="$nodes">
-         <xsl:sequence select="wrap:wrap-nodes(.)"/>
+   <xsl:function name="wrap:wrap-each" as="item()*">
+      <xsl:param name="items" as="item()*"/>
+      <xsl:for-each select="$items">
+         <xsl:sequence select="if (wrap:wrappable-node(.)) then wrap:wrap-nodes(.) else ."/>
       </xsl:for-each>
    </xsl:function>
 

@@ -5,19 +5,22 @@
 
    <xsl:function name="x:selection-from-doc" as="xs:string">
       <xsl:param name="element" as="element()"/>
-      <!-- When testing XProc, if you embed nodes for an expected result and aren't filtering
-         the actual result via @test, then you should receive a document node for each embedded
-         child node. That is better than receiving just the embedded nodes, because if an
-         XProc step returns a node at all, it's always a document node. -->
-      <xsl:variable name="wrap-embedded-nodes" expand-text="yes" as="xs:string">. !
-         {x:known-UQName('wrap:wrap-each')}(child::node())</xsl:variable>
+      <!-- When testing XProc, if $element is x:expect[@port][not(@test)], wrap each embedded
+         child node or selected node in a document node. The wrapping makes sense because if an
+         XProc step returns a node at all, it's always a document node. Per-node wrapping makes
+         sense because of section "3.3. Creating documents from XDM step results" in the XProc 3.1
+         specification. https://spec.xproc.org/3.1/xproc/ -->
+     <xsl:variable name="wrap-selected-nodes" expand-text="yes" as="xs:string"
+        >{$element/@select} => {x:known-UQName('wrap:wrap-each')}()</xsl:variable>
+     <xsl:variable name="wrap-embedded-nodes" expand-text="yes" as="xs:string"
+        >. ! {x:known-UQName('wrap:wrap-each')}(child::node())</xsl:variable>
       <xsl:sequence select="
             (
+            $wrap-selected-nodes[$element/self::x:expect[@port][not(@test)][@select]],
             $element/@select,
             '.'[$element/@href],
             $wrap-embedded-nodes[$element/self::x:expect[@port][not(@test)]],
             'node()'
             )[1]"/>
    </xsl:function>
-
 </xsl:stylesheet>

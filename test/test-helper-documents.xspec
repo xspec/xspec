@@ -152,6 +152,17 @@
             <x:expect label="of 2 document nodes" result-type="document-node()+"
                 test="count($x:result)" select="2"/>
         </x:scenario>
+        <x:scenario label="When input is a sequence containing a node and an atomic value">
+            <x:call function="thd:wrap-each">
+                <x:param select="(/, 'string')">text</x:param>
+            </x:call>
+            <x:expect label="the result is a sequence of 2 items"
+                test="count($x:result)" select="2"/>
+            <x:expect label="containing the node wrapped in a document node" test="$x:result[1]"
+                select="/">text</x:expect>
+            <x:expect label="followed by the atomic value unchanged" test="$x:result[2]"
+                select="'string'"/>
+        </x:scenario>
         <x:scenario label="When input is an empty sequence">
             <x:call function="thd:wrap-each">
                 <x:param select="()"/>

@@ -92,8 +92,8 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario1-scenario4-expect1">the report shows the output at that port vs. the expected result. Left side says "XPath
-                        /self::document-node() from:" and right side says "XPath /element() from:"</a></td>
+                  <td><a href="#scenario1-scenario4-expect1">the report shows the output at that port vs. the expected result and both sides say
+                        "XPath /self::document-node() from:"</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
@@ -267,8 +267,8 @@
          <div id="scenario1-scenario4">
             <h3>When x:expect[@port] fails without @test and with element as expected result</h3>
             <div id="scenario1-scenario4-expect1" class="xTestReport">
-               <h4 class="xTestReportTitle">the report shows the output at that port vs. the expected result. Left side says "XPath
-                  /self::document-node() from:" and right side says "XPath /element() from:"</h4>
+               <h4 class="xTestReportTitle">the report shows the output at that port vs. the expected result and both sides say
+                  "XPath /self::document-node() from:"</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -280,12 +280,12 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code class="diff">/self::document-node()</code> from:</p>
+                           <p>XPath <code class="same">/self::document-node()</code> from:</p>
                            <pre>&lt;<span class="diff">output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
                  <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
-                           <p>XPath <code class="diff">/element()</code> from:</p>
+                           <p>XPath <code class="same">/self::document-node()</code> from:</p>
                            <pre>&lt;<span class="diff">wrong-output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
                        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
@@ -521,7 +521,7 @@
                <tr class="failed">
                   <td><a href="#scenario2-scenario2-expect1">the report shows the output at that port labeled as "XPath /node() from" (without
                         depicting boundaries between adjacent document nodes) vs. the expected result labeled
-                        as "XPath /element() from"</a></td>
+                        as "XPath /node() from"</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
@@ -600,7 +600,7 @@
             <div id="scenario2-scenario2-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">the report shows the output at that port labeled as "XPath /node() from" (without
                   depicting boundaries between adjacent document nodes) vs. the expected result labeled
-                  as "XPath /element() from"</h4>
+                  as "XPath /node() from"</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -612,14 +612,14 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code class="diff">/node()</code> from:</p>
+                           <p>XPath <code class="same">/node()</code> from:</p>
                            <pre>&lt;<span class="diff">output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
                  <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;
 &lt;<span class="same">output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
                  <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
-                           <p>XPath <code class="diff">/element()</code> from:</p>
+                           <p>XPath <code class="same">/node()</code> from:</p>
                            <pre>&lt;<span class="diff">wrong-output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
                        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;
 &lt;<span class="same">output-document</span> <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>

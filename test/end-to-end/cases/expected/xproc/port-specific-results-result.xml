@@ -122,9 +122,8 @@
             </content-wrap>
          </result>
          <test id="scenario1-scenario4-expect1" successful="false">
-            <label>the report shows the output at that port vs. the expected result. Left side
-                    says "XPath /self::document-node() from:" and right side says "XPath /element()
-                    from:"</label>
+            <label>the report shows the output at that port vs. the expected result and both
+                    sides say "XPath /self::document-node() from:"</label>
             <port-specific>
                <result select="/self::document-node()">
                   <content-wrap xmlns="">
@@ -133,7 +132,7 @@
                   </content-wrap>
                </result>
             </port-specific>
-            <expect select="/element()">
+            <expect select="/self::document-node()">
                <content-wrap xmlns="">
                   <wrong-output-document xmlns:s="x-urn:test:xproc:steplibrary"
                                          xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
@@ -410,7 +409,7 @@
          <test id="scenario2-scenario2-expect1" successful="false">
             <label>the report shows the output at that port labeled as "XPath /node() from"
                     (without depicting boundaries between adjacent document nodes) vs. the expected
-                    result labeled as "XPath /element() from"</label>
+                    result labeled as "XPath /node() from"</label>
             <port-specific>
                <result select="/node()">
                   <content-wrap xmlns="">
@@ -421,7 +420,7 @@
                   </content-wrap>
                </result>
             </port-specific>
-            <expect select="/element()">
+            <expect select="/node()">
                <content-wrap xmlns="">
                   <wrong-output-document xmlns:s="x-urn:test:xproc:steplibrary"
                                          xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
