@@ -7,7 +7,7 @@
     "@commitlint/config-angular": "^20.2.0",
     "bats": "^1.13.0",
     "prettier": "^3.7.4",
-    "prettier-plugin-properties": "^0.3.0"
+    "prettier-plugin-properties": "^0.3.1"
   },
   "scripts": {
     "prettier:check": "prettier --check .",
