@@ -36,7 +36,7 @@
       </outermost>
     </x:expect>
     <x:expect label="For access to all output ports, omit x:expect/@port."
-      test="$x:result => map:keys() => count()" select="2"/>
+      test="$x:result?ports => map:keys() => count()" select="2"/>
   </x:scenario>
 
 </x:description>
