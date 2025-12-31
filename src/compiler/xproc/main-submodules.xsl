@@ -9,8 +9,9 @@
     <xsl:include href="main-info-message.xsl"/>
     <xsl:include href="compile/compile-scenario.xsl"/>
     <xsl:include href="compile/scoped-result.xsl"/>
-    <xsl:include href="compile/get-step-inputs.xsl"/>
+    <xsl:include href="compile/get-step-declaration.xsl"/>
     <xsl:include href="declare-variable/selection-from-doc.xsl"/>
+    <xsl:include href="in-scope-steps/generate-wrapper-step.xsl"/>
     <xsl:include href="initial-check/perform-initial-check.xsl"/>
     <xsl:include href="report/report-utils.xsl"/>
 

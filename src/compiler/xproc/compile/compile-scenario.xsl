@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
     xmlns:local="urn:x-xspec:compiler:xproc:compile:compile-scenarios:local"
-    xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:wrap="urn:x-xspec:common:wrap"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -19,7 +19,8 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
-      <xsl:param name="this-scenario" as="element(x:scenario)" select="."/>
+
+      <xsl:variable name="this-scenario" as="element(x:scenario)" select="."/>
 
       <xsl:variable name="local-preceding-vardecls" as="element()*" select="
             (x:param | x:variable)[following-sibling::x:call]
@@ -32,7 +33,7 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Can't use {x:xspec-name('context', .)} in a test suite for XProc</xsl:text>
+                  <xsl:text expand-text="yes">Can't use {x:xspec-name('context', .)} in a test suite for XProc.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -41,7 +42,7 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">{name($call)}/@template not supported for XProc</xsl:text>
+                  <xsl:text expand-text="yes">{name($call)}/@template not supported for XProc.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -50,7 +51,7 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">{name($call)}/@function not supported for XProc</xsl:text>
+                  <xsl:text expand-text="yes">{name($call)}/@function not supported for XProc.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -59,7 +60,7 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">{name($call)} must specify a step to call</xsl:text>
+                  <xsl:text expand-text="yes">{name($call)} must specify a step to call.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -70,7 +71,7 @@
                <xsl:with-param name="message" as="xs:string">
                   <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                      the user -->
-                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)} has been given</xsl:text>
+                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)} has been given.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -160,18 +161,41 @@
 
             <xsl:if test="$run-sut-now">
                <variable name="{x:known-UQName('x:result')}" as="item()*">
-                  <!-- Set up variables containing the input and option values -->
-                  <xsl:for-each select="($call)[1]/(x:input | x:option)">
+                  <!-- Set up variables containing the input and option values, but skip
+                     elements with p:document children because p:document will be copied to
+                     the wrapper step (XProc) instead of being evaluated here in XSLT. -->
+                  <xsl:for-each select="$call/(x:input | x:option)[x:evaluate-in(.) eq 'xslt']">
                      <xsl:apply-templates select="." mode="x:declare-variable">
                         <xsl:with-param name="comment" select="concat(@port (: x:input :), @name (: x:option :), ' ', local-name())" />
                      </xsl:apply-templates>
                   </xsl:for-each>
+                  <!-- Set up variable for the generated XProc step that p:run will use to invoke the test target -->
+                  <xsl:for-each select="$call">
+                     <variable name="{x:known-UQName('impl:wrapper-step-based-on-x-call')}" as="element()">                     
+                        <xsl:call-template name="wrapper-step-based-on-x-call">
+                           <xsl:with-param name="parent-scenario" select="$this-scenario"/>
+                        </xsl:call-template>
+                     </variable>
+                     <variable name="{x:known-UQName('impl:options-for-step-function')}" as="map(*)">
+                        <xsl:namespace name="wrap" select="'urn:x-xspec:common:wrap'"/>
+                        <xsl:attribute name="select">
+                           <xsl:call-template name="options-for-step-function">
+                              <xsl:with-param name="parent-scenario" select="$this-scenario"/>
+                           </xsl:call-template>
+                        </xsl:attribute>
+                     </variable>
+                  </xsl:for-each>
+                  <!-- Additional error checking -->
+                  <xsl:sequence select="local:p-input-error-checking($call, $this-scenario)"/>
 
                   <xsl:variable name="invocation-type" as="xs:string">call-step</xsl:variable>
 
                   <!-- Enter SUT -->
                   <xsl:choose>
-                     <!-- TODO: Remove code for external transformations after confirming that it doesn't apply to XProc
+                     <!-- TODO: After confirming that external transformation doesn't apply to
+                        XProc, remove the commented-out xsl:when and xsl:otherwise, and elevate
+                        the remaining xsl:when
+
                      <xsl:when test="$is-external">
                         <!-/- Set up the $impl:transform-options variable -/->
                         <xsl:call-template name="x:transform-options">
@@ -201,9 +225,11 @@
                                  <!-- The step being called may use namespace prefixes for
                                     parsing the input/option values -->
                                  <xsl:sequence select="x:copy-of-namespaces($call)" />
-
                                  <xsl:attribute name="select"
-                                    select="x:step-call-text($call, $this-scenario)"/>
+                                    select="concat(
+                                    x:step-call-text($call, $this-scenario),
+                                    '(''map-of-outputs'')'
+                                    )"/>
                               </sequence>
                            </xsl:with-param>
                         </xsl:call-template>
@@ -242,147 +268,242 @@
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />
    </xsl:template>
 
-   <!-- Returns a text node of the step function call expression. The names of the step and the
-      option variables are URIQualifiedName. -->
+   <!-- Returns a text node of a function call expression that calls the step runner.
+       The step runner is an XProc step, but we call it as a step function. -->
    <xsl:function name="x:step-call-text" as="text()">
       <xsl:param name="call" as="element(x:call)"/>
-      <xsl:param name="parent-scenario" as="element(x:scenario)"><!-- For context of error messages --></xsl:param>
+      <xsl:param name="parent-scenario" as="element(x:scenario)"/>
 
       <!-- xsl:for-each is not for iteration but for simplifying XPath -->
       <xsl:for-each select="$call">
-         <xsl:variable name="step-uqname" as="xs:string" select="x:UQName-of-step(@step)"/>
-         <xsl:variable name="declared-inputs" as="element(p:input)*" select="x:get-step-inputs(., $parent-scenario)"/>
-
          <xsl:value-of>
-            <xsl:text expand-text="yes">{$step-uqname}(</xsl:text>
-            <xsl:iterate select="($declared-inputs, .[exists(x:option)])">
-               <xsl:param name="separator" as="xs:string" select="''"/>
-               <xsl:variable name="argument-to-construct" as="element()" select="."/>
-               <xsl:sequence select="$separator"/>
-               <xsl:choose>
-                  <xsl:when test="self::p:input">
-                     <xsl:variable name="x-input" as="element(x:input)*"
-                        select="$call/x:input[@port eq string($argument-to-construct/@port)]"/>
-                     <xsl:choose>
-                        <xsl:when test="empty($x-input)">
-                           <xsl:for-each select="$parent-scenario/x:call">
-                              <xsl:message terminate="yes">
-                                 <xsl:call-template name="x:prefix-diag-message">
-                                    <xsl:with-param name="message">
-                                       <xsl:text expand-text="yes">Missing x:input for port '{ $argument-to-construct/@port }'.</xsl:text>
-                                    </xsl:with-param>
-                                 </xsl:call-template>
-                              </xsl:message>
-                           </xsl:for-each>
-                        </xsl:when>
-                        <xsl:when test="count($x-input) gt 1">
-                           <xsl:for-each select="$parent-scenario/x:call">
-                              <xsl:message terminate="yes">
-                                 <xsl:call-template name="x:prefix-diag-message">
-                                    <xsl:with-param name="message">
-                                       <xsl:text expand-text="yes">Multiple x:input elements for port '{ $argument-to-construct/@port }'.</xsl:text>
-                                    </xsl:with-param>
-                                 </xsl:call-template>
-                              </xsl:message>
-                           </xsl:for-each>
-                        </xsl:when>
-                        <xsl:otherwise>
-                           <xsl:text expand-text="yes">${x:variable-UQName($x-input)}</xsl:text>
-                           <xsl:if test="exists(ancestor-or-self::*/@use-when)">
-                              <xsl:for-each select="$parent-scenario">
-                                 <xsl:message>
-                                    <xsl:call-template name="x:prefix-diag-message">
-                                       <xsl:with-param name="level" select="'WARNING'" />
-                                       <xsl:with-param name="message">
-                                          <xsl:text expand-text="yes">Declaration of port {
-                                             $x-input/@port} is under @use-when, which XSpec assumes is true.</xsl:text>
-                                       </xsl:with-param>
-                                    </xsl:call-template>
-                                 </xsl:message>
-                              </xsl:for-each>
-                           </xsl:if>
-                        </xsl:otherwise>
-                     </xsl:choose>
-                  </xsl:when>
-                  <xsl:otherwise>
-                     <xsl:call-template name="option-map-text">
-                        <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
-                     </xsl:call-template>
-                  </xsl:otherwise>
-               </xsl:choose>
-               <xsl:next-iteration>
-                  <!-- Add comma between adjacent arguments -->
-                  <xsl:with-param name="separator" select="', '"/>
-               </xsl:next-iteration>
-            </xsl:iterate>
+            <xsl:value-of select="x:known-UQName('impl:step-runner')"/>
+            <xsl:text>(</xsl:text>
+            <xsl:text expand-text="yes">(: { @step } :)</xsl:text>
+            <xsl:text expand-text="yes">${x:known-UQName('impl:wrapper-step-based-on-x-call')}</xsl:text>
+            <xsl:text>, </xsl:text>
+            <xsl:text expand-text="yes">${x:known-UQName('impl:options-for-step-function')}</xsl:text>
             <xsl:text>)</xsl:text>
          </xsl:value-of>
-         <xsl:if test="count($call/x:input) ne count($declared-inputs)">
-            <xsl:for-each select="$parent-scenario/x:call">
-               <xsl:message terminate="yes">
-                  <xsl:call-template name="x:prefix-diag-message">
-                     <xsl:with-param name="message">
-                        <xsl:text expand-text="yes">Too many x:input elements for calling step { $call/@step }.</xsl:text>
-                     </xsl:with-param>
-                  </xsl:call-template>
-               </xsl:message>
-            </xsl:for-each>
-         </xsl:if>
       </xsl:for-each>
+   </xsl:function>
+
+   <!-- Indicates whether an x:input or x:option element will be evaluated
+      in XProc or XSLT -->
+   <xsl:function name="x:evaluate-in" as="xs:string">
+      <xsl:param name="element" as="element()"/>
+      <xsl:choose>
+         <xsl:when test="exists($element/p:document)">
+            <xsl:sequence select="'xproc'"/>
+         </xsl:when>
+         <xsl:when test="exists($element/@href) and empty($element/@select) and empty($element/node())">
+            <xsl:sequence select="'xproc'"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:sequence select="'xslt'"/>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:function>
 
    <!--
       Local templates and functions
    -->
 
-   <xsl:template name="option-map-text" as="text()">
+   <!-- Generates text for creating a map of options to pass to the impl:step-runner
+      XProc step when calling it from XSLT as a step function. -->
+   <xsl:template name="options-for-step-function" as="text()">
       <xsl:context-item as="element(x:call)" use="required"/>
       <xsl:param name="parent-scenario" as="element(x:scenario)"
-         required="yes"><!-- For context of error messages --></xsl:param>
-      <!-- Check duplicate option name -->
-      <xsl:variable name="dup-option-error-string" as="xs:string?"
-         select="local:option-dup-name-error-string(.)"/>
-      <xsl:if test="$dup-option-error-string">
-         <xsl:for-each select="$parent-scenario/x:call">
-            <xsl:message terminate="yes">
-               <xsl:call-template name="x:prefix-diag-message">
-                  <xsl:with-param name="message" select="$dup-option-error-string"/>
-               </xsl:call-template>
-            </xsl:message>
-         </xsl:for-each>
-      </xsl:if>
-
+         required="yes"/>
       <xsl:value-of>
-         <xsl:iterate select="x:option">
-            <xsl:param name="start-or-between" as="xs:string" select="'map{'">
-               <!-- Start the map construct -->
-            </xsl:param>
-            <xsl:on-completion>
-               <!-- End the map construct with closing curly brace -->
-               <xsl:text>}</xsl:text>
-            </xsl:on-completion>
-            <xsl:variable name="resolved-option-QName" as="xs:string"
-               select="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
-            <xsl:value-of expand-text="yes">{$start-or-between}'{$resolved-option-QName}': ${
-               x:variable-UQName(.)}</xsl:value-of>
-            <xsl:next-iteration>
-               <!-- Add comma between adjacent map entries -->
-               <xsl:with-param name="start-or-between" select="', '"/>
-            </xsl:next-iteration>
-         </xsl:iterate>
+         <xsl:text>map{</xsl:text>
+         <xsl:text>'map-of-inputs':</xsl:text>
+         <xsl:call-template name="input-map-text">
+            <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
+         </xsl:call-template>
+         <xsl:text>,</xsl:text>
+         <xsl:text expand-text="yes">'map-of-options':</xsl:text>
+         <xsl:call-template name="option-map-text">
+            <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
+         </xsl:call-template>
+         <xsl:text>}</xsl:text>
       </xsl:value-of>
    </xsl:template>
+
+   <!-- Generates text for creating a map of input documents, referencing XSLT variables
+      whose declarations were already generated based on x:input elements. -->
+   <xsl:template name="input-map-text" as="text()">
+      <xsl:context-item as="element(x:call)" use="required"/>
+      <xsl:param name="parent-scenario" as="element(x:scenario)" required="yes">
+      </xsl:param>
+
+      <!-- Check for duplicate input ports -->
+      <xsl:sequence select="
+            local:error-for-duplicates(
+            local:input-dup-port-error-string(.),
+            $parent-scenario/x:call
+            )"/>
+      
+      <xsl:value-of>
+         <xsl:text>map{</xsl:text>
+         <xsl:iterate select="x:input[x:evaluate-in(.) eq 'xslt']">
+            <xsl:param name="separator" as="xs:string" select="''"/>
+            <xsl:variable name="port-name" as="xs:string" select="@port"/>
+            <xsl:value-of expand-text="yes">{$separator}'{$port-name}': wrap:unwrap-text-nodes(${
+               x:variable-UQName(.)})</xsl:value-of>
+            <xsl:next-iteration>
+               <!-- Add comma between adjacent map entries -->
+               <xsl:with-param name="separator" select="', '"/>
+            </xsl:next-iteration>
+         </xsl:iterate>
+         <xsl:text>}</xsl:text>
+      </xsl:value-of>
+   </xsl:template>
+
+   <!-- Generates text for creating a map of option values, referencing XSLT variables
+      whose declarations were already generated based on x:option elements. -->
+   <!-- This template is like "input-map-text", except the error checking and
+      the need to resolve qualified names -->
+   <xsl:template name="option-map-text" as="text()">
+      <xsl:context-item as="element(x:call)" use="required"/>
+      <xsl:param name="parent-scenario" as="element(x:scenario)" required="yes">
+      </xsl:param>
+
+      <!-- Check for duplicate option names -->
+      <xsl:sequence select="
+         local:error-for-duplicates(
+         local:option-dup-name-error-string(.),
+         $parent-scenario/x:call
+         )"/>
+
+      <xsl:value-of>
+         <xsl:text>map{</xsl:text>
+         <xsl:iterate select="x:option[x:evaluate-in(.) eq 'xslt']">
+            <xsl:param name="separator" as="xs:string" select="''"/>
+            <xsl:variable name="resolved-option-QName" as="xs:string"
+               select="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+            <xsl:value-of expand-text="yes">{$separator}'{$resolved-option-QName}': wrap:unwrap-text-nodes(${
+               x:variable-UQName(.)})</xsl:value-of>
+            <xsl:next-iteration>
+               <!-- Add comma between adjacent map entries -->
+               <xsl:with-param name="separator" select="', '"/>
+            </xsl:next-iteration>
+         </xsl:iterate>
+         <xsl:text>}</xsl:text>
+      </xsl:value-of>
+   </xsl:template>
+
+   <!-- Returns an error string if the given element has duplicate x:input/@port -->
+   <!-- This function is adapted from local:param-dup-name-error-string in
+      base/compile/compile-child-scenarios-or-expects.xsl -->
+   <xsl:function name="local:input-dup-port-error-string" as="xs:string?">
+      <xsl:param name="owner" as="element(x:call)" />
+      
+      <xsl:variable name="port-names" as="xs:string*" select="$owner/x:input/@port" />
+      <xsl:for-each select="$port-names[subsequence($port-names, 1, position() - 1) = .][1]">
+         <xsl:text expand-text="yes">Duplicate input port '{.}' used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
 
    <!-- Returns an error string if the given element has duplicate x:option/@name -->
    <!-- This function is adapted from local:param-dup-name-error-string in
       base/compile/compile-child-scenarios-or-expects.xsl -->
    <xsl:function name="local:option-dup-name-error-string" as="xs:string?">
       <xsl:param name="owner" as="element(x:call)" />
-
+      
       <xsl:variable name="uqnames" as="xs:string*"
          select="$owner/x:option/@name ! x:UQName-from-EQName-ignoring-default-ns(., parent::x:option)" />
       <xsl:for-each select="$uqnames[subsequence($uqnames, 1, position() - 1) = .][1]">
          <xsl:text expand-text="yes">Duplicate option name, {.}, used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- Raises an error if a previously computed error string is not an empty sequence -->
+   <xsl:function name="local:error-for-duplicates" as="empty-sequence()">
+      <xsl:param name="error-string" as="xs:string?"/>
+      <xsl:param name="call" as="element(x:call)"/>
+      <xsl:if test="$error-string">
+         <xsl:for-each select="$call">
+            <xsl:message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message" select="$error-string"/>
+               </xsl:call-template>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:if>
+   </xsl:function>
+
+   <!-- Error/warning checking based on p:input declaration in test target, largely to
+      preempt a non-specific error message like "The pipeline could not be compiled."
+      from the generated step. -->
+   <xsl:function name="local:p-input-error-checking" as="empty-sequence()">
+      <xsl:param name="call" as="element(x:call)"/>
+      <xsl:param name="parent-scenario" as="element(x:scenario)"/>
+      <xsl:variable name="step-declaration" as="element(p:declare-step)"
+         select="x:step-declaration($call, $parent-scenario)"/>
+      <xsl:variable name="declared-inputs" as="element(p:input)*"
+         select="$step-declaration/p:input"/>
+      <xsl:variable name="declared-options" as="element(p:option)*"
+         select="$step-declaration/p:option"/>
+      <xsl:variable name="declared-option-UQNames" as="xs:string*"
+         select="$declared-options ! x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+      <xsl:for-each select="$call/x:input[not(@port/string() = $declared-inputs/@port/string())]">
+         <xsl:variable name="unknown-port" as="xs:string" select="@port"/>
+         <xsl:for-each select="$parent-scenario/x:call">
+            <xsl:message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message">
+                     <xsl:text expand-text="yes">Step of type '{ $call/@step }' has no port named '{ $unknown-port }'.</xsl:text>
+                  </xsl:with-param>
+               </xsl:call-template>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:for-each>
+      <xsl:for-each select="
+            $call/x:option
+            [not(x:UQName-from-EQName-ignoring-default-ns(@name, .) = $declared-option-UQNames)]
+            ">
+         <xsl:variable name="unknown-option" as="xs:string" select="@name"/>
+         <xsl:for-each select="$parent-scenario/x:call">
+            <xsl:message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message">
+                     <xsl:text expand-text="yes">Step of type '{ $call/@step }' has no option named '{ $unknown-option }'.</xsl:text>
+                  </xsl:with-param>
+               </xsl:call-template>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:for-each>
+      <xsl:for-each select="$declared-inputs">
+         <xsl:variable name="p-input" as="element(p:input)" select="."/>
+         <xsl:variable name="x-input" as="element(x:input)*"
+            select="$call/x:input[@port eq string($p-input/@port)]"/>
+         <xsl:choose>
+            <xsl:when test="empty($x-input) and empty($p-input/@x:has-default-input)">
+               <xsl:for-each select="$parent-scenario/x:call">
+                  <xsl:message terminate="yes">
+                     <xsl:call-template name="x:prefix-diag-message">
+                        <xsl:with-param name="message">
+                           <xsl:text expand-text="yes">Missing x:input for port '{ $p-input/@port }', which declares no default.</xsl:text>
+                        </xsl:with-param>
+                     </xsl:call-template>
+                  </xsl:message>
+               </xsl:for-each>
+            </xsl:when>
+            <xsl:when test="exists($p-input/ancestor-or-self::*/@use-when)">
+               <xsl:for-each select="$parent-scenario">
+                  <xsl:message>
+                     <xsl:call-template name="x:prefix-diag-message">
+                        <xsl:with-param name="level" select="'WARNING'" />
+                        <xsl:with-param name="message">
+                           <xsl:text expand-text="yes">Declaration of port {
+                                    $x-input/@port} is under @use-when, which XSpec assumes is true.</xsl:text>
+                        </xsl:with-param>
+                     </xsl:call-template>
+                  </xsl:message>
+               </xsl:for-each>
+            </xsl:when>
+         </xsl:choose>
       </xsl:for-each>
    </xsl:function>
 

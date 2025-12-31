@@ -5,15 +5,16 @@
     <xsl:param name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
     <xsl:param name="force-focus" as="xs:string?"/>
     <xsl:param name="html-report-theme" as="xs:string" select="'default'"/>
-    <xsl:import href="../../compiler/xproc/in-scope-steps/generate-xproc-imports.xsl"/>
+    <xsl:include href="../../compiler/xproc/in-scope-steps/generate-xproc-imports.xsl"/>
 
     <xsl:template name="generate-pipeline" as="element(p:declare-step)">
         <xsl:context-item as="document-node(element(x:description))" use="required"/>
         <p:declare-step version="3.1" xmlns:x="http://www.jenitennison.com/xslt/xspec">
             <xsl:call-template name="generate-imports"/>
             <xsl:call-template name="declare-ports"/>
-            <xsl:call-template name="declare-substep"/>
-            <xsl:call-template name="execute-substep"/>
+            <xsl:call-template name="declare-test-runner-step"/>
+            <xsl:call-template name="declare-harness-step"/>
+            <xsl:call-template name="execute-harness-step"/>
         </p:declare-step>
     </xsl:template>
 
@@ -23,7 +24,7 @@
         <p:output port="result"/>
     </xsl:template>
 
-    <xsl:template name="declare-substep" as="node()+">
+    <xsl:template name="declare-harness-step" as="node()+">
         <xsl:comment>substep to run a test suite whose XProc step functions are in scope</xsl:comment>
         <xsl:variable name="xproc3-uri" as="xs:anyURI" select="resolve-uri('src/xproc3/', $xspec-home)"/>
         <p:declare-step name="test-in-scope-step-functions" type="x:test-in-scope-step-functions">
@@ -75,7 +76,7 @@
         </p:declare-step>
     </xsl:template>
 
-    <xsl:template name="execute-substep" as="node()+">
+    <xsl:template name="execute-harness-step" as="node()+">
         <xsl:comment>run the test suite</xsl:comment>
         <x:test-in-scope-step-functions xspec-home="{$xspec-home}"/>
     </xsl:template>

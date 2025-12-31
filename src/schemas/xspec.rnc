@@ -4,6 +4,7 @@
 # testing, but for XSLT
 default namespace x = "http://www.jenitennison.com/xslt/xspec"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace p = "http://www.w3.org/ns/xproc"
 
 start = description
 
@@ -314,12 +315,25 @@ function-params = element param { function-param-base }* |
 ## Input to pass to an XProc step
 step-input = element input { common-attributes,
                               port-name,
-                              selection }
+                              (selection | p-document+) }
+
+## Adapted from xproc31.rnc
+## Omitting @use-when, @expand-text, extension attributes,
+## p:documentation and p:pipeInfo.
+p-document = element p:document { p-document-attributes }
+p-document-attributes =  href.attr,
+    attribute content-type { text }?,
+    document-properties.attr?,
+    attribute parameters { PropertyMap }?,
+    xml-ns-attributes
+href.attr = attribute href { xsd:anyURI }
+document-properties.attr = attribute document-properties { PropertyMap }
+PropertyMap = text
 
 ## Option to pass to an XProc step
 step-option = element option { common-attributes, 
                               name,
-                              selection }
+                              (selection | p-document) }
 
 name = attribute name { eqname.datatype }
 
@@ -369,7 +383,7 @@ common-attributes = xml-ns-attributes,
 	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
-user-element = element * - x:* { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
+user-element = element * - (x:* | p:document) { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
 
 text-element =
 	## Works like <xsl:text>.
