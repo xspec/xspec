@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="port-specific-results.xspec">
-   <testsuite name="When x:expect[@port] fails" tests="9" failures="9">
+   <testsuite name="When x:expect[@port] fails" tests="12" failures="12">
       <testcase name="due to @result-type the report shows the output at that port vs. the sequence type&#xA;                    condition"
                 status="failed">
          <failure message="expect assertion failed">Expected Result: ()</failure>
@@ -24,6 +24,18 @@
       <testcase name="with @test that produces a document node the report shows the filtered output at that port vs. the expected result&#xA;                    and label above box says &#34;XPath /self::document-node() from:&#34;"
                 status="failed">
          <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces the full map of document properties the report shows the map for that port vs. the expected result"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with @test that produces a subset of document properties the report shows the map for that port vs. the expected result"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with boolean @test related to document properties, not documents, the report shows the documents at that port vs. the @test value (i.e., no&#xA;                    special behavior when @test contains $x:document-properties)"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: $x:document-properties?(QName('', 'content-type')) eq 'text/plain'</failure>
       </testcase>
       <testcase name="with @test that produces an element the report shows the filtered output at that port vs. the expected result&#xA;                    and label above box says &#34;XPath /element() from:&#34;"
                 status="failed">

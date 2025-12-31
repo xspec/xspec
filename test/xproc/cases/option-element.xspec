@@ -2,6 +2,10 @@
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-mirror.xpl">
     <x:helper stylesheet="../../items.xsl"/>
+
+    <!-- For scenarios that use options with names in a namespace, see
+        no-input-two-options-one-output.xspec -->
+
     <x:scenario label="x:option can specify a value using">
         <x:scenario label="embedded child nodes">
             <x:call step="mirror:option-value">
@@ -24,6 +28,34 @@
                 <x:option name="opt" href="document.xml"/>
             </x:call>
             <x:like label="verify result document"/>
+        </x:scenario>
+        <x:scenario label="@href pointing to a non-XML document (specific to XProc testing)">
+            <x:scenario label="Verify content">
+                <x:call step="mirror:option-value">
+                    <x:option name="opt" href="document-object.json"/>
+                </x:call>
+                <x:expect label="from the file" port="xproc-result"
+                    select="map{ 'key1': 'val1', 'key2': 2 }"/>
+            </x:scenario>
+            <x:scenario label="Verify content type">
+                <x:call step="mirror:option-property">
+                    <x:option name="property-to-get" select="'content-type'"/>
+                    <x:option name="opt" href="document-object.json"/>
+                </x:call>
+                <x:expect label="application/json" port="xproc-result"
+                    test="$x:document-properties?(QName('', 'content-type'))"
+                    select="'application/json'"/>
+            </x:scenario>
+            <x:scenario label="Verify base URI">
+                <x:call step="mirror:option-property">
+                    <x:option name="property-to-get" select="'base-uri'"/>
+                    <x:option name="opt" href="document-object.json"/>
+                </x:call>
+                <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                    select="'document-object.json'">
+                    <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+                </x:expect>
+            </x:scenario>
         </x:scenario>
         <x:scenario label="@href and @select">
             <x:call step="mirror:option-value">
@@ -54,8 +86,14 @@
         </x:expect>
         <x:expect label="the comment node matches" port="xproc-result"
             test="$x:result/comment()" select="$items:wrappable-nodes[self::comment()]"/>
-        <x:expect label="the element node matches" port="xproc-result"
-            test="$x:result/element()" select="$items:wrappable-nodes[self::element()]"/>
+        <x:expect port="xproc-result"
+            test="$x:result/element()" select="(
+            $items:wrappable-nodes[self::document-node(element())]/element(),
+            $items:wrappable-nodes[self::element()]
+            )">
+            <x:label>the element nodes match (the original element became wrapped in a document
+                node)</x:label>
+        </x:expect>
         <x:expect port="xproc-result" test="$x:result/text()"
             select="(
             $items:wrappable-nodes[self::document-node()]/text(),
@@ -66,7 +104,7 @@
         </x:expect>
         <x:expect label="the PI node matches" port="xproc-result"
             test="$x:result/processing-instruction()"
-            select="$items:wrappable-nodes[self::processing-instruction()]"/>        
+            select="$items:wrappable-nodes[self::processing-instruction()]"/>
     </x:scenario>
     <x:scenario label="When x:option has multiple child nodes">
         <x:call step="mirror:option-value">
@@ -91,7 +129,17 @@
             <!-- node2 -->
             <node3/>
             <?node4?>
-            <x:text>node 5</x:text>            
+            <x:text>node 5</x:text>
+        </x:expect>
+        <x:expect port="xproc-result" test="$x:document-properties?(QName('', 'content-type'))"
+            select="(
+            'application/xml',
+            'application/xml',
+            'application/xml',
+            'application/xml',
+            'text/plain'
+            )">
+            <x:label>The content type is application/xml, except that the text node is text/plain</x:label>
         </x:expect>
     </x:scenario>
     <x:scenario label="When x:option has multiple child nodes and also has select='/'">
@@ -115,36 +163,36 @@
             <!-- node2 -->
             <node3/>
             <?node4?>
-            <x:text>node 5</x:text>            
+            <x:text>node 5</x:text>
         </x:expect>
     </x:scenario>
     <x:scenario label="When opt is a number">
         <x:call step="mirror:option-value">
             <x:option name="opt" select="1"/>
         </x:call>
+        <x:like label="verify JSON content type for one item"/>
         <x:expect label="the result is the number" port="xproc-result" select="1"/>
     </x:scenario>
     <x:scenario label="When opt is an array">
         <x:call step="mirror:option-value">
             <x:option name="opt" select="[1, 2]"/>
         </x:call>
+        <x:like label="verify JSON content type for one item"/>
         <x:expect label="the result is the array" port="xproc-result" select="[1, 2]"/>
     </x:scenario>
     <x:scenario label="When opt is a map">
         <x:call step="mirror:option-value">
             <x:option name="opt" select="map{1: 2}"/>
         </x:call>
+        <x:like label="verify JSON content type for one item"/>
         <x:expect label="the result is the map" port="xproc-result" select="map{1: 2}"/>
     </x:scenario>
     <x:scenario label="When opt is a string (which gets converted to application/json)">
         <x:call step="mirror:option-value">
             <x:option name="opt" select="'one'"/>
         </x:call>
-        <x:expect label="the result is a document node whose one child is a text node"
-            port="xproc-result" result-type="document-node()"
-            test="$x:result/node() instance of text()"/>
-        <x:expect label="containing that text" port="xproc-result" test="$x:result/node()"
-            >one</x:expect>
+        <x:like label="verify JSON content type for one item"/>
+        <x:expect label="the result is the string" port="xproc-result" select="'one'"/>
     </x:scenario>
     <x:scenario label="If an option name duplicates an XSpec variable name">
         <x:call step="mirror:option-value">
@@ -158,10 +206,22 @@
             <xspec-variable/>
         </x:expect>
     </x:scenario>
+    <x:scenario label="If an option name is literally 'name'">
+        <x:call step="mirror:option-named-name">
+            <x:option name="name" select="'option-value'"/>
+        </x:call>
+        <x:expect label="the result is the value from x:option" port="xproc-result"
+            select="'option-value'"/>
+    </x:scenario>
 
     <x:scenario shared="yes" label="verify result document">
         <x:expect label="and the option-value step returns the value" port="xproc-result">
             <document/>
         </x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="verify JSON content type for one item">
+        <x:expect label="the content type is application/json" port="xproc-result"
+            test="$x:document-properties?(QName('', 'content-type'))"
+            select="'application/json'"/>
     </x:scenario>
 </x:description>

@@ -23,15 +23,15 @@
       </input-wrap>
       <result select="/*">
          <content-wrap xmlns="">
-            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"original":&lt;doc xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"original":map{"document-properties":map{Q{}base-uri:"tutorial_xproc-testing-demo-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;doc xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
      xmlns:map="http://www.w3.org/2005/xpath-functions/map"
      xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;Sample document&lt;/doc&gt;
-,"result":&lt;outermost xml:id="a123"&gt;
+},"result":map{"document-properties":map{Q{}base-uri:"demo.xpl",Q{}content-type:"application/xml"},"document":&lt;outermost xml:id="a123"&gt;
    &lt;doc xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
         xmlns:map="http://www.w3.org/2005/xpath-functions/map"
         xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;Sample document&lt;/doc&gt;
 &lt;/outermost&gt;
-}</pseudo-map>
+}}}</pseudo-map>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
@@ -126,7 +126,7 @@
             <x:expect xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
                       xmlns:map="http://www.w3.org/2005/xpath-functions/map"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="$x:result =&gt; map:keys() =&gt; count()"/>
+                      test="$x:result?ports =&gt; map:keys() =&gt; count()"/>
          </expect-test-wrap>
          <result select="2"/>
          <expect select="2"/>

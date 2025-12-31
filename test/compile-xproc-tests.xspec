@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                stylesheet="../src/compiler/compile-xproc-tests.xsl">
 
    <!-- Default $measure-time depends on global context item. Set it false here. -->
    <t:param name="measure-time" select="false()" />
+   
+   <!-- Set a global context document, a sample XSpec file -->
+   <t:param name="initial-document" href="compile-xproc-tests/compile-scenario.xspec"/>
 
    <t:scenario label="x:scenario[@label] transformed in x:compile-scenario template">
       <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:scenario" />
@@ -87,20 +91,95 @@
             select="not($Q{{http://www.jenitennison.com/xslt/xspec}}result instance of item())" />
       </t:expect>
       <t:scenario label="XProc-specific additions:">
-         <t:expect label="@port must be transformed to xsl:variable that modifies $x:result"
+         <t:expect label="@port must be transformed to xsl:variable that introduces $x:document-properties"
+            test="$t:result/xsl:variable[@name eq 'Q{http://www.jenitennison.com/xslt/xspec}document-properties']">
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}document-properties"
+               as="map(*)*"
+               select="$Q{{http://www.jenitennison.com/xslt/xspec}}result?ports?xproc-result?document-properties"/>
+         </t:expect>
+         <t:expect label="and modifies $x:result"
             test="$t:result/xsl:variable[@name eq 'Q{http://www.jenitennison.com/xslt/xspec}result']">
             <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
                as="item()*"
-               select="$Q{{http://www.jenitennison.com/xslt/xspec}}result?xproc-result"/>
+               select="$Q{{http://www.jenitennison.com/xslt/xspec}}result?ports?xproc-result?document"/>
          </t:expect>
          <t:expect label="with error checking that @port is a valid key of $x:result"
-            test="$t:result/xsl:variable[@name eq 'Q{http://www.jenitennison.com/xslt/xspec}result']/preceding-sibling::*[1]">
+            test="$t:result/xsl:variable[
+                @name eq 'Q{http://www.jenitennison.com/xslt/xspec}document-properties'
+            ]/preceding-sibling::*[1]">
             <xsl:if xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-               test="not('xproc-result' = map:keys($Q{{http://www.jenitennison.com/xslt/xspec}}result))">
+               test="not('xproc-result' = map:keys($Q{{http://www.jenitennison.com/xslt/xspec}}result?ports))">
                <xsl:message terminate="yes">...</xsl:message>
             </xsl:if>
          </t:expect>
       </t:scenario>
+   </t:scenario>
+
+   <t:scenario label="x:call and its children transformed in step-call-text template">
+      <t:variable name="call" href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:call function="t:step-call-text">
+         <t:param name="call" select="$call"/>
+         <t:param name="parent-scenario" select="$call/parent::t:scenario"/>
+      </t:call>
+      <t:expect label="is a text node" test="$t:result instance of text()"/>
+      <t:expect test="starts-with($t:result,
+         'Q{urn:x-xspec:compile:impl}step-runner((: ex:My-step-type :)'
+         )">
+         <t:label>starting with the step runner's URI-qualified name, open parenthesis, and a
+            comment that indicates the prefixed name of the step being tested.</t:label>
+      </t:expect>
+      <t:expect label="It ends with a closing parenthesis." test="ends-with($t:result, ')' )"/>
+      <t:variable name="args"
+         select="$t:result => substring-after('My-step-type :)') => replace('\)$', '')"/>
+      <t:variable name="arg1" select="substring-before($args, ', ')"/>
+      <t:expect label="The 1st argument references the variable holding the wrapper step"
+         test="$arg1" select="'$Q{urn:x-xspec:compile:impl}wrapper-step-based-on-x-call'"/>
+      <t:variable name="arg2" select="substring-after($args, ', ')"/>
+      <t:expect
+         label="The 2nd argument references the variable holding the map of inputs and options"
+         test="$arg2" select="'$Q{urn:x-xspec:compile:impl}options-for-step-function'"/>
+   </t:scenario>
+
+   <t:scenario label="x:call is used to produce map of options for step function">
+      <t:variable name="call" href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:context select="$call"/>
+      <t:call template="options-for-step-function">
+         <t:param name="parent-scenario" select="$call/parent::t:scenario"/>
+      </t:call>
+      <t:variable name="result-simplified"
+         select="$t:result
+         => replace('Q\{urn:x-xspec:compile:impl\}', 'impl:')
+         => replace('Q\{x-urn:test:compile-xproc-tests\}', 'ex:')
+         => replace('(input|option)-[0-9a-f]+', '$1-ID')"/>
+      <t:expect test="$result-simplified" as="xs:string">
+         <t:label>Result text describes a map. The map keys are 'map-of-inputs' and
+            'map-of-options'. The 'map-of-inputs' value is a map with an entry for each input port.
+            The 'map-of-options' value is a map with an entry for each option. The values of the
+            inner entries are references to variables.</t:label>
+         <t:text>map{</t:text>
+         <t:text>'map-of-inputs':</t:text>
+         <t:text>map{'source': wrap:unwrap-text-nodes($impl:input-ID), </t:text>
+         <t:text>'aux': wrap:unwrap-text-nodes($impl:input-ID)},</t:text>
+         <t:text>'map-of-options':</t:text>
+         <t:text>map{'ex:option1': wrap:unwrap-text-nodes($impl:option-ID), </t:text>
+         <t:text>'ex:option2': wrap:unwrap-text-nodes($impl:option-ID)}</t:text>
+         <t:text>}</t:text>
+      </t:expect>
+   </t:scenario>
+
+   <t:scenario label="x:input elements transformed in input-map-text template">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:call template="input-map-text">
+         <t:param name="parent-scenario" select="$t:context/parent::t:scenario"/>
+      </t:call>
+      <t:expect label="is a text node" test="$t:result instance of text()"/>
+      <t:expect label="describing a map of input documents"
+         test="matches($t:result, concat(
+         'map\{',
+         '''source'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}input-[0-9a-f]+\), ',
+         '''aux'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}input-[0-9a-f]+\)',
+         '\}'
+         ))"/>
    </t:scenario>
 
    <t:scenario label="x:option elements transformed in option-map-text template">
@@ -112,8 +191,8 @@
       <t:expect label="describing a map of options, using URI-qualified names"
          test="matches($t:result, concat(
             'map\{',
-            '''Q\{x-urn:test:compile-xproc-tests\}option1'': \$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+, ',
-            '''Q\{x-urn:test:compile-xproc-tests\}option2'': \$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+',
+            '''Q\{x-urn:test:compile-xproc-tests\}option1'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\), ',
+            '''Q\{x-urn:test:compile-xproc-tests\}option2'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\)',
             '\}'
          ))"/>
    </t:scenario>

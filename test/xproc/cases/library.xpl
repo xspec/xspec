@@ -44,4 +44,16 @@
             </p:identity>
         </p:for-each>
     </p:declare-step>
+
+    <p:declare-step type="s:input-port-with-default">
+        <p:documentation>This step has a default document on the input port.</p:documentation>
+        <p:input port="source">
+            <p:inline>
+                <document/>
+            </p:inline>
+        </p:input>
+        <p:output port="xproc-result"/>
+        <p:identity/>
+    </p:declare-step>
+
 </p:library>

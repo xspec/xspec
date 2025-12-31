@@ -3,7 +3,9 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.0">
 
     <p:declare-step type="mirror:identity">
-        <p:input port="source" sequence="true" content-types="any"/>
+        <p:input port="source" sequence="true" content-types="any">
+            <default/>
+        </p:input>
         <p:output port="xproc-result" sequence="true" content-types="any"/>
         <p:identity/>
     </p:declare-step>
@@ -18,4 +20,24 @@
         </p:identity>
     </p:declare-step>
 
+    <p:declare-step type="mirror:option-property">
+        <p:output port="xproc-result" sequence="true" content-types="any"/>
+        <p:option name="opt" select="'default'"/>
+        <p:option name="property-to-get"/>
+        <p:identity>
+            <p:with-input select="p:document-property($opt, $property-to-get)">
+                <p:inline/>
+            </p:with-input>
+        </p:identity>
+    </p:declare-step>
+
+    <p:declare-step type="mirror:option-named-name">
+        <p:output port="xproc-result" sequence="true" content-types="any"/>
+        <p:option name="name" select="'default'"/>
+        <p:identity>
+            <p:with-input select="$name">
+                <p:inline/>
+            </p:with-input>
+        </p:identity>
+    </p:declare-step>
 </p:library>

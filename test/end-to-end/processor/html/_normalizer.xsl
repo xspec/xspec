@@ -139,6 +139,30 @@
 	</xsl:template>
 
 	<!--
+		Normalizes base-uri property value within a map of document properties (XProc testing).
+		For simplicity, use only the filename and extension. Where the full base URI value is
+		significant, it is tested elsewhere.
+	-->
+	<xsl:template as="text()" match="span/text()[matches(., 'Q\{\}base-uri:.+,')]"
+		mode="normalizer:normalize">
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri:")([^"]+)(")</xsl:variable>
+		<xsl:value-of>
+			<xsl:analyze-string select="." regex="{$pattern}">
+				<xsl:matching-substring>
+					<xsl:sequence select="concat(
+						regex-group(1),
+						regex-group(2) => x:filename-and-extension(),
+						regex-group(3)
+						)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:sequence select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:value-of>
+	</xsl:template>
+
+	<!--
 		Normalizes SVRL in Schematron Result
 
 			Example (the "skeleton" Schematron implementation):

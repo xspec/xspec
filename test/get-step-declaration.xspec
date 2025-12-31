@@ -10,11 +10,18 @@
     <x:scenario label="Test local:gather-steps mode">
         <x:scenario label="in p:library without imports">
             <x:context mode="local:gather-steps" select="/">
+                <x:param name="import-stack" tunnel="yes" select="()"/>
                 <p:library>
                     <p:declare-step type="loc-p:step1">
                         <p:input port="aux1"/>
                         <p:input port="source" primary="true"/>
                         <p:input port="aux2" use-when="true()"/>
+                        <p:input port="input-port-with-inline-default">
+                            <p:inline>
+                                <default/>
+                            </p:inline>
+                        </p:input>
+                        <p:input port="input-port-with-href-default" href="mydoc.xml"/>
                         <p:output port="result"/>
                         <p:option name="loc-p:opt"/>
                         <p:declare-step type="loc-p:substep">
@@ -31,29 +38,45 @@
                     </p:declare-step>
                 </p:library>
             </x:context>
-            <x:expect select="/">
-                <x:label>p:library containing flat list of simplified child steps, each with
-                    URI-qualified step type</x:label>
-                <p:library>
-                    <p:declare-step type="Q{{x-urn:local-xproc-names}}step1">
-                        <p:input port="aux1"/>
-                        <p:input port="source"/>
-                        <p:input port="aux2" use-when="true()"/>
-                    </p:declare-step>
-                    <p:declare-step type="Q{{x-urn:local-xproc-names}}step2" use-when="true()">
-                        <p:input port="source"/>
-                    </p:declare-step>
-                </p:library>
+            <x:expect>
+                <x:label>sequence of simplified child steps, each with URI-qualified step
+                    type</x:label>
+                <p:declare-step type="Q{{x-urn:local-xproc-names}}step1">
+                    <p:input port="aux1"/>
+                    <p:input port="source"/>
+                    <p:input port="aux2" use-when="true()"/>
+                    <p:input port="input-port-with-inline-default" x:has-default-input="true"/>
+                    <p:input port="input-port-with-href-default" x:has-default-input="true"/>
+                    <p:output port="result"/>
+                    <p:option name="loc-p:opt"/>
+                </p:declare-step>
+                <p:declare-step type="Q{{x-urn:local-xproc-names}}step2" use-when="true()">
+                    <p:input port="source"/>
+                    <p:output port="result"/>
+                </p:declare-step>
             </x:expect>
             <x:expect label="Substeps are not included."
-                test="empty($x:result/descendant::p:declare-step[ends-with(@type,'}substep')])"/>
+                test="empty($x:result/self::p:declare-step[ends-with(@type,'substep')])"/>
+            <x:expect label="Default documents on input ports are not included."
+                test="empty($x:result/descendant::p:input[*])"/>
         </x:scenario>
         <x:scenario label="in p:declare-step without imports">
             <x:context mode="local:gather-steps" select="/">
+                <x:param name="import-stack" tunnel="yes" select="()"/>
                 <p:declare-step type="loc-p:pipeline">
-                    <p:input port="aux1"/>
+                    <p:input port="aux1">
+                        <p:inline>
+                            <default/>
+                        </p:inline>
+                    </p:input>
                     <p:input port="source" primary="true"/>
                     <p:input port="aux2"/>
+                    <p:input port="input-port-with-inline-default">
+                        <p:inline>
+                            <default/>
+                        </p:inline>
+                    </p:input>
+                    <p:input port="input-port-with-href-default" href="mydoc.xml"/>
                     <p:output port="result"/>
                     <p:option name="loc-p:opt"/>
                     <p:declare-step type="loc-p:substep">
@@ -64,76 +87,97 @@
                     <p:identity/>
                 </p:declare-step>
             </x:context>
-            <x:expect select="/">
+            <x:expect>
                 <x:label>p:declare-step as a simplified step with URI-qualified step type</x:label>
                 <p:declare-step type="Q{{x-urn:local-xproc-names}}pipeline">
-                    <p:input port="aux1"/>
+                    <p:input port="aux1" x:has-default-input="true"/>
                     <p:input port="source"/>
                     <p:input port="aux2"/>
+                    <p:input port="input-port-with-inline-default" x:has-default-input="true"/>
+                    <p:input port="input-port-with-href-default" x:has-default-input="true"/>
+                    <p:output port="result"/>
+                    <p:option name="loc-p:opt"/>
                 </p:declare-step>
             </x:expect>
             <x:expect label="Substeps are not included."
-                test="empty($x:result/descendant::p:declare-step[ends-with(@type,'substep')])"/>
+                test="empty($x:result/self::p:declare-step[ends-with(@type,'substep')])"/>
+            <x:expect label="Default documents on input ports are not included."
+                test="empty($x:result/descendant::p:input[*])"/>
         </x:scenario>
         <x:scenario label="with import (circular, in fact)">
-            <x:context mode="local:gather-steps" href="xproc/cases/circular-import1.xpl"/>
-            <x:expect select="/">
-                <x:label>All the steps in the library and its imports, recursively, with p:library
-                    parents retained for imports</x:label>
-                <p:library>
-                    <p:declare-step type="Q{{x-urn:test:xproc:steplibrary}}step1">
-                        <p:input port="source"/>
-                    </p:declare-step>
-                    <p:library>
-                        <p:declare-step type="Q{{x-urn:test:xproc:steplibrary}}step2">
-                            <p:input port="source"/>
-                        </p:declare-step>
-                    </p:library>
-                </p:library>
+            <x:context mode="local:gather-steps" href="xproc/cases/circular-import1.xpl">
+                <x:param name="import-stack" tunnel="yes" select="resolve-uri('xproc/cases/circular-import1.xpl', $x:xspec-uri)"/>
+            </x:context>
+            <x:expect>
+                <x:label>All the steps in the library and its imports, recursively</x:label>
+                <p:declare-step type="Q{{x-urn:test:xproc:steplibrary}}step1">
+                    <p:input port="source"/>
+                    <p:output port="result"/>
+                </p:declare-step>
+                <p:declare-step type="Q{{x-urn:test:xproc:steplibrary}}step2">
+                    <p:input port="source"/>
+                    <p:output port="result"/>
+                </p:declare-step>
             </x:expect>
         </x:scenario>
     </x:scenario>
 
-    <x:scenario label="Test x:get-step-inputs function">
-        <x:scenario label="Calling a step with two input ports">
+    <x:scenario label="Test x:step-declaration function">
+        <x:scenario label="If x:call calls a step whose declaration is found">
             <x:variable name="loc-t:parent-scenario" as="element(x:scenario)"
                 select="$initial-document/x:description/x:scenario[1]/x:scenario[1]"/>
-            <x:call function="x:get-step-inputs">
+            <x:call function="x:step-declaration">
                 <x:param select="$loc-t:parent-scenario/x:call"/>
                 <x:param select="$loc-t:parent-scenario"/>
             </x:call>
-            <x:expect label="returns the port declarations with subset of attributes"
-                as="element(p:input)+">
-                <p:input port="in1"/>
-                <p:input port="in2"/>
+            <x:expect label="the function returns the step API with subset of attributes"
+                as="element(p:declare-step)">
+                <p:declare-step
+                    type="Q{{x-urn:test:xproc:steplibrary}}two-inputs-no-option-one-output">
+                    <p:input port="in1"/>
+                    <p:input port="in2"/>
+                    <p:output port="xproc-result"/>
+                </p:declare-step>
             </x:expect>
         </x:scenario>
-        <x:scenario label="Known step but unknown port name in x:input">
+        <x:scenario label="Even if x:call/x:input uses a bad port name">
             <x:variable name="loc-t:parent-scenario" as="element(x:scenario)"
                 href="xproc/compiler-error-cases/unknown-port.xspec"
-                select="//x:scenario[@label eq 'Unknown input']"/>
-            <x:call function="x:get-step-inputs">
+                select="/x:description/x:scenario"/>
+            <x:call function="x:step-declaration">
                 <x:param select="$loc-t:parent-scenario/x:call"/>
                 <x:param select="$loc-t:parent-scenario"/>
             </x:call>
-            <x:expect label="returns the port declarations as usual" as="element(p:input)">
-                <p:input port="source"/>
+            <x:expect label="the function returns the step API without error"
+                as="element(p:declare-step)">
+                <p:declare-step
+                    type="Q{{x-urn:test:xproc:steplibrary}}input-port-with-default">
+                    <p:input port="source" x:has-default-input="true"/>
+                    <p:output port="xproc-result"/>
+                </p:declare-step>
             </x:expect>
         </x:scenario>
-        <x:scenario label="Step whose input port declaration has use-when">
+        <x:scenario label="If the called step's p:input has use-when">
             <x:variable name="loc-t:parent-scenario" as="element(x:scenario)"
                 href="xproc/cases/warning-cases.xspec"
                 select="//x:scenario[@label eq 'Step with use-when on p:input']"/>
-            <x:call function="x:get-step-inputs">
+            <x:call function="x:step-declaration">
                 <x:param select="$loc-t:parent-scenario/x:call"/>
                 <x:param select="$loc-t:parent-scenario"/>
             </x:call>
-            <x:expect label="returns the port declarations with use-when preserved"
-                as="element(p:input)+">
-                <p:input port="aux" use-when="$aux-port"/>
-                <p:input port="source"/>
+            <x:expect label="the returned step API preserves use-when" as="element(p:declare-step)">
+                <p:declare-step type="Q{{x-urn:test:xproc:steplibrary}}input-port-with-use-when">
+                    <p:input port="aux" use-when="$aux-port"/>
+                    <p:input port="source"/>
+                    <p:input port="never-present" use-when="false()" x:has-default-input="true"/>
+                    <p:output port="result"/>
+                </p:declare-step>
             </x:expect>
         </x:scenario>
+        <!-- Error cases are tested in test/xproc/run-xproc-error-cases.xpl via
+            test/xproc/compiler-error-cases/unknown-step.xspec
+            test/xproc/compiler-error-cases/duplicate-step.xspec
+        -->
     </x:scenario>
 
     <x:scenario label="Test x:UQName-of-step function">

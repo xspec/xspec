@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test message=ERROR in x:call (under 'Calling a helper step in x:call'): Cannot find step Q{x-urn:tutorial:helper:ws-only-text:test-helper}remove-whitespace-only-text?>
+<?xspec-test message=ERROR in x:call (under 'Calling a helper step in x:call'): Cannot find step Q{x-urn:tutorial:helper:ws-only-text:test-helper}remove-whitespace-only-text.?>
 <x:description xproc="test-target.xpl" xml:base="../../../tutorial/helper/ws-only-text/"
 	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">

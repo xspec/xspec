@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test message=ERROR in x:call (under 'Unknown step'): Cannot find step Q{x-urn:test:xproc:steplibrary}nonexistent?>
+<?xspec-test message=ERROR in x:call (under 'Unknown step'): Cannot find step Q{x-urn:test:xproc:steplibrary}nonexistent.?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
     <x:scenario label="Unknown step">

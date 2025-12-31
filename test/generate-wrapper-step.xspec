@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:local="urn:x-xspec:compiler:xproc:in-scope-steps:generate-wrapper-step:local"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:s="x-urn:test:xproc:inputs-options-outputs"
+    xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    stylesheet="../src/compiler/compile-xproc-tests.xsl">
+
+    <x:helper stylesheet="../tutorial/helper/ws-only-text/test-helper.xsl"/>
+
+    <x:param name="initial-document"
+        href="xproc/unit-test-supporting-files/inputs-options-outputs.xspec"/>
+
+    <x:scenario label="Tests for wrapper-step-based-on-x-call template">
+        <x:scenario label="Sample x:call for a step">
+            <x:context select="$initial-document//x:call"/>
+            <x:variable name="expected" select="test-helper:remove-whitespace-only-text(/)/*"
+                href="xproc/unit-test-supporting-files/inputs-options-outputs-wrapper-step.xpl"/>
+            <x:call template="wrapper-step-based-on-x-call">
+                <x:param name="parent-scenario" select="$initial-document//x:scenario"/>
+            </x:call>
+            <x:expect label="produces a step that imports the x:description/@xproc file,"
+                result-type="element(p:declare-step)"
+                test="ends-with(/p:declare-step/p:import/@href, '/inputs-options-outputs.xpl')"/>
+            <x:expect label="has no input ports," test="empty(/p:declare-step/p:input)"/>
+            <x:expect label="has one output port," test="/p:declare-step/p:output"
+                select="$expected/p:output"/>
+            <x:expect label="and has options for test target's inputs and options."
+                test="/p:declare-step/p:option" select="$expected/p:option"/>
+            <x:expect label="This step invokes the test target step,"
+                test="/p:declare-step/s:inputs-options-outputs"
+                select="$expected/s:inputs-options-outputs"/>
+            <x:expect label="setting/adjusting xml:base to $x:xspec-uri on p:document elements."
+                test="//p:document/@xml:base => distinct-values()
+                => ends-with('/inputs-options-outputs.xspec')"/>
+            <x:expect test="/p:declare-step/(p:count | p:choose)"
+                select="$expected/(p:count | p:choose)">
+                <x:label>The step uses p:count and p:choose to create maps of documents at out1 and
+                    out2, accounting for the case of zero documents on a given port,</x:label>
+            </x:expect>
+            <x:expect label="and merges the maps across all the output ports."
+                test="/p:declare-step/p:json-merge" select="$expected/p:json-merge"/>
+            <x:expect label="The output map has key 'ports' and the merged map as the value."
+                test="/p:declare-step/p:json-merge/following-sibling::*"
+                select="$expected/p:json-merge/following-sibling::*"/>
+            <x:expect label="Entire step element matches the expected one." select="$expected"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Tests for local:escape-curly-braces function">
+        <x:scenario label="Option name using Q{} notation">
+            <x:call function="local:escape-curly-braces">
+                <x:param as="xs:string" select="'Q{some-namespace}option-name'"/>
+            </x:call>
+            <x:expect label="doubles the curly braces" select="'Q{{some-namespace}}option-name'"/>
+        </x:scenario>
+        <x:scenario label="Option name without Q{} notation">
+            <x:call function="local:escape-curly-braces">
+                <x:param as="xs:string" select="'prefix:option-name'"/>
+            </x:call>
+            <x:expect label="returns the argument unchanged" select="'prefix:option-name'"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

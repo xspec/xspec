@@ -5,20 +5,25 @@
     xproc="library.xpl">
     <x:scenario label="Step does not raise error">
         <x:call step="s:no-input-one-option-no-output-raises-error"/>
-        <x:expect label="No output, no error. XML Calabash records this as an empty map."
-            result-type="map(empty-sequence(), map(*))" select="map{}"/>
+        <x:expect select="map{'ports': map{}}"
+            result-type="map(xs:string, map(empty-sequence(), empty-sequence()))">
+            <x:label>No error. Result map's 'ports' value is an empty map because the step has no
+                output ports.</x:label>
+        </x:expect>
+
     </x:scenario>
     <x:scenario label="Step raises error using p:error" catch="yes">
         <x:call step="s:no-input-one-option-no-output-raises-error">
             <x:option name="error-msg" select="'Something went wrong'"/>
         </x:call>
-        <x:expect label="Check error code" result-type="map(xs:string, map(*))"
+        <x:expect label="Check error code" result-type="map(xs:string, map(xs:string, item()*))"
             test="$x:result?err?code" select="QName('', 'error-from-my-xproc-step')"/>
-        <x:expect label="Error description is a string" result-type="map(xs:string, map(*))"
+        <x:expect label="Error description is a string"
+            result-type="map(xs:string, map(xs:string, item()*))"
             test="$x:result?err?description instance of xs:string"/>
         <x:expect label="that, when parsed as XML, equals the source document of p:error."
-            result-type="map(xs:string, map(*))" test="$x:result?err?description => parse-xml()"
-            select="/">
+            result-type="map(xs:string, map(xs:string, item()*))"
+            test="$x:result?err?description => parse-xml()" select="/">
             <document>Something went wrong</document>
         </x:expect>
     </x:scenario>

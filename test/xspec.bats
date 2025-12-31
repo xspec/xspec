@@ -1400,7 +1400,7 @@ load bats-helper
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 2 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1466,7 +1466,7 @@ load bats-helper
         -Dcatalog.is.uri=true \
         -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 2 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1699,7 +1699,7 @@ load bats-helper
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
 }
 
 #
@@ -1761,7 +1761,7 @@ load bats-helper
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_xproc.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
 }
 
 #
@@ -1843,7 +1843,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -p "${space_dir}/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
 }
 
 #
@@ -1889,7 +1889,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -p "catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
 }
 
 #

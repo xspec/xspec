@@ -4,20 +4,39 @@
 	xmlns:thd-step="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/steps"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Catalog for step-call input URI and DOCTYPE">
-		<x:call step="mirror:identity">
-			<x:input port="source" href="catalog-01:/example.xml" />
-		</x:call>
-		<x:expect port="xproc-result"
-			label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
-			select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+		<x:scenario label="x:input with href and select">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="catalog-01:/example.xml" select="/" />
+			</x:call>
+			<x:expect port="xproc-result"
+				label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+				select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+		</x:scenario>
+		<x:scenario label="x:input with href and without select" pending="TODO when XProc has catalog access">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="catalog-01:/example.xml" />
+			</x:call>
+			<x:expect port="xproc-result"
+				label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+				select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="step-call input with relative href (xspec/xspec#542)">
-		<x:call step="mirror:identity">
-			<x:input port="source" href="example.xml" />
-		</x:call>
-		<x:expect port="xproc-result" label="x:expect with href should be Success"
-			href="example.xml" />
+		<x:scenario label="x:input with href and select">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="example.xml" select="/" />
+			</x:call>
+			<x:expect port="xproc-result" label="x:expect with href should be Success"
+				href="example.xml" />
+		</x:scenario>
+		<x:scenario label="x:input with href and without select" pending="TODO when XProc has catalog access">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="example.xml" />
+			</x:call>
+			<x:expect port="xproc-result" label="x:expect with href should be Success"
+				href="example.xml" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Catalog for XProc helper file URI">

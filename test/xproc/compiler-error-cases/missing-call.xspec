@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test message=ERROR in x:scenario ('x:call is missing at the point where step should be called'): There are x:expect but no x:call has been given?>
+<?xspec-test message=ERROR in x:scenario ('x:call is missing at the point where step should be called'): There are x:expect but no x:call has been given.?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="../cases/library.xpl">

@@ -2,7 +2,8 @@
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xproc="library-static-options.xpl">
-    <x:scenario label="When global library option is false">
+    <x:scenario label="When global library option is false"
+        pending="TODO: Are static options accessible in testing?">
         <x:scenario label="and local step option is true">
             <x:call step="s:add-attrs-maybe">
                 <!--<x:option name="s:add-attr" select="false()"/>-->

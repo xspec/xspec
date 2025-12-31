@@ -3,7 +3,8 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="../../mirror.xsl">
     <!-- The .xsl file exists but it's not an XProc file -->
-    <!-- When the test runs with the x:run-xproc step, this is a run-time error.
-        When the test runs with Ant or a command script, it's a compile-time error. -->
-    <x:scenario label="error"/>
+    <x:scenario label="error">
+        <x:call step="do-something"/>
+        <x:expect label="verify something"/>
+    </x:scenario>
 </x:description>

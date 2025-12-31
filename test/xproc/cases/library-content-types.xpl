@@ -2,6 +2,8 @@
 <p:library xmlns:s="x-urn:test:xproc:steplibrary" xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.0">
 
+    <p:import href="library-mirror.xpl"/>
+
     <p:declare-step type="s:get-html-description">
         <p:input port="source" content-types="html application/xml"/>
         <p:output port="xproc-result" sequence="true"/>

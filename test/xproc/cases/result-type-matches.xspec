@@ -32,17 +32,21 @@
 	</x:scenario>
 	<x:scenario label="In x:expect[not(@port)],">
 		<x:scenario>
-			<x:label>@result-type must accommodate a map whose keys are strings and values are
-				document node sequences</x:label>
+			<x:label>@result-type must accommodate a nested map with levels
+				1. 'ports'
+				2. port name, e.g., 'result'
+				3. 'document' and 'document-properties'
+			</x:label>
 			<x:call step="mirror:identity">
 				<x:input port="source" select="()"/>
 			</x:call>
-			<x:expect label="with boolean @test" test="empty($x:result?xproc-result)"
-				result-type="map(xs:string, document-node()*)"/>
-			<x:expect label="with non-boolean @test" test="map:keys($x:result)" select="'xproc-result'"
-				result-type="map(*)"/>
-			<x:expect label="with no @test and an expected result" select="map{'xproc-result': ()}"
-				result-type="map(xs:string, item()*)"/>
+			<x:expect label="with boolean @test" test="empty($x:result?ports?xproc-result?document)"
+				result-type="map(xs:string, map(xs:string, map(xs:string, item()*)))"/>
+			<x:expect label="with non-boolean @test" test="map:keys($x:result?ports)" select="'xproc-result'"
+				result-type="map(xs:string, map(xs:string, map(*)))"/>
+			<x:expect label="with no @test and an expected result"
+				select="map{'ports': map{'xproc-result': map{'document': (), 'document-properties': map{} }}}"
+				result-type="map(xs:string, map(*))"/>
 		</x:scenario>
 	</x:scenario>
 </x:description>

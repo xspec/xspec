@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:ex="x-urn:test:compile-xproc-tests">
+<t:description xmlns:ex="x-urn:test:compile-xproc-tests" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xproc="My-step-type.xpl">
 	<t:scenario id="dummy-scenario-id" label="my scenario label">
-	    <t:call step="ex:step-type">
+	    <t:call step="ex:My-step-type">
+	    	<t:input port="source" select="1"/>
+	    	<t:input port="aux" select="2"/>
 	        <t:option name="ex:option1" select="1"/>
 	        <t:option name="ex:option2" select="map{
 	            'a': 1,

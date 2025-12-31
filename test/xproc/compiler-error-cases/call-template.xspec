@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test message=ERROR in x:scenario ('x:call/@template is not allowed in test for XProc'): x:call/@template not supported for XProc?>
+<?xspec-test message=ERROR in x:scenario ('x:call/@template is not allowed in test for XProc'): x:call/@template not supported for XProc.?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="../cases/library.xpl">

@@ -44,6 +44,24 @@
                 <wrong-output-document/>
             </x:expect>
         </x:scenario>
+        <x:scenario label="with @test that produces the full map of document properties">
+            <x:expect port="xproc-result" test="$x:document-properties" select="map{}">
+                <x:label>the report shows the map for that port vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces a subset of document properties">
+            <x:expect port="xproc-result" test="$x:document-properties?(QName('', 'content-type'))"
+                select="map{}">
+                <x:label>the report shows the map for that port vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with boolean @test related to document properties, not documents,">
+            <x:expect port="xproc-result"
+                test="$x:document-properties?(QName('', 'content-type')) eq 'text/plain'">
+                <x:label>the report shows the documents at that port vs. the @test value (i.e., no
+                    special behavior when @test contains $x:document-properties)</x:label>
+            </x:expect>
+        </x:scenario>
         <x:scenario label="with @test that produces an element">
             <x:expect port="xproc-result" test="child::*" select="/*">
                 <x:label>the report shows the filtered output at that port vs. the expected result

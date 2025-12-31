@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="duplicate-imports.xpl">
+    <!-- duplicate-imports.xpl imports library-connections.xpl both directly and indirectly. That
+        should not cause an error in XSpec. -->
+
+    <x:import href="no-input-no-option-one-output.xspec"/>
+</x:description>

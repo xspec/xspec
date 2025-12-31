@@ -16,9 +16,9 @@
          <label>due to @result-type</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario1-expect1" successful="false">
@@ -44,9 +44,9 @@
          <label>due to boolean @test</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario2-expect1" successful="false">
@@ -71,9 +71,9 @@
          <label>without @test and with non-matching document node as expected result</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario3-expect1" successful="false">
@@ -116,9 +116,9 @@
          <label>without @test and with element as expected result</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario4-expect1" successful="false">
@@ -145,9 +145,9 @@
          <label>with @test that produces a document node</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario5-expect1" successful="false">
@@ -173,15 +173,95 @@
          </test>
       </scenario>
       <scenario id="scenario1-scenario6" xspec="../../port-specific-results.xspec">
-         <label>with @test that produces an element</label>
+         <label>with @test that produces the full map of document properties</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario1-scenario6-expect1" successful="false">
+            <label>the report shows the map for that port vs. the expected result</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:document-properties"/>
+            </expect-test-wrap>
+            <result select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"}</pseudo-map>
+               </content-wrap>
+            </result>
+            <expect select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{}</pseudo-map>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario7" xspec="../../port-specific-results.xspec">
+         <label>with @test that produces a subset of document properties</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
+}}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario7-expect1" successful="false">
+            <label>the report shows the map for that port vs. the expected result</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:document-properties?(QName('', 'content-type'))"/>
+            </expect-test-wrap>
+            <result select="'application/xml'"/>
+            <expect select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{}</pseudo-map>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario8" xspec="../../port-specific-results.xspec">
+         <label>with boolean @test related to document properties, not documents,</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
+}}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario8-expect1" successful="false">
+            <label>the report shows the documents at that port vs. the @test value (i.e., no
+                    special behavior when @test contains $x:document-properties)</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:document-properties?(QName('', 'content-type')) eq 'text/plain'"/>
+            </expect-test-wrap>
+            <port-specific>
+               <result select="/self::document-node()">
+                  <content-wrap xmlns="">
+                     <output-document xmlns:s="x-urn:test:xproc:steplibrary"
+                                      xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario9" xspec="../../port-specific-results.xspec">
+         <label>with @test that produces an element</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
+}}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario9-expect1" successful="false">
             <label>the report shows the filtered output at that port vs. the expected result
                     and label above box says "XPath /element() from:"</label>
             <expect-test-wrap xmlns="">
@@ -202,7 +282,7 @@
                </content-wrap>
             </expect>
          </test>
-         <test id="scenario1-scenario6-expect2" successful="false">
+         <test id="scenario1-scenario9-expect2" successful="false">
             <label>Same thing without @select</label>
             <expect-test-wrap xmlns="">
                <x:expect xmlns:s="x-urn:test:xproc:steplibrary"
@@ -223,16 +303,16 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario1-scenario7" xspec="../../port-specific-results.xspec">
+      <scenario id="scenario1-scenario10" xspec="../../port-specific-results.xspec">
          <label>with @test that produces an atomic value</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-}</pseudo-map>
+}}}</pseudo-map>
             </content-wrap>
          </result>
-         <test id="scenario1-scenario7-expect1" successful="false">
+         <test id="scenario1-scenario10-expect1" successful="false">
             <label>the report shows the atomic value vs. the expected result</label>
             <expect-test-wrap xmlns="">
                <x:expect xmlns:s="x-urn:test:xproc:steplibrary"
@@ -255,11 +335,11 @@
       </input-wrap>
       <result select="/*">
          <content-wrap xmlns="">
-            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
          </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="true">
@@ -285,11 +365,11 @@
          <label>without @test and with single document node as expected result</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario2-scenario1-expect1" successful="false">
@@ -320,11 +400,11 @@
          <label>without @test and with element sequence as expected result</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario2-scenario2-expect1" successful="false">
@@ -356,11 +436,11 @@
                 document nodes as expected result</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario2-scenario3-expect1" successful="false">
@@ -394,11 +474,11 @@
          <label>with @test that produces element nodes</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario2-scenario4-expect1" successful="false">
@@ -455,11 +535,11 @@
          <label>with @test that produces an atomic value</label>
          <result select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"xproc-result":(&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-,&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
+},map{"document-properties":map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"},"document":&lt;output-document xmlns:s="x-urn:test:xproc:steplibrary"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"/&gt;
-)}</pseudo-map>
+})}}</pseudo-map>
             </content-wrap>
          </result>
          <test id="scenario2-scenario5-expect1" successful="false">

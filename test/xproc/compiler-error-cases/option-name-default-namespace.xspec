@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test min-xmlcalabash-version=3.0.31?>
-<?xspec-test message=XSLT error: Step of type “s:no-input-two-options-one-output” has no option named “attrval2”.?>
+<?xspec-test message=ERROR in x:call (under 'Attempted use of default namespace in x:option/@name'): Step of type 's:no-input-two-options-one-output' has no option named 'attrval2'.?>
 <x:description xmlns="x-urn:test:xproc:steplibrary:options" xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
     <x:scenario label="Attempted use of default namespace in x:option/@name">

@@ -17,6 +17,11 @@
         <p:identity/>
     </p:declare-step>
 
+    <p:declare-step type="s:one-input-no-option-no-output" name="one-input-no-option-no-output">
+        <p:input port="source"/>
+        <p:sink/>
+    </p:declare-step>
+
     <p:declare-step type="s:two-inputs-no-option-one-output" name="two-inputs-no-option-one-output">
         <p:input port="in1" primary="true"/>
         <p:input port="in2" primary="false"/>

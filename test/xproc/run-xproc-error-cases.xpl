@@ -94,16 +94,17 @@
                         </p:group>
                         <p:catch>
                             <!--
-                        We expected an error and got one. Compare the error message with the one
-                        stored in a PI in the XSpec file,
-                        <?xspec-test message=expected error message goes here?>
-                        The expected error message can use .../ in place of $cases-dir, for portability.
-                    -->
+                                We expected an error and got one. Compare the error message with the one
+                                stored in a PI in the XSpec file,
+                                <?xspec-test message=expected error message goes here?>
+                                The expected error message can use .../ in place of $cases-dir, for portability.
+                            -->
                             <p:filter select="//cx:message/text()"/>
                             <p:cast-content-type content-type="text/plain"/>
                             <!-- Remove boilerplate prefix to help focus on inner message -->
                             <p:text-replace pattern="^Stylesheet terminated with xsl:message: &#8220;(.+)&#8221;."
                                 replacement="$1"/>
+                            <p:text-replace pattern="^XSLT error: " replacement=""/>
                             <!-- Replace $cases-dir, which can vary by platform or on GitHub -->
                             <p:text-replace pattern="{$cases-dir}" replacement=".../"/>
                             <p:choose>

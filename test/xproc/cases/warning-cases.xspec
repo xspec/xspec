@@ -7,7 +7,9 @@
             <x:input port="source">
                 <my-source/>
             </x:input>
-            <x:input port="aux" select="()"/>
+            <x:input port="aux">
+                <document-at-aux-port/>
+            </x:input>
         </x:call>
         <x:expect label="is called assuming use-when is true" port="result">
             <output aux-element="document-at-aux-port"/>

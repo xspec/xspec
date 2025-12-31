@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for library.xpl (passed: 1 / pending: 0 / failed: 15 / total: 16)</title>
+      <title>Test Report for library.xpl (passed: 1 / pending: 0 / failed: 18 / total: 19)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
@@ -25,8 +25,8 @@
                <th></th>
                <th class="totals">passed: 1</th>
                <th class="totals">pending: 0</th>
-               <th class="totals emphasis">failed: 15</th>
-               <th class="totals">total: 16</th>
+               <th class="totals emphasis">failed: 18</th>
+               <th class="totals">total: 19</th>
             </tr>
          </thead>
          <tbody>
@@ -34,8 +34,8 @@
                <th><a href="#top_scenario1">When x:expect[@port] fails</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">9</th>
-               <th class="totals">9</th>
+               <th class="totals">12</th>
+               <th class="totals">12</th>
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario2">When the output port has multiple documents and x:expect[@port] fails</a></th>
@@ -47,7 +47,7 @@
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">When x:expect[@port] fails<span class="scenario-totals">passed: 0 / pending: 0 / failed: 9 / total: 9</span></h2>
+         <h2 class="successful">When x:expect[@port] fails<span class="scenario-totals">passed: 0 / pending: 0 / failed: 12 / total: 12</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -56,7 +56,7 @@
             <tbody>
                <tr class="successful">
                   <th>When x:expect[@port] fails</th>
-                  <th>passed: 0 / pending: 0 / failed: 9 / total: 9</th>
+                  <th>passed: 0 / pending: 0 / failed: 12 / total: 12</th>
                </tr>
                <tr class="failed">
                   <th><a href="#scenario1-scenario1">due to @result-type</a></th>
@@ -106,24 +106,49 @@
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#scenario1-scenario6">with @test that produces an element</a></th>
+                  <th><a href="#scenario1-scenario6">with @test that produces the full map of document properties</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-scenario6-expect1">the report shows the map for that port vs. the expected result</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario1-scenario7">with @test that produces a subset of document properties</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-scenario7-expect1">the report shows the map for that port vs. the expected result</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario1-scenario8">with boolean @test related to document properties, not documents,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-scenario8-expect1">the report shows the documents at that port vs. the @test value (i.e., no special
+                        behavior when @test contains $x:document-properties)</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario1-scenario9">with @test that produces an element</a></th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario1-scenario6-expect1">the report shows the filtered output at that port vs. the expected result and label
+                  <td><a href="#scenario1-scenario9-expect1">the report shows the filtered output at that port vs. the expected result and label
                         above box says "XPath /element() from:"</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario1-scenario6-expect2">Same thing without @select</a></td>
+                  <td><a href="#scenario1-scenario9-expect2">Same thing without @select</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#scenario1-scenario7">with @test that produces an atomic value</a></th>
+                  <th><a href="#scenario1-scenario10">with @test that produces an atomic value</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario1-scenario7-expect1">the report shows the atomic value vs. the expected result</a></td>
+                  <td><a href="#scenario1-scenario10-expect1">the report shows the atomic value vs. the expected result</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
@@ -300,8 +325,90 @@
             </div>
          </div>
          <div id="scenario1-scenario6">
-            <h3>When x:expect[@port] fails with @test that produces an element</h3>
+            <h3>When x:expect[@port] fails with @test that produces the full map of document properties</h3>
             <div id="scenario1-scenario6-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the report shows the map for that port vs. the expected result</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/*</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">pseudo-map</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">map{Q{}base-uri:"library.xpl?uniqueid=1",Q{}content-type:"application/xml"}</span>&lt;/pseudo-map&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/*</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">pseudo-map</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">map{}</span>&lt;/pseudo-map&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario1-scenario7">
+            <h3>When x:expect[@port] fails with @test that produces a subset of document properties</h3>
+            <div id="scenario1-scenario7-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the report shows the map for that port vs. the expected result</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>'application/xml'</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="diff">/*</code> from:</p>
+                           <pre>&lt;<span class="diff">pseudo-map</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">map{}</span>&lt;/pseudo-map&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario1-scenario8">
+            <h3>When x:expect[@port] fails with boolean @test related to document properties, not
+               documents,</h3>
+            <div id="scenario1-scenario8-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the report shows the documents at that port vs. the @test value (i.e., no special
+                  behavior when @test contains $x:document-properties)</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:</p>
+                           <pre>&lt;output-document <span class="xmlns">xmlns:s="x-urn:test:xproc:steplibrary"</span>
+                 <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>$x:document-properties?(QName('', 'content-type')) eq 'text/plain'</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario1-scenario9">
+            <h3>When x:expect[@port] fails with @test that produces an element</h3>
+            <div id="scenario1-scenario9-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">the report shows the filtered output at that port vs. the expected result and label
                   above box says "XPath /element() from:"</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
@@ -328,7 +435,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="scenario1-scenario6-expect2" class="xTestReport">
+            <div id="scenario1-scenario9-expect2" class="xTestReport">
                <h4 class="xTestReportTitle">Same thing without @select</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
@@ -355,9 +462,9 @@
                </table>
             </div>
          </div>
-         <div id="scenario1-scenario7">
+         <div id="scenario1-scenario10">
             <h3>When x:expect[@port] fails with @test that produces an atomic value</h3>
-            <div id="scenario1-scenario7-expect1" class="xTestReport">
+            <div id="scenario1-scenario10-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">the report shows the atomic value vs. the expected result</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
