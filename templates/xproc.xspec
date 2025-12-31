@@ -11,7 +11,7 @@
         <x:call step="my-step-type">
             <x:input port="source">
                 <example>
-                    <section>Content of document at source input port</section>
+                    <section>Content of document on source input port</section>
                 </example>
             </x:input>
             <x:option name="my-option" select="(: option value :)" />

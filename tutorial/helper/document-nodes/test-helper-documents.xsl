@@ -21,7 +21,7 @@
         Example: (<a/>, <b/>, <c/>) yields a document node containing <a/>,
         one containing <b/>, and one containing <c/>.
     -->
-    <!-- The body of thd:wrap-all is analogous to wrap:wrap-nodes-separately in src/common/wrap/xsl.
+    <!-- The body of thd:wrap-each is analogous to wrap:wrap-nodes-separately in src/common/wrap/xsl.
         The reason for making a copy is that wrap.xsl is not user-facing. If necessary,
         this function can adapt to user needs without affecting wrap.xsl. -->
     <xsl:function name="thd:wrap-each" as="document-node()*">
