@@ -18,7 +18,7 @@
 
     <!-- Sequence of nodes that can be wrapped in document node -->
     <xsl:variable as="node()+" name="items:wrappable-nodes"
-        select="$items:comment, $items:document, $items:element, $items:processing-instruction, $items:text" />
+        select="$items:comment, $items:document, $items:document-text, $items:element, $items:processing-instruction, $items:text" />
 
     <!-- Sequence of nodes that cannot be wrapped in document node -->
     <xsl:variable as="node()+" name="items:non-wrappable-nodes"
@@ -33,8 +33,12 @@
         <xsl:comment>comment-text</xsl:comment>
     </xsl:variable>
 
-    <xsl:variable as="document-node()" name="items:document">
-        <xsl:document>document-text</xsl:document>
+    <xsl:variable as="document-node(element(document-element))" name="items:document">
+        <xsl:document><document-element/></xsl:document>
+    </xsl:variable>
+
+    <xsl:variable as="document-node()" name="items:document-text">
+        <xsl:document>text</xsl:document>
     </xsl:variable>
 
     <xsl:variable as="element(element-name)" name="items:element">

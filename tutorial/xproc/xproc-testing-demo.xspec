@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
+  xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  xproc="demo.xpl">
+
+  <x:scenario>
+    <x:label>Executing eg:demo with a source document, a document having @xml:id, and a wrapper
+      element name</x:label>
+    <x:call step="eg:demo">
+      <x:input port="source">
+        <doc>Sample document</doc>
+      </x:input>
+      <x:input port="id-data">
+        <element-with-id xml:id="a123"/>
+      </x:input>
+      <x:option name="wrapper" select="QName('','outermost')"/>
+    </x:call>
+    <x:expect label="returns the document, wrapped and having the specified ID." port="result"
+      select="/">
+      <outermost xml:id="a123">
+        <doc>Sample document</doc>
+      </outermost>
+    </x:expect>
+    <x:expect label="The original document is also available at an output port" port="original"
+      select="/">
+      <doc>Sample document</doc>
+    </x:expect>
+    <x:expect label="and an incorrect expected result appears in the HTML report." port="original">
+      <doc>Other document</doc>
+    </x:expect>
+    <x:expect label="With embedded nodes and no @test, select='/' is optional (XProc only)."
+      port="result">
+      <outermost xml:id="a123">
+        <doc>Sample document</doc>
+      </outermost>
+    </x:expect>
+    <x:expect label="For access to all output ports, omit x:expect/@port."
+      test="$x:result?ports => map:keys() => count()" select="2"/>
+  </x:scenario>
+
+</x:description>

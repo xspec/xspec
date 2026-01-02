@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="library-mirror.xpl">
+
+    <x:scenario label="x:input with child p:document elements">
+        <x:call step="mirror:identity">
+            <x:input port="source">
+                <p:document href="document.xml"/>
+                <p:document href="document-xhtml.html"/>
+                <p:document href="document-not-xhtml.html"/>
+                <p:document href="document.txt"/>
+                <p:document href="document.csv"/>
+                <p:document href="document-array.json"/>
+                <p:document href="document-object.json"/>
+            </x:input>
+        </x:call>
+        <x:expect port="xproc-result"
+            test="$x:document-properties?(QName('', 'base-uri'))
+                ! substring-after(., 'test/xproc/cases/')"
+            select="(
+            'document.xml',
+            'document-xhtml.html',
+            'document-not-xhtml.html',
+            'document.txt',
+            'document.csv',
+            'document-array.json',
+            'document-object.json'
+            )">
+            <x:label>retains base URIs of documents, not .xsl or .xpl intermediate file</x:label>
+        </x:expect>
+        <x:expect port="xproc-result"
+            test="$x:document-properties?(QName('', 'content-type'))"
+            select="(
+            'application/xml',
+            'text/html',
+            'text/html',
+            'text/plain',
+            'text/csv',
+            'application/json',
+            'application/json'
+            )">
+            <x:label>retains content types of documents</x:label>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Spot-check attributes of child p:document">
+        <x:scenario label="content-type attribute">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="document.xml" content-type="application/xml"/>
+                    <p:document href="document.xml" content-type="text/plain"/>
+                </x:input>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result"
+                test="$x:document-properties?(QName('', 'content-type'))"
+                select="('application/xml', 'text/plain')"/>
+        </x:scenario>
+        <x:scenario label="document-properties attribute, doubling curly braces in the map,">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="document.xml"
+                        document-properties="map{{'content-type': 'application/xml'}}"/>
+                    <p:document href="document.xml"
+                        document-properties="map{{'content-type': 'text/plain'}}"/>
+                </x:input>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result"
+                test="$x:document-properties?(QName('', 'content-type'))"
+                select="('application/xml', 'text/plain')"/>
+        </x:scenario>
+        <x:scenario label="parameters attribute, doubling curly braces in the map,">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="document-object-duplicates.json"
+                        parameters="map{{'duplicates': 'use-first'}}"/>
+                    <p:document href="document-object-duplicates.json"
+                        parameters="map{{'duplicates': 'use-last'}}"/>
+                </x:input>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result"
+                select="(map{'key1': 'first'}, map{'key1': 'last'})"/>
+        </x:scenario>
+        <x:scenario label="xml:base attribute">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="cases/document.xml" xml:base="../"/>
+                    <p:document href="../document.xml" xml:base="subdir/"/>
+                </x:input>
+            </x:call>
+            <x:expect label="is resolved with respect to $x:xspec-uri" port="xproc-result">
+                <document/>
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="href attribute with expression to be evaluated in XProc" pending="Probably shouldn't allow this case">
+            <!-- Not sure if we want to document that x:input/p:document/@href is an AVT.
+                Depending on the expression, the href value might fail to have type xsd:anyURI,
+                triggering a validation error from xspec.rnc. -->
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="{{ concat('document','.xml') }}"/>
+                </x:input>
+            </x:call>
+            <x:expect label="works" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:impl="urn:x-xspec:compile:impl" 
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/xproc3/xproc-testing/generate-pipeline.xsl">
+
+    <x:scenario label="At a high level, the generate-pipeline template">
+        <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
+        <x:call template="generate-pipeline"/>
+        <x:expect label="generates an XProc step">
+            <p:declare-step version="3.1">...</p:declare-step>
+        </x:expect>
+        <x:expect label="that imports a wrapper around standard XProc functions,"
+            test="ends-with(p:declare-step/p:import[1]/@href, '/wrap-standard-functions.xpl')"/>
+        <x:expect label="imports helper pipelines,"
+            test="exists(p:declare-step/p:import/following-sibling::p:import)"/>
+        <x:expect label="declares the step-runner substep,"
+            test="p:declare-step/p:declare-step[1]">
+            <p:declare-step name="step-runner" type="impl:step-runner"
+                version="3.1">...</p:declare-step>
+        </x:expect>
+        <x:expect label="declares a substep for testing in-scope step functions,"
+            test="p:declare-step/p:declare-step[2]">
+            <p:declare-step name="test-in-scope-step-functions"
+                type="x:test-in-scope-step-functions">...</p:declare-step>
+        </x:expect>
+        <x:expect label="and then executes the substep for testing step functions."
+            test="p:declare-step/p:declare-step[last()]/following-sibling::*/local-name()"
+            select="'test-in-scope-step-functions'"/>
+    </x:scenario>
+</x:description>

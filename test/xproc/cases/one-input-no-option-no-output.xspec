@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="One input, no option, no output">
+        <x:call step="s:one-input-no-option-no-output">
+            <x:input port="source">
+                <root/>
+            </x:input>
+        </x:call>
+        <x:expect label="returns as raw result a map whose 'ports' value is an empty map"
+            select="map{'ports': map{}}"/>
+    </x:scenario>
+</x:description>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    * Update /x:description/@xproc which should point to the XProc file being tested.
+    * Write your test scenario.
+      See https://github.com/xspec/xspec/wiki/Writing-Scenarios-for-XProc for details.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="path/to/my-xproc-file.xpl">
+
+    <x:scenario label="Scenario for testing a step">
+        <x:call step="my-step-type">
+            <x:input port="source">
+                <example>
+                    <section>Content of document on source input port</section>
+                </example>
+            </x:input>
+            <x:option name="my-option" select="(: option value :)" />
+        </x:call>
+        
+        <x:expect label="" port="result" select="(: expected value :)" />
+    </x:scenario>
+
+</x:description>

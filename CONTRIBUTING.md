@@ -18,6 +18,8 @@ All wiki contributions are submitted under the [Creative Commons 3.0 BY](https:/
 
 | Extension | Type                  |
 | --------- | --------------------- |
+| `sch`     | Schematron schema     |
+| `xpl`     | XProc 3 step/library  |
 | `xq`      | XQuery main module    |
 | `xqm`     | XQuery library module |
 | `xsl`     | XSLT stylesheet       |

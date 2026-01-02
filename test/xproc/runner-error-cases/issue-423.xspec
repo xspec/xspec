@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=The context item is absent?>
+<x:description xproc="../cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario>
+		<x:label>Suppose you want to select child::element() but forget to provide the
+			context (either embedded XML or @href)</x:label>
+		<x:call step="mirror:identity">
+			<x:input port="source" select="child::element()" />
+		</x:call>
+		<x:expect label="and you happen to expect 1" port="xproc-result" select="1" />
+	</x:scenario>
+</x:description>

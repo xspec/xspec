@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="test-target.xpl" xml:base="../../../tutorial/helper/ws-only-text/"
+	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+	xmlns:test-target="x-urn:tutorial:helper:ws-only-text:test-target"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Import the helper 'test-helper' XSLT module -->
+	<x:helper stylesheet="test-helper.xsl" />
+
+	<!-- XQuery helper is silently ignored -->
+	<x:helper query="x-urn:tutorial:helper:ws-only-text:test-helper" query-at="test-helper.xqm"/>
+
+	<!-- Scenarios are like those in href_xproc.xspec, except without ?xproc-result after the call
+		to the helper function -->
+
+	<!--
+		Scenarios without any helpers.
+		Note that you need to take whitespace-only text nodes into consideration, because @href
+		keeps whitespace-only text nodes intact.
+	-->
+	<x:scenario label="By default">
+		<x:scenario label="when @href is used for constructing an input">
+			<x:call step="test-target:my-step">
+				<!-- Set up a document node by loading an external document -->
+				<x:input port="source" href="input.xml" />
+			</x:call>
+
+			<x:expect port="result"
+				label="foo is renamed to bar. Whitespace-only text nodes including indentation are kept."
+				xml:space="preserve"><test>
+   <bar>&#x09;&#x0A;&#x0D;&#x20;</bar>
+</test></x:expect>
+		</x:scenario>
+
+		<x:scenario label="when @href is used for constructing an expectation">
+			<!-- Set up a document node containing whitespace-only text nodes -->
+			<x:call step="test-target:my-step">
+			    <x:input port="source" select="/" xml:space="preserve"><test>
+   <foo>&#x09;&#x0A;&#x0D;&#x20;</foo>
+</test></x:input>
+			</x:call>
+
+			<!-- Expect a document node by loading an external document -->
+			<x:expect port="result" href="expect.xml"
+				label="foo is renamed to bar. Whitespace-only text nodes including indentation are kept."
+			 />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Scenarios with the helper.
+		Note that you can forget about whitespace-only text nodes, because @href still keeps
+		whitespace-only text nodes intact but the helper function in @select removes them afterward.
+	-->
+	<x:scenario label="Use the helper">
+		<x:scenario label="for constructing an input">
+			<!-- Set up a document node by loading an external document and removing
+				whitespace-only text nodes from it -->
+			<x:call step="test-target:my-step">
+				<x:input port="source" href="input.xml"
+					select="test-helper:remove-whitespace-only-text(.)" />
+			</x:call>
+
+			<x:expect port="result" label="foo is renamed to bar. No whitespace-only text nodes.">
+				<test>
+					<bar />
+				</test>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="for constructing an expectation">
+			<!-- Set up a document node containing no whitespace-only text nodes -->
+			<x:call step="test-target:my-step">
+				<x:input port="source">
+					<test>
+						<foo />
+					</test>
+				</x:input>
+			</x:call>
+
+			<!-- Expect a document node by loading an external document and removing whitespace-only
+				text nodes from it -->
+			<x:expect port="result" href="expect.xml"
+				label="foo is renamed to bar. No whitespace-only text nodes."
+				select="test-helper:remove-whitespace-only-text(.)" />
+		</x:scenario>
+	</x:scenario>
+</x:description>
