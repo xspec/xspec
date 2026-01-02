@@ -50,6 +50,10 @@
 
 			<!-- Tests invalid @threads -->
 			<exclude name="test/threads/invalid/zero-length.xspec" />
+
+			<!-- Tests invalid use of p:document in tests for XProc -->
+			<exclude name="test/xproc/compiler-error-cases/p-document-*.xspec" />
+			<exclude name="test/xproc/compiler-error-cases/multiple-p-document-in-x-option.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
