@@ -13,7 +13,7 @@ jobs:
     if: github.repository == 'xspec/xspec'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - run: gpg --version
 
@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-java@v5
         with:
-          java-version: 8
+          java-version: 17
           distribution: temurin
           server-id: xspec-io.ossrh
           server-username: NEXUS_USERNAME

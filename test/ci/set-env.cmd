@@ -74,13 +74,6 @@ if defined XMLCALABASH_VERSION (
     set XMLCALABASH_JAR=
 )
 
-rem
-rem XML Calabash 3 jar for XProc 3
-rem Requires Java 11 or later
-rem
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
-if not errorlevel 1 set XMLCALABASH3_VERSION=
-
 if defined XMLCALABASH3_VERSION (
     rem Depends on the archive file structure
     set "XMLCALABASH3_DIR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%"
@@ -107,13 +100,6 @@ if defined SLF4J_VERSION (
 rem
 rem BaseX
 rem
-
-rem BaseX 12 requires Java 17
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
-if not errorlevel 1 set BASEX_VERSION=
-
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 11." > NUL
-if not errorlevel 1 set BASEX_VERSION=
 
 if defined BASEX_VERSION (
     rem Depends on the archive file structure
