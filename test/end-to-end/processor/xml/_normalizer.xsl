@@ -62,11 +62,12 @@
 		For simplicity, use only the filename and extension. Where the full base URI value is
 		significant, it is tested elsewhere.
 	-->
-	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:.+,')]"
+	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:')]"
 		mode="normalizer:normalize">
 		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri:")([^"]+)(")</xsl:variable>
 		<xsl:value-of>
-			<xsl:analyze-string select="." regex="{$pattern}">
+			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
+				regex="{$pattern}">
 				<xsl:matching-substring>
 					<xsl:sequence select="concat(
 						regex-group(1),
