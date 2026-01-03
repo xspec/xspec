@@ -201,7 +201,7 @@
             />
             <p:document>
                 <xsl:attribute name="xml:base" select="$new-xml-base"/>
-                <xsl:copy-of select="@* except (@xml:base, @port, @name)"/>
+                <xsl:copy-of select="@* except (@xml:base, @port, @name, @as)"/>
             </p:document>
         </xsl:for-each>
     </xsl:function>
