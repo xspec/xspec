@@ -30,7 +30,7 @@
                 test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document', '')"
                 select="'.xml'"/>
         </x:scenario>
-        <x:scenario label="@href pointing to a non-XML document (specific to XProc testing)">
+        <x:scenario label="@href pointing to a JSON document (specific to XProc testing)">
             <x:call step="mirror:identity">
                 <x:input port="source" href="document-object.json"/>
             </x:call>
@@ -43,6 +43,21 @@
                 port="xproc-result"
                 test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document-object', '')"
                 select="'.json'"/>
+        </x:scenario>
+        <x:scenario label="@href pointing to a non-XML HTML document (specific to XProc testing)">
+            <x:call step="mirror:identity">
+                <x:input port="source" href="document-not-xhtml.html"/>
+            </x:call>
+            <x:expect label="and the identity step returns the document" port="xproc-result">
+                <html xmlns="http://www.w3.org/1999/xhtml">...</html>
+            </x:expect>
+            <x:expect label="with content type 'text/html'." port="xproc-result"
+                test="$x:document-properties?(QName('', 'content-type'))"
+                select="'text/html'"/>
+            <x:expect label="Base URI is that of an HTML file (not .xsl or .xpl intermediate file)"
+                port="xproc-result"
+                test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document-not-xhtml', '')"
+                select="'.html'"/>
         </x:scenario>
         <x:scenario label="@href and @select">
             <x:call step="mirror:identity">

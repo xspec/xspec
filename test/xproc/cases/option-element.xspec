@@ -29,7 +29,7 @@
             </x:call>
             <x:like label="verify result document"/>
         </x:scenario>
-        <x:scenario label="@href pointing to a non-XML document (specific to XProc testing)">
+        <x:scenario label="@href pointing to a JSON document (specific to XProc testing)">
             <x:scenario label="Verify content">
                 <x:call step="mirror:option-value">
                     <x:option name="opt" href="document-object.json"/>
@@ -53,6 +53,33 @@
                 </x:call>
                 <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
                     select="'document-object.json'">
+                    <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="@href pointing to a non-XML HTML document (specific to XProc testing)">
+            <x:scenario label="Verify content">
+                <x:call step="mirror:option-value">
+                    <x:option name="opt" href="document-not-xhtml.html"/>
+                </x:call>
+                <x:expect label="from the file" port="xproc-result">
+                    <html xmlns="http://www.w3.org/1999/xhtml">...</html>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="Verify content type">
+                <x:call step="mirror:option-property">
+                    <x:option name="property-to-get" select="'content-type'"/>
+                    <x:option name="opt" href="document-not-xhtml.html"/>
+                </x:call>
+                <x:expect label="text/html" port="xproc-result" select="'text/html'"/>
+            </x:scenario>
+            <x:scenario label="Verify base URI">
+                <x:call step="mirror:option-property">
+                    <x:option name="property-to-get" select="'base-uri'"/>
+                    <x:option name="opt" href="document-not-xhtml.html"/>
+                </x:call>
+                <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                    select="'document-not-xhtml.html'">
                     <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
                 </x:expect>
             </x:scenario>

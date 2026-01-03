@@ -8,6 +8,19 @@
     <x:helper xproc="../../../tutorial/helper/document-nodes/test-helper-load.xpl"
         stylesheet="../../../tutorial/helper/document-nodes/test-helper-load.xsl"/>
 
+    <!-- This scenario demonstrates loading an HTML file using XPath functions, but when the
+        input port needs only external files, the following alternatives that get evaluated
+        in XProc (not XSLT/XPath) are simpler:
+        
+        <x:input port="source" href="document.html"/>
+
+        <x:input port="source">
+            <p:document href="document.html"/>
+        </x:input>
+        
+        Related tests: for @href pointing to non-XML file, see input-element.xspec;
+        for p:document children of x:input, see p-document-within-x-input.xspec.
+    -->
     <x:scenario label="Description from XHTML document">
         <x:call step="s:get-html-description">
             <x:input port="source" href="document-xhtml.html"/>
@@ -18,7 +31,7 @@
         <x:scenario label="using thd:load-via-xproc()">
             <x:call step="s:get-html-description">
                 <x:input port="source" select="thd:load-via-xproc('document-not-xhtml.html', $x:xspec-uri)"/>
-                <!-- Note: Don't use <x:input port="source" href="document-not-xhtml.html"/> for
+                <!-- Note: Don't use <x:input> with both href and select attributes, for
                     a non-well-formed HTML document (e.g., meta element missing end tag).
                     Also, the step being called expects HTML elements to be in the
                     http://www.w3.org/1999/xhtml namespace. -->
