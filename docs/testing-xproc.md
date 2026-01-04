@@ -65,17 +65,17 @@ map{'ports':
     'out1': (
       map{
         'document': document{<svg/>},
-        'document-properties': map{'content-type': 'image/svg+xml'}
+        'document-properties': map{QName('', 'content-type'): 'image/svg+xml'}
       },
       map{
         'document': document{<foo/>},
-        'document-properties': map{'content-type': 'application/xml'}
+        'document-properties': map{QName('', 'content-type'): 'application/xml'}
       }
     ),
     'output-port2': (
       map{
         'document': 0,
-        'document-properties': map{'content-type': 'application/json'}
+        'document-properties': map{QName('', 'content-type'): 'application/json'}
       }
     )
   }
