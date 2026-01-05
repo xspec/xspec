@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Calling a standard step, not one in the x:description/@xproc file,'): Cannot find step Q{http://www.w3.org/ns/xproc}identity.?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../cases/library.xpl">
+
+    <x:scenario label="Calling a standard step, not one in the x:description/@xproc file,">
+        <x:call step="p:identity">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="should raise an error" port="result">
+            <my-source/>
+        </x:expect>
+    </x:scenario>
+</x:description>

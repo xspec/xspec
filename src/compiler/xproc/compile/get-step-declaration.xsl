@@ -68,7 +68,7 @@
     <xsl:template match="/p:library" mode="local:gather-steps">
         <xsl:apply-templates select="(p:declare-step[@type], p:import)" mode="#current"/>
     </xsl:template>
-    <xsl:template match="p:declare-step" mode="local:gather-steps">
+    <xsl:template match="p:declare-step[not(@visibility eq 'private')]" mode="local:gather-steps">
         <xsl:copy>
             <xsl:attribute name="type" select="x:UQName-of-step(./@type)"/>
             <xsl:sequence select="@use-when"/>

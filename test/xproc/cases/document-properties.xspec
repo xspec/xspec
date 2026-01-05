@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+<x:description xmlns:c="http://www.w3.org/ns/xproc-step"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -54,9 +55,17 @@
                 <x:expect label="The first map has a document and its properties."
                     test="map:keys($x:result?ports?out1[1]) => sort()"
                     select="('document', 'document-properties')"/>
+                <x:expect label="The first map provides access to the document."
+                    test="$x:result?ports?out1[1]?document" select="/">
+                    <doc1/>
+                </x:expect>
                 <x:expect label="The second map has a document and its properties."
                     test="map:keys($x:result?ports?out1[2]) => sort()"
                     select="('document', 'document-properties')"/>
+                <x:expect label="The second map provides access to the document."
+                    test="$x:result?ports?out1[2]?document" select="/">
+                    <doc2/>
+                </x:expect>
                 <x:expect
                     test="map:keys($x:result?ports?out1[1]?document-properties) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
@@ -75,6 +84,10 @@
                 <x:expect label="The map has a document and its properties."
                     test="map:keys($x:result?ports?out2) => sort()"
                     select="('document', 'document-properties')"/>
+                <x:expect label="The map provides access to the document."
+                    test="$x:result?ports?out2?document" select="/">
+                    <c:result>2</c:result>
+                </x:expect>
                 <x:expect
                     test="map:keys($x:result?ports?out2?document-properties) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">

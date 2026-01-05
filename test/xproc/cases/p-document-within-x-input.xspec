@@ -13,6 +13,7 @@
                 <p:document href="document.csv"/>
                 <p:document href="document-array.json"/>
                 <p:document href="document-object.json"/>
+                <p:document href="document-image.svg"/>
             </x:input>
         </x:call>
         <x:expect port="xproc-result"
@@ -25,7 +26,8 @@
             'document.txt',
             'document.csv',
             'document-array.json',
-            'document-object.json'
+            'document-object.json',
+            'document-image.svg'
             )">
             <x:label>retains base URIs of documents, not .xsl or .xpl intermediate file</x:label>
         </x:expect>
@@ -38,7 +40,8 @@
             'text/plain',
             'text/csv',
             'application/json',
-            'application/json'
+            'application/json',
+            'image/svg+xml'
             )">
             <x:label>retains content types of documents</x:label>
         </x:expect>

@@ -86,6 +86,17 @@
                 <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
             </x:expect>
         </x:scenario>
+        <x:scenario label="For SVG file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-image.svg"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-image.svg'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Content type, when x:option has child p:document element,">
@@ -159,6 +170,16 @@
                 </x:option>
             </x:call>
             <x:expect port="xproc-result" select="'application/json'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For SVG file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-image.svg"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'image/svg+xml'">
                 <x:label>reflects the document's content type</x:label>
             </x:expect>
         </x:scenario>

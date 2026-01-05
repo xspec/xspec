@@ -41,6 +41,7 @@ The XSpec processing must be able to:
 7. Can't verify informational messages that go to the console (e.g., `@message`). You can verify dynamic errors, though.
 8. If a step has `use-when` on any child `<p:input>` element, XSpec doesn't know whether that input port is actually part of the step. Not sure if this limitation can be removed; for now, XSpec displays a warning and proceeds as if the `use-when` expression is true.
 9. Can't specify configuration of the XProc processor on a per-scenario basis.
+10. Can't provide a value for a static XProc option.
 
 ## Vocabulary and Markup Design
 
@@ -144,5 +145,4 @@ When running the test via XProc, XSpec generates a step that has the `<p:import>
 1. Does the markup design reflect reasonable choices about where to align with XSpec markup and where to align with XProc markup? In particular, does it make sense to permit `<p:document>` within `<x:input>` or `<x:option>`?
 1. Would supporting `<p:inline>` within `<x:input>` or `<x:option>` also be desirable (and if so, would value template behavior be confusing, i.e., should curly-braced enclosed expressions be evaluated in XSLT or XProc)?
 1. Is the ability to omit `select="/"` on `<x:expect>` elements that meet certain criteria useful for conciseness or is it confusing/mysterious?
-1. Does an XSpec test suite need the ability to provide a value for a static XProc option in a library? I'm not sure if it's possible, but I can explore if needed.
 1. Are there considerations that need attention that I might not have thought of?

@@ -36,6 +36,7 @@
                         <p:output port="result"/>
                         <p:identity/>
                     </p:declare-step>
+                    <p:declare-step type="loc-p:step3" visibility="private"/>
                 </p:library>
             </x:context>
             <x:expect>
@@ -57,6 +58,8 @@
             </x:expect>
             <x:expect label="Substeps are not included."
                 test="empty($x:result/self::p:declare-step[ends-with(@type,'substep')])"/>
+            <x:expect label="Private steps are not included."
+                test="empty($x:result/self::p:declare-step[ends-with(@type,'step3')])"/>
             <x:expect label="Default documents on input ports are not included."
                 test="empty($x:result/descendant::p:input[*])"/>
         </x:scenario>

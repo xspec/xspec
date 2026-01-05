@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This test suite uses invalid markup and is mostly pending. The purpose is to illustrate a
+    possible future enhancement in which an <x:option name="..." static="true"> child of
+    <x:scenario> specifies a value for a static option that is visible from the test target. If
+    implementing such a future enhancement, update test/schema/build.xml to remove the exclusion
+    for this file. -->
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xproc="library-static-options.xpl">
-    <x:scenario label="When global library option is false"
-        pending="TODO: Are static options accessible in testing?">
-        <x:scenario label="and local step option is true">
-            <x:call step="s:add-attrs-maybe">
-                <!--<x:option name="s:add-attr" select="false()"/>-->
-                <x:option name="local-add-attr" select="true()"/>
-            </x:call>
-            <x:expect label="Output document has local attribute only" port="result"
-                pending="Should this work? See comment at URL shown below.">
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-static-options.xpl">
+    <x:scenario label="When global library option is false (default)">
+        <x:scenario label="and local step option is true"
+            pending="Static options are not currently modifiable from XSpec">
+            <x:option name="local-add-attr" select="true()" static="true"/>
+            <x:call step="s:add-attrs-maybe"/>
+            <x:expect label="Output document has local attribute only" port="result">
                 <document local="1"/>
             </x:expect>
         </x:scenario>
-        <x:scenario label="and local step option is false">
-            <x:call step="s:add-attrs-maybe">
-                <!--<x:option name="s:add-attr" select="false()"/>-->
-                <x:option name="local-add-attr" select="false()"/>
-            </x:call>
+        <x:scenario label="and local step option is false (default)">
+            <x:call step="s:add-attrs-maybe"/>
             <x:expect label="Output document has no attributes" port="result">
                 <document/>
             </x:expect>
         </x:scenario>
     </x:scenario>
-    <x:pending>
-        <x:label>Should this work? See comment in
-            https://codeberg.org/xmlcalabash/xmlcalabash3/issues/380#issuecomment-8629107</x:label>
-        <x:scenario label="When global library option is true">
-            <x:scenario label="and local step option is true">
-                <x:call step="s:add-attrs-maybe">
-                    <x:option name="s:add-attr" select="true()"/>
-                    <x:option name="local-add-attr" select="true()"/>
-                </x:call>
-                <x:expect label="Output document has global and local attributes" port="result">
-                    <document global="1" local="1"/>
-                </x:expect>
-            </x:scenario>
-            <x:scenario label="and local step option is false">
-                <x:call step="s:add-attrs-maybe">
-                    <x:option name="s:add-attr" select="true()"/>
-                    <x:option name="local-add-attr" select="true()"/>
-                </x:call>
-                <x:expect label="Output document has global attribute only" port="result">
-                    <document global="1"/>
-                </x:expect>
-            </x:scenario>
+    <x:scenario label="When global library option is true"
+        pending="Static options are not currently modifiable from XSpec">
+        <x:option name="s:add-attr" select="true()" static="true"/>
+        <x:scenario label="and local step option is true">
+            <x:option name="local-add-attr" select="true()" static="true"/>
+            <x:call step="s:add-attrs-maybe"/>
+            <x:expect label="Output document has global and local attributes" port="result">
+                <document global="1" local="1"/>
+            </x:expect>
         </x:scenario>
-    </x:pending>
+        <x:scenario label="and local step option is false">
+            <x:option name="local-add-attr" select="false()" static="true"/>
+            <x:call step="s:add-attrs-maybe"/>
+            <x:expect label="Output document has global attribute only" port="result">
+                <document global="1"/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
 </x:description>
