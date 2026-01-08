@@ -154,6 +154,7 @@ rem ##
 
 :preprocess_schematron-xqs
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
+    if not defined XQS_HOME_URI set "XQS_HOME_URI=../../lib/XQS/"
     echo:
     echo Converting Schematron XSpec into XQuery XSpec...
     call :xslt -o:"%SCH_PREPROCESSED_XSPEC%" ^
@@ -161,6 +162,7 @@ rem ##
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
         stylesheet-uri="irrelevant for XQS but make it nonempty" ^
         sch-impl-name="xqs" ^
+        xqs-home="%XQS_HOME_URI%" ^
         || ( call :die "Error converting Schematron XSpec into XQuery XSpec" & goto :win_main_error_exit )
     set "XSPEC=%SCH_PREPROCESSED_XSPEC%"
     echo:
