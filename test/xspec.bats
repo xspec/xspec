@@ -1521,12 +1521,12 @@ load bats-helper
 
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
-        -catalog "${space_dir}/03/catalog-rewriteURI.xml" \
+        -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
         -s \
         "${space_dir}/catalog-03_schematron-xqs.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
-    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1570,12 +1570,12 @@ load bats-helper
     fi
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
-        -catalog "file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
         -s \
         catalog/catalog-03_schematron-xqs.xspec
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
-    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
