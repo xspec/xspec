@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- To test catalog and URI, every file URI in this XSpec file must be "catalog-xqs:" -->
 <x:description xmlns:mirror="x-urn:test:mirror" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     schematron="catalog-xqs:/schematron-via-catalog-xqs.sch">
