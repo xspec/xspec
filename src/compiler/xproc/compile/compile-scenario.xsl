@@ -296,9 +296,6 @@
          <xsl:when test="exists($element/p:document)">
             <xsl:sequence select="'xproc'"/>
          </xsl:when>
-         <xsl:when test="exists($element/@href) and empty($element/@select) and empty($element/node())">
-            <xsl:sequence select="'xproc'"/>
-         </xsl:when>
          <xsl:otherwise>
             <xsl:sequence select="'xslt'"/>
          </xsl:otherwise>

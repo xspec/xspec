@@ -9,7 +9,7 @@
                 <p:document href="path/to/data.json"/>
                 <p:document href="path/to/text.txt"/>
             </x:input>
-            <x:input port="in3" href="path/to/data.json"/>
+            <x:input port="in3" href="path/to/data.xml"/>
         </x:call>
         <x:expect label="Verify out1" port="out1">in1 document</x:expect>
         <x:expect label="Verify out2" port="out2">in2 document</x:expect>

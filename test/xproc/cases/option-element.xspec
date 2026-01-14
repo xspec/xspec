@@ -29,39 +29,14 @@
             </x:call>
             <x:like label="verify result document"/>
         </x:scenario>
-        <x:scenario label="@href pointing to a JSON document (specific to XProc testing)">
-            <x:scenario label="Verify content">
-                <x:call step="mirror:option-value">
-                    <x:option name="opt" href="document-object.json"/>
-                </x:call>
-                <x:expect label="from the file" port="xproc-result"
-                    select="map{ 'key1': 'val1', 'key2': 2 }"/>
-            </x:scenario>
-            <x:scenario label="Verify content type">
-                <x:call step="mirror:option-property">
-                    <x:option name="property-to-get" select="'content-type'"/>
-                    <x:option name="opt" href="document-object.json"/>
-                </x:call>
-                <x:expect label="application/json" port="xproc-result" select="'application/json'"/>
-            </x:scenario>
-            <x:scenario label="Verify base URI">
-                <x:call step="mirror:option-property">
-                    <x:option name="property-to-get" select="'base-uri'"/>
-                    <x:option name="opt" href="document-object.json"/>
-                </x:call>
-                <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
-                    select="'document-object.json'">
-                    <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
-                </x:expect>
-            </x:scenario>
-        </x:scenario>
         <x:scenario label="@href pointing to a non-XML HTML document (specific to XProc testing)">
             <x:scenario label="Verify content">
                 <x:call step="mirror:option-value">
                     <x:option name="opt" href="document-not-xhtml.html"/>
                 </x:call>
-                <x:expect label="from the file" port="xproc-result">
-                    <html xmlns="http://www.w3.org/1999/xhtml">...</html>
+                <x:expect label="from the file" port="xproc-result" select="/">
+                    <!--...-->
+                    <html>...</html>
                 </x:expect>
             </x:scenario>
             <x:scenario label="Verify content type">
@@ -69,7 +44,8 @@
                     <x:option name="property-to-get" select="'content-type'"/>
                     <x:option name="opt" href="document-not-xhtml.html"/>
                 </x:call>
-                <x:expect label="text/html" port="xproc-result" select="'text/html'"/>
+                <x:expect label="application/xml (loading happens in XSLT, not XProc)"
+                    port="xproc-result" select="'application/xml'"/>
             </x:scenario>
             <x:scenario label="Verify base URI">
                 <x:call step="mirror:option-property">
@@ -82,7 +58,7 @@
                 </x:expect>
             </x:scenario>
         </x:scenario>
-        <x:scenario label="@href pointing to an SVG document (specific to XProc testing)">
+        <x:scenario label="@href pointing to an SVG document">
             <x:scenario label="Verify content">
                 <x:call step="mirror:option-value">
                     <x:option name="opt" href="document-image.svg"/>
@@ -96,7 +72,8 @@
                     <x:option name="property-to-get" select="'content-type'"/>
                     <x:option name="opt" href="document-image.svg"/>
                 </x:call>
-                <x:expect label="image/svg+xml" port="xproc-result" select="'image/svg+xml'"/>
+                <x:expect label="application/xml (loading happens in XSLT, not XProc)"
+                    port="xproc-result" select="'application/xml'"/>
             </x:scenario>
             <x:scenario label="Verify base URI">
                 <x:call step="mirror:option-property">

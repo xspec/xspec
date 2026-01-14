@@ -39,37 +39,10 @@
 				<x:label>node-selection @href is always intact. So, in
 					//x:call[@step]/x:input/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
 				<x:call step="mirror:identity">
-					<x:input port="source" href="ws-only-text.xml" select="/" />
+					<x:input port="source" href="ws-only-text.xml" />
 				</x:call>
 				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
 					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />
-			</x:scenario>
-
-            <x:scenario>
-            	<!-- XProc-specific -->
-            	<x:label>When x:input[@href][not(@select)] causes XML document to be loaded by
-            		XProc processor instead of XSLT processor,</x:label>
-            	<x:call step="mirror:identity">
-            		<x:input port="source" href="ws-only-text.xml" />
-            	</x:call>
-            	<x:expect port="xproc-result"
-            		label="whitespace-only text nodes are kept (as in XSLT processor case)."
-            		test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />            	
-            </x:scenario>
-
-			<x:scenario>
-				<!-- XProc-specific -->
-				<x:label>When x:input[@href][not(@select)] causes HTML document to be loaded by
-					XProc processor instead of XSLT processor,</x:label>
-				<x:call step="mirror:identity">
-					<x:input port="source" href="ws-only-text.html" />
-				</x:call>
-				<x:expect port="xproc-result"
-					label="whitespace-only text nodes are kept."
-					test="deep-equal(
-					$x:result//html:span/node(),
-					$ws-only-text:span-element-wsot/span/node()
-					)" />            	
 			</x:scenario>
 
 			<x:scenario>
@@ -161,7 +134,7 @@
 				<x:label>node-selection @href is always intact. So, in
 					//x:call[@step]/x:option/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
 				<x:call step="mirror:option-value">
-					<x:option name="opt" href="ws-only-text.xml" select="/" />
+					<x:option name="opt" href="ws-only-text.xml" />
 				</x:call>
 				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
 					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />
@@ -177,21 +150,6 @@
 				<x:expect port="xproc-result"
 					label="whitespace-only text nodes are kept (as in XSLT processor case)."
 					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />            	
-			</x:scenario>
-			
-			<x:scenario>
-				<!-- XProc-specific -->
-				<x:label>When x:option[@href][not(@select)] causes HTML document to be loaded by
-					XProc processor instead of XSLT processor,</x:label>
-				<x:call step="mirror:option-value">
-					<x:option name="opt" href="ws-only-text.html" />
-				</x:call>
-				<x:expect port="xproc-result"
-					label="whitespace-only text nodes are kept."
-					test="deep-equal(
-					$x:result//html:span/node(),
-					$ws-only-text:span-element-wsot/span/node()
-					)" />            	
 			</x:scenario>
 
 			<x:scenario>

@@ -57,12 +57,6 @@
                                 <xsl:sequence select="local:create-p-document(p:document)"/>
                           </p:with-input>
                         </xsl:when>
-                        <xsl:when test="x:evaluate-in(.) eq 'xproc'">
-                            <!-- Convert to p:document for evaluation in XProc. -->
-                            <p:with-input port="{@port}">
-                                <xsl:sequence select="local:create-p-document(.)"/>
-                            </p:with-input>
-                        </xsl:when>
                         <xsl:otherwise>
                             <!-- Documents are prepared in XSLT. Retrieve them from map. -->
                             <p:with-input port="{@port}" select="$map-of-inputs?{@port}">
@@ -105,12 +99,6 @@
                                 in XProc. -->
                             <p:with-option name="{$option-name-escaped}" select=".">
                                 <xsl:sequence select="local:create-p-document(p:document)"/>
-                            </p:with-option>
-                        </xsl:when>
-                        <xsl:when test="x:evaluate-in(.) eq 'xproc'">
-                            <!-- Convert to p:document for evaluation in XProc. -->
-                            <p:with-option name="{$option-name-escaped}" select=".">
-                                <xsl:sequence select="local:create-p-document(.)"/>
                             </p:with-option>
                         </xsl:when>
                         <xsl:otherwise>
@@ -183,15 +171,13 @@
     </xsl:template>
 
     <!-- Create <p:document> element to insert in wrapper step.
-        Arguments can be any of the following:
+        Argument can be any of the following:
         - One or more x:input/p:document element
         - One or more x:option/p:document element
-        - One x:input[@href] element satisfying x:evaluate-in(.) eq 'xproc'
-        - One x:option[@href] element satisfying x:evaluate-in(.) eq 'xproc'
     -->
     <xsl:function name="local:create-p-document" as="element(p:document)+">
-        <xsl:param name="p-document-or-href-shortcut" as="element()+"/>
-        <xsl:for-each select="$p-document-or-href-shortcut">
+        <xsl:param name="p-document" as="element(p:document)+"/>
+        <xsl:for-each select="$p-document">
             <xsl:variable name="new-xml-base" as="xs:anyURI" select="
                 if (exists(@xml:base))
                 then
@@ -199,10 +185,10 @@
                 else
                 $initial-document-actual-uri"
             />
-            <p:document>
+            <xsl:copy copy-namespaces="yes">
                 <xsl:attribute name="xml:base" select="$new-xml-base"/>
                 <xsl:copy-of select="@* except (@xml:base, @port, @name, @as)"/>
-            </p:document>
+            </xsl:copy>
         </xsl:for-each>
     </xsl:function>
 

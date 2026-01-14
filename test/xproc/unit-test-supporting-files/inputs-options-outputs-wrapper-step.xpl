@@ -15,8 +15,8 @@
             <p:document href="path/to/data.json" xml:base="..."/>
             <p:document href="path/to/text.txt" xml:base="..."/>
         </p:with-input>
-        <p:with-input port="in3">
-            <p:document href="path/to/data.json" xml:base="..."/>
+        <p:with-input port="in3" select="$map-of-inputs?in3">
+            <p:inline/>
         </p:with-input>
     </s:inputs-options-outputs>
     <p:count limit="1" name="COUNT_out1">
