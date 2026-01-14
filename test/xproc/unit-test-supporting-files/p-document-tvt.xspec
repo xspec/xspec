@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:inputs-options-outputs"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="inputs-options-outputs.xpl">
+
+    <!-- This file verifies that @expand-text on an XSpec element has no effect on
+        expressions within p:document -->
+    <x:scenario label="Call a step">
+        <x:call step="s:inputs-options-outputs">
+            <x:input port="in1" expand-text="yes">
+                <p:document href="path/to/data.json">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+                <p:document href="path/to/data.json" expand-text="yes">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+                <p:document href="path/to/data.json" expand-text="no">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+            </x:input>
+            <x:input port="in2" expand-text="no">
+                <p:document href="path/to/data.json">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+                <p:document href="path/to/data.json" expand-text="yes">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+                <p:document href="path/to/data.json" expand-text="no">
+                    <p:pipeinfo>}}{false()}{{</p:pipeinfo>
+                </p:document>
+            </x:input>
+            <x:input port="in3">Text</x:input>
+        </x:call>
+        <x:expect label="q"/>
+    </x:scenario>
+</x:description>

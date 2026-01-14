@@ -37,8 +37,8 @@
                 <xsl:iterate select="$call/x:input">
                     <xsl:choose>
                         <xsl:when test="exists(p:document) and (
-                            exists(*[not(self::p:document)] | @href | @select | @as) or
-                            (normalize-space(.) ne '')
+                            exists(*[not(self::p:document)] | @href | @select | @as |
+                            text()[normalize-space(.) ne ''])
                             )">
                             <xsl:message terminate="yes">
                                 <xsl:call-template name="x:prefix-diag-message">
@@ -72,8 +72,8 @@
                         select="local:escape-curly-braces($option-UQName)"/>
                     <xsl:choose>
                         <xsl:when test="exists(p:document) and (
-                            exists(*[not(self::p:document)] | @href | @select | @as) or
-                            (normalize-space(.) ne '')
+                            exists(*[not(self::p:document)] | @href | @select | @as |
+                            text()[normalize-space(.) ne ''])
                             )">
                             <xsl:message terminate="yes">
                                 <xsl:call-template name="x:prefix-diag-message">
@@ -98,6 +98,14 @@
                             <!-- Pass x:option/p:document, except @xml:base, for evaluation
                                 in XProc. -->
                             <p:with-option name="{$option-name-escaped}" select=".">
+                                <xsl:if test="count(p:document) eq 1">
+                                    <!-- <p:with-option name="..." select="."> would raise error
+                                        about missing context if the only child is excluded due
+                                        to p:document/@use-when. So, copy that attribute to
+                                        p:with-option. TODO: Revisit if supporting multiple
+                                        x:option/p:document elements in the future. -->
+                                    <xsl:sequence select="p:document/@use-when"/>
+                                </xsl:if>
                                 <xsl:sequence select="local:create-p-document(p:document)"/>
                             </p:with-option>
                         </xsl:when>
@@ -189,6 +197,7 @@
                 <xsl:attribute name="xml:base" select="$new-xml-base"/>
                 <xsl:apply-templates select="@* except (@xml:base, @port, @name, @as)"
                     mode="in-p-document"/>
+                <xsl:apply-templates mode="in-p-document"/>
             </xsl:copy>
         </xsl:for-each>
     </xsl:function>
@@ -201,8 +210,10 @@
 
     <!-- Attributes need to have curly braces doubled when creating <p:document>
         in XSLT variable. -->
-    <xsl:mode name="in-p-document" on-no-match="fail"/>
-    <xsl:template match="attribute()" mode="in-p-document">
-        <xsl:attribute name="{name(.)}" select="local:escape-curly-braces(.)"/>
+    <xsl:mode name="in-p-document" on-no-match="shallow-copy"/>
+    <xsl:template match="attribute()" mode="in-p-document" as="attribute()">
+        <xsl:attribute name="{name(.)}" namespace="{namespace-uri(.)}"
+            select="local:escape-curly-braces(.)"/>
     </xsl:template>
+    <xsl:template match="p:document/text()" mode="in-p-document" as="empty-sequence()"/>
 </xsl:stylesheet>

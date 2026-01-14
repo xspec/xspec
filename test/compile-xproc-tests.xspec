@@ -47,6 +47,36 @@
       </t:expect>
    </t:scenario>
 
+   <t:scenario label="When compiling a scenario with $run-sut-now true,">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:scenario" />
+      <t:call template="t:compile-scenario">
+         <t:param name="call" select="$t:context//t:call" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
+         <t:param name="run-sut-now" select="true()" />
+      </t:call>
+      <t:expect
+         test="//xsl:variable[@name='Q{http://www.jenitennison.com/xslt/xspec}result']">
+         <t:label>The compiler produces the x:result variable. It defines input and option values,
+            defines the wrapper step for this x:call, and uses the final xsl:sequence to call the
+            step runner.</t:label>
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
+               as="item()*">
+               <xsl:variable name="..." select="1"><!--source input--></xsl:variable>
+               <xsl:variable name="..." select="2"><!--aux input--></xsl:variable>
+               <xsl:variable name="..." select="1"><!--ex:option1 option--></xsl:variable>
+               <xsl:variable name="..." select="..."><!--ex:option2 option--></xsl:variable>
+               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}wrapper-step-based-on-x-call"
+                  as="element()" expand-text="no">
+                  <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
+                     version="3.1">...</p:declare-step>
+               </xsl:variable>
+               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}options-for-step-function"
+                  as="map(*)" select="..." />
+               <xsl:sequence select="..." />
+            </xsl:variable>
+      </t:expect>
+   </t:scenario>
    <!--
        <t:expect/>
        

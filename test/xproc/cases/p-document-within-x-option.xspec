@@ -185,6 +185,24 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="x:option/p:document/p:documentation and x:option/p:document/p:pipeinfo">
+        <x:call step="mirror:option-value">
+            <x:option name="opt">
+                <p:document href="document.xml">
+                    <p:documentation>
+                        <element attr="arbitrary">Text</element>
+                    </p:documentation>
+                    <p:pipeinfo>
+                        <element attr="arbitrary">Text</element>
+                    </p:pipeinfo>
+                </p:document>
+            </x:option>
+        </x:call>
+        <x:expect port="xproc-result" label="are allowed">
+            <document/>
+        </x:expect>
+    </x:scenario>
+
     <x:scenario label="Spot-check attributes of child p:document">
         <x:scenario label="content-type attribute">
             <x:call step="mirror:option-property">
@@ -247,6 +265,16 @@
             <x:expect label="works" port="xproc-result">
                 <document/>
             </x:expect>
+        </x:scenario>
+        <x:scenario label="use-when attribute to be evaluated in XProc">
+            <x:call step="mirror:option-value">
+                <x:option name="opt">
+                    <!-- The p:system-property() function is available in XProc but not XSLT --> 
+                    <p:document href="document.xml"
+                        use-when="empty(p:system-property('p:episode'))"/>
+                </x:option>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" select="'default'"/>
         </x:scenario>
     </x:scenario>
 </x:description>

@@ -12,8 +12,17 @@
             <p:inline/>
         </p:with-input>
         <p:with-input port="in2">
-            <p:document href="path/to/data.json" xml:base="..."/>
-            <p:document href="path/to/text.txt" xml:base="..." document-properties="..."/>
+            <p:document href="path/to/data.json" xml:base="..."
+                parameters="map{{'cx:extension': true()}}" cx:another-extension="{{'x'}}"
+                xmlns:cx="http://xmlcalabash.com/ns/extensions"/>
+            <p:document href="path/to/text.txt" xml:base="..." document-properties="...">
+                <p:pipeinfo>
+                    <element attr="{{'arbitrary'}}">Text</element>
+                </p:pipeinfo>
+                <p:documentation>
+                    <element attr="arbitrary">Text</element>
+                </p:documentation>
+            </p:document>
         </p:with-input>
         <p:with-input port="in3" select="$map-of-inputs?in3">
             <p:inline/>

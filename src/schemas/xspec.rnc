@@ -5,6 +5,7 @@
 default namespace x = "http://www.jenitennison.com/xslt/xspec"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace p = "http://www.w3.org/ns/xproc"
+namespace local = ""
 
 start = description
 
@@ -312,32 +313,63 @@ function-param-base = common-attributes, name?, selection
 function-params = element param { function-param-base }* |
                   element param { function-param-base, position }*
 
-## Input to pass to an XProc step
-step-input = element input { common-attributes,
+step-input =
+    ## Input to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc (recommended). Alternatively, provide
+    ## arbitrary content and/or attributes href, select, or as; the
+    ## current implementation evaluates them in XSLT.
+    element input { common-attributes,
                               port-name,
                               (selection | p-document+) }
 
-## Adapted from xproc31.rnc
-## Omitting @use-when, @expand-text, extension attributes,
-## p:documentation and p:pipeInfo.
-p-document = element p:document { p-document-attributes }
+## Adapted from xproc31.rnc.
+p-document =
+    ## Load XML or non-XML document using XProc processor.
+    element p:document { p-document-attributes }
 p-document-attributes =  href.attr,
     attribute content-type { text }?,
     document-properties.attr?,
     attribute parameters { PropertyMap }?,
-    xml-ns-attributes
-href.attr = attribute href { xsd:anyURI }
+    common-attributes,
+    use-when.attr?,
+    extension.attr*,
+    (Documentation | PipeInfo)*
+href.attr =
+    ## The document URI (location) of the selected XML or non-XML document.
+    attribute href { xsd:anyURI }
+use-when.attr =
+    ## XPath expression for XProc conditional element exclusion. The condition
+    ## is evaluated statically in XProc. 
+    attribute use-when { xpath }
 document-properties.attr = attribute document-properties { PropertyMap }
 PropertyMap = text
+extension.attr = attribute * - (local:* | xml:* | p:*) { text }
+Documentation =
+    element p:documentation {
+        xml-ns-attributes, extension.attr*, DocContent*
+    }
+PipeInfo =
+    element p:pipeinfo { xml-ns-attributes, extension.attr*, DocContent* }
+DocContent = Any
+Any =
+    element * { (_any.attr | Any)* }
+    | text
+_any.attr = attribute * { text }
 
-## Option to pass to an XProc step
-step-option = element option { common-attributes, 
+step-option =
+    ## Option to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc. Alternatively, provide arbitrary content
+    ## and/or attributes href, select, or as; the current
+    ## implementation evaluates them in XSLT.
+    element option { common-attributes, 
                               name,
                               (selection | p-document) }
 
 name = attribute name { eqname.datatype }
 
-port-name = attribute port { xsd:NCName }
+port-name =
+    ## Name of XProc port.
+    attribute port { xsd:NCName }
 
 position = attribute position { xsd:positiveInteger }
 
@@ -346,7 +378,7 @@ as = attribute as { text }
 selection = as?, (node-selection | value-selection)
 
 node-selection = (
-                 ## The document URI (location) of the selected document.
+                 ## The document URI (location) of the selected XML document.
                  attribute href { xsd:anyURI }
                  | user-content
                  ),

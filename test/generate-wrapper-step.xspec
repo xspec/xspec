@@ -63,4 +63,32 @@
             <x:expect label="returns the argument unchanged" select="'prefix:option-name'"/>
         </x:scenario>
     </x:scenario>
+
+    <x:scenario label="Details about mode=in-p-document">
+        <x:scenario label="p:document element">
+            <x:context mode="in-p-document"
+                href="xproc/unit-test-supporting-files/inputs-options-outputs.xspec"
+                select="//p:document[@href='path/to/text.txt']"/>
+            <x:expect label="Curly braces are doubled in attribute values"
+                test="//p:pipeinfo/element/@attr/string()" as="xs:string">{{'arbitrary'}}</x:expect>
+            <x:expect label="Text node children of p:document are discarded"
+                test="empty(//p:document/text())"/>
+        </x:scenario>
+        <x:scenario label="Whitespace within p:pipeinfo element">
+            <x:context mode="in-p-document">
+                <p:pipeinfo><span><x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text></span></p:pipeinfo>
+            </x:context>
+            <x:expect label="is preserved (XSpec can't tell if it's significant)"
+                test="//p:pipeinfo/span" href="ws-only-text.xml" select="/span"/>
+        </x:scenario>
+        <x:scenario label="Curly braces within p:pipeinfo element">
+            <x:context mode="in-p-document"
+                href="xproc/unit-test-supporting-files/p-document-tvt.xspec" select="//p:document"/>
+            <x:expect href="xproc/unit-test-supporting-files/p-document-tvt.xspec"
+                select="test-helper:remove-whitespace-only-text(/)//p:document">
+                <x:label>are passed through literally, regardless of @expand-text on XSpec ancestry,
+                    p:document, or a descendant</x:label>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
 </x:description>

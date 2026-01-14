@@ -5,9 +5,13 @@
     <x:scenario label="Call a step">
         <x:call step="s:inputs-options-outputs">
             <x:input port="in1">in1 document</x:input>
-            <x:input port="in2">
-                <p:document href="path/to/data.json"/>
-                <p:document href="path/to/text.txt" document-properties="map{'a': '}}{false()}{{'}"/>
+            <x:input port="in2" xmlns:cx="http://xmlcalabash.com/ns/extensions">
+                <p:document href="path/to/data.json" parameters="map{'cx:extension': true()}"
+                    cx:another-extension="{'x'}"/>
+                <p:document href="path/to/text.txt" document-properties="map{'a': '}}{false()}{{'}">
+                    <p:pipeinfo><element attr="{'arbitrary'}">Text</element></p:pipeinfo>
+                    <p:documentation><element attr="arbitrary">Text</element></p:documentation>
+                </p:document>
             </x:input>
             <x:input port="in3" href="path/to/data.xml"/>
         </x:call>

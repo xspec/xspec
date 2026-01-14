@@ -171,7 +171,13 @@
                   </xsl:for-each>
                   <!-- Set up variable for the generated XProc step that p:run will use to invoke the test target -->
                   <xsl:for-each select="$call">
-                     <variable name="{x:known-UQName('impl:wrapper-step-based-on-x-call')}" as="element()">                     
+                     <variable name="{x:known-UQName('impl:wrapper-step-based-on-x-call')}"
+                        as="element()" expand-text="no">
+                        <!-- expand-text="no" is so that XSLT TVT behavior doesn't interfere with
+                           TVT behavior occurring in XProc when the wrapper step is evaluated.
+                           Users can still have x:input/p:document/p:pipeinfo[@expand-text='yes'],
+                           for instance, and XSpec preserves curly braces in p:pipeinfo for
+                           evaluation by the XProc processor. -->
                         <xsl:call-template name="wrapper-step-based-on-x-call">
                            <xsl:with-param name="parent-scenario" select="$this-scenario"/>
                         </xsl:call-template>
