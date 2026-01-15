@@ -4,14 +4,18 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="inputs-options-outputs.xpl">
     <x:scenario label="Call a step">
         <x:call step="s:inputs-options-outputs">
-            <x:input port="in1">in1 document</x:input>
+            <x:input port="in1">
+                <element attr="1"/>
+            </x:input>
             <x:input port="in2">
                 <p:document href="path/to/data.json"/>
-                <p:document href="path/to/text.txt" document-properties="map{'a': '}}{false()}{{'}"/>
             </x:input>
-            <x:input port="in3" href="path/to/data.xml"/>
+            <x:option name="opt1">
+                <element attr="1"/>
+            </x:option>
+            <x:option name="opt2">
+                <p:document href="path/to/data.json"/>
+            </x:option>
         </x:call>
-        <x:expect label="Verify out1" port="out1">in1 document</x:expect>
-        <x:expect label="Verify out2" port="out2">in2 document</x:expect>
     </x:scenario>
 </x:description>

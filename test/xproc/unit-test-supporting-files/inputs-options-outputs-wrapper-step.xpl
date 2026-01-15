@@ -13,7 +13,7 @@
         </p:with-input>
         <p:with-input port="in2">
             <p:document href="path/to/data.json" xml:base="..."/>
-            <p:document href="path/to/text.txt" xml:base="..."/>
+            <p:document href="path/to/text.txt" xml:base="..." document-properties="..."/>
         </p:with-input>
         <p:with-input port="in3" select="$map-of-inputs?in3">
             <p:inline/>

@@ -51,7 +51,7 @@
                             </xsl:message>
                         </xsl:when>
                         <xsl:when test="exists(p:document)">
-                            <!-- Pass x:input/p:document verbatim, except @xml:base, for evaluation
+                            <!-- Pass x:input/p:document, except @xml:base, for evaluation
                                 in XProc. -->
                             <p:with-input port="{@port}">
                                 <xsl:sequence select="local:create-p-document(p:document)"/>
@@ -95,7 +95,7 @@
                             </xsl:message>
                         </xsl:when>
                         <xsl:when test="exists(p:document)">
-                            <!-- Pass x:option/p:document verbatim, except @xml:base, for evaluation
+                            <!-- Pass x:option/p:document, except @xml:base, for evaluation
                                 in XProc. -->
                             <p:with-option name="{$option-name-escaped}" select=".">
                                 <xsl:sequence select="local:create-p-document(p:document)"/>
@@ -187,7 +187,8 @@
             />
             <xsl:copy copy-namespaces="yes">
                 <xsl:attribute name="xml:base" select="$new-xml-base"/>
-                <xsl:copy-of select="@* except (@xml:base, @port, @name, @as)"/>
+                <xsl:apply-templates select="@* except (@xml:base, @port, @name, @as)"
+                    mode="in-p-document"/>
             </xsl:copy>
         </xsl:for-each>
     </xsl:function>
@@ -197,4 +198,11 @@
         <xsl:param name="s" as="xs:string"/>
         <xsl:sequence select="replace($s, '([\{\}])', '$1$1')"/>
     </xsl:function>
+
+    <!-- Attributes need to have curly braces doubled when creating <p:document>
+        in XSLT variable. -->
+    <xsl:mode name="in-p-document" on-no-match="fail"/>
+    <xsl:template match="attribute()" mode="in-p-document">
+        <xsl:attribute name="{name(.)}" select="local:escape-curly-braces(.)"/>
+    </xsl:template>
 </xsl:stylesheet>

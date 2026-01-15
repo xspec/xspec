@@ -32,6 +32,9 @@
             <x:expect label="setting/adjusting xml:base to $x:xspec-uri on p:document elements."
                 test="//p:document/@xml:base => distinct-values()
                 => ends-with('/inputs-options-outputs.xspec')"/>
+            <x:expect label="Curly braces in p:document/@document-properties are doubled."
+                test="//p:document/@document-properties/string()"
+                as="xs:string">map{{'a': '}}}}{{false()}}{{{{'}}</x:expect>
             <x:expect test="/p:declare-step/(p:count | p:choose)"
                 select="$expected/(p:count | p:choose)">
                 <x:label>The step uses p:count and p:choose to create maps of documents at out1 and

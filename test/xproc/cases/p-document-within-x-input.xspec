@@ -59,26 +59,35 @@
                 test="$x:document-properties?(QName('', 'content-type'))"
                 select="('application/xml', 'text/plain')"/>
         </x:scenario>
-        <x:scenario label="document-properties attribute, doubling curly braces in the map,">
+        <x:scenario label="document-properties attribute">
             <x:call step="mirror:identity">
                 <x:input port="source">
                     <p:document href="document.xml"
-                        document-properties="map{{'content-type': 'application/xml'}}"/>
+                        document-properties="map{
+                        'content-type': 'application/xml',
+                        'custom-prop-with-braces': map{'literal': '}}{false()}{{' }
+                        }"/>
                     <p:document href="document.xml"
-                        document-properties="map{{'content-type': 'text/plain'}}"/>
+                        document-properties="map{
+                        'content-type': 'text/plain',
+                        'custom-prop-with-braces': map{'literal': '}}{false()}{{' }
+                        }"/>
                 </x:input>
             </x:call>
             <x:expect label="takes effect" port="xproc-result"
                 test="$x:document-properties?(QName('', 'content-type'))"
                 select="('application/xml', 'text/plain')"/>
+            <x:expect label="and literal curly braces are preserved" port="xproc-result"
+                test="$x:document-properties?(QName('', 'custom-prop-with-braces'))?literal"
+                select="('}}{false()}{{', '}}{false()}{{')"/>
         </x:scenario>
-        <x:scenario label="parameters attribute, doubling curly braces in the map,">
+        <x:scenario label="parameters attribute">
             <x:call step="mirror:identity">
                 <x:input port="source">
                     <p:document href="document-object-duplicates.json"
-                        parameters="map{{'duplicates': 'use-first'}}"/>
+                        parameters="map{'duplicates': 'use-first'}"/>
                     <p:document href="document-object-duplicates.json"
-                        parameters="map{{'duplicates': 'use-last'}}"/>
+                        parameters="map{'duplicates': 'use-last'}"/>
                 </x:input>
             </x:call>
             <x:expect label="takes effect" port="xproc-result"
@@ -96,13 +105,11 @@
                 <document/>
             </x:expect>
         </x:scenario>
-        <x:scenario label="href attribute with expression to be evaluated in XProc" pending="Probably shouldn't allow this case">
-            <!-- Not sure if we want to document that x:input/p:document/@href is an AVT.
-                Depending on the expression, the href value might fail to have type xsd:anyURI,
-                triggering a validation error from xspec.rnc. -->
+        <x:scenario label="href attribute with expression to be evaluated in XProc">
+            <!-- x:*/@href is not an AVT, but p:document/@href is an AVT in XProc. -->
             <x:call step="mirror:identity">
                 <x:input port="source">
-                    <p:document href="{{ concat('document','.xml') }}"/>
+                    <p:document href="{ concat('document','.xml') }"/>
                 </x:input>
             </x:call>
             <x:expect label="works" port="xproc-result">

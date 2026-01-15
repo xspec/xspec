@@ -195,21 +195,34 @@
             </x:call>
             <x:expect label="takes effect" port="xproc-result" select="'text/plain'"/>
         </x:scenario>
-        <x:scenario label="document-properties attribute, doubling curly braces in the map,">
+        <x:scenario label="document-properties attribute">
             <x:call step="mirror:option-property">
                 <x:option name="opt">
                     <p:document href="document.xml"
-                        document-properties="map{{'content-type': 'text/plain'}}"/>
+                        document-properties="map{'content-type': 'text/plain'}"/>
                 </x:option>
                 <x:option name="property-to-get" select="'content-type'"/>
             </x:call>
             <x:expect label="takes effect" port="xproc-result" select="'text/plain'"/>
         </x:scenario>
-        <x:scenario label="parameters attribute, doubling curly braces in the map,">
+        <x:scenario label="document-properties attribute with curly braces in value">
+            <x:call step="mirror:option-property">
+                <x:option name="opt">
+                    <p:document href="document.xml"
+                        document-properties="map{
+                        'custom-prop-with-braces': map{'literal': '}}{false()}{{' }
+                        }"/>
+                </x:option>
+                <x:option name="property-to-get" select="'custom-prop-with-braces'"/>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" test="$x:result?literal"
+                select="'}}{false()}{{'"/>
+        </x:scenario>
+        <x:scenario label="parameters attribute">
             <x:call step="mirror:option-value">
                 <x:option name="opt">
                     <p:document href="document-object-duplicates.json"
-                        parameters="map{{'duplicates': 'use-last'}}"/>
+                        parameters="map{'duplicates': 'use-last'}"/>
                 </x:option>
             </x:call>
             <x:expect label="takes effect" port="xproc-result" select="map{'key1': 'last'}"/>
@@ -224,13 +237,11 @@
                 <document/>
             </x:expect>
         </x:scenario>
-        <x:scenario label="href attribute with expression to be evaluated in XProc" pending="Probably shouldn't allow this case">
-            <!-- Not sure if we want to document that x:input/p:document/@href is an AVT.
-                Depending on the expression, the href value might fail to have type xsd:anyURI,
-                triggering a validation error from xspec.rnc. -->
+        <x:scenario label="href attribute with expression to be evaluated in XProc">
+            <!-- x:*/@href is not an AVT, but p:document/@href is an AVT in XProc. -->
             <x:call step="mirror:option-value">
                 <x:option name="opt">
-                    <p:document href="{{ concat('document','.xml') }}"/>
+                    <p:document href="{ concat('document','.xml') }"/>
                 </x:option>
             </x:call>
             <x:expect label="works" port="xproc-result">
