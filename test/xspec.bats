@@ -857,6 +857,7 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
+    unset XQS_HOME_URI
     myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
@@ -866,6 +867,17 @@ load bats-helper
     myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
     [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 1]}" '.+Executing test for Schematron with XQS requires BASEX_JAR to be defined'
+}
+
+@test "invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    export XQS_HOME_URI="file:${parent_dir_abs}/lib/XQS/"
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #
@@ -1672,12 +1684,12 @@ load bats-helper
 
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
-        -catalog "${space_dir}/03/catalog-rewriteURI.xml" \
+        -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
         -s \
         "${space_dir}/catalog-03_schematron-xqs.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
-    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 @test "CLI with -catalog file path (XProc)" {
@@ -1743,12 +1755,12 @@ load bats-helper
     fi
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
-        -catalog "file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
         -s \
         catalog/catalog-03_schematron-xqs.xspec
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
-    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 @test "CLI with -catalog file URI (XProc)" {

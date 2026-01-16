@@ -96,6 +96,9 @@ classify_and_process_schematron() {
 
 preprocess_schematron-xqs() {
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    if test -z "${XQS_HOME_URI}"; then
+        XQS_HOME_URI="../../lib/XQS/"
+    fi
     echo
     echo "Converting Schematron XSpec into XQuery XSpec..."
     xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
@@ -103,6 +106,7 @@ preprocess_schematron-xqs() {
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
         stylesheet-uri="irrelevant for XQS but make it nonempty" \
         sch-impl-name="xqs" \
+        xqs-home="${XQS_HOME_URI}" \
         || die "Error converting Schematron XSpec into XQuery XSpec"
     XSPEC="${SCH_PREPROCESSED_XSPEC}"
 

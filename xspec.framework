@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="22.0" xml:space="preserve">
+<serialized xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
 			<documentTypeDescriptor-array>
 				<documentTypeDescriptor>
+					<field name="webResources">
+						<null/>
+					</field>
 					<field name="extensionPatch">
 						<null/>
 					</field>
@@ -187,13 +190,13 @@
 								<field name="inputPorts">
 									<xprocInputPort-array>
 										<xprocInputPort>
-											<field name="portName">
-												<String>source</String>
-											</field>
 											<field name="urls">
 												<String-array>
 													<String>${currentFileURL}</String>
 												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
 											</field>
 										</xprocInputPort>
 									</xprocInputPort-array>
@@ -201,44 +204,71 @@
 								<field name="outputPorts">
 									<xprocOutputPort-array>
 										<xprocOutputPort>
-											<field name="portName">
-												<String>result</String>
-											</field>
 											<field name="url">
 												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
 											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
 										</xprocOutputPort>
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array/>
-								</field>
-								<field name="xprocParameters">
-									<xprocParameterPort-array>
-										<xprocParameterPort>
-											<field name="portName">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>parameters</String>
 											</field>
-											<field name="parameters">
-												<xprocParameter-array>
-													<xprocParameter>
-														<field name="namespaceURI">
-															<String></String>
-														</field>
-														<field name="localName">
-															<String>xspec-home</String>
-														</field>
-														<field name="value">
-															<String>${framework}/</String>
-														</field>
-													</xprocParameter>
-												</xprocParameter-array>
+											<field name="value">
+												<String>map{}</String>
 											</field>
-										</xprocParameterPort>
-									</xprocParameterPort-array>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -262,7 +292,7 @@
 									<null/>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/src/harnesses/saxon/saxon-xslt-harness.xproc</String>
+									<String>${framework}/src/xproc3/run-xslt.xpl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String></String>
@@ -316,7 +346,7 @@
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Add-on for Calabash XProc Engine</String>
+									<String>XML Calabash 3.X</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -326,13 +356,13 @@
 								<field name="inputPorts">
 									<xprocInputPort-array>
 										<xprocInputPort>
-											<field name="portName">
-												<String>source</String>
-											</field>
 											<field name="urls">
 												<String-array>
 													<String>${currentFileURL}</String>
 												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
 											</field>
 										</xprocInputPort>
 									</xprocInputPort-array>
@@ -340,44 +370,71 @@
 								<field name="outputPorts">
 									<xprocOutputPort-array>
 										<xprocOutputPort>
-											<field name="portName">
-												<String>result</String>
-											</field>
 											<field name="url">
 												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
 											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
 										</xprocOutputPort>
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array/>
-								</field>
-								<field name="xprocParameters">
-									<xprocParameterPort-array>
-										<xprocParameterPort>
-											<field name="portName">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>parameters</String>
 											</field>
-											<field name="parameters">
-												<xprocParameter-array>
-													<xprocParameter>
-														<field name="namespaceURI">
-															<String></String>
-														</field>
-														<field name="localName">
-															<String>xspec-home</String>
-														</field>
-														<field name="value">
-															<String>${framework}/</String>
-														</field>
-													</xprocParameter>
-												</xprocParameter-array>
+											<field name="value">
+												<String>map{}</String>
 											</field>
-										</xprocParameterPort>
-									</xprocParameterPort-array>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -401,7 +458,7 @@
 									<null/>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/src/harnesses/saxon/saxon-xquery-harness.xproc</String>
+									<String>${framework}/src/xproc3/run-xquery.xpl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String></String>
@@ -455,7 +512,7 @@
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Add-on for Calabash XProc Engine</String>
+									<String>XML Calabash 3.X</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -1315,6 +1372,9 @@
 											<field name="validationSchema">
 												<null/>
 											</field>
+											<field name="validationAdvancedSettings">
+												<null/>
+											</field>
 										</validationUnit>
 										<validationUnit>
 											<field name="validationType">
@@ -1358,6 +1418,9 @@
 														<String>${framework}/src/schemas/xspec.sch</String>
 													</field>
 												</validationUnitSchema>
+											</field>
+											<field name="validationAdvancedSettings">
+												<null/>
 											</field>
 										</validationUnit>
 									</list>
