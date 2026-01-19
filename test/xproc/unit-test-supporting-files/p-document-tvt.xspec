@@ -31,6 +31,5 @@
             </x:input>
             <x:input port="in3">Text</x:input>
         </x:call>
-        <x:expect label="q"/>
     </x:scenario>
 </x:description>
