@@ -684,7 +684,7 @@
 	<case ifdef="XMLCALABASH3_JAR" name="XML Calabash configuration for testing XProc (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%XMLCALABASH3_JAR%" ^
         -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
         -Dxspec.xmlcalabash.config="file:///%CD:\=/%/xproc/cases/xmlcalabash-config-example.xml" ^
         -Dtest.type=p ^
@@ -1194,7 +1194,7 @@
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%XMLCALABASH3_JAR%" ^
         -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
         -Dtest.type=p ^
         -Dxspec.xml="%TUTORIAL_COPY%\xproc-testing-demo.xspec"
@@ -1270,7 +1270,7 @@
 	<case ifdef="XMLCALABASH3_JAR" name="Ant with catalog file path (XProc)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%XMLCALABASH3_JAR%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
         -Dtest.type=p ^
@@ -1331,7 +1331,7 @@
 	<case ifdef="XMLCALABASH3_JAR" name="Ant with catalog file URI (XProc)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%XMLCALABASH3_JAR%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
         -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
         -Dtest.type=p ^

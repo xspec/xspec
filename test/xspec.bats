@@ -1366,7 +1366,7 @@ load bats-helper
     # Run
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_ANT_LIB}" \
+        -lib "${XMLCALABASH3_JAR}" \
         -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
         -Dtest.type=p \
         -Dxspec.xml="${tutorial_copy}/xproc-testing-demo.xspec"
@@ -1447,7 +1447,7 @@ load bats-helper
 
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_ANT_LIB}" \
+        -lib "${XMLCALABASH3_JAR}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
         -Dtest.type=p \
@@ -1512,7 +1512,7 @@ load bats-helper
 
     myrun ant \
         -buildfile ../build.xml \
-        -lib "${SAXON_ANT_LIB}" \
+        -lib "${XMLCALABASH3_JAR}" \
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
         -Dtest.type=p \
