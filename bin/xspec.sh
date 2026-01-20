@@ -52,6 +52,13 @@ die() {
 
 xslt-with-pipeline() {
     PIPELINES="${TEST_DIR}/${TARGET_FILE_NAME}-pipelines.xpl"
+    # Convey XML Calabash configuration file if XMLCALABASH_CONFIG has been set to a URI
+    if test -n "$XMLCALABASH_CONFIG"; then
+        XMLCALABASH_CONFIG_ARG="-Dcom.xmlcalabash.configuration=$XMLCALABASH_CONFIG"
+    else
+        XMLCALABASH_CONFIG_ARG=
+    fi
+
     xslt \
         -s:"$XSPEC" \
         -xsl:"$XSPEC_HOME/src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl" \
@@ -62,6 +69,7 @@ xslt-with-pipeline() {
         -Dxspec.home="${XSPEC_HOME}" \
         -Dxspec.xspecfile="${XSPEC}" \
         -Dcom.xmlcalabash.pipelines="${PIPELINES}" \
+        ${XMLCALABASH_CONFIG_ARG:+"$XMLCALABASH_CONFIG_ARG"} \
         -cp "$CP" net.sf.saxon.Transform \
         -init:com.xmlcalabash.api.RegisterSaxonFunctions \
         ${CATALOG:+"$CATALOG"} "$@"

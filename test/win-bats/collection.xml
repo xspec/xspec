@@ -662,6 +662,40 @@
 	</case>
 
 	<!--
+		XML Calabash configuration in tests for XProc
+			In XML Calabash v3.0.27 and later, the configuration takes effect.
+			XML Calabash v3.0.25 (Oxygen 28.0) does not support passing in the
+			configuration file, but the line numbering default in that version
+			has the same effect, so the test case passes for a different reason.
+	-->
+
+	<case ifdef="XMLCALABASH3_JAR" name="XML Calabash configuration for testing XProc (CLI)">
+    set R=%RANDOM%
+    rem Test with a space in file name
+    set "XMLCALABASH_CONFIG=file:/%WORK_DIR:\=/%/xml%%20calabash%%20config%R%.xml"
+    call :copy xproc\cases\xmlcalabash-config-example.xml "%WORK_DIR%\xml calabash config%R%.xml"
+
+    set "SAXON_CP=%XMLCALABASH3_JAR%"
+    call :run ..\bin\xspec.bat -p xproc\cases\validation-with-or-without-line-numbers.xspec
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 0 / pending: 0 / failed: 1 / total: 1"
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="XML Calabash configuration for testing XProc (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.config="file:///%CD:\=/%/xproc/cases/xmlcalabash-config-example.xml" ^
+        -Dtest.type=p ^
+        -Dxspec.fail=false ^
+        -Dxspec.xml="%CD%\xproc\cases\validation-with-or-without-line-numbers.xspec"
+
+    call :verify_retval 0
+    call :verify_line -14 x "     [xslt] passed: 0 / pending: 0 / failed: 1 / total: 1"
+	</case>
+
+	<!--
 		Path containing special chars (CLI)
 	-->
 

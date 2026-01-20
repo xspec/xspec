@@ -77,6 +77,12 @@ rem ##
 
 :xslt-with-pipeline
     set "PIPELINES=%TEST_DIR%\%TARGET_FILE_NAME%-pipelines.xpl"
+    rem # Convey XML Calabash configuration file if XMLCALABASH_CONFIG has been set to a URI
+    set XMLCALABASH_CONFIG_ARG=
+    if defined XMLCALABASH_CONFIG (
+        set XMLCALABASH_CONFIG_ARG=-Dcom.xmlcalabash.configuration="%XMLCALABASH_CONFIG%"
+    )
+
     java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\compiler\xproc\in-scope-steps\generate-xproc-imports.xsl" ^
@@ -87,6 +93,7 @@ rem ##
         -Dxspec.home="%XSPEC_HOME%" ^
         -Dxspec.xspecfile="%XSPEC%" ^
         -Dcom.xmlcalabash.pipelines="%PIPELINES%" ^
+        %XMLCALABASH_CONFIG_ARG% ^
         -cp "%CP%" net.sf.saxon.Transform ^
         -init:com.xmlcalabash.api.RegisterSaxonFunctions ^
         %CATALOG% %*

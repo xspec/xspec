@@ -47,6 +47,11 @@
     their XML Calabash 3.x installation and any other classpath entries
     that are needed to execute the test suite. -->
 
+  <!-- "xspec.xmlcalabash.config" property: Documented in Wiki. DO NOT RENAME.
+    Optional when running XSpec tests for XProc. Irrelevant for other languages.
+    No default value. The user must set this property to the URI of
+    their XML Calabash 3.x configuration file. -->
+
   <!-- File path of the original XSpec file specified by the user -->
   <property name="xspec.xspecfile.original" value="${xspec.xml}" />
 
@@ -527,6 +532,8 @@
       <!-- System property for XProc -->
       <sysproperty key="com.xmlcalabash.pipelines"
         value="${xspec.pipelines.url}"/>
+      <sysproperty key="com.xmlcalabash.configuration"
+        value="${xspec.xmlcalabash.config}" if:set="xspec.xmlcalabash.config"/>
 
       <!-- XML Calabash must be on the classpath ahead of java.class.path. -->
       <classpath>

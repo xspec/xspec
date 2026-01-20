@@ -779,6 +779,48 @@ load bats-helper
 }
 
 #
+# XML Calabash configuration in tests for XProc
+#   In XML Calabash v3.0.27 and later, the configuration takes effect.
+#   XML Calabash v3.0.25 (Oxygen 28.0) does not support passing in the
+#   configuration file, but the line numbering default in that version
+#   has the same effect, so the test case passes for a different reason.
+#
+
+@test "XML Calabash configuration for testing XProc (CLI)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # Test with a space in file name
+    export XMLCALABASH_CONFIG="file:${work_dir}/xml%20calabash%20config${r}.xml"
+    cp xproc/cases/xmlcalabash-config-example.xml "${work_dir}/xml calabash config${r}.xml"
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -p xproc/cases/validation-with-or-without-line-numbers.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 0 / pending: 0 / failed: 1 / total: 1" ]
+}
+
+@test "XML Calabash configuration for testing XProc (Ant)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${XMLCALABASH3_JAR}" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dxspec.xmlcalabash.config="${PWD}/xproc/cases/xmlcalabash-config-example.xml" \
+        -Dtest.type=p \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/xproc/cases/validation-with-or-without-line-numbers.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 14]}" = "     [xslt] passed: 0 / pending: 0 / failed: 1 / total: 1" ]
+}
+
+#
 # Path containing special chars (CLI)
 #
 
