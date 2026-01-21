@@ -3,6 +3,8 @@
 [![Test](https://github.com/xspec/xspec/actions/workflows/test.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/test.yml)
 [![Lint](https://github.com/xspec/xspec/actions/workflows/lint.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/lint.yml)
 
+<img align="right" src="graphics/xspec-logo.svg" width="100px" alt="XSpec logo" />
+
 ## XSpec [![Release](https://img.shields.io/github/v/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
 XSpec is a unit test and [behaviour-driven development](https://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT, XQuery, and Schematron. It is based on the Spec framework of [RSpec](https://rspec.info/), which is a BDD framework for Ruby.

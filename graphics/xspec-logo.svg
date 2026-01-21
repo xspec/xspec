@@ -1,0 +1,31 @@
+<svg
+  width="500"
+  height="250"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+   <style type="text/css">
+      .circle { fill: none; stroke: black; stroke-width: 10}
+      .circle1 { fill: none; stroke: white; stroke-width: 1}
+      .blur { fill: blue; font-family: serif; font-size: 145pt; font-weight: normal}
+      .x { fill: blue; font-family: serif; font-size: 180pt; font-weight: bold}
+   </style>
+  <filter id="blurMe">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+  </filter>
+  <clipPath id="clip">
+      <circle cx="100" cy="120" r="50" />
+  </clipPath>
+  <clipPath id="arc">
+      <rect x="150" y="100" height="30" width="50" />
+  </clipPath>
+  <mask id="mask">
+      <circle cx="100" cy="120" r="50" />
+  </mask>
+  <text x="30" y="190" class="blur" filter="url(#blurMe)" clip-path="url(#mask)">X</text>
+  <text x="7" y="210" class="x" clip-path="url(#clip)">X</text>
+  <circle cx="100" cy="120" r="50" class="circle" />
+  <circle cx="250" cy="120" r="50" class="circle" />
+  <circle cx="175" cy="130" r="26" class="circle" clip-path="url(#arc)"/>
+  <rect x="30" y="110" height="20" width="20"/>
+  <rect x="300" y="110" height="20" width="20"/>
+</svg>
