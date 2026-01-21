@@ -783,6 +783,29 @@
 												<null/>
 											</field>
 										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xmlcalabash.config</String>
+											</field>
+											<field name="description">
+												<String>URI for configuration file for XML Calabash. Used to run XSpec tests for XProc. Ignored for other languages.</String>
+											</field>
+											<field name="value">
+												<null/>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
 									</list>
 								</field>
 								<field name="jvmArgs">
