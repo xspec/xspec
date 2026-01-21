@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:error-codes xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:my="uri-without-colon"
+    xmlns:myc="http://example.com/uri-with-1-colon" xmlns:mycc="urn:example:uri-with-2-colons">
+    <x:error-code>
+        <code/>
+    </x:error-code>
+    <x:error-code>
+        <code/>
+    </x:error-code>
+
+    <x:error-code>
+        <code xmlns="uri-without-colon"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="uri-without-colon"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="uri-without-colon"/>
+    </x:error-code>
+
+    <x:error-code>
+        <code xmlns="http://example.com/uri-with-1-colon"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="http://example.com/uri-with-1-colon"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="http://example.com/uri-with-1-colon"/>
+    </x:error-code>
+
+    <x:error-code>
+        <code xmlns="urn:example:uri-with-2-colons"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="urn:example:uri-with-2-colons"/>
+    </x:error-code>
+    <x:error-code>
+        <code xmlns="urn:example:uri-with-2-colons"/>
+    </x:error-code>
+
+    <x:error-code/>
+    <x:error-code/>
+    <x:error-code/>
+    <x:error-code/>
+    <x:error-code/>
+</x:error-codes>

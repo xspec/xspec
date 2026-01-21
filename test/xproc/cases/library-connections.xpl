@@ -32,17 +32,6 @@
         </p:add-attribute>
     </p:declare-step>
 
-    <p:declare-step type="s:no-input-one-option-no-output-raises-error" name="raises-error">
-        <p:option name="error-msg" select="()"/>
-        <p:if test="exists($error-msg)">
-            <p:error code="error-from-my-xproc-step">
-                <p:with-input port="source" expand-text="true">
-                    <document>{$error-msg}</document>
-                </p:with-input>
-            </p:error>
-        </p:if>
-    </p:declare-step>
-
     <p:declare-step type="s:no-input-one-option-one-output">
         <p:output port="xproc-result"/>
         <p:option name="attrval"/>

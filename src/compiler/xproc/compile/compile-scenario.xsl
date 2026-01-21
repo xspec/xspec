@@ -224,21 +224,18 @@
                      -->
 
                      <xsl:when test="$invocation-type eq 'call-step'">
-                        <!-- Create the step call -->
-                        <xsl:call-template name="x:enter-sut">
-                           <xsl:with-param name="instruction" as="element(xsl:sequence)">
-                              <sequence>
-                                 <!-- The step being called may use namespace prefixes for
-                                    parsing the input/option values -->
-                                 <xsl:sequence select="x:copy-of-namespaces($call)" />
-                                 <xsl:attribute name="select"
-                                    select="concat(
-                                    x:step-call-text($call, $this-scenario),
-                                    '(''map-of-outputs'')'
-                                    )"/>
-                              </sequence>
-                           </xsl:with-param>
-                        </xsl:call-template>
+                        <!-- Create the step call. Don't call x:enter-sut here because the
+                           try/catch structure goes in the XProc wrapper step, not XSLT. -->
+                        <sequence>
+                           <!-- The step being called may use namespace prefixes for
+                              parsing the input/option values -->
+                           <xsl:sequence select="x:copy-of-namespaces($call)" />
+                           <xsl:attribute name="select"
+                              select="concat(
+                              x:step-call-text($call, $this-scenario),
+                              '(''map-of-outputs'')'
+                              )"/>
+                        </sequence>
                      </xsl:when>
 
                      <xsl:otherwise>

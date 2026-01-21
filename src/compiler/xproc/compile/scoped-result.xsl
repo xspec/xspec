@@ -8,7 +8,16 @@
         <xsl:param name="reason-for-pending" as="xs:string?" required="yes"/>
         <xsl:variable name="scoped-port" select="@port"/>
         <xsl:if test="@port and empty($reason-for-pending)">
-            <!-- Within this x:expect element, scope $x:result to specified output port. -->
+            <if test="empty(${x:known-UQName('x:result')}?ports)">
+                <!-- No data from output ports, probably due to caught error. Raising an error
+                    here preempts an error from calling map:keys() below on an empty sequence. -->
+                <message terminate="yes">
+                    <xsl:call-template name="x:prefix-diag-message">
+                        <xsl:with-param
+                            name="message">No results to select using @port attribute.</xsl:with-param>
+                    </xsl:call-template>
+                </message>                
+            </if>
             <if test="not('{$scoped-port}' = map:keys(${x:known-UQName('x:result')}?ports))"
                 xmlns:map="http://www.w3.org/2005/xpath-functions/map">
                 <message terminate="yes">
@@ -18,6 +27,7 @@
                     </xsl:call-template>
                 </message>
             </if>
+            <!-- Within this x:expect element, scope $x:result to specified output port. -->
             <variable name="{x:known-UQName('x:document-properties')}" as="map(*)*"
                 select="${x:known-UQName('x:result')}?ports?{$scoped-port}?document-properties"/>
             <variable name="{x:known-UQName('x:result')}" as="item()*"

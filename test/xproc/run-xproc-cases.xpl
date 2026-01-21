@@ -20,8 +20,7 @@
 
     <p:option name="cases-dir" as="xs:anyURI" select="resolve-uri('cases/')"/>
 
-    <p:variable name="this-version" as="xs:string"
-        select="p:system-property('p:product-version')"/>
+    <p:variable name="this-version" as="xs:string" select="p:system-property('p:product-version')"/>
     <p:variable name="this-version-int" select="x:version-int($this-version)?result"/>
     <p:variable name="min-version-marker" as="xs:string" select="'min-xmlcalabash-version='"/>
 
@@ -58,13 +57,15 @@
                         <p:with-option name="xspec-home" select="$xspec-home"/>
                     </x:run-xproc>
                     <p:store href="{$cases-dir}/results/{$test-filename}.html" use-when="$debugmode"/>
-                    
+
                     <p:xslt name="check-html-report">
                         <p:with-input port="stylesheet">
                             <p:inline>
-                                <xsl:stylesheet version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                <xsl:stylesheet version="3.0"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                    xmlns:h="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
+                                    xmlns:h="http://www.w3.org/1999/xhtml"
+                                    exclude-result-prefixes="#all">
                                     <xsl:mode on-no-match="shallow-skip"/>
                                     <xsl:template match="/">
                                         <!-- $failure-text should be 'failed:&#160;' followed by the number of failures -->
@@ -72,16 +73,18 @@
                                             select="exactly-one(descendant::h:th[contains-token(@class, 'emphasis')])/string()"/>
                                         <xsl:variable name="xspec-file" as="xs:string"
                                             select="exactly-one(//h:body/h:p/text()[.='XSpec: ']/following-sibling::h:a)/string()"/>
-                                        <xsl:if test="replace($failure-text, '^failed:&#160;','') ne '0'">
+                                        <xsl:if
+                                            test="replace($failure-text, '^failed:&#160;','') ne '0'">
                                             <message>
-                                                <xsl:value-of select="concat($xspec-file, ' ', $failure-text)"/>
+                                                <xsl:value-of
+                                                  select="concat($xspec-file, ' ', $failure-text)"/>
                                             </message>
                                         </xsl:if>
                                     </xsl:template>
                                 </xsl:stylesheet>
                             </p:inline>
                         </p:with-input>
-                    </p:xslt>                    
+                    </p:xslt>
                 </p:otherwise>
             </p:choose>
         </p:for-each>

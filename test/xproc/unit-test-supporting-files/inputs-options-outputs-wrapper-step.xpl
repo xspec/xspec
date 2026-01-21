@@ -4,7 +4,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="3.1">
     <p:import href="..."/>
-    <p:output port="map-of-outputs" pipe="result@ports-map"/>
+    <p:output port="map-of-outputs"/>
     <p:option name="map-of-inputs"/>
     <p:option name="map-of-options"/>
     <s:inputs-options-outputs xmlns:s="x-urn:test:xproc:inputs-options-outputs" name="test-target">

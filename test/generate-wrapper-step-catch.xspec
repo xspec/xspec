@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:local="urn:x-xspec:compiler:xproc:in-scope-steps:generate-wrapper-step:local"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:s="x-urn:test:xproc:inputs-options-outputs"
+    xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    stylesheet="../src/compiler/compile-xproc-tests.xsl">
+
+    <x:helper stylesheet="../tutorial/helper/ws-only-text/test-helper.xsl"/>
+
+    <x:param name="initial-document"
+        href="xproc/unit-test-supporting-files/inputs-options-outputs-catch.xspec"/>
+
+    <x:scenario label="Tests for wrapper-step-based-on-x-call template">
+        <x:scenario label="Sample x:call for a step in a scenario with catch='yes'">
+            <x:context select="$initial-document//x:call"/>
+            <x:variable name="expected" select="test-helper:remove-whitespace-only-text(/)/*"
+                href="xproc/unit-test-supporting-files/inputs-options-outputs-wrapper-step-catch.xpl"/>
+            <x:call template="wrapper-step-based-on-x-call">
+                <x:param name="parent-scenario" select="$initial-document//x:scenario"/>
+            </x:call>
+            <x:expect label="This step imports error-code-as-element.xpl"
+                test="exists(/p:declare-step/p:import[ends-with(@href, '/error-code-as-element.xpl')])"/>
+            <x:expect label="and the test target file."
+                test="exists(/p:declare-step/p:import[ends-with(@href, '/inputs-options-outputs.xpl')])"/>
+            <x:expect label="This step invokes the test target step within p:try."
+                test="/p:declare-step/p:try"
+                select="$expected/p:try"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

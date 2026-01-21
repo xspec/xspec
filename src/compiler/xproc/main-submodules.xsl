@@ -7,6 +7,7 @@
         Sub modules specific to compiling test suites for XProc
      -->
     <xsl:include href="main-info-message.xsl"/>
+    <xsl:include href="catch/try-catch.xsl"/>
     <xsl:include href="compile/compile-scenario.xsl"/>
     <xsl:include href="compile/scoped-result.xsl"/>
     <xsl:include href="compile/get-step-declaration.xsl"/>
@@ -19,7 +20,6 @@
         Sub modules shared with compiling test suites for XSLT
      -->
     <xsl:import href="../xslt/main-info-message.xsl"/>
-    <xsl:include href="../xslt/catch/try-catch.xsl"/>
     <xsl:include href="../xslt/compile/compile-expect.xsl"/>
     <xsl:include href="../xslt/compile/compile-helpers.xsl"/>
     <xsl:include href="../xslt/declare-variable/declare-variable.xsl"/>
