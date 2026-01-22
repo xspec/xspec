@@ -18,10 +18,12 @@
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
 	<xsl:template as="attribute()" match="
-			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec')]
+			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec', 'xproc')]
 			| /x:report[not(@schematron)]/@stylesheet
 			| x:scenario/@xspec
 			| x:scenario/input-wrap/x:call/x:param/@href
+			| x:scenario/input-wrap/x:call/x:input/@href
+			| x:scenario/input-wrap/x:call/x:option/@href
 			| x:scenario/input-wrap/x:context/@href
 			|
 			/x:report[local:svrl-creator(.) eq 'skeleton']//x:scenario/x:result/content-wrap
@@ -53,6 +55,31 @@
 			| x:scenario/x:test/x:expect/@href
 			| x:scenario/x:test/x:result/@href" mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+	</xsl:template>
+
+	<!--
+		Normalizes base-uri property value within a map of document properties (XProc testing).
+		For simplicity, use only the filename and extension. Where the full base URI value is
+		significant, it is tested elsewhere.
+	-->
+	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:')]"
+		mode="normalizer:normalize">
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri:")([^"]+)(")</xsl:variable>
+		<xsl:value-of>
+			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
+				regex="{$pattern}">
+				<xsl:matching-substring>
+					<xsl:sequence select="concat(
+						regex-group(1),
+						regex-group(2) => x:filename-and-extension(),
+						regex-group(3)
+						)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:sequence select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:value-of>
 	</xsl:template>
 
 	<!--

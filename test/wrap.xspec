@@ -161,4 +161,8 @@
       <!-- Scenarios for schema-aware processor are in issue-47.xspec -->
    </t:scenario>
 
+   <!-- Scenarios for wrap:wrap-each (present in wrap.xsl but not wrap.xqm) are in
+         test-helper-documents.xspec via the wrap-each function -->
+   <!-- Scenarios for wrap:unwrap-text-nodes (present in wrap.xsl but not wrap.xqm) are in
+         wrap_stylesheet.xspec -->
 </t:description>

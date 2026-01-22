@@ -30,10 +30,12 @@
 
    <p:variable name="test-dir" select="resolve-uri('.')"/>
    <p:directory-list path="{$test-dir}" max-depth="1" include-filter="\.xspec$"/>
+   <p:variable name="case-count" select="count(//c:file)"/>
 
-   <p:for-each>
+   <p:for-each message="Found {$case-count} test cases.">
       <p:with-input select="//c:file"/>
       <p:variable name="test-filename" select="/*/@name"/>
+      <p:variable name="idx" select="p:iteration-position()"/>
       <p:load href="{$test-dir}{$test-filename}" name="test-file"/>
       <p:for-each>
          <p:with-input select="/x:description/(@schematron | @query)/name()"/>
@@ -41,7 +43,7 @@
          <p:choose>
             <p:when test="$test-type eq 'schematron'">
                <!-- Test for Schematron schema with XQuery language binding -->
-               <p:identity message="&#10;--- Running { $test-filename } (test for Schematron) ---"/>
+               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for Schematron) ---"/>
                <x:run-schematron-xqs>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
@@ -51,7 +53,7 @@
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->
-               <p:identity message="&#10;--- Running { $test-filename } (test for XQuery) ---"/>
+               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for XQuery) ---"/>
                <x:run-xquery>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>

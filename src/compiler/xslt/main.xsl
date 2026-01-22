@@ -25,6 +25,11 @@
       <!-- True if this XSpec is testing Schematron -->
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@original-xspec)" />
 
+      <!-- True if this XSpec is testing XProc. Assume a test suite doesn't have @xproc
+         along with either @original-xspec or @stylesheet, because XProc step scenarios
+         use x:call[@step], whereas XSLT and Schematron scenarios don't. -->
+      <xsl:variable name="is-xproc" as="xs:boolean" select="exists(@xproc)" />
+
       <!-- The compiled stylesheet element. -->
       <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="exclude-result-prefixes" select="'#all'" />
@@ -33,7 +38,7 @@
          <!-- Indent the following comment -->
          <xsl:text>&#10;   </xsl:text>
 
-         <xsl:if test="not($is-external)">
+         <xsl:if test="not($is-external) and not($is-xproc)">
             <xsl:comment> the tested stylesheet </xsl:comment>
             <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="href" select="@stylesheet" />
@@ -62,9 +67,11 @@
          </xsl:if>
 
          <!-- Absolute URI of .xsl file to be tested -->
-         <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
-            <xsl:value-of select="@stylesheet" />
-         </variable>
+         <xsl:if test="not($is-xproc)">
+            <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
+               <xsl:value-of select="@stylesheet" />
+            </variable>
+         </xsl:if>
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
@@ -122,16 +129,8 @@
             </xsl:element>
 
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
-            <!-- system-property() must be retrieved at run time -->
             <message>
-               <text>
-                  <xsl:text expand-text="yes">Testing with </xsl:text>
-               </text>
-               <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
-               <text>
-                  <xsl:text> </xsl:text>
-               </text>
-               <value-of select="system-property('{x:known-UQName('xsl:product-version')}')" />
+               <xsl:apply-templates select="." mode="info-message"/>   
             </message>
 
             <xsl:comment> set up the result document (the report) </xsl:comment>
@@ -150,6 +149,9 @@
 
                      <!-- This @stylesheet is used by ../../reporter/coverage-report.xsl -->
                      <xsl:sequence select="@stylesheet" />
+
+                     <!-- @xproc is used by ../../reporter/format-xspec-report.xsl -->
+                     <xsl:sequence select="@xproc" />
 
                      <!-- Do not always copy @schematron.
                         @schematron may exist even when this running instance of XSpec is not
@@ -188,21 +190,5 @@
          <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
    </xsl:template>
-
-   <!--
-      Sub modules
-   -->
-   <xsl:include href="catch/try-catch.xsl" />
-   <xsl:include href="compile/compile-expect.xsl" />
-   <xsl:include href="compile/compile-helpers.xsl" />
-   <xsl:include href="compile/compile-scenario.xsl" />
-   <xsl:include href="declare-variable/declare-variable.xsl" />
-   <xsl:include href="external/transform-options.xsl" />
-   <xsl:include href="initial-check/perform-initial-check.xsl" />
-   <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
-   <xsl:include href="invoke-compiled/threads.xsl" />
-   <xsl:include href="measure-time/timestamp.xsl" />
-   <xsl:include href="node-constructor/node-constructor.xsl" />
-   <xsl:include href="report/report-utils.xsl" />
 
 </xsl:stylesheet>

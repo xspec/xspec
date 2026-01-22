@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../document-node-boundaries.xspec"
+        xproc="../../../../xproc/cases/library-mirror.xpl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../document-node-boundaries.xspec">
+      <label>Input port has 2 document nodes with a total of 4 child nodes</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:my="my-namespace"
+                 xmlns:s="x-urn:test:xproc:steplibrary"
+                 xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                 xmlns:wrap="urn:x-xspec:common:wrap"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 step="mirror:identity">
+            <x:input port="source" select="$my:two-docs"/>
+         </x:call>
+      </input-wrap>
+      <scenario id="scenario1-scenario1" xspec="../../document-node-boundaries.xspec">
+         <label>Verify number of nodes: </label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>$my:two-docs has two</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:two-docs)"/>
+            </expect-test-wrap>
+            <result select="2"/>
+            <expect select="2"/>
+         </test>
+         <test id="scenario1-scenario1-expect2" successful="true">
+            <label>$my:merged-doc has one</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:merged-doc)"/>
+            </expect-test-wrap>
+            <result select="1"/>
+            <expect select="1"/>
+         </test>
+         <test id="scenario1-scenario1-expect3" successful="true">
+            <label>$my:two-docs-wrong-boundary has two</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:two-docs-wrong-boundary)"/>
+            </expect-test-wrap>
+            <result select="2"/>
+            <expect select="2"/>
+         </test>
+         <test id="scenario1-scenario1-expect4" successful="true">
+            <label>$my:each-child-node-wrapped has four</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:each-child-node-wrapped)"/>
+            </expect-test-wrap>
+            <result select="4"/>
+            <expect select="4"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../document-node-boundaries.xspec">
+         <label>x:expect syntax options for verifying multiple document nodes include</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>@select with an XSpec variable</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario2-expect2" successful="true">
+            <label>@select to read external documents</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document/>
+                  <!-- comment -->
+                  <document/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario2-expect3" successful="true">
+            <label>@href and @select, but select=(/, /) works here only because the documents
+                    are the same</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document/>
+                  <!-- comment -->
+                  <document/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario2-expect4" successful="true">
+            <label>embedded element-wrapped nodes and helper function</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3" xspec="../../document-node-boundaries.xspec">
+         <label>x:input syntax options for multiple input documents include</label>
+         <scenario id="scenario1-scenario3-scenario1"
+                   xspec="../../document-node-boundaries.xspec">
+            <label>@select with an XSpec variable</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:mirror="x-urn:test:mirror"
+                       xmlns:my="my-namespace"
+                       xmlns:s="x-urn:test:xproc:steplibrary"
+                       xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                       xmlns:wrap="urn:x-xspec:common:wrap"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       step="mirror:identity">
+                  <x:input port="source" select="$my:two-docs"/>
+               </x:call>
+            </input-wrap>
+            <result select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+               </content-wrap>
+            </result>
+            <test id="scenario1-scenario3-scenario1-expect1" successful="true">
+               <label>Success</label>
+               <port-specific>
+                  <result select="/node()">
+                     <content-wrap xmlns="">
+                        <document xmlns:mirror="x-urn:test:mirror"
+                                  xmlns:my="my-namespace"
+                                  xmlns:s="x-urn:test:xproc:steplibrary"
+                                  xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                                  xmlns:wrap="urn:x-xspec:common:wrap"
+                                  xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                        <!-- comment -->
+                        <document xmlns:mirror="x-urn:test:mirror"
+                                  xmlns:my="my-namespace"
+                                  xmlns:s="x-urn:test:xproc:steplibrary"
+                                  xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                                  xmlns:wrap="urn:x-xspec:common:wrap"
+                                  xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                        <!-- comment -->
+                     </content-wrap>
+                  </result>
+               </port-specific>
+               <expect select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario1-scenario3-scenario2"
+                   xspec="../../document-node-boundaries.xspec">
+            <label>@select to read external documents</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:mirror="x-urn:test:mirror"
+                       xmlns:my="my-namespace"
+                       xmlns:s="x-urn:test:xproc:steplibrary"
+                       xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                       xmlns:wrap="urn:x-xspec:common:wrap"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       step="mirror:identity">
+                  <x:input port="source"
+                           select="('document-node-boundaries.xml', 'document-node-boundaries.xml')                         ! resolve-uri(., $x:xspec-uri) ! doc(.)"/>
+               </x:call>
+            </input-wrap>
+            <result select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries.xml",Q{}content-type:"application/xml"},"document":&lt;document/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries.xml",Q{}content-type:"application/xml"},"document":&lt;document/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+               </content-wrap>
+            </result>
+            <test id="scenario1-scenario3-scenario2-expect1" successful="true">
+               <label>Success</label>
+               <port-specific>
+                  <result select="/node()">
+                     <content-wrap xmlns="">
+                        <document/>
+                        <!-- comment -->
+                        <document/>
+                        <!-- comment -->
+                     </content-wrap>
+                  </result>
+               </port-specific>
+               <expect select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario1-scenario3-scenario3"
+                   xspec="../../document-node-boundaries.xspec">
+            <label>@href and @select, but select=(/, /) works here only because the documents
+                    are the same</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:mirror="x-urn:test:mirror"
+                       xmlns:my="my-namespace"
+                       xmlns:s="x-urn:test:xproc:steplibrary"
+                       xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                       xmlns:wrap="urn:x-xspec:common:wrap"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       step="mirror:identity">
+                  <x:input port="source"
+                           href="../../document-node-boundaries.xml"
+                           select="(/, /)"/>
+               </x:call>
+            </input-wrap>
+            <result select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries.xml",Q{}content-type:"application/xml"},"document":&lt;document/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries.xml",Q{}content-type:"application/xml"},"document":&lt;document/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+               </content-wrap>
+            </result>
+            <test id="scenario1-scenario3-scenario3-expect1" successful="true">
+               <label>Success</label>
+               <port-specific>
+                  <result select="/node()">
+                     <content-wrap xmlns="">
+                        <document/>
+                        <!-- comment -->
+                        <document/>
+                        <!-- comment -->
+                     </content-wrap>
+                  </result>
+               </port-specific>
+               <expect select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario1-scenario3-scenario4"
+                   xspec="../../document-node-boundaries.xspec">
+            <label>embedded element-wrapped nodes and helper function</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:mirror="x-urn:test:mirror"
+                       xmlns:my="my-namespace"
+                       xmlns:s="x-urn:test:xproc:steplibrary"
+                       xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                       xmlns:wrap="urn:x-xspec:common:wrap"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       step="mirror:identity">
+                  <x:input port="source" select="thd:rewrap-as-doc-node(/*)">
+                     <my:document-wrapper>
+                        <document/>
+                        <!-- comment -->
+                     </my:document-wrapper>
+                     <my:document-wrapper>
+                        <document/>
+                        <!-- comment -->
+                     </my:document-wrapper>
+                  </x:input>
+               </x:call>
+            </input-wrap>
+            <result select="/*">
+               <content-wrap xmlns="">
+                  <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"test-helper-documents.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"test-helper-documents.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+               </content-wrap>
+            </result>
+            <test id="scenario1-scenario3-scenario4-expect1" successful="true">
+               <label>Success</label>
+               <port-specific>
+                  <result select="/node()">
+                     <content-wrap xmlns="">
+                        <document xmlns:mirror="x-urn:test:mirror"
+                                  xmlns:my="my-namespace"
+                                  xmlns:s="x-urn:test:xproc:steplibrary"
+                                  xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                                  xmlns:wrap="urn:x-xspec:common:wrap"
+                                  xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                        <!-- comment -->
+                        <document xmlns:mirror="x-urn:test:mirror"
+                                  xmlns:my="my-namespace"
+                                  xmlns:s="x-urn:test:xproc:steplibrary"
+                                  xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                                  xmlns:wrap="urn:x-xspec:common:wrap"
+                                  xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                        <!-- comment -->
+                     </content-wrap>
+                  </result>
+               </port-specific>
+               <expect select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </expect>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario1-scenario4" xspec="../../document-node-boundaries.xspec">
+         <label>When expected result is 1 merged document node</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario4-expect1" successful="false">
+            <label>Failure</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario5" xspec="../../document-node-boundaries.xspec">
+         <label>When expected result is 2 document nodes with wrong boundaries</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario5-expect1" successful="false">
+            <label>Failure</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario5-expect2" successful="false">
+            <label>For unambiguous report, compare individual document nodes.</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result[1]"/>
+            </expect-test-wrap>
+            <result select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario5-expect3" successful="false">
+            <label>Same thing with embedded child nodes.</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result[1]"/>
+            </expect-test-wrap>
+            <result select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario6" xspec="../../document-node-boundaries.xspec">
+         <label>When expected result is 4 document nodes with 1 child node each</label>
+         <result select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"ports":map{"xproc-result":(map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+},map{"document-properties":map{Q{}base-uri:"document-node-boundaries-compiled.xsl",Q{}content-type:"application/xml"},"document":&lt;document xmlns:mirror="x-urn:test:mirror"
+          xmlns:my="my-namespace"
+          xmlns:s="x-urn:test:xproc:steplibrary"
+          xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+          xmlns:wrap="urn:x-xspec:common:wrap"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"/&gt;
+&lt;!-- comment --&gt;
+})}}</pseudo-map>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario6-expect1" successful="false">
+            <label>Failure</label>
+            <port-specific>
+               <result select="/node()">
+                  <content-wrap xmlns="">
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                     <document xmlns:mirror="x-urn:test:mirror"
+                               xmlns:my="my-namespace"
+                               xmlns:s="x-urn:test:xproc:steplibrary"
+                               xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                               xmlns:wrap="urn:x-xspec:common:wrap"
+                               xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                     <!-- comment -->
+                  </content-wrap>
+               </result>
+            </port-specific>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario6-expect2" successful="false">
+            <label>For unambiguous report, compare individual document nodes.</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result[1]"/>
+            </expect-test-wrap>
+            <result select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario6-expect3" successful="false">
+            <label>Same thing with embedded child node.</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:my="my-namespace"
+                         xmlns:s="x-urn:test:xproc:steplibrary"
+                         xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                         xmlns:wrap="urn:x-xspec:common:wrap"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result[1]"/>
+            </expect-test-wrap>
+            <result select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:mirror="x-urn:test:mirror"
+                            xmlns:my="my-namespace"
+                            xmlns:s="x-urn:test:xproc:steplibrary"
+                            xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+                            xmlns:wrap="urn:x-xspec:common:wrap"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+</report>

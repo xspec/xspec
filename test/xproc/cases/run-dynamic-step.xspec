@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:ds="x-urn:test:dynamic-steps"
+    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-dynamic-steps.xpl">
+    <x:scenario label="Calling a step that uses p:run to run a step that uses only standard steps">
+        <x:call step="ds:identity">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="should work" port="xproc-result">
+            <document/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Calling a step that uses p:run to run a step that uses a custom step">
+        <x:call step="ds:custom">
+            <x:option name="opt">dynamic</x:option>
+        </x:call>
+        <x:expect label="should work. The custom step in this case mirrors back the option value."
+            port="xproc-result">dynamic</x:expect>
+    </x:scenario>
+</x:description>

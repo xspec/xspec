@@ -1,0 +1,148 @@
+# Proposal: Using XSpec to test XProc Steps
+
+## Status
+
+This document proposes a design for extending XSpec capabilities for testing XProc steps. An implementation is in the "draft pull request" phase, not yet released.
+
+## Requirements
+
+What new capabilities must XSpec have to enable testing of an XProc step?
+
+The test author must be able to:
+
+1. Identify the XProc file that (directly or through imports) declares the step to test. The file can have outermost element `<p:library>` or `<p:declare-step>`.
+1. Indicate a step to call.
+1. Provide zero or more documents at each of the step's input ports.
+1. Provide values for zero or more options.
+1. Verify zero or more documents or their properties, at each of one or more output ports.
+1. Indicate which output port a verification pertains to.
+1. Verify that a step completed without raising an error, even if the step has no output ports.
+1. Specify configuration of the XProc processor. The configuration applies to the entire test suite.
+
+The XSpec processing must be able to:
+
+1. Call the specified step with the specified inputs and option values.
+1. Execute the test author's verifications.
+1. Indicate the XProc file in the test result report. The test report should otherwise be the same as in the XSLT testing case.
+
+### Non-essential but nice to have
+
+1. If a particular output port has been specified in `<x:expect>` and there is exactly one document at that port, then make that document the context item for the XPath expression in `x:expect/@test`.
+1. Ability to pick up defaults of inputs and options by not specifying values in the XSpec scenario.
+
+### Limitations
+
+1. Requires XML Calabash 3 as the XProc processor, due to the implementation's dependency on an XML Calabash feature.
+2. Requires the Saxon version that is bundled in XML Calabash 3, as the XSLT processor.
+3. Can't test a step that has `visibility="private"`.
+4. Can't test a step that doesn't have `@type`.
+5. Can't test a local substep declared within a step.
+6. Can't test a standard step, only custom ones.
+7. Can't verify informational messages that go to the console (e.g., `@message`). You can verify dynamic errors, though.
+8. If a step has `use-when` on any child `<p:input>` element, XSpec doesn't know whether that input port is actually part of the step. Not sure if this limitation can be removed; for now, XSpec displays a warning and proceeds as if the `use-when` expression is true.
+9. Can't specify configuration of the XProc processor on a per-scenario basis.
+10. Can't provide a value for a static XProc option.
+
+## Vocabulary and Markup Design
+
+Proposed markup changes:
+
+1. For identifying the XProc file, add `xproc` attribute to existing `<x:description>` element.
+1. For calling a step, use existing `<x:call>` element and add new `step` attribute.
+1. For providing documents at a step input port, introduce new `<x:input>` element with a `port` attribute. To specify documents for `<x:input>`, you can imitate the way you specify a function argument in `<x:param>`. **Experimental alternative:** In `<x:input>`, use one or more `<p:document>` child elements, each with an `href` attribute whose value is literal text (no curly-braced enclosed expressions). If the href is relative, it's assumed relative to the XSpec file URI.
+1. For providing a step option, introduce new `<x:option>` element with a `name` attribute. The supported ways to specify values for `<x:option>` are as described above for `<x:input>`.
+1. For extending the test runner with functions that represent custom XProc steps (see "pipelineception" under "Implementation notes" below), add `xproc` attribute to existing `<x:helper>` element. Limitations: An XProc-based test helper doesn't work in `x:call/@step` and doesn't affect the test target.
+1. For verifying results, `<x:expect>` works the same as in a test for XSLT or XQuery, with the following exception. For optionally focusing a given `<x:expect>` element on a particular output port, add `port` attribute (thanks for the idea, Sheila Thomson!). Consequences:
+   1. Within that `<x:expect>` element only, XSpec defines `$x:result` as the sequence of documents at the specified output port and defines `$x:document-properties` as the sequence of maps (one per document) of properties of those documents.
+   1. The `x:expect/@result-type` attribute pertains to this port-specific output.
+   1. For an element `x:expect[@port][not(@test)]` that embeds or selects nodes, each outermost node is automatically wrapped in a document node. This is different from the XSpec behavior for testing XSLT and XQuery. The inconsistency could be potentially confusing, but the motivation is that nodes returned from XProc are always rooted at a document node. Having to specify `select="/"` all over the place would be clutter.
+   1. If `x:expect[@port][not(@test)]` fails, the left side of a diff in the HTML test report shows the port-specific output.
+
+_Outside_ an `<x:expect>` element having a `port` attribute, if `$x:result` is defined, then its value is a map like the following (but there would typically be more document properties, not only `content-type`).
+
+```
+map{'ports':
+  map{
+    'out1': (
+      map{
+        'document': document{<svg/>},
+        'document-properties': map{QName('', 'content-type'): 'image/svg+xml'}
+      },
+      map{
+        'document': document{<foo/>},
+        'document-properties': map{QName('', 'content-type'): 'application/xml'}
+      }
+    ),
+    'output-port2': (
+      map{
+        'document': 0,
+        'document-properties': map{QName('', 'content-type'): 'application/json'}
+      }
+    )
+  }
+}
+```
+
+## Files, and How to Run the Test Suite
+
+In the proposed API, an XSpec test suite for XProc is a separate file, not embedded in the XProc file.
+
+Ways to run the test suite:
+
+1. A new XProc 3 step named `<x:run-xproc>` runs a test suite for XProc. The `source` input port accepts one XSpec test suite document. The `result` output port produces the corresponding HTML test result report.
+1. The existing Windows and Linux/macOS command scripts add support for a `-p` flag to indicate that it is a test for XProc. As a prerequisite, the user must set the `SAXON_CP` environment variable to the path of the XML Calabash 3 jar file and any other jar files that are needed to execute the step. Currently, XML Calabash configuration options all have default values. (TODO: Add support for passing in the path to an XML Calabash configuration file.)
+1. The existing Ant build script adds support for a `test.type` value of `p` to indicate that it is a test for XProc. As a prerequisite, the user must also set the `xspec.xmlcalabash.classpath` Ant property to the path of the XML Calabash 3 jar file and any other jar files that are needed to execute the step. Currently, XML Calabash configuration options all have default values. (TODO: Add support for passing in the path to an XML Calabash configuration file.)
+1. The existing "Run XSpec Test" transformation scenario for Oxygen adds support for running tests for XProc. The prerequisite about `xspec.xmlcalabash.classpath` (preceding item) applies.
+
+Sample Windows syntaxes from the root of the XSpec repository, assuming `XMLCALABASH3_JAR` is set to the path to `xmlcalabash-app-3.0.31.jar` (or latest available version):
+
+```
+java -jar %XMLCALABASH3_JAR% --input:source=tutorial/xproc/xproc-testing-demo.xspec --output:result=tutorial/xproc/xproc-testing-demo-xprocresult.html src/xproc3/xproc-testing/run-xproc.xpl
+```
+
+```
+set SAXON_CP=%XMLCALABASH3_JAR%
+bin\xspec.bat -p tutorial\xproc\xproc-testing-demo.xspec
+```
+
+The demo XSpec file in the syntaxes above has a deliberate failure. Look at the generated HTML report to see how the failure appears there.
+
+I _think_ Saxon-PE and Saxon-EE users can follow the advice in [Upgrading Saxon](https://docs.xmlcalabash.com/userguide/current/running.html#upgrading-saxon) when running XSpec tests for XProc, but I haven't tried it.
+
+## Implementation notes
+
+My implementation depends on the ["pipelineception" feature](https://docs.xmlcalabash.com/userguide/current/pipelineception.html) (thanks, Norm Tovey-Walsh!) of XML Calabash 3 that provides access to a custom, typed XProc step via an XPath function ("step function") having the same qualified name as the step. I have modified the XSpec compiler and formatter to build on the capabilities of XSpec for testing stylesheet functions.
+
+### Step runner and per-test-case generated steps
+
+XSpec compiles the test suite to XSLT, which calls a step function to exercise XProc functionality and bring the results back into XSLT. XProc document properties pose two challenges in this implementation:
+
+1. How do you get your input documents into XProc with the right properties? For instance, XSLT can call `json-doc` to load a JSON file but the resulting XDM item doesn't have a base URI. So, the document in XProc won't have the right base URI.
+2. How do you get the output document properties, for use in `<x:expect>`?
+
+This implementation adds a level of indirection between the XSLT-based test runner (your compiled .xspec file) and XProc, so that XSpec has some room to insert functionality other than "run the step to be tested, passing certain XDM data as arguments, and return documents back to XSLT."
+
+The level of indirection takes the form of an XProc step (I call it the "step runner") that connects the XSLT test runner with the XProc world. The step runner, whose source is `src/common/step-runner.xpl`:
+
+- Gets registered with Saxon up-front when invoking Saxon, enabling Saxon to call the step runner as a step function (i.e., outside XProc)
+- Uses `p:run` to invoke a wrapper around the step you're testing. The XSpec compiler generates a wrapper XProc step for each `<x:call>` element that wants to run your test target.
+- Addresses problem 1 by including `<p:document>` in the wrapper step whenever your test case uses any of the following patterns: `<x:input port="..." href="...">` without other attributes; `<x:option name="..." href="...">` without other attributes; or `<p:document>` within either `<x:input>` or `<x:option>`. When the included `<p:document>` is executed in XProc, the documents have the right properties according to XProc behavior.
+- Addresses problem 2 by returning document properties (that were stored in a map by the wrapper step) through the output port back to XSLT.
+
+The per-test-case generated steps are produced by `src/compiler/xproc/in-scope-steps/generate-wrapper-step.xsl`.
+
+### Generated import declarations
+
+XSpec needs to ensure that the step functions that test execution needs are available at run time. The stylesheet `src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl` generates `<p:import>` elements for the any XProc files you integrate as test helpers (`x:helper/@xproc`) and an XProc library that the test runner uses to report the XML Calabash version in a console message.
+
+Running the test via a command script or Ant stores this generated content in an XProc library file named `[xspec-test-name]-pipelines.xpl`, by analogy with the test runner named `[xspec-test-name]-compiled.xpl`. Also, XSpec invokes Saxon using a syntax that, given the XML Calabash jar file on the classpath and the `*-pipelines.xpl` file, makes step functions available to Saxon. The command script and Ant do not directly invoke XML Calabash. The special Saxon syntax is documented in [Using step functions outside XProc](https://docs.xmlcalabash.com/userguide/current/pipelineception.html#pipelineception_s3) in the XML Calabash documentation.
+
+When running the test via XProc, XSpec generates a step that has the `<p:import>` elements mentioned earlier and then runs the step using `<p:run>`. The stylesheet `src/xproc3/xproc-testing/generate-pipeline.xsl` is responsible for generating the step.
+
+## Questions
+
+1. Are the limitations acceptable, including the dependency on the nonstandard pipelineception feature of XML Calabash?
+1. Does the markup design reflect reasonable choices about where to align with XSpec markup and where to align with XProc markup? In particular, does it make sense to permit `<p:document>` within `<x:input>` or `<x:option>`?
+1. Would supporting `<p:inline>` within `<x:input>` or `<x:option>` also be desirable (and if so, would value template behavior be confusing, i.e., should curly-braced enclosed expressions be evaluated in XSLT or XProc)?
+1. Is the ability to omit `select="/"` on `<x:expect>` elements that meet certain criteria useful for conciseness or is it confusing/mysterious?
+1. Are there considerations that need attention that I might not have thought of?
