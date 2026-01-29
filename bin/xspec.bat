@@ -175,6 +175,7 @@ rem ##
     if "%QUERYLANGUAGE%"=="xquery" (
         call :preprocess_schematron-xqs
         set XSLT=
+        set XQUERY=1
     ) else (
         call :preprocess_schematron
     )
