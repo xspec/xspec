@@ -51,7 +51,7 @@ description =
 		## a report element) approximately exceeds this attribute, the result is saved as a separate
 		## file.
 		## Results are never saved as separate files, if the attribute value is 'inf' or when
-		## testing XQuery.
+		## testing XQuery or XProc.
 		[ a:defaultValue = "inf" ]
 		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
 		
