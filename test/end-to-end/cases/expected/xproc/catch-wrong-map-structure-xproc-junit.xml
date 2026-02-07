@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="catch-wrong-map-structure-xproc.xspec">
+   <testsuite name="Scenario configured to catch errors" tests="24" failures="16">
+      <testcase name="Error in SUT; x:expect written with expectation of error ? twice"
+                status="passed"/>
+      <testcase name="Error in SUT; x:expect written with expectation of error ?, !., function notation"
+                status="passed"/>
+      <testcase name="Error in SUT; x:expect written with expectation of error Function notation, ?"
+                status="passed"/>
+      <testcase name="Error in SUT; x:expect written with expectation of error Function notation twice with !. in between"
+                status="passed"/>
+      <testcase name="Error in SUT; x:expect written with expectation of no error ? three times"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="Error in SUT; x:expect written with expectation of no error ?, !. preceding function notation"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="Error in SUT; x:expect written with expectation of no error Function notation, ?"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="Error in SUT; x:expect written with expectation of no error Function notation with !. preceding all but first"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of no error ? three times"
+                status="passed"/>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of no error ?, !. preceding function notation"
+                status="passed"/>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of no error Function notation, ?"
+                status="passed"/>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of no error Function notation with !. preceding all but first"
+                status="passed"/>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of error ? twice"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of error ?, !., function notation"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of error Function notation, ?"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has output port; x:expect written with expectation of error Function notation twice with !. in between"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of no error ? three times"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of no error ?, !. preceding function notation"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of no error Function notation, ?"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of no error Function notation with !. preceding all but first"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error ? twice"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error ?, !., function notation"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error Function notation, ?"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+      <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error Function notation twice with !. in between"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

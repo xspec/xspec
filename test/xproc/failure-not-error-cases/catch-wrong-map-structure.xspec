@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.31?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" version="4.0"
+    xproc="../cases/library-dynamic-errors.xpl">
+
+    <!--
+        This test demonstrates XPath syntaxes that
+        (a) Access data in the map in the error case and no-error case
+        (b) Do not raise an error if x:expect is written to expect an
+           error that does not occur, or vice versa. 
+    -->
+
+    <x:scenario catch="yes" label="Scenario configured to catch errors">
+        <x:scenario label="Error in SUT,">
+            <x:call step="s:p-error-or-document">
+                <x:option name="error-msg" select="'Something went wrong'"/>
+            </x:call>
+            <x:like label="Error expected"/>
+            <x:like label="Error not expected"/>
+        </x:scenario>
+        <x:scenario label="No error in SUT,">
+            <x:call step="s:p-error-or-document"/>
+            <!-- The following verifications fail but do not raise an error. -->
+            <x:like label="Error not expected"/>
+            <x:like label="Error expected"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Error expected" shared="yes">
+        <x:scenario label="x:expect written with expectation of error">
+            <x:expect label="? twice"
+                test="$x:result?err?code" select="false()"/>
+            <x:expect label="?, !., function notation"
+                test="$x:result?err!.('code')" select="false()"/>
+            <x:expect label="Function notation, ?"
+                test="$x:result('err')?code" select="false()"/>
+            <x:expect label="Function notation twice with !. in between"
+                test="$x:result('err')!.('code')" select="false()"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Error not expected" shared="yes">
+        <x:scenario label="x:expect written with expectation of no error">
+            <x:expect label="? three times"
+                test="$x:result?ports?xproc-result?document" select="false()"/>
+            <x:expect label="?, !. preceding function notation"
+                test="$x:result?ports!.('xproc-result')!.('document')" select="false()"/>
+            <x:expect label="Function notation, ?"
+                test="$x:result('ports')?xproc-result?document" select="false()"/>
+            <x:expect label="Function notation with !. preceding all but first"
+                test="$x:result('ports')!.('xproc-result')!.('document')" select="false()"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

@@ -61,25 +61,34 @@
 		Normalizes base-uri property value within a map of document properties (XProc testing).
 		For simplicity, use only the filename and extension. Where the full base URI value is
 		significant, it is tested elsewhere.
+
+		Same for "module" property value within a map of error information (XProc testing).
 	-->
-	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:')]"
+	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:|module&quot;:|href=&quot;')]"
 		mode="normalizer:normalize">
-		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri:")([^"]+)(")</xsl:variable>
-		<xsl:value-of>
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri|module"|href=")(:")?([^"]+)(")</xsl:variable>
+		<xsl:variable name="paths-normalized" as="xs:string+">
 			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
 				regex="{$pattern}">
 				<xsl:matching-substring>
 					<xsl:sequence select="concat(
 						regex-group(1),
-						regex-group(2) => x:filename-and-extension(),
-						regex-group(3)
+						regex-group(2),
+						regex-group(3) => x:filename-and-extension(),
+						regex-group(4)
 						)"/>
 				</xsl:matching-substring>
 				<xsl:non-matching-substring>
 					<xsl:sequence select="."/>
 				</xsl:non-matching-substring>
 			</xsl:analyze-string>
-		</xsl:value-of>
+		</xsl:variable>
+		<!-- Oxygen 28.0 version of XML Calabash (v3.0.25) uses <cx:explanation> in caught-error document,
+			but XML Calabash as of v3.0.31 doesn't. Remove it at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="explanation-removed" as="xs:string" select="
+			$paths-normalized => string-join()
+			=> replace('&lt;cx:explanation&gt;(.+)&lt;/cx:explanation&gt;\s+', '')"/>
+		<xsl:value-of select="$explanation-removed"/>
 	</xsl:template>
 
 	<!--
