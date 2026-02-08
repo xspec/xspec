@@ -473,7 +473,8 @@ if not exist "%TEST_DIR%" (
 
 if defined SCHEMATRON call :classify_and_process_schematron || goto :win_main_error_exit
 
-set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
+rem Forward slash in COMPILED is deliberate; see https://github.com/xspec/xspec/issues/2246#issuecomment-3783402532
+set "COMPILED=%TEST_DIR%/%TARGET_FILE_NAME%-compiled"
 if defined XQUERY (
     set "COMPILED=%COMPILED%.xq"
 ) else (
