@@ -97,10 +97,10 @@
             <p:identity name="caught-error-document">
                 <p:with-input pipe="error@catch" />
             </p:identity>
-            <impl:error-code-as-element name="error-code-document"
+            <impl:error-code-attr-to-qname name="error-code-qnames"
                 xmlns:impl="urn:x-xspec:compile:impl"/>
             <p:identity name="code-entry-in-map">
-                <p:with-input select="map{{ 'code': /*/*/* ! node-name(.) }}" />
+                <p:with-input select="map{{ 'code': . }}" />
             </p:identity>
             <p:identity name="value-entry-in-map">
                 <p:with-input select="map{{ 'value': . }}"

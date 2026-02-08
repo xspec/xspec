@@ -38,7 +38,8 @@
 
     <x:scenario label="Error expected" shared="yes">
         <x:scenario label="x:expect written with expectation of error">
-            <x:variable name="expected" select="QName('', 'error-from-my-xproc-step')"/>
+            <x:variable name="expected"
+                select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
             <x:expect label="? twice"
                 test="$x:result?err?code" select="$expected"/>
             <x:expect label="?, !., function notation"

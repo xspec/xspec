@@ -35,19 +35,19 @@
                 status="passed"/>
       <testcase name="No error in SUT, which has output port; x:expect written with expectation of error ? twice"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has output port; x:expect written with expectation of error ?, !., function notation"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has output port; x:expect written with expectation of error Function notation, ?"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has output port; x:expect written with expectation of error Function notation twice with !. in between"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of no error ? three times"
                 status="failed">
@@ -67,19 +67,19 @@
       </testcase>
       <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error ? twice"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error ?, !., function notation"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error Function notation, ?"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
       <testcase name="No error in SUT, which has no output ports; x:expect written with expectation of error Function notation twice with !. in between"
                 status="failed">
-         <failure message="expect assertion failed">Expected Result: QName('', 'error-from-my-xproc-step')</failure>
+         <failure message="expect assertion failed">Expected Result: QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')</failure>
       </testcase>
    </testsuite>
 </testsuites>

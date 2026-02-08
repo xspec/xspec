@@ -23,7 +23,7 @@
 
             <!-- Import a step needed when catching errors -->
             <xsl:if test="x:yes-no-synonym($parent-scenario/ancestor-or-self::*[@catch][1]/@catch, false())">
-                <p:import href="{resolve-uri('error-code-as-element.xpl')}"/>
+                <p:import href="{resolve-uri('error-code-attr-to-qname.xpl')}"/>
             </xsl:if>
 
             <!-- Map to return to step runner and XSLT test runner -->

@@ -15,11 +15,10 @@
                     <with-input pipe="error@catch"/>
                 </identity>
 
-                <!-- First, resolve c:error/@code attribute values as QNames, returned as names of elements -->
-                <error-code-as-element name="error-code-document" xmlns="urn:x-xspec:compile:impl"/>
-                <!-- Get xs:QName values from the element names and put them in map entry -->
+                <!-- First, resolve c:error/@code attribute values as QNames. Then store in map. -->
+                <error-code-attr-to-qname name="error-code-qnames" xmlns="urn:x-xspec:compile:impl"/>
                 <identity name="code-entry-in-map">
-                    <with-input select="map{{{{ 'code': /*/*/* ! node-name(.) }}}}"/>
+                    <with-input select="map{{{{ 'code': . }}}}"/>
                 </identity>
 
                 <identity name="value-entry-in-map">

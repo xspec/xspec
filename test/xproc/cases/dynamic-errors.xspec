@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test min-xmlcalabash-version=3.0.31?>
+<?xspec-test min-xmlcalabash-version=3.0.38?>
 <x:description xmlns:c="http://www.w3.org/ns/xproc-step"
     xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:map="http://www.w3.org/2005/xpath-functions/map" 
     xmlns:p="http://www.w3.org/ns/xproc"
@@ -76,7 +76,7 @@
         </x:scenario>
     </x:scenario>
 
-    <x:scenario label="If p:error uses UQName for error code" catch="yes">
+    <x:scenario label="If p:error uses UQName for error code (requires XML Calabash v3.0.38)" catch="yes">
         <x:call step="s:p-error-UQName-code"/>
         <x:expect label="the error code is still verifiable as QName"
             test="$x:result?err?code treat as xs:QName"

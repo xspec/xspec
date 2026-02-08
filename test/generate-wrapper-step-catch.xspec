@@ -19,7 +19,7 @@
                 <x:param name="parent-scenario" select="$initial-document//x:scenario"/>
             </x:call>
             <x:expect label="This step imports error-code-as-element.xpl"
-                test="exists(/p:declare-step/p:import[ends-with(@href, '/error-code-as-element.xpl')])"/>
+                test="exists(/p:declare-step/p:import[ends-with(@href, '/error-code-attr-to-qname.xpl')])"/>
             <x:expect label="and the test target file."
                 test="exists(/p:declare-step/p:import[ends-with(@href, '/inputs-options-outputs.xpl')])"/>
             <x:expect label="This step invokes the test target step within p:try."
