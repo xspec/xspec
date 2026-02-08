@@ -5,12 +5,21 @@
     <p:declare-step type="s:p-error">
         <p:option name="error-msg" select="()"/>
         <p:if test="exists($error-msg)">
-            <p:error code="error-from-my-xproc-step" name="s-p-error">
+            <p:error code="s:error-from-my-xproc-step" name="s-p-error">
                 <p:with-input port="source" expand-text="true">
                     <s:document>{$error-msg}</s:document>
                 </p:with-input>
             </p:error>
         </p:if>
+    </p:declare-step>
+
+    <p:declare-step type="s:p-error-UQName-code">
+        <p:error name="s-p-error-UQName-code"
+            code="Q{{x-urn:test:xproc:steplibrary}}error-from-my-xproc-step">
+            <p:with-input port="source">
+                <s:document>Something went wrong.</s:document>
+            </p:with-input>
+        </p:error>
     </p:declare-step>
 
     <p:declare-step type="s:p-error-or-document">

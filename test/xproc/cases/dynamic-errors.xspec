@@ -20,7 +20,7 @@
                     <x:like label="call-error" />
                     <x:expect label="Verify error code"
                         test="$x:result?err?code treat as xs:QName"
-                        select="xs:QName('error-from-my-xproc-step')"/>
+                        select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
                     <x:expect label="Verify description, which is a map entry with empty value"
                         test="('description' = map:keys($x:result?err)) and
                         empty($x:result?err?description)"/>
@@ -37,8 +37,8 @@
                     <x:expect label="Verify value, which is c:errors document from XProc"
                         test="$x:result?err?value treat as document-node()" select="/">
                         <c:errors>
-                            <c:error name="s-p-error" type="p:error" code="error-from-my-xproc-step"
-                                href="..." line="8" column="71">
+                            <c:error name="s-p-error" type="p:error" code="s:error-from-my-xproc-step"
+                                href="..." line="8" column="73">
                                 <cx:input-location href="..."/>
                                 <cx:message>...</cx:message>
                                 <s:document>Something went wrong</s:document>
@@ -76,4 +76,10 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="If p:error uses UQName for error code" catch="yes">
+        <x:call step="s:p-error-UQName-code"/>
+        <x:expect label="the error code is still verifiable as QName"
+            test="$x:result?err?code treat as xs:QName"
+            select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
+    </x:scenario>
 </x:description>
