@@ -19,14 +19,13 @@
                 )"/>
         </x:scenario>
         <x:scenario>
-            <x:label>XSpec file with a total of 4 XProc helpers, following x:import</x:label>
+            <x:label>XSpec file with a total of 3 XProc helpers, following x:import</x:label>
             <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
             <x:call template="generate-imports"/>
-            <x:expect label="Comment, p:import, comment, 4 p:import elements">
+            <x:expect label="Comment, p:import, comment, 3 p:import elements">
                 <!--Import a library that the test runner uses-->
                 <p:import href="..."/>
                 <!--Import pipelines referenced by @xproc in x:helper, recursively across imported XSpec files-->
-                <p:import href="..."/>
                 <p:import href="..."/>
                 <p:import href="..."/>
                 <p:import href="..."/>
@@ -35,14 +34,13 @@
     </x:scenario>
     <x:scenario label="Test for match='/' template rule">
         <x:scenario>
-            <x:label>XSpec file with a total of 4 XProc helpers, following x:import</x:label>
+            <x:label>XSpec file with a total of 3 XProc helpers, following x:import</x:label>
             <x:context href="xproc/unit-test-supporting-files/top-level.xspec"/>
             <x:expect label="p:library with content from generate-imports">
                 <p:library version="3.1">
                     <!--Import a library that the test runner uses-->
                     <p:import href="..."/>
                     <!--Import pipelines referenced by @xproc in x:helper, recursively across imported XSpec files-->
-                    <p:import href="..."/>
                     <p:import href="..."/>
                     <p:import href="..."/>
                     <p:import href="..."/>

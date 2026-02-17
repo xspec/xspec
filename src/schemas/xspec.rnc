@@ -85,8 +85,7 @@ helper =
 			)
 			|
 			(
-			    attribute xproc { xsd:anyURI },
-			    attribute stylesheet { xsd:anyURI }?
+			    attribute xproc { xsd:anyURI }
 			)
 		)
 	}
