@@ -13,7 +13,7 @@
         <p:option name="property" required="true" as="xs:string"/>
         <p:identity>
             <p:with-input select="string()">
-                <foo>{ p:system-property($property) }</foo>
+                <p:inline>{ p:system-property($property) }</p:inline>
             </p:with-input>
         </p:identity>
     </p:declare-step>
