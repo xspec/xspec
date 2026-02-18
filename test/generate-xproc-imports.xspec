@@ -58,12 +58,12 @@
                 result-type="element(p:import)" test="ends-with(p:import/@href, '/helper.xpl')"/>
         </x:scenario>
         <x:scenario label="When imported XSpec file has a helper XProc file">
-            <x:context href="xproc/cases/import_html-documents.xspec" select="/x:description"
+            <x:context href="xproc/cases/import_x-helper-xproc.xspec" select="/x:description"
                 mode="generate-imports"/>
             <x:expect
                 label="a resulting p:import element points to the imported XSpec file's helper"
                 result-type="element(p:import)"
-                test="ends-with(p:import/@href, '/test-helper-load.xpl')"/>
+                test="ends-with(p:import/@href, '/library-mirror.xpl')"/>
         </x:scenario>
     </x:scenario>
     <x:scenario label="Tests for x:helper template rule in mode=generate-imports">

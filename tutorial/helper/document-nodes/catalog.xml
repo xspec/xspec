@@ -3,11 +3,5 @@
 
 	<system systemId="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/test-helper-documents"
 		uri="test-helper-documents.xsl" />
-	
-	<system systemId="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/test-helper-load"
-		uri="test-helper-load.xsl"/>
-
-	<system systemId="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/test-helper-load/step"
-		uri="test-helper-load.xpl" />
 
 </catalog>

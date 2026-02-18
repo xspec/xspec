@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file is a copy of tutorial/helper/document-nodes/test-helper-load.xpl
-    just to simplify bats testing that occurs in an isolated temporary directory. -->
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
-    xmlns:thd-step="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/steps"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" type="thd-step:load" name="load" version="3.0">
+    xmlns:px="http://www.jenitennison.com/xslt/xspec/helper/load"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" type="px:load" name="load" version="3.0">
 
     <!-- Wrapper around standard p:load step. Only custom steps can be accessed from XPath. -->
     <p:output port="result" sequence="true" content-types="any"/>

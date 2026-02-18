@@ -5,8 +5,6 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xproc="library-content-types.xpl">
 
-    <x:helper xproc="../../../tutorial/helper/document-nodes/test-helper-load.xpl"
-        stylesheet="../../../tutorial/helper/document-nodes/test-helper-load.xsl"/>
     <x:helper stylesheet="../../../tutorial/helper/document-nodes/test-helper-documents.xsl"/>
 
     <x:variable name="text-file-as-string" as="xs:string"
@@ -17,36 +15,9 @@
         select="thd:wrap-all($text-file-as-text-node)"/>
 
     <x:scenario label="s:get-text-line using text from external file">
-        <!-- This scenario demonstrates loading the text file using XPath functions, but the
-            following alternatives that get evaluated in XProc (not XSLT/XPath) are simpler:
-            
-            <x:input port="source" href="document.txt"/>
-
-            <x:input port="source">
-                <p:document href="document.txt"/>
-            </x:input>
-            
-            Related tests: for @href pointing to non-XML file, see input-element.xspec;
-            for p:document children of x:input, see p-document-within-x-input.xspec.
-            -->
-        <x:scenario label="using thd:load-via-xproc() for .txt file">
-            <x:variable name="filename" select="'document.txt'"/>
-            <x:call step="s:get-text-line">
-                <x:input port="source" select="thd:load-via-xproc($filename, $x:xspec-uri)"
-                    as="document-node()"/>
-            </x:call>
-            <x:like label="verify returned text"/>
-            <x:like label="verify base URI"/>
-        </x:scenario>
-        <x:scenario label="using thd:load-via-xproc() for CSV file">
-            <x:variable name="filename" select="'document.csv'"/>
-            <x:call step="s:get-text-line">
-                <x:input port="source" select="thd:load-via-xproc($filename, $x:xspec-uri)"
-                    as="document-node()"/>
-            </x:call>
-            <x:like label="verify returned text"/>
-            <x:like label="verify base URI"/>
-        </x:scenario>
+        <!-- This scenario demonstrates loading a text file using XPath functions, but when the
+        input port needs only external files, using p:document children of x:input is simpler;
+        see p-document-within-x-input.xspec. -->
         <x:scenario label="using unparsed-text() and text node">
             <x:call step="s:get-text-line">
                 <x:input port="source" select="$text-file-as-text-node" as="text()"/>
@@ -103,14 +74,6 @@
     </x:scenario>
 
     <x:scenario label="Content type">
-        <x:scenario label="of txt input file loaded with thd:load-via-xproc()">
-            <x:variable name="text-input" select="thd:load-via-xproc('document.txt', $x:xspec-uri)"/>
-            <x:like label="check content type"/>
-        </x:scenario>
-        <x:scenario label="of CSV input file loaded with thd:load-via-xproc()">
-            <x:variable name="text-input" select="thd:load-via-xproc('document.csv', $x:xspec-uri)"/>
-            <x:like label="check content type"/>
-        </x:scenario>
         <x:scenario>
             <x:label>of text node (XML Calabash wraps it in document node; XSpec user does not need
                 to wrap text nodes using their own code)</x:label>
@@ -133,16 +96,8 @@
             test="$x:result/node() instance of text()"/>
         <x:expect label="containing the first line of the text file, including line break"
             port="xproc-result" select="/">1, 10&#10;</x:expect>
-        <x:expect label="(In x:expect[@port][not(@test)][node()], select='/' is optional.)"
+        <x:expect label="(In x:expect[@port][not(@test)], select='/' is optional.)"
             port="xproc-result">1, 10&#10;</x:expect>
-    </x:scenario>
-    <x:scenario shared="yes" label="verify base URI">
-        <!-- Variable $filename must be defined at site of x:like -->
-        <x:expect label="Base URI reflects the document (not .xsl or .xpl intermediate file)."
-            port="xproc-result"
-            test="$x:document-properties?(QName('', 'base-uri')) !
-            substring-after(., 'test/xproc/cases/')"
-            select="$filename"/>
     </x:scenario>
     <x:scenario shared="yes" label="check content type">
         <x:call step="mirror:identity">

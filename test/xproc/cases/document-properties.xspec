@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:c="http://www.w3.org/ns/xproc-step"
-    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-    xmlns:s="x-urn:test:xproc:steplibrary"
-    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="library-properties.xpl">
-
-    <x:helper xproc="../../../tutorial/helper/document-nodes/test-helper-load.xpl"
-        stylesheet="../../../tutorial/helper/document-nodes/test-helper-load.xsl"/>
 
     <x:scenario label="If the test target modifies document properties">
         <x:call step="s:set-properties">
-            <x:input port="source" select="thd:load-via-xproc('document.txt', $x:xspec-uri)"
-                as="document-node()"/>
+            <x:input port="source">
+                <p:document href="document.txt"/>
+            </x:input>
         </x:call>
         <x:scenario label="by adding a new property">
             <x:call>
@@ -69,14 +65,14 @@
                 <x:expect
                     test="map:keys($x:result?ports?out1[1]?document-properties) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
-                    <x:label>The properties in the first map have keys that are QNames for base-uri and
-                        content-type</x:label>
+                    <x:label>The properties in the first map have keys that are QNames for base-uri
+                        and content-type</x:label>
                 </x:expect>
                 <x:expect
                     test="map:keys($x:result?ports?out1[2]?document-properties) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
-                    <x:label>The properties in the second map have keys that are QNames for base-uri and
-                        content-type</x:label>
+                    <x:label>The properties in the second map have keys that are QNames for base-uri
+                        and content-type</x:label>
                 </x:expect>
             </x:scenario>
             <x:scenario label="Check out2 port:">
@@ -105,22 +101,24 @@
             <x:scenario label="Check out1 port:">
                 <x:expect port="out1" label="2 items for out1 (one per document on this port)"
                     test="count($x:document-properties)" select="2"/>
-                <x:expect port="out1" label="and both are maps." test="$x:document-properties instance of map(*)+"/>
+                <x:expect port="out1" label="and both are maps."
+                    test="$x:document-properties instance of map(*)+"/>
                 <x:expect port="out1"
                     test="map:keys($x:document-properties[1]) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
-                    <x:label>The properties in the first map have keys that are QNames for base-uri and
-                        content-type</x:label>
+                    <x:label>The properties in the first map have keys that are QNames for base-uri
+                        and content-type</x:label>
                 </x:expect>
                 <x:expect port="out1"
                     test="map:keys($x:document-properties[2]) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
-                    <x:label>The properties in the second map have keys that are QNames for base-uri and
-                        content-type</x:label>
+                    <x:label>The properties in the second map have keys that are QNames for base-uri
+                        and content-type</x:label>
                 </x:expect>
             </x:scenario>
             <x:scenario label="Check out2 port:">
-                <x:expect port="out2" label="1 map for out2" test="$x:document-properties instance of map(*)"/>
+                <x:expect port="out2" label="1 map for out2"
+                    test="$x:document-properties instance of map(*)"/>
                 <x:expect port="out2"
                     test="map:keys($x:document-properties) ! local-name-from-QName(.) => sort()"
                     select="('base-uri', 'content-type')">
@@ -129,9 +127,10 @@
                 </x:expect>
             </x:scenario>
             <x:scenario label="Check out3 port:">
-                <x:expect port="out3" label="Trivial maps for out3 because this port has no documents"
+                <x:expect port="out3"
+                    label="Trivial maps for out3 because this port has no documents"
                     test="$x:document-properties" select="map{}"/>
             </x:scenario>
-        </x:scenario>        
+        </x:scenario>
     </x:scenario>
 </x:description>

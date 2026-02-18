@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:catalog-01-helper="x-urn:test:catalog-01:helper"
 	xmlns:mirror="x-urn:test:mirror"
-	xmlns:thd-step="http://www.jenitennison.com/xslt/xspec/helper/document-nodes/steps"
+	xmlns:px="http://www.jenitennison.com/xslt/xspec/helper/load"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Catalog for step-call input URI and DOCTYPE">
 		<x:scenario label="x:input with href and select">
@@ -45,7 +45,7 @@
 				<irrelevant/>
 			</x:input>
 		</x:call>
-		<x:expect port="xproc-result" label="Found step defined in XProc helper file" test="thd-step:load(
+		<x:expect port="xproc-result" label="Found step defined in XProc helper file" test="px:load(
 			map{ 'href': '01/example.xml' => resolve-uri($x:xspec-uri)}
 			)?result" href="example.xml"/>
 	</x:scenario>

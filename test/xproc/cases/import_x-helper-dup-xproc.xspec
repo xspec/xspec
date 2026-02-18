@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xproc="library-connections.xpl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-    <!-- This test helps test/generate-xproc-imports.xspec verify that
-        x:helper[@xproc] in an imported XSpec file gets processed. -->
+    <!-- This test demonstrates that a duplicate x:helper reference to an XProc
+        helper module still works. -->
+    <x:helper xproc="library-mirror.xpl"/>
     <x:import href="x-helper-xproc.xspec"/>
 
 </x:description>
