@@ -8,7 +8,7 @@
   <version>3.4-SNAPSHOT</version>
 
   <name>XSpec implementation</name>
-  <description>A unit test framework for XSLT, XQuery and Schematron</description>
+  <description>A unit test framework for XSLT, XQuery, Schematron, and XProc </description>
   <inceptionYear>2008</inceptionYear>
   <url>https://github.com/xspec/xspec</url>
 
