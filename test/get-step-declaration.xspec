@@ -123,6 +123,19 @@
                 </p:declare-step>
             </x:expect>
         </x:scenario>
+        <x:scenario label="in p:library with static option">
+            <x:context mode="local:gather-steps" select="/">
+                <x:param name="import-stack" tunnel="yes" select="()"/>
+                <p:library>
+                    <p:option name="loc-p:static-option" static="true" select="0"/>
+                </p:library>
+            </x:context>
+            <x:expect>
+                <x:label>includes static option with @name and @static, so error-checking can look
+                    for this element</x:label>
+                <p:option name="loc-p:static-option" static="true"/>
+            </x:expect>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Test x:step-declaration function">

@@ -445,8 +445,11 @@
          select="$step-declaration/p:input"/>
       <xsl:variable name="declared-options" as="element(p:option)*"
          select="$step-declaration/p:option"/>
-      <xsl:variable name="declared-option-UQNames" as="xs:string*"
-         select="$declared-options ! x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+      <xsl:variable name="declared-nonstatic-step-option-UQNames" as="xs:string*"
+         select="$declared-options[not(@static='true')] ! x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+      <xsl:variable name="declared-static-step-option-UQNames" as="xs:string*"
+         select="$declared-options[@static='true'] ! x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+
       <xsl:for-each select="$call/x:input[not(@port/string() = $declared-inputs/@port/string())]">
          <xsl:variable name="unknown-port" as="xs:string" select="@port"/>
          <xsl:for-each select="$parent-scenario/x:call">
@@ -458,21 +461,34 @@
                </xsl:call-template>
             </xsl:message>
          </xsl:for-each>
-      </xsl:for-each>
-      <xsl:for-each select="
-            $call/x:option
-            [not(x:UQName-from-EQName-ignoring-default-ns(@name, .) = $declared-option-UQNames)]
-            ">
-         <xsl:variable name="unknown-option" as="xs:string" select="@name"/>
-         <xsl:for-each select="$parent-scenario/x:call">
-            <xsl:message terminate="yes">
-               <xsl:call-template name="x:prefix-diag-message">
-                  <xsl:with-param name="message">
-                     <xsl:text expand-text="yes">Step of type '{ $call/@step }' has no option named '{ $unknown-option }'.</xsl:text>
-                  </xsl:with-param>
-               </xsl:call-template>
-            </xsl:message>
-         </xsl:for-each>
+      </xsl:for-each>     
+      <xsl:for-each select="$call/x:option">
+         <xsl:variable name="option-name" as="xs:string" select="@name"/>
+         <xsl:variable name="option-UQName" as="xs:string"
+            select="x:UQName-from-EQName-ignoring-default-ns($option-name, .)"/>
+         <xsl:if test="($option-UQName = $declared-static-step-option-UQNames) or
+            exists(key('static-library-options', $option-UQName, $xproc-input-tree))">
+            <xsl:for-each select="$parent-scenario/x:call">
+               <xsl:message terminate="yes">
+                  <xsl:call-template name="x:prefix-diag-message">
+                     <xsl:with-param name="message">
+                        <xsl:text expand-text="yes">Cannot specify option '{ $option-name }' because it is static.</xsl:text>
+                     </xsl:with-param>
+                  </xsl:call-template>
+               </xsl:message>
+            </xsl:for-each>            
+         </xsl:if>
+         <xsl:if test="not($option-UQName = $declared-nonstatic-step-option-UQNames)">
+            <xsl:for-each select="$parent-scenario/x:call">
+               <xsl:message terminate="yes">
+                  <xsl:call-template name="x:prefix-diag-message">
+                     <xsl:with-param name="message">
+                        <xsl:text expand-text="yes">Step of type '{ $call/@step }' has no option named '{ $option-name }'.</xsl:text>
+                     </xsl:with-param>
+                  </xsl:call-template>
+               </xsl:message>
+            </xsl:for-each>            
+         </xsl:if>
       </xsl:for-each>
       <xsl:for-each select="$declared-inputs">
          <xsl:variable name="p-input" as="element(p:input)" select="."/>

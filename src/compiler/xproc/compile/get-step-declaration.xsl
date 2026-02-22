@@ -20,6 +20,7 @@
 
     <!-- Keys -->
     <xsl:key name="step-declarations" match="p:declare-step[@type]" use="string(@type)"/>
+    <xsl:key name="static-library-options" match="p:library/p:option" use="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
 
     <!-- Functions -->
     <xsl:function name="x:step-declaration" as="element(p:declare-step)">
@@ -66,7 +67,7 @@
         </xsl:apply-templates>
     </xsl:template>
     <xsl:template match="/p:library" mode="local:gather-steps">
-        <xsl:apply-templates select="(p:declare-step[@type], p:import)" mode="#current"/>
+        <xsl:apply-templates select="(p:option, p:declare-step[@type], p:import)" mode="#current"/>
     </xsl:template>
     <xsl:template match="p:declare-step[not(@visibility eq 'private')]" mode="local:gather-steps">
         <xsl:copy>
