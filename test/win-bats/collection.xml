@@ -1073,13 +1073,48 @@
     rem * Default clean.output.dir is false
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :verify_line_count 7
+    call :verify_line 1 x demo-03_classify-schematron.xml
+    call :verify_line 2 x demo-03_xml-to-properties.xml
+    call :verify_line 3 x demo-03-compiled.xsl
+    call :verify_line 4 x demo-03-result.html
+    call :verify_line 5 x demo-03-result.xml
+    call :verify_line 6 x demo-03-sch-preprocessed.xsl
+    call :verify_line 7 x demo-03-sch-preprocessed.xspec
+	</case>
+
+	<case ifdef="BASEX_JAR" name="Ant with minimum properties (Schematron via XQS)">
+    rem Unset any preset args
+    set ANT_ARGS=
+
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy xqs\phases-xqs.* "%TUTORIAL_COPY%"
+
+    rem Run
+    rem * Should work without phase #168
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dtest.type=s ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        -Dxspec.xml="%TUTORIAL_COPY%\phases-xqs.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+
+    rem Verify default output dir
+    rem * Default clean.output.dir is false
+    rem * Default xspec.junit.enabled is false
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 6
-    call :verify_line 1 x demo-03_xml-to-properties.xml
-    call :verify_line 2 x demo-03-compiled.xsl
-    call :verify_line 3 x demo-03-result.html
-    call :verify_line 4 x demo-03-result.xml
-    call :verify_line 5 x demo-03-sch-preprocessed.xsl
-    call :verify_line 6 x demo-03-sch-preprocessed.xspec
+    call :verify_line 1 x phases-xqs_classify-schematron.xml
+    call :verify_line 2 x phases-xqs_xml-to-properties.xml
+    call :verify_line 3 x phases-xqs-compiled.xq
+    call :verify_line 4 x phases-xqs-result.html
+    call :verify_line 5 x phases-xqs-result.xml
+    call :verify_line 6 x phases-xqs-sch-preprocessed.xspec
 	</case>
 
 	<!--
@@ -1123,6 +1158,20 @@
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<case ifdef="BASEX_JAR" name="Ant with catalog file path (Schematron via XQS)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dcatalog="test\catalog\03\catalog-public.xml;%CD%\catalog\03\catalog-rewriteURI.xml" ^
+        -Dtest.type=s ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        -Dxspec.xml="%CD%\catalog\catalog-03_schematron-xqs.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
@@ -1170,6 +1219,21 @@
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<case ifdef="BASEX_JAR" name="Ant with catalog file URI (Schematron via XQS)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dcatalog="test/catalog/03/catalog-public.xml;file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
+        -Dcatalog.is.uri=true ^
+        -Dtest.type=s ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        -Dxspec.xml="%CD%\catalog\catalog-03_schematron-xqs.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
