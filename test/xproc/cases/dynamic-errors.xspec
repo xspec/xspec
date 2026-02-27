@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test min-xmlcalabash-version=3.0.38?>
+<?xspec-test min-xmlcalabash-version=3.0.40?>
 <x:description xmlns:c="http://www.w3.org/ns/xproc-step"
     xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:map="http://www.w3.org/2005/xpath-functions/map" 
     xmlns:p="http://www.w3.org/ns/xproc"
@@ -81,5 +81,20 @@
         <x:expect label="the error code is still verifiable as QName"
             test="$x:result?err?code treat as xs:QName"
             select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
+    </x:scenario>
+
+    <x:scenario label="If error document has two @line values (requires XML Calabash v3.0.40),"
+        catch="yes">
+        <x:call step="s:line-num-in-cx-input-location"/>
+        <x:expect label="in both c:error"
+            test="exists($x:result?err?value//c:error/@line)"/>
+        <x:expect label="and c:error/cx:input-location,"
+            test="exists($x:result?err?value//cx:input-location/@line)"/>
+        <x:expect label="then line-number is from c:error/@line"
+            test="$x:result?err?line-number treat as xs:integer"
+            select="$x:result?err?value//c:error/@line ! xs:integer(.)"/>
+        <x:expect label="and column-number is from c:error/@column"
+            test="$x:result?err?column-number treat as xs:integer"
+            select="$x:result?err?value//c:error/@column ! xs:integer(.)"/>
     </x:scenario>
 </x:description>

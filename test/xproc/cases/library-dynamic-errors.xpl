@@ -46,4 +46,13 @@
         <p:text-head count="0" name="text-head"/>
     </p:declare-step>
 
+    <p:declare-step xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+        type="s:line-num-in-cx-input-location">
+        <p:output port="result"/>
+        <p:identity>
+            <p:with-input>
+                <p:document href="document.xml" parameters="map{'dtd-validate': true()}"/>
+            </p:with-input>
+        </p:identity>
+    </p:declare-step>
 </p:library>
