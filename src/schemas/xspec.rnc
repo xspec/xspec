@@ -4,17 +4,20 @@
 # testing, but for XSLT
 default namespace x = "http://www.jenitennison.com/xslt/xspec"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace p = "http://www.w3.org/ns/xproc"
+namespace local = ""
 
 start = description
 
 description = 
-	## A description is a description of a stylesheet application. 
-	## It must have a stylesheet and/or a query it's associated with.
+	## A description is a description of an application. It must be 
+	## associated with a stylesheet, query, schema, or XProc step/library. 
 	## It may also have a version to aid development over time.
 	element description { 
 		common-attributes,
 		attribute stylesheet { xsd:anyURI }?,
 		attribute query { xsd:anyURI }?,
+		attribute xproc { xsd:anyURI }?,
 
 		## XQuery version which will be declared in the compiled main module.
 		[ a:defaultValue = "3.1" ]
@@ -31,7 +34,7 @@ description =
 		attribute preserve-space { xsd:NMTOKENS }?,
 		attribute schematron { xsd:anyURI }?,
 		
-		## EXPERIMENTAL. Subject to change. Ignored on XQuery.
+		## EXPERIMENTAL. Subject to change. Ignored on XQuery and XProc.
 		## "import" (default) integrates SUT into the test runner using xsl:import (or "import module" on XQuery).
 		## "external" invokes SUT externally using fn:transform() (or possibly fn:load-xquery-module() on XQuery?).
 		[ a:defaultValue = "import" ]
@@ -48,7 +51,7 @@ description =
 		## a report element) approximately exceeds this attribute, the result is saved as a separate
 		## file.
 		## Results are never saved as separate files, if the attribute value is 'inf' or when
-		## testing XQuery.
+		## testing XQuery or XProc.
 		[ a:defaultValue = "inf" ]
 		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
 		
@@ -56,13 +59,14 @@ description =
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 
 helper =
-	## The test runner will import this stylesheet (XSLT) or query (XQuery) module after importing
-	## the SUT module.
+	## The test runner will import this stylesheet (XSLT/XProc), query (XQuery), or XProc library
+	## (for testing XProc) module after importing the SUT module.
 	## Specifying an XSLT package will just insert the equivalent <xsl:use-package> in the test
 	## runner. To make the inserted <xsl:use-package> work, the user should set up a Saxon
 	## configuration and specify the package information in it. The Saxon configuration is usually
 	## set up by SAXON_CUSTOM_OPTIONS (CLI) or saxon.custom.options (Ant).
-	## XSLT ignores query modules. XQuery ignores stylesheets and packages.
+	## XSLT and XProc ignore query modules. XQuery ignores stylesheets, packages, and XProc
+	## libraries.
 	element helper {
 		xml-ns-attributes,
 		(
@@ -78,6 +82,10 @@ helper =
 			(
 				attribute query { xsd:anyURI },
 				attribute query-at { xsd:anyURI }?
+			)
+			|
+			(
+			    attribute xproc { xsd:anyURI }
 			)
 		)
 	}
@@ -131,7 +139,8 @@ scenario =
 		( matching-scenario |
 		  function-scenario |
 		  named-scenario | 
-		  schematron-scenario ) }
+		  schematron-scenario |
+		  step-scenario ) }
 
 common-scenario-attributes = common-attributes,
                              pending-attribute?,
@@ -206,7 +215,7 @@ matching-scenario = (global-param | variable)*, context?,
                                         label, matching-scenario })*
 
 ## A function scenario is one based on a call to a stylesheet function. The
-## <call> element defines the function call and the parameters passed to it
+## <call> element defines the function call and the parameters passed to it,
 ## and the <expect> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
 function-scenario = (global-param | variable)*, context?, variable*, function-call?,
@@ -216,8 +225,19 @@ function-scenario = (global-param | variable)*, context?, variable*, function-ca
                      element scenario { common-scenario-attributes,
                                         label, function-scenario })*
 
+## A step scenario is one based on a call to an XProc step. The
+## <call> element defines the step call and the inputs and options passed to it,
+## and the <expect> elements test the outputs of the step. Child scenarios
+## can override the inputs or options in the step call.
+step-scenario = (global-param | variable)*, variable*, step-call?, variable*,
+                    like*,
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
+                     element scenario { common-scenario-attributes,
+                                        label, step-scenario })*
+
 ## A named scenario is one based on a call to a named template. The <call>
-## element defines the template call and the parameters passed to it and the
+## element defines the template call and the parameters passed to it, and the
 ## <expect> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
 named-scenario = (global-param | variable)*, context?, variable*, template-call?,
@@ -239,8 +259,8 @@ context =
 	}
 
 function-call = 
-	## A <call> element either defines a function call or a template call and the
-	## parameters passed to it. 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
 	element call {
 		common-attributes,
 		## The qualified name of the function which should get called.
@@ -252,9 +272,19 @@ function-call =
 		function-params
 	}
 
+step-call = 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
+	element call {
+		common-attributes,
+		## The qualified name of the XProc step which should get called.
+		attribute step { eqname.datatype }?,
+		step-input*, step-option*
+	}
+
 template-call = 
-	## A <call> element either defines a function call or a template call and the
-	## parameters passed to it. 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
 	element call {
 		common-attributes,
 		## The qualified name of the template which should get called.
@@ -270,7 +300,7 @@ global-param =
 	element param { common-attributes, name, static?, selection }
 
 static = 
-	## EXPERIMENTAL. Subject to change. Not supported for XQuery and Schematron.
+	## EXPERIMENTAL. Subject to change. Not supported for XQuery, Schematron, or XProc.
 	## Enabling this attribute is supported only when /x:description/@run-as is "external".
 	attribute static { boolean.datatype }
 
@@ -282,7 +312,63 @@ function-param-base = common-attributes, name?, selection
 function-params = element param { function-param-base }* |
                   element param { function-param-base, position }*
 
+step-input =
+    ## Input to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc (recommended). Alternatively, provide
+    ## arbitrary content and/or attributes href, select, or as; the
+    ## current implementation evaluates them in XSLT.
+    element input { common-attributes,
+                              port-name,
+                              (selection | p-document+) }
+
+## Adapted from xproc31.rnc.
+p-document =
+    ## Load XML or non-XML document using XProc processor.
+    element p:document { p-document-attributes }
+p-document-attributes =  href.attr,
+    attribute content-type { text }?,
+    document-properties.attr?,
+    attribute parameters { PropertyMap }?,
+    common-attributes,
+    use-when.attr?,
+    extension.attr*,
+    (Documentation | PipeInfo)*
+href.attr =
+    ## The document URI (location) of the selected XML or non-XML document.
+    attribute href { xsd:anyURI }
+use-when.attr =
+    ## XPath expression for XProc conditional element exclusion. The condition
+    ## is evaluated statically in XProc. 
+    attribute use-when { xpath }
+document-properties.attr = attribute document-properties { PropertyMap }
+PropertyMap = text
+extension.attr = attribute * - (local:* | xml:* | p:*) { text }
+Documentation =
+    element p:documentation {
+        xml-ns-attributes, extension.attr*, DocContent*
+    }
+PipeInfo =
+    element p:pipeinfo { xml-ns-attributes, extension.attr*, DocContent* }
+DocContent = Any
+Any =
+    element * { (_any.attr | Any)* }
+    | text
+_any.attr = attribute * { text }
+
+step-option =
+    ## Option to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc. Alternatively, provide arbitrary content
+    ## and/or attributes href, select, or as; the current
+    ## implementation evaluates them in XSLT.
+    element option { common-attributes, 
+                              name,
+                              (selection | p-document) }
+
 name = attribute name { eqname.datatype }
+
+port-name =
+    ## Name of XProc port.
+    attribute port { xsd:NCName }
 
 position = attribute position { xsd:positiveInteger }
 
@@ -291,7 +377,7 @@ as = attribute as { text }
 selection = as?, (node-selection | value-selection)
 
 node-selection = (
-                 ## The document URI (location) of the selected document.
+                 ## The document URI (location) of the selected XML document.
                  attribute href { xsd:anyURI }
                  | user-content
                  ),
@@ -310,9 +396,13 @@ assertion =
 	## assertion succeeds only if the sequence is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
-		label, pending-attribute?, test?, result-type?, selection }
+		label, pending-attribute?, test?, result-type?, selection, port? }
 
 test = attribute test { xpath }
+
+port =
+	## Name of output port of XProc step being tested
+	attribute port { xsd:string { minLength = "1" } }
 
 result-type =
 	## Data type of actual result.
@@ -324,7 +414,7 @@ common-attributes = xml-ns-attributes,
 	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
-user-element = element * - x:* { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
+user-element = element * - (x:* | p:document) { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
 
 text-element =
 	## Works like <xsl:text>.

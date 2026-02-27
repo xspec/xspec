@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../../xproc/cases/library.xpl">
+    <!-- This test is for verifying the data shown in diffs in the HTML
+        report when x:expect[@port] fails. -->
+
+    <x:scenario label="When x:expect[@port] fails">
+        <x:call step="s:output-port-sequence-true">
+            <x:option name="num" select="1"/>
+        </x:call>
+        <x:scenario label="due to @result-type">
+            <x:expect port="xproc-result" test="exists($x:result)" result-type="empty-sequence()">
+                <x:label>the report shows the output at that port vs. the sequence type
+                    condition</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="due to boolean @test">
+            <x:expect port="xproc-result" test="empty($x:result)">
+                <x:label>the report shows the output at that port vs. the @test value</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="without @test and with non-matching document node as expected result">
+            <x:expect port="xproc-result" select="/">
+                <x:label>the report shows the output at that port vs. the expected result and both
+                    sides say "XPath /self::document-node() from:"</x:label>
+                <wrong-output-document/>
+            </x:expect>
+            <x:expect label="Same thing without @select" port="xproc-result">
+                <wrong-output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="without @test and with element as expected result">
+            <x:expect port="xproc-result" select="/*">
+                <x:label>the report shows the output at that port vs. the expected result and both
+                    sides say "XPath /self::document-node() from:"</x:label>
+                <wrong-output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces a document node">
+            <x:expect port="xproc-result" test="$x:result" select="/">
+                <x:label>the report shows the filtered output at that port vs. the expected result
+                    and label above box says "XPath /self::document-node() from:"</x:label>
+                <wrong-output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces the full map of document properties">
+            <x:expect port="xproc-result" test="$x:document-properties" select="map{}">
+                <x:label>the report shows the map for that port vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces a subset of document properties">
+            <x:expect port="xproc-result" test="$x:document-properties?(QName('', 'content-type'))"
+                select="map{}">
+                <x:label>the report shows the map for that port vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with boolean @test related to document properties, not documents,">
+            <x:expect port="xproc-result"
+                test="$x:document-properties?(QName('', 'content-type')) eq 'text/plain'">
+                <x:label>the report shows the documents at that port vs. the @test value (i.e., no
+                    special behavior when @test contains $x:document-properties)</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces an element">
+            <x:expect port="xproc-result" test="child::*" select="/*">
+                <x:label>the report shows the filtered output at that port vs. the expected result
+                    and label above box says "XPath /element() from:"</x:label>
+                <wrong-output-document/>
+            </x:expect>
+            <x:expect port="xproc-result" test="child::*">
+                <x:label>Same thing without @select</x:label>
+                <wrong-output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces an atomic value">
+            <x:expect port="xproc-result" test="name(child::*[1])" select="'wrong-output-document'">
+                <x:label>the report shows the atomic value vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="When the output port has multiple documents and x:expect[@port] fails">
+        <x:call step="s:output-port-sequence-true">
+            <x:option name="num" select="2"/>
+        </x:call>
+        <x:expect label="(Confirm that output at that port is a pair of document nodes)"
+            port="xproc-result"
+            test="$x:result instance of document-node()+ and count($x:result) eq 2"/>
+        <x:scenario label="without @test and with single document node as expected result">
+            <x:expect port="xproc-result" select="/">
+                <x:label>the report shows the output at that port labeled as "XPath /node() from"
+                    (without depicting boundaries between adjacent document nodes) vs. the expected
+                    result labeled as "XPath /self::document-node() from"</x:label>
+                <output-document/>
+                <output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="without @test and with element sequence as expected result">
+            <x:expect port="xproc-result" select="/*">
+                <x:label>the report shows the output at that port labeled as "XPath /node() from"
+                    (without depicting boundaries between adjacent document nodes) vs. the expected
+                    result labeled as "XPath /node() from"</x:label>
+                <wrong-output-document/>
+                <output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario>
+            <x:label>with @test that produces multiple document nodes and sequence of multiple
+                document nodes as expected result</x:label>
+            <x:expect port="xproc-result" test="$x:result"
+                select="/* ! Q{urn:x-xspec:common:wrap}wrap-nodes(.)">
+                <x:label>the report shows the output at that port vs. the expected result, both
+                    labeled with "XPath /node() from" to indicate multiple nodes (without depicting
+                    boundaries between adjacent document nodes)</x:label>
+                <wrong-output-document/>
+                <output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces element nodes">
+            <x:expect port="xproc-result" test="$x:result/child::*" select="/*">
+                <x:label>the report shows the filtered output at that port vs. the expected result
+                    and both sides say "XPath /element() from:"</x:label>
+                <wrong-output-document/>
+                <output-document/>
+            </x:expect>
+            <x:expect port="xproc-result" test="$x:result/child::*">
+                <x:label>Same thing without @select</x:label>
+                <wrong-output-document/>
+                <output-document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with @test that produces an atomic value">
+            <x:expect port="xproc-result" test="name($x:result[1]/child::*[1])"
+                select="'wrong-output-document'">
+                <x:label>the report shows the atomic value vs. the expected result</x:label>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+</x:description>

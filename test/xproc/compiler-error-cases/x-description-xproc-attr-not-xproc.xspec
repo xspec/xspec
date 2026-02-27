@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:description: File at ../../mirror.xsl is not XProc. It should have /p:declare-step or /p:library. Instead, it has /xsl:stylesheet.?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../../mirror.xsl">
+    <!-- The .xsl file exists but it's not an XProc file -->
+    <x:scenario label="error">
+        <x:call step="do-something"/>
+        <x:expect label="verify something"/>
+    </x:scenario>
+</x:description>

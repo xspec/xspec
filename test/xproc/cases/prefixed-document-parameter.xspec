@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.37?>
+<x:description xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xvrl="http://www.xproc.org/ns/xvrl"
+    xproc="library-validation.xpl">
+
+    <!-- See also validation-with-line-numbers.xspec, which does not rely on prefixes -->
+    <x:scenario label="Generate validation report for invalid document">
+        <x:call step="s:validate-with-relax-ng">
+            <x:input port="schema">
+                <p:document href="../../../src/schemas/xspec.rnc"/>
+            </x:input>
+            <x:option name="assert-valid" select="false()"/>
+        </x:call>
+        <x:scenario label="Enabling line numbers specified via prefixed name and xs:QName()">
+            <x:call>
+                <x:input port="source">
+                    <p:document href="../compiler-error-cases/p-document-and-x-input-href.xspec"
+                        parameters="map{xs:QName('cx:line-numbering'): true()}"/>
+                </x:input>
+            </x:call>
+            <x:expect port="xproc-report" label="xrvl:location includes a line number"
+                test="exists(//xvrl:location/@line)"/>
+        </x:scenario>
+        <x:scenario label="Enabling line numbers specified via prefixed name in string">
+            <x:call>
+                <x:input port="source">
+                    <p:document href="../compiler-error-cases/p-document-and-x-input-href.xspec"
+                        parameters="map{'cx:line-numbering': true()}"/>
+                </x:input>
+            </x:call>
+            <x:expect port="xproc-report" label="xrvl:location includes a line number"
+                test="exists(//xvrl:location/@line)"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

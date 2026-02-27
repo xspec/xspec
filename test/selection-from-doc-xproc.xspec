@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/compiler/xproc/declare-variable/selection-from-doc.xsl">
+
+    <!-- The purpose of this unit test is to clarify the logic for defining port-specific expected
+        results in test scenarios for XProc. For arguments other than x:expect[@port], the logic is
+        as in XSLT testing and easier to understand by inspection of the function declaration. -->
+    <x:scenario label="Test x:selection-from-doc for x:expect[@port] without @test">
+        <x:call function="x:selection-from-doc"/>
+        <x:scenario label="@href and no @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][@href][not(@select)]"/>
+            </x:call>
+            <x:expect label="Dot, meaning use the full document as loaded" select="'.'"/>
+        </x:scenario>
+        <x:scenario label="@href and @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][@href][@select]"/>
+            </x:call>
+            <x:expect label="Select nodes and wrap them separately"
+                select="'//selected-element => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+        </x:scenario>
+        <x:scenario label="embedded nodes and no @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][node()][not(@select)]"/>
+            </x:call>
+            <x:expect label="Wrap child nodes separately"
+                select="'. ! Q{urn:x-xspec:common:wrap}wrap-each(child::node())'"/>
+        </x:scenario>
+        <x:scenario label="embedded nodes and @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][node()][@select]"/>
+            </x:call>
+            <x:expect label="Select nodes and wrap them separately"
+                select="'//selected-element => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+        </x:scenario>
+        <x:scenario label="@select with no @href and no embedded nodes">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][not(@href)][not(node())][@select][1]"/>
+            </x:call>
+            <x:expect label="Select nodes and wrap them separately"
+                select="'doc(''my-catalog:/external-file.xml'')//selected-element ' ||
+                    '=> Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+        </x:scenario>
+        <x:scenario label="@select producing atomic value instead of node">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][not(@href)][not(node())][@select='0']"/>
+            </x:call>
+            <x:expect label="Select nodes and call wrap:each, which checks wrappability"
+                select="'0 => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+        </x:scenario>
+        <x:scenario label="@as only, which must be an empty sequence">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[not(@test)][@as]"/>
+            </x:call>
+            <x:expect label="Separately wrap any child nodes, of which there are none"
+                select="'. ! Q{urn:x-xspec:common:wrap}wrap-each(child::node())'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Test x:selection-from-doc for x:expect[@port] with @test">
+        <x:call function="x:selection-from-doc"/>
+        <x:scenario label="@href and no @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][@href][not(@select)]"/>
+            </x:call>
+            <x:expect label="Dot, meaning use the full document as loaded" select="'.'"/>
+        </x:scenario>
+        <x:scenario label="@href and @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][@href][@select]"/>
+            </x:call>
+            <x:expect label="Produce selected nodes" select="'//selected-element'"/>
+        </x:scenario>
+        <x:scenario label="embedded nodes and no @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][node()][not(@select)]"/>
+            </x:call>
+            <x:expect label="Produce child nodes" select="'node()'"/>
+        </x:scenario>
+        <x:scenario label="embedded nodes and @select">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][node()][@select]"/>
+            </x:call>
+            <x:expect label="Produce selected nodes" select="'//selected-element'"/>
+        </x:scenario>
+        <x:scenario label="@select with no @href and no embedded nodes">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][not(@href)][not(node())][@select]"/>
+            </x:call>
+            <x:expect label="Produce selected nodes"
+                select="'doc(''my-catalog:/external-file.xml'')//selected-element'"/>
+        </x:scenario>
+        <x:scenario label="@as only, which must be an empty sequence">
+            <x:call>
+                <x:param href="xproc/unit-test-supporting-files/expected-result.xspec"
+                    select="//x:expect[@test][@as]"/>
+            </x:call>
+            <x:expect label="Produce child nodes, of which there are none" select="'node()'"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

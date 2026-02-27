@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes" 
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../tutorial/helper/document-nodes/test-helper-documents.xsl">
+    
+    <!-- The thd:wrap-all function is tested under the function name wrap:wrap-nodes, in wrap.xspec. -->
+
+    <x:scenario label="Tests for thd:rewrap-as-doc-node function">
+        <x:scenario label="When input is a sequence of 3 wrapper elements with any names">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="/*">
+                    <document-wrapper1>
+                        <document1/>
+                        <!-- comment1 -->
+                        <?pi1?>
+                        <x:text>text1</x:text>
+                    </document-wrapper1>
+                    <document-wrapper2/>
+                    <local:document-wrapper3 xmlns:local="local">
+                        <document2/>
+                        <!-- comment2 -->
+                        <?pi2?>
+                        <x:text>text2</x:text>
+                    </local:document-wrapper3>
+                </x:param>
+            </x:call>
+            <x:expect label="the result is a sequence of 3 document nodes."
+                result-type="document-node()+"
+                test="count($x:result)" select="3"/>
+            <x:expect label="The 1st contains the children of document-wrapper1."
+                test="$x:result[1]" select="/">
+                <document1/>
+                <!-- comment1 -->
+                <?pi1?>
+                <x:text>text1</x:text>                
+            </x:expect>
+            <x:expect label="The 2nd has no child nodes, like the document-wrapper2 element."
+                test="empty($x:result[2]/child::node())"/>
+            <x:expect label="The 3rd contains the children of local:document-wrapper3."
+                test="$x:result[3]" select="/">
+                <document2/>
+                <!-- comment2 -->
+                <?pi2?>
+                <x:text>text2</x:text>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When wrapper element has namespace declarations">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="/*">
+                    <document-wrapper xmlns:x="local" xmlns="default">
+                        <x:document>
+                            <child x:attr="1"/>
+                        </x:document>
+                    </document-wrapper>
+                </x:param>
+            </x:call>
+            <x:expect label="the result uses the declarations." select="/"
+                xmlns:local="local" xmlns:default="default">
+                <local:document>
+                    <default:child local:attr="1"/>
+                </local:document>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When wrapper element enables text value templates">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="/*" expand-text="no">
+                    <document-wrapper x:expand-text="yes">
+                        <document>{1 + 2}</document>
+                    </document-wrapper>
+                </x:param>
+            </x:call>
+            <x:expect label="the result reflects TVT evaluation" select="/">
+                <document>3</document>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When wrapper element disables text value templates">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="/*" expand-text="yes">
+                    <document-wrapper x:expand-text="no">
+                        <document>{1 + 2}</document>
+                    </document-wrapper>
+                </x:param>
+            </x:call>
+            <x:expect label="the result does not reflect TVT evaluation" select="/">
+                <document>{1 + 2}</document>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When wrapper element has xml:base attribute">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="/*">
+                    <document-wrapper xml:base="../">
+                        <document
+                            attr="{'catalog.xml' => resolve-uri($x:xspec-uri) => doc-available()}"/>
+                    </document-wrapper>
+                </x:param>
+            </x:call>
+            <x:expect label="the result does *not* reflect the revised base URI" select="/">
+                <document attr="false"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When input is an empty sequence">
+            <x:call function="thd:rewrap-as-doc-node">
+                <x:param select="()"/>
+            </x:call>
+            <x:expect label="the result is an empty sequence" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Tests for thd:wrap-each function">
+        <x:scenario label="When input is a sequence of 4 nodes">
+            <x:call function="thd:wrap-each">
+                <x:param select="/node()">
+                    <document1/>
+                    <!-- comment1 -->
+                    <?pi1?>
+                    <x:text>text1</x:text>
+                </x:param>
+            </x:call>
+            <x:expect label="the result is a sequence of 4 document nodes"
+                result-type="document-node()+"
+                test="count($x:result)" select="4"/>
+            <x:expect label="respectively containing one element," test="$x:result[1]" select="/">
+                <document1/>
+            </x:expect>
+            <x:expect label="one comment node," test="$x:result[2]" select="/">
+                <!-- comment1 -->
+            </x:expect>
+            <x:expect label="one processing instruction," test="$x:result[3]" select="/">
+                <?pi1?>
+            </x:expect>
+            <x:expect label="and one text node." test="$x:result[4]" select="/">text1</x:expect>
+        </x:scenario>
+        <x:scenario label="When input is a sequence of text nodes">
+            <x:call function="thd:wrap-each">
+                <x:param select="/wrap/text()">
+                    <wrap>text1</wrap><wrap>text2</wrap>
+                </x:param>
+            </x:call>
+            <!-- Text nodes do not get merged -->
+            <x:expect label="the result is a sequence of 2 document nodes"
+                result-type="document-node()+"
+                test="count($x:result)" select="2"/>
+            <x:expect label="respectively containing the first text node" test="$x:result[1]"
+                select="/">text1</x:expect>
+            <x:expect label="and the second." test="$x:result[2]" select="/">text2</x:expect>
+        </x:scenario>
+        <x:scenario label="When input is a sequence of 2 document nodes">
+            <x:call function="thd:wrap-each">
+                <x:param select="(/, /)">text</x:param>
+            </x:call>
+            <!-- Document nodes do not get merged -->
+            <x:expect label="the result is the same sequence" select="(/, /)">text</x:expect>
+            <x:expect label="of 2 document nodes" result-type="document-node()+"
+                test="count($x:result)" select="2"/>
+        </x:scenario>
+        <x:scenario label="When input is a sequence containing a node and an atomic value">
+            <x:call function="thd:wrap-each">
+                <x:param select="(/, 'string')">text</x:param>
+            </x:call>
+            <x:expect label="the result is a sequence of 2 items"
+                test="count($x:result)" select="2"/>
+            <x:expect label="containing the node wrapped in a document node" test="$x:result[1]"
+                select="/">text</x:expect>
+            <x:expect label="followed by the atomic value unchanged" test="$x:result[2]"
+                select="'string'"/>
+        </x:scenario>
+        <x:scenario label="When input is an empty sequence">
+            <x:call function="thd:wrap-each">
+                <x:param select="()"/>
+            </x:call>
+            <x:expect label="the result is an empty sequence" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Tests for thd:wrapped-child-nodes-or-empty-document-node function">
+        <x:scenario label="When input is one document-wrapper element">
+            <x:call function="thd:wrapped-child-nodes-or-empty-document-node">
+                <x:param select="/document-wrapper">
+                    <document-wrapper>
+                        <document1/>
+                        <!-- comment1 -->
+                        <?pi1?>
+                        <x:text>text1</x:text>
+                    </document-wrapper>
+                </x:param>
+            </x:call>
+            <x:expect label="the result is a document node containing the children of document-wrapper."
+                result-type="document-node()" select="/">
+                <document1/>
+                <!-- comment1 -->
+                <?pi1?>
+                <x:text>text1</x:text>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="When input is a document-wrapper element with no child nodes">
+            <x:call function="thd:wrapped-child-nodes-or-empty-document-node">
+                <x:param>
+                    <document-wrapper attr="val"/>
+                </x:param>
+            </x:call>
+            <x:expect label="the result is a document node with no contents"
+                result-type="document-node()" test="empty($x:result/child::node())"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

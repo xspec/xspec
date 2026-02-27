@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="library-mirror.xpl">
+
+    <!-- XML Calabash v3.0.35 will allow collections in p:with-input, so I'll be able to
+        use the more compact scenario structure as in p-document-within-x-input.xspec -->
+    <x:scenario label="Base URI, when x:option has child p:document element,">
+        <x:call step="mirror:option-property">
+            <x:option name="property-to-get" select="'base-uri'"/>
+        </x:call>
+        <x:scenario label="For XML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.xml"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document.xml'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For XHTML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-xhtml.html"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-xhtml.html'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For HTML non-XHTML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-not-xhtml.html"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-not-xhtml.html'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For .txt file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.txt"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document.txt'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For CSV file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.csv"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document.csv'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For JSON array file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-array.json"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-array.json'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For JSON object file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-object.json"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-object.json'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For SVG file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-image.svg"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" test="substring-after(., 'test/xproc/cases/')"
+                select="'document-image.svg'">
+                <x:label>reflects the document, not .xsl or .xpl intermediate file</x:label>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Content type, when x:option has child p:document element,">
+        <x:call step="mirror:option-property">
+            <x:option name="property-to-get" select="'content-type'"/>
+        </x:call>
+        <x:scenario label="For XML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.xml"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'application/xml'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For XHTML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-xhtml.html"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'text/html'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For HTML non-XHTML file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-not-xhtml.html"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'text/html'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For .txt file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.txt"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'text/plain'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For CSV file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document.csv"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'text/csv'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For JSON array file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-array.json"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'application/json'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For JSON object file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-object.json"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'application/json'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="For SVG file">
+            <x:call>
+                <x:option name="opt">
+                    <p:document href="document-image.svg"/>
+                </x:option>
+            </x:call>
+            <x:expect port="xproc-result" select="'image/svg+xml'">
+                <x:label>reflects the document's content type</x:label>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="x:option/p:document/p:documentation and x:option/p:document/p:pipeinfo">
+        <x:call step="mirror:option-value">
+            <x:option name="opt">
+                <p:document href="document.xml">
+                    <p:documentation>
+                        <element attr="arbitrary">Text</element>
+                    </p:documentation>
+                    <p:pipeinfo>
+                        <element attr="arbitrary">Text</element>
+                    </p:pipeinfo>
+                </p:document>
+            </x:option>
+        </x:call>
+        <x:expect port="xproc-result" label="are allowed">
+            <document/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Spot-check attributes of child p:document">
+        <x:scenario label="content-type attribute">
+            <x:call step="mirror:option-property">
+                <x:option name="opt">
+                    <p:document href="document.xml" content-type="text/plain"/>
+                </x:option>
+                <x:option name="property-to-get" select="'content-type'"/>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" select="'text/plain'"/>
+        </x:scenario>
+        <x:scenario label="document-properties attribute">
+            <x:call step="mirror:option-property">
+                <x:option name="opt">
+                    <p:document href="document.xml"
+                        document-properties="map{'content-type': 'text/plain'}"/>
+                </x:option>
+                <x:option name="property-to-get" select="'content-type'"/>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" select="'text/plain'"/>
+        </x:scenario>
+        <x:scenario label="document-properties attribute with curly braces in value">
+            <x:call step="mirror:option-property">
+                <x:option name="opt">
+                    <p:document href="document.xml"
+                        document-properties="map{
+                        'custom-prop-with-braces': map{'literal': '}}{false()}{{' }
+                        }"/>
+                </x:option>
+                <x:option name="property-to-get" select="'custom-prop-with-braces'"/>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" test="$x:result?literal"
+                select="'}}{false()}{{'"/>
+        </x:scenario>
+        <x:scenario label="parameters attribute">
+            <x:call step="mirror:option-value">
+                <x:option name="opt">
+                    <p:document href="document-object-duplicates.json"
+                        parameters="map{'duplicates': 'use-last'}"/>
+                </x:option>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" select="map{'key1': 'last'}"/>
+        </x:scenario>
+        <x:scenario label="xml:base attribute">
+            <x:call step="mirror:option-value">
+                <x:option name="opt">
+                    <p:document href="cases/document.xml" xml:base="../"/>
+                </x:option>
+            </x:call>
+            <x:expect label="is resolved with respect to $x:xspec-uri" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="href attribute with expression to be evaluated in XProc">
+            <!-- x:*/@href is not an AVT, but p:document/@href is an AVT in XProc. -->
+            <x:call step="mirror:option-value">
+                <x:option name="opt">
+                    <p:document href="{ concat('document','.xml') }"/>
+                </x:option>
+            </x:call>
+            <x:expect label="works" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="use-when attribute to be evaluated in XProc">
+            <x:call step="mirror:option-value">
+                <x:option name="opt">
+                    <!-- The p:system-property() function is available in XProc but not XSLT --> 
+                    <p:document href="document.xml"
+                        use-when="empty(p:system-property('p:episode'))"/>
+                </x:option>
+            </x:call>
+            <x:expect label="takes effect" port="xproc-result" select="'default'"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

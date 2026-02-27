@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.31?>
+<?xspec-test message=ERROR in x:call (under 'Wrong namespace in x:option/@name'): Step of type 's:no-input-two-options-one-output' has no option named 'local:attrval2'.?>
+<x:description xmlns:local="local" xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+    <x:scenario label="Wrong namespace in x:option/@name">
+        <x:call step="s:no-input-two-options-one-output">
+            <x:option name="local:attrval2" select="2"/>
+        </x:call>
+        <x:expect label="should raise an error because the qualified name is wrong"
+            port="xproc-result" as="item()*"/>
+    </x:scenario>
+</x:description>

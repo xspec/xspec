@@ -40,4 +40,38 @@
       <xsl:sequence select="$wrap" />
    </xsl:function>
 
+   <!-- wrap:wrap-each individually wraps each node in $nodes in a document node.
+        Example: (<a/>, <b/>, <c/>) yields a document node containing <a/>,
+        one containing <b/>, and one containing <c/>.
+        
+        Unwrappable items pass through unchanged.
+   -->
+   <xsl:function name="wrap:wrap-each" as="item()*">
+      <xsl:param name="items" as="item()*"/>
+      <xsl:for-each select="$items">
+         <xsl:sequence select="if (wrap:wrappable-node(.)) then wrap:wrap-nodes(.) else ."/>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- wrap:unwrap-text-nodes returns each item unchanged, except that if an item is
+        a text node wrapped in a document node, the function returns the text node in
+        that position of the sequence.
+   -->
+   <xsl:function name="wrap:unwrap-text-nodes" as="item()*">
+      <xsl:param name="items" as="item()*"/>
+      <xsl:for-each select="$items">
+         <xsl:choose>
+            <xsl:when test="not(. instance of document-node())">
+               <xsl:sequence select="."/>
+            </xsl:when>
+            <xsl:when test="child::node() instance of text()">
+               <xsl:sequence select="text()"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="."/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:for-each>
+   </xsl:function>
+
 </xsl:stylesheet>

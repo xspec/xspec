@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Duplication of x:option/@name'): Duplicate option name, Q{x-urn:test:my-namespace}attrval, used in x:call.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary" xmlns:my="x-urn:test:my-namespace"
+    xmlns:my2="x-urn:test:my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../cases/library.xpl">
+    <x:scenario label="Duplication of x:option/@name">
+        <x:call step="s:no-input-one-option-one-output">
+            <x:option name="my:attrval" select="'a'"/>
+            <x:option name="my2:attrval" select="'b'"/>
+            <!-- Error indicates only the first detected duplicate -->
+            <x:option name="another-dup" select="'a'"/>
+            <x:option name="another-dup" select="'b'"/>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

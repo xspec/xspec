@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+
+    <x:scenario label="Step with use-when on p:input">
+        <x:call step="s:input-port-with-use-when">
+            <x:input port="source">
+                <my-source/>
+            </x:input>
+            <x:input port="aux">
+                <document-at-aux-port/>
+            </x:input>
+        </x:call>
+        <x:expect label="is called assuming use-when is true" port="result">
+            <output aux-element="document-at-aux-port"/>
+        </x:expect>
+    </x:scenario>
+    <x:scenario label="Step with use-when on p:declare-step">
+        <x:call step="s:step-with-use-when">
+            <x:input port="source">
+                <my-source/>
+            </x:input>
+        </x:call>
+        <x:expect label="is called assuming use-when is true" port="result">
+            <my-source/>
+        </x:expect>
+    </x:scenario>
+</x:description>

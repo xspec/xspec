@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="test-utils.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="test-utils.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="Scenario for testing function filename-and-extension">
 		<x:scenario label="URI">
@@ -199,4 +200,22 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function base-uri-before-content-type">
+		<x:variable name="expected" as="xs:string"
+			>map{Q{}base-uri:"data.json",Q{}content-type:"application/json"}</x:variable>
+		<x:scenario label="base-uri first">
+			<x:call function="x:base-uri-before-content-type">
+				<x:param as="xs:string"
+					>map{Q{}base-uri:"data.json",Q{}content-type:"application/json"}</x:param>
+			</x:call>
+			<x:expect label="Unchanged" select="$expected"/>
+		</x:scenario>
+		<x:scenario label="content-type first">
+			<x:call function="x:base-uri-before-content-type">
+				<x:param as="xs:string"
+					>map{Q{}content-type:"application/json",Q{}base-uri:"data.json"}</x:param>
+			</x:call>
+			<x:expect label="Order of entries switched" select="$expected"/>
+		</x:scenario>
+	</x:scenario>
 </x:description>

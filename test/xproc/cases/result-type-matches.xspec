@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.30?>
+<x:description xproc="library-mirror.xpl" xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="In x:expect[@port],">
+		<x:scenario label="@result-type combines with x:expect syntax">
+			<x:call step="mirror:identity">
+				<x:input port="source" select="()"/>
+			</x:call>
+			<x:expect port="xproc-result" label="with boolean @test" test="empty($x:result)"
+				result-type="empty-sequence()"/>
+			<x:expect port="xproc-result" label="with non-boolean @test" test="head($x:result)"
+				as="element()?" result-type="document-node()*"/>
+			<x:expect port="xproc-result" label="with no @test and an expected result" select="()"
+				result-type="map(*)*"/>
+			<x:expect port="xproc-result" label="with no @test and no explicit expected result"
+				result-type="xs:string?"/>
+		</x:scenario>
+		<x:scenario label="observe that xs:integer is an instance of xs:numeric">
+			<x:call step="mirror:identity">
+				<x:input port="source" select="xs:integer(1)"/>
+			</x:call>
+			<x:expect port="xproc-result" label="comparing actual result with expected result"
+				result-type="xs:numeric" select="1"/>
+			<x:expect port="xproc-result" label="with non-boolean @test" result-type="xs:numeric"
+				test="-1 + $x:result" select="xs:integer(0)"/>
+			<x:expect port="xproc-result" label="with boolean @test" result-type="xs:numeric"
+				test="exists($x:result)"/>
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="In x:expect[not(@port)],">
+		<x:scenario>
+			<x:label>@result-type must accommodate a nested map with levels
+				1. 'ports'
+				2. port name, e.g., 'result'
+				3. 'document' and 'document-properties'
+			</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source" select="()"/>
+			</x:call>
+			<x:expect label="with boolean @test" test="empty($x:result?ports?xproc-result?document)"
+				result-type="map(xs:string, map(xs:string, map(xs:string, item()*)))"/>
+			<x:expect label="with non-boolean @test" test="map:keys($x:result?ports)" select="'xproc-result'"
+				result-type="map(xs:string, map(xs:string, map(*)))"/>
+			<x:expect label="with no @test and an expected result"
+				select="map{'ports': map{'xproc-result': map{'document': (), 'document-properties': map{} }}}"
+				result-type="map(xs:string, map(*))"/>
+		</x:scenario>
+	</x:scenario>
+</x:description>

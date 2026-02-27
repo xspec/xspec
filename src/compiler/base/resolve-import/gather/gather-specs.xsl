@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:resolve-import:gather:gather-specs:local"
+                xmlns:p="http://www.w3.org/ns/xproc"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -77,13 +78,16 @@
 
    <!-- TODO: Perhaps, @query-at hint should not always be resolved???
       (See https://github.com/xspec/xspec/blob/6d2442dc938cb233b815c4cc2b43f4eb2a075ccb/src/compiler/generate-query-tests.xsl#L41) -->
-   <xsl:template match="@href | (@query-at | @stylesheet)[parent::x:helper]" as="attribute()"
+   <!-- The exception for p:document/@href is because it will be evaluated in XProc, not XSLT. -->
+   <xsl:template
+      match="@href[not(parent::p:document)] | (@query-at | @stylesheet)[parent::x:helper]"
+      as="attribute()"
       mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
-   <xsl:template match="@as | @function | @mode | @name | @template" as="attribute()"
+   <xsl:template match="@as | @function | @mode | @name | @port | @template" as="attribute()"
       mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>

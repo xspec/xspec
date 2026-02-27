@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="When x:input is an empty sequence">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source" select="()"/>
+        </x:call>
+        <x:expect label="the step receives 0 input documents" port="xproc-result"
+            test="number($x:result)" select="0"/>
+    </x:scenario>
+    <x:scenario label="When x:input has one child element">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="the step receives 1 input document" port="xproc-result"
+            test="number($x:result)" select="1"/>
+    </x:scenario>
+    <x:scenario label="When x:input has multiple child nodes">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source">
+                <node1/>
+                <!-- node2 -->
+                <node3/>
+                <?node4?>
+                node 5
+            </x:input>
+        </x:call>
+        <x:expect port="xproc-result" test="number($x:result)" select="5">
+            <x:label>the step receives an input document per individual node (not counting
+                whitespace-only text nodes, which XSpec ignores in embedded user content)</x:label>
+        </x:expect>
+    </x:scenario>
+    <x:scenario label="When x:input has two text nodes">
+        <x:variable name="two-text-nodes" select="(/text(), /text())" as="text()+">
+            <x:text>text content</x:text>                            
+        </x:variable>
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source" select="$two-text-nodes"/>
+        </x:call>
+        <x:expect label="(confirm that $two-text-nodes contains two nodes)"
+            test="count($two-text-nodes)" select="2"/>
+        <x:expect label="the step receives 2 input documents" port="xproc-result"
+            test="number($x:result)" select="2"/>
+    </x:scenario>
+    <x:scenario label="When x:input has adjacent text nodes that get merged">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source" select="/text()" as="text()">
+                <x:text>text1</x:text>
+                <x:text>text2</x:text>
+            </x:input>
+        </x:call>
+        <x:expect label="the step receives 1 input document" port="xproc-result"
+            test="number($x:result)" select="1"/>
+    </x:scenario>
+    <x:scenario label="When x:input selects two identical input documents">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source" select="(/,/)">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="the step receives 2 input documents" port="xproc-result"
+            test="number($x:result)" select="2"/>
+    </x:scenario>
+    <x:scenario label="When x:input selects two distinct input documents">
+        <x:call step="s:input-port-sequence-true">
+            <x:input port="source" select="('document.xml', 'document-xhtml.html')
+                ! resolve-uri(., $x:xspec-uri)
+                ! doc(.)">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="the step receives 2 input documents" port="xproc-result"
+            test="number($x:result)" select="2"/>
+    </x:scenario>
+</x:description>

@@ -1,5 +1,5 @@
 @echo off
 setlocal
-set ANT_ARGS=-buildfile "%~dp0ant\run-e2e-tests\build.xml" -lib "%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_LIB%" %*
+set ANT_ARGS=-buildfile "%~dp0ant\run-e2e-tests\build.xml" -lib "%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_LIB%" -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" %*
 if /i "%APPVEYOR%"=="True" set ANT_ARGS=%ANT_ARGS% -Dappveyor.filename="%~nx0"
 call ant

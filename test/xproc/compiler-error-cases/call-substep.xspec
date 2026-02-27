@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Calling a substep'): Cannot find step Q{x-urn:test:xproc:steplibrary}substep.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+
+    <x:scenario label="Calling a step that has a substep">
+        <x:call step="s:step-with-substep">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="works" port="xproc-result">
+            <document parent-step="executed" substep="executed"/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Calling a substep">
+        <x:call step="s:substep">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="should raise an error" port="xproc-result">
+            <my-source/>
+        </x:expect>
+    </x:scenario>
+</x:description>

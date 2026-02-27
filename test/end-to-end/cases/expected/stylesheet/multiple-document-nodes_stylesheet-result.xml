@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../multiple-document-nodes_stylesheet.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../multiple-document-nodes_stylesheet.xspec">
+      <label>In XSLT, XSpec does not distinguish boundaries between adjacent document nodes in
+			a sequence</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:deq="urn:x-xspec:common:deep-equal"
+                 xmlns:my="my-namespace"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="false"/>
+      </input-wrap>
+      <scenario id="scenario1-scenario1"
+                xspec="../../multiple-document-nodes_stylesheet.xspec">
+         <label>Verify number of nodes: </label>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>$my:two-docs has two</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:two-docs)"/>
+            </expect-test-wrap>
+            <result select="2"/>
+            <expect select="2"/>
+         </test>
+         <test id="scenario1-scenario1-expect2" successful="true">
+            <label>$my:merged-doc has one</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:merged-doc)"/>
+            </expect-test-wrap>
+            <result select="1"/>
+            <expect select="1"/>
+         </test>
+         <test id="scenario1-scenario1-expect3" successful="true">
+            <label>$my:two-docs-wrong-boundary has two</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($my:two-docs-wrong-boundary)"/>
+            </expect-test-wrap>
+            <result select="2"/>
+            <expect select="2"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2"
+                xspec="../../multiple-document-nodes_stylesheet.xspec">
+         <label>Comparing two document nodes to one document node having same children</label>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>passes (surprise?)</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$my:two-docs"/>
+            </expect-test-wrap>
+            <result select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario2-expect2" successful="true">
+            <label>and executing deq:deep-equal directly (with no 'd' flag) returns true</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="deq:deep-equal($my:two-docs, $my:merged-doc, '')"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../multiple-document-nodes_stylesheet.xspec">
+         <label>Failure appearing in HTML result report</label>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario1-scenario3-expect1" successful="false">
+            <label>says '/node()' for unmerged on left and '/self::document-node()' for wrong
+					merged on right</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$my:two-docs"/>
+            </expect-test-wrap>
+            <result select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- wrong comment -->
+               </content-wrap>
+            </expect>
+         </test>
+         <test id="scenario1-scenario3-expect2" successful="false">
+            <label>says '/node()' for both two-document sequences having different boundaries.
+					From the report, you can't tell why the failure occurred (surprise?).</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:deq="urn:x-xspec:common:deep-equal"
+                         xmlns:my="my-namespace"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$my:two-docs"/>
+            </expect-test-wrap>
+            <result select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </result>
+            <expect select="/node()">
+               <content-wrap xmlns="">
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+                  <document xmlns:deq="urn:x-xspec:common:deep-equal"
+                            xmlns:my="my-namespace"
+                            xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                  <!-- comment -->
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+</report>

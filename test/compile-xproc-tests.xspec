@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               stylesheet="../src/compiler/compile-xproc-tests.xsl">
+
+   <!-- Default $measure-time depends on global context item. Set it false here. -->
+   <t:param name="measure-time" select="false()" />
+   
+   <!-- Set a global context document, a sample XSpec file -->
+   <t:param name="initial-document" href="compile-xproc-tests/compile-scenario.xspec"/>
+
+   <t:scenario label="x:scenario[@label] transformed in x:compile-scenario template">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:scenario" />
+      <t:call template="t:compile-scenario">
+         <t:param name="call" as="empty-sequence()" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
+         <t:param name="run-sut-now" select="false()" />
+      </t:call>
+      <t:expect>
+         <t:label>
+            - is xsl:template
+            - @name is Q{XSpec-namespace}scenario-ID
+            - the scenario label xsl:message
+            - the constructor (xsl:element) of the x:scenario element
+            - the constructor (xsl:element) of the x:scenario/x:label element
+         </t:label>
+         <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-scenario-id"
+                       as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">
+            <xsl:context-item use="absent" />
+            <xsl:message>my scenario label</xsl:message>
+            <xsl:element name="scenario"
+                         namespace="http://www.jenitennison.com/xslt/xspec">
+               <xsl:attribute name="id"
+                              namespace="">dummy-scenario-id</xsl:attribute>
+               <xsl:attribute name="xspec"
+                              namespace="" />
+               <xsl:element name="label"
+                            namespace="http://www.jenitennison.com/xslt/xspec">
+                  <xsl:text>my scenario label</xsl:text>
+               </xsl:element>
+               <xsl:element name="input-wrap"
+                  namespace="">...</xsl:element>
+            </xsl:element>
+         </xsl:template>
+      </t:expect>
+   </t:scenario>
+
+   <t:scenario label="When compiling a scenario with $run-sut-now true,">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:scenario" />
+      <t:call template="t:compile-scenario">
+         <t:param name="call" select="$t:context//t:call" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
+         <t:param name="run-sut-now" select="true()" />
+      </t:call>
+      <t:expect
+         test="//xsl:variable[@name='Q{http://www.jenitennison.com/xslt/xspec}result']">
+         <t:label>The compiler produces the x:result variable. It defines input and option values,
+            defines the wrapper step for this x:call, and uses the final xsl:sequence to call the
+            step runner.</t:label>
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
+               as="item()*">
+               <xsl:variable name="..." select="1"><!--source input--></xsl:variable>
+               <xsl:variable name="..." select="2"><!--aux input--></xsl:variable>
+               <xsl:variable name="..." select="1"><!--ex:option1 option--></xsl:variable>
+               <xsl:variable name="..." select="..."><!--ex:option2 option--></xsl:variable>
+               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}wrapper-step-based-on-x-call"
+                  as="element()" expand-text="no">
+                  <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
+                     version="3.1">...</p:declare-step>
+               </xsl:variable>
+               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}options-for-step-function"
+                  as="map(*)" select="..." />
+               <xsl:sequence select="..." />
+            </xsl:variable>
+      </t:expect>
+   </t:scenario>
+   <!--
+       <t:expect/>
+       
+       TODO: Track down how it is transformed (named template, rule
+       in a mode, etc.) and test it explicitly...
+   -->
+   <t:scenario label="x:expect[@test] transformed in x:compile-expect template">
+      <t:context href="compile-xproc-tests/compile-expect.xspec" select="//t:expect" />
+      <t:call template="t:compile-expect">
+         <t:param name="call" as="empty-sequence()" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
+         <t:param name="param-uqnames" as="empty-sequence()" />
+      </t:call>
+      <t:expect label="is a template"
+                test="$t:result instance of element(xsl:template)"/>
+      <t:expect label="@test must be transformed to xsl:sequence/@select"
+                test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']">
+         <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-result"
+                       as="item()*">
+            <xsl:choose>
+               <xsl:when test="$Q{{urn:x-xspec:compile:impl}}result-type-mismatch">
+                  <!--In case of data type mismatch, do not process @test-->
+               </xsl:when>
+               <xsl:when test="count($Q{{urn:x-xspec:compile:impl}}test-items) eq 1">
+                  <xsl:for-each select="$Q{{urn:x-xspec:compile:impl}}test-items">
+                     <xsl:sequence select="false()"
+                                   version="3" />
+                  </xsl:for-each>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:sequence select="false()"
+                                version="3" />
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable>
+      </t:expect>
+      <t:expect label="@result-type must be transformed to result-type-mismatch variable"
+         test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}result-type-mismatch']">
+         <xsl:variable name="Q{{urn:x-xspec:compile:impl}}result-type-mismatch"
+            as="Q{{http://www.w3.org/2001/XMLSchema}}boolean"
+            select="not($Q{{http://www.jenitennison.com/xslt/xspec}}result instance of item())" />
+      </t:expect>
+      <t:scenario label="XProc-specific additions:">
+         <t:expect label="@port must be transformed to xsl:variable that introduces $x:document-properties"
+            test="$t:result/xsl:variable[@name eq 'Q{http://www.jenitennison.com/xslt/xspec}document-properties']">
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}document-properties"
+               as="map(*)*"
+               select="$Q{{http://www.jenitennison.com/xslt/xspec}}result?ports?xproc-result?document-properties"/>
+         </t:expect>
+         <t:expect label="and modifies $x:result"
+            test="$t:result/xsl:variable[@name eq 'Q{http://www.jenitennison.com/xslt/xspec}result']">
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
+               as="item()*"
+               select="$Q{{http://www.jenitennison.com/xslt/xspec}}result?ports?xproc-result?document"/>
+         </t:expect>
+         <t:expect label="with error checking that @port is a valid key of $x:result"
+            test="$t:result/xsl:variable[
+                @name eq 'Q{http://www.jenitennison.com/xslt/xspec}document-properties'
+            ]/preceding-sibling::*[1]">
+            <xsl:if xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+               test="not('xproc-result' = map:keys($Q{{http://www.jenitennison.com/xslt/xspec}}result?ports))">
+               <xsl:message terminate="yes">...</xsl:message>
+            </xsl:if>
+         </t:expect>
+      </t:scenario>
+   </t:scenario>
+
+   <t:scenario label="x:call and its children transformed in step-call-text template">
+      <t:variable name="call" href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:call function="t:step-call-text">
+         <t:param name="call" select="$call"/>
+         <t:param name="parent-scenario" select="$call/parent::t:scenario"/>
+      </t:call>
+      <t:expect label="is a text node" test="$t:result instance of text()"/>
+      <t:expect test="starts-with($t:result,
+         'Q{urn:x-xspec:compile:impl}step-runner((: ex:My-step-type :)'
+         )">
+         <t:label>starting with the step runner's URI-qualified name, open parenthesis, and a
+            comment that indicates the prefixed name of the step being tested.</t:label>
+      </t:expect>
+      <t:expect label="It ends with a closing parenthesis." test="ends-with($t:result, ')' )"/>
+      <t:variable name="args"
+         select="$t:result => substring-after('My-step-type :)') => replace('\)$', '')"/>
+      <t:variable name="arg1" select="substring-before($args, ', ')"/>
+      <t:expect label="The 1st argument references the variable holding the wrapper step"
+         test="$arg1" select="'$Q{urn:x-xspec:compile:impl}wrapper-step-based-on-x-call'"/>
+      <t:variable name="arg2" select="substring-after($args, ', ')"/>
+      <t:expect
+         label="The 2nd argument references the variable holding the map of inputs and options"
+         test="$arg2" select="'$Q{urn:x-xspec:compile:impl}options-for-step-function'"/>
+   </t:scenario>
+
+   <t:scenario label="x:call is used to produce map of options for step function">
+      <t:variable name="call" href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:context select="$call"/>
+      <t:call template="options-for-step-function">
+         <t:param name="parent-scenario" select="$call/parent::t:scenario"/>
+      </t:call>
+      <t:variable name="result-simplified"
+         select="$t:result
+         => replace('Q\{urn:x-xspec:compile:impl\}', 'impl:')
+         => replace('Q\{x-urn:test:compile-xproc-tests\}', 'ex:')
+         => replace('(input|option)-[0-9a-f]+', '$1-ID')"/>
+      <t:expect test="$result-simplified" as="xs:string">
+         <t:label>Result text describes a map. The map keys are 'map-of-inputs' and
+            'map-of-options'. The 'map-of-inputs' value is a map with an entry for each input port.
+            The 'map-of-options' value is a map with an entry for each option. The values of the
+            inner entries are references to variables.</t:label>
+         <t:text>map{</t:text>
+         <t:text>'map-of-inputs':</t:text>
+         <t:text>map{'source': wrap:unwrap-text-nodes($impl:input-ID), </t:text>
+         <t:text>'aux': wrap:unwrap-text-nodes($impl:input-ID)},</t:text>
+         <t:text>'map-of-options':</t:text>
+         <t:text>map{'ex:option1': wrap:unwrap-text-nodes($impl:option-ID), </t:text>
+         <t:text>'ex:option2': wrap:unwrap-text-nodes($impl:option-ID)}</t:text>
+         <t:text>}</t:text>
+      </t:expect>
+   </t:scenario>
+
+   <t:scenario label="x:input elements transformed in input-map-text template">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:call template="input-map-text">
+         <t:param name="parent-scenario" select="$t:context/parent::t:scenario"/>
+      </t:call>
+      <t:expect label="is a text node" test="$t:result instance of text()"/>
+      <t:expect label="describing a map of input documents"
+         test="matches($t:result, concat(
+         'map\{',
+         '''source'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}input-[0-9a-f]+\), ',
+         '''aux'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}input-[0-9a-f]+\)',
+         '\}'
+         ))"/>
+   </t:scenario>
+
+   <t:scenario label="x:option elements transformed in option-map-text template">
+      <t:context href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
+      <t:call template="option-map-text">
+         <t:param name="parent-scenario" select="$t:context/parent::t:scenario"/>
+      </t:call>
+      <t:expect label="is a text node" test="$t:result instance of text()"/>
+      <t:expect label="describing a map of options, using URI-qualified names"
+         test="matches($t:result, concat(
+            'map\{',
+            '''Q\{x-urn:test:compile-xproc-tests\}option1'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\), ',
+            '''Q\{x-urn:test:compile-xproc-tests\}option2'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\)',
+            '\}'
+         ))"/>
+   </t:scenario>
+</t:description>

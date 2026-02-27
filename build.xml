@@ -41,6 +41,17 @@
     One or more XML catalog files. Separated by semicolons (;).
     Value is either file path or URI. Must not mix file path and URI. -->
 
+  <!-- "xspec.xmlcalabash.classpath" property: Documented in Wiki. DO NOT RENAME.
+    Required for running XSpec tests for XProc. Irrelevant for other languages.
+    No default value. The user must set this property to the location of
+    their XML Calabash 3.x installation and any other classpath entries
+    that are needed to execute the test suite. -->
+
+  <!-- "xspec.xmlcalabash.config" property: Documented in Wiki. DO NOT RENAME.
+    Optional when running XSpec tests for XProc. Irrelevant for other languages.
+    No default value. The user must set this property to the URI of
+    their XML Calabash 3.x configuration file. -->
+
   <!-- File path of the original XSpec file specified by the user -->
   <property name="xspec.xspecfile.original" value="${xspec.xml}" />
 
@@ -110,7 +121,7 @@
             value="${xspec.project.dir}/src/reporter/junit-report.xsl" />
 
   <!-- "test.type" property: Documented in Wiki. DO NOT RENAME.
-    Specifies XSLT, XQuery or Schematron -->
+    Specifies XSLT, XQuery, Schematron, or XProc -->
   <property name="test.type" value="t" />
 
   <!-- Properties indicating whether the test type is a specific type -->
@@ -131,6 +142,18 @@
       <equals arg1="${test.type}" arg2="t" />
       <equals arg1="${test.type}" arg2="xslt" casesensitive="no" />
     </or>
+  </condition>
+  <condition property="xspec.is.xproc" else="false">
+    <or>
+      <equals arg1="${test.type}" arg2="p" />
+      <equals arg1="${test.type}" arg2="xproc" casesensitive="no" />
+    </or>
+  </condition>
+  <condition property="xspec.is.xslt.or.schematron" else="false">
+    <or>
+      <istrue value="${xspec.is.xslt}"/>
+      <istrue value="${xspec.is.schematron}"/>
+    </or>    
   </condition>
 
   <!-- "xspec.fail" property: Documented in Wiki. DO NOT RENAME.
@@ -250,6 +273,7 @@
           <isfalse value="${xspec.is.schematron}" />
           <isfalse value="${xspec.is.xquery}" />
           <isfalse value="${xspec.is.xslt}" />
+          <isfalse value="${xspec.is.xproc}" />
         </and>
       </condition>
     </fail>
@@ -363,11 +387,23 @@
               value="${xspec.compiler.dir}/compile-xquery-tests.xsl" />
     <property name="xspec.xslt.compiler.xsl"
               value="${xspec.compiler.dir}/compile-xslt-tests.xsl" />
+    <property name="xspec.xproc.compiler.xsl"
+      value="${xspec.compiler.dir}/compile-xproc-tests.xsl" />
 
     <condition property="xspec.compiler.xsl"
-               value="${xspec.xquery.compiler.xsl}"
-               else="${xspec.xslt.compiler.xsl}">
+               value="${xspec.xquery.compiler.xsl}">
       <istrue value="${xspec.is.xquery}" />
+    </condition>
+    <condition property="xspec.compiler.xsl"
+               value="${xspec.xproc.compiler.xsl}">
+      <istrue value="${xspec.is.xproc}" />
+    </condition>
+    <condition property="xspec.compiler.xsl"
+               value="${xspec.xslt.compiler.xsl}">
+      <or>
+        <istrue value="${xspec.is.xslt}" />
+        <istrue value="${xspec.is.schematron}" />
+      </or>
     </condition>
 
     <property name="xspec.compiler.saxon.config.absolute"
@@ -412,7 +448,7 @@
   </target>
 
   <!-- Runs the compiled XSpec for XSLT -->
-  <target name="run-xslt-test" depends="compile" unless="${xspec.is.xquery}">
+  <target name="run-xslt-test" depends="compile" if="${xspec.is.xslt.or.schematron}">
     <echo message="Running Tests..."
           level="info" />
 
@@ -472,9 +508,52 @@
     </java>
   </target>
 
+  <target name="run-xproc-test" depends="compile" if="${xspec.is.xproc}">
+    <echo message="Running Tests..."
+      level="info" />
+
+    <fail message="XProc testing requires the xspec.xmlcalabash.classpath property."
+      unless="xspec.xmlcalabash.classpath" />
+
+    <makeurl property="xspec.project.dir.url"
+      file="${xspec.project.dir}" />
+
+    <property name="xspec.pipelines" location="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-pipelines.xpl"/>
+    <saxon-xslt in="${xspec.xspecfile.original}"
+      out="${xspec.pipelines}"
+      style="${xspec.project.dir}/src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl" />
+    <makeurl property="xspec.pipelines.url"
+      file="${xspec.pipelines}"
+      if:set="xspec.pipelines" />
+
+    <!-- Can't specify saxon.custom.options with <xslt> task so have to
+      fall back to running Saxon as Java app. -->
+    <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">
+      <!-- System property for XProc -->
+      <sysproperty key="com.xmlcalabash.pipelines"
+        value="${xspec.pipelines.url}"/>
+      <sysproperty key="com.xmlcalabash.configuration"
+        value="${xspec.xmlcalabash.config}" if:set="xspec.xmlcalabash.config"/>
+
+      <!-- XML Calabash must be on the classpath ahead of java.class.path. -->
+      <classpath>
+        <pathelement path="${xspec.xmlcalabash.classpath}" if:set="xspec.xmlcalabash.classpath"/>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
+      </classpath>
+      <arg value="-init:com.xmlcalabash.api.RegisterSaxonFunctions" />
+      <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
+      <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
+      <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
+      <arg value="-o:${xspec.result.xml}" />
+      <arg value="-xmlversion:${xspec.xml.version}" if:set="xspec.xml.version" />
+      <arg value="-xsl:${xspec.compiled.runner}" />
+    </java>
+  </target>
+
   <!-- Report: Test result HTML -->
   <target name="report-html"
-          depends="run-xquery-test, run-xslt-test">
+          depends="run-xquery-test, run-xslt-test, run-xproc-test">
 
     <makeurl property="xspec.result.html.css.url"
              file="${xspec.result.html.css}"
@@ -529,7 +608,7 @@
 
   <!-- Report: JUnit -->
   <target name="report-junit"
-          depends="run-xquery-test, run-xslt-test"
+          depends="run-xquery-test, run-xslt-test, run-xproc-test"
           if="${xspec.junit.enabled}">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.junit}"

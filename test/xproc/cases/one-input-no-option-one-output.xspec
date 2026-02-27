@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="One input, no option, one output">
+        <x:call step="s:one-input-no-option-one-output">
+            <x:input port="source">
+                <root/>
+            </x:input>
+        </x:call>
+        <x:expect label="Document with root" port="xproc-result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+</x:description>
