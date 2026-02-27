@@ -28,15 +28,15 @@
                 names="csv:preprocess-line#1 csv:preprocess-field#1" />        <!-- Expected ignored -->
 
     <!--* Mode declarations ... *-->
-    <xsl:mode name="csv:parse-line" visibility="public"/>
+    <xsl:mode name="csv:parse-line" visibility="public"/>                      <!-- Expected ignored -->
 
     <xsl:mode name="csv:parse-field"
             on-no-match="shallow-copy"
-            visibility="public"/>
+            visibility="public"/>                                              <!-- Expected ignored -->
 
     <xsl:mode name="csv:post-process"
             on-no-match="shallow-copy"
-            visibility="public"/>
+            visibility="public"/>                                              <!-- Expected ignored -->
 
     <!--* Variable declarations ... *-->
     <xsl:variable name="csv:line-separator"
@@ -66,12 +66,12 @@
 
     <!--* Attribute-set declaration ... *-->
     <xsl:attribute-set name="csv:field-attributes"
-                    visibility="public">
+                    visibility="public">                                       <!-- Expected ignored -->
         <xsl:attribute name="quoted"
                     select="if (starts-with(., $csv:validated-quote))
                             then 'yes'
-                            else 'no'"/>
-    </xsl:attribute-set>
+                            else 'no'"/>                                       <!-- Expected ignored -->
+    </xsl:attribute-set>                                                       <!-- Expected ignored -->
 
     <!--* Function declarations ... *-->
     <xsl:function name="csv:parse" visibility="final">
@@ -118,15 +118,15 @@
                 expand-text="yes">
         <xsl:variable name="string-body-pattern"
                     as="xs:string"
-                    select="'([^' || $csv:validated-quote || ']*)'"/>
+                    select="'([^' || $csv:validated-quote || ']*)'"/>          <!-- Expected miss (optim inlined) -->
         <xsl:variable name="quoted-value"
                     as="xs:string"
                     select="$csv:validated-quote
                             || $string-body-pattern
-                            || $csv:validated-quote"/>
+                            || $csv:validated-quote"/>                         <!-- Expected miss (optim inlined) -->
         <xsl:variable name="unquoted-value"
                     as="xs:string"
-                    select="'(.+)'"/>
+                    select="'(.+)'"/>                                          <!-- Expected miss (optim constant) -->
 
         <field xsl:use-attribute-sets="csv:field-attributes">{
             csv:preprocess-field(

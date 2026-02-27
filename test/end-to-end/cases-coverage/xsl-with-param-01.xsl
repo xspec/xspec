@@ -3,13 +3,13 @@
   <!--
       xsl:with-param Coverage Test Case (Quite complex because it covers xsl:iterate, xsl:call-template, xsl:apply-templates, xsl:apply-import, xsl:next-match and xsl:evaluate)
   -->
-  <xsl:import href="xsl-with-param-01A.xsl" />
+  <xsl:import href="xsl-with-param-01A.xsl" />                                 <!-- Expected ignored -->
   <!-- xsl:mode for apply-templates -->
-  <xsl:mode name="withParamMode" />
+  <xsl:mode name="withParamMode" />                                            <!-- Expected ignored -->
   <!-- xsl:mode for apply-imports -->
-  <xsl:mode name="withParamModeAI" />
+  <xsl:mode name="withParamModeAI" />                                          <!-- Expected ignored -->
   <!-- xsl:mode for next-match -->
-  <xsl:mode name="withParamModeNM" />
+  <xsl:mode name="withParamModeNM" />                                          <!-- Expected ignored -->
 
   <xsl:template match="xsl-with-param">
     <root>
@@ -41,7 +41,7 @@
         <xsl:with-param name="withParam-NM-Param01">1300</xsl:with-param>
       </xsl:apply-templates>
       <!-- Evaluate with-param (200) -->
-      <xsl:variable name="index" select="2" />
+      <xsl:variable name="index" select="2" />                                 <!-- Expected miss (optim constant) -->
       <xsl:variable name="evaluatedExpressionParamChild">
         <xsl:evaluate xpath="'string(node[$index])'" context-item=".">
           <xsl:with-param name="index" select="$index" />
