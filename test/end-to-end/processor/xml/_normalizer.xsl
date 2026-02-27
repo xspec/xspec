@@ -88,7 +88,11 @@
 		<xsl:variable name="explanation-removed" as="xs:string" select="
 			$paths-normalized => string-join()
 			=> replace('&lt;cx:explanation&gt;(.+)&lt;/cx:explanation&gt;\s+', '')"/>
-		<xsl:value-of select="$explanation-removed"/>
+		<!-- XML Calabash as of v3.0.40 binds fnerr prefix in caught-error document, even when the prefix
+			isn't used. Oxygen 28.0 version of XML Calabash (v3.0.25) doesn't bind it. Remove declaration
+			at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="fnerr" as="xs:string">\s+xmlns:fnerr="http://www\.w3\.org/2005/xqt-errors"</xsl:variable>
+		<xsl:value-of select="replace($explanation-removed, $fnerr, '')"/>
 	</xsl:template>
 
 	<!--
