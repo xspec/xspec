@@ -165,14 +165,22 @@
     </and>
   </condition>
 
-  <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
-  <property name="xspec.compiled.runner.without.ext" 
-            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
-  <condition property="xspec.compiled.runner"
-             value="${xspec.compiled.runner.without.ext}.xq"
-             else="${xspec.compiled.runner.without.ext}.xsl">
-    <istrue value="${xspec.is.xquery}" />
-  </condition>
+  <!-- "xspec.basex.classpath" property: Documented in Wiki. DO NOT RENAME.
+    Required for running XSpec tests for Schematron using XQS. Irrelevant
+    for other languages. No default value.
+    
+    The value should be ready to use as part of a Java classpath, including
+    the location of the user's BaseX jar file and any other classpath entries
+    that BaseX needs to execute the test suite. -->
+
+  <!-- "xspec.xqs.home.uri" property: Documented in Wiki. DO NOT RENAME.
+    Absolute URI of XQS installation, ending with final slash.
+    (Corresponds to environment variable XQS_HOME_URI for batch/shell scripts.)
+    Required for running XSpec tests for Schematron using XQS. Irrelevant
+    for other languages. Defaults to lib/XQS/ folder. -->
+  <makeurl property="xspec.project.dir.url"
+    file="${xspec.project.dir}" />
+  <property name="xspec.xqs.home.uri" value="${xspec.project.dir.url}lib/XQS/" />
 
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
   <macrodef name="saxon-xslt">
@@ -236,12 +244,46 @@
     </sequential>
   </macrodef>
 
+  <!-- Transforms a test suite for Schematron, to obtain queryBinding -->
+  <macrodef name="classify-schematron">
+    <sequential>
+      <!-- <tempfile deleteonexit=false> accumulates temp files. <tempfile deleteonexit=true> makes
+        debugging a bit harder. Hence a fixed path. -->
+      <property name="xspec.classify-schematron.temp"
+        value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}_classify-schematron.xml" />
+      
+      <saxon-xslt in="${xspec.xspecfile.original}"
+        out="${xspec.classify-schematron.temp}"
+        style="${xspec.project.dir}/src/schematron/get-query-binding-ant.xsl" />
+      
+      <xmlproperty file="${xspec.classify-schematron.temp}" />
+    </sequential>
+  </macrodef>
+
   <!-- Prepares the environment before compilation -->
-  <target name="init">
+  <!-- The dependency on generate-catalog is because the classify-schematron macro
+    needs to parse the XSpec file, and @schematron might use a catalog. -->
+  <target name="init" depends="generate-catalog">
     <condition property="xspec.coverage.dispchar" value="c" else="">
       <istrue value="${xspec.coverage.enabled}" />
     </condition>
     <echo message="Testing ${xspec.xspecfile.name} [${test.type}${xspec.coverage.dispchar}]" />
+
+    <!-- If test suite is for Schematron, set xspec.schematron.querylanguage.is.xquery and
+      xspec.schematron.querylanguage.is.xslt properties to true or false -->
+    <classify-schematron if:true="${xspec.is.schematron}"/>
+
+    <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
+    <property name="xspec.compiled.runner.without.ext" 
+      value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
+    <condition property="xspec.compiled.runner"
+      value="${xspec.compiled.runner.without.ext}.xq"
+      else="${xspec.compiled.runner.without.ext}.xsl">
+      <or>
+        <istrue value="${xspec.is.xquery}" />
+        <istrue value="${xspec.schematron.querylanguage.is.xquery}" />
+      </or>
+    </condition>
 
     <!-- Verify "test.type" -->
     <fail message="Invalid test.type: '${test.type}'">
@@ -300,7 +342,7 @@
 
   <!-- Converts Schematron and Schematron XSpec into XSLT and XSLT XSpec -->
   <target name="preprocess-schematron"
-          if="${xspec.is.schematron}">
+          if="${xspec.schematron.querylanguage.is.xslt}">
 
     <!-- Mark URI of preprocessors to be skipped -->
     <condition property="xspec.schematron.preprocessor.step1.url" value="#none">
@@ -354,8 +396,28 @@
     </parallel>
   </target>
 
+  <!-- Converts Schematron XSpec with XQuery query binding into XQuery XSpec -->
+  <!-- Can't specify static XSLT parameters with <xslt> task so have to
+      fall back to running Saxon as Java app. -->
+  <target name="schematron-xqs"
+    if="${xspec.schematron.querylanguage.is.xquery}">
+    <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">    
+      <classpath>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
+      </classpath>
+      <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
+      <arg value="-s:${xspec.xspecfile.original}" />
+      <arg value="-o:${xspec.xspecfile.preprocessed}" />
+      <arg value="-xsl:${xspec.project.dir}/src/schematron/schut-to-xspec.xsl" />
+      <arg value="stylesheet-uri=irrelevant for XQS but make it nonempty" />
+      <arg value="sch-impl-name=xqs" />
+      <arg value="xqs-home=${xspec.xqs.home.uri}" />
+    </java>
+  </target>
+
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="init, generate-catalog, preprocess-schematron">
+  <target name="compile" depends="init, generate-catalog, preprocess-schematron, schematron-xqs">
     <property name="xspec.compiler.dir"
               value="${xspec.project.dir}/src/compiler" />
 
@@ -364,10 +426,17 @@
     <property name="xspec.xslt.compiler.xsl"
               value="${xspec.compiler.dir}/compile-xslt-tests.xsl" />
 
+    <condition property="xspec.runner.is.xquery">
+      <or>
+        <istrue value="${xspec.is.xquery}" />
+        <istrue value="${xspec.schematron.querylanguage.is.xquery}" />
+      </or>
+    </condition>
+
     <condition property="xspec.compiler.xsl"
                value="${xspec.xquery.compiler.xsl}"
                else="${xspec.xslt.compiler.xsl}">
-      <istrue value="${xspec.is.xquery}" />
+      <istrue value="${xspec.runner.is.xquery}" />
     </condition>
 
     <property name="xspec.compiler.saxon.config.absolute"
@@ -411,8 +480,29 @@
     </java>
   </target>
 
+  <target name="run-xquery-test-with-basex" depends="compile, schematron-xqs" if="${xspec.schematron.querylanguage.is.xquery}">
+    <echo message="Running Tests..."
+      level="info" />
+
+    <fail
+      message="Testing Schematron with XQS requires the xspec.basex.classpath property."
+      unless="xspec.basex.classpath" />
+
+    <java classname="org.basex.BaseX" fork="true" failonerror="true">
+      <classpath>
+        <pathelement path="${xspec.basex.classpath}" if:set="xspec.basex.classpath"/>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
+      </classpath>
+      <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
+      <arg value="-ODTD=true" if:set="xspec.catalog.files" />
+      <arg value="-o${xspec.result.xml}" />
+      <arg value="-Q${xspec.compiled.runner}" />
+    </java>
+  </target>
+
   <!-- Runs the compiled XSpec for XSLT -->
-  <target name="run-xslt-test" depends="compile" unless="${xspec.is.xquery}">
+  <target name="run-xslt-test" depends="compile" unless="${xspec.runner.is.xquery}">
     <echo message="Running Tests..."
           level="info" />
 
@@ -474,7 +564,7 @@
 
   <!-- Report: Test result HTML -->
   <target name="report-html"
-          depends="run-xquery-test, run-xslt-test">
+          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test">
 
     <makeurl property="xspec.result.html.css.url"
              file="${xspec.result.html.css}"
@@ -529,7 +619,7 @@
 
   <!-- Report: JUnit -->
   <target name="report-junit"
-          depends="run-xquery-test, run-xslt-test"
+          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test"
           if="${xspec.junit.enabled}">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.junit}"
