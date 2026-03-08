@@ -760,6 +760,29 @@
 												<null/>
 											</field>
 										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.basex.classpath</String>
+											</field>
+											<field name="description">
+												<String>Classpath for BaseX. Required to run XSpec tests for Schematron with XQS.</String>
+											</field>
+											<field name="value">
+												<String>${env(BASEX_JAR)}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
 									</list>
 								</field>
 								<field name="jvmArgs">
