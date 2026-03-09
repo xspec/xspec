@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+    <article-title>Demo 2</article-title>
+    <body>
+        <sec sec-type="introduction">
+            <title>Welcome!</title>
+            <p>Schematron is a wonderful tool for testing XML to find out if the XML follows an expected structure.</p>
+            <p>In addition to validating XML, Schematron can also raise alerts for things you might want to know through warnings and informational messages. It can pass/fail validation and much more!</p>
+        </sec>
+        <sec>
+            <p>Schematron uses XPath to test the contents of XML.</p>
+        </sec>
+        <sec sec-type="testing">
+            <title>Testing Schematron</title>
+            <p>While Schematron is useful for testing XML files, it is also useful to have a tool for testing Schematron itself.</p>
+            <p>Schematron is simple to use. However sometimes tests can sometimes become very complex. A good set of test cases can help you to avoid problems and makes your work go faster.</p>
+        </sec>
+    </body>
+</article>

@@ -673,6 +673,13 @@ load bats-helper
         xqs/run-tests-with-basex.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 }
 
 @test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
