@@ -16,6 +16,7 @@
       <p><b>Output ports:</b> None. This pipeline raises an error if any tests fail.</p>
       <p>'xspec-home' option: Directory of XSpec. Default: Root of this XSpec installation.</p>
       <p>'xqs-home' option: Directory of XQS. Default: lib/XQS/ under xspec-home.</p>
+      <p>'test-dir' option: Directory containing tests (non-recursive). Default: this directory.</p>
    </p:documentation>
 
    <p:import href="../../src/xproc3/schematron-xqs/run-schematron-xqs.xpl"/>
@@ -24,11 +25,11 @@
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="xqs-home" as="xs:string?"/>
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+   <p:option name="test-dir" as="xs:anyURI" select="resolve-uri('.')"/>
 
    <p:variable name="xspec-home-to-use" as="xs:string"
       select="($xspec-home, resolve-uri('../../'))[1]"/>
 
-   <p:variable name="test-dir" select="resolve-uri('.')"/>
    <p:directory-list path="{$test-dir}" max-depth="1" include-filter="\.xspec$"/>
 
    <p:for-each>
