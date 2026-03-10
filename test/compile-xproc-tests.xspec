@@ -145,11 +145,10 @@
       </t:scenario>
    </t:scenario>
 
-   <t:scenario label="x:call and its children transformed in step-call-text template">
+   <t:scenario label="x:call and its children transformed in step-call-text function">
       <t:variable name="call" href="compile-xproc-tests/compile-scenario.xspec" select="//t:call"/>
       <t:call function="t:step-call-text">
          <t:param name="call" select="$call"/>
-         <t:param name="parent-scenario" select="$call/parent::t:scenario"/>
       </t:call>
       <t:expect label="is a text node" test="$t:result instance of text()"/>
       <t:expect test="starts-with($t:result,

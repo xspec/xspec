@@ -232,7 +232,7 @@
                            <xsl:sequence select="x:copy-of-namespaces($call)" />
                            <xsl:attribute name="select"
                               select="concat(
-                              x:step-call-text($call, $this-scenario),
+                              x:step-call-text($call),
                               '(''map-of-outputs'')'
                               )"/>
                         </sequence>
@@ -275,20 +275,16 @@
        The step runner is an XProc step, but we call it as a step function. -->
    <xsl:function name="x:step-call-text" as="text()">
       <xsl:param name="call" as="element(x:call)"/>
-      <xsl:param name="parent-scenario" as="element(x:scenario)"/>
 
-      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
-      <xsl:for-each select="$call">
-         <xsl:value-of>
-            <xsl:value-of select="x:known-UQName('impl:step-runner')"/>
-            <xsl:text>(</xsl:text>
-            <xsl:text expand-text="yes">(: { @step } :)</xsl:text>
-            <xsl:text expand-text="yes">${x:known-UQName('impl:wrapper-step-based-on-x-call')}</xsl:text>
-            <xsl:text>, </xsl:text>
-            <xsl:text expand-text="yes">${x:known-UQName('impl:options-for-step-function')}</xsl:text>
-            <xsl:text>)</xsl:text>
-         </xsl:value-of>
-      </xsl:for-each>
+      <xsl:value-of expand-text="yes">
+         <xsl:text>{x:known-UQName('impl:step-runner')}</xsl:text>
+         <xsl:text>(</xsl:text>
+         <xsl:text>(: { $call/@step } :)</xsl:text>
+         <xsl:text>${x:known-UQName('impl:wrapper-step-based-on-x-call')}</xsl:text>
+         <xsl:text>, </xsl:text>
+         <xsl:text>${x:known-UQName('impl:options-for-step-function')}</xsl:text>
+         <xsl:text>)</xsl:text>
+      </xsl:value-of>
    </xsl:function>
 
    <!-- Indicates whether an x:input or x:option element will be evaluated
@@ -322,7 +318,7 @@
             <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
          </xsl:call-template>
          <xsl:text>,</xsl:text>
-         <xsl:text expand-text="yes">'map-of-options':</xsl:text>
+         <xsl:text>'map-of-options':</xsl:text>
          <xsl:call-template name="option-map-text">
             <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
          </xsl:call-template>
