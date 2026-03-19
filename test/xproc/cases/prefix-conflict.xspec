@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xproc="library-prefix-conflict.xpl" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="x-urn:test:prefix-conflict" xmlns:p="x-urn:test:prefix-conflict">
+
+	<t:scenario label="Using x: prefix in @step and input @select, @as, and child node">
+		<t:call step="x:identity">
+			<t:input port="source" as="element(x:step-input-child)"
+				select="element(x:step-input-child)">
+				<x:step-input-child/>
+			</t:input>
+		</t:call>
+		<t:expect port="xproc-result" label="should work" select="'x:step-input-child'"
+			test="name($t:result/*)"/>
+		<t:expect port="xproc-result" label="boolean @test should work"
+			test="$t:result instance of document-node(element(x:step-input-child))"/>
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in option @name, @select, @as, and child node">
+		<t:call step="x:option-value">
+			<t:option as="element(x:step-option-child)" name="x:option-items"
+				select="element(x:step-option-child)">
+				<x:step-option-child/>
+			</t:option>
+		</t:call>
+		<t:expect port="xproc-result" label="should work" select="'x:step-option-child'"
+			test="name($t:result/*)"/>
+	</t:scenario>
+
+	<t:scenario>
+		<t:label>Using p: prefix in XProc-loaded input, and assertion @test, @select, @as, and child
+			node</t:label>
+		<t:call step="p:p-identity">
+			<t:input port="source">
+				<document href="document-prefix-conflict.xml" xmlns="http://www.w3.org/ns/xproc"/>
+			</t:input>
+		</t:call>
+		<t:expect port="xproc-result" label="should work" test="/*[@p:attr=1]"
+			as="element(p:document)" select="element(p:document)"
+			xmlns:p="x-urn:test:prefix-conflict">
+			<p:document p:attr="1"/>
+		</t:expect>
+		<t:expect port="xproc-result" label="boolean @test should work"
+			test="$t:result instance of document-node(element(p:document))"/>
+	</t:scenario>
+
+	<t:scenario>
+		<t:label>Using p: prefix in XProc-loaded option, and assertion @test, @select, @as, and
+			child node</t:label>
+		<t:call step="p:p-option-value">
+			<t:option name="p:option-items">
+				<document href="document-prefix-conflict.xml" xmlns="http://www.w3.org/ns/xproc"/>
+			</t:option>
+		</t:call>
+		<t:expect port="xproc-result" label="should work" test="/*[@p:attr=1]"
+			as="element(p:document)" select="element(p:document)"
+			xmlns:p="x-urn:test:prefix-conflict">
+			<p:document p:attr="1"/>
+		</t:expect>
+	</t:scenario>
+
+	<t:variable as="element(x:global-var-child)" name="x:x-global-var"
+		select="element(x:global-var-child)">
+		<x:global-var-child/>
+	</t:variable>
+	<t:variable as="element(p:global-var-child)" name="p:p-global-var"
+		select="element(p:global-var-child)">
+		<p:global-var-child/>
+	</t:variable>
+	<t:scenario label="Using x: or p: prefix in global variable @name, @select, @as, and child node">
+		<t:call step="x:identity">
+			<t:input port="source"/>
+		</t:call>
+		<t:expect label="should work for x: prefix"
+			test="exists($x:x-global-var/self::x:global-var-child)"/>
+		<t:expect label="should work for p: prefix"
+			test="exists($p:p-global-var/self::p:global-var-child)"/>
+	</t:scenario>
+
+	<t:scenario label="Using x: or p: prefix in local variable @name, @select, @as, and child node">
+		<t:variable as="element(x:var-child)" name="x:var" select="element(x:var-child)">
+			<x:var-child/>
+		</t:variable>
+		<t:variable as="element(p:var-child)" name="p:var" select="element(p:var-child)">
+			<p:var-child/>
+		</t:variable>
+		<t:call step="x:identity">
+			<t:input port="source"/>
+		</t:call>
+		<t:expect label="should work for x: prefix" test="exists($x:var/self::x:var-child)"/>
+		<t:expect label="should work for p: prefix" test="exists($p:var/self::p:var-child)"/>
+	</t:scenario>
+
+</t:description>
