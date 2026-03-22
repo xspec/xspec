@@ -28,9 +28,9 @@ test_script:
       set PATH=%JAVA_HOME%\bin;%PATH%
       test\ci\print-env.cmd
       test\run-bats.cmd
-      rem test\ci\maven-package.cmd -q
+      test\ci\maven-package.cmd -q
       rem test\ci\compile-java.cmd -silent
       rem test\ci\last-git-status.cmd
-      rem test\ci\test-maven-jar.cmd -silent
+      test\ci\test-maven-jar.cmd -silent
 
 deploy: off
