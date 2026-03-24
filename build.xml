@@ -166,12 +166,20 @@
   </condition>
 
   <!-- "xspec.basex.classpath" property: Documented in Wiki. DO NOT RENAME.
-    Required for running XSpec tests for Schematron using XQS. Irrelevant
+    Required for running XSpec tests for Schematron using XQS and BaseX. Irrelevant
     for other languages. No default value.
     
     The value should be ready to use as part of a Java classpath, including
     the location of the user's BaseX jar file and any other classpath entries
     that BaseX needs to execute the test suite. -->
+
+  <!-- "xspec.elemental.classpath" property: Documented in Wiki. DO NOT RENAME.
+    Required for running XSpec tests for Schematron using XQS ad Elemental. Irrelevant
+    for other languages. No default value.
+
+    The value should be ready to use as part of a Java classpath, including
+    the location of the user's Elemental jar file and any other classpath entries
+    that Elemental needs to execute the test suite. -->
 
   <!-- "xspec.xqs.home.uri" property: Documented in Wiki. DO NOT RENAME.
     Absolute URI of XQS installation, ending with final slash.
@@ -501,6 +509,29 @@
     </java>
   </target>
 
+  <target name="run-xquery-test-with-elemental" depends="compile, schematron-xqs" if="${xspec.schematron.querylanguage.is.xquery}">
+    <echo message="Running Tests..."
+      level="info" />
+
+    <fail
+      message="Testing Schematron with XQS requires the xspec.elemental.classpath property."
+      unless="xspec.basex.classpath" />
+
+    <java classname="org.exist.start.Main" fork="true" failonerror="true">
+      <classpath>
+        <pathelement path="${xspec.elemental.classpath}" if:set="xspec.elemental.classpath"/>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
+      </classpath>
+      <arg value="client"/>
+      <arg value="--local"/>
+      <!-- arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
+      <arg value="-ODTD=true" if:set="xspec.catalog.files" />
+      <arg value="-o${xspec.result.xml}" / -->
+      <arg value="--xpath ${xspec.compiled.runner}" />
+    </java>
+  </target>
+
   <!-- Runs the compiled XSpec for XSLT -->
   <target name="run-xslt-test" depends="compile" unless="${xspec.runner.is.xquery}">
     <echo message="Running Tests..."
@@ -564,7 +595,7 @@
 
   <!-- Report: Test result HTML -->
   <target name="report-html"
-          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test">
+          depends="run-xquery-test, run-xquery-test-with-basex, run-xquery-test-with-elemental, run-xslt-test">
 
     <makeurl property="xspec.result.html.css.url"
              file="${xspec.result.html.css}"
@@ -619,7 +650,7 @@
 
   <!-- Report: JUnit -->
   <target name="report-junit"
-          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test"
+          depends="run-xquery-test, run-xquery-test-with-basex, run-xquery-test-with-elemental, run-xslt-test"
           if="${xspec.junit.enabled}">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.junit}"

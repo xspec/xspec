@@ -130,6 +130,18 @@ else
 fi
 
 #
+# Elemental
+#
+
+if [ -n "${BASEX_VERSION}" ]; then
+    # Depends on the archive file structure
+    export ELEMENTAL_HOME="${XSPEC_TEST_DEPS}/elemental-${ELEMENTAL_VERSION}"
+else
+    echo "Elemental will not be installed"
+    unset ELEMENTAL_HOME
+fi
+
+#
 # Classpath
 #
 

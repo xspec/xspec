@@ -12,6 +12,7 @@
         "basex",
         "deps",
         "deps-dev",
+        "elemental",
         "report",
         "xproc",
         "schema",
