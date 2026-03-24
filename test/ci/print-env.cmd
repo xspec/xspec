@@ -49,6 +49,16 @@ ping -n 6 localhost > NUL
 call "%BASEX_JAR%\..\bin\basexhttpstop.bat"
 
 echo:
+echo === Check Elemental
+"%ELEMENTAL_HOME%\bin\client.sh --help"
+
+@REM echo:
+@REM echo === Check Elemental server start and stop
+@REM call "%ELEMENTAL_HOME%\bin\startup.bat"
+@REM ping -n 6 localhost > NUL
+@REM call "%ELEMENTAL_HOME%\bin\shutdown.bat"
+
+echo:
 echo === Print environment variables
 set
 

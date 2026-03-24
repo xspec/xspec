@@ -48,6 +48,16 @@ sleep 5
 "${basex_home}/bin/basexhttpstop"
 
 echo
+echo "=== Check Elemental"
+"${ELEMENTAL_HOME}\bin\client.sh" --version
+
+#echo
+#echo "=== Check Elemental server start and stop"
+#${ELEMENTAL_HOME}\bin\startup.sh
+#sleep 30
+#${ELEMENTAL_HOME}\bin\shutdown.sh
+
+echo
 echo "=== Print Bats version"
 bats --version
 

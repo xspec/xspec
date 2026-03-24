@@ -655,7 +655,7 @@ load bats-helper
 # XProc 3 support for Schematron testing using XQS
 #
 
-@test "XProc 3 support for Schematron testing using XQS" {
+@test "XProc 3 support for Schematron testing using XQS (BaseX)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -669,20 +669,47 @@ load bats-helper
     # Run series of tests, and return error messages if anything fails
     myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
         com.xmlcalabash.app.Main \
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
-        xqs/run-tests-with-basex.xpl
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml \
+        xqs/run-tests-with-xmldb.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 
     myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
         com.xmlcalabash.app.Main \
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
-        xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml \
+        xqs/run-tests-with-xmldb.xpl test-dir=../../tutorial/schematron-xqs/
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 }
 
-@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
+@test "XProc 3 support for Schematron testing using XQS (Elemental)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml \
+        xqs/run-tests-with-xmldb.xpl
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml \
+        xqs/run-tests-with-xmldb.xpl test-dir=../../tutorial/schematron-xqs/
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS (BaseX)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -696,7 +723,31 @@ load bats-helper
     # Run series of tests, and return error messages if anything fails
     myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
         com.xmlcalabash.app.Main \
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml \
+        --input:source=xqs/phases-xqs.xspec \
+        --output:result="file:${work_dir}/catalog-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS (Elemental)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml \
         --input:source=xqs/phases-xqs.xspec \
         --output:result="file:${work_dir}/catalog-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
         --catalog:../catalog.xml \
@@ -781,7 +832,7 @@ load bats-helper
 # Schematron running with XQS (CLI)
 #
 
-@test "invoking xspec with -s where schema being tested requires XQS (CLI)" {
+@test "invoking xspec with -s where schema being tested requires XQS (CLI) (BaseX)" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
@@ -797,9 +848,36 @@ load bats-helper
     assert_regex "${lines[${#lines[@]} - 1]}" '.+Executing test for Schematron with XQS requires BASEX_JAR to be defined'
 }
 
-@test "invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI)" {
+@test "invoking xspec with -s where schema being tested requires XQS (CLI) (Elemental)" {
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+    unset XQS_HOME_URI
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    unset BASEX_JAR
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[${#lines[@]} - 1]}" '.+Executing test for Schematron with XQS requires ELEMENTAL_HOME to be defined'
+}
+
+@test "invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI) (BaseX)" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
+    fi
+    export XQS_HOME_URI="file:${parent_dir_abs}/lib/XQS/"
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI) (Elemental)" {
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
     fi
     export XQS_HOME_URI="file:${parent_dir_abs}/lib/XQS/"
     myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
@@ -1125,6 +1203,75 @@ load bats-helper
     assert_regex "${lines[2]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
 }
 
+@test "XProc harness for Elemental (server)" {
+    if [ -z "${ELEMENTAL_JAR}" ]; then
+        skip "ELEMENTAL_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
+    fi
+
+    # Stop Elemental server, in case it's running
+    myrun "$ELEMENTAL_HOME}/bin/shutdown.sh"
+
+    # Set Elemental password
+    elemental_password=${RANDOM}
+    "${ELEMENTAL_HOME}/bin/client.sh" --local --xpath "sm:passwd('admin', '${elemental_password}')"
+
+    # Start Elemental server
+    "${ELEMENTAL_HOME}/bin/startup.sh &"
+
+    # Wait for the server to start up
+    sleep 30
+
+    # HTML report file
+    expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
+
+    # Run (also test with various types in report)
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+        -i source=report-sequence.xspec \
+        -o result="file:${expected_report}" \
+        -p auth-method=Basic \
+        -p endpoint=http://localhost:8080/exist/rest \
+        -p password="${elemental_password}" \
+        -p username=admin \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/elemental/elemental-server-xquery-harness.xproc
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "3" ]
+    assert_regex "${lines[2]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
+
+    # HTML report file should be created and its charset should be UTF-8 #72
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${expected_report}" \
+        -xsl:check-html-charset.xsl
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+
+    # Stop Elemental server
+    "${ELEMENTAL_HOME}/bin/shutdown.sh --password ${elemental_password}"
+}
+
+@test "Elemental with no-prefix.xspec" {
+    if [ -z "${ELEMENTAL_JAR}" ]; then
+        skip "ELEMENTAL_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
+    fi
+
+    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+        -i source=no-prefix.xspec \
+        -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
+        -p elemental-home="${ELEMENTAL_HOME}" \
+        -p compiled-file="file:${work_dir}/compiled_${RANDOM}.xq" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/elemental/elemental-standalone-xquery-harness.xproc
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "3" ]
+    assert_regex "${lines[2]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
+}
+
 #
 # Ant with minimum properties
 #
@@ -1236,7 +1383,7 @@ load bats-helper
     [ "${lines[6]}" = "demo-03_xml-to-properties.xml" ]
 }
 
-@test "Ant with minimum properties (Schematron via XQS)" {
+@test "Ant with minimum properties (Schematron via XQS (BaseX))" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
@@ -1256,6 +1403,44 @@ load bats-helper
         -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=s \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${tutorial_copy}/phases-xqs.xspec"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+
+    # Verify default output dir
+    # * Default clean.output.dir is false
+    # * Default xspec.junit.enabled is false
+    myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
+    [ "${#lines[@]}" = "6" ]
+    [ "${lines[0]}" = "phases-xqs-compiled.xq" ]
+    [ "${lines[1]}" = "phases-xqs-result.html" ]
+    [ "${lines[2]}" = "phases-xqs-result.xml" ]
+    [ "${lines[3]}" = "phases-xqs-sch-preprocessed.xspec" ]
+    [ "${lines[4]}" = "phases-xqs_classify-schematron.xml" ]
+    [ "${lines[5]}" = "phases-xqs_xml-to-properties.xml" ]
+}
+
+@test "Ant with minimum properties (Schematron via XQS (Elemental))" {
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+
+    # Unset any preset args
+    unset ANT_ARGS
+
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp xqs/phases-xqs.* "${tutorial_copy}"
+
+    # Run
+    # * Should work without phase #168
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type=s \
+        -Dxspec.elemental.classpath="${ELEMENTAL_HOME}/lib/*" \
         -Dxspec.xml="${tutorial_copy}/phases-xqs.xspec"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
@@ -1318,7 +1503,7 @@ load bats-helper
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog file path (Schematron via XQS)" {
+@test "Ant with catalog file path (Schematron via XQS (BaseX))" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
@@ -1329,6 +1514,23 @@ load bats-helper
         -Dcatalog="test/catalog/03/catalog-public.xml;${PWD}/catalog/03/catalog-rewriteURI.xml" \
         -Dtest.type=s \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file path (Schematron via XQS (Elemental))" {
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dtest.type=s \
+        -Dxspec.elemental.classpath="${BASEX_JAR}/lib/*" \
         -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
@@ -1382,7 +1584,7 @@ load bats-helper
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog file URI (Schematron via XQS)" {
+@test "Ant with catalog file URI (Schematron via XQS (BaseX))" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
@@ -1394,6 +1596,24 @@ load bats-helper
         -Dcatalog.is.uri=true \
         -Dtest.type=s \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (Schematron via XQS (Elemental))" {
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=s \
+        -Dxspec.elemental.classpath="${ELEMENTAL_HOME}/lib/*" \
         -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
@@ -1587,13 +1807,36 @@ load bats-helper
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
-@test "CLI with -catalog file path (Schematron via XQS)" {
+@test "CLI with -catalog file path (Schematron via XQS (BaseX))" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
     fi
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
+    fi
+
+    mkdir -p "${space_dir}/03"
+    cp catalog/catalog-03* "${space_dir}"
+    cp catalog/03/* "${space_dir}/03"
+
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
+        -s \
+        "${space_dir}/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with -catalog file path (Schematron via XQS (Elemental))" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+    if [ -z "${ELEMENTAL_HOME}" ]; then
+        skip "ELEMENTAL_HOME is not defined"
     fi
 
     mkdir -p "${space_dir}/03"
@@ -1645,9 +1888,23 @@ load bats-helper
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
-@test "CLI with -catalog file URI (Schematron via XQS)" {
+@test "CLI with -catalog file URI (Schematron via XQS (BaseX))" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
+    fi
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -s \
+        catalog/catalog-03_schematron-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with -catalog file URI (Schematron via XQS (Elemental))" {
+    if [ -z "${ELEMENTAL_JAR}" ]; then
+        skip "ELEMENTAL_JAR is not defined"
     fi
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \

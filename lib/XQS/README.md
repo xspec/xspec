@@ -9,12 +9,12 @@ The only known area of non-conformance is XInclude-like language fixup, which is
 See also https://github.com/AndrewSales/XQS/issues/29.
 
 # Pre-requisites
-Tested under [BaseX](https://basex.org/) 10.x.
+Tested under [BaseX](https://basex.org/) 10.x, and [Elemental](https://www.elemental.xyz/) 7.5.0.
 Note that the codebase is now also tested against BaseX 12.0.
 
 # Installation
-1. Install [BaseX](https://basex.org/download/) version 10 or later.
-1. Download the latest release and navigate to the root directory of the extracted archive (containing `*.xqm` files).
+1. Install either [BaseX](https://basex.org/download/) version 10+, or [Elemental](https://elemental.xyz/downloads/) 7.5.0+
+2. Download the latest release and navigate to the root directory of the extracted archive (containing `*.xqm` files).
 
 # Usage
 XQS provides two methods of validating with a Schematron schema, by either:
@@ -24,7 +24,7 @@ XQS provides two methods of validating with a Schematron schema, by either:
 
 ## At the command line
 
-Basic [command scripts](https://docs.basex.org/wiki/Commands#Command_Scripts) are provided in `bin/` to run XQS using BaseX in standalone mode. This allows you to use XQS as a straightforward, standalone validator.
+Basic [command scripts](https://docs.basex.org/wiki/Commands#Command_Scripts) are provided in `bin/` to run XQS using BaseX. This allows you to use XQS as a straightforward, standalone validator.
 
 The `-b` options given below simply bind a variable; their order is not significant.
 

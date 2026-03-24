@@ -10,8 +10,8 @@
             version="3.1">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite for Schematron with BaseX using the XQS implementation of Schematron.</p>
-      <p>NOTE: This pipeline depends on the BaseX extension to XML Calabash 3 (v3.0.14 or later).</p>
+      <p>This pipeline executes an XSpec test suite for Schematron with BaseX or Elemental using the XQS implementation of Schematron.</p>
+      <p>NOTE: This pipeline depends on the BaseX or Elemental extension to XML Calabash 3 (v3.0.22 or later).</p>
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>

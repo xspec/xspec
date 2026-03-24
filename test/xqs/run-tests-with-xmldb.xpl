@@ -5,13 +5,13 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="run-tests-with-basex"
-            type="x:run-tests-with-basex"
+            name="run-tests-with-xmldb"
+            type="x:run-tests-with-xmldb"
             version="3.1">
 
    <p:documentation>
       <p>This pipeline executes all .xspec files in the test/xqs directory.</p>
-      <p>NOTE: This pipeline depends on the BaseX extension to XML Calabash 3 (v3.0.14 or later).</p>
+      <p>NOTE: This pipeline depends on the BaseX or Elemental extension to XML Calabash 3 (v3.0.22 or later).</p>
       <p><b>Input ports:</b> None.</p>
       <p><b>Output ports:</b> None. This pipeline raises an error if any tests fail.</p>
       <p>'xspec-home' option: Directory of XSpec. Default: Root of this XSpec installation.</p>

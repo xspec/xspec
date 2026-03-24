@@ -110,6 +110,18 @@ if defined BASEX_VERSION (
 )
 
 rem
+rem Elemental
+rem
+
+if defined ELEMENTAL_VERSION (
+    rem Depends on the archive file structure
+    set "ELEMENTAL_HOME=%XSPEC_TEST_DEPS%\elemental-%ELEMENTAL_VERSION%"
+) else (
+    echo Elemental will not be installed
+    set ELEMENTAL_HOME=
+)
+
+rem
 rem Classpath
 rem
 

@@ -572,28 +572,28 @@
 	</case>
 
 	<!--
-		XProc 3 support for Schematron testing using XQS
+		XProc 3 support for Schematron testing using XQS (BaseX)
 	-->
 
-	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 support for Schematron testing using XQS">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 support for Schematron testing using XQS (BaseX)">
     rem Run series of tests, and return error messages if anything fails
     call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
         com.xmlcalabash.app.Main ^
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
-        xqs\run-tests-with-basex.xpl
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml ^
+        xqs\run-tests-with-xmldb.xpl
     call :verify_line * r "--- Testing completed with no failures! ---"
 
     call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
         com.xmlcalabash.app.Main ^
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
-        xqs\run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml ^
+        xqs\run-tests-with-xmldb.xpl test-dir=../../tutorial/schematron-xqs/
     call :verify_line * r "--- Testing completed with no failures! ---"
 	</case>
 
-	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness using catalog instead of xspec-home, Schematron with XQS">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness using catalog instead of xspec-home, Schematron with XQS (BaseX)">
     call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
         com.xmlcalabash.app.Main ^
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-basex-config.xml ^
         --input:source=xqs/phases-xqs.xspec ^
         --output:result="file:///%WORK_DIR:\=/%/catalog-xproc3-schematron-xqs-test-result_%RANDOM%.html" ^
         --catalog:../catalog.xml ^
@@ -601,6 +601,37 @@
     call :verify_retval 0
     call :verify_line -1 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
+
+    <!--
+		XProc 3 support for Schematron testing using XQS (Elemental)
+	-->
+
+    <case ifdef="ELEMENTAL_HOME XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 support for Schematron testing using XQS (Elemental)">
+        rem Run series of tests, and return error messages if anything fails
+        call :run java -cp "%ELEMENTAL_HOME%\lib\*;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml ^
+        xqs\run-tests-with-xmldb.xpl
+        call :verify_line * r "--- Testing completed with no failures! ---"
+
+        call :run java -cp "%ELEMENTAL_HOME%\lib\*;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml ^
+        xqs\run-tests-with-xmldb.xpl test-dir=../../tutorial/schematron-xqs/
+        call :verify_line * r "--- Testing completed with no failures! ---"
+    </case>
+
+    <case ifdef="ELEMENTAL_HOME XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness using catalog instead of xspec-home, Schematron with XQS (Elemental)">
+        call :run java -cp "%ELEMENTAL_HOME%\lib\*;%XMLCALABASH3_DIR%\extra\*" ^
+        com.xmlcalabash.app.Main ^
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-elemental-config.xml ^
+        --input:source=xqs/phases-xqs.xspec ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-xproc3-schematron-xqs-test-result_%RANDOM%.html" ^
+        --catalog:../catalog.xml ^
+        ..\src\xproc3\schematron-xqs\run-schematron-xqs.xpl
+        call :verify_retval 0
+        call :verify_line -1 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    </case>
 
 	<!--
 		Path containing special chars (CLI)
@@ -667,10 +698,10 @@
 	</case>
 
 	<!--
-		Schematron running with XQS (CLI)
+		Schematron running with XQS (CLI) (BaseX)
 	-->
 
-	<case ifdef="BASEX_JAR" name="invoking xspec with -s where schema being tested requires XQS (CLI)">
+	<case ifdef="BASEX_JAR" name="invoking xspec with -s where schema being tested requires XQS (CLI) (BaseX)">
     set XQS_HOME_URI=
     call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
     call :verify_retval 0
@@ -683,13 +714,38 @@
     call :verify_line -1 r "..*Executing test for Schematron with XQS requires BASEX_JAR to be defined"
 	</case>
 
-	<case ifdef="BASEX_JAR" name="invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI)">
+	<case ifdef="BASEX_JAR" name="invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI) (BaseX)">
     set "XQS_HOME_URI=file:///%CD:\=/%/../lib/XQS/"
     call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
     call :verify_retval 0
     call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
     call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
+
+    <!--
+		Schematron running with XQS (CLI) (Elemental)
+	-->
+
+    <case ifdef="ELEMENTAL_HOME" name="invoking xspec with -s where schema being tested requires XQS (CLI) (Elemental)">
+        set XQS_HOME_URI=
+        call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
+        call :verify_retval 0
+        call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+        call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+        set ELEMENTAL_HOME=
+        call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
+        call :verify_retval 1
+        call :verify_line -1 r "..*Executing test for Schematron with XQS requires BASEX_JAR to be defined"
+    </case>
+
+    <case ifdef="ELEMENTAL_HOME" name="invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI) (Elemental)">
+        set "XQS_HOME_URI=file:///%CD:\=/%/../lib/XQS/"
+        call :run ..\bin\xspec.bat -s xqs\phases-xqs.xspec
+        call :verify_retval 0
+        call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+        call :verify_line 13 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    </case>
 
 	<!--
 		Skip Schematron Step (CLI)
@@ -982,6 +1038,101 @@
     call :verify_line 3 r "..*:passed: 10 / pending: 0 / failed: 0 / total: 10"
 	</case>
 
+    <!--
+    XProc (Elemental)
+-->
+
+    <case ifdef="ELEMENTAL_HOME XMLCALABASH_CP" name="XProc harness for Elemental (standalone)">
+        rem Output files
+        set "COMPILED_FILE=%WORK_DIR%\compiled_%RANDOM%.xq"
+        set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
+
+        rem Run (also test with special characters in expression #1020)
+        call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+        -i source=issue-1020.xspec ^
+        -o result="file:///%EXPECTED_REPORT:\=/%" ^
+        -p elemental-home="%ELEMENTAL_HOME%" ^
+        -p compiled-file="file:///%COMPILED_FILE:\=/%" ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\elemental\elemental-standalone-xquery-harness.xproc
+        call :verify_retval 0
+        call :verify_line -1 r "..*:passed: 12 / pending: 0 / failed: 0 / total: 12"
+
+        rem Compiled file
+        call :verify_exist "%COMPILED_FILE%"
+
+        rem HTML report file should be created and its charset should be UTF-8 #72
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%EXPECTED_REPORT%" ^
+        -xsl:check-html-charset.xsl
+        call :verify_retval 0
+        call :verify_line 1 x "true"
+    </case>
+
+    <case ifdef="ELEMENTAL_HOME XMLCALABASH_CP" name="XProc harness for Elemental (server)">
+        rem Elemental dir
+
+        rem Stop Elemental server, in case it's running
+        rem Run the batch file in a child process in order to localize various environment changes
+        call :run "%ELEMENTAL_HOME%\bin\shutdown.bat"
+
+        rem Set Elemental password
+        rem Run the batch file in a child process in order to localize various environment changes
+        set ELEMENTAL_PASSWORD=%RANDOM%
+        call :run ""%ELEMENTAL_HOME%\bin\client.bat" --local --xpath "sm:passwd('admin', '%BASEX_PASSWORD%')""
+        call :verify_retval 0
+
+        rem Start Elemental server
+        rem Run the batch file in a child process in order to localize various environment changes
+        call :run "%ELEMENTAL_HOME%\bin\startup.bat"
+        call :verify_retval 0
+
+        rem Wait for the server to start up
+        ping -n 6 localhost > NUL
+
+        rem HTML report file
+        set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"
+
+        rem Run (also test with various types in report)
+        call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+        -i source=report-sequence.xspec ^
+        -o result="file:///%EXPECTED_REPORT:\=/%" ^
+        -p auth-method=Basic ^
+        -p endpoint=http://localhost:8080/exist/rest ^
+        -p password="%ELEMENTAL_PASSWORD%" ^
+        -p username=admin ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\elemental\elemental-server-xquery-harness.xproc
+        call :verify_retval 0
+        call :verify_line_count 3
+        call :verify_line 3 r "..*:passed: 128 / pending: 0 / failed: 0 / total: 128"
+
+        rem HTML report file should be created and its charset should be UTF-8 #72
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%EXPECTED_REPORT%" ^
+        -xsl:check-html-charset.xsl
+        call :verify_retval 0
+        call :verify_line 1 x "true"
+
+        rem Stop Elemental server
+        rem Run the batch file in a child process in order to localize various environment changes
+        call :run "%ELEMENTAL_HOME%\bin\shutdown.bat --password %ELEMENTAL_PASSWORD%"
+        call :verify_retval 0
+    </case>
+
+    <case ifdef="ELEMENTAL_JAR XMLCALABASH_CP" name="BaseX with no-prefix.xspec">
+        call :run java -cp "%XMLCALABASH_CP%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+        -i source=no-prefix.xspec ^
+        -o result="file:///%WORK_DIR:\=/%/no-prefix-result_%RANDOM%.html" ^
+        -p elemental-home="%ELEMENTAL_HOME%" ^
+        -p compiled-file="file:///%WORK_DIR:\=/%/compiled_%RANDOM%.xq" ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\elemental\elemental-standalone-xquery-harness.xproc
+        call :verify_retval 0
+        call :verify_line_count 3
+        call :verify_line 3 r "..*:passed: 10 / pending: 0 / failed: 0 / total: 10"
+    </case>
+
 	<!--
 		Ant with minimum properties
 	-->
@@ -1089,7 +1240,7 @@
     call :verify_line 7 x demo-03-sch-preprocessed.xspec
 	</case>
 
-	<case ifdef="BASEX_JAR" name="Ant with minimum properties (Schematron via XQS)">
+	<case ifdef="BASEX_JAR" name="Ant with minimum properties (Schematron via XQS (BaseX))">
     rem Unset any preset args
     set ANT_ARGS=
 
@@ -1122,6 +1273,40 @@
     call :verify_line 5 x phases-xqs-result.xml
     call :verify_line 6 x phases-xqs-sch-preprocessed.xspec
 	</case>
+
+    <case ifdef="ELEMENTAL_HOME" name="Ant with minimum properties (Schematron via XQS (Elemental))">
+        rem Unset any preset args
+        set ANT_ARGS=
+
+        rem Use a fresh dir, to avoid a residue of default output dir
+        set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+        call :mkdir "%TUTORIAL_COPY%"
+        call :copy xqs\phases-xqs.* "%TUTORIAL_COPY%"
+
+        rem Run
+        rem * Should work without phase #168
+        call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dtest.type=s ^
+        -Dxspec.elemental.classpath="%ELEMENTAL_HOME%\lib\*" ^
+        -Dxspec.xml="%TUTORIAL_COPY%\phases-xqs.xspec"
+        call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify default output dir
+        rem * Default clean.output.dir is false
+        rem * Default xspec.junit.enabled is false
+        call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+        call :verify_line_count 6
+        call :verify_line 1 x phases-xqs_classify-schematron.xml
+        call :verify_line 2 x phases-xqs_xml-to-properties.xml
+        call :verify_line 3 x phases-xqs-compiled.xq
+        call :verify_line 4 x phases-xqs-result.html
+        call :verify_line 5 x phases-xqs-result.xml
+        call :verify_line 6 x phases-xqs-sch-preprocessed.xspec
+    </case>
 
 	<!--
 		Catalog file path (Ant)
@@ -1167,7 +1352,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case ifdef="BASEX_JAR" name="Ant with catalog file path (Schematron via XQS)">
+	<case ifdef="BASEX_JAR" name="Ant with catalog file path (Schematron via XQS (BaseX))">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1180,6 +1365,20 @@
     call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
+
+    <case ifdef="ELEMENTAL_HOME" name="Ant with catalog file path (Schematron via XQS (Elemental))">
+        call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dcatalog="test\catalog\03\catalog-public.xml;%CD%\catalog\03\catalog-rewriteURI.xml" ^
+        -Dtest.type=s ^
+        -Dxspec.elemental.classpath="%ELEMENTAL_HOME%\lib\*" ^
+        -Dxspec.xml="%CD%\catalog\catalog-03_schematron-xqs.xspec"
+        call :verify_retval 0
+        call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
+        call :verify_line -2  x "BUILD SUCCESSFUL"
+    </case>
 
 	<!--
 		Catalog file URI (Ant)
@@ -1228,7 +1427,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case ifdef="BASEX_JAR" name="Ant with catalog file URI (Schematron via XQS)">
+	<case ifdef="BASEX_JAR" name="Ant with catalog file URI (Schematron via XQS (BaseX))">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1242,6 +1441,21 @@
     call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
+
+    <case ifdef="ELEMENTAL_HOME" name="Ant with catalog file URI (Schematron via XQS (Elemental))">
+        call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dcatalog="test/catalog/03/catalog-public.xml;file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
+        -Dcatalog.is.uri=true ^
+        -Dtest.type=s ^
+        -Dxspec.elemental.classpath="%ELEMENTAL_HOME%\lib\*" ^
+        -Dxspec.xml="%CD%\catalog\catalog-03_schematron-xqs.xspec"
+        call :verify_retval 0
+        call :verify_line -16 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
+        call :verify_line -2  x "BUILD SUCCESSFUL"
+    </case>
 
 	<!--
 		Ant catalog.is.uri=true without setting catalog
@@ -1417,7 +1631,7 @@
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="BASEX_JAR" name="CLI with -catalog file path (Schematron via XQS)">
+	<case ifdef="BASEX_JAR" name="CLI with -catalog file path (Schematron via XQS (BaseX))">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\03"
@@ -1433,6 +1647,23 @@
     call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
     call :verify_line 13 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
+
+    <case ifdef="ELEMENTAL_HOME" name="CLI with -catalog file path (Schematron via XQS (Elemental))">
+        set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+        if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
+        call :mkdir "%SPACE_DIR%\03"
+        call :copy catalog\catalog-03* "%SPACE_DIR%"
+        call :copy catalog\03          "%SPACE_DIR%\03"
+
+        set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+        call :run ..\bin\xspec.bat ^
+        -catalog "catalog\03\catalog-public.xml;%SPACE_DIR%\03\catalog-rewriteURI.xml" ^
+        -s ^
+        "%SPACE_DIR%\catalog-03_schematron-xqs.xspec"
+        call :verify_retval 0
+        call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+        call :verify_line 13 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    </case>
 
 	<!--
 		Catalog file URI (CLI) (-catalog)
@@ -1469,7 +1700,7 @@
     call :verify_line 26 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="BASEX_JAR" name="CLI with -catalog file URI (Schematron via XQS)">
+	<case ifdef="BASEX_JAR" name="CLI with -catalog file URI (Schematron via XQS (BaseX))">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/03/catalog-public.xml;file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
@@ -1479,6 +1710,17 @@
     call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
     call :verify_line 13 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
+
+    <case ifdef="ELEMENTAL_HOME" name="CLI with -catalog file URI (Schematron via XQS (Elemental))">
+        set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
+        call :run ..\bin\xspec.bat ^
+        -catalog "file:///%CD:\=/%/catalog/03/catalog-public.xml;file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
+        -s ^
+        catalog\catalog-03_schematron-xqs.xspec
+        call :verify_retval 0
+        call :verify_line 4 x "Converting Schematron XSpec into XQuery XSpec..."
+        call :verify_line 13 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    </case>
 
 	<!--
 		Catalog file path (CLI) (XML_CATALOG)

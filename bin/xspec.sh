@@ -10,8 +10,10 @@
 ## file), or on $SAXON_CP to be set to a full classpath containing
 ## Saxon (and maybe more).  The latter has precedence over the former.
 ##
-## When running tests for Schematron via XQS, the environment variable
-## BASEX_JAR must be set to the BaseX.jar file in a BaseX installation.
+## When running tests for Schematron via XQS, either of the following
+## environment variables must be set:
+##   1. BASEX_JAR must be set to the BaseX.jar file in a BaseX installation
+##   2. ELEMENTAL_HOME must be set to the Elemental installation folder
 ##
 ## It also uses the environment variable XSPEC_HOME.  It must be set
 ## to the XSpec install directory.  By default, it uses this script's
@@ -65,6 +67,10 @@ basex() {
     # BaseX dir
     basex_home=$(dirname -- "${BASEX_JAR}")
     "${basex_home}/bin/basex" "$@"
+}
+
+elemental() {
+    "${ELEMENTAL_HOME}/bin/client.sh" "$@"
 }
 
 classify_and_process_schematron() {
@@ -400,8 +406,11 @@ else
                 basex -Q"$COMPILED" > "$RESULT" \
                     || die "Error running the test suite"
             fi
+        elif test -n "$ELEMENTAL_HOME"; then
+            elemental --local --xpath "${COMPILED}" > "${RESULT}" \
+                || die "Error running the test suite"
         else
-            die "Executing test for Schematron with XQS requires BASEX_JAR to be defined"
+            die "Executing test for Schematron with XQS requires BASEX_JAR or ELEMENTAL_HOME to be defined"
         fi
     else
         # for XQuery

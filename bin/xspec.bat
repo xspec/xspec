@@ -11,8 +11,10 @@ rem ## dir Saxon has been installed to (i.e. the containing the Saxon JAR
 rem ## file), or on SAXON_CP to be set to a full classpath containing
 rem ## Saxon (and maybe more).  The latter has precedence over the former.
 rem ##
-rem ## When running tests for Schematron via XQS, the environment variable
-rem ## BASEX_JAR must be set to the BaseX.jar file in a BaseX installation.
+rem ## When running tests for Schematron via XQS, either of following
+rem ## environment variables must be set:
+rem ##   1. BASEX_JAR must be set to the BaseX.jar file in a BaseX installation
+rem ##   2. ELEMENTAL_HOME must be set to the Elemental installation folder
 rem ##
 rem ## It also uses the environment variable XSPEC_HOME.  It must be set
 rem ## to the XSpec install directory.  By default, it uses this script's
@@ -89,6 +91,10 @@ rem ##
 
 :basex
     call "%BASEX_JAR%\..\bin\basex.bat" %*
+    goto :EOF
+
+:elemental
+    call "%ELEMENTAL_HOME%\bin\client.bat" %*
     goto :EOF
 
 :win_reset_options
@@ -472,8 +478,11 @@ if defined XSLT (
     if defined BASEX_JAR (
       call :basex %BASEX_CATALOG% -Q"%COMPILED%" > "%RESULT%" ^
       || ( call :die "Error running the test suite" & goto :win_main_error_exit )
+    ) else if defined ELEMENTAL_HOME (
+          call :elemental --local --xpath "%COMPILED%" > "%RESULT%" ^
+          || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     ) else (
-      call :die "Executing test for Schematron with XQS requires BASEX_JAR to be defined" & goto :win_main_error_exit
+      call :die "Executing test for Schematron with XQS requires BASEX_JAR or ELEMENTAL_HOME to be defined" & goto :win_main_error_exit
     )
 ) else (
     rem
