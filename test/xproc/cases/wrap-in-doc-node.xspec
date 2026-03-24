@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.30?>
+<x:description xproc="library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- This test verifies that the XSpec syntaxes for node selection
+		in x:input and x:expect perform the correct wrapping in document nodes,
+		depending on the XSpec element markup. Shared scenarios provide
+		multiple x:expect syntaxes, and these scenarios are used in conjunction
+		with multiple x:input syntaxes.
+
+		This test operates a level higher than test/selection-from-doc-xproc.xspec,
+		which calls the x:selection-from-doc function directly. -->
+
+	<!-- Shared scenarios -->
+	<x:scenario label="x:expect[@port] without @test for one document" shared="yes">
+		<x:expect port="xproc-result" test="$x:result instance of document-node(element(document))">
+			<x:label>Actual result is a document node</x:label>
+		</x:expect>
+		<x:expect port="xproc-result" as="document-node(element(document))" href="document.xml">
+			<x:label>x:expect[@port][empty(@test)][@href][empty(@select)] does not wrap (though
+				@href alone produces document node)</x:label>
+		</x:expect>
+		<x:expect port="xproc-result" as="document-node(element(document))" href="document.xml"
+			select="//document treat as element(document)">
+			<x:label>x:expect[@port][empty(@test)][@href][@select] wraps selected element</x:label>
+		</x:expect>
+	</x:scenario>
+	<x:scenario label="x:expect[@port] with @test for one document" shared="yes">
+		<x:expect port="xproc-result" test="$x:result" as="document-node(element(document))"
+			href="document.xml">
+			<x:label>x:expect[@port][@test][@href][empty(@select)] does not wrap (though
+				@href alone produces document node)</x:label>
+		</x:expect>
+		<x:expect port="xproc-result" test="$x:result/*" as="element(document)" href="document.xml"
+			select="//document treat as element(document)">
+			<x:label>x:expect[@port][@test][@href][@select] does not wrap selected element</x:label>
+		</x:expect>
+	</x:scenario>
+	<x:scenario label="x:expect[empty(@port)] for one document" shared="yes">
+		<x:expect test="$x:result?ports?xproc-result?document" as="document-node(element(document))"
+			href="document.xml">
+			<x:label>x:expect[empty(@port)][@test][@href][empty(@select)] does not wrap (though
+				@href alone produces document node)</x:label>
+		</x:expect>
+		<x:expect test="$x:result?ports?xproc-result?document/*" as="element(document)"
+			href="document.xml" select="//document treat as element(document)">
+			<x:label>x:expect[empty(@port)][@test][@href][@select] does not wrap selected
+				element</x:label>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="x:expect[@port] without @test for multiple documents" shared="yes">
+		<x:expect port="xproc-result" test="$x:result instance of document-node(element(document))+">
+			<x:label>Actual result is a document node sequence</x:label>
+		</x:expect>
+		<x:expect port="xproc-result" as="document-node(element(document))+">
+			<x:label>x:expect[@port][empty(@test)][child::*][not(@select)] wraps embedded
+				elements</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect port="xproc-result" as="document-node(element(document))+"
+			select="//document ! (. treat as element(document))">
+			<x:label>x:expect[@port][empty(@test)][child::*][@select] wraps selected
+				elements</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect port="xproc-result" as="document-node(element(document))+"
+			select="parse-xml-fragment('&lt;document/>&lt;document/>')/* ! ( . treat as element(document))"
+			label="x:expect[@port][empty(@test)][empty(child::*)][empty(@href)][@select] wraps computed elements"
+		/>
+	</x:scenario>
+	<x:scenario label="x:expect[@port] with @test for multiple documents" shared="yes">
+		<x:expect port="xproc-result" test="$x:result/*" as="element(document)+">
+			<x:label>x:expect[@port][@test][child::*][empty(@select)] does not wrap embedded
+				elements</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect port="xproc-result" test="$x:result/*" as="element(document)+"
+			select="//document ! (. treat as element(document))">
+			<x:label>x:expect[@port][@test][child::*][@select] does not wrap selected
+				element</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect port="xproc-result" test="$x:result/*" as="element(document)+"
+			select="parse-xml-fragment('&lt;document/>&lt;document/>')/* ! ( . treat as element(document))"
+			label="x:expect[@port][@test][empty(child::*)][empty(@href)][@select] does not wrap computed elements"
+		/>
+	</x:scenario>
+	<x:scenario label="x:expect[empty(@port)] for multiple documents" shared="yes">
+		<x:expect test="$x:result?ports?xproc-result?document/*" as="element(document)+">
+			<x:label>x:expect[empty(@port)][@test][child::*][empty(@select)] does not wrap embedded
+				elements</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect test="$x:result?ports?xproc-result?document/*" as="element(document)+"
+			select="//document ! (. treat as element(document))">
+			<x:label>x:expect[empty(@port)][@test][child::*][@select] does not wrap selected
+				element</x:label>
+			<document/>
+			<document/>
+		</x:expect>
+		<x:expect test="$x:result?ports?xproc-result?document/*" as="element(document)+"
+			select="parse-xml-fragment('&lt;document/>&lt;document/>')/* ! ( . treat as element(document))"
+			label="x:expect[empty(@port)][@test][empty(child::*)][empty(@href)][@select] does not wrap computed elements"
+		/>
+	</x:scenario>
+
+	<x:scenario label="x:input with @href and no @select">
+		<!-- @href document must be well-formed XML, so document node cannot have multiple child elements -->
+		<x:call step="mirror:identity">
+			<x:input port="source" href="document.xml"/>
+		</x:call>
+		<x:like label="x:expect[@port] without @test for one document"/>
+		<x:like label="x:expect[@port] with @test for one document"/>
+		<x:like label="x:expect[empty(@port)] for one document"/>
+	</x:scenario>
+	<x:scenario label="x:input with @href and @select">
+		<x:call step="mirror:identity">
+			<x:input port="source" href="document.xml"
+				select="//document treat as element(document)"/>
+		</x:call>
+		<x:like label="x:expect[@port] without @test for one document"/>
+		<x:like label="x:expect[@port] with @test for one document"/>
+		<x:like label="x:expect[empty(@port)] for one document"/>
+	</x:scenario>
+	<x:scenario label="x:input with embedded nodes and no @select">
+		<x:call step="mirror:identity">
+			<x:input port="source" as="document-node(element(document))+">
+				<document/>
+				<document/>
+			</x:input>
+		</x:call>
+		<x:like label="x:expect[@port] without @test for multiple documents"/>
+		<x:like label="x:expect[@port] with @test for multiple documents"/>
+		<x:like label="x:expect[empty(@port)] for multiple documents"/>
+	</x:scenario>
+	<x:scenario label="x:input with embedded nodes and @select">
+		<x:call step="mirror:identity">
+			<x:input port="source" select="//document ! (. treat as element(document))"
+				as="document-node(element(document))+">
+				<document/>
+				<document/>
+			</x:input>
+		</x:call>
+		<x:like label="x:expect[@port] without @test for multiple documents"/>
+		<x:like label="x:expect[@port] with @test for multiple documents"/>
+		<x:like label="x:expect[empty(@port)] for multiple documents"/>
+	</x:scenario>
+	<x:scenario label="x:input with @select, with no @href and no embedded nodes">
+		<x:call step="mirror:identity">
+			<x:input port="source"
+				select="parse-xml-fragment('&lt;document/>&lt;document/>')/* ! ( . treat as element(document))"
+			/>
+		</x:call>
+		<x:like label="x:expect[@port] without @test for multiple documents"/>
+		<x:like label="x:expect[@port] with @test for multiple documents"/>
+		<x:like label="x:expect[empty(@port)] for multiple documents"/>
+	</x:scenario>
+	<x:scenario label="x:input with @select producing atomic value instead of node">
+		<x:call step="mirror:identity">
+			<x:input port="source" select="1 treat as xs:numeric"/>
+		</x:call>
+		<x:expect port="xproc-result" result-type="xs:numeric" as="xs:numeric"
+			select="1 treat as xs:numeric">
+			<x:label>Actual result and expected result are atomic values (no wrapping)</x:label>
+		</x:expect>
+	</x:scenario>
+	<x:scenario label="x:input with @as only, which must be an empty sequence">
+		<x:call step="mirror:identity">
+			<x:input port="source" as="item()?"/>
+		</x:call>
+		<x:expect port="xproc-result" result-type="empty-sequence()" as="empty-sequence()">
+			<x:label>Actual result and expected result are empty sequences</x:label>
+		</x:expect>
+	</x:scenario>
+</x:description>

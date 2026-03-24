@@ -46,7 +46,7 @@
     </x:scenario>
     <x:scenario label="When x:input has adjacent text nodes that get merged">
         <x:call step="s:input-port-sequence-true">
-            <x:input port="source" select="/text()" as="text()">
+            <x:input port="source" select="/text()" as="document-node()">
                 <x:text>text1</x:text>
                 <x:text>text2</x:text>
             </x:input>

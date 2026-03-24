@@ -20,7 +20,7 @@
                     select="//x:expect[not(@test)][@href][@select]"/>
             </x:call>
             <x:expect label="Select nodes and wrap them separately"
-                select="'//selected-element => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+                select="'(//selected-element) => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
         </x:scenario>
         <x:scenario label="embedded nodes and no @select">
             <x:call>
@@ -36,7 +36,7 @@
                     select="//x:expect[not(@test)][node()][@select]"/>
             </x:call>
             <x:expect label="Select nodes and wrap them separately"
-                select="'//selected-element => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+                select="'(//selected-element) => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
         </x:scenario>
         <x:scenario label="@select with no @href and no embedded nodes">
             <x:call>
@@ -44,7 +44,7 @@
                     select="//x:expect[not(@test)][not(@href)][not(node())][@select][1]"/>
             </x:call>
             <x:expect label="Select nodes and wrap them separately"
-                select="'doc(''my-catalog:/external-file.xml'')//selected-element ' ||
+                select="'(doc(''my-catalog:/external-file.xml'')//selected-element) ' ||
                     '=> Q{urn:x-xspec:common:wrap}wrap-each()'"/>
         </x:scenario>
         <x:scenario label="@select producing atomic value instead of node">
@@ -53,7 +53,7 @@
                     select="//x:expect[not(@test)][not(@href)][not(node())][@select='0']"/>
             </x:call>
             <x:expect label="Select nodes and call wrap:each, which checks wrappability"
-                select="'0 => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
+                select="'(0) => Q{urn:x-xspec:common:wrap}wrap-each()'"/>
         </x:scenario>
         <x:scenario label="@as only, which must be an empty sequence">
             <x:call>

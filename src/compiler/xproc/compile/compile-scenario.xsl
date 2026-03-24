@@ -345,6 +345,12 @@
          <xsl:iterate select="x:input[x:evaluate-in(.) eq 'xslt']">
             <xsl:param name="separator" as="xs:string" select="''"/>
             <xsl:variable name="port-name" as="xs:string" select="@port"/>
+            <!-- Reason for wrap:unwrap-text-nodes: A text node wrapped in a document node
+               normally has content type text/plain, but if you put that document node in a
+               map and pass that to a step that retrieves the document from the map, the
+               retrieved document's content type is application/xml. Putting the bare
+               text node into the map doesn't have that behavior, and downstream steps will
+               wrap it in a text node *without* changing the content type. -->
             <xsl:value-of expand-text="yes">{$separator}'{$port-name}': wrap:unwrap-text-nodes(${
                x:variable-UQName(.)})</xsl:value-of>
             <xsl:next-iteration>
@@ -378,8 +384,8 @@
             <xsl:param name="separator" as="xs:string" select="''"/>
             <xsl:variable name="resolved-option-QName" as="xs:string"
                select="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
-            <xsl:value-of expand-text="yes">{$separator}'{$resolved-option-QName}': wrap:unwrap-text-nodes(${
-               x:variable-UQName(.)})</xsl:value-of>
+            <xsl:value-of expand-text="yes">{$separator}'{$resolved-option-QName}': ${
+               x:variable-UQName(.)}</xsl:value-of>
             <xsl:next-iteration>
                <!-- Add comma between adjacent map entries -->
                <xsl:with-param name="separator" select="', '"/>

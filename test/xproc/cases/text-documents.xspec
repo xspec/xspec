@@ -20,7 +20,7 @@
         see p-document-within-x-input.xspec. -->
         <x:scenario label="using unparsed-text() and text node">
             <x:call step="s:get-text-line">
-                <x:input port="source" select="$text-file-as-text-node" as="text()"/>
+                <x:input port="source" select="$text-file-as-text-node" as="document-node()"/>
             </x:call>
             <x:like label="verify returned text"/>
         </x:scenario>
@@ -33,7 +33,7 @@
         <x:scenario label="using one text node and one wrapped text node">
             <x:call step="s:get-text-line">
                 <x:input port="source" select="($text-file-as-text-node, $text-in-document-node)"
-                    as="node()+"/>
+                    as="document-node()+"/>
             </x:call>
             <x:expect label="returns a sequence of document nodes" port="xproc-result"
                 test="$x:result instance of document-node()+"/>
@@ -45,7 +45,7 @@
     <x:scenario label="s:get-text-line using text embedded in XSpec file">
         <x:scenario label="using x:text">
             <x:call step="s:get-text-line">
-                <x:input port="source" as="text()">
+                <x:input port="source" as="document-node()">
                     <x:text>1, 10&#10;</x:text>
                     <x:text>2, 20&#10;</x:text>
                 </x:input>
@@ -54,13 +54,13 @@
         </x:scenario>
         <x:scenario label="without using x:text">
             <x:call step="s:get-text-line">
-                <x:input port="source" as="text()">1, 10&#10;2, 20&#10;</x:input>
+                <x:input port="source" as="document-node()">1, 10&#10;2, 20&#10;</x:input>
             </x:call>
             <x:like label="verify returned text"/>
         </x:scenario>
         <x:scenario label="forming multiple text documents">
             <x:call step="s:get-text-line">
-                <x:input port="source" as="text()+" select="/wrapper/text()">
+                <x:input port="source" as="document-node()+" select="/wrapper/text()">
                     <wrapper>1, 10&#10;</wrapper>
                     <wrapper>2, 20&#10;</wrapper>
                 </x:input>
@@ -77,13 +77,13 @@
         <x:scenario>
             <x:label>of text node (XML Calabash wraps it in document node; XSpec user does not need
                 to wrap text nodes using their own code)</x:label>
-            <x:variable name="text-input" select="$text-file-as-text-node"/>
+            <x:variable name="text-input" select="$text-file-as-text-node" as="text()"/>
             <x:like label="check content type"/>
         </x:scenario>
         <x:scenario>
             <x:label>of text node wrapped in document node (which could be the output of an
                 XProc step function used as a test helper, for instance)</x:label>
-            <x:variable name="text-input" select="$text-in-document-node"/>
+            <x:variable name="text-input" select="$text-in-document-node" as="document-node()"/>
             <x:like label="check content type"/>
         </x:scenario>
     </x:scenario>
@@ -101,7 +101,7 @@
     </x:scenario>
     <x:scenario shared="yes" label="check content type">
         <x:call step="mirror:identity">
-            <x:input port="source" select="$text-input"/>
+            <x:input port="source" select="$text-input" as="document-node()"/>
         </x:call>
         <x:expect label="is 'text/plain'" port="xproc-result"
             test="$x:document-properties?(QName('', 'content-type'))" select="'text/plain'"/>

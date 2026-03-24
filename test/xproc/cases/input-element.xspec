@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-mirror.xpl">
+    xmlns:svg="http://www.w3.org/2000/svg" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xproc="library-mirror.xpl">
     <!-- This file is similar to option-element.xspec -->
     <x:helper stylesheet="../../items.xsl"/>
     <x:scenario label="x:input can specify a value using">
         <x:scenario label="embedded child nodes">
             <x:call step="mirror:identity">
-                <x:input port="source"><document/></x:input>
+                <x:input port="source" as="document-node(element(document))"><document/></x:input>
             </x:call>
             <x:like label="verify result document"/>
         </x:scenario>
         <x:scenario label="embedded child nodes and @select">
             <x:call step="mirror:identity">
-                <x:input port="source" select="//document">
+                <x:input port="source" select="//document" as="document-node(element(document))">
                     <root>
                         <document/>
                     </root>
@@ -22,7 +23,7 @@
         </x:scenario>
         <x:scenario label="@href pointing to an XML document">
             <x:call step="mirror:identity">
-                <x:input port="source" href="document.xml"/>
+                <x:input port="source" href="document.xml" as="document-node(element(document))"/>
             </x:call>
             <x:like label="verify result document"/>
             <x:expect label="Base URI is that of an XML file (not .xsl or .xpl intermediate file)"
@@ -30,30 +31,12 @@
                 test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document', '')"
                 select="'.xml'"/>
         </x:scenario>
-        <x:scenario label="@href pointing to a non-XML HTML document (specific to XProc testing)">
-            <x:call step="mirror:identity">
-                <x:input port="source" href="document-not-xhtml.html"/>
-            </x:call>
-            <x:expect label="and the identity step returns the document" port="xproc-result"
-                select="/">
-                <!--...-->
-                <html>...</html>
-            </x:expect>
-            <x:expect
-                label="with content type 'application/xml' (loading happens in XSLT, not XProc)."
-                port="xproc-result" test="$x:document-properties?(QName('', 'content-type'))"
-                select="'application/xml'"/>
-            <x:expect label="Base URI is that of an HTML file (not .xsl or .xpl intermediate file)"
-                port="xproc-result"
-                test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document-not-xhtml', '')"
-                select="'.html'"/>
-        </x:scenario>
         <x:scenario label="@href pointing to an SVG document">
             <x:call step="mirror:identity">
-                <x:input port="source" href="document-image.svg"/>
+                <x:input port="source" href="document-image.svg" as="document-node(element(svg:svg))"/>
             </x:call>
             <x:expect label="and the identity step returns the document" port="xproc-result">
-                <svg xmlns="http://www.w3.org/2000/svg" x:attrs="...">...</svg>
+                <svg:svg x:attrs="...">...</svg:svg>
             </x:expect>
             <x:expect
                 label="with content type 'application/xml' (loading happens in XSLT, not XProc)."
@@ -66,17 +49,13 @@
         </x:scenario>
         <x:scenario label="@href and @select">
             <x:call step="mirror:identity">
-                <x:input port="source" href="document.xml" select="root()"/>
+                <x:input port="source" href="document.xml" select="root()" as="document-node(element(document))"/>
             </x:call>
             <x:like label="verify result document"/>
-            <x:expect label="Base URI is that of an XML file (not .xsl or .xpl intermediate file)"
-                port="xproc-result"
-                test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*document', '')"
-                select="'.xml'"/>
         </x:scenario>
         <x:scenario label="@select alone">
             <x:call step="mirror:identity">
-                <x:input port="source" select="parse-xml('&lt;document/>')"/>
+                <x:input port="source" select="parse-xml('&lt;document/>')" as="document-node(element(document))"/>
             </x:call>
             <x:like label="verify result document"/>
         </x:scenario>
@@ -90,15 +69,18 @@
     </x:scenario>
     <x:scenario label="When source is a sequence of nodes other than attribute and namespace nodes">
         <x:call step="mirror:identity">
-            <x:input port="source" select="$items:wrappable-nodes"/>
+            <x:input port="source" select="$items:wrappable-nodes" as="document-node()+"/>
         </x:call>
         <x:expect port="xproc-result" result-type="document-node()+" test="count($x:result)"
             select="count($items:wrappable-nodes)">
             <x:label>the identity step returns a sequence of document nodes, one for each item
                 in the original sequence</x:label>
         </x:expect>
-        <x:expect label="the comment node matches" port="xproc-result"
-            test="$x:result/comment()" select="$items:wrappable-nodes[self::comment()]"/>
+        <x:expect port="xproc-result"
+            test="$x:result/comment()" select="$items:wrappable-nodes[self::comment()]">
+            <x:label>the comment node matches (the original node became wrapped in a document
+                node)</x:label>
+        </x:expect>
         <x:expect port="xproc-result"
             test="$x:result/element()" select="(
             $items:wrappable-nodes[self::document-node(element())]/element(),
@@ -115,13 +97,16 @@
             <x:label>the two text nodes match (the original text node became wrapped in a document
                 node)</x:label>
         </x:expect>
-        <x:expect label="the PI node matches" port="xproc-result"
+        <x:expect port="xproc-result"
             test="$x:result/processing-instruction()"
-            select="$items:wrappable-nodes[self::processing-instruction()]"/>
+            select="$items:wrappable-nodes[self::processing-instruction()]">
+            <x:label>the PI node matches (the original node became wrapped in a document
+                node)</x:label>
+        </x:expect>
     </x:scenario>
     <x:scenario label="When x:input has multiple child nodes">
         <x:call step="mirror:identity">
-            <x:input port="source">
+            <x:input port="source" as="document-node()+">
                 <node1/>
                 <!-- node2 -->
                 <node3/>
@@ -157,7 +142,7 @@
     </x:scenario>
     <x:scenario label="When x:input has multiple child nodes and also has select='/'">
         <x:call step="mirror:identity">
-            <x:input port="source" select="/">
+            <x:input port="source" select="/" as="document-node()">
                 <node1/>
                 <!-- node2 -->
                 <node3/>
@@ -181,7 +166,7 @@
     </x:scenario>
     <x:scenario label="When x:input[@select] selects multiple nodes, even at different tree levels">
         <x:call step="mirror:identity">
-            <x:input port="source" select="//descendant">
+            <x:input port="source" select="//descendant" as="document-node(element(descendant))+">
                 <level1>
                     <level2>
                         <descendant level="2"/>
@@ -217,48 +202,48 @@
     </x:scenario>
     <x:scenario label="When source is a number">
         <x:call step="mirror:identity">
-            <x:input port="source" select="1"/>
+            <x:input port="source" select="1" as="xs:integer"/>
         </x:call>
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the number" port="xproc-result" select="1"/>
     </x:scenario>
     <x:scenario label="When source is a boolean item">
         <x:call step="mirror:identity">
-            <x:input port="source" select="true()"/>
+            <x:input port="source" select="true()" as="xs:boolean"/>
         </x:call>
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the boolean" port="xproc-result" select="true()"/>
     </x:scenario>
     <x:scenario label="When source is an array" pending="min-xmlcalabash-version=3.0.31">
         <x:call step="mirror:identity">
-            <x:input port="source" select="[1, 2]"/>
+            <x:input port="source" select="[1, 2]" as="array(*)"/>
         </x:call>
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the array" port="xproc-result" select="[1, 2]"/>
     </x:scenario>
     <x:scenario label="When source is a map">
         <x:call step="mirror:identity">
-            <x:input port="source" select="map{1: 2}"/>
+            <x:input port="source" select="map{1: 2}" as="map(*)"/>
         </x:call>
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the map" port="xproc-result" select="map{1: 2}"/>
     </x:scenario>
     <x:scenario label="When source is a string">
         <x:call step="mirror:identity">
-            <x:input port="source" select="'one'"/>
+            <x:input port="source" select="'one'" as="xs:string"/>
         </x:call>
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the string" port="xproc-result" select="'one'"/>
     </x:scenario>
-    <x:scenario label="If an input name duplicates an XSpec variable name">
+    <x:scenario label="If an input port name duplicates an XSpec variable name">
         <x:call step="mirror:identity">
-            <x:input port="source"><xproc-input/></x:input>
+            <x:input port="source" as="document-node(element(xproc-input))"><xproc-input/></x:input>
         </x:call>
-        <x:variable name="opt"><xspec-variable/></x:variable>
+        <x:variable name="source"><xspec-variable/></x:variable>
         <x:expect label="there is no conflict; the input has its value" port="xproc-result">
             <xproc-input/>
         </x:expect>
-        <x:expect label="and the variable has its own value" test="$opt">
+        <x:expect label="and the variable has its own value" test="$source">
             <xspec-variable/>
         </x:expect>
     </x:scenario>

@@ -62,8 +62,8 @@
             step runner.</t:label>
             <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
                as="item()*">
-               <xsl:variable name="..." select="1"><!--source input--></xsl:variable>
-               <xsl:variable name="..." select="2"><!--aux input--></xsl:variable>
+               <xsl:variable name="..." select="(1) => Q{{urn:x-xspec:common:wrap}}wrap-each()"><!--source input--></xsl:variable>
+               <xsl:variable name="..." select="(2) => Q{{urn:x-xspec:common:wrap}}wrap-each()"><!--aux input--></xsl:variable>
                <xsl:variable name="..." select="1"><!--ex:option1 option--></xsl:variable>
                <xsl:variable name="..." select="..."><!--ex:option2 option--></xsl:variable>
                <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-case-step-based-on-x-call"
@@ -190,8 +190,8 @@
          <t:text>map{'source': wrap:unwrap-text-nodes($impl:input-ID), </t:text>
          <t:text>'aux': wrap:unwrap-text-nodes($impl:input-ID)},</t:text>
          <t:text>'map-of-options':</t:text>
-         <t:text>map{'ex:option1': wrap:unwrap-text-nodes($impl:option-ID), </t:text>
-         <t:text>'ex:option2': wrap:unwrap-text-nodes($impl:option-ID)}</t:text>
+         <t:text>map{'ex:option1': $impl:option-ID, </t:text>
+         <t:text>'ex:option2': $impl:option-ID}</t:text>
          <t:text>}</t:text>
       </t:expect>
    </t:scenario>
@@ -220,8 +220,8 @@
       <t:expect label="describing a map of options, using URI-qualified names"
          test="matches($t:result, concat(
             'map\{',
-            '''Q\{x-urn:test:compile-xproc-tests\}option1'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\), ',
-            '''Q\{x-urn:test:compile-xproc-tests\}option2'': wrap:unwrap-text-nodes\(\$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+\)',
+            '''Q\{x-urn:test:compile-xproc-tests\}option1'': \$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+, ',
+            '''Q\{x-urn:test:compile-xproc-tests\}option2'': \$Q\{urn:x-xspec:compile:impl\}option-[0-9a-f]+',
             '\}'
          ))"/>
    </t:scenario>

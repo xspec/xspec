@@ -5,7 +5,7 @@
 
 	<t:scenario label="Using x: prefix in @step and input @select, @as, and child node">
 		<t:call step="x:identity">
-			<t:input port="source" as="element(x:step-input-child)"
+			<t:input port="source" as="document-node(element(x:step-input-child))"
 				select="element(x:step-input-child)">
 				<x:step-input-child/>
 			</t:input>
