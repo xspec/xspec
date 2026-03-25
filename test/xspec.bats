@@ -723,6 +723,13 @@ load bats-helper
         xqs/run-tests-with-basex.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 }
 
 @test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
@@ -1340,13 +1347,52 @@ load bats-helper
     # * Default clean.output.dir is false
     # * Default xspec.junit.enabled is false
     myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
-    [ "${#lines[@]}" = "6" ]
+    [ "${#lines[@]}" = "7" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
     [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
     [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
-    [ "${lines[5]}" = "demo-03_xml-to-properties.xml" ]
+    [ "${lines[5]}" = "demo-03_classify-schematron.xml" ]
+    [ "${lines[6]}" = "demo-03_xml-to-properties.xml" ]
+}
+
+@test "Ant with minimum properties (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Unset any preset args
+    unset ANT_ARGS
+
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp xqs/phases-xqs.* "${tutorial_copy}"
+
+    # Run
+    # * Should work without phase #168
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${tutorial_copy}/phases-xqs.xspec"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+
+    # Verify default output dir
+    # * Default clean.output.dir is false
+    # * Default xspec.junit.enabled is false
+    myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
+    [ "${#lines[@]}" = "6" ]
+    [ "${lines[0]}" = "phases-xqs-compiled.xq" ]
+    [ "${lines[1]}" = "phases-xqs-result.html" ]
+    [ "${lines[2]}" = "phases-xqs-result.xml" ]
+    [ "${lines[3]}" = "phases-xqs-sch-preprocessed.xspec" ]
+    [ "${lines[4]}" = "phases-xqs_classify-schematron.xml" ]
+    [ "${lines[5]}" = "phases-xqs_xml-to-properties.xml" ]
 }
 
 @test "Ant with minimum properties (XProc)" {
@@ -1440,6 +1486,23 @@ load bats-helper
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
+@test "Ant with catalog file path (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
 @test "Ant with catalog file path (XProc)" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
@@ -1502,6 +1565,24 @@ load bats-helper
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
