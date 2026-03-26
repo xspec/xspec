@@ -125,11 +125,11 @@ This implementation adds a level of indirection between the XSLT-based test runn
 The level of indirection takes the form of an XProc step (I call it the "step runner") that connects the XSLT test runner with the XProc world. The step runner, whose source is `src/common/step-runner.xpl`:
 
 - Gets registered with Saxon up-front when invoking Saxon, enabling Saxon to call the step runner as a step function (i.e., outside XProc)
-- Uses `p:run` to invoke a wrapper around the step you're testing. The XSpec compiler generates a wrapper XProc step for each `<x:call>` element that wants to run your test target.
-- Addresses problem 1 by including `<p:document>` in the wrapper step whenever your test case uses any of the following patterns: `<x:input port="..." href="...">` without other attributes; `<x:option name="..." href="...">` without other attributes; or `<p:document>` within either `<x:input>` or `<x:option>`. When the included `<p:document>` is executed in XProc, the documents have the right properties according to XProc behavior.
-- Addresses problem 2 by returning document properties (that were stored in a map by the wrapper step) through the output port back to XSLT.
+- Uses `p:run` to invoke a step that calls your test target in a way that represents your test case. The XSpec compiler generates such an XProc step ("test-case step") for each `<x:call>` element that wants to run your test target.
+- Addresses problem 1 by including `<p:document>` in the test-case step whenever your test case uses `<p:document>` within either `<x:input>` or `<x:option>`. When the included `<p:document>` is executed in XProc, the documents have the right properties according to XProc behavior.
+- Addresses problem 2 by returning document properties (that were stored in a map by the test-case step) through the output port back to XSLT.
 
-The per-test-case generated steps are produced by `src/compiler/xproc/in-scope-steps/generate-wrapper-step.xsl`.
+The per-test-case generated steps are produced by `src/compiler/xproc/in-scope-steps/generate-test-case-step.xsl`.
 
 ### Generated import declarations
 

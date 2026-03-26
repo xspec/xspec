@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:xproc:in-scope-steps:generate-wrapper-step:local"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:xproc:in-scope-steps:generate-test-case-step:local"
     xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
@@ -8,7 +8,7 @@
 
     <xsl:variable name="xproc-version" as="xs:string" select="'3.1'"/>
 
-    <xsl:template name="wrapper-step-based-on-x-call" as="element(p:declare-step)">
+    <xsl:template name="test-case-step-based-on-x-call" as="element(p:declare-step)">
         <xsl:context-item as="element(x:call)" use="required"/>
         <xsl:param name="parent-scenario" as="element(x:scenario)" select="parent::x:scenario"/>
         <xsl:variable name="call" as="element(x:call)" select="."/>
@@ -201,10 +201,10 @@
         </p:identity>
     </xsl:template>
 
-    <!-- Create <p:document> element to insert in wrapper step.
+    <!-- Create <p:document> element to insert in test-case step.
         Argument can be any of the following:
-        - One or more x:input/p:document element
-        - One or more x:option/p:document element
+        - One or more x:input/p:document elements
+        - One or more x:option/p:document elements
     -->
     <xsl:function name="local:create-p-document" as="element(p:document)+">
         <xsl:param name="p-document" as="element(p:document)+"/>

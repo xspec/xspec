@@ -163,7 +163,7 @@
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the input and option values, but skip
                      elements with p:document children because p:document will be copied to
-                     the wrapper step (XProc) instead of being evaluated here in XSLT. -->
+                     the test-case step (XProc) instead of being evaluated here in XSLT. -->
                   <xsl:for-each select="$call/(x:input | x:option)[x:evaluate-in(.) eq 'xslt']">
                      <xsl:apply-templates select="." mode="x:declare-variable">
                         <xsl:with-param name="comment" select="concat(@port (: x:input :), @name (: x:option :), ' ', local-name())" />
@@ -171,14 +171,14 @@
                   </xsl:for-each>
                   <!-- Set up variable for the generated XProc step that p:run will use to invoke the test target -->
                   <xsl:for-each select="$call">
-                     <variable name="{x:known-UQName('impl:wrapper-step-based-on-x-call')}"
+                     <variable name="{x:known-UQName('impl:test-case-step-based-on-x-call')}"
                         as="element()" expand-text="no">
                         <!-- expand-text="no" is so that XSLT TVT behavior doesn't interfere with
-                           TVT behavior occurring in XProc when the wrapper step is evaluated.
+                           TVT behavior occurring in XProc when the test-case step is evaluated.
                            Users can still have x:input/p:document/p:pipeinfo[@expand-text='yes'],
                            for instance, and XSpec preserves curly braces in p:pipeinfo for
                            evaluation by the XProc processor. -->
-                        <xsl:call-template name="wrapper-step-based-on-x-call">
+                        <xsl:call-template name="test-case-step-based-on-x-call">
                            <xsl:with-param name="parent-scenario" select="$this-scenario"/>
                         </xsl:call-template>
                      </variable>
@@ -225,7 +225,7 @@
 
                      <xsl:when test="$invocation-type eq 'call-step'">
                         <!-- Create the step call. Don't call x:enter-sut here because the
-                           try/catch structure goes in the XProc wrapper step, not XSLT. -->
+                           try/catch structure goes in the XProc test-case step, not XSLT. -->
                         <sequence>
                            <!-- The step being called may use namespace prefixes for
                               parsing the input/option values -->
@@ -280,7 +280,7 @@
          <xsl:text>{x:known-UQName('impl:step-runner')}</xsl:text>
          <xsl:text>(</xsl:text>
          <xsl:text>(: { $call/@step } :)</xsl:text>
-         <xsl:text>${x:known-UQName('impl:wrapper-step-based-on-x-call')}</xsl:text>
+         <xsl:text>${x:known-UQName('impl:test-case-step-based-on-x-call')}</xsl:text>
          <xsl:text>, </xsl:text>
          <xsl:text>${x:known-UQName('impl:options-for-step-function')}</xsl:text>
          <xsl:text>)</xsl:text>

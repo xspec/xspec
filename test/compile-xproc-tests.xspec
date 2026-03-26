@@ -58,7 +58,7 @@
       <t:expect
          test="//xsl:variable[@name='Q{http://www.jenitennison.com/xslt/xspec}result']">
          <t:label>The compiler produces the x:result variable. It defines input and option values,
-            defines the wrapper step for this x:call, and uses the final xsl:sequence to call the
+            defines the test-case step for this x:call, and uses the final xsl:sequence to call the
             step runner.</t:label>
             <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
                as="item()*">
@@ -66,7 +66,7 @@
                <xsl:variable name="..." select="2"><!--aux input--></xsl:variable>
                <xsl:variable name="..." select="1"><!--ex:option1 option--></xsl:variable>
                <xsl:variable name="..." select="..."><!--ex:option2 option--></xsl:variable>
-               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}wrapper-step-based-on-x-call"
+               <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-case-step-based-on-x-call"
                   as="element()" expand-text="no">
                   <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
                      version="3.1">...</p:declare-step>
@@ -161,8 +161,8 @@
       <t:variable name="args"
          select="$t:result => substring-after('My-step-type :)') => replace('\)$', '')"/>
       <t:variable name="arg1" select="substring-before($args, ', ')"/>
-      <t:expect label="The 1st argument references the variable holding the wrapper step"
-         test="$arg1" select="'$Q{urn:x-xspec:compile:impl}wrapper-step-based-on-x-call'"/>
+      <t:expect label="The 1st argument references the variable holding the test-case step"
+         test="$arg1" select="'$Q{urn:x-xspec:compile:impl}test-case-step-based-on-x-call'"/>
       <t:variable name="arg2" select="substring-after($args, ', ')"/>
       <t:expect
          label="The 2nd argument references the variable holding the map of inputs and options"
