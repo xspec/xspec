@@ -16,7 +16,7 @@
     <xsl:template match="/" as="element(p:library)">
         <p:library version="3.1">
             <xsl:call-template name="generate-imports"/>
-            <xsl:call-template name="declare-test-runner-step"/>
+            <xsl:call-template name="declare-step-runner"/>
         </p:library>
     </xsl:template>
 
@@ -34,7 +34,7 @@
         </xsl:sequence>       
     </xsl:template>
 
-    <xsl:template name="declare-test-runner-step" as="element(p:declare-step)">
+    <xsl:template name="declare-step-runner" as="element(p:declare-step)">
         <xsl:sequence select="doc(resolve-uri('../../../common/step-runner.xpl'))/*"/>
     </xsl:template>
 

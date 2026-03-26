@@ -20,11 +20,11 @@
         </x:expect>
         <x:expect label="declares a substep for testing in-scope step functions,"
             test="p:declare-step/p:declare-step[2]">
-            <p:declare-step name="test-in-scope-step-functions"
-                type="x:test-in-scope-step-functions">...</p:declare-step>
+            <p:declare-step name="xproc-compile-run-format"
+                type="x:xproc-compile-run-format">...</p:declare-step>
         </x:expect>
         <x:expect label="and then executes the substep for testing step functions."
             test="p:declare-step/p:declare-step[last()]/following-sibling::*/local-name()"
-            select="'test-in-scope-step-functions'"/>
+            select="'xproc-compile-run-format'"/>
     </x:scenario>
 </x:description>

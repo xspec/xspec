@@ -12,7 +12,7 @@
         <p:declare-step version="3.1" xmlns:x="http://www.jenitennison.com/xslt/xspec">
             <xsl:call-template name="generate-imports"/>
             <xsl:call-template name="declare-ports"/>
-            <xsl:call-template name="declare-test-runner-step"/>
+            <xsl:call-template name="declare-step-runner"/>
             <xsl:call-template name="declare-harness-step"/>
             <xsl:call-template name="execute-harness-step"/>
         </p:declare-step>
@@ -27,7 +27,7 @@
     <xsl:template name="declare-harness-step" as="node()+">
         <xsl:comment>substep to run a test suite whose XProc step functions are in scope</xsl:comment>
         <xsl:variable name="xproc3-uri" as="xs:anyURI" select="resolve-uri('src/xproc3/', $xspec-home)"/>
-        <p:declare-step name="test-in-scope-step-functions" type="x:test-in-scope-step-functions">
+        <p:declare-step name="xproc-compile-run-format" type="x:xproc-compile-run-format">
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
 
             <p:import href="{$xproc3-uri}harness-lib.xpl"/>
@@ -78,6 +78,6 @@
 
     <xsl:template name="execute-harness-step" as="node()+">
         <xsl:comment>run the test suite</xsl:comment>
-        <x:test-in-scope-step-functions xspec-home="{$xspec-home}"/>
+        <x:xproc-compile-run-format xspec-home="{$xspec-home}"/>
     </xsl:template>
 </xsl:stylesheet>
