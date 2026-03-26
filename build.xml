@@ -453,17 +453,10 @@
       </or>
     </condition>
 
-    <condition property="xspec.is.schematron.via.xslt" else="false">
-      <and>
-        <istrue value="${xspec.is.schematron}"/>
-        <isfalse value="${xspec.runner.is.xquery}" />
-      </and>
-    </condition>
-
     <condition property="xspec.is.xslt.or.schematron.via.xslt" else="false">
       <or>
         <istrue value="${xspec.is.xslt}"/>
-        <istrue value="${xspec.is.schematron.via.xslt}"/>
+        <istrue value="${xspec.schematron.querylanguage.is.xslt}"/>
       </or>    
     </condition>
 
