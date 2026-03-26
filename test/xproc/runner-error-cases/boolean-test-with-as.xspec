@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node.?>
+<x:description xproc="../cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Boolean @test with @as">
+		<x:call step="mirror:identity">
+			<x:input port="source">0</x:input>
+		</x:call>
+		<x:expect as="empty-sequence()" label="should be error" port="xproc-result" test="true()"/>
+	</x:scenario>
+
+</x:description>

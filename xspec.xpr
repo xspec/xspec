@@ -62,6 +62,7 @@
             <file name="test/end-to-end/processor/html/compare.xsl"/>
             <file name="test/end-to-end/processor/junit/compare.xsl"/>
             <file name="test/end-to-end/processor/xml/compare.xsl"/>
+            <file name="src/compiler/compile-xproc-tests.xsl"/>
             <file name="src/compiler/compile-xquery-tests.xsl"/>
             <file name="src/compiler/compile-xslt-tests.xsl"/>
             <file name="src/reporter/coverage-report.xsl"/>

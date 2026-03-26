@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:expect ('x:expect/@port when dynamic error is caught should be error'): No results to select using @port attribute.?>
+<x:description xproc="../cases/library-dynamic-errors.xpl" xmlns:s="x-urn:test:xproc:steplibrary"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="x:expect/@port when dynamic error is caught" catch="yes">
+		<x:call step="s:input-port-cardinality-mismatch">
+			<x:input port="source" select="/, /">0</x:input>
+		</x:call>
+		<x:expect port="xproc-result" test="()" label="should be error">
+			<!-- There is no actual result on the output port. -->
+		</x:expect>
+	</x:scenario>
+
+</x:description>

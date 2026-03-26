@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.30?>
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:thd="http://www.jenitennison.com/xslt/xspec/helper/document-nodes"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-content-types.xpl">
+
+    <x:helper stylesheet="../../../tutorial/helper/document-nodes/test-helper-documents.xsl"/>
+
+    <x:variable name="text-file-as-string" as="xs:string"
+        select="'document.txt' => resolve-uri($x:xspec-uri) => unparsed-text()"/>
+    <x:variable name="text-file-as-text-node" as="text()" expand-text="yes">{ $text-file-as-string
+        }</x:variable>
+    <x:variable name="text-in-document-node" as="document-node()"
+        select="thd:wrap-all($text-file-as-text-node)"/>
+
+    <x:scenario label="s:get-text-line using text from external file">
+        <!-- This scenario demonstrates loading a text file using XPath functions, but when the
+        input port needs only external files, using p:document children of x:input is simpler;
+        see p-document-within-x-input.xspec. -->
+        <x:scenario label="using unparsed-text() and text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="$text-file-as-text-node" as="text()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using unparsed-text() and wrapped text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="$text-in-document-node" as="document-node()"/>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="using one text node and one wrapped text node">
+            <x:call step="s:get-text-line">
+                <x:input port="source" select="($text-file-as-text-node, $text-in-document-node)"
+                    as="node()+"/>
+            </x:call>
+            <x:expect label="returns a sequence of document nodes" port="xproc-result"
+                test="$x:result instance of document-node()+"/>
+            <x:expect label="each containing a text node" port="xproc-result"
+                test="every $doc in $x:result satisfies $doc/node() instance of text()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="s:get-text-line using text embedded in XSpec file">
+        <x:scenario label="using x:text">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()">
+                    <x:text>1, 10&#10;</x:text>
+                    <x:text>2, 20&#10;</x:text>
+                </x:input>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="without using x:text">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()">1, 10&#10;2, 20&#10;</x:input>
+            </x:call>
+            <x:like label="verify returned text"/>
+        </x:scenario>
+        <x:scenario label="forming multiple text documents">
+            <x:call step="s:get-text-line">
+                <x:input port="source" as="text()+" select="/wrapper/text()">
+                    <wrapper>1, 10&#10;</wrapper>
+                    <wrapper>2, 20&#10;</wrapper>
+                </x:input>
+            </x:call>
+            <x:expect label="returns a sequence of document nodes," port="xproc-result"
+                test="$x:result instance of document-node()+"/>
+            <x:expect label="two of them," port="xproc-result" test="count($x:result)" select="2"/>
+            <x:expect label="each containing a text node" port="xproc-result"
+                test="every $doc in $x:result satisfies $doc/node() instance of text()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Content type">
+        <x:scenario>
+            <x:label>of text node (XML Calabash wraps it in document node; XSpec user does not need
+                to wrap text nodes using their own code)</x:label>
+            <x:variable name="text-input" select="$text-file-as-text-node"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+        <x:scenario>
+            <x:label>of text node wrapped in document node (which could be the output of an
+                XProc step function used as a test helper, for instance)</x:label>
+            <x:variable name="text-input" select="$text-in-document-node"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- Shared scenarios -->
+    <x:scenario shared="yes" label="verify returned text">
+        <x:expect label="returns a document node" port="xproc-result"
+            test="$x:result instance of document-node()"/>
+        <x:expect label="containing a text node" port="xproc-result"
+            test="$x:result/node() instance of text()"/>
+        <x:expect label="containing the first line of the text file, including line break"
+            port="xproc-result" select="/">1, 10&#10;</x:expect>
+        <x:expect label="(In x:expect[@port][not(@test)], select='/' is optional.)"
+            port="xproc-result">1, 10&#10;</x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="check content type">
+        <x:call step="mirror:identity">
+            <x:input port="source" select="$text-input"/>
+        </x:call>
+        <x:expect label="is 'text/plain'" port="xproc-result"
+            test="$x:document-properties?(QName('', 'content-type'))" select="'text/plain'"/>
+    </x:scenario>
+</x:description>

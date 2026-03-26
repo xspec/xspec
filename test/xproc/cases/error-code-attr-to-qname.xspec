@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:impl="urn:x-xspec:compile:impl"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="../../../src/compiler/xproc/in-scope-steps/error-code-attr-to-qname.xpl">
+
+    <x:scenario label="When c:error has unprefixed name for error code">
+        <x:call step="impl:error-code-attr-to-qname">
+            <x:input port="source">
+                <c:errors xmlns:my-ns="http://example.com/my/error-codes">
+                    <c:error code="my-code"/>
+                </c:errors>
+            </x:input>
+        </x:call>
+        <x:expect label="the step returns QName item" port="result"
+            select="xs:QName('my-code')"/>
+    </x:scenario>
+
+    <x:scenario label="When c:error has prefixed name for error code">
+        <x:call step="impl:error-code-attr-to-qname">
+            <x:input port="source">
+                <c:errors xmlns:my-ns="http://example.com/my/error-codes">
+                    <c:error code="my-ns:my-code"/>
+                    <c:error code="alt-prefix:my-code"
+                        xmlns:alt-prefix="http://example.com/my/error-codes"/>
+                </c:errors>
+            </x:input>
+        </x:call>
+        <x:expect label="the step returns QName items in a sequence" port="result"
+            select="(xs:QName('my-ns:my-code'), xs:QName('alt-prefix:my-code'))"
+            xmlns:alt-prefix="http://example.com/my/error-codes"
+            xmlns:my-ns="http://example.com/my/error-codes"/>
+    </x:scenario>
+
+    <!-- The next scenarios are cases that might not come up in practice, given
+        how the XProc processor generates the c:errors document. -->
+    <x:scenario label="When c:error has URI-qualified name for error code">
+        <x:call step="impl:error-code-attr-to-qname">
+            <x:input port="source" href="c-errors-with-code.xml"/>
+        </x:call>
+        <x:expect label="the step returns QName item" port="result"
+            select="xs:QName('my-ns:my-code')"
+            xmlns:my-ns="http://example.com/my/error-codes"/>
+    </x:scenario>
+    <x:scenario label="When c:error/@code is missing, zero-length string, or unrecognized value">
+        <x:call step="impl:error-code-attr-to-qname">
+            <x:input port="source">
+                <c:errors>
+                    <c:error/>
+                    <c:error code=""/>
+                    <c:error code="undefined-prefix:code"/>
+                </c:errors>
+            </x:input>
+        </x:call>
+        <x:expect label="the step returns an empty sequence" port="result"
+            select="()"/>
+    </x:scenario>
+</x:description>

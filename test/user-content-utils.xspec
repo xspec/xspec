@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../src/common/user-content-utils.xsl"
+	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:helper stylesheet="test-utils.xsl" />
@@ -37,6 +38,114 @@
 					<x:call>
 						<x:param href="avt.xspec" select="//x:call[@function]/x:param/attribute()"
 						 />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="step-input">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+			
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input/p:document" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute of p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input/p:document/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="step-option">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+			
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option/p:document" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute of p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option/p:document/attribute()" />
 					</x:call>
 					<x:expect label="False" select="false()" />
 				</x:scenario>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml" xmlns:mirror="x-urn:test:mirror"
+    xmlns:p="http://www.w3.org/xproc" xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-content-types.xpl">
+
+    <!-- This scenario demonstrates loading an HTML file using XPath functions, but when the
+        input port needs only external files, using p:document children of x:input is simpler;
+        see p-document-within-x-input.xspec. -->
+
+    <x:scenario label="Description from XHTML document">
+        <x:call step="s:get-html-description">
+            <x:input port="source" href="document-xhtml.html"/>
+        </x:call>
+        <x:like label="verify returned element"/>
+    </x:scenario>
+    <x:scenario label="Description from HTML non-XML document">
+        <x:pending>
+            <x:label>Requires xslt-version="4.0" and html-doc function</x:label>
+            <x:scenario label="using html-doc function">
+                <x:variable name="html" as="document-node()"
+                    select="'document-not-xhtml.html' => resolve-uri($x:xspec-uri) => html-doc()"/>
+                <x:call step="s:get-html-description">
+                    <x:input port="source" select="$html"/>
+                </x:call>
+                <x:like label="verify returned element"/>
+            </x:scenario>
+        </x:pending>
+    </x:scenario>
+
+    <x:scenario label="Document properties of XHTML input file loaded with x:input/@href">
+        <x:call step="mirror:identity">
+            <x:input port="source" href="document-xhtml.html"/>
+        </x:call>
+        <x:expect label="are content type 'application/xml'" port="xproc-result"
+            test="$x:document-properties?(QName('', 'content-type'))" select="'application/xml'"/>
+        <x:expect label="and the base URI of an HTML file (not .xsl or .xpl intermediate file)"
+            port="xproc-result"
+            test="$x:document-properties?(QName('', 'base-uri')) ! replace(., '^.*-xhtml', '')"
+            select="'.html'"/>
+    </x:scenario>
+
+    <!-- Shared scenario -->
+    <x:scenario shared="yes" label="verify returned element">
+        <x:expect label="is a meta element" port="xproc-result">
+            <h:meta name="description" content="Description"/>
+        </x:expect>
+    </x:scenario>
+
+</x:description>

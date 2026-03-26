@@ -45,9 +45,18 @@
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
 			<exclude name="test/compile-xslt-tests/compile-expect.xspec" />
 			<exclude name="test/compile-xslt-tests/compile-scenario.xspec" />
+			<exclude name="test/compile-xproc-tests/compile-expect.xspec" />
+			<exclude name="test/compile-xproc-tests/compile-scenario.xspec" />
 
 			<!-- Tests invalid @threads -->
 			<exclude name="test/threads/invalid/zero-length.xspec" />
+
+			<!-- Tests invalid use of p:document in tests for XProc -->
+			<exclude name="test/xproc/compiler-error-cases/p-document-*.xspec" />
+			<exclude name="test/xproc/compiler-error-cases/multiple-p-document-in-x-option.xspec" />
+
+			<!-- Tests currently-invalid use of p:option in tests for XProc -->
+			<exclude name="test/xproc/cases/static-options.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
