@@ -8,63 +8,62 @@
              xspec="../../../../../tutorial/schematron/demo-02-PhaseB.xspec">
       <label>Pattern 2</label>
       <input-wrap xmlns="">
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:context xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     href="../../../../../tutorial/schematron/demo-02.xml"/>
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:local="local"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+            <svrl:schematron-output xmlns:local="local"
                                     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:active-pattern id="Pattern2"/>
+               <svrl:active-pattern id="Pattern3"/>
+               <svrl:active-pattern id="Pattern4"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t2-1"
                                    role="error"
-                                   id="t2-1"
-                                   test="@sec-type">
+                                   test="@sec-type"
+                                   patternId="Pattern2"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
-                                   id="t3-1"
-                                   test="title">
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t3-1"
+                                   test="title"
+                                   patternId="Pattern3"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:successful-report id="t4-1"
                                        role="warn"
-                                       id="t4-1"
-                                       test="count(p) = 1">
+                                       test="count(p) = 1"
+                                       patternId="Pattern4"
+                                       location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
                </svrl:successful-report>
-               <svrl:fired-rule context="sec"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
             </svrl:schematron-output>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>assert t2-1 error</label>
          <expect-test-wrap xmlns="">
-            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:expect xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 't2-1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
          </expect-test-wrap>
          <expect select="()"/>
@@ -72,7 +71,8 @@
       <test id="scenario1-expect2" successful="true">
          <label>not assert t1-1</label>
          <expect-test-wrap xmlns="">
-            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+            <x:expect xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 't1-1'])"/>
          </expect-test-wrap>
          <expect select="()"/>
@@ -87,51 +87,48 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:local="local"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+            <svrl:schematron-output xmlns:local="local"
                                     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:active-pattern id="Pattern2"/>
+               <svrl:active-pattern id="Pattern3"/>
+               <svrl:active-pattern id="Pattern4"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t2-1"
                                    role="error"
-                                   id="t2-1"
-                                   test="@sec-type">
+                                   test="@sec-type"
+                                   patternId="Pattern2"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
-                                   id="t3-1"
-                                   test="title">
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t3-1"
+                                   test="title"
+                                   patternId="Pattern3"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:successful-report id="t4-1"
                                        role="warn"
-                                       id="t4-1"
-                                       test="count(p) = 1">
+                                       test="count(p) = 1"
+                                       patternId="Pattern4"
+                                       location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
                </svrl:successful-report>
-               <svrl:fired-rule context="sec"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
             </svrl:schematron-output>
          </content-wrap>
       </result>
@@ -171,51 +168,48 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:local="local"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+            <svrl:schematron-output xmlns:local="local"
                                     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:active-pattern name="Pattern2" id="Pattern2" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:active-pattern id="Pattern2"/>
+               <svrl:active-pattern id="Pattern3"/>
+               <svrl:active-pattern id="Pattern4"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t2-1"
                                    role="error"
-                                   id="t2-1"
-                                   test="@sec-type">
+                                   test="@sec-type"
+                                   patternId="Pattern2"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern3" id="Pattern3" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
-                                   id="t3-1"
-                                   test="title">
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:failed-assert id="t3-1"
+                                   test="title"
+                                   patternId="Pattern3"
+                                   location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern name="Pattern4" id="Pattern4" documents="demo-02.xml"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:successful-report id="t4-1"
                                        role="warn"
-                                       id="t4-1"
-                                       test="count(p) = 1">
+                                       test="count(p) = 1"
+                                       patternId="Pattern4"
+                                       location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
                </svrl:successful-report>
-               <svrl:fired-rule context="sec"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
+               <svrl:fired-rule context="sec" document="demo-02.xml"/>
             </svrl:schematron-output>
          </content-wrap>
       </result>
