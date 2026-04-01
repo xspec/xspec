@@ -21,12 +21,12 @@
 				<xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}xspec-uri"
 					as="Q{{http://www.w3.org/2001/XMLSchema}}anyURI"
 					select="..." />
-				<xsl:variable as="document-node()" name="...">
+				<xsl:variable name="..." as="document-node()">
 					<xsl:document>
 						<xsl:text>PhaseA</xsl:text>
 					</xsl:document>
 				</xsl:variable>
-				<xsl:param name="Q{{}}phase" select="..." />
+				<xsl:param name="Q{{http://dmaus.name/ns/2023/schxslt}}phase" select="..." />
 				<xsl:param as="Q{{http://www.w3.org/2001/XMLSchema}}boolean"
 					name="Q{{}}schxslt.compile.metadata" select="false()" />
 			</xsl:stylesheet>
