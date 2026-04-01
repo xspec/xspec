@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="something.xpl">
+    <x:helper xproc="import1-helper1.xpl"/>
+    <x:import href="import2.xspec"/>
+</x:description>

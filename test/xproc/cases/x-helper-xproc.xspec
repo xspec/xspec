@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="library-connections.xpl" xmlns:mirror="x-urn:test:mirror"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+    <x:helper xproc="library-mirror.xpl"/>
+
+    <x:scenario label="One input, no option, one output">
+        <x:call step="s:one-input-no-option-one-output">
+            <x:input port="source">
+                <root/>
+            </x:input>
+        </x:call>
+        <x:expect label="Document with root, using (trivial) step function as helper"
+            port="xproc-result" select="mirror:identity(/)?xproc-result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+</x:description>

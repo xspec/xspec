@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
+  xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xproc="demo-library.xpl">
+
+  <!-- The same scenarios work for a library containing the step in demo.xpl -->
+  <x:import href="xproc-testing-demo.xspec"/>
+
+</x:description>

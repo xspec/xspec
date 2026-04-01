@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:description: Pipeline .../non-well-formed-xproc.xpl is not well-formed.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="non-well-formed-xproc.xpl">
+    <x:scenario label="@xproc pointing to non-well-formed XProc file">
+        <x:call step="s:non-well-formed-step-file"/>
+        <x:expect label="should raise an error"/>
+    </x:scenario>
+</x:description>

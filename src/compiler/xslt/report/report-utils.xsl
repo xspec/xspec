@@ -37,7 +37,7 @@
             <xsl:attribute name="name" select="'report-name'" />
             <xsl:attribute name="select" select="x:quote-with-apos($report-name)" />
          </xsl:element>
-         <xsl:for-each select="/x:description/@result-file-threshold[. ne 'inf']">
+         <xsl:for-each select="/x:description[@stylesheet]/@result-file-threshold[. ne 'inf']">
             <xsl:element name="xsl:with-param" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="name" select="local-name()" />
                <xsl:attribute name="select" select="." />
@@ -46,4 +46,6 @@
       </xsl:element>
    </xsl:template>
 
+   <!-- Should not reach for XSLT, only for XProc -->
+   <xsl:template name="x:record-port-specific-result"/>
 </xsl:stylesheet>

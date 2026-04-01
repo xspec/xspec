@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=The pipeline could not be compiled.?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="bad-step-type-in-xproc.xpl">
+    <x:scenario label="Disallowed step type in XProc file">
+        <x:call step="p:type-in-disallowed-namespace">
+            <x:input port="source" select="1"/>
+        </x:call>
+        <x:expect label="should raise an error"/>
+    </x:scenario>
+</x:description>

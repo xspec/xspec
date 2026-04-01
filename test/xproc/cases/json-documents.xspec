@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-content-types.xpl">
+
+    <!-- This scenario demonstrates loading a JSON file using the json-doc XPath function, but when
+        the input port needs only external files, using p:document children of x:input is simpler;
+        see p-document-within-x-input.xspec. -->
+    <x:scenario label="s:json-join for combination of external JSON file and embedded content">
+        <x:scenario label="using json-doc() and embedded array">
+            <x:variable name="array" as="array(*)"
+                select="'document-array.json' => resolve-uri($x:xspec-uri) => json-doc()"/>
+            <x:call step="s:json-join">
+                <x:input port="source" select="($array, [0, 1])" as="array(*)+"/>
+            </x:call>
+            <x:like label="verify returned array"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+        <x:scenario label="using json-doc() and embedded map">
+            <x:variable name="map" as="map(*)"
+                select="'document-object.json' => resolve-uri($x:xspec-uri) => json-doc()"/>
+            <x:call step="s:json-join">
+                <x:input port="source" select="($map, map{'embedded': 'in-xspec-file'})"
+                    as="map(*)+"/>
+            </x:call>
+            <x:like label="verify returned array of maps"/>
+            <x:like label="check content type"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- Shared scenarios -->
+    <x:scenario shared="yes" label="verify returned array">
+        <x:expect label="returns an array" port="xproc-result" test="$x:result instance of array(*)"/>
+        <x:expect label="listing members from the JSON file and embedded data" port="xproc-result"
+            as="array(*)" select="['val1', 'val2', 0, 1]"/>
+    </x:scenario>
+    <x:scenario shared="yes" label="verify returned array of maps">
+        <x:expect label="returns an array" port="xproc-result" test="$x:result instance of array(*)"/>
+        <x:expect label="of maps." port="xproc-result"
+            test="$x:result(1) instance of map(*) and $x:result(2) instance of map(*)"/>
+        <x:expect label="The first map's value for 'key1' is 'val1' from the JSON file."
+            port="xproc-result" as="xs:string" test="$x:result(1)('key1')" select="'val1'"/>
+        <x:expect label="The second map's value for 'embedded' is 'in-xspec-file'."
+            port="xproc-result" as="xs:string" test="$x:result(2)('embedded')"
+            select="'in-xspec-file'"/>
+    </x:scenario>
+    <x:scenario shared="yes" label="check content type">
+        <x:expect label="Content type is 'application/json'" port="xproc-result"
+            test="$x:document-properties?(QName('', 'content-type'))" select="'application/json'"/>
+    </x:scenario>
+</x:description>

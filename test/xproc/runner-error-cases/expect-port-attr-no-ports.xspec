@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:expect ('x:expect/@port for step that has no output ports should be error'): No result for output port 'xproc-result'.?>
+<x:description xproc="../cases/library-dynamic-errors.xpl" xmlns:s="x-urn:test:xproc:steplibrary"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="x:expect/@port for step that has no output ports">
+		<!-- Calling s:p-error in this way does not cause a dynamic error. -->
+		<x:call step="s:p-error"/>
+		<x:expect port="xproc-result" test="()" label="should be error"/>
+	</x:scenario>
+
+</x:description>

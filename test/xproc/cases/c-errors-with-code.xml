@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:errors xmlns:c="http://www.w3.org/ns/xproc-step">
+    <c:error code="Q{http://example.com/my/error-codes}my-code"/>
+</c:errors>
+

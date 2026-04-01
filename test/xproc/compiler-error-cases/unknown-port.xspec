@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Unknown input'): Step of type 's:input-port-with-default' has no port named 'SOURCE'.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../cases/library.xpl">
+    <x:scenario label="Unknown input">
+        <x:call step="s:input-port-with-default">
+            <!-- The actual port, 'source', has a default, so the missing <x:input port="source"/>
+                does not get flagged.-->
+            <x:input port="SOURCE"/>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

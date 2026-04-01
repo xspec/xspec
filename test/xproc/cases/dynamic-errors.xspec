@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.40?>
+<x:description xmlns:c="http://www.w3.org/ns/xproc-step"
+    xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:map="http://www.w3.org/2005/xpath-functions/map" 
+    xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="4.0" xproc="library-dynamic-errors.xpl">
+
+    <x:scenario label="call-error" shared="yes">
+        <x:call step="s:p-error">
+            <x:option name="error-msg" select="'Something went wrong'"/>
+        </x:call>
+    </x:scenario>
+
+    <x:scenario catch="no" label="Disable @catch explicitly">
+        <x:scenario catch="yes" label="Enable @catch by overriding inheritance">
+            
+            <x:scenario label="XProc scenario">
+                <x:scenario label="Error in SUT">
+                    <x:like label="call-error" />
+                    <x:expect label="Verify error code"
+                        test="$x:result?err?code treat as xs:QName"
+                        select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
+                    <x:expect label="Verify description, which is a map entry with empty value"
+                        test="('description' = map:keys($x:result?err)) and
+                        empty($x:result?err?description)"/>
+                    <x:expect label="Verify module"
+                        test="matches($x:result?err?module treat as xs:string, '.+/library-dynamic-errors\.xpl$')"/>
+                    <x:expect label="Verify line-number"
+                        test="($x:result?err?line-number treat as xs:integer) ge 1"/>
+                    <x:expect label="Verify column-number treat as xs:integer"
+                        test="($x:result?err?column-number treat as xs:integer) ge 1"/>
+
+                    <!-- The XProc error information document is not mandated in the XProc 3.1
+                        specification, so it could change across processors or versions. Verify
+                        it only loosely here. -->
+                    <x:expect label="Verify value, which is c:errors document from XProc"
+                        test="$x:result?err?value treat as document-node()" select="/">
+                        <c:errors>
+                            <c:error name="s-p-error" type="p:error" code="s:error-from-my-xproc-step"
+                                href="..." line="8" column="73">
+                                <cx:input-location href="..."/>
+                                <cx:message>...</cx:message>
+                                <s:document>Something went wrong</s:document>
+                                <cx:stack-trace>
+                                    <cx:stack-frame type="p:error" name="s-p-error"/>
+                                </cx:stack-trace>
+                            </c:error>
+                        </c:errors>
+                    </x:expect>
+
+                    <x:expect
+                        label="Within c:errors document, verify error document from test target"
+                        test="$x:result?err?value/c:errors/c:error/s:document">
+                        <s:document>Something went wrong</s:document>
+                    </x:expect>
+                </x:scenario>
+                
+                <x:scenario label="No error in SUT">
+                    <x:call step="s:p-error"/>
+                    <x:expect select="map{'ports': map{}}"
+                        result-type="map(xs:string, map(empty-sequence(), empty-sequence()))">
+                        <x:label>No error. Result map's 'ports' value is an empty map because the step has
+                            no output ports.</x:label>
+                    </x:expect>
+                </x:scenario>
+            </x:scenario>
+            
+        </x:scenario>
+        <x:scenario label="XProc scenario with error in SUT">
+            <x:scenario label="The need for catch=yes is not triggered by x:call itself">
+                <x:like label="call-error" />
+                <x:expect label="or pending x:expect"
+                    test="false()" pending="skip" />
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="If p:error uses UQName for error code (requires XML Calabash v3.0.38)" catch="yes">
+        <x:call step="s:p-error-UQName-code"/>
+        <x:expect label="the error code is still verifiable as QName"
+            test="$x:result?err?code treat as xs:QName"
+            select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
+    </x:scenario>
+
+    <x:scenario label="If error document has two @line values (requires XML Calabash v3.0.40),"
+        catch="yes">
+        <x:call step="s:line-num-in-cx-input-location"/>
+        <x:expect label="in both c:error"
+            test="exists($x:result?err?value//c:error/@line)"/>
+        <x:expect label="and c:error/cx:input-location,"
+            test="exists($x:result?err?value//cx:input-location/@line)"/>
+        <x:expect label="then line-number is from c:error/@line"
+            test="$x:result?err?line-number treat as xs:integer"
+            select="$x:result?err?value//c:error/@line ! xs:integer(.)"/>
+        <x:expect label="and column-number is from c:error/@column"
+            test="$x:result?err?column-number treat as xs:integer"
+            select="$x:result?err?value//c:error/@column ! xs:integer(.)"/>
+    </x:scenario>
+</x:description>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:catalog-01-helper="x-urn:test:catalog-01:helper"
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:px="http://www.jenitennison.com/xslt/xspec/helper/load"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Catalog for step-call input URI and DOCTYPE">
+		<x:scenario label="x:input with href and select">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="catalog-01:/example.xml" select="/" />
+			</x:call>
+			<x:expect port="xproc-result"
+				label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+				select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+		</x:scenario>
+		<x:scenario label="x:input with href and without select" pending="TODO when XProc has catalog access">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="catalog-01:/example.xml" />
+			</x:call>
+			<x:expect port="xproc-result"
+				label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+				select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="step-call input with relative href (xspec/xspec#542)">
+		<x:scenario label="x:input with href and select">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="example.xml" select="/" />
+			</x:call>
+			<x:expect port="xproc-result" label="x:expect with href should be Success"
+				href="example.xml" />
+		</x:scenario>
+		<x:scenario label="x:input with href and without select" pending="TODO when XProc has catalog access">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="example.xml" />
+			</x:call>
+			<x:expect port="xproc-result" label="x:expect with href should be Success"
+				href="example.xml" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Catalog for XProc helper file URI">
+		<x:call step="mirror:identity">
+			<x:input port="source">
+				<irrelevant/>
+			</x:input>
+		</x:call>
+		<x:expect port="xproc-result" label="Found step defined in XProc helper file" test="px:load(
+			map{ 'href': '01/example.xml' => resolve-uri($x:xspec-uri)}
+			)?result" href="example.xml"/>
+	</x:scenario>
+
+	<x:scenario label="Catalog for XSLT helper file URI">
+		<x:call step="mirror:identity">
+			<x:input port="source">
+				<document/>
+			</x:input>
+		</x:call>
+		<x:expect port="xproc-result" label="Found variable defined in XSLT helper file"
+			test="$catalog-01-helper:globalvar" select="'global-variable-value'"/>
+	</x:scenario>
+
+</x:description>

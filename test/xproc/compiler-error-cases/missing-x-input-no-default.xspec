@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Missing x:input for port declared in the step with no default'): Missing x:input for port 'in2', which declares no default.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+    <x:scenario label="Missing x:input for port declared in the step with no default">
+        <x:call step="s:two-inputs-no-option-one-output">
+            <x:input port="in1" select="()"/>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

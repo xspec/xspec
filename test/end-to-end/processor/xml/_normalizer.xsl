@@ -18,10 +18,12 @@
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
 	<xsl:template as="attribute()" match="
-			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec')]
+			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec', 'xproc')]
 			| /x:report[not(@schematron)]/@stylesheet
 			| x:scenario/@xspec
 			| x:scenario/input-wrap/x:call/x:param/@href
+			| x:scenario/input-wrap/x:call/x:input/@href
+			| x:scenario/input-wrap/x:call/x:option/@href
 			| x:scenario/input-wrap/x:context/@href
 			|
 			/x:report[local:svrl-creator(.) eq 'skeleton']//x:scenario/x:result/content-wrap
@@ -53,6 +55,44 @@
 			| x:scenario/x:test/x:expect/@href
 			| x:scenario/x:test/x:result/@href" mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+	</xsl:template>
+
+	<!--
+		Normalizes base-uri property value within a map of document properties (XProc testing).
+		For simplicity, use only the filename and extension. Where the full base URI value is
+		significant, it is tested elsewhere.
+
+		Same for "module" property value within a map of error information (XProc testing).
+	-->
+	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:|module&quot;:|href=&quot;')]"
+		mode="normalizer:normalize">
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri|module"|href=")(:")?([^"]+)(")</xsl:variable>
+		<xsl:variable name="paths-normalized" as="xs:string+">
+			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
+				regex="{$pattern}">
+				<xsl:matching-substring>
+					<xsl:sequence select="concat(
+						regex-group(1),
+						regex-group(2),
+						regex-group(3) => x:filename-and-extension(),
+						regex-group(4)
+						)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:sequence select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:variable>
+		<!-- Oxygen 28.0 version of XML Calabash (v3.0.25) uses <cx:explanation> in caught-error document,
+			but XML Calabash as of v3.0.31 doesn't. Remove it at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="explanation-removed" as="xs:string" select="
+			$paths-normalized => string-join()
+			=> replace('&lt;cx:explanation&gt;(.+)&lt;/cx:explanation&gt;\s+', '')"/>
+		<!-- XML Calabash as of v3.0.40 binds fnerr prefix in caught-error document, even when the prefix
+			isn't used. Oxygen 28.0 version of XML Calabash (v3.0.25) doesn't bind it. Remove declaration
+			at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="fnerr" as="xs:string">\s+xmlns:fnerr="http://www\.w3\.org/2005/xqt-errors"</xsl:variable>
+		<xsl:value-of select="replace($explanation-removed, $fnerr, '')"/>
 	</xsl:template>
 
 	<!--

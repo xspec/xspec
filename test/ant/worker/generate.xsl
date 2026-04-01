@@ -116,7 +116,7 @@
 		<xsl:variable as="xs:boolean" name="require-timestamp"
 			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
-		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
+		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet | @xproc)">
 			<xsl:sort select="name()" />
 
 			<xsl:variable as="xs:string" name="test-type">
@@ -124,6 +124,7 @@
 					<xsl:when test="name() = 'query'">q</xsl:when>
 					<xsl:when test="name() = 'schematron'">s</xsl:when>
 					<xsl:when test="name() = 'stylesheet'">t</xsl:when>
+					<xsl:when test="name() = 'xproc'">p</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
@@ -206,6 +207,12 @@
 						)">
 						<!-- Requires EE or PE, version 12 and up -->
 						<xsl:text>Requires XQuery processor to support XQuery 4</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type = ('p'))
+						and empty(environment-variable('XMLCALABASH3_JAR'))">
+						<xsl:text>Requires XML Calabash 3</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

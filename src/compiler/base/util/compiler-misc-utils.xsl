@@ -105,7 +105,7 @@
                      x:node-UQName(.)" />
             <xsl:text expand-text="yes"> in {$owner-element-eqname}</xsl:text>
 
-            <xsl:for-each select="@name">
+            <xsl:for-each select="(@name, self::x:input/@port)[1]">
                <xsl:text expand-text="yes"> (named {.})</xsl:text>
             </xsl:for-each>
 
