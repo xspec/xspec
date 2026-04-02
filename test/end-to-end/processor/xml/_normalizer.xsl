@@ -42,7 +42,10 @@
 			/x:report[@schematron]/@stylesheet
 			|
 			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
-			/svrl:schematron-output/svrl:active-pattern/@documents" mode="normalizer:normalize">
+			/svrl:schematron-output/svrl:active-pattern/@documents
+			|
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/descendant::svrl:fired-rule/@document" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="x:filename-and-extension(.)" />
 	</xsl:template>
