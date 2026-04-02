@@ -36,7 +36,11 @@
                         <p:output port="result"/>
                         <p:identity/>
                     </p:declare-step>
-                    <p:declare-step type="loc-p:step3" visibility="private"/>
+                    <p:declare-step type="loc-p:step3" visibility="private">
+                        <p:input port="source" sequence="true"/>
+                        <p:output port="result"/>
+                        <p:identity/>
+                    </p:declare-step>
                 </p:library>
             </x:context>
             <x:expect>

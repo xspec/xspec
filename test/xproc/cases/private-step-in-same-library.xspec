@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" version="4.0"
+    xproc="library-with-private-step.xpl">
+    <x:scenario label="Specifying an option that also exists in a private step">
+        <x:scenario label="where the public step calls the private one">
+            <x:call step="s:public-step-that-calls-private-step">
+                <x:input port="source">
+                    <root/>
+                </x:input>
+                <x:option name="some-option" select="'executed'"/>
+            </x:call>
+            <x:expect label="should work" port="xproc-result">
+                <root public-step="executed" private-step="executed"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="where the public step is self-contained">
+            <x:call step="s:self-contained-public-step">
+                <x:input port="source">
+                    <root/>
+                </x:input>
+                <x:option name="some-option"><some-value/></x:option>
+            </x:call>
+            <x:expect label="should work" port="xproc-result">
+                <root/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+</x:description>
