@@ -4,11 +4,12 @@
                xmlns:foo="foo"
                xmlns:qux="qux"
                xmlns:schematron-param-001="x-urn:xspec:test:schematron-param-001"
+               xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                schematron="schematron-param-001.sch"
                xml:base="schematron/">
-    <x:param name="phase">P1</x:param>
+    <x:param name="schxslt:phase">P1</x:param>
     <x:param name="selected" select="codepoints-to-string((80,49))" /><!-- = (U+0050, U+0031) = "P1" -->
     <x:param name="escape1">AAA BBB CCC</x:param>
     <x:param name="escape2">a"b</x:param>
@@ -26,9 +27,6 @@
 
         <x:expect-report label="P1 phase should take effect" id="report-p1" />
 
-        <x:expect label="$phase parameter"
-            test="$schematron-param-001:phase"
-            select="$phase" as="xs:string" />
         <x:expect label="$selected parameter"
             test="$schematron-param-001:selected"
             select="$selected" />

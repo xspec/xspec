@@ -2,6 +2,7 @@
 <sch:schema queryBinding="xslt2" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
 	<sch:ns prefix="schematron-param-001" uri="schematron-param-001.xspec" />
 
+	<sch:let name="schxslt2-customization-signal" value="0"/>
 	<sch:phase id="P1">
 		<sch:active pattern="pattern-p1" />
 	</sch:phase>
