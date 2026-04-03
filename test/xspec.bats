@@ -880,25 +880,6 @@ load bats-helper
 }
 
 #
-# Schematron XSLTs provided externally (CLI)
-#
-#     Ant is tested by run-xspec-tests-ant.sh
-#
-
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-#
 # Schematron running with XQS (CLI)
 #
 
@@ -927,43 +908,6 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
     [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
-}
-
-#
-# Skip Schematron Step (CLI)
-#
-
-# Ant is tested by schematron-xslt_skip-1.xspec
-@test "Skip Schematron Step 1 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE="#none"
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-# Ant is tested by schematron-xslt_skip-2.xspec
-@test "Skip Schematron Step 2 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
-    export SCHEMATRON_XSLT_EXPAND="#none"
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-# Ant is tested by schematron-xslt_skip-1-2.xspec
-@test "Skip Schematron Step 1 and 2 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE="#none"
-    export SCHEMATRON_XSLT_EXPAND="#none"
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 #
