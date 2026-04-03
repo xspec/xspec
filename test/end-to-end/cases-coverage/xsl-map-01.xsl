@@ -22,9 +22,9 @@
             <xsl:text>300</xsl:text>
           </xsl:for-each>
         </xsl:map-entry>
-        <xsl:map-entry key="'Four'">
+        <xsl:map-entry key="'Four'">                                           <!-- Expected unknown -->
           <xsl:sequence select="400" />                                        <!-- Expected unknown -->
-        </xsl:map-entry>
+        </xsl:map-entry>                                                       <!-- Expected unknown -->
       </xsl:map>
     </xsl:param>
     <xsl:variable name="hundreds-variable" as="map(xs:string, item())">
@@ -40,9 +40,9 @@
             </xsl:for-each>
           </xsl:sequence>
         </xsl:map-entry>
-        <xsl:map-entry key="'Four'">
+        <xsl:map-entry key="'Four'">                                           <!-- Expected unknown -->
           <xsl:sequence select="400" />                                        <!-- Expected unknown -->
-        </xsl:map-entry>
+        </xsl:map-entry>                                                       <!-- Expected unknown -->
       </xsl:map>
     </xsl:variable>
     <!-- xsl:map with child that is not xsl:map-entry -->
@@ -118,9 +118,9 @@
           <xsl:text>300</xsl:text>
         </xsl:for-each>
       </xsl:map-entry>
-      <xsl:map-entry key="'Four'">
+      <xsl:map-entry key="'Four'">                                             <!-- Expected unknown -->
         <xsl:sequence select="400" />                                          <!-- Expected unknown -->
-      </xsl:map-entry>
+      </xsl:map-entry>                                                         <!-- Expected unknown -->
     </xsl:map>
   </xsl:function>
 </xsl:stylesheet>

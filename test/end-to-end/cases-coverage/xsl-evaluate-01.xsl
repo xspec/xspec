@@ -33,13 +33,13 @@
         </xsl:for-each>
 
         <!-- Circuitous ways to get $data/data[2] content -->
-        <xsl:variable name="index" select="2" />
+        <xsl:variable name="index" select="2" />                               <!-- Expected miss (optim constant) -->
         <xsl:variable name="evaluatedExpressionParamChild">
           <!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced -->
           <xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data">
             <xsl:with-param name="index">
               <xsl:for-each select="1">
-                <xsl:sequence select="$index"/>                                <!-- Expected unknown -->
+                <xsl:sequence select="$index"/>
               </xsl:for-each>
             </xsl:with-param>
             <xsl:with-param name="sortKey">parameter not used in evaluation</xsl:with-param>
