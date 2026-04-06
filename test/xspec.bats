@@ -880,6 +880,20 @@ load bats-helper
 }
 
 #
+# Schematron XSLT provided externally (CLI)
+#
+#     Ant is tested by run-xspec-tests-ant.sh
+#
+
+@test "invoking xspec with Schematron XSLT provided externally uses provided XSLT for Schematron compile (CLI)" {
+    export SCHXSLT2_TRANSPILER="schematron/schematron-param-001-step3.xsl"
+
+    myrun ../bin/xspec.sh -s schematron-param-001.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 8 / pending: 0 / failed: 0 / total: 8" ]
+}
+
+#
 # Schematron running with XQS (CLI)
 #
 

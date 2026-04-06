@@ -750,6 +750,20 @@
 	</case>
 
 	<!--
+		Schematron XSLT provided externally (CLI)
+		
+			Ant is tested by run-xspec-tests-ant.cmd
+	-->
+
+	<case name="invoking xspec with Schematron XSLT provided externally uses provided XSLT for Schematron compile (CLI)">
+    set SCHXSLT2_TRANSPILER=schematron\schematron-param-001-step3.xsl
+
+    call :run ..\bin\xspec.bat -s schematron-param-001.xspec
+    call :verify_retval 0
+    call :verify_line 25 x "passed: 8 / pending: 0 / failed: 0 / total: 8"
+	</case>
+
+	<!--
 		Schematron running with XQS (CLI)
 	-->
 
