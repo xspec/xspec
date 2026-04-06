@@ -126,6 +126,7 @@ preprocess_schematron() {
     SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
 
     SCHUT_TO_XSLT_PARAMS=()
+    unset SCHUT_TO_XSPEC_COMPAT
     if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
         if [ "${SCHEMATRON_XSLT_INCLUDE}" = "#none" ]; then
             SCHUT_TO_XSLT_PARAMS+=("STEP1-PREPROCESSOR-URI=${SCHEMATRON_XSLT_INCLUDE}")
@@ -142,6 +143,10 @@ preprocess_schematron() {
     fi
     if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
         SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
+        SCHUT_TO_XSPEC_COMPAT="skeleton-schxslt-compatibility=true"
+    fi
+    if [ -n "${SCHXSLT2_TRANSPILER}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHXSLT2_TRANSPILER}")
     fi
 
     echo
@@ -159,6 +164,7 @@ preprocess_schematron() {
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
         +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
+        ${SCHUT_TO_XSPEC_COMPAT:+"$SCHUT_TO_XSPEC_COMPAT"} \
         || die "Error converting Schematron XSpec into XSLT XSpec"
     XSPEC="${SCH_PREPROCESSED_XSPEC}"
 
@@ -337,6 +343,13 @@ done
 # Coverage is only for XSLT
 if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}${XPROC}" ]; then
     usage "Coverage is supported only for XSLT"
+    exit 1
+fi
+
+# SCHEMATRON_XSLT_COMPILE is for skeleton or SchXslt 1st generation.
+# SCHXSLT2_TRANSPILER is for SchXslt2
+if [ -n "${SCHXSLT2_TRANSPILER}" ] && [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
+    usage "SCHXSLT2_TRANSPILER and SCHEMATRON_XSLT_COMPILE are mutually exclusive"
     exit 1
 fi
 
