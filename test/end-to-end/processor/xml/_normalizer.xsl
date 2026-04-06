@@ -113,6 +113,8 @@
 
 	<!--
 		Returns the SVRL creator name. Empty sequence if no SVRL.
+		This function distinguishes between skeleton and either SchXslt or SchXslt2.
+		It does not need to distinguish between SchXslt and SchXslt2.
 	-->
 	<xsl:function as="xs:string?" name="local:svrl-creator">
 		<xsl:param as="node()" name="context-node" />
