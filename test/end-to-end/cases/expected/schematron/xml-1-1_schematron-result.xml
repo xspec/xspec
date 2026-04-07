@@ -27,7 +27,7 @@
          <label>Expect &#x7; reported report U0007</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'U0007'])"/>
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, @ruleId, @patternId, @groupId)[1] = 'U0007'])"/>
          </expect-test-wrap>
          <expect select="()"/>
       </test>
@@ -35,7 +35,7 @@
          <label>Expect &#x8; reported report U0008</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'U0008'])"/>
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, @ruleId, @patternId, @groupId)[1] = 'U0008'])"/>
          </expect-test-wrap>
          <expect select="()"/>
       </test>
