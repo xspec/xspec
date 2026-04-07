@@ -267,6 +267,7 @@
 								'coverage-reporter',
 								'force-focus',
 								'html-reporter',
+								'schxslt2-transpiler',
 								'schematron-preprocessor-step1',
 								'schematron-preprocessor-step2',
 								'schematron-preprocessor-step3',

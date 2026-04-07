@@ -60,7 +60,8 @@
 	<xsl:template _name="
 			{
 				'schxslt-api:validation-stylesheet-body-top-hook'[$x:schematron-preprocessor?name eq 'schxslt'],
-				'process-prolog'[$x:schematron-preprocessor?name eq 'skeleton']
+				'process-prolog'[$x:schematron-preprocessor?name eq 'skeleton'],
+				'schxslt2-does-not-use-this-template'[$x:schematron-preprocessor?name eq 'schxslt2']
 			}" as="element(xsl:variable)+">
 		<xsl:param as="element(sch:schema)" name="schema" required="yes"
 			use-when="$x:schematron-preprocessor?name eq 'schxslt'" />
