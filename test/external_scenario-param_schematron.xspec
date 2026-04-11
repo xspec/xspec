@@ -2,48 +2,51 @@
 <x:description run-as="external" schematron="external_scenario-param.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- This $phase (/x:description/x:param) takes effect at both compile time and run time -->
-	<x:param name="phase">A</x:param>
+	<!--
+		This test illustrates that x:param using a name *not* recognized by SchXslt2
+		takes effect at run time, and //x:scenario/x:param can override
+		/x:description/x:param.
+	-->
+
+	<!-- This $user-param (/x:description/x:param) takes effect at run time -->
+	<x:param name="user-param">A</x:param>
 
 	<x:scenario label="Base context">
 		<x:context>
 			<context-child />
 		</x:context>
 
-		<x:scenario label="Scenario-level $phase">
-			<!-- No scenario-level $phase -->
+		<x:scenario label="Scenario-level $user-param">
+			<!-- No scenario-level $user-param -->
 
 			<!-- No x:context[preceding-sibling::x:param] -->
 
-			<x:expect-report id="compile-time-phase-param-is-A" />
-			<x:expect-report id="run-time-phase-param-is-A" />
-			<x:expect-report count="2" />
+			<x:expect-report id="run-time-user-param-is-A" />
+			<x:expect-report count="1" />
 		</x:scenario>
 
-		<x:scenario label="Scenario-level $phase">
-			<!-- This $phase (//x:scenario/x:param) takes effect only at run time -->
-			<x:param name="phase">B</x:param>
+		<x:scenario label="Scenario-level $user-param">
+			<!-- This $user-param (//x:scenario/x:param) takes effect at run time -->
+			<x:param name="user-param">B</x:param>
 
 			<!-- No x:context[preceding-sibling::x:param] -->
 
-			<x:expect-report id="compile-time-phase-param-is-A" />
-			<x:expect-report id="run-time-phase-param-is-B" />
-			<x:expect-report count="2" />
+			<x:expect-report id="run-time-user-param-is-B" />
+			<x:expect-report count="1" />
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario-level $phase">
-		<!-- This $phase (//x:scenario/x:param) takes effect only at run time -->
-		<x:param name="phase">C</x:param>
+	<x:scenario label="Scenario-level $user-param">
+		<!-- This $user-param (//x:scenario/x:param) takes effect at run time -->
+		<x:param name="user-param">C</x:param>
 
 		<!-- x:context[preceding-sibling::x:param] -->
 		<x:context>
 			<context-child />
 		</x:context>
 
-		<x:expect-report id="compile-time-phase-param-is-A" />
-		<x:expect-report id="run-time-phase-param-is-C" />
-		<x:expect-report count="2" />
+		<x:expect-report id="run-time-user-param-is-C" />
+		<x:expect-report count="1" />
 	</x:scenario>
 
 </x:description>

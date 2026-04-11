@@ -3,11 +3,12 @@
 	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
 	xmlns:sch="http://purl.oclc.org/dsdl/schematron"
 	xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+	xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<!-- This master stylesheet imports the original Schematron Step 3 preprocessor and injects some
-		private global variables (strings copied from the known global parameters).
+	<!-- This top-level stylesheet imports the original Schematron Step 3 preprocessor and
+		injects some private global variables (strings copied from the known global parameters).
 		The source parameters are supposed to be supplied by /x:description/x:param.
 		The injected variables are to be checked by //x:scenario/x:expect. -->
 
@@ -27,17 +28,15 @@
 	<xsl:param name="foo:selected" required="yes" />
 	<xsl:param name="href-selected" required="yes" />
 
-	<xsl:template _name="
-			{
-				'schxslt-api:validation-stylesheet-body-top-hook'[$x:schematron-preprocessor?name eq 'schxslt'],
-				'process-prolog'[$x:schematron-preprocessor?name eq 'skeleton']
-			}" as="element(xsl:variable)+">
-		<xsl:param as="element(sch:schema)" name="schema" required="yes"
-			use-when="$x:schematron-preprocessor?name eq 'schxslt'" />
 
+	<template match="sch:schema/sch:let[@name = 'schxslt2-customization-signal']" as="element()+"
+		mode="schxslt:transpile" xmlns="http://www.w3.org/1999/XSL/Transform">
+		<call-template name="customize-preprocessed-schema"/>
+	</template>
+	
+	<xsl:template name="customize-preprocessed-schema">
 		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
 				map {
-					'phase': $phase,
 					'selected': $selected,
 					'escape1': $escape1,
 					'escape2': $escape2,
@@ -56,6 +55,18 @@
 				<xsl:value-of select="map:get($vars-map, .)" />
 			</xsl:element>
 		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template _name="
+			{
+				'schxslt-api:validation-stylesheet-body-top-hook'[$x:schematron-preprocessor?name eq 'schxslt'],
+				'process-prolog'[$x:schematron-preprocessor?name eq 'skeleton'],
+				'schxslt2-does-not-use-this-template'[$x:schematron-preprocessor?name eq 'schxslt2']
+			}" as="element(xsl:variable)+">
+		<xsl:param as="element(sch:schema)" name="schema" required="yes"
+			use-when="$x:schematron-preprocessor?name eq 'schxslt'" />
+
+		<xsl:call-template name="customize-preprocessed-schema"/>
 	</xsl:template>
 
 </xsl:stylesheet>

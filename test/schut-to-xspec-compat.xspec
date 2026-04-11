@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:helper="x-urn:test:schut-to-xspec_helper"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/schematron/schut-to-xspec.xsl">
+
+    <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
+    <x:param name="skeleton-schxslt-compatibility" select="true()"/>
+
+    <x:helper stylesheet="schematron/schut-to-xspec_helper.xsl" />
+
+    <x:scenario label="assertions">
+        <x:context href="schematron-012.xspec" />
+        <x:expect href="schematron/schut-to-xspec-012-compat-out.xspec"
+            select="helper:expect(.)">
+            <x:label>With skeleton and SchXslt, expect/@test uses first preceding sibling for
+                svrl:fired-rule and svrl:active-pattern. The @ruleId and @patternId attributes are
+                not present.</x:label>
+        </x:expect>
+    </x:scenario>
+
+</x:description>

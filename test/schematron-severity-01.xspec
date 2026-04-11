@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-severity.sch"
+    xml:base="schematron/">
+    <x:param name="Q{http://dmaus.name/ns/2023/schxslt}default-severity" select="'warning'"/>
+    <x:param name="Q{http://dmaus.name/ns/2023/schxslt}severity-threshold" select="'error'"/>
+    <x:scenario label="When default severity is 'warning' and threshold is 'error'">
+        <x:context>
+            <root>
+                <error/>
+                <warning/>
+                <info/>
+                <custom-severity/>
+                <default-severity/>
+            </root>
+        </x:context>
+        <x:scenario label="Warning and info assertions are skipped">
+            <x:expect-assert id="err"/>
+            <x:expect-not-assert id="warn"/>
+            <x:expect-not-assert id="info"/>
+            <x:expect-not-assert id="default"/>
+            <x:expect-assert id="custom"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

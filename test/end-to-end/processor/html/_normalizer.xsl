@@ -173,6 +173,10 @@
 			Example (SchXslt):
 				in:  <svrl:active-pattern documents="file:/.../demo-02-compiled.xsl"
 				out: <svrl:active-pattern documents="demo-02-compiled.xsl"
+
+			New in SchXslt2:
+				in:  <svrl:fired-rule document="file:/.../schematron-023-compiled.xsl"
+				out: <svrl:fired-rule document="schematron-023-compiled.xsl"
 	-->
 	<xsl:template as="text()" match="pre[contains-token(@class, 'svrl')]/text()"
 		mode="normalizer:normalize">
@@ -210,7 +214,7 @@
 				<xsl:variable as="xs:string" name="regex">
 					<xsl:text>
 						^
-						([ ]+(?:&lt;svrl:active-pattern[ ])?documents=")	<!-- group 1 -->
+						([ ]+(?:&lt;svrl:(?:active-pattern|fired-rule)[ ])?documents?=")	<!-- group 1 -->
 						(\S+?)												<!-- group 2 -->
 						("[ ]/>)											<!-- group 3 -->
 						$
@@ -274,6 +278,8 @@
 
 	<!--
 		Returns the SVRL creator name. Empty sequence if no SVRL.
+		This function distinguishes between skeleton and either SchXslt or SchXslt2.
+		It does not need to distinguish between SchXslt and SchXslt2.
 	-->
 	<xsl:function as="xs:string?" name="local:svrl-creator">
 		<xsl:param as="node()" name="context-node" />

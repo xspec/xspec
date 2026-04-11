@@ -56,6 +56,7 @@
 		<attribute default="" name="force-focus" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="saxon-custom-options" />
+		<attribute default="" name="schxslt2-transpiler" />
 		<attribute default="" name="schematron-preprocessor-step1" />
 		<attribute default="" name="schematron-preprocessor-step2" />
 		<attribute default="" name="schematron-preprocessor-step3" />
@@ -137,6 +138,9 @@
 				<param name="xspec.force.focus" unless:blank="@{force-focus}" value="@{force-focus}" />
 				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
 					value="@{html-reporter}" />
+				<param name="xspec.schxslt2.transpiler"
+					unless:blank="@{schxslt2-transpiler}"
+					value="@{schxslt2-transpiler}" />
 				<param name="xspec.schematron.preprocessor.step1"
 					unless:blank="@{schematron-preprocessor-step1}"
 					value="@{schematron-preprocessor-step1}" />
