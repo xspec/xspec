@@ -15,7 +15,7 @@
         Ant property makes this stylesheet generate a different XPath predicate expression
         for matching @id values.
     -->
-    <xsl:param name="skeleton-schxslt-compatibility" as="xs:boolean" select="true()"/>
+    <xsl:param name="skeleton-schxslt-compatibility" as="xs:boolean" select="false()"/>
 
     <!--
         SchXslt2 and XQS use @patternId and @ruleId on svrl:failed-assert and svrl:successful-report.
