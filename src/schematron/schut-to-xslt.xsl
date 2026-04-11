@@ -70,7 +70,7 @@
 		-->
 		<xsl:variable as="document-node()" name="step1-transformed-doc">
 			<xsl:choose>
-				<xsl:when test="$STEP1-PREPROCESSOR-URI eq '#none'">
+				<xsl:when test="($STEP1-PREPROCESSOR-URI eq '#none') and empty($STEP1-PREPROCESSOR-DOC)">
 					<!-- Skip this step. Load the Schematron schema intact. -->
 					<xsl:sequence select="doc($schematron-uri)" />
 				</xsl:when>
@@ -103,7 +103,7 @@
 		-->
 		<xsl:variable as="document-node()" name="step2-transformed-doc">
 			<xsl:choose>
-				<xsl:when test="$STEP2-PREPROCESSOR-URI eq '#none'">
+				<xsl:when test="($STEP2-PREPROCESSOR-URI eq '#none') and empty($STEP2-PREPROCESSOR-DOC)">
 					<!-- Skip this step. No transformation. -->
 					<xsl:sequence select="$step1-transformed-doc" />
 				</xsl:when>
