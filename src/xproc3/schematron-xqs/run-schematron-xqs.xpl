@@ -23,6 +23,7 @@
 
    <p:import href="preprocess-schematron-xqs.xpl"/>
    <p:import href="../run-xquery.xpl"/>
+   <p:import href="../harness-lib.xpl"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
@@ -44,6 +45,10 @@
    <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
    
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+
+   <x:check-xspec-home>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+   </x:check-xspec-home>
 
    <!-- preprocess -->
    <x:preprocess-schematron-xqs p:message="Converting Schematron XSpec into XQuery XSpec...">

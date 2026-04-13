@@ -57,6 +57,10 @@
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
+   <t:check-xspec-home>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+   </t:check-xspec-home>
+
    <!-- compile the suite into a stylesheet -->
    <t:compile-xslt name="compile" p:message="Creating Test Runner...">
       <p:with-option name="xspec-home" select="$xspec-home"/>
