@@ -220,6 +220,7 @@ rem ##
     if defined SCHEMATRON_XSLT_COMPILE (
         set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_COMPILE%"
         set SCHUT_TO_XSPEC_COMPAT="skeleton-schxslt-compatibility=true"
+        echo WARNING: SCHEMATRON_XSLT_COMPILE variable is deprecated. Consider migrating to SchXslt2.
     )
 
     if defined SCHXSLT2_TRANSPILER set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHXSLT2_TRANSPILER%"
