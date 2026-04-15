@@ -525,6 +525,13 @@
       message="Testing Schematron with XQS requires the xspec.basex.classpath property."
       unless="xspec.basex.classpath" />
 
+    <!-- In end-to-end test suite, if the first actual result to store under actual__/ is
+      coming from BaseX, the directory location might not exist. In that case, create it. -->
+    <dirname property="xspec.result.dir" file="${xspec.result.xml}"/>
+    <retry retrycount="2" retrydelay="1000">
+      <mkdir dir="${xspec.result.dir}" />
+    </retry>
+
     <java classname="org.basex.BaseX" fork="true" failonerror="true">
       <classpath>
         <pathelement path="${xspec.basex.classpath}" if:set="xspec.basex.classpath"/>
@@ -533,6 +540,12 @@
       </classpath>
       <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-ODTD=true" if:set="xspec.catalog.files" />
+
+      <!-- Serialization parameters needed for end-to-end test suite and non-harmful outside that context. -->
+      <arg value="-somit-xml-declaration=no"/>
+      <arg value="-sindent=yes"/>
+      <arg value="-sindents=3"/>
+
       <arg value="-o${xspec.result.xml}" />
       <arg value="-Q${xspec.compiled.runner}" />
     </java>
