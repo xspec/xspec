@@ -6,7 +6,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-angular": "^20.5.0",
     "bats": "^1.13.0",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "prettier-plugin-properties": "^0.3.1"
   },
   "scripts": {
