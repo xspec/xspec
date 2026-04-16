@@ -614,9 +614,9 @@
 	</case>
 
     <!--
-         JUnit (XMLC3 - Saxon (XSLT))
+         JUnit (XProc 3 - Saxon (XSLT))
     -->
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT) producing JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT) producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -649,9 +649,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/serialize-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT), using catalog, producing JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT), using catalog, producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -684,9 +684,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/serialize-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT) checking no JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT) checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -jar "%XMLCALABASH3_JAR%" ^
@@ -700,12 +700,12 @@
         call :verify_line -2 x "Formatting Report..."
         call :verify_exist "%WORK_DIR:\=/%/serialize-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/serialize-junit_%RANDOM_TEST_VALUE%.xml"
-    </case>
+	</case>
 
     <!--
-         JUnit (XMLC3 - Saxon (XQuery))
+         JUnit (XProc 3 - Saxon (XQuery))
     -->
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery) producing JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery) producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\query"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -738,9 +738,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery) checking no JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery) checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -jar "%XMLCALABASH3_JAR%" ^
@@ -754,12 +754,12 @@
         call :verify_line -2 x "Formatting Report..."
         call :verify_exist "%WORK_DIR:\=/%/serialize-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/serialize-junit_%RANDOM_TEST_VALUE%.xml"
-    </case>
+	</case>
 
     <!--
-         JUnit (XMLC3 - BaseX (XQuery))
+         JUnit (XProc 3 - BaseX (XQuery))
     -->
-    <case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with BaseX (XQuery) producing JUnit report">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with BaseX (XQuery) producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -794,9 +794,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with BaseX (XQuery), checking no JUnit report">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with BaseX (XQuery), checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
@@ -812,7 +812,7 @@
         call :verify_line -2 x "Formatting Report..."
         call :verify_exist "%WORK_DIR:\=/%/serialize-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/serialize-junit_%RANDOM_TEST_VALUE%.xml"
-    </case>
+	</case>
 
 	<!--
 		XProc 3 support for Schematron testing using XQS
@@ -846,9 +846,9 @@
 	</case>
 
     <!--
-         JUnit (XMLC3 - XQS (Schematron))
+         JUnit (XProc 3 - BaseX (Schematron via XQS))
     -->
-    <case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with XQS (Schematron) producing JUnit report">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with XQS (Schematron) producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\schematron"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -883,9 +883,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/schematron/schematron-xqs-demo-01-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with XQS (Schematron), checking no JUnit report">
+	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with XQS (Schematron), checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -cp "%XMLCALABASH3_JAR%;%XMLCALABASH3_DIR%\extra\*" ^
@@ -901,7 +901,7 @@
         call :verify_line -2 x "Formatting Report..."
         call :verify_exist "%WORK_DIR:\=/%/schematron-xqs-demo-01-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/schematron-xqs-demo-01-junit_%RANDOM_TEST_VALUE%.xml"
-    </case>
+	</case>
 
 	<!--
 		Test cases for testing XProc steps
@@ -927,9 +927,9 @@
 	</case>
 
     <!--
-         JUnit (XMLC3 - XProc)
+         JUnit (XProc 3 - XML Calabash (XProc))
     -->
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with XProc producing JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with XProc producing JUnit report">
         rem HTML report file
         set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\xproc"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
@@ -962,9 +962,9 @@
         -xsl:end-to-end\processor\junit\compare.xsl ^
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/xproc/tutorial_xproc-testing-demo-junit.xml"
         call :verify_retval 0
-    </case>
+	</case>
 
-    <case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with XProc, checking no JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with XProc, checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -cp "%XMLCALABASH3_JAR%" ^
@@ -979,7 +979,7 @@
         call :verify_line -2 x "Formatting Report..."
         call :verify_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-junit_%RANDOM_TEST_VALUE%.xml"
-    </case>
+	</case>
 
 	<!--
 		XML Calabash configuration in tests for XProc
