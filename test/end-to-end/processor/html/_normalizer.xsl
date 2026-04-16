@@ -14,7 +14,8 @@
 	<!--
 		When set, datetime is normalized to this value
 	-->
-	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" static="yes" />
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" static="yes"
+		select="xs:dateTime('2000-01-01T00:00:00Z')"/>
 
 	<!--
 		Normalizes the title text
