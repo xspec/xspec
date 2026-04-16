@@ -967,8 +967,7 @@
 	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with XProc, checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
-        call :run java -cp "%XMLCALABASH3_JAR%" ^
-        com.xmlcalabash.app.Main ^
+        call :run java -jar "%XMLCALABASH3_JAR%" ^
         --input:source=../tutorial/xproc/xproc-testing-demo.xspec ^
         --output:result="file:///%WORK_DIR:\=/%/tutorial_xproc-testing-demo-result_%RANDOM_TEST_VALUE%.html" ^
         --output:junit="file:///%WORK_DIR:\=/%/tutorial_xproc-testing-demo-junit_%RANDOM_TEST_VALUE%.xml" ^
