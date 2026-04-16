@@ -761,7 +761,7 @@
     -->
 	<case ifdef="BASEX_JAR XMLCALABASH3_JAR XMLCALABASH3_DIR" name="XProc 3 harness with BaseX (XQuery) producing JUnit report">
         rem HTML report file
-        set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
+        set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\query"
         call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
         set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
         rem JUnit report file
