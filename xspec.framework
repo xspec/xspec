@@ -518,6 +518,161 @@
 									<String-array/>
 								</field>
 							</xprocScenario>
+							<xprocScenario>
+								<field name="inputPorts">
+									<xprocInputPort-array>
+										<xprocInputPort>
+											<field name="urls">
+												<String-array>
+													<String>${currentFileURL}</String>
+												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
+											</field>
+										</xprocInputPort>
+									</xprocInputPort-array>
+								</field>
+								<field name="outputPorts">
+									<xprocOutputPort-array>
+										<xprocOutputPort>
+											<field name="url">
+												<String>${cfdu}/${cfn}-result.html</String>
+											</field>
+											<field name="showInSequenceView">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
+										</xprocOutputPort>
+									</xprocOutputPort-array>
+								</field>
+								<field name="xprocOptions">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>XSpec for XProc using XProc</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<String>${framework}/src/xproc3/xproc-testing/run-xproc.xpl</String>
+								</field>
+								<field name="inputXMLURL">
+									<String></String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>XPROC</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfdu}/${cfn}-result.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>XML Calabash 3.X</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</xprocScenario>
 							<antScenario>
 								<field name="additionalAntArgs">
 									<String></String>
