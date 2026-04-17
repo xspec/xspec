@@ -4,7 +4,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet generates a wrapper stylesheet which imports the actual stylesheet
+		This top-level stylesheet generates a wrapper stylesheet which imports the actual stylesheet
 		of the Schematron Step 3 preprocessor.
 		While generating the wrapper stylesheet, the following adjustments are made:
 			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
@@ -76,7 +76,8 @@
 						variables -->
 					<xsl:sequence select="x:resolve-import(.)" />
 
-					<!-- Always disable SchXslt metadata generation in SVRL -->
+					<!-- Always disable SchXslt metadata generation in SVRL (in SchXslt
+						1st generation; SchXslt2 does not use this parameter) -->
 					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
 						<xsl:attribute name="as" select="x:known-UQName('xs:boolean')" />
 						<xsl:attribute name="name" select="'schxslt.compile.metadata'" />

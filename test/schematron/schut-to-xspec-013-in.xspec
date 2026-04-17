@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
-    <x:param name="phase" select="concat('P','1')"/>
+    <x:param name="Q{http://dmaus.name/ns/2023/schxslt}phase" select="concat('P','1')"/>
     <x:scenario label="Schematron test scenario"/>
 </x:description>

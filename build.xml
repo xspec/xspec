@@ -393,6 +393,9 @@
     <makeurl property="xspec.schxslt2.transpiler.url"
              file="${xspec.schxslt2.transpiler}"
              if:set="xspec.schxslt2.transpiler" />
+    <echo message="WARNING: xspec.schematron.preprocessor.step3 property is deprecated. Consider migrating to SchXslt2."
+      level="info"
+      if:set="xspec.schematron.preprocessor.step3" />
 
     <!-- Location and URI of the generated XSLT file -->
     <property name="xspec.schematron.preprocessed.xsl.file"

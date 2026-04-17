@@ -8,16 +8,11 @@
 	-->
 	<xsl:include href="external_scenario-param.sch.included.xsl" />
 
-	<sch:phase id="A">
-		<sch:active pattern="pattern-A" />
-	</sch:phase>
-
-	<sch:pattern id="pattern-A">
+	<sch:pattern>
 		<sch:rule context="context-child">
-			<sch:report id="compile-time-phase-param-is-A" test="true()" />
-			<sch:report id="run-time-phase-param-is-A" test="$phase eq 'A'" />
-			<sch:report id="run-time-phase-param-is-B" test="$phase eq 'B'" />
-			<sch:report id="run-time-phase-param-is-C" test="$phase eq 'C'" />
+			<sch:report id="run-time-user-param-is-A" test="$user-param eq 'A'" />
+			<sch:report id="run-time-user-param-is-B" test="$user-param eq 'B'" />
+			<sch:report id="run-time-user-param-is-C" test="$user-param eq 'C'" />
 		</sch:rule>
 	</sch:pattern>
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-default-from.sch"
+    xml:base="schematron/">
+    <x:param name="Q{http://dmaus.name/ns/2023/schxslt}default-from" select="'//section[3]'"/>
+    <x:scenario label="When default-from is used during SchXslt2 transpiler process">
+        <x:context href="schematron-01.xml"/>
+        <x:scenario label="section 3 is checked, and its ancestry is known">
+            <x:expect-report id="r002" location="/article[1]/section[3]"/>
+        </x:scenario>
+        <x:scenario label="article and other sections are not checked">
+            <x:expect-not-report id="r001"/>
+            <x:expect-not-report id="r002" location="/article[1]/section[1]"/>
+            <x:expect-not-report id="r002" location="/article[1]/section[2]"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario>
+        <x:label>Compare with x:context[@href][@select], which does not preserve parts of the tree
+            outside the selection</x:label>
+        <x:context href="schematron-01.xml" select="//section[3]"/>
+        <x:expect label="Rules involving article do not fire, despite active pattern"
+            test="empty(//svrl:fired-rule) and exists(//svrl:active-pattern)"/>
+    </x:scenario>
+</x:description>

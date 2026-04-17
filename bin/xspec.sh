@@ -144,6 +144,7 @@ preprocess_schematron() {
     if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
         SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
         SCHUT_TO_XSPEC_COMPAT="skeleton-schxslt-compatibility=true"
+        echo "WARNING: SCHEMATRON_XSLT_COMPILE variable is deprecated. Consider migrating to SchXslt2."
     fi
     if [ -n "${SCHXSLT2_TRANSPILER}" ]; then
         SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHXSLT2_TRANSPILER}")

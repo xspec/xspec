@@ -3,7 +3,7 @@
              schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
              original-xspec="%TEST_BASE%/schematron/schut-to-xspec-011-in.xspec"
              stylesheet="schut-to-xspec-test.sch.xsl">
-   <x:param xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="" name="phase">
+   <x:param xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="" name="Q{http://dmaus.name/ns/2023/schxslt}phase">
       <x:text>P1</x:text>
    </x:param>
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"

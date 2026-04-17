@@ -46,7 +46,10 @@
 			/x:report[@schematron]/@stylesheet
 			|
 			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
-			/svrl:schematron-output/svrl:active-pattern/@documents" mode="normalizer:normalize">
+			/svrl:schematron-output/svrl:active-pattern/@documents
+			|
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/descendant::svrl:fired-rule/@document" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="x:filename-and-extension(.)" />
 	</xsl:template>
@@ -116,6 +119,8 @@
 
 	<!--
 		Returns the SVRL creator name. Empty sequence if no SVRL.
+		This function distinguishes between skeleton and either SchXslt or SchXslt2.
+		It does not need to distinguish between SchXslt and SchXslt2.
 	-->
 	<xsl:function as="xs:string?" name="local:svrl-creator">
 		<xsl:param as="node()" name="context-node" />
