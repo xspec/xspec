@@ -12,6 +12,7 @@
                 <info/>
                 <custom-severity/>
                 <default-severity/>
+                <dynamic-severity/>
             </root>
         </x:context>
         <x:scenario label="Warning and info assertions are skipped">
@@ -20,6 +21,7 @@
             <x:expect-not-assert id="info"/>
             <x:expect-not-assert id="default"/>
             <x:expect-assert id="custom"/>
+            <x:expect-not-assert id="dynamic"/>
         </x:scenario>
     </x:scenario>
 </x:description>

@@ -40,7 +40,7 @@ SOFTWARE.
   <output indent="yes" use-when="$schxslt:debug"/>
 
   <variable name="schxslt:version" as="xs:string"
-                select="if (starts-with('1.10.2', '$')) then 'development' else '1.10.2'"/>
+                select="if (starts-with('1.10.3', '$')) then 'development' else '1.10.3'"/>
 
   <param name="schxslt:phase" as="xs:string" select="'#DEFAULT'">
     <!--
@@ -751,7 +751,7 @@ SOFTWARE.
             </svrl:failed-assert>
           </alias:variable>
           <if test="$schxslt:fail-early">
-            <alias:message  select="$failed-assert" error-code="Q{{{{http://dmaus.name/ns/2023/schxslt}}}}CatchFailEarly" terminate="yes"/>
+            <alias:sequence select="error(QName('http://dmaus.name/ns/2023/schxslt', 'CatchFailEarly'), '', $failed-assert)"/>
           </if>
           <alias:sequence select="$failed-assert"/>
         </alias:if>
@@ -781,7 +781,7 @@ SOFTWARE.
             </svrl:successful-report>
           </alias:variable>
           <if test="$schxslt:fail-early">
-            <alias:message  select="$successful-report" error-code="Q{{{{http://dmaus.name/ns/2023/schxslt}}}}CatchFailEarly" terminate="yes"/>
+            <alias:sequence select="error(QName('http://dmaus.name/ns/2023/schxslt', 'CatchFailEarly'), '', $successful-report)"/>
           </if>
           <alias:sequence select="$successful-report"/>
         </alias:if>
@@ -890,7 +890,16 @@ SOFTWARE.
       <alias:map>
         <for-each select="sch:assert | sch:report">
           <alias:map-entry key="'{generate-id()}'">
-            <alias:variable name="severity" as="Q{{http://www.w3.org/2001/XMLSchema}}string" select="'{if (@severity) then schxslt:copy-attribute-value(@severity) else $schxslt:default-severity}'"/>
+            <alias:variable name="severity" as="Q{{http://www.w3.org/2001/XMLSchema}}string">
+              <attribute name="select">
+                <choose>
+                  <when test="not(@severity)">'{$schxslt:default-severity}'</when>
+                  <when test="matches(@severity, '^\$') and (substring-after(@severity, '$') castable as xs:Name)">{@severity}</when>
+                  <when test="starts-with(@severity, '{') and ends-with(@severity, '}')">{substring(@severity, 2, string-length(@severity) - 2)}</when>
+                  <otherwise>'{@severity}'</otherwise>
+                </choose>
+              </attribute>
+            </alias:variable>
             <alias:sequence select="Q{{http://dmaus.name/ns/2023/schxslt}}numeric-severity($severity)"/>
           </alias:map-entry>
         </for-each>

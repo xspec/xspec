@@ -3,6 +3,7 @@
     schematronEdition="2025">
 
     <sch:pattern>
+        <sch:let name="sev" value="'info'"/>
         <sch:rule context="error">
             <sch:assert test="false()" id="err" severity="error">error</sch:assert>
         </sch:rule>
@@ -17,6 +18,9 @@
         </sch:rule>
         <sch:rule context="custom-severity">
             <sch:assert test="false()" id="custom" severity="custom">custom severity</sch:assert>
+        </sch:rule>
+        <sch:rule context="dynamic-severity">
+            <sch:assert test="false()" id="dynamic" severity="$sev">severity of 'info' from variable</sch:assert>
         </sch:rule>
     </sch:pattern>
 

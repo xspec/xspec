@@ -76,6 +76,9 @@ Nota bene: Setting this option to `true` also enables text value templates in e.
 When set to boolean ```true```, the validation stylesheet stops as soon as it encounters the first failed assertion or
 successful report. Defaults to ```false```.
 
+**Nota bene**: As of April 2026, the SVRL report only contains the failed assertion or successful report when this
+parameter is set to `true`. See https://codeberg.org/SchXslt/schxslt2/issues/51.
+
 ### schxslt:terminate-validation-on-error as xs:boolean
 
 When set to boolean ```true```, the validation stylesheet terminates the XSLT processor when it encounters a dynamic
