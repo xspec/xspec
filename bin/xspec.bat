@@ -202,6 +202,7 @@ rem ##
     set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
     
     set SCHUT_TO_XSLT_PARAMS=
+    set SCHUT_TO_XSPEC_COMPAT=
     if defined SCHEMATRON_XSLT_INCLUDE (
         if "%SCHEMATRON_XSLT_INCLUDE%"=="#none" (
             set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS%  STEP1-PREPROCESSOR-URI="%SCHEMATRON_XSLT_INCLUDE%"
@@ -216,8 +217,13 @@ rem ##
             set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP2-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_EXPAND%"
         )
     )
-    if defined SCHEMATRON_XSLT_COMPILE set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_COMPILE%"
-    
+    if defined SCHEMATRON_XSLT_COMPILE (
+        set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_COMPILE%"
+        set SCHUT_TO_XSPEC_COMPAT="skeleton-schxslt-compatibility=true"
+    )
+
+    if defined SCHXSLT2_TRANSPILER set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHXSLT2_TRANSPILER%"
+
     echo:
     echo Converting Schematron into XSLT...
     call :xslt ^
@@ -233,6 +239,7 @@ rem ##
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
         +stylesheet-doc="%SCH_PREPROCESSED_XSL%" ^
+        %SCHUT_TO_XSPEC_COMPAT% ^
         || ( call :die "Error converting Schematron XSpec into XSLT XSpec" & goto :win_main_error_exit )
     set "XSPEC=%SCH_PREPROCESSED_XSPEC%"
     echo:
@@ -392,6 +399,13 @@ rem # Schematron
 rem
 if defined XPROC if defined SCHEMATRON (
     call :usage "-p and -s are mutually exclusive"
+    exit /b 1
+)
+
+rem SCHEMATRON_XSLT_COMPILE is for skeleton or SchXslt 1st generation.
+rem SCHXSLT2_TRANSPILER is for SchXslt2
+if defined SCHXSLT2_TRANSPILER if defined SCHEMATRON_XSLT_COMPILE (
+    call :usage "SCHXSLT2_TRANSPILER and SCHEMATRON_XSLT_COMPILE are mutually exclusive"
     exit /b 1
 )
 
