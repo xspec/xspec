@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-01.sch"
+               xml:base="../../../tutorial/schematron-xqs/">
+    <!-- This file adds Schematron/XQS testing to the end-to-end test suite
+        and creates an expected JUnit report that Bats test case uses. -->
+    <x:import href="../schematron/demo-01.xspec"/>
+</x:description>

@@ -123,18 +123,19 @@
 
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="attribute()+">
-            <xsl:attribute name="xspec" select="$initial-document-actual-uri" />
             <xsl:choose>
                <xsl:when test="exists($this/@schematron) and exists($this/@original-xspec)">
                   <!-- If this file is derived from a test for Schematron, record @schematron.
                      That way, the HTML report indicates the schema, not the XQS module. -->
-                  <xsl:attribute name="schematron" select="$this/@schematron" />                  
+                  <xsl:attribute name="xspec" select="$this/@original-xspec" />
+                  <xsl:attribute name="schematron" select="$this/@schematron" />
                </xsl:when>
                <xsl:otherwise>
+                  <xsl:attribute name="xspec" select="$initial-document-actual-uri" />
                   <xsl:attribute name="query" select="$this/@query" />
                   <xsl:if test="exists($query-at)">
                      <xsl:attribute name="query-at" select="$query-at" />
-                  </xsl:if>                  
+                  </xsl:if>
                </xsl:otherwise>
             </xsl:choose>
          </xsl:with-param>
