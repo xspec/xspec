@@ -5,6 +5,7 @@
     <xsl:param name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
     <xsl:param name="force-focus" as="xs:string?"/>
     <xsl:param name="html-report-theme" as="xs:string" select="'default'"/>
+    <xsl:param name="junit-enabled" as="xs:string" select="'false'"/>
     <xsl:include href="../../compiler/xproc/in-scope-steps/generate-xproc-imports.xsl"/>
 
     <xsl:template name="generate-pipeline" as="element(p:declare-step)">
@@ -21,7 +22,8 @@
     <xsl:template name="declare-ports" as="node()+">
         <xsl:comment>Declare ports</xsl:comment>
         <p:input port="xspec"/>
-        <p:output port="result"/>
+        <p:output port="result" primary="true"/>
+        <p:output port="junit" primary="false" sequence="true" pipe="junit@run-test-suite"/>
     </xsl:template>
 
     <xsl:template name="declare-harness-step" as="node()+">
@@ -40,13 +42,24 @@
                 'encoding':'UTF-8',
                 'include-content-type':true(),
                 'omit-xml-declaration':false()
-                }}" primary="true"/>
+                }}"
+                primary="true"
+                pipe="result@format-report" />
+            <p:output port="junit"
+                content-types="xml"
+                serialization="map{{
+                'method':'xml'
+                }}"
+                primary="false"
+                sequence="true"
+                pipe="result@junit-report"/>
 
             <p:option name="xspec-home" as="xs:string?"/>
             <p:option name="force-focus" as="xs:string?" select="'{$force-focus}'"/>
             <p:option name="html-report-theme" as="xs:string" select="'{$html-report-theme}'"/>
             <!-- TODO: Declare inline-css option, when we can support it. -->
             <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+            <p:option name="junit-enabled" as="xs:string" select="'{$junit-enabled}'"/>
 
             <p:option name="parameters" as="map(xs:QName,item()*)" select="map{{}}"/>
 
@@ -66,18 +79,24 @@
             </p:xslt>
 
             <xsl:comment>format the report</xsl:comment>
-            <x:format-report p:message="&#10;Formatting Report...">
+            <x:format-report name="format-report" p:message="&#10;Formatting Report...">
                 <p:with-option name="xspec-home" select="$xspec-home"/>
                 <p:with-option name="force-focus" select="$force-focus"/>
                 <p:with-option name="html-report-theme" select="$html-report-theme"/>
                 <p:with-option name="parameters" select="$parameters"/>
             </x:format-report>
 
+            <xsl:comment>produce the JUnit report if requested</xsl:comment>
+            <x:maybe-format-junit-report name="junit-report" p:depends="format-report">
+                <p:with-input port="source" pipe="result@run"/>
+                <p:with-option name="xspec-home" select="$xspec-home" />
+                <p:with-option name="junit-enabled" select="$junit-enabled" />
+            </x:maybe-format-junit-report>
         </p:declare-step>
     </xsl:template>
 
     <xsl:template name="execute-harness-step" as="node()+">
         <xsl:comment>run the test suite</xsl:comment>
-        <x:xproc-compile-run-format xspec-home="{$xspec-home}"/>
+        <x:xproc-compile-run-format xspec-home="{$xspec-home}" name="run-test-suite"/>
     </xsl:template>
 </xsl:stylesheet>
