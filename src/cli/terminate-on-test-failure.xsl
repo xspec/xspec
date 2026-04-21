@@ -4,7 +4,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet searches the test result XML and raises an error on any test failure.
+		This top-level stylesheet searches the test result XML and raises an error on any test failure.
 	-->
 
 	<xsl:include href="../common/parse-report.xsl" />

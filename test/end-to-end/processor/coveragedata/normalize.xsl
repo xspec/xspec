@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet normalizes the test result XML.
+		This top-level stylesheet normalizes the test result XML.
 	-->
 
 	<xsl:import href="../base/normalize.xsl" />

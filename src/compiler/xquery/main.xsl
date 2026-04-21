@@ -94,7 +94,7 @@
       <!-- Serialization parameters for the test result report XML -->
       <xsl:text expand-text="yes">declare option {x:known-UQName('output:parameter-document')} "{resolve-uri('../../common/xml-report-serialization-parameters.xml')}";&#x0A;</xsl:text>
 
-      <!-- Absolute URI of the master .xspec file -->
+      <!-- Absolute URI of the top-level .xspec file -->
       <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="as-global" select="true()" />
          <xsl:with-param name="uqname" select="x:known-UQName('x:xspec-uri')" />

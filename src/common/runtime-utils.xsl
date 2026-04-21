@@ -3,8 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This stylesheet is included in the compiled test runner and also serves as a master file on
-		Oxygen.
+		This stylesheet is included in the compiled test runner and also serves as a "master file"
+		in Oxygen.
 	-->
 
 	<xsl:include href="common-utils.xsl" />
