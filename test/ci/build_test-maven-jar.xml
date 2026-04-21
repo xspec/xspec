@@ -16,7 +16,7 @@
 		<fileset refid="test-maven-jar.builtin.class.files" />
 	</delete>
 
-	<!-- Delete some master stylesheet files -->
+	<!-- Delete some top-level stylesheet files -->
 	<condition property="test-maven-jar.builtin.src.files.count.ok">
 		<resourcecount count="4">
 			<fileset dir="../../src/" id="test-maven-jar.builtin.src.files">

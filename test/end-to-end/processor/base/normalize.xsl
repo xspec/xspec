@@ -6,7 +6,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet is a basis for normalizing various reports.
+		This top-level stylesheet is a basis for normalizing various reports.
 		
 		The processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
