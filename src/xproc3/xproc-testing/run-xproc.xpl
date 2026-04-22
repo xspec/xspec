@@ -24,7 +24,7 @@
         }"
         primary="true"/>
 
-    <p:option name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
+    <p:option name="xspec-home" as="xs:string?"/>
     <p:option name="force-focus" as="xs:string?"/>
     <p:option name="html-report-theme" as="xs:string" select="'default'"/>
     <!-- TODO: Declare inline-css option, when we can support it. -->
