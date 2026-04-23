@@ -31,17 +31,11 @@
             resolve-uri('src/xproc3/harness-lib.xpl', $xspec-home)
             else
             'http://www.jenitennison.com/xslt/xspec/xproc/lib'"/>
-        <xsl:variable name="run-xslt-step"
-            select="if ($xspec-home != '') then
-            resolve-uri('src/xproc3/run-xslt.xpl', $xspec-home)
-            else
-            'http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xslt'"/>
 
         <p:declare-step name="xproc-compile-run-format" type="x:xproc-compile-run-format">
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
 
             <p:import href="{$harness-library}"/>
-            <p:import href="{$run-xslt-step}"/>
 
             <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
             <p:output port="result" serialization="map{{
