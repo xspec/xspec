@@ -60,6 +60,28 @@
    </p:declare-step>
 
    <!--
+       Error checking for $xspec-home or catalog
+   -->
+   <p:declare-step type="x:check-xspec-home">
+      <p:input port="source"/>
+      <p:output port="result"/>
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:variable name="report-stylesheet" as="xs:anyURI"
+         select="xs:anyURI('http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl')"/>
+      <p:if test="not($xspec-home != '') and
+         ($report-stylesheet eq p:lookup-uri($report-stylesheet))">
+         <p:error code="x:ERR003">
+            <p:with-input port="source">
+               <p:inline>
+                  <message>Provide either an 'xspec-home' option value or an XML catalog containing XSpec system identifiers.</message>
+               </p:inline>
+            </p:with-input>
+         </p:error>
+      </p:if>
+      <p:identity/>
+   </p:declare-step>
+
+   <!--
        Compile the suite on source into a stylesheet on result.
    -->
    <p:declare-step type="x:compile-test-for-xslt-or-xproc" name="compile-xsl-xproc"

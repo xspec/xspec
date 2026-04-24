@@ -68,6 +68,9 @@
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
+   <t:check-xspec-home>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+   </t:check-xspec-home>
 
    <!-- compile the suite into a query -->
    <t:compile-xquery name="compile" p:message="Creating Test Runner...">

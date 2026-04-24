@@ -21,6 +21,7 @@
 
    <p:import href="../../src/xproc3/schematron-xqs/run-schematron-xqs.xpl"/>
    <p:import href="../../src/xproc3/run-xquery.xpl"/>
+   <p:import href="../../src/xproc3/xproc-testing/run-xproc.xpl"/>
 
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="xqs-home" as="xs:string?"/>
@@ -39,7 +40,7 @@
       <p:variable name="idx" select="p:iteration-position()"/>
       <p:load href="{$test-dir}{$test-filename}" name="test-file"/>
       <p:for-each>
-         <p:with-input select="/x:description/(@schematron | @query)/name()"/>
+         <p:with-input select="/x:description/(@schematron | @query | @xproc)/name()"/>
          <p:variable name="test-type" select="."/>
          <p:choose>
             <p:when test="$test-type eq 'schematron'">
@@ -51,6 +52,14 @@
                   <p:with-option name="xqs-home" select="$xqs-home"/>
                   <p:with-option name="parameters" select="$parameters"/>
                </x:run-schematron-xqs>
+            </p:when>
+            <p:when test="$test-type eq 'xproc'">
+               <!-- Test for XProc -->
+               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for XProc) ---"/>
+               <x:run-xproc>
+                  <p:with-input pipe="result@test-file"/>
+                  <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
+               </x:run-xproc>
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->

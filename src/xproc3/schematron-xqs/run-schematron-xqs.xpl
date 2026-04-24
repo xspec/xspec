@@ -25,6 +25,7 @@
 
    <p:import href="preprocess-schematron-xqs.xpl"/>
    <p:import href="../run-xquery.xpl"/>
+   <p:import href="../harness-lib.xpl"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
@@ -55,6 +56,10 @@
    <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+
+   <x:check-xspec-home>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+   </x:check-xspec-home>
 
    <!-- preprocess -->
    <x:preprocess-schematron-xqs p:message="Converting Schematron XSpec into XQuery XSpec...">

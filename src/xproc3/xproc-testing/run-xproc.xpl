@@ -15,6 +15,8 @@
         <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
     </p:documentation>
 
+    <p:import href="../harness-lib.xpl"/>
+
     <p:input port="source" primary="true" sequence="false"/>
     <p:output port="result"
         serialization="map{
@@ -35,13 +37,17 @@
         sequence="true"
         pipe="junit@run"/>
 
-    <p:option name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
+    <p:option name="xspec-home" as="xs:string?"/>
     <p:option name="force-focus" as="xs:string?"/>
     <p:option name="html-report-theme" as="xs:string" select="'default'"/>
     <!-- TODO: Declare inline-css option, when we can support it. -->
     <!-- TODO: Decide whether to support is-external or measure-time for t:compile-xslt. -->
     <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
     <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
+
+    <x:check-xspec-home>
+        <p:with-option name="xspec-home" select="$xspec-home"/>
+    </x:check-xspec-home>
 
     <!-- Generate the pipeline we want to run. -->
     <p:xslt name="generate-pipeline">
