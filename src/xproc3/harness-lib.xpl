@@ -320,6 +320,55 @@
       </x:log>
    </p:declare-step>
 
+
+   <!--
+       Get the XML result on source, and give the JUnit XML result on result, if
+       the Junit report has been enabled.
+
+       If xspec-home is set, it is used to resolve the XSLT that formats the
+       report.  If not, its public URI is used, to be resolved through the
+       EXPath packaging system or an XML catalog.
+
+       The document element has already been checked by x:format-report.
+   -->
+   <p:declare-step type="x:maybe-format-junit-report" name="junit">
+      <!-- the port declarations -->
+      <p:input port="source" primary="true" content-types="xml"/>
+      <!-- the result port is empty if the Junit report has not been enabled. -->
+      <p:output port="result" primary="true" sequence="true" content-types="xml"/>
+
+      <p:option name="xspec-home" as="xs:string?"/>
+      <p:option name="junit-enabled" as="xs:string"/>
+
+      <p:choose>
+         <p:when test="$junit-enabled eq 'true'">
+            <p:group>
+               <p:variable name="formatter"
+                  select="if ( $xspec-home ) then
+                        resolve-uri('src/reporter/junit-report.xsl', $xspec-home)
+                     else
+                        'http://www.jenitennison.com/xslt/xspec/junit-report.xsl'"/>
+
+               <p:load name="formatter" pkg:kind="xslt">
+                  <p:with-option name="href" select="$formatter"/>
+               </p:load>
+
+               <p:xslt name="format-junit-report" message="&#10;Generating JUnit Report...">
+                  <p:with-input port="source" pipe="@junit"/>
+                  <p:with-input port="stylesheet" pipe="@formatter"/>
+               </p:xslt>
+            </p:group>
+         </p:when>
+         <p:otherwise>
+            <p:identity>
+               <p:with-input port="source">
+                  <p:empty />
+               </p:with-input>
+            </p:identity>
+         </p:otherwise>
+      </p:choose>
+   </p:declare-step>
+
    <!-- Escapes markup. Also mimics @use-character-maps="x:disable-escaping" in
       ../compiler/xquery/main.xsl. -->
    <p:declare-step type="x:escape-markup" name="escape-markup">

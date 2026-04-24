@@ -3,5 +3,7 @@
 	
 	<system systemId="http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl"
 		uri="format-xspec-report.xsl" />
+	<system systemId="http://www.jenitennison.com/xslt/xspec/junit-report.xsl"
+		uri="junit-report.xsl" />
 	
 </catalog>

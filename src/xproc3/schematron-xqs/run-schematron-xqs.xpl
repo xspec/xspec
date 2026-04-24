@@ -14,11 +14,13 @@
       <p>NOTE: This pipeline depends on the BaseX extension to XML Calabash 3 (v3.0.14 or later).</p>
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+      <p><b>Secondary output:</b> An optional formatted JUnit XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
       <p>'xqs-home' option: Directory of XQS archive on your filesystem. Default: lib/XQS/ under xspec-home.</p>
       <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
       <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
+      <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
    </p:documentation>
 
    <p:import href="preprocess-schematron-xqs.xpl"/>
@@ -35,6 +37,14 @@
          'omit-xml-declaration':false()
       }"
       primary="true"/>
+    <p:output port="junit"
+      content-types="xml"
+      serialization="map{
+         'method':'xml'
+      }"
+      primary="false"
+      sequence="true"
+      pipe="junit@run"/>
 
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="xqs-home" as="xs:string?"/>
@@ -43,7 +53,8 @@
    <!-- TODO: Declare inline-css option, when we can support it. -->
    <!-- TODO: Decide whether to support measure-time for t:compile-xquery. -->
    <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
-   
+   <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
+
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
    <x:check-xspec-home>
@@ -58,10 +69,11 @@
    </x:preprocess-schematron-xqs>
 
    <!-- run generated test and produce report -->
-   <x:run-xquery>
+   <x:run-xquery name="run">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
+      <p:with-option name="junit-enabled" select="$junit-enabled"/>
       <p:with-option name="parameters" select="$parameters"/>
    </x:run-xquery>
 
