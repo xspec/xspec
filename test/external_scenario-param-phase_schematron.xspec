@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" schematron="external_scenario-param-phase.sch"
+	xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		This test illustrates specifying the SchXslt2-recognized parameter named
+		schxslt:phase as /x:description/x:param, not //x:scenario/x:param. A
+		scenario-level parameter cannot override this global parameter (not even to
+		provide run-time access to the value) because SchXslt2 declares the phase
+		using xsl:variable, which cannot be overridden from XSpec when the test
+		suite specifies run-as="external".
+	-->
+
+	<!-- This $schxslt:phase (/x:description/x:param) takes effect at both compile time and run time -->
+	<x:param name="schxslt:phase">A</x:param>
+
+	<x:scenario label="Base context">
+		<x:context>
+			<context-child />
+		</x:context>
+
+		<x:scenario label="No scenario-level $schxslt:phase">
+			<!-- No scenario-level $schxslt:phase -->
+
+			<!-- No x:context[preceding-sibling::x:param] -->
+
+			<x:like label="global-param-at-compile-and-run-time"/>
+		</x:scenario>
+
+		<x:scenario label="Scenario-level $schxslt:phase">
+			<!-- This $schxslt:phase (//x:scenario/x:param) does not take effect at run time -->
+			<x:param name="schxslt:phase">B</x:param>
+
+			<!-- No x:context[preceding-sibling::x:param] -->
+
+			<x:like label="global-param-at-compile-and-run-time"/>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario-level $schxslt:phase">
+		<!-- This $schxslt:phase (//x:scenario/x:param) does not take effect at run time -->
+		<x:param name="schxslt:phase">C</x:param>
+
+		<!-- x:context[preceding-sibling::x:param] -->
+		<x:context>
+			<context-child />
+		</x:context>
+		<x:like label="global-param-at-compile-and-run-time"/>
+	</x:scenario>
+
+	<x:scenario shared="yes" label="global-param-at-compile-and-run-time">
+		<x:expect-report id="compile-time-phase-param-is-A" />
+		<x:expect-not-report id="cannot-reach-inactive-pattern" />
+		<x:expect-report id="run-time-phase-param-is-A" />
+		<x:expect-report count="2" />		
+	</x:scenario>
+
+</x:description>

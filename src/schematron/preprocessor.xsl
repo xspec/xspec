@@ -21,6 +21,14 @@
 					resolve-uri('schxslt/2.0/expand.xsl', $sbu),
 					resolve-uri('schxslt/2.0/compile-for-svrl.xsl', $sbu)
 				]
+			},
+			map {
+				'name': 'schxslt2',
+				'stylesheets': [
+					'#none',
+					'#none',
+					resolve-uri('schxslt2/transpile.xsl', $sbu)
+				]
 			}
-			)[doc-available(?stylesheets?1)]" static="yes"/>
+			)[doc-available(?stylesheets?3)]" static="yes"/>
 </xsl:stylesheet>

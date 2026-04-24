@@ -1,5 +1,5 @@
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/master)
-[![Azure Pipelines Build Status](https://dev.azure.com/xspec/xspec/_apis/build/status/xspec.xspec?branchName=master)](https://dev.azure.com/xspec/xspec/_build/latest?definitionId=1&branchName=master)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=main&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/main)
+[![Azure Pipelines Build Status](https://dev.azure.com/xspec/xspec/_apis/build/status/xspec.xspec?branchName=main)](https://dev.azure.com/xspec/xspec/_build/latest?definitionId=1&branchName=main)
 [![Test](https://github.com/xspec/xspec/actions/workflows/test.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/test.yml)
 [![Lint](https://github.com/xspec/xspec/actions/workflows/lint.yml/badge.svg?event=push)](https://github.com/xspec/xspec/actions/workflows/lint.yml)
 
@@ -21,14 +21,14 @@ Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/w
 
 XSpec is an open source project originally written by [Jeni Tennison](https://github.com/JeniT). It was maintained in the past years by [Florent Georges](https://github.com/fgeorges). Active development of XSpec restarted in 2016 and the project is currently maintained by [AirQuick](https://github.com/AirQuick), [Amanda Galtman](https://github.com/galtm) (technical development) and [Sandro Cirulli](https://github.com/cirulls) (management and community) with the help of the XSpec community.
 
-If you wish to contribute to XSpec, please read the [contributing guidelines](https://github.com/xspec/xspec/blob/master/CONTRIBUTING.md) and then [raise or pick up an issue](https://github.com/xspec/xspec/issues) and [send us your pull requests](https://github.com/xspec/xspec/pulls). Please document any issue with examples of your XSpec code.
+If you wish to contribute to XSpec, please read the [contributing guidelines](https://github.com/xspec/xspec/blob/main/CONTRIBUTING.md) and then [raise or pick up an issue](https://github.com/xspec/xspec/issues) and [send us your pull requests](https://github.com/xspec/xspec/pulls). Please document any issue with examples of your XSpec code.
 
 ## License
 
 XSpec code is released under the [MIT License](LICENSE), except:
 
 - The `lib/` directory consists of third-party code in subdirectories that each contain their own `LICENSE` files.
-- [A few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).
+- [A few parts of the codebase](https://github.com/xspec/xspec/blob/main/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).
 - Some files are derived from code examples that are licensed under the [W3C Software License](https://www.w3.org/copyright/software-license-2023/). Such files indicate their license in a code comment that includes "W3C Software License" text.
 
 The content of the XSpec wiki is released under the [Creative Commons 3.0 BY](https://creativecommons.org/licenses/by/3.0/) license.
