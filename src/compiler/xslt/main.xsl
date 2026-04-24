@@ -73,11 +73,11 @@
             </variable>
          </xsl:if>
 
-         <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
-         <xsl:variable name="xspec-master-uri" as="xs:anyURI"
+         <!-- Absolute URI of the top-level .xspec file (Original one if specified i.e. Schematron) -->
+         <xsl:variable name="xspec-top-level-uri" as="xs:anyURI"
             select="(@original-xspec, $initial-document-actual-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
-            <xsl:value-of select="$xspec-master-uri" />
+            <xsl:value-of select="$xspec-top-level-uri" />
          </variable>
 
          <!-- Let the compiled stylesheet know whether external or not -->
@@ -145,7 +145,7 @@
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
                   <xsl:variable name="attributes" as="attribute()+">
-                     <xsl:attribute name="xspec" select="$xspec-master-uri" />
+                     <xsl:attribute name="xspec" select="$xspec-top-level-uri" />
 
                      <!-- This @stylesheet is used by ../../reporter/coverage-report.xsl -->
                      <xsl:sequence select="@stylesheet" />
