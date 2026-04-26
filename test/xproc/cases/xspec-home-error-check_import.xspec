@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:c="http://www.w3.org/ns/xproc-step"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-xspec-home-error-check.xpl">
+
+    <!-- This file is imported by the xspec-home-error-check.xspec files in
+        this directory and the test/xqs/ directory. -->
+
+    <x:scenario shared="yes" label="Check xspec-home empty and zero-length string">
+        <!-- x:call/@step must be inherited from an ancestor scenario. -->
+        <x:scenario label="with xspec-home empty">
+            <x:call>
+                <x:option name="xspec-home" select="()"/>
+            </x:call>
+            <x:like label="Verify error"/>
+        </x:scenario>
+        <x:scenario label="with xspec-home=''">
+            <x:call>
+                <x:option name="xspec-home" select="''"/>
+            </x:call>
+            <x:like label="Verify error"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="Verify error">
+        <x:expect label="raises error x:ERR003" test="$x:result?err?code"
+            select="xs:QName('x:ERR003')"/>
+        <x:expect label="with expected message" test="$x:result?err?value//c:error/message">
+            <message>Provide either an 'xspec-home' option value or an XML catalog containing XSpec system identifiers.</message>
+        </x:expect>
+    </x:scenario>
+
+</x:description>
