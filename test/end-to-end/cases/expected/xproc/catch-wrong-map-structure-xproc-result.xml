@@ -33,9 +33,7 @@
       &lt;cx:input-location href="library-dynamic-errors.xpl"/&gt;
       &lt;cx:message&gt;(no message for error)&lt;/cx:message&gt;
       &lt;s:document xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;Something went wrong&lt;/s:document&gt;
-      &lt;cx:stack-trace&gt;
-         &lt;cx:stack-frame type="p:error" name="s-p-error"/&gt;
-      &lt;/cx:stack-trace&gt;
+      &lt;cx:stack-trace&gt;&lt;/cx:stack-trace&gt;
    &lt;/c:error&gt;
 &lt;/c:errors&gt;
 ,"description":()}}</pseudo-map>
@@ -100,9 +98,7 @@
       &lt;cx:input-location href="library-dynamic-errors.xpl"/&gt;
       &lt;cx:message&gt;(no message for error)&lt;/cx:message&gt;
       &lt;s:document xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;Something went wrong&lt;/s:document&gt;
-      &lt;cx:stack-trace&gt;
-         &lt;cx:stack-frame type="p:error" name="s-p-error"/&gt;
-      &lt;/cx:stack-trace&gt;
+      &lt;cx:stack-trace&gt;&lt;/cx:stack-trace&gt;
    &lt;/c:error&gt;
 &lt;/c:errors&gt;
 ,"description":()}}</pseudo-map>
