@@ -2,7 +2,7 @@
 <xsl:stylesheet version="3.0" xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:param name="xspec-home" as="xs:string" select="resolve-uri('../../../')"/>
+    <xsl:param name="xspec-home" as="xs:string?"/>
     <xsl:param name="force-focus" as="xs:string?"/>
     <xsl:param name="html-report-theme" as="xs:string" select="'default'"/>
     <xsl:param name="junit-enabled" as="xs:string" select="'false'"/>
@@ -28,12 +28,16 @@
 
     <xsl:template name="declare-harness-step" as="node()+">
         <xsl:comment>substep to run a test suite whose XProc step functions are in scope</xsl:comment>
-        <xsl:variable name="xproc3-uri" as="xs:anyURI" select="resolve-uri('src/xproc3/', $xspec-home)"/>
+        <xsl:variable name="harness-library"
+            select="if ($xspec-home != '') then
+            resolve-uri('src/xproc3/harness-lib.xpl', $xspec-home)
+            else
+            'http://www.jenitennison.com/xslt/xspec/xproc/lib'"/>
+
         <p:declare-step name="xproc-compile-run-format" type="x:xproc-compile-run-format">
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
 
-            <p:import href="{$xproc3-uri}harness-lib.xpl"/>
-            <p:import href="{$xproc3-uri}run-xslt.xpl"/>
+            <p:import href="{$harness-library}"/>
 
             <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
             <p:output port="result" serialization="map{{
@@ -97,6 +101,11 @@
 
     <xsl:template name="execute-harness-step" as="node()+">
         <xsl:comment>run the test suite</xsl:comment>
-        <x:xproc-compile-run-format xspec-home="{$xspec-home}" name="run-test-suite"/>
+        <x:xproc-compile-run-format name="run-test-suite">
+            <p:with-option name="xspec-home">
+                <xsl:attribute name="select"
+                    select="if (exists($xspec-home)) then x:quote-with-apos($xspec-home) else '()'"/>
+            </p:with-option>
+        </x:xproc-compile-run-format>
     </xsl:template>
 </xsl:stylesheet>
