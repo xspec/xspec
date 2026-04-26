@@ -267,6 +267,7 @@
       <p:option name="xspec-home" as="xs:string?"/>
       <p:option name="force-focus" as="xs:string?"/>
       <p:option name="html-report-theme" as="xs:string" select="'default'"/>
+      <p:option name="inline-css" as="xs:string" values="('true','false')" select="'true'"/>
       <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
 
       <p:group>
@@ -297,7 +298,8 @@
                   <p:with-input port="stylesheet" pipe="@formatter"/>
                   <p:with-option name="parameters" select="map{
                      xs:QName('force-focus'): $force-focus,
-                     xs:QName('report-theme'): $html-report-theme
+                     xs:QName('report-theme'): $html-report-theme,
+                     xs:QName('inline-css'): $inline-css
                      }"/>
                </p:xslt>
             </p:when>

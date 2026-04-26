@@ -62,9 +62,7 @@
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="force-focus" as="xs:string?"/>
    <p:option name="html-report-theme" as="xs:string" select="'default'"/>
-   <!-- TODO: Declare inline-css option, when we can support it. -->
-   <!-- TODO: Decide whether to support is-external or measure-time for t:compile-xslt. -->
-   <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+   <p:option name="inline-css" as="xs:string" values="('true','false')" select="'true'"/>
    <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
@@ -93,6 +91,7 @@
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
+      <p:with-option name="inline-css" select="$inline-css"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
 
