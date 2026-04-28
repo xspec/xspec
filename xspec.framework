@@ -256,6 +256,17 @@
 												<String></String>
 											</field>
 											<field name="localName">
+												<String>inline-css</String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>parameters</String>
 											</field>
 											<field name="value">
@@ -389,6 +400,17 @@
 												<String></String>
 											</field>
 											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>force-focus</String>
 											</field>
 											<field name="value">
@@ -411,10 +433,10 @@
 												<String></String>
 											</field>
 											<field name="localName">
-												<String>xspec-home</String>
+												<String>inline-css</String>
 											</field>
 											<field name="value">
-												<String>${framework}/</String>
+												<String>false</String>
 											</field>
 										</xprocOption>
 										<xprocOption>
@@ -581,6 +603,17 @@
 											</field>
 											<field name="value">
 												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>inline-css</String>
+											</field>
+											<field name="value">
+												<String>false</String>
 											</field>
 										</xprocOption>
 									</xprocOption-array>
