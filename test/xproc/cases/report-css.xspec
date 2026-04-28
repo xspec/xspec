@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-inline-css.xpl">
+
+    <!--
+        These scenarios test the inline-css option of XProc 3 harnesses.
+        For corresponding scenario using XQS, see test/xqs/report-css.xspec.
+
+        For checking that inline CSS uses the ">" character, see Bats test cases
+        (search for comment "Verify that inline CSS uses > instead of &gt;").
+        The character relies on HTML serialization, so it can't be checked here. 
+    -->
+
+    <x:import href="report-css_import.xspec"/>
+    <x:scenario label="Running XSpec test for XSLT">
+        <x:call step="s:xslt-varying-inline-css"/>
+        <x:like label="Check inline-css true and false"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XQuery">
+        <x:call step="s:xquery-varying-inline-css"/>
+        <x:like label="Check inline-css true and false"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XProc">
+        <x:call step="s:xproc-varying-inline-css"/>
+        <x:like label="Check inline-css true and false"/>
+    </x:scenario>
+
+</x:description>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-inline-css.xpl">
+
+    <!-- This file is imported by the report-css.xspec files in
+        this directory and the test/xqs/ directory. -->
+
+    <x:scenario shared="yes" label="Check inline-css true and false">
+        <!-- x:call/@step must be inherited from an ancestor scenario. -->
+        <x:scenario label="with inline-css true">
+            <x:call>
+                <x:option name="inline-css" select="'true'"/>
+            </x:call>
+            <x:expect port="result" label="produces HTML whose head has one style element"
+                test="count(/h:html/h:head/h:style)" select="1"/>
+            <x:expect port="result" label="and no link element" test="empty(/h:html/h:head/h:link)"
+            />
+        </x:scenario>
+        <x:scenario label="with inline-css false">
+            <x:call>
+                <x:option name="inline-css" select="'false'"/>
+            </x:call>
+            <x:expect port="result" label="produces HTML whose head has two link elements,"
+                test="count(/h:html/h:head/h:link[@rel='stylesheet'][@type='text/css'])" select="2"/>
+            <x:expect port="result" label="one for the theme and one for the base," test="
+                /h:html/h:head/h:link[@rel='stylesheet'][@type='text/css']/@href
+                ! replace(., '^.*/', '')"
+                select="('test-report-colors-blackwhite.css', 'test-report-base.css')"/>
+            <x:expect port="result" label="and no style element"
+                test="empty(/h:html/h:head/h:style[@type='text/css'])"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>
