@@ -545,6 +545,11 @@
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     call :verify_retval 0
+
+    rem Verify that inline CSS uses > instead of &gt;
+    call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+    call :verify_line_count 3
+    call :verify_line  3 x "body > h2:first-of-type {"
 	</case>
 
 	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery)">
@@ -568,6 +573,11 @@
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     call :verify_retval 0
+
+    rem Verify that inline CSS uses > instead of &gt;
+    call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+    call :verify_line_count 3
+    call :verify_line  3 x "body > h2:first-of-type {"
 
     rem Run again (ndw/xmlcalabash1#322)
     call :run java -jar "%XMLCALABASH3_JAR%" ^
@@ -788,6 +798,11 @@
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
         call :verify_retval 0
 
+        rem Verify that inline CSS uses > instead of &gt;
+        call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+        call :verify_line_count 3
+        call :verify_line  3 x "body > h2:first-of-type {"
+
         rem Verify JUnit report
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_JUNIT_REPORT%" ^
@@ -877,6 +892,11 @@
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
         call :verify_retval 0
 
+        rem Verify that inline CSS uses > instead of &gt;
+        call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+        call :verify_line_count 3
+        call :verify_line  3 x "body > h2:first-of-type {"
+
         rem Verify JUnit report
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_JUNIT_REPORT%" ^
@@ -955,6 +975,11 @@
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/xproc/tutorial_xproc-testing-demo-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
         call :verify_retval 0
+
+        rem Verify that inline CSS uses > instead of &gt;
+        call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+        call :verify_line_count 3
+        call :verify_line  3 x "body > h2:first-of-type {"
 
         rem Verify JUnit report
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
