@@ -20,6 +20,9 @@
       <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
       <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
+      <p>'inline-css' option: If 'true', the HTML report embeds CSS. Use 'true' when serializing to a file
+         that you want to be portable. If 'false', the HTML report links to external CSS files. Use 'false'
+         when you are processing the unserialized document or do not need file portability. Defaults to 'true'.</p>
       <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
    </p:documentation>
 
