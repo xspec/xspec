@@ -33,6 +33,10 @@
       <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
       <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
+      <p>'inline-css' option: If 'true', the HTML report embeds CSS. Use 'true' when serializing to a file
+         that you want to be self-contained. If 'false', the HTML report links to external CSS files.
+         Use 'false' when you are processing the unserialized document within XProc or want a smaller file.
+         Defaults to 'true'.</p>
       <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
    </p:documentation>
 
@@ -61,9 +65,7 @@
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="force-focus" as="xs:string?"/>
    <p:option name="html-report-theme" as="xs:string" select="'default'"/>
-   <!-- TODO: Declare inline-css option, when we can support it. -->
-   <!-- TODO: Decide whether to support measure-time for t:compile-xquery. -->
-   <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+   <p:option name="inline-css" as="xs:string" values="('true','false')" select="'true'"/>
    <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
@@ -94,6 +96,7 @@
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
+      <p:with-option name="inline-css" select="$inline-css"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
 

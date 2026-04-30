@@ -5,6 +5,7 @@
     <xsl:param name="xspec-home" as="xs:string?"/>
     <xsl:param name="force-focus" as="xs:string?"/>
     <xsl:param name="html-report-theme" as="xs:string" select="'default'"/>
+    <xsl:param name="inline-css" as="xs:string" select="'true'"/>
     <xsl:param name="junit-enabled" as="xs:string" select="'false'"/>
     <xsl:include href="../../compiler/xproc/in-scope-steps/generate-xproc-imports.xsl"/>
 
@@ -61,8 +62,7 @@
             <p:option name="xspec-home" as="xs:string?"/>
             <p:option name="force-focus" as="xs:string?" select="'{$force-focus}'"/>
             <p:option name="html-report-theme" as="xs:string" select="'{$html-report-theme}'"/>
-            <!-- TODO: Declare inline-css option, when we can support it. -->
-            <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+            <p:option name="inline-css" as="xs:string" select="'{$inline-css}'"/>
             <p:option name="junit-enabled" as="xs:string" select="'{$junit-enabled}'"/>
 
             <p:option name="parameters" as="map(xs:QName,item()*)" select="map{{}}"/>
@@ -87,6 +87,7 @@
                 <p:with-option name="xspec-home" select="$xspec-home"/>
                 <p:with-option name="force-focus" select="$force-focus"/>
                 <p:with-option name="html-report-theme" select="$html-report-theme"/>
+                <p:with-option name="inline-css" select="$inline-css"/>
                 <p:with-option name="parameters" select="$parameters"/>
             </x:format-report>
 

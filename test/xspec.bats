@@ -618,6 +618,11 @@ load bats-helper
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
 }
 
 @test "XProc 3 harness with Saxon (XQuery)" {
@@ -643,6 +648,11 @@ load bats-helper
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
 
     # Run again (ndw/xmlcalabash1#322)
     java -jar "${XMLCALABASH3_JAR}" \
@@ -905,6 +915,11 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_junit_report}" \
@@ -1035,6 +1050,11 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_junit_report}" \
@@ -1133,6 +1153,11 @@ load bats-helper
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
 
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \

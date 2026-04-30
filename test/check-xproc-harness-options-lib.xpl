@@ -14,6 +14,7 @@
             <p:with-input href="../tutorial/xquery-tutorial.xspec"/>
             <p:with-option name="xspec-home" select="resolve-uri('../')"/>
             <p:with-option name="html-report-theme" select="'whiteblack'"/>
+            <p:with-option name="inline-css" select="'false'"/>
         </xspec:run-xquery>
         <p:xslt name="verify-html-report-theme">
             <p:with-input port="stylesheet">
