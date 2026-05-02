@@ -29,10 +29,16 @@
       <p>This pipeline executes an XSpec test suite for XSLT.</p>
       <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+      <p><b>Secondary output:</b> An optional formatted JUnit XSpec report.</p>
       <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
       <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
       <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
          `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
+      <p>'inline-css' option: If 'true', the HTML report embeds CSS. Use 'true' when serializing to a file
+         that you want to be self-contained. If 'false', the HTML report links to external CSS files.
+         Use 'false' when you are processing the unserialized document within XProc or want a smaller file.
+         Defaults to 'true'.</p>
+      <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
    </p:documentation>
 
    <p:import href="harness-lib.xpl"/>
@@ -46,16 +52,28 @@
          'include-content-type':true(),
          'omit-xml-declaration':false()
       }"
-      primary="true"/>
+      primary="true"
+      pipe="result@format-report"/>
+   <p:output port="junit"
+      content-types="xml"
+      serialization="map{
+        'method':'xml'
+      }"
+      primary="false"
+      sequence="true"
+      pipe="result@junit-report"/>
 
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="force-focus" as="xs:string?"/>
    <p:option name="html-report-theme" as="xs:string" select="'default'"/>
-   <!-- TODO: Declare inline-css option, when we can support it. -->
-   <!-- TODO: Decide whether to support is-external or measure-time for t:compile-xslt. -->
-   <!-- TODO: Decide whether to support report-css-uri for t:format-report. -->
+   <p:option name="inline-css" as="xs:string" values="('true','false')" select="'true'"/>
+   <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
 
    <p:option name="parameters" as="map(xs:QName,item()*)" select="map{}"/>
+
+   <t:check-xspec-home>
+      <p:with-option name="xspec-home" select="$xspec-home"/>
+   </t:check-xspec-home>
 
    <!-- compile the suite into a stylesheet -->
    <t:compile-xslt name="compile" p:message="Creating Test Runner...">
@@ -73,13 +91,20 @@
    </p:xslt>
 
    <!-- format the report -->
-   <t:format-report p:message="&#10;Formatting Report...">
+   <t:format-report p:message="&#10;Formatting Report..." name="format-report">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
+      <p:with-option name="inline-css" select="$inline-css"/>
       <p:with-option name="parameters" select="$parameters"/>
    </t:format-report>
 
+   <!-- produce the JUnit report if requested -->
+   <t:maybe-format-junit-report name="junit-report" p:depends="format-report">
+      <p:with-input port="source" pipe="result@run"/>
+      <p:with-option name="xspec-home" select="$xspec-home" />
+      <p:with-option name="junit-enabled" select="$junit-enabled" />
+   </t:maybe-format-junit-report>
 </p:declare-step>
 
 

@@ -90,16 +90,17 @@
 				</xsl:non-matching-substring>
 			</xsl:analyze-string>
 		</xsl:variable>
-		<!-- Oxygen 28.0 version of XML Calabash (v3.0.25) uses <cx:explanation> in caught-error document,
-			but XML Calabash as of v3.0.31 doesn't. Remove it at least until Oxygen upgrades XML Calabash. -->
-		<xsl:variable name="explanation-removed" as="xs:string" select="
+		<!-- Oxygen 28.1 version of XML Calabash (v3.0.38) uses fewer <cx:stack-frame>
+			elements in caught-error document than XML Calabash v3.0.45. Remove them at least
+			until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="stack-frames-removed" as="xs:string" select="
 			$paths-normalized => string-join()
-			=> replace('&lt;cx:explanation&gt;(.+)&lt;/cx:explanation&gt;\s+', '')"/>
+			=> replace('(&lt;cx:stack-trace&gt;)(.+)(&lt;/cx:stack-trace&gt;)', '$1$3', 's')"/>
 		<!-- XML Calabash as of v3.0.40 binds fnerr prefix in caught-error document, even when the prefix
-			isn't used. Oxygen 28.0 version of XML Calabash (v3.0.25) doesn't bind it. Remove declaration
+			isn't used. Oxygen 28.1 version of XML Calabash (v3.0.38) doesn't bind it. Remove declaration
 			at least until Oxygen upgrades XML Calabash. -->
 		<xsl:variable name="fnerr" as="xs:string">\s+xmlns:fnerr="http://www\.w3\.org/2005/xqt-errors"</xsl:variable>
-		<xsl:value-of select="replace($explanation-removed, $fnerr, '')"/>
+		<xsl:value-of select="replace($stack-frames-removed, $fnerr, '')"/>
 	</xsl:template>
 
 	<!--

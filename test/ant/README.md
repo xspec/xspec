@@ -2,7 +2,7 @@
 
 <!-- "?v=" in the src parameter value is to invalidate cache -->
 
-![diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/xspec/xspec/master/test/ant/diagram.txt?v=1)
+![diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/xspec/xspec/main/test/ant/diagram.txt?v=1)
 
 1. Put `.xspec` files in a directory.
    - The default directory is `../` defined by `xspecfiles.dir` Ant property.

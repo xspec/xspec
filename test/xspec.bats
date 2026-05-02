@@ -618,6 +618,11 @@ load bats-helper
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
 }
 
 @test "XProc 3 harness with Saxon (XQuery)" {
@@ -643,6 +648,11 @@ load bats-helper
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
 
     # Run again (ndw/xmlcalabash1#322)
     java -jar "${XMLCALABASH3_JAR}" \
@@ -702,6 +712,251 @@ load bats-helper
 }
 
 #
+# JUnit (XProc 3 - Saxon (XSLT))
+#
+
+@test "XProc 3 harness with Saxon (XSLT) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XSLT), using catalog, producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XSLT) checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# JUnit (XProc 3 - Saxon (XQuery))
+#
+
+@test "XProc 3 harness with Saxon (XQuery) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XQuery) checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# JUnit (XProc 3 - BaseX (XQuery))
+#
+
+@test "XProc 3 harness with BaseX (XQuery) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with BaseX (XQuery) checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
 # XProc 3 support for Schematron testing using XQS
 #
 
@@ -757,6 +1012,86 @@ load bats-helper
 }
 
 #
+# JUnit (XProc 3 - BaseX (Schematron via XQS))
+#
+
+@test "XProc 3 harness with XQS (Schematron) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/schematron"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/schematron-xqs-demo-01-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/schematron-xqs-demo-01-junit.xml"
+
+    # Run
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-junit.xml"
+}
+
+@test "XProc 3 harness with XQS (Schematron) checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/schematron-xqs-demo-01-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/schematron-xqs-demo-01-junit_${r}.xml"
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
 # Test cases for testing XProc steps
 #
 
@@ -783,6 +1118,75 @@ load bats-helper
     myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-error-cases.xpl error-phase=runner
 
     assert_regex "${output}" $'\n''--- Each test raised the expected error. ---'$'\n'
+}
+
+#
+# JUnit (XProc 3 - XML Calabash (XProc))
+#
+
+@test "XProc 3 harness with XProc producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/xproc"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/tutorial_xproc-testing-demo-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/tutorial_xproc-testing-demo-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-junit.xml"
+}
+
+@test "XProc 3 harness with XProc checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/tutorial_xproc-testing-demo-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/tutorial_xproc-testing-demo-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
 }
 
 #

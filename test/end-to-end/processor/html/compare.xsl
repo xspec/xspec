@@ -3,7 +3,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet compares the test result HTML with the expected one.
+		This top-level stylesheet compares the test result HTML with the expected one.
 	-->
 
 	<xsl:import href="../base/compare.xsl" />
