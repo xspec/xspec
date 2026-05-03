@@ -75,8 +75,7 @@
                         </xsl:message>
                     </xsl:when>
                     <xsl:when test="exists(p:document)">
-                        <!-- Pass x:input/p:document, except @xml:base, for evaluation
-                                in XProc. -->
+                        <!-- Pass x:input/p:document for evaluation in XProc. -->
                         <p:with-input port="{@port}">
                             <xsl:sequence select="local:create-p-document(p:document)"/>
                         </p:with-input>
@@ -119,8 +118,7 @@
                         </xsl:message>
                     </xsl:when>
                     <xsl:when test="exists(p:document)">
-                        <!-- Pass x:option/p:document, except @xml:base, for evaluation
-                                in XProc. -->
+                        <!-- Pass x:option/p:document for evaluation in XProc. -->
                         <p:with-option name="{$option-name-escaped}" select=".">
                             <xsl:if test="count(p:document) eq 1">
                                 <!-- <p:with-option name="..." select="."> would raise error
@@ -209,16 +207,8 @@
     <xsl:function name="local:create-p-document" as="element(p:document)+">
         <xsl:param name="p-document" as="element(p:document)+"/>
         <xsl:for-each select="$p-document">
-            <xsl:variable name="new-xml-base" as="xs:anyURI" select="
-                if (exists(@xml:base))
-                then
-                resolve-uri(@xml:base, $initial-document-actual-uri)
-                else
-                $initial-document-actual-uri"
-            />
             <xsl:copy copy-namespaces="yes">
-                <xsl:attribute name="xml:base" select="$new-xml-base"/>
-                <xsl:apply-templates select="@* except (@xml:base, @port, @name, @as)"
+                <xsl:apply-templates select="@* except (@port, @name, @as)"
                     mode="in-p-document"/>
                 <xsl:apply-templates mode="in-p-document"/>
             </xsl:copy>
