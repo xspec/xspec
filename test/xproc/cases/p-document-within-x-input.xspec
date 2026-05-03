@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
     xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    xproc="library-mirror.xpl">
+    version="4.0" xproc="library-mirror.xpl">
+
+    <x:import href="import-in-subdir/p-document-href-avt.xspec"/>
 
     <x:scenario label="x:input with child p:document elements">
         <x:call step="mirror:identity">
@@ -118,7 +120,7 @@
                     <p:document href="../document.xml" xml:base="subdir/"/>
                 </x:input>
             </x:call>
-            <x:expect label="is resolved with respect to $x:xspec-uri" port="xproc-result">
+            <x:expect label="is resolved with respect to p:document element's base URI" port="xproc-result">
                 <document/>
                 <document/>
             </x:expect>
