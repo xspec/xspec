@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
-  xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-  xproc="demo.xpl">
+  xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:p="http://www.w3.org/ns/xproc"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec" version="4.0" xproc="demo.xpl">
 
   <x:scenario>
     <x:label>Executing eg:demo with a source document, a document having @xml:id, and a wrapper
       element name</x:label>
     <x:call step="eg:demo">
       <x:input port="source">
-        <doc>Sample document</doc>
+        <p:document href="document.xml"/>
       </x:input>
       <x:input port="id-data">
         <element-with-id xml:id="a123"/>
