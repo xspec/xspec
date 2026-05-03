@@ -31,9 +31,9 @@
             <x:expect label="This step invokes the test target step,"
                 test="/p:declare-step/s:inputs-options-outputs"
                 select="$expected/s:inputs-options-outputs"/>
-            <x:expect label="setting/adjusting xml:base to $x:xspec-uri on p:document elements."
-                test="//p:document/@xml:base => distinct-values()
-                => ends-with('/inputs-options-outputs.xspec')"/>
+            <x:expect label="preserving @xml:base that x:gather-specs mode put on p:document."
+                test="//p:document/@xml:base/string()"
+                select="('.../inputs-options-outputs.xspec', '.../some-dir/')"/>
             <x:expect label="Curly braces in p:document/@document-properties are doubled."
                 test="//p:document/@document-properties/string()"
                 as="xs:string">map{{'a': '}}}}{{false()}}{{{{'}}</x:expect>
