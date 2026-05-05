@@ -22,6 +22,7 @@
                             </p:inline>
                         </p:input>
                         <p:input port="input-port-with-href-default" href="mydoc.xml"/>
+                        <p:input port="input-port-sequence-true-no-default" sequence="true"/>
                         <p:output port="result"/>
                         <p:option name="loc-p:opt"/>
                         <p:declare-step type="loc-p:substep">
@@ -52,11 +53,12 @@
                     <p:input port="aux2" use-when="true()"/>
                     <p:input port="input-port-with-inline-default" x:has-default-input="true"/>
                     <p:input port="input-port-with-href-default" x:has-default-input="true"/>
+                    <p:input port="input-port-sequence-true-no-default" sequence="true"/>
                     <p:output port="result"/>
                     <p:option name="loc-p:opt"/>
                 </p:declare-step>
                 <p:declare-step type="Q{{x-urn:local-xproc-names}}step2" use-when="true()">
-                    <p:input port="source"/>
+                    <p:input port="source" sequence="true"/>
                     <p:output port="result"/>
                 </p:declare-step>
             </x:expect>
