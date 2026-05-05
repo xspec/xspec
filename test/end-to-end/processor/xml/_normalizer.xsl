@@ -2,6 +2,7 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:xml:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
+	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -29,6 +30,8 @@
 			| x:scenario/input-wrap/x:call/x:input/@href
 			| x:scenario/input-wrap/x:call/x:option/@href
 			| x:scenario/input-wrap/x:context/@href
+			| x:scenario/input-wrap/x:call/x:input/p:document/@xml:base
+			| x:scenario/input-wrap/x:call/x:option/p:document/@xml:base
 			|
 			/x:report[local:svrl-creator(.) eq 'skeleton']//x:scenario/x:result/content-wrap
 			/svrl:schematron-output/svrl:active-pattern/@document[string()]" mode="normalizer:normalize">

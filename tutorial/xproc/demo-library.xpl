@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:library xmlns:p="http://www.w3.org/ns/xproc" xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.0" exclude-inline-prefixes="eg xs">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.1">
 
     <p:declare-step name="demo" type="eg:demo">
 

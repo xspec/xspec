@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" name="demo" type="eg:demo" version="3.0"
-    exclude-inline-prefixes="eg xs">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" name="demo" type="eg:demo" version="3.1">
 
     <!-- Ports -->
     <p:input port="source" primary="true" content-types="application/xml"/>
