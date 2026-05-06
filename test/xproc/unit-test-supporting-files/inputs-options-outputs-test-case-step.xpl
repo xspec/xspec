@@ -27,6 +27,9 @@
         <p:with-input port="in3" select="$map-of-inputs?in3">
             <p:inline/>
         </p:with-input>
+        <p:with-input port="in4">
+            <p:empty/>
+        </p:with-input>
     </s:inputs-options-outputs>
     <p:count limit="1" name="COUNT_out1">
         <p:with-input pipe="out1@test-target"/>

@@ -4,6 +4,7 @@
     <p:input port="in1" primary="true"/>
     <p:input port="in2"/>
     <p:input port="in3"/>
+    <p:input port="in4" sequence="true"/>
     <p:output port="out1" pipe="@identity-in1" primary="true"/>
     <p:output port="out2" pipe="@identity-in2"/>
     <p:option name="s:opt1"/>

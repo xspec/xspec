@@ -15,6 +15,7 @@
                 </p:document>
             </x:input>
             <x:input port="in3" href="path/to/data.xml"/>
+            <!-- Omit x:input element for port "in4" -->
         </x:call>
         <x:expect label="Verify out1" port="out1">in1 document</x:expect>
         <x:expect label="Verify out2" port="out2">in2 document</x:expect>
