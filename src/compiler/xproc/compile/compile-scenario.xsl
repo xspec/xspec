@@ -194,59 +194,19 @@
                   <!-- Additional error checking -->
                   <xsl:sequence select="local:p-input-error-checking($call, $this-scenario)"/>
 
-                  <xsl:variable name="invocation-type" as="xs:string">call-step</xsl:variable>
-
                   <!-- Enter SUT -->
-                  <xsl:choose>
-                     <!-- TODO: After confirming that external transformation doesn't apply to
-                        XProc, remove the commented-out xsl:when and xsl:otherwise, and elevate
-                        the remaining xsl:when
-
-                     <xsl:when test="$is-external">
-                        <!-/- Set up the $impl:transform-options variable -/->
-                        <xsl:call-template name="x:transform-options">
-                           <xsl:with-param name="invocation-type" select="$invocation-type" />
-                        </xsl:call-template>
-
-                        <!-/- Generate XSLT elements which perform entering SUT -/->
-                        <xsl:variable name="enter-sut" as="element()+">
-                           <xsl:call-template name="x:enter-sut">
-                              <xsl:with-param name="instruction" as="element(xsl:sequence)">
-                                 <sequence
-                                    select="transform(${x:known-UQName('impl:transform-options')})?output" />
-                              </xsl:with-param>
-                           </xsl:call-template>
-                        </xsl:variable>
-
-                        <!-/- Invoke transform() -/->
-                        <xsl:sequence select="$enter-sut" />
-                     </xsl:when>
-                     -->
-
-                     <xsl:when test="$invocation-type eq 'call-step'">
-                        <!-- Create the step call. Don't call x:enter-sut here because the
-                           try/catch structure goes in the XProc test-case step, not XSLT. -->
-                        <sequence>
-                           <!-- The step being called may use namespace prefixes for
-                              parsing the input/option values -->
-                           <xsl:sequence select="x:copy-of-namespaces($call)" />
-                           <xsl:attribute name="select"
-                              select="concat(
-                              x:step-call-text($call),
-                              '(''map-of-outputs'')'
-                              )"/>
-                        </sequence>
-                     </xsl:when>
-
-                     <xsl:otherwise>
-                        <!-- TODO: Adapt to a new error reporting facility (above usages too). -->
-                        <xsl:message terminate="yes">
-                           <xsl:call-template name="x:prefix-diag-message">
-                              <xsl:with-param name="message" select="'cannot happen.'" />
-                           </xsl:call-template>
-                        </xsl:message>
-                     </xsl:otherwise>
-                  </xsl:choose>
+                  <!-- Create the step call. Don't call x:enter-sut here because the
+                     try/catch structure goes in the XProc test-case step, not XSLT. -->
+                  <sequence>
+                     <!-- The step being called may use namespace prefixes for
+                        parsing the input/option values -->
+                     <xsl:sequence select="x:copy-of-namespaces($call)" />
+                     <xsl:attribute name="select"
+                        select="concat(
+                        x:step-call-text($call),
+                        '(''map-of-outputs'')'
+                        )"/>
+                  </sequence>
                </variable>
 
                <xsl:call-template name="x:call-report-sequence">
