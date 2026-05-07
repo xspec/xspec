@@ -82,7 +82,7 @@
     </xsl:template>
     <xsl:template match="p:input | p:output" mode="local:gather-steps">
         <xsl:copy>
-            <xsl:sequence select="@port | @use-when"/>
+            <xsl:sequence select="@port | @use-when | @sequence"/>
             <xsl:if test="exists(self::p:input/*) or exists(self::p:input/@href)">
                 <xsl:attribute name="x:has-default-input" select="'true'"/>    
             </xsl:if>

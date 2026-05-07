@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc" 
     xmlns:s="x-urn:test:xproc:inputs-options-outputs"
     name="inputs-options-outputs" type="s:inputs-options-outputs" version="3.1">
     <p:input port="in1" primary="true"/>
     <p:input port="in2"/>
     <p:input port="in3"/>
+    <p:input port="in4" sequence="true"/>
     <p:output port="out1" pipe="@identity-in1" primary="true"/>
     <p:output port="out2" pipe="@identity-in2"/>
     <p:option name="s:opt1"/>
