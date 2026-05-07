@@ -539,8 +539,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html"
 }
 
 @test "XProc 1 harness for Saxon (XQuery)" {
@@ -564,8 +563,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html"
 
     # Run again (ndw/xmlcalabash1#322)
     java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
@@ -616,8 +614,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html"
 
     # Verify that inline CSS uses > instead of &gt;
     myrun grep -F "> h2:first-of-type" "${actual_report}"
@@ -646,8 +643,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html"
 
     # Verify that inline CSS uses > instead of &gt;
     myrun grep -F "> h2:first-of-type" "${actual_report}"
@@ -742,8 +738,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html"
 
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -779,8 +774,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html"
 
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -843,8 +837,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html"
 
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
@@ -912,8 +905,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html"
 
     # Verify that inline CSS uses > instead of &gt;
     myrun grep -F "> h2:first-of-type" "${actual_report}"
@@ -1047,8 +1039,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-result.html"
 
     # Verify that inline CSS uses > instead of &gt;
     myrun grep -F "> h2:first-of-type" "${actual_report}"
@@ -1151,8 +1142,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-result.html"
 
     # Verify that inline CSS uses > instead of &gt;
     myrun grep -F "> h2:first-of-type" "${actual_report}"
