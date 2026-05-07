@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc" 
     xmlns:s="x-urn:test:xproc:inputs-options-outputs"
     name="inputs-options-outputs" type="s:inputs-options-outputs" version="3.1">
