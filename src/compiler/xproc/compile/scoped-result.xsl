@@ -47,6 +47,7 @@
     </xsl:function>
 
     <xsl:template name="define-impl-test-items" as="element(xsl:variable)">
+        <xsl:context-item use="absent" />
         <variable name="{x:known-UQName('impl:test-items')}" as="item()*">
             <!-- Don't wrap $x:result. If a port produces multiple document nodes, wrapping them
                 would merge their contents, which would interfere with verifying the documents. -->

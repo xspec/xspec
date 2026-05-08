@@ -35,6 +35,7 @@
 	</template>
 	
 	<xsl:template name="customize-preprocessed-schema" as="element(xsl:variable)+">
+		<xsl:context-item use="absent"/>
 		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
 				map {
 					'selected': $selected,
@@ -63,6 +64,7 @@
 				'process-prolog'[$x:schematron-preprocessor?name eq 'skeleton'],
 				'schxslt2-does-not-use-this-template'[$x:schematron-preprocessor?name eq 'schxslt2']
 			}" as="element(xsl:variable)+">
+		<xsl:context-item use="absent"/>
 		<xsl:param as="element(sch:schema)" name="schema" required="yes"
 			use-when="$x:schematron-preprocessor?name eq 'schxslt'" />
 

@@ -22,6 +22,7 @@
     </xsl:template>
 
     <xsl:template name="declare-ports" as="node()+">
+        <xsl:context-item use="absent"/>
         <xsl:comment>Declare ports</xsl:comment>
         <p:input port="xspec"/>
         <p:output port="result" primary="true"/>
@@ -29,6 +30,7 @@
     </xsl:template>
 
     <xsl:template name="declare-harness-step" as="node()+">
+        <xsl:context-item use="absent"/>
         <xsl:comment>substep to run a test suite whose XProc step functions are in scope</xsl:comment>
         <xsl:variable name="harness-library" select="
                 if ($xspec-home != '') then
@@ -95,6 +97,7 @@
     </xsl:template>
 
     <xsl:template name="execute-harness-step" as="node()+">
+        <xsl:context-item use="absent"/>
         <xsl:comment>run the test suite</xsl:comment>
         <x:xproc-compile-run-format name="run-test-suite">
             <p:with-option name="xspec-home">

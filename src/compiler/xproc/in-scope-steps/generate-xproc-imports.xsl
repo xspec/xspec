@@ -36,6 +36,7 @@
     </xsl:template>
 
     <xsl:template name="declare-step-runner" as="element(p:declare-step)">
+        <xsl:context-item use="absent"/>
         <xsl:sequence select="doc(resolve-uri('../../../common/step-runner.xpl'))/*"/>
     </xsl:template>
 
@@ -61,6 +62,7 @@
     </xsl:template>
 
     <xsl:template name="import-function-wrappers" as="element(p:import)">
+        <xsl:context-item use="absent"/>
         <xsl:variable name="resolved-uri" select="
                 resolve-uri('../wrap-standard-functions/wrap-standard-functions.xpl')"
             as="xs:anyURI"/>
