@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
-   xmlns:xt="x-urn:test:xproc:check-options" version="3.1">
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:xt="x-urn:test:xproc:check-options"
+   version="3.1">
 
    <p:documentation>
       <p>This pipeline verifies effects of options in the XProc pipelines for XSpec.</p>
@@ -12,12 +12,14 @@
 
    <!-- Run test cases and collect results -->
    <p:xslt name="run-collect">
-      <p:with-input port="source"><dummy/></p:with-input>
+      <p:with-input port="source">
+         <dummy/>
+      </p:with-input>
       <p:with-input port="stylesheet">
          <p:inline>
             <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:xt="x-urn:test:xproc:check-options" exclude-result-prefixes="#all">
-               <xsl:template match="/">
+               <xsl:template match="/" as="element(messages)">
                   <messages>
                      <!-- Each test case is an XProc step. Call each one as an XPath function.
                         https://docs.xmlcalabash.com/userguide/current/pipelineception.html -->

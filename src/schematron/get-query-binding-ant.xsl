@@ -18,8 +18,8 @@
         <xsl:choose>
             <xsl:when test="exists(/*/@schematron)">
                 <xsl:variable name="queryLanguage" select="
-                    doc(resolve-uri(/*/@schematron, base-uri(/*)))/sch:schema/@queryBinding
-                    ! replace(., '[0-9]+', '')"/>
+                        doc(resolve-uri(/*/@schematron, base-uri(/*)))/sch:schema/@queryBinding
+                        ! replace(., '[0-9]+', '')" as="xs:string?"/>
                 <xspec>
                     <schematron>
                         <querylanguage>

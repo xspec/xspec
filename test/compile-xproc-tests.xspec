@@ -40,8 +40,7 @@
                             namespace="http://www.jenitennison.com/xslt/xspec">
                   <xsl:text>my scenario label</xsl:text>
                </xsl:element>
-               <xsl:element name="input-wrap"
-                  namespace="">...</xsl:element>
+               <xsl:element name="input-wrap" namespace="">...</xsl:element>
             </xsl:element>
          </xsl:template>
       </t:expect>
@@ -60,12 +59,17 @@
          <t:label>The compiler produces the x:result variable. It defines input and option values,
             defines the test-case step for this x:call, and uses the final xsl:sequence to call the
             step runner.</t:label>
-            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result"
-               as="item()*">
-               <xsl:variable name="..." select="(1) => Q{{urn:x-xspec:common:wrap}}wrap-each()"><!--source input--></xsl:variable>
-               <xsl:variable name="..." select="(2) => Q{{urn:x-xspec:common:wrap}}wrap-each()"><!--aux input--></xsl:variable>
-               <xsl:variable name="..." select="1"><!--ex:option1 option--></xsl:variable>
-               <xsl:variable name="..." select="..."><!--ex:option2 option--></xsl:variable>
+            <xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}result" as="item()*">
+               <xsl:variable name="..." select="(1) => Q{{urn:x-xspec:common:wrap}}wrap-each()"
+                  as="xs:integer"><!--source input--></xsl:variable>
+               <xsl:variable name="..." select="(2) => Q{{urn:x-xspec:common:wrap}}wrap-each()"
+                  as="xs:integer"><!--aux input--></xsl:variable>
+               <xsl:variable name="..." select="1" as="xs:integer">
+                  <!--ex:option1 option-->
+               </xsl:variable>
+               <xsl:variable name="..." select="..." as="map(xs:string, xs:integer)">
+                  <!--ex:option2 option-->
+               </xsl:variable>
                <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-case-step-based-on-x-call"
                   as="element()" expand-text="no">
                   <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"

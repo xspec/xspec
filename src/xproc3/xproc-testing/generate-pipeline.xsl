@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0" xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="3.0" xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:param name="xspec-home" as="xs:string?"/>
     <xsl:param name="force-focus" as="xs:string?"/>
@@ -29,11 +30,11 @@
 
     <xsl:template name="declare-harness-step" as="node()+">
         <xsl:comment>substep to run a test suite whose XProc step functions are in scope</xsl:comment>
-        <xsl:variable name="harness-library"
-            select="if ($xspec-home != '') then
-            resolve-uri('src/xproc3/harness-lib.xpl', $xspec-home)
-            else
-            'http://www.jenitennison.com/xslt/xspec/xproc/lib'"/>
+        <xsl:variable name="harness-library" select="
+                if ($xspec-home != '') then
+                    'src/xproc3/harness-lib.xpl' => resolve-uri($xspec-home) => string()
+                else
+                    'http://www.jenitennison.com/xslt/xspec/xproc/lib'" as="xs:string"/>
 
         <p:declare-step name="xproc-compile-run-format" type="x:xproc-compile-run-format">
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
@@ -47,17 +48,10 @@
                 'encoding':'UTF-8',
                 'include-content-type':true(),
                 'omit-xml-declaration':false()
-                }}"
-                primary="true"
-                pipe="result@format-report" />
-            <p:output port="junit"
-                content-types="xml"
-                serialization="map{{
+                }}" primary="true" pipe="result@format-report"/>
+            <p:output port="junit" content-types="xml" serialization="map{{
                 'method':'xml'
-                }}"
-                primary="false"
-                sequence="true"
-                pipe="result@junit-report"/>
+                }}" primary="false" sequence="true" pipe="result@junit-report"/>
 
             <p:option name="xspec-home" as="xs:string?"/>
             <p:option name="force-focus" as="xs:string?" select="'{$force-focus}'"/>
@@ -94,8 +88,8 @@
             <xsl:comment>produce the JUnit report if requested</xsl:comment>
             <x:maybe-format-junit-report name="junit-report" p:depends="format-report">
                 <p:with-input port="source" pipe="result@run"/>
-                <p:with-option name="xspec-home" select="$xspec-home" />
-                <p:with-option name="junit-enabled" select="$junit-enabled" />
+                <p:with-option name="xspec-home" select="$xspec-home"/>
+                <p:with-option name="junit-enabled" select="$junit-enabled"/>
             </x:maybe-format-junit-report>
         </p:declare-step>
     </xsl:template>
@@ -104,8 +98,11 @@
         <xsl:comment>run the test suite</xsl:comment>
         <x:xproc-compile-run-format name="run-test-suite">
             <p:with-option name="xspec-home">
-                <xsl:attribute name="select"
-                    select="if (exists($xspec-home)) then x:quote-with-apos($xspec-home) else '()'"/>
+                <xsl:attribute name="select" select="
+                        if (exists($xspec-home)) then
+                            x:quote-with-apos($xspec-home)
+                        else
+                            '()'"/>
             </p:with-option>
         </x:xproc-compile-run-format>
     </xsl:template>

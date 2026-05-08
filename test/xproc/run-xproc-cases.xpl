@@ -67,7 +67,7 @@
                                     xmlns:h="http://www.w3.org/1999/xhtml"
                                     exclude-result-prefixes="#all">
                                     <xsl:mode on-no-match="shallow-skip"/>
-                                    <xsl:template match="/">
+                                    <xsl:template match="/" as="element(message)?">
                                         <!-- $failure-text should be 'failed:&#160;' followed by the number of failures -->
                                         <xsl:variable name="failure-text" as="xs:string"
                                             select="exactly-one(descendant::h:th[contains-token(@class, 'emphasis')])/string()"/>

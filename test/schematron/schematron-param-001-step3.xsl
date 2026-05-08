@@ -20,13 +20,13 @@
 	<xsl:include href="../../src/common/namespace-vars.xsl" />
 	<xsl:include href="../../src/common/uqname-utils.xsl" />
 
-	<xsl:param name="selected" required="yes" />
-	<xsl:param name="escape1" required="yes" />
-	<xsl:param name="escape2" required="yes" />
-	<xsl:param name="escape3" required="yes" />
-	<xsl:param name="escape4" required="yes" />
-	<xsl:param name="foo:selected" required="yes" />
-	<xsl:param name="href-selected" required="yes" />
+	<xsl:param name="selected" as="xs:string" required="yes" />
+	<xsl:param name="escape1" as="xs:string" required="yes" />
+	<xsl:param name="escape2" as="xs:string" required="yes" />
+	<xsl:param name="escape3" as="xs:string" required="yes" />
+	<xsl:param name="escape4" as="xs:string" required="yes" />
+	<xsl:param name="foo:selected" as="attribute(Q{qux}quux)" required="yes" />
+	<xsl:param name="href-selected" as="comment()" required="yes" />
 
 
 	<template match="sch:schema/sch:let[@name = 'schxslt2-customization-signal']" as="element()+"
@@ -34,7 +34,7 @@
 		<call-template name="customize-preprocessed-schema"/>
 	</template>
 	
-	<xsl:template name="customize-preprocessed-schema">
+	<xsl:template name="customize-preprocessed-schema" as="element(xsl:variable)+">
 		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
 				map {
 					'selected': $selected,
@@ -56,7 +56,7 @@
 			</xsl:element>
 		</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template _name="
 			{
 				'schxslt-api:validation-stylesheet-body-top-hook'[$x:schematron-preprocessor?name eq 'schxslt'],

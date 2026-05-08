@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
-            xmlns:c="http://www.w3.org/ns/xproc-step"
-            xmlns:h="http://www.w3.org/1999/xhtml"
-            xmlns:x="http://www.jenitennison.com/xslt/xspec"
-            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="run-tests-with-basex"
-            type="x:run-tests-with-basex"
-            version="3.1">
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step"
+   xmlns:h="http://www.w3.org/1999/xhtml" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:map="http://www.w3.org/2005/xpath-functions/map" name="run-tests-with-basex"
+   type="x:run-tests-with-basex" version="3.1">
 
    <p:documentation>
       <p>This pipeline executes all .xspec files in the test/xqs directory.</p>
-      <p>NOTE: This pipeline depends on the BaseX extension to XML Calabash 3 (v3.0.14 or later).</p>
+      <p>NOTE: This pipeline depends on the BaseX extension to XML Calabash 3 (v3.0.14 or
+         later).</p>
       <p><b>Input ports:</b> None.</p>
       <p><b>Output ports:</b> None. This pipeline raises an error if any tests fail.</p>
       <p>'xspec-home' option: Directory of XSpec. Default: Root of this XSpec installation.</p>
@@ -45,7 +42,8 @@
          <p:choose>
             <p:when test="$test-type eq 'schematron'">
                <!-- Test for Schematron schema with XQuery language binding -->
-               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for Schematron) ---"/>
+               <p:identity
+                  message="&#10;--- Case #{ $idx }: { $test-filename } (test for Schematron) ---"/>
                <x:run-schematron-xqs>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
@@ -55,7 +53,8 @@
             </p:when>
             <p:when test="$test-type eq 'xproc'">
                <!-- Test for XProc -->
-               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for XProc) ---"/>
+               <p:identity
+                  message="&#10;--- Case #{ $idx }: { $test-filename } (test for XProc) ---"/>
                <x:run-xproc>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
@@ -63,7 +62,8 @@
             </p:when>
             <p:otherwise>
                <!-- Test for XQuery -->
-               <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } (test for XQuery) ---"/>
+               <p:identity
+                  message="&#10;--- Case #{ $idx }: { $test-filename } (test for XQuery) ---"/>
                <x:run-xquery>
                   <p:with-input pipe="result@test-file"/>
                   <p:with-option name="xspec-home" select="$xspec-home-to-use"/>
@@ -75,13 +75,12 @@
          <p:xslt name="check-html-report">
             <p:with-input port="stylesheet">
                <p:inline>
-                  <xsl:stylesheet version="3.0"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  <xsl:stylesheet version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
                      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                      xmlns:h="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
                      <xsl:param name="test-type" as="xs:string" required="yes"/>
                      <xsl:mode on-no-match="shallow-skip"/>
-                     <xsl:template match="/">
+                     <xsl:template match="/" as="element(message)*">
                         <!-- $failure-text should be 'failed:&#160;' followed by the number of failures -->
                         <xsl:variable name="failure-text" as="xs:string"
                            select="exactly-one(descendant::h:th[contains-token(@class, 'emphasis')])/string()"/>
@@ -96,7 +95,9 @@
                         <xsl:if test="($test-type eq 'schematron') and
                            empty(//h:body/h:p/text()[.='Schematron: '])">
                            <message>
-                              <xsl:value-of select="concat($xspec-file, ' report header does not indicate schema')"/>
+                              <xsl:value-of
+                                 select="concat($xspec-file, ' report header does not indicate schema')"
+                              />
                            </message>
                         </xsl:if>
                      </xsl:template>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-    xmlns:wrap="urn:x-xspec:common:wrap"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
+    xmlns:wrap="urn:x-xspec:common:wrap" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    exclude-result-prefixes="#all" version="3.0">
 
-    <xsl:template match="x:expect" mode="scope-result-variable">
+    <xsl:template match="x:expect" mode="scope-result-variable" as="element()*">
         <xsl:param name="reason-for-pending" as="xs:string?" required="yes"/>
-        <xsl:variable name="scoped-port" select="@port"/>
+        <xsl:variable name="scoped-port" select="@port" as="attribute(port)?"/>
         <xsl:if test="@port and empty($reason-for-pending)">
             <if test="empty(${x:known-UQName('x:result')}?ports)">
                 <!-- No data from output ports, probably due to caught error. Raising an error
@@ -16,7 +16,7 @@
                         <xsl:with-param
                             name="message">No results to select using @port attribute.</xsl:with-param>
                     </xsl:call-template>
-                </message>                
+                </message>
             </if>
             <if test="not('{$scoped-port}' = map:keys(${x:known-UQName('x:result')}?ports))"
                 xmlns:map="http://www.w3.org/2005/xpath-functions/map">
@@ -50,7 +50,7 @@
         <variable name="{x:known-UQName('impl:test-items')}" as="item()*">
             <!-- Don't wrap $x:result. If a port produces multiple document nodes, wrapping them
                 would merge their contents, which would interfere with verifying the documents. -->
-            <sequence select="${x:known-UQName('x:result')}" />
+            <sequence select="${x:known-UQName('x:result')}"/>
         </variable>
     </xsl:template>
 </xsl:stylesheet>

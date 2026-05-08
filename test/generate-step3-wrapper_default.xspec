@@ -11,6 +11,7 @@
 				- SchXslt metadata generation in SVRL should be disabled.
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+				xmlns:xs="http://www.w3.org/2001/XMLSchema"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:import href="{$x:schematron-preprocessor?stylesheets?3 treat as xs:anyURI}" />
 				<xsl:variable name="..." as="document-node()">
@@ -19,14 +20,14 @@
 					</xsl:document>
 				</xsl:variable>
 				<xsl:variable name="Q{{http://www.jenitennison.com/xslt/xspec}}xspec-uri"
-					as="Q{{http://www.w3.org/2001/XMLSchema}}anyURI"
-					select="..." />
+					as="Q{{http://www.w3.org/2001/XMLSchema}}anyURI" select="..." />
 				<xsl:variable name="..." as="document-node()">
 					<xsl:document>
 						<xsl:text>PhaseA</xsl:text>
 					</xsl:document>
 				</xsl:variable>
-				<xsl:param name="Q{{http://dmaus.name/ns/2023/schxslt}}phase" select="..." />
+				<xsl:param name="Q{{http://dmaus.name/ns/2023/schxslt}}phase" select="..."
+				   as="xs:string" />
 				<xsl:param as="Q{{http://www.w3.org/2001/XMLSchema}}boolean"
 					name="Q{{}}schxslt.compile.metadata" select="false()" />
 			</xsl:stylesheet>
