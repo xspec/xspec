@@ -42,6 +42,14 @@
                 href="schematron/schut-to-xspec-for-xqs-phase-string-out.xspec"
                 select="helper:expect(.)" />
         </x:scenario>
+
+        <x:scenario label="with prefixed type in @as">
+            <!-- Modeled on schut-to-xspec-for-xqs-phase-text-in.xspec but adds x:param/@as -->
+            <x:context href="schematron/schut-to-xspec-for-xqs-phase-prefixed-as-in.xspec"/>
+            <x:expect label="defines x:variable for phase, converting @as to use UQNames"
+                href="schematron/schut-to-xspec-for-xqs-phase-prefixed-as-out.xspec"
+                select="helper:expect(.)" />
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="namespaces defined in Schematron">
