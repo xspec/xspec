@@ -10,6 +10,7 @@
       <input-wrap xmlns="">
          <x:context xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     href="../../../../../tutorial/schematron/demo-02.xml"/>
       </input-wrap>
       <result select="/element()">
@@ -64,6 +65,7 @@
          <expect-test-wrap xmlns="">
             <x:expect xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, @ruleId, @patternId, @groupId)[1] = 't2-1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
          </expect-test-wrap>
          <expect select="()"/>
@@ -73,6 +75,7 @@
          <expect-test-wrap xmlns="">
             <x:expect xmlns:schxslt="http://dmaus.name/ns/2023/schxslt"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, @ruleId, @patternId, @groupId)[1] = 't1-1'])"/>
          </expect-test-wrap>
          <expect select="()"/>
