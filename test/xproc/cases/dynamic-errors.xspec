@@ -4,7 +4,7 @@
     xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:map="http://www.w3.org/2005/xpath-functions/map" 
     xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="4.0" xproc="library-dynamic-errors.xpl">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xproc="library-dynamic-errors.xpl">
 
     <x:scenario label="call-error" shared="yes">
         <x:call step="s:p-error">

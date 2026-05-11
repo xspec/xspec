@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
     xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    version="4.0" xproc="../library-mirror.xpl">
+    xproc="../library-mirror.xpl">
 
     <x:scenario label="Imported scenario in subdirectory, p:document/@href AVT expression,">
         <x:scenario label="and directory adjustment in x:scenario/@xml:base" xml:base="../">

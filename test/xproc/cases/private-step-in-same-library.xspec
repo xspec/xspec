@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" version="4.0"
-    xproc="library-with-private-step.xpl">
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-with-private-step.xpl">
     <x:scenario label="Specifying an option that also exists in a private step">
         <x:scenario label="where the public step calls the private one">
             <x:call step="s:public-step-that-calls-private-step">
