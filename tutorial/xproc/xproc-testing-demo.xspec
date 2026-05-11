@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
   xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:p="http://www.w3.org/ns/xproc"
-  xmlns:x="http://www.jenitennison.com/xslt/xspec" version="4.0" xproc="demo.xpl">
+  xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="demo.xpl">
 
   <x:scenario>
     <x:label>Executing eg:demo with a source document, a document having @xml:id, and a wrapper
