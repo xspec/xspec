@@ -87,6 +87,24 @@
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
+   <!-- Evaluation of p:document/@href in XProc might require base URI, so record it in xml:base
+      in addition to copying @href. -->
+   <xsl:template
+      match="p:document/@href"
+      as="attribute()+"
+      mode="x:gather-specs">
+      <xsl:attribute name="base" namespace="http://www.w3.org/XML/1998/namespace"
+         select="x:base-uri(..)" />
+      <xsl:copy/>
+   </xsl:template>
+
+   <!-- If original p:document has xml:base attribute, it was already accounted for in
+      template rule for p:document/@href. Use empty template rule to avoid copying
+      @xml:base value based on xsl:mode/@on-no-match. -->
+   <xsl:template match="p:document/@xml:base"
+      as="empty-sequence()"
+      mode="x:gather-specs"/>
+
    <xsl:template match="@as | @function | @mode | @name | @port | @template" as="attribute()"
       mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />

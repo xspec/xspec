@@ -7,13 +7,15 @@
             <x:input port="in1">in1 document</x:input>
             <x:input port="in2" xmlns:cx="http://xmlcalabash.com/ns/extensions">
                 <p:document href="path/to/data.json" parameters="map{'cx:extension': true()}"
-                    cx:another-extension="{'x'}"/>
-                <p:document href="path/to/text.txt" document-properties="map{'a': '}}{false()}{{'}">
+                    cx:another-extension="{'x'}" xml:base=".../inputs-options-outputs.xspec"/>
+                <p:document href="path/to/text.txt" document-properties="map{'a': '}}{false()}{{'}"
+                    xml:base=".../some-dir/">
                     <p:pipeinfo><element attr="{'arbitrary'}">Text</element></p:pipeinfo>
                     <p:documentation><element attr="arbitrary">Text</element></p:documentation>
                 </p:document>
             </x:input>
             <x:input port="in3" href="path/to/data.xml"/>
+            <!-- Omit x:input element for port "in4" -->
         </x:call>
         <x:expect label="Verify out1" port="out1">in1 document</x:expect>
         <x:expect label="Verify out2" port="out2">in2 document</x:expect>

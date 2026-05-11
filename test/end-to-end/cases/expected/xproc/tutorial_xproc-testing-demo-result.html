@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for demo.xpl (passed: 4 / pending: 0 / failed: 1 / total: 5)</title>
+      <title>Test Report for demo.xpl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-colors-blackwhite.css" />
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report-base.css" />
    </head>
@@ -23,26 +23,26 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 4</th>
+               <th class="totals">passed: 2</th>
                <th class="totals">pending: 0</th>
                <th class="totals emphasis">failed: 1</th>
-               <th class="totals">total: 5</th>
+               <th class="totals">total: 3</th>
             </tr>
          </thead>
          <tbody>
             <tr class="failed">
                <th><a href="#top_scenario1">Executing eg:demo with a source document, a document having @xml:id, and a wrapper
                      element name</a></th>
-               <th class="totals">4</th>
+               <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
-               <th class="totals">5</th>
+               <th class="totals">3</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
          <h2 class="failed">Executing eg:demo with a source document, a document having @xml:id, and a wrapper
-            element name<span class="scenario-totals">passed: 4 / pending: 0 / failed: 1 / total: 5</span></h2>
+            element name<span class="scenario-totals">passed: 2 / pending: 0 / failed: 1 / total: 3</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -52,7 +52,7 @@
                <tr class="failed">
                   <th>Executing eg:demo with a source document, a document having @xml:id, and a wrapper
                      element name</th>
-                  <th>passed: 4 / pending: 0 / failed: 1 / total: 5</th>
+                  <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
                   <td>returns the document, wrapped and having the specified ID.</td>
@@ -65,14 +65,6 @@
                <tr class="failed">
                   <td><a href="#scenario1-expect3">and an incorrect expected result appears in the HTML report.</a></td>
                   <td>Failure</td>
-               </tr>
-               <tr class="successful">
-                  <td>With embedded nodes and no @test, select='/' is optional (XProc only).</td>
-                  <td>Success</td>
-               </tr>
-               <tr class="successful">
-                  <td>For access to all output ports, omit x:expect/@port.</td>
-                  <td>Success</td>
                </tr>
             </tbody>
          </table>
@@ -93,14 +85,12 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">doc</span> <span class="xmlns">xmlns:eg="x-urn:tutorial:xproc:xproc-demo"</span>
-     <span class="xmlns">xmlns:map="http://www.w3.org/2005/xpath-functions/map"</span>
-     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">Sample document</span>&lt;/doc&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">doc</span>&gt;<span class="diff">Sample document</span>&lt;/doc&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
                            <pre>&lt;<span class="inner-diff">doc</span> <span class="xmlns">xmlns:eg="x-urn:tutorial:xproc:xproc-demo"</span>
-     <span class="xmlns">xmlns:map="http://www.w3.org/2005/xpath-functions/map"</span>
+     <span class="xmlns">xmlns:p="http://www.w3.org/ns/xproc"</span>
      <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">Other document</span>&lt;/doc&gt;</pre>
                         </td>
                      </tr>

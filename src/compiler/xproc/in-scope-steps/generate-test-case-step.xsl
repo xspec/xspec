@@ -58,6 +58,7 @@
             select="x:resolve-EQName-ignoring-default-ns($call/@step, $call)"/>
         <xsl:element name="{$step-QName}" namespace="{namespace-uri-from-QName($step-QName)}">
             <xsl:attribute name="name">test-target</xsl:attribute>
+            <!-- Generate p:with-input elements corresponding to x:input elements -->
             <xsl:iterate select="$call/x:input">
                 <xsl:choose>
                     <xsl:when test="exists(p:document) and (
@@ -75,8 +76,7 @@
                         </xsl:message>
                     </xsl:when>
                     <xsl:when test="exists(p:document)">
-                        <!-- Pass x:input/p:document, except @xml:base, for evaluation
-                                in XProc. -->
+                        <!-- Pass x:input/p:document for evaluation in XProc. -->
                         <p:with-input port="{@port}">
                             <xsl:sequence select="local:create-p-document(p:document)"/>
                         </p:with-input>
@@ -88,6 +88,22 @@
                         </p:with-input>
                     </xsl:otherwise>
                 </xsl:choose>
+            </xsl:iterate>
+            <!-- Generate p:with-input elements for omitted x:input elements where test target's p:input
+                declaration does not specify any default input. That provides a connection, even though
+                there are no documents on the port. (The p:input element must have sequence="true" or
+                else src/compiler/xproc/compile/compile-scenario.xsl raises an error of this form:
+                Missing x:input for port '...', which requires a document.) -->
+            <xsl:variable name="step-declaration" as="element(p:declare-step)"
+                select="x:step-declaration($call, $parent-scenario)"/>
+            <xsl:variable name="sequence-inputs-without-default" as="element(p:input)*"
+                select="$step-declaration/p:input[not(@x:has-default-input)]"/>
+            <xsl:iterate select="$sequence-inputs-without-default/@port/string()
+                [not(. = $call/x:input/@port/string())]
+                ">
+                <p:with-input port="{.}">
+                    <p:empty/>
+                </p:with-input>                
             </xsl:iterate>
             <xsl:iterate select="$call/x:option">
                 <xsl:variable name="option-UQName" as="xs:string"
@@ -119,8 +135,7 @@
                         </xsl:message>
                     </xsl:when>
                     <xsl:when test="exists(p:document)">
-                        <!-- Pass x:option/p:document, except @xml:base, for evaluation
-                                in XProc. -->
+                        <!-- Pass x:option/p:document for evaluation in XProc. -->
                         <p:with-option name="{$option-name-escaped}" select=".">
                             <xsl:if test="count(p:document) eq 1">
                                 <!-- <p:with-option name="..." select="."> would raise error
@@ -209,16 +224,8 @@
     <xsl:function name="local:create-p-document" as="element(p:document)+">
         <xsl:param name="p-document" as="element(p:document)+"/>
         <xsl:for-each select="$p-document">
-            <xsl:variable name="new-xml-base" as="xs:anyURI" select="
-                if (exists(@xml:base))
-                then
-                resolve-uri(@xml:base, $initial-document-actual-uri)
-                else
-                $initial-document-actual-uri"
-            />
             <xsl:copy copy-namespaces="yes">
-                <xsl:attribute name="xml:base" select="$new-xml-base"/>
-                <xsl:apply-templates select="@* except (@xml:base, @port, @name, @as)"
+                <xsl:apply-templates select="@* except (@port, @name, @as)"
                     mode="in-p-document"/>
                 <xsl:apply-templates mode="in-p-document"/>
             </xsl:copy>

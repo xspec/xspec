@@ -50,6 +50,7 @@
    </xsl:template>
 
    <xsl:template name="x:report-xspec-version" as="empty-sequence()">
+      <xsl:context-item use="absent"/>
       <xsl:message>XSpec v<xsl:value-of select="$x:xspec-version"/></xsl:message>
    </xsl:template>
 </xsl:stylesheet>

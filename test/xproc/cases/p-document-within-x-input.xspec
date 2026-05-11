@@ -3,6 +3,8 @@
     xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="library-mirror.xpl">
 
+    <x:import href="import-in-subdir/p-document-href-avt.xspec"/>
+
     <x:scenario label="x:input with child p:document elements">
         <x:call step="mirror:identity">
             <x:input port="source">
@@ -118,7 +120,7 @@
                     <p:document href="../document.xml" xml:base="subdir/"/>
                 </x:input>
             </x:call>
-            <x:expect label="is resolved with respect to $x:xspec-uri" port="xproc-result">
+            <x:expect label="is resolved with respect to p:document element's base URI" port="xproc-result">
                 <document/>
                 <document/>
             </x:expect>
