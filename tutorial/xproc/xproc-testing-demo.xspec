@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< simplify-xproc-tutorial
 <x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo" xmlns:p="http://www.w3.org/ns/xproc"
+=======
+<x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
+  xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:p="http://www.w3.org/ns/xproc"
+>>>>>>> main
   xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="demo.xpl">
 
   <x:scenario>
