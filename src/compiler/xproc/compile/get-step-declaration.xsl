@@ -13,14 +13,15 @@
             <p:library>
                 <xsl:apply-templates select="$xproc-doc" mode="local:gather-steps">
                     <xsl:with-param name="import-stack" tunnel="yes" select="$xproc-doc-uri"/>
-                </xsl:apply-templates>        
+                </xsl:apply-templates>
             </p:library>
         </xsl:document>
     </xsl:variable>
 
     <!-- Keys -->
     <xsl:key name="step-declarations" match="p:declare-step[@type]" use="string(@type)"/>
-    <xsl:key name="static-library-options" match="p:library/p:option" use="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
+    <xsl:key name="static-library-options" match="p:library/p:option"
+        use="x:UQName-from-EQName-ignoring-default-ns(@name, .)"/>
 
     <!-- Functions -->
     <xsl:function name="x:step-declaration" as="element(p:declare-step)">
@@ -66,13 +67,15 @@
             <xsl:with-param name="import-stack" tunnel="yes" select="$import-stack"/>
         </xsl:apply-templates>
     </xsl:template>
-    <xsl:template match="/p:library" mode="local:gather-steps">
+    <xsl:template match="/p:library" mode="local:gather-steps" as="element()*">
         <xsl:apply-templates select="(p:option, p:declare-step[@type], p:import)" mode="#current"/>
     </xsl:template>
-    <xsl:template match="p:declare-step[@visibility eq 'private']" mode="local:gather-steps">
+    <xsl:template match="p:declare-step[@visibility eq 'private']" mode="local:gather-steps"
+        as="empty-sequence()">
         <!-- Skip private steps -->
     </xsl:template>
-    <xsl:template match="p:declare-step[not(@visibility eq 'private')]" mode="local:gather-steps">
+    <xsl:template match="p:declare-step[not(@visibility eq 'private')]" mode="local:gather-steps"
+        as="element()+">
         <xsl:copy>
             <xsl:attribute name="type" select="x:UQName-of-step(./@type)"/>
             <xsl:sequence select="@use-when"/>
@@ -80,20 +83,20 @@
         </xsl:copy>
         <xsl:apply-templates select="p:import" mode="#current"/>
     </xsl:template>
-    <xsl:template match="p:input | p:output" mode="local:gather-steps">
+    <xsl:template match="p:input | p:output" mode="local:gather-steps" as="element()">
         <xsl:copy>
             <xsl:sequence select="@port | @use-when | @sequence"/>
             <xsl:if test="exists(self::p:input/*) or exists(self::p:input/@href)">
-                <xsl:attribute name="x:has-default-input" select="'true'"/>    
+                <xsl:attribute name="x:has-default-input" select="'true'"/>
             </xsl:if>
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="p:option" mode="local:gather-steps">
+    <xsl:template match="p:option" mode="local:gather-steps" as="element()">
         <xsl:copy>
             <xsl:sequence select="@name | @static"/>
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="p:import[@href]" mode="local:gather-steps">
+    <xsl:template match="p:import[@href]" mode="local:gather-steps" as="element()*">
         <xsl:param name="import-stack" tunnel="yes" required="yes" as="xs:anyURI*"/>
         <!-- We might import the same pipeline multiple times, but non-circular duplication doesn't
             matter for later processing. Alternatively, we could remove duplicates by imitating the

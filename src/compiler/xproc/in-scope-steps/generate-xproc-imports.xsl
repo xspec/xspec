@@ -27,14 +27,16 @@
         <xsl:call-template name="import-function-wrappers"/>
         <xsl:sequence>
             <xsl:on-non-empty>
-                <xsl:comment select="'Import pipelines referenced by @xproc in x:helper, ' ||
-                    'recursively across imported XSpec files'"/>
+                <xsl:comment select="
+                        'Import pipelines referenced by @xproc in x:helper, ' ||
+                        'recursively across imported XSpec files'"/>
             </xsl:on-non-empty>
             <xsl:apply-templates select="x:description" mode="generate-imports"/>
-        </xsl:sequence>       
+        </xsl:sequence>
     </xsl:template>
 
     <xsl:template name="declare-step-runner" as="element(p:declare-step)">
+        <xsl:context-item use="absent"/>
         <xsl:sequence select="doc(resolve-uri('../../../common/step-runner.xpl'))/*"/>
     </xsl:template>
 
@@ -54,14 +56,16 @@
     <xsl:template match="x:description/@xproc | x:helper/@xproc" as="element(p:import)"
         mode="generate-imports">
         <xsl:variable name="resolved-xproc-attribute" as="xs:anyURI">
-            <xsl:apply-templates select="." mode="resolve-xproc-attribute"/>    
+            <xsl:apply-templates select="." mode="resolve-xproc-attribute"/>
         </xsl:variable>
         <p:import href="{$resolved-xproc-attribute}"/>
     </xsl:template>
 
     <xsl:template name="import-function-wrappers" as="element(p:import)">
+        <xsl:context-item use="absent"/>
         <xsl:variable name="resolved-uri" select="
-                resolve-uri('../wrap-standard-functions/wrap-standard-functions.xpl')"/>
+                resolve-uri('../wrap-standard-functions/wrap-standard-functions.xpl')"
+            as="xs:anyURI"/>
         <p:import href="{$resolved-uri}"/>
     </xsl:template>
 </xsl:stylesheet>

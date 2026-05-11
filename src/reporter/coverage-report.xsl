@@ -185,6 +185,7 @@
    <!-- In production, always use the global $coverage-stats variable.
       The template parameter is for unit testing this template. -->
    <xsl:template name="contents-table" as="element(xhtml:table)">
+      <xsl:context-item use="absent"/>
       <xsl:param name="coverage-stats" select="$coverage-stats"
          as="element(module)*"/>
       <table class="xspec">
