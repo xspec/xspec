@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" schematron="schut-to-xspec-test.sch"
+    xquery-version="3.1">
+    <x:param name="phase" as="xs:string">P1</x:param>
+    <x:scenario label="Schematron test scenario">
+        <x:context>
+            <element/>
+        </x:context>
+    </x:scenario>
+</x:description>
