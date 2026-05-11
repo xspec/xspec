@@ -13,7 +13,7 @@
 			test="
 			every $component in $x:result
 			satisfies (($component eq '0') or matches($component, '^[1-9][0-9]*$'))" />
-		<x:expect label="Assume v3" select="'3'" test="$x:result[1]" />
+		<x:expect label="Assume v4" select="'4'" test="$x:result[1]" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable saxon-version">
