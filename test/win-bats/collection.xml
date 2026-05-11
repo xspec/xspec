@@ -696,7 +696,7 @@
         call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT) checking no JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XSLT), checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -jar "%XMLCALABASH3_JAR%" ^
@@ -750,7 +750,7 @@
         call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery) checking no JUnit report">
+	<case ifdef="XMLCALABASH3_JAR" name="XProc 3 harness with Saxon (XQuery), checking no JUnit report">
         rem Save the random value and use it for the files created so they can be checked
         set RANDOM_TEST_VALUE=%RANDOM%
         call :run java -jar "%XMLCALABASH3_JAR%" ^
@@ -1541,7 +1541,7 @@
 
     rem Default xspec.fail is true
     call :verify_retval 1
-    call :verify_line  * x "     [xslt] passed: 4 / pending: 0 / failed: 1 / total: 5"
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3"
     call :verify_line -4 x "BUILD FAILED"
 
     rem Verify default output dir
