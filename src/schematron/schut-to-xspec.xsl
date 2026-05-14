@@ -6,7 +6,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-    <xsl:param name="sch-impl-name" as="xs:string" select="'schxslt'" static="yes"/>
+    <xsl:param name="sch-impl-name" as="xs:string" select="'schxslt2'" static="yes"/>
     <xsl:param name="xqs-home" as="xs:string" select="'../../lib/XQS/'"/>
 
     <!--
@@ -58,7 +58,9 @@
     <xsl:include href="../common/uri-utils.xsl" />
     <xsl:include href="../common/user-content-utils.xsl" />
     <xsl:include href="../common/yes-no-utils.xsl" />
+    <xsl:include href="../compiler/base/declare-variable/sequencetype-with-uqnames.xsl" />
     <xsl:include href="../compiler/base/resolve-import/resolve-import.xsl" />
+    <xsl:include href="../compiler/base/util/compiler-eqname-utils.xsl" />
     <xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
 
     <xsl:output indent="yes" />
@@ -143,7 +145,11 @@
                             <!-- Define $impl:phase variable for use in xqs:validate calling syntax. -->
                             <xsl:element name="{x:xspec-name('variable',.)}" namespace="{namespace-uri()}">
                                 <xsl:attribute name="name" select="x:known-UQName('impl:phase')"/>
-                                <xsl:copy-of select="(@* except @name) | node()"/>
+                                <xsl:if test="exists(@as)">
+                                    <xsl:attribute name="as"
+                                        select="x:lexical-to-UQName-in-sequence-type(., 'as')"/>
+                                </xsl:if>
+                                <xsl:copy-of select="(@* except (@name | @as)) | node()"/>
                             </xsl:element>
                         </xsl:for-each>
                         <xsl:sequence select="$specs[not(self::x:param[@name='phase'])]"/>

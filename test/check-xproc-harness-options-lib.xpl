@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:library xmlns:p="http://www.w3.org/ns/xproc"
-    xmlns:c="http://www.w3.org/ns/xproc-step"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xspec="http://www.jenitennison.com/xslt/xspec"
-    xmlns:xt="x-urn:test:xproc:check-options"
+<p:library xmlns:p="http://www.w3.org/ns/xproc" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xspec="http://www.jenitennison.com/xslt/xspec" xmlns:xt="x-urn:test:xproc:check-options"
     version="3.0">
     <p:import href="../src/xproc3/run-xquery.xpl"/>
     <p:import href="../src/xproc3/run-xslt.xpl"/>
@@ -21,9 +18,9 @@
                 <p:inline>
                     <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                         xmlns:h="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
-                        <xsl:template match="/">
-                            <xsl:if
-                                test="empty(/h:html/h:head/h:link[@rel='stylesheet'][ends-with(@href,'/test-report-colors-whiteblack.css')])">
+                        <xsl:template match="/" as="element(message)?">
+                            <xsl:if test="empty(/h:html/h:head/h:link[@rel='stylesheet']
+                                [ends-with(@href,'/test-report-colors-whiteblack.css')])">
                                 <message>html-report-theme: Did not find test-report-colors-whiteblack.css</message>
                             </xsl:if>
                         </xsl:template>
@@ -46,18 +43,22 @@
         <p:xslt name="verify-force-focus-none">
             <p:with-input port="stylesheet">
                 <p:inline>
-                    <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                        xmlns:h="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
-                        <xsl:param name="expected-pending-value"/>
-                        <xsl:template match="/">
-                            <xsl:if test="empty(descendant::h:thead/h:tr/h:th[. = 'pending:&#160;' || $expected-pending-value])">
+                    <xsl:stylesheet xmlns:h="http://www.w3.org/1999/xhtml"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                        exclude-result-prefixes="#all" version="3.0">
+                        <xsl:param name="expected-pending-value" as="xs:string"/>
+                        <xsl:template match="/" as="element(message)?">
+                            <xsl:if
+                                test="empty(descendant::h:thead/h:tr/h:th[. = 'pending:&#160;' || $expected-pending-value])">
                                 <message>force-focus #none: Did not find 'pending: {$expected-pending-value}'</message>
                             </xsl:if>
                         </xsl:template>
                     </xsl:stylesheet>
                 </p:inline>
             </p:with-input>
-            <p:with-option name="parameters" select="map{'expected-pending-value': $expected-pending-value}"/>
+            <p:with-option name="parameters"
+                select="map{'expected-pending-value': $expected-pending-value}"/>
         </p:xslt>
     </p:declare-step>
 </p:library>

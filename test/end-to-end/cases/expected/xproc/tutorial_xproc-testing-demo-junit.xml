@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="tutorial_xproc-testing-demo.xspec">
    <testsuite name="Executing eg:demo with a source document, a document having @xml:id, and a wrapper&#xA;      element name"
-              tests="5"
+              tests="3"
               failures="1">
       <testcase name="returns the document, wrapped and having the specified ID."
                 status="passed"/>
@@ -11,9 +11,5 @@
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="With embedded nodes and no @test, select='/' is optional (XProc only)."
-                status="passed"/>
-      <testcase name="For access to all output ports, omit x:expect/@port."
-                status="passed"/>
    </testsuite>
 </testsuites>

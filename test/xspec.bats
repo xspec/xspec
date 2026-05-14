@@ -789,7 +789,7 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-junit.xml"
 }
 
-@test "XProc 3 harness with Saxon (XSLT) checking no JUnit report" {
+@test "XProc 3 harness with Saxon (XSLT), checking no JUnit report" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -853,7 +853,7 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
 }
 
-@test "XProc 3 harness with Saxon (XQuery) checking no JUnit report" {
+@test "XProc 3 harness with Saxon (XQuery), checking no JUnit report" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -927,7 +927,7 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
 }
 
-@test "XProc 3 harness with BaseX (XQuery) checking no JUnit report" {
+@test "XProc 3 harness with BaseX (XQuery), checking no JUnit report" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -1062,7 +1062,7 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-junit.xml"
 }
 
-@test "XProc 3 harness with XQS (Schematron) checking no JUnit report" {
+@test "XProc 3 harness with XQS (Schematron), checking no JUnit report" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -1166,7 +1166,7 @@ load bats-helper
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-junit.xml"
 }
 
-@test "XProc 3 harness with XProc checking no JUnit report" {
+@test "XProc 3 harness with XProc, checking no JUnit report" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
@@ -1781,7 +1781,7 @@ load bats-helper
 
     # Default xspec.fail is true
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 4 / pending: 0 / failed: 1 / total: 5'$'\n'
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 1 / total: 3'$'\n'
     [ "${lines[${#lines[@]} - 4]}" = "BUILD FAILED" ]
 
     # Verify default output dir
@@ -1879,7 +1879,7 @@ load bats-helper
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1963,7 +1963,7 @@ load bats-helper
         -Dcatalog.is.uri=true \
         -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -2196,7 +2196,7 @@ load bats-helper
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -2258,7 +2258,7 @@ load bats-helper
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_xproc.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -2340,7 +2340,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -p "${space_dir}/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -2386,7 +2386,7 @@ load bats-helper
 
     myrun ../bin/xspec.sh -p "catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
-    [ "${lines[24]}" = "passed: 4 / pending: 2 / failed: 0 / total: 6" ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #

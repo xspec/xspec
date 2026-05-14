@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    exclude-result-prefixes="#all" version="3.0">
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
 
     <!--
         Transform an XSpec test document as follows:
@@ -14,12 +14,12 @@
     -->
     <xsl:template as="element(xspec)?" match="/">
         <xsl:variable name="schema-uri" as="xs:anyURI*"
-            select="/*/@schematron ! resolve-uri(., base-uri(/*))"/>
+            select="/x:description/@schematron ! resolve-uri(., base-uri(/x:description))"/>
         <xsl:choose>
-            <xsl:when test="exists(/*/@schematron)">
+            <xsl:when test="exists(/x:description/@schematron)">
                 <xsl:variable name="queryLanguage" select="
-                    doc(resolve-uri(/*/@schematron, base-uri(/*)))/sch:schema/@queryBinding
-                    ! replace(., '[0-9]+', '')"/>
+                        doc($schema-uri)/sch:schema/@queryBinding
+                        ! replace(., '[0-9]+', '')" as="xs:string?"/>
                 <xspec>
                     <schematron>
                         <querylanguage>

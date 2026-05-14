@@ -8,6 +8,11 @@
         <x:expect label="the step receives 0 input documents" port="xproc-result"
             test="number($x:result)" select="0"/>
     </x:scenario>
+    <x:scenario label="When x:input is omitted, for a port with sequence=true and no default">
+        <x:call step="s:input-port-sequence-true"/>
+        <x:expect label="the step receives 0 input documents" port="xproc-result"
+            test="number($x:result)" select="0"/>
+    </x:scenario>
     <x:scenario label="When x:input has one child element">
         <x:call step="s:input-port-sequence-true">
             <x:input port="source">

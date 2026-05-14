@@ -290,8 +290,7 @@
       whose declarations were already generated based on x:input elements. -->
    <xsl:template name="input-map-text" as="text()">
       <xsl:context-item as="element(x:call)" use="required"/>
-      <xsl:param name="parent-scenario" as="element(x:scenario)" required="yes">
-      </xsl:param>
+      <xsl:param name="parent-scenario" as="element(x:scenario)" required="yes"/>
 
       <!-- Check for duplicate input ports -->
       <xsl:sequence select="
@@ -457,12 +456,13 @@
          <xsl:variable name="x-input" as="element(x:input)*"
             select="$call/x:input[@port eq string($p-input/@port)]"/>
          <xsl:choose>
-            <xsl:when test="empty($x-input) and empty($p-input/@x:has-default-input)">
+            <xsl:when test="empty($x-input) and empty($p-input/@x:has-default-input) and
+               not($p-input/@sequence eq 'true')">
                <xsl:for-each select="$parent-scenario/x:call">
                   <xsl:message terminate="yes">
                      <xsl:call-template name="x:prefix-diag-message">
                         <xsl:with-param name="message">
-                           <xsl:text expand-text="yes">Missing x:input for port '{ $p-input/@port }', which declares no default.</xsl:text>
+                           <xsl:text expand-text="yes">Missing x:input for port '{ $p-input/@port }', which requires a document.</xsl:text>
                         </xsl:with-param>
                      </xsl:call-template>
                   </xsl:message>

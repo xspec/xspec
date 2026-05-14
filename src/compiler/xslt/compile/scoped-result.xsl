@@ -14,6 +14,7 @@
     </xsl:function>
 
     <xsl:template name="define-impl-test-items" as="node()+">
+        <xsl:context-item use="absent" />
         <xsl:comment> wrap $x:result into a document node if possible </xsl:comment>
         <variable name="{x:known-UQName('impl:test-items')}" as="item()*">
             <choose>
