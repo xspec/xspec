@@ -14,7 +14,7 @@
 	<!--
 		When set, datetime is normalized to this value
 	-->
-	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" static="yes" />
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" />
 
 	<!--
 		Normalizes the title text
@@ -95,15 +95,34 @@
 				out: <p>Tested: 1 January 2000 at 00:00</p>
 	-->
 	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
-		mode="normalizer:normalize" use-when="exists($NORMALIZE-HTML-DATETIME)">
-		<!-- Format in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl -->
-		<xsl:variable as="xs:string" name="now"
-			select="format-dateTime($NORMALIZE-HTML-DATETIME, '[D] [MNn] [Y] at [H01]:[m01]')" />
+		mode="normalizer:normalize">
+		<xsl:variable name="schematron-test-via-XQS" as="xs:boolean"
+			select="boolean(../preceding-sibling::p/@data-schematron-implementation eq 'XQS')"/>
 
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
+		<xsl:analyze-string regex="^(Tested:) (.+)$" select=".">
 			<xsl:matching-substring>
-				<xsl:value-of select="regex-group(1), $now" />
+				<xsl:variable as="xs:string" name="datetime-string-to-use">
+					<xsl:choose>
+						<xsl:when test="exists($NORMALIZE-HTML-DATETIME)">
+							<!-- Use date/time as specified -->
+							<xsl:sequence
+								select="$NORMALIZE-HTML-DATETIME => local:format-like-html-report()"/>
+						</xsl:when>
+						<xsl:when test="$schematron-test-via-XQS">
+							<!-- Tests requiring XQS run with BaseX, so the Saxon -now option
+								does not take effect. -->
+							<xsl:sequence
+								select="'2000-01-01T00:00:00Z' => xs:dateTime() => local:format-like-html-report()"
+							/>
+						</xsl:when>
+						<xsl:otherwise>
+							<!-- No change -->
+							<xsl:sequence select="regex-group(2)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:value-of select="regex-group(1), $datetime-string-to-use" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
@@ -303,6 +322,15 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
+	</xsl:function>
+
+	<!--
+		Formats xs:dateTime in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl
+	-->
+	<xsl:function name="local:format-like-html-report" as="xs:string">
+		<xsl:param name="string" as="xs:dateTime"/>
+		<xsl:sequence
+			select="format-dateTime($string, '[D] [MNn] [Y] at [H01]:[m01]')" />		
 	</xsl:function>
 
 	<!--
