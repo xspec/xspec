@@ -12,10 +12,6 @@
 		This stylesheet module helps normalize the test result XML.
 	-->
 
-    <!-- Always normalize datetime. Note: -now is specific to Saxon and does not work in BaseX --> 
-	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME"
-		select="xs:dateTime('2000-01-01T00:00:00Z')"/>
-
 	<!--
 		Normalizes the link to the files inside the repository
 			Example:
@@ -109,12 +105,10 @@
 	<!--
 		Normalizes x:timestamp
 	-->
-	<xsl:template as="attribute()"
-		match="x:timestamp/@at[. castable as xs:dateTimeStamp] |
-		/x:report/@date[. castable as xs:dateTimeStamp]"
+	<xsl:template as="attribute(at)" match="x:timestamp/@at[. castable as xs:dateTimeStamp]"
 		mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="$NORMALIZE-HTML-DATETIME" />
+			select="/x:report/@date[. castable as xs:dateTimeStamp] => exactly-one()" />
 	</xsl:template>
 
 	<!--
