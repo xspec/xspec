@@ -242,6 +242,15 @@
          <p>
             <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
 
+            <!-- If test used XQS, provide data that tells end-to-end test suite to
+               normalize date/time stamp. Such tests run with BaseX, so the Saxon
+               -now option does not take effect. --> 
+            <xsl:if test="
+                  ($attr-name eq 'schematron') and
+                  exists(/x:report//x:call[@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate'])">
+               <xsl:attribute name="data-schematron-implementation" select="'XQS'"/>
+            </xsl:if>
+
             <xsl:value-of select="$label($attr-name)"/>
 
             <!-- @query is a namespace. The others are URI of file -->
