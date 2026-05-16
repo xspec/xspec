@@ -118,7 +118,7 @@
 	<xsl:template as="attribute(date)" match="
 		/x:report
 			[@schematron]
-			[descendant::x:call/@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate']
+			[descendant::x:call[@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate']]
 			/@date" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="xs:dateTime('2000-01-01T00:00:00Z')" />
