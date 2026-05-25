@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-force-focus.xpl"
+    xml:base="../xproc/harness-cases/">
+
+    <x:import href="force-focus_import.xspec"/>
+    <x:scenario label="Running XSpec test for Schematron via XQS">
+        <x:call step="s:schematron-xqs-varying-force-focus"/>
+        <x:like label="Check force-focus set to #none and a scenario identifier"/>
+    </x:scenario>
+
+</x:description>
