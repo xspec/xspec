@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:s="x-urn:test:xproc:steplibrary"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-inline-css.xpl"
-    xml:base="../xproc/cases/">
+    xml:base="../xproc/harness-cases/">
 
     <x:import href="report-css_import.xspec"/>
-    <x:scenario label="Running XSpec test for XSLT">
+    <x:scenario label="Running XSpec test for Schematron via XQS">
         <x:call step="s:schematron-xqs-varying-inline-css"/>
         <x:like label="Check inline-css true and false"/>
     </x:scenario>
