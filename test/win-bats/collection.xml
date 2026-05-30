@@ -1351,8 +1351,8 @@
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
     call :verify_retval 0
-    call :verify_line_count 3
-    call :verify_line 3 r "..*:passed: 128 / pending: 0 / failed: 0 / total: 128"
+    rem Next verify_line is flexible because retries occur often on Windows and affect output lines
+    call :verify_line * r "..*:passed: 128 / pending: 0 / failed: 0 / total: 128"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
     call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
