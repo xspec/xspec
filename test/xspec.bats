@@ -706,7 +706,7 @@ load bats-helper
         skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    myrun java -jar "${XMLCALABASH3_JAR}" check-xproc-harness-options.xpl
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-cases.xpl cases-dir=harness-cases/
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 }

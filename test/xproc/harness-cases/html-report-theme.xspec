@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-html-report-theme.xpl">
+
+    <!--
+        These scenarios test the html-report-theme option of XProc 3 harnesses.
+        For corresponding scenario using XQS, see test/xqs/html-report-theme.xspec. 
+    -->
+
+    <x:import href="html-report-theme_import.xspec"/>
+    <x:scenario label="Running XSpec test for XSLT">
+        <x:call step="s:xslt-varying-html-report-theme"/>
+        <x:like label="Check html-report-theme set to whiteblack"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XQuery">
+        <x:call step="s:xquery-varying-html-report-theme"/>
+        <x:like label="Check html-report-theme set to whiteblack"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XProc">
+        <x:call step="s:xproc-varying-html-report-theme"/>
+        <x:like label="Check html-report-theme set to whiteblack"/>
+    </x:scenario>
+
+</x:description>
