@@ -677,38 +677,93 @@ load bats-helper
     [ "${lines[7]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
 }
 
-@test "XProc 3 harness using catalog instead of xspec-home, XSLT/XQuery (#1832)" {
-    if [ -z "${XMLCALABASH3_JAR}" ]; then
-        skip "XMLCALABASH3_JAR is not defined"
-    fi
-
-    myrun java -jar "${XMLCALABASH3_JAR}" \
-        --input:source=../tutorial/escape-for-regex.xspec \
-        --output:result="file:${work_dir}/catalog-xproc3-xslt-test-result_${RANDOM}.html" \
-        --catalog:../catalog.xml \
-        ../src/xproc3/run-xslt.xpl
-
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
-
-    myrun java -jar "${XMLCALABASH3_JAR}" \
-        --input:source=../tutorial/xquery-tutorial.xspec \
-        --output:result="file:${work_dir}/catalog-xproc3-xquery-test-result_${RANDOM}.html" \
-        --catalog:../catalog.xml \
-        ../src/xproc3/run-xquery.xpl
-
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 1]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
 @test "XProc 3 harness options" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    myrun java -jar "${XMLCALABASH3_JAR}" check-xproc-harness-options.xpl
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-cases.xpl cases-dir=harness-cases/
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+#
+# Catalog file URI (XProc 3)
+#
+#     Test multiple 'catalog' command-line options with URIs (relative and absolute)
+#
+
+@test "XProc 3 harness with catalog file URI (XSLT)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_stylesheet.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xslt-test-result_${RANDOM}.html" \
+        ../src/xproc3/run-xslt.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "XProc 3 harness with catalog file URI (XQuery)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_query.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xquery-test-result_${RANDOM}.html" \
+        ../src/xproc3/run-xquery.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+@test "XProc 3 harness with catalog file URI (Schematron via XQS)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --catalog:"catalog/03/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-03_schematron-xqs.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "XProc 3 harness with catalog file URI (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_xproc.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result_${RANDOM}.html" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -985,30 +1040,6 @@ load bats-helper
         xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
-}
-
-@test "XProc 3 harness using catalog instead of xspec-home, Schematron with XQS" {
-    if [ -z "${XMLCALABASH3_JAR}" ]; then
-        skip "XMLCALABASH3_JAR is not defined"
-    fi
-    if [ -z "${XMLCALABASH3_DIR}" ]; then
-        skip "XMLCALABASH3_DIR is not defined"
-    fi
-    if [ -z "${BASEX_JAR}" ]; then
-        skip "BASEX_JAR is not defined"
-    fi
-
-    # Run series of tests, and return error messages if anything fails
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
-        com.xmlcalabash.app.Main \
-        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
-        --input:source=xqs/phases-xqs.xspec \
-        --output:result="file:${work_dir}/catalog-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
-        --catalog:../catalog.xml \
-        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
-
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #
@@ -2191,7 +2222,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${XMLCALABASH3_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${XMLCALABASH3_JAR}"
     myrun ../bin/xspec.sh -p \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_xproc.xspec"
@@ -2253,7 +2284,7 @@ load bats-helper
         skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    export SAXON_CP="${XMLCALABASH3_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${XMLCALABASH3_JAR}"
     myrun ../bin/xspec.sh -p \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_xproc.xspec
@@ -2335,7 +2366,7 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${XMLCALABASH3_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${XMLCALABASH3_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -p "${space_dir}/catalog-01_xproc.xspec"
@@ -2381,7 +2412,7 @@ load bats-helper
         skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    export SAXON_CP="${XMLCALABASH3_JAR}:${APACHE_XMLRESOLVER_JAR}"
+    export SAXON_CP="${XMLCALABASH3_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -p "catalog/catalog-01_xproc.xspec"

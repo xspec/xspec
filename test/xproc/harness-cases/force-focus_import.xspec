@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-force-focus.xpl">
+
+    <!-- This file is imported by the force-focus.xspec files in
+        this directory and the test/xqs/ directory. -->
+
+    <x:scenario shared="yes" label="Check force-focus set to #none and a scenario identifier">
+        <!-- x:call/@step must be inherited from an ancestor scenario. -->
+        <x:scenario label="with force-focus set to '#none'">
+            <x:call>
+                <x:option name="force-focus" select="'#none'" as="xs:string"/>
+            </x:call>
+            <x:expect port="result" label="produces report showing no pending verifications"
+                test="exists(descendant::h:thead/h:tr/h:th[. = 'pending:&#160;0'])"/>
+        </x:scenario>
+        <x:scenario label="with force-focus identifying a scenario">
+            <x:call>
+                <x:option name="force-focus" select="'scenario1-scenario2'" as="xs:string"/>
+            </x:call>
+            <x:expect port="result" label="produces report showing 3 pending verifications"
+                test="exists(descendant::h:thead/h:tr/h:th[. = 'pending:&#160;3'])"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

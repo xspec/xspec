@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xproc="library-inline-css.xpl">
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-inline-css.xpl">
 
     <!-- This file is imported by the report-css.xspec files in
         this directory and the test/xqs/ directory. -->
