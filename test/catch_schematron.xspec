@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="catch.sch" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- @catch attribute of this shared scenario is just to see how the current
+		implementation behaves. At the moment, setting @catch on a scenario has
+		no effect on the scenario where the corresponding x:like occurs. -->
+	<x:scenario catch="no" label="validation-dynamic-error" shared="yes">
+		<x:context>
+			<error throw="true"/>
+		</x:context>
+	</x:scenario>
+	
+	<x:scenario catch="no" label="Disable @catch explicitly">
+		<x:scenario catch="yes" label="Enable @catch by overriding inheritance">
+			
+			<x:scenario label="validation-scenario">
+				<x:scenario label="Error in SUT">
+					<x:like label="validation-dynamic-error" />
+					<x:pending label="Requires update of SchXslt2 and XSpec">
+						<x:expect label="err:code and its type" select="xs:QName('my-error-code')"
+							test="$x:result?err?code treat as xs:QName" />
+						<x:expect label="err:description and its type" select="'my error description'"
+							test="$x:result?err?description treat as xs:string" />
+						<x:expect label="err:value and its type" select="'my', 'error', 'object'"
+							test="$x:result?err?value treat as xs:string+" />
+					</x:pending>
+					
+					<!-- The error is raised by fn:error() at a line in the schema (XQS) or the
+						compiled schema (SchXslt2) -->
+					<x:expect label="err:module and its type" test="matches(
+						$x:result?err?module treat as xs:string,
+						'/catch-xqs\.sch$|/catch_schematron-sch-preprocessed\.xsl$')"/>
+					<x:expect label="err:line-number and its type"
+						test="($x:result?err?line-number treat as xs:integer) ge 1" />
+					<x:expect label="err:column-number and its type"
+						test="($x:result?err?column-number treat as xs:integer) ge 1" />
+					
+					<x:expect label="err:additional is defined (XQuery)"
+						select="[]"
+						test="$x:result?err => Q{http://www.w3.org/2005/xpath-functions/map}find('additional')"
+					/>
+				</x:scenario>
+				
+				<x:scenario label="No error in SUT">
+					<x:context>
+						<error throw="false"/>
+					</x:context>
+					<x:expect label="Schematron output">
+						<svrl:schematron-output x:attrs="...">...</svrl:schematron-output>
+					</x:expect>
+				</x:scenario>
+			</x:scenario>
+			
+		</x:scenario>
+		<x:scenario label="validation-scenario with error in SUT">
+			<x:scenario label="The need for catch=yes is not triggered by x:context itself">
+				<x:like label="validation-dynamic-error" />
+				<x:expect label="or pending x:expect"
+					test="false()" pending="skip" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
