@@ -139,6 +139,14 @@
 				<xsl:sequence select="$common-options-map" />
 				<xsl:map-entry key="'source-node'" select="$step2-transformed-doc" />
 				<xsl:map-entry key="'stylesheet-node'" select="$step3-wrapper-doc" />
+				<xsl:map-entry key="'stylesheet-params'">
+					<xsl:map>
+						<!-- Use solution of https://codeberg.org/SchXslt/schxslt2/issues/55 to preserve
+							XSpec catch="yes" behavior instead of having SchXslt2 handle caught errors. --> 
+						<xsl:map-entry key="QName('http://dmaus.name/ns/2023/schxslt','handle-dynamic-errors')"
+							select="false()" />
+					</xsl:map>
+				</xsl:map-entry>
 			</xsl:map>
 		</xsl:variable>
 		<!--<xsl:message select="'Performing Step 3'" />-->
