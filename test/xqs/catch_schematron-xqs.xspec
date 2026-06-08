@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="catch-xqs.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="../catch_schematron.xspec"/>
+</x:description>
