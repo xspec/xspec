@@ -136,6 +136,12 @@ The following problems are detected:
 - missing abstract pattern parameters
 - references to non-existent rules
 
+### schxslt:handle-dynamic-errors as xs:boolean
+
+When set to boolean `true`, the validation stylesheet writes dynamic errors as a `svrl:error` element to the validation
+report and terminates with a `schxslt:ValidationError` error. When set to `false`, dynamic errors bubble up to the XSLT
+processor. Defaults to `true`.
+
 ## Schematron 4 (2025)
 
 As of version 1.4 SchXslt2 supports all but one feature of the 2025 edition of ISO Schematron (see limitations).
