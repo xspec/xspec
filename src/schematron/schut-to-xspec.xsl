@@ -177,7 +177,7 @@
         priority="2"
         use-when="$sch-impl-name ne 'xqs'">
         <xsl:copy>
-            <xsl:next-match/>
+            <xsl:call-template name="context-interior"/>
         </xsl:copy>
     </xsl:template>
 
@@ -194,7 +194,7 @@
             and also in the result of the match="@location" mode="make-predicate" template. -->
         <xsl:element name="{x:xspec-name('variable',.)}" namespace="{namespace-uri()}">
             <xsl:attribute name="name" select="'Q{' || namespace-uri() || '}context'"/>
-            <xsl:next-match/>
+            <xsl:call-template name="context-interior"/>
         </xsl:element>
 
         <!-- Form x:call with these parameters:
@@ -223,41 +223,6 @@
                 </xsl:element>
             </xsl:if>
         </xsl:element>
-    </xsl:template>
-
-    <!--
-        x:context mode="x:gather-specs", invoked by xsl:next-match from priority="2" template rule
-
-        Express x:context as one of these:
-        a) x:call, for XQuery-based Schematron implementation
-        b) Possibly modified x:context, for XSLT-based Schematron implementation
-    -->
-    <xsl:template match="x:context" as="node()*" mode="x:gather-specs" priority="1">
-        <xsl:apply-templates select="attribute()" mode="#current" />
-        <xsl:where-populated>
-            <xsl:attribute name="select">
-                <!-- The "skeleton" Schematron implementation requires a document node -->
-                <xsl:choose>
-                    <xsl:when test="@select">
-                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('wrap:wrappable-sequence')}())</xsl:text>
-                        <xsl:text expand-text="yes"> then {x:known-UQName('wrap:wrap-nodes')}(({@select}))</xsl:text>
-
-                        <!-- Some Schematron implementations might possibly be able to handle
-                            non-document nodes. Just generate a warning and pass @select as is. -->
-                        <xsl:text expand-text="yes"> else trace(({@select}), 'WARNING: Failed to wrap {name()}/@select')</xsl:text>
-                    </xsl:when>
-
-                    <xsl:when test="not(@href)">
-                        <xsl:text>self::document-node()</xsl:text>
-                    </xsl:when>
-
-                    <!-- If x:context has @href but no @select, no need to construct @select in output,
-                        so xsl:otherwise is omitted and xsl:where-populated produces nothing. -->
-                </xsl:choose>
-            </xsl:attribute>
-        </xsl:where-populated>
-
-        <xsl:apply-templates select="node()" mode="#current" />
     </xsl:template>
 
     <xsl:template match="x:expect-assert" as="element(x:expect)" mode="x:gather-specs">
@@ -402,6 +367,40 @@
     <!--
         Named templates
     -->
+
+    <!--
+        This template combines with its caller to express x:context as one of these:
+        a) x:call, for XQuery-based Schematron implementation
+        b) Possibly modified x:context, for XSLT-based Schematron implementation
+    -->
+    <xsl:template name="context-interior" as="node()*">
+        <xsl:context-item as="element(x:context)" use="required"/>
+        <xsl:apply-templates select="attribute()" mode="#current" />
+        <xsl:where-populated>
+            <xsl:attribute name="select">
+                <!-- The "skeleton" Schematron implementation requires a document node -->
+                <xsl:choose>
+                    <xsl:when test="@select">
+                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('wrap:wrappable-sequence')}())</xsl:text>
+                        <xsl:text expand-text="yes"> then {x:known-UQName('wrap:wrap-nodes')}(({@select}))</xsl:text>
+                        
+                        <!-- Some Schematron implementations might possibly be able to handle
+                            non-document nodes. Just generate a warning and pass @select as is. -->
+                        <xsl:text expand-text="yes"> else trace(({@select}), 'WARNING: Failed to wrap {name()}/@select')</xsl:text>
+                    </xsl:when>
+                    
+                    <xsl:when test="not(@href)">
+                        <xsl:text>self::document-node()</xsl:text>
+                    </xsl:when>
+                    
+                    <!-- If x:context has @href but no @select, no need to construct @select in output,
+                        so xsl:otherwise is omitted and xsl:where-populated produces nothing. -->
+                </xsl:choose>
+            </xsl:attribute>
+        </xsl:where-populated>
+        
+        <xsl:apply-templates select="node()" mode="#current" />
+    </xsl:template>
 
     <xsl:template name="create-expect" as="element(x:expect)">
         <!-- Context item is a Schematron-specific x:expect-* element -->

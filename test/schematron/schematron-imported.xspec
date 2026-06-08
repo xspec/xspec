@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+    <x:scenario label="outer scenario">
+        <x:context href="schematron-01.xml"/>
+        <x:scenario label="inner scenario">
+            <x:expect-not-assert id="a001"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>
