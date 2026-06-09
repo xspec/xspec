@@ -40,7 +40,7 @@ SOFTWARE.
   <output indent="yes" use-when="$schxslt:debug"/>
 
   <variable name="schxslt:version" as="xs:string"
-                select="if (starts-with('1.10.3', '$')) then 'development' else '1.10.3'"/>
+                select="if (starts-with('1.11.1', '$')) then 'development' else '1.11.1'"/>
 
   <param name="schxslt:phase" as="xs:string" select="'#DEFAULT'">
     <!--
@@ -143,6 +143,14 @@ SOFTWARE.
     <!--
         When set to boolean `true`, the transpiler performs some plausability checks after all external definitions are
         included. It terminates with an error if it finds errors in the assembled schema. Defaults to `false`.
+    -->
+  </param>
+
+  <param name="schxslt:handle-dynamic-errors" as="xs:boolean" select="true()">
+    <!--
+        When set to boolean `true`, the validation stylesheet writes dynamic errors as a `svrl:error` element to the validation
+        report and terminates with a `schxslt:ValidationError` error. When set to `false`, dynamic errors bubble up to the XSLT
+        processor. Defaults to `true`.
     -->
   </param>
 
@@ -544,6 +552,10 @@ SOFTWARE.
 
       <alias:variable name="Q{{http://dmaus.name/ns/2023/schxslt}}phase" as="Q{{http://www.w3.org/2001/XMLSchema}}string" select="'{$phase}'"/>
 
+      <if test="$schxslt:debug">
+        <alias:output indent="true"/>
+      </if>
+
       <apply-templates select="(sch:param, sch:let)" mode="#current"/>
       <apply-templates select="sch:phase[@id = $phase]/sch:let" mode="#current"/>
 
@@ -572,6 +584,9 @@ SOFTWARE.
             <with-param name="attributes" as="attribute()*" select="(@schemaVersion, @schematronEdition)"/>
           </call-template>
           <attribute name="phase" select="$phase"/>
+          <where-populated>
+            <attribute name="title" select="sch:title"/>
+          </where-populated>
           <for-each select="sch:ns" use-when="not($schxslt:compact-report)">
             <svrl:ns-prefix-in-attribute-values prefix="{@prefix}" uri="{@uri}"/>
           </for-each>
@@ -582,8 +597,8 @@ SOFTWARE.
             </svrl:text>
           </for-each>
           <comment>SchXslt2 {$schxslt:version}</comment>
-          <alias:try>
 
+          <variable name="main-template-content" as="node()*">
             <for-each select="$patterns-subordinate">
               <variable name="groupId" as="xs:string" select="."/>
               <variable name="patterns" as="element()+" select="Q{http://www.w3.org/2005/xpath-functions/map}get($patterns, .)"/>
@@ -598,38 +613,54 @@ SOFTWARE.
             </for-each>
 
             <alias:apply-templates select="." mode="Q{{http://dmaus.name/ns/2023/schxslt}}validate"/>
+
             <if test="$schxslt:fail-early">
               <alias:catch errors="Q{{http://dmaus.name/ns/2023/schxslt}}CatchFailEarly">
                 <alias:sequence select="$Q{{http://www.w3.org/2005/xqt-errors}}value"/>
               </alias:catch>
             </if>
-            <alias:catch>
-              <svrl:error code="{{$Q{{http://www.w3.org/2005/xqt-errors}}code}}">
-                <alias:if test="{$schxslt:document-uri-expression}">
-                  <alias:attribute name="document" select="{$schxslt:document-uri-expression}"/>
-                </alias:if>
-                <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}line-number">
-                  <alias:attribute name="line-number" select="$Q{{http://www.w3.org/2005/xqt-errors}}line-number"/>
-                </alias:if>
-                <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}column-number">
-                  <alias:attribute name="column-number" select="$Q{{http://www.w3.org/2005/xqt-errors}}column-number"/>
-                </alias:if>
-                <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}description">
-                  <alias:value-of select="$Q{{http://www.w3.org/2005/xqt-errors}}description"/>
-                </alias:if>
-              </svrl:error>
-              <if test="$schxslt:terminate-validation-on-error">
-                <alias:variable name="message" as="Q{{http://www.w3.org/2001/XMLSchema}}string+" expand-text="yes">
-                  Running the ISO Schematron validation failed with a dynamic error.
-                  Error code: {{$Q{{http://www.w3.org/2005/xqt-errors}}code}} Reason: {{$Q{{http://www.w3.org/2005/xqt-errors}}description}}
-                </alias:variable>
-                <alias:message terminate="yes" error-code="Q{{{{http://dmaus.name/ns/2023/schxslt}}}}ValidationError">
-                  <alias:text/>
-                  <alias:value-of select="normalize-space(string-join($message))"/>
-                </alias:message>
-              </if>
-            </alias:catch>
-          </alias:try>
+
+            <if test="$schxslt:handle-dynamic-errors">
+              <alias:catch>
+                <svrl:error code="{{$Q{{http://www.w3.org/2005/xqt-errors}}code}}">
+                  <alias:if test="{$schxslt:document-uri-expression}">
+                    <alias:attribute name="document" select="{$schxslt:document-uri-expression}"/>
+                  </alias:if>
+                  <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}line-number">
+                    <alias:attribute name="line-number" select="$Q{{http://www.w3.org/2005/xqt-errors}}line-number"/>
+                  </alias:if>
+                  <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}column-number">
+                    <alias:attribute name="column-number" select="$Q{{http://www.w3.org/2005/xqt-errors}}column-number"/>
+                  </alias:if>
+                  <alias:if test="$Q{{http://www.w3.org/2005/xqt-errors}}description">
+                    <alias:value-of select="$Q{{http://www.w3.org/2005/xqt-errors}}description"/>
+                  </alias:if>
+                </svrl:error>
+                <if test="$schxslt:terminate-validation-on-error">
+                  <alias:variable name="message" as="Q{{http://www.w3.org/2001/XMLSchema}}string+" expand-text="yes">
+                    Running the ISO Schematron validation failed with a dynamic error.
+                    Error code: {{$Q{{http://www.w3.org/2005/xqt-errors}}code}} Reason: {{$Q{{http://www.w3.org/2005/xqt-errors}}description}}
+                  </alias:variable>
+                  <alias:message terminate="yes" error-code="Q{{{{http://dmaus.name/ns/2023/schxslt}}}}ValidationError">
+                    <alias:text/>
+                    <alias:value-of select="normalize-space(string-join($message))"/>
+                  </alias:message>
+                </if>
+              </alias:catch>
+            </if>
+          </variable>
+
+          <choose>
+            <when test="$main-template-content[self::catch]">
+              <alias:try>
+                <sequence select="$main-template-content"/>
+              </alias:try>
+            </when>
+            <otherwise>
+              <sequence select="$main-template-content"/>
+            </otherwise>
+          </choose>
+
         </svrl:schematron-output>
       </alias:template>
 
