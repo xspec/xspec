@@ -40,7 +40,7 @@ SOFTWARE.
   <output indent="yes" use-when="$schxslt:debug"/>
 
   <variable name="schxslt:version" as="xs:string"
-                select="if (starts-with('1.11', '$')) then 'development' else '1.11'"/>
+                select="if (starts-with('1.11.1', '$')) then 'development' else '1.11.1'"/>
 
   <param name="schxslt:phase" as="xs:string" select="'#DEFAULT'">
     <!--
@@ -597,8 +597,8 @@ SOFTWARE.
             </svrl:text>
           </for-each>
           <comment>SchXslt2 {$schxslt:version}</comment>
-          <alias:try>
 
+          <variable name="main-template-content" as="node()*">
             <for-each select="$patterns-subordinate">
               <variable name="groupId" as="xs:string" select="."/>
               <variable name="patterns" as="element()+" select="Q{http://www.w3.org/2005/xpath-functions/map}get($patterns, .)"/>
@@ -614,9 +614,11 @@ SOFTWARE.
 
             <alias:apply-templates select="." mode="Q{{http://dmaus.name/ns/2023/schxslt}}validate"/>
 
-            <alias:catch errors="Q{{http://dmaus.name/ns/2023/schxslt}}CatchFailEarly">
-              <alias:sequence select="$Q{{http://www.w3.org/2005/xqt-errors}}value"/>
-            </alias:catch>
+            <if test="$schxslt:fail-early">
+              <alias:catch errors="Q{{http://dmaus.name/ns/2023/schxslt}}CatchFailEarly">
+                <alias:sequence select="$Q{{http://www.w3.org/2005/xqt-errors}}value"/>
+              </alias:catch>
+            </if>
 
             <if test="$schxslt:handle-dynamic-errors">
               <alias:catch>
@@ -646,7 +648,19 @@ SOFTWARE.
                 </if>
               </alias:catch>
             </if>
-          </alias:try>
+          </variable>
+
+          <choose>
+            <when test="$main-template-content[self::catch]">
+              <alias:try>
+                <sequence select="$main-template-content"/>
+              </alias:try>
+            </when>
+            <otherwise>
+              <sequence select="$main-template-content"/>
+            </otherwise>
+          </choose>
+
         </svrl:schematron-output>
       </alias:template>
 
