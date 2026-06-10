@@ -17,14 +17,12 @@
 			<x:scenario label="validation-scenario">
 				<x:scenario label="Error in SUT">
 					<x:like label="validation-dynamic-error" />
-					<x:pending label="Requires update of SchXslt2 and XSpec">
-						<x:expect label="err:code and its type" select="xs:QName('my-error-code')"
-							test="$x:result?err?code treat as xs:QName" />
-						<x:expect label="err:description and its type" select="'my error description'"
-							test="$x:result?err?description treat as xs:string" />
-						<x:expect label="err:value and its type" select="'my', 'error', 'object'"
-							test="$x:result?err?value treat as xs:string+" />
-					</x:pending>
+					<x:expect label="err:code and its type" select="xs:QName('my-error-code')"
+						test="$x:result?err?code treat as xs:QName" />
+					<x:expect label="err:description and its type" select="'my error description'"
+						test="$x:result?err?description treat as xs:string" />
+					<x:expect label="err:value and its type" select="'my', 'error', 'object'"
+						test="$x:result?err?value treat as xs:string+" />
 					
 					<!-- The error is raised by fn:error() at a line in the schema (XQS) or the
 						compiled schema (SchXslt2) -->
