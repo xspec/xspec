@@ -13,13 +13,19 @@
       This generated template, when called, checks the expectation against the actual result of the
       test and constructs the corresponding x:test element for the XML report.
    -->
-   <xsl:template name="x:compile-expect" as="element(xsl:template)">
+   <xsl:template name="x:compile-expect" as="element(xsl:template)+">
       <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
 
-      <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
+      <!-- URIQualifiedNames of the (required) parameters of the 1st template being generated -->
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
+      <xsl:variable name="param-uqnames-for-predicate" as="xs:string*">
+         <xsl:sequence select="$param-uqnames"/>
+         <xsl:if test="@port" use-when="$test-type eq 'xproc'">
+            <xsl:sequence select="x:known-UQName('x:document-properties')"/>
+         </xsl:if>                        
+      </xsl:variable>
 
       <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
@@ -77,25 +83,19 @@
                         </when>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
                            <for-each select="${x:known-UQName('impl:test-items')}">
-                              <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
-                                 <!-- @test may use namespace prefixes and/or the default namespace
-                                    such as xs:QName('foo') -->
-                                 <xsl:sequence select="x:copy-of-namespaces(.)" />
-
-                                 <xsl:attribute name="select" select="@test" />
-                                 <xsl:attribute name="version" select="$xslt-version" />
-                              </xsl:element>
+                              <call-template name="{x:known-UQName('x:' || @id || '-predicate')}">
+                                 <xsl:for-each select="$param-uqnames-for-predicate">
+                                    <with-param name="{.}" select="${.}" />
+                                 </xsl:for-each>
+                              </call-template>
                            </for-each>
                         </when>
                         <otherwise>
-                           <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
-                              <!-- @test may use namespace prefixes and/or the default namespace
-                                 such as xs:QName('foo') -->
-                              <xsl:sequence select="x:copy-of-namespaces(.)" />
-
-                              <xsl:attribute name="select" select="@test" />
-                              <xsl:attribute name="version" select="$xslt-version" />
-                           </xsl:element>
+                           <call-template name="{x:known-UQName('x:' || @id || '-predicate')}">
+                              <xsl:for-each select="$param-uqnames-for-predicate">
+                                 <with-param name="{.}" select="${.}" />
+                              </xsl:for-each>
+                           </call-template>
                         </otherwise>
                      </choose>
                   </variable>
@@ -223,6 +223,45 @@
          <!-- </x:test> -->
          </xsl:element>
       </xsl:element>
+
+      <!-- Generate a subordinate template, if needed -->
+      <xsl:if test="empty($reason-for-pending) and @test">
+         <xsl:call-template name="x:compile-expect-predicate">
+            <xsl:with-param name="param-uqnames" select="$param-uqnames-for-predicate"/>
+         </xsl:call-template>
+      </xsl:if>
    </xsl:template>
 
+   <!-- Generate a named template for the predicate expression. It might be
+      evaluated with or without a context item, depending on the number of items
+      in $x:result. -->
+   <xsl:template name="x:compile-expect-predicate" as="element(xsl:template)">
+      <xsl:context-item as="element(x:expect)" use="required" />
+      
+      <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
+      <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
+
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id || '-predicate')" />
+         <xsl:attribute name="as" select="'item()*'" />
+         
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'optional'" />
+         </xsl:element>
+         
+         <xsl:for-each select="$param-uqnames">
+            <param name="{.}" as="item()*" required="yes" />
+         </xsl:for-each>
+
+         <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
+         <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
+            <!-- @test may use namespace prefixes and/or the default namespace
+               such as xs:QName('foo') -->
+            <xsl:sequence select="x:copy-of-namespaces(.)" />
+            
+            <xsl:attribute name="select" select="@test" />
+            <xsl:attribute name="version" select="$xslt-version" />
+         </xsl:element>
+      </xsl:element>
+   </xsl:template>
 </xsl:stylesheet>
