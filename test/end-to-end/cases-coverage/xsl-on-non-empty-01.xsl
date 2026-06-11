@@ -8,7 +8,7 @@
       <!-- Using select attribute -->
       <node type="on-non-empty">
         <xsl:text>1</xsl:text>
-        <xsl:on-non-empty select="'00'" />
+        <xsl:on-non-empty select="'00'" />                                     <!-- Expected miss -->
       </node>
       <!-- Using sequence constructor -->
       <node type="on-non-empty">
@@ -17,13 +17,13 @@
           <xsl:text>00</xsl:text>
         </xsl:on-non-empty>
       </node>
-      <!-- NOT on-non-empty --><!-- Need to check if comments below affect the outcome - trace does. See https://saxonica.plan.io/issues/6428 -->
+      <!-- NOT on-non-empty -->
       <node type="on-non-empty">
-        <xsl:on-non-empty>                                                     <!-- Expected miss -->
-          <xsl:text>300</xsl:text>                                             <!-- Expected miss -->
-        </xsl:on-non-empty>                                                    <!-- Expected miss -->
+        <xsl:on-non-empty>
+          <xsl:text>300</xsl:text>
+        </xsl:on-non-empty>
       </node>
-      <!-- NOT on-non-empty but static analysis cannot make that judgment --> 
+      <!-- NOT on-non-empty but static analysis cannot make that judgment -->
       <node type="on-non-empty">
         <xsl:sequence select="@nonexistent-attribute" />
         <xsl:on-non-empty>                                                     <!-- Expected miss -->

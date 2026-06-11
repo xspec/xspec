@@ -137,6 +137,8 @@
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
+        | XSLT:on-empty[not(exists(@select))]
+        | XSLT:on-non-empty[not(exists(@select))]
         | XSLT:perform-sort
         | XSLT:otherwise
         | XSLT:try[not(exists(@select))]
@@ -379,8 +381,6 @@
         | XSLT:merge-source
         | XSLT:non-matching-substring
         | XSLT:on-completion
-        | XSLT:on-empty
-        | XSLT:on-non-empty
         | XSLT:otherwise
         | XSLT:perform-sort[@select]
         | XSLT:perform-sort[XSLT:sort][count(*) = 1]

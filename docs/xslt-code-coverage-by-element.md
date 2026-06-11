@@ -746,41 +746,35 @@ Tested as part of xsl:iterate.
 
 ## xsl:on-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-With the select attribute, XSpec trace indicates column 0.
-
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
 With a sequence constructor, the children are traced but the xsl:on-empty element is not.
-
-May change in the next release of Saxon due to this issue: https://saxonica.plan.io/issues/6428
 
 ## xsl:on-non-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-Column 0 in xspec trace. Not in Saxon trace.
-
-There is a Saxonica issue (https://saxonica.plan.io/issues/6428) that it outputs the contents of xsl:on-non-empty when the parent is actually empty if tracing is enabled.
-
-Suggest it is marked as 'unknown' including the children until the Saxon issue is fixed.
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
+With a sequence constructor, the children are traced but the xsl:on-non-empty element is not.
 
 ## xsl:otherwise
 
