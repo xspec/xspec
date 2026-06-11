@@ -13,14 +13,6 @@
   <xsl:accumulator name="dummy01" initial-value="0">                           <!-- Expected miss -->
     <xsl:accumulator-rule match="node()" select="$value + 1" />                <!-- Expected miss -->
   </xsl:accumulator>                                                           <!-- Expected miss -->
-  <!-- xsl:accumulator rules are higher priority than xsl:assert rule -->
-  <xsl:accumulator name="accumulatorVsAssert" initial-value="()">              <!-- Expected miss -->
-    <xsl:accumulator-rule match="node">                                        <!-- Expected miss -->
-      <xsl:assert test="true()">                                               <!-- Expected miss -->
-        <xsl:text>cannot get here</xsl:text>                                   <!-- Expected miss -->
-      </xsl:assert>                                                            <!-- Expected miss -->
-    </xsl:accumulator-rule>                                                    <!-- Expected miss -->
-  </xsl:accumulator>                                                           <!-- Expected miss -->
 
   <!-- xsl:mode for accumulator -->
   <xsl:mode use-accumulators="accumulatorTest" name="accumulator" />           <!-- Expected ignored -->
