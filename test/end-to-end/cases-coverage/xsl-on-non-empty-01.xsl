@@ -17,7 +17,7 @@
           <xsl:text>00</xsl:text>
         </xsl:on-non-empty>
       </node>
-      <!-- NOT on-non-empty -->
+      <!-- NOT on-non-empty (intuitively, xsl:on-non-empty should be missed but Saxon traces the xsl:text) -->
       <node type="on-non-empty">
         <xsl:on-non-empty>
           <xsl:text>300</xsl:text>
