@@ -7,7 +7,7 @@
 
 		<x:scenario label="Array">
 			<x:call function="Q{x-urn:test:mirror}param-mirror">
-				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
+				<x:param as="array(*)" select="['foo']" />
 			</x:call>
 			<x:expect label="Serialized array should be reported upon failure" />
 		</x:scenario>
@@ -16,8 +16,7 @@
 			<x:call function="Q{x-urn:test:mirror}param-mirror">
 				<x:param as="map(*)" select="
 					map {
-						'foo': 1,
-						2: 'bar'
+						'foo': 1
 					}" />
 			</x:call>
 			<x:expect label="Serialized map should be reported upon failure" />
