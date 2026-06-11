@@ -59,7 +59,7 @@ The following list describes the rules used to determine the coverage status of 
 | CHILDREN | xsl:accumulator-rule                       |
 | CONTENT  |                                            |
 | TRACE    | No                                         |
-| RULE     | Always Ignore                              |
+| RULE     | Use Descendant Data                        |
 
 ## xsl:accumulator-rule
 
@@ -69,8 +69,8 @@ The following list describes the rules used to determine the coverage status of 
 | PARENT   | xsl:accumulator                    |
 | CHILDREN |                                    |
 | CONTENT  |                                    |
-| TRACE    | No                                 |
-| RULE     | Ignore Element and All Descendants |
+| TRACE    | Yes                                |
+| RULE     | Use Trace Data                     |
 
 #### Comment
 

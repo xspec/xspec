@@ -61,7 +61,6 @@
         | XSLT:package
 
         | XSLT:accept
-        | XSLT:accumulator
         | XSLT:attribute-set
         | XSLT:character-map
         | XSLT:decimal-format
@@ -118,8 +117,7 @@
 
     <!-- Ignore Element and All Descendants -->
     <xsl:template match="
-        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()
-        | XSLT:accumulator-rule/descendant-or-self::node()"
+        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()"
         as="xs:string"
         mode="coverage"
         priority="20">
@@ -129,7 +127,8 @@
     <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:assert[child::node()]
+        XSLT:accumulator
+        | XSLT:assert[child::node()]
         | XSLT:catch
         | XSLT:fallback
         | XSLT:map
