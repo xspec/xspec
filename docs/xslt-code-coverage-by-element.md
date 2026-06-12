@@ -63,14 +63,14 @@ The following list describes the rules used to determine the coverage status of 
 
 ## xsl:accumulator-rule
 
-|          |                                    |
-| -------- | ---------------------------------- |
-| CATEGORY |                                    |
-| PARENT   | xsl:accumulator                    |
-| CHILDREN |                                    |
-| CONTENT  |                                    |
-| TRACE    | Yes                                |
-| RULE     | Use Trace Data                     |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:accumulator |
+| CHILDREN |                 |
+| CONTENT  |                 |
+| TRACE    | Yes             |
+| RULE     | Use Trace Data  |
 
 #### Comment
 
