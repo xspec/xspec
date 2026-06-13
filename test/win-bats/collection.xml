@@ -2914,7 +2914,7 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    if not "%SAXON_VERSION:~0,3%"=="12." (
+    if "%SAXON_VERSION:~0,3%"=="11." (
         call :verify_line 5 x "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later."
     ) else if "%SAXON_VERSION:~0,4%"=="12.3" (
         call :verify_line 5 x "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later."
@@ -2923,7 +2923,7 @@
     )
 
     call :verify_line 7 x "Running Tests..."
-    call :verify_line 8 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
+    call :verify_line 8 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[0-9][0-9]*"
 	</case>
 
 	<!--
