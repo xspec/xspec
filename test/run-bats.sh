@@ -43,6 +43,13 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+export SAXON_BUG_7123_FIXED=1
+case "${SAXON_VERSION}" in
+    "13.0")
+        unset SAXON_BUG_7123_FIXED
+        ;;
+esac
+
 export SAXON_BUG_7127_FIXED=1
 case "${SAXON_VERSION}" in
     "13.0")

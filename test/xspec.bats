@@ -3025,6 +3025,10 @@ load bats-helper
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
+    fi
+
     # Should be error even when xspec.fail=false
     myrun ant \
         -buildfile ../build.xml \
@@ -3037,6 +3041,10 @@ load bats-helper
 }
 
 @test "XSLT selecting nodes without context should be error (CLI) #423" {
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
+    fi
+
     myrun ../bin/xspec.sh issue-423/test.xspec
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -3046,6 +3054,9 @@ load bats-helper
 @test "XSLT selecting nodes without context should be error (CLI -c) #423" {
     if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
     fi
 
     myrun ../bin/xspec.sh -c issue-423/test.xspec
