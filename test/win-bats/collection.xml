@@ -1595,7 +1595,7 @@
 			Test 'catalog' property containing multiple file paths (relative and absolute)
 	-->
 
-	<case name="Ant with catalog file path (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file path (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1607,7 +1607,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog file path (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file path (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1620,7 +1620,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog file path (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file path (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1667,7 +1667,7 @@
 			Test 'catalog' property containing multiple URIs (relative and absolute)
 	-->
 
-	<case name="Ant with catalog file URI (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1680,7 +1680,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog file URI (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1694,7 +1694,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog file URI (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1865,7 +1865,7 @@
 			Test -catalog specifying multiple file paths (relative and absolute)
 	-->
 
-	<case name="CLI with -catalog file path (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -1880,7 +1880,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case name="CLI with -catalog file path (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -1896,7 +1896,7 @@
     call :verify_line 10 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 	</case>
 
-	<case name="CLI with -catalog file path (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -1950,7 +1950,7 @@
 			Test -catalog specifying multiple file URIs (absolute, no relative)
 	-->
 
-	<case name="CLI with -catalog file URI (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XSLT)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
@@ -1959,7 +1959,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case name="CLI with -catalog file URI (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XQuery)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
@@ -1969,7 +1969,7 @@
     call :verify_line 10 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 	</case>
 
-	<case name="CLI with -catalog file URI (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (Schematron)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
@@ -2005,7 +2005,7 @@
 			Test XML_CATALOG containing multiple file paths (relative and absolute)
 	-->
 
-	<case name="CLI with XML_CATALOG file path (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2020,7 +2020,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case name="CLI with XML_CATALOG file path (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2035,7 +2035,7 @@
     call :verify_line 10 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 	</case>
 
-	<case name="CLI with XML_CATALOG file path (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file path (Schematron)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2071,7 +2071,7 @@
 			Test XML_CATALOG containing multiple file URIs (absolute, no relative)
 	-->
 
-	<case name="CLI with XML_CATALOG file URI (XSLT)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XSLT)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
@@ -2080,7 +2080,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case name="CLI with XML_CATALOG file URI (XQuery)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
@@ -2089,7 +2089,7 @@
     call :verify_line 10 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 	</case>
 
-	<case name="CLI with XML_CATALOG file URI (Schematron)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (Schematron)">
     set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 

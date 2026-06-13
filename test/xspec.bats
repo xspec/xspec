@@ -1842,6 +1842,10 @@ load bats-helper
 #
 
 @test "Ant with catalog file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1854,6 +1858,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1867,6 +1875,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1921,6 +1933,10 @@ load bats-helper
 #
 
 @test "Ant with catalog file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1934,6 +1950,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1948,6 +1968,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -2130,6 +2154,10 @@ load bats-helper
 #
 
 @test "CLI with -catalog file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2148,6 +2176,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2167,6 +2199,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2237,6 +2273,10 @@ load bats-helper
 #
 
 @test "CLI with -catalog file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2246,6 +2286,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2256,6 +2300,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2299,6 +2347,10 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2317,6 +2369,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2335,6 +2391,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2381,6 +2441,10 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
@@ -2390,6 +2454,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
@@ -2399,6 +2467,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
