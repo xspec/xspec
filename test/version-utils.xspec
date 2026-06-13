@@ -17,13 +17,13 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 10.9 to 12.x">
+		<x:scenario label="Assume we test this on Saxon versions from 11.7 to 13.x">
 			<x:context>
 				<foo />
 			</x:context>
-			<x:expect label="Greater than or equal to 10.9"
-				test="$x:saxon-version ge x:pack-version((10, 9))" />
-			<x:expect label="Less than 13.0" test="$x:saxon-version lt x:pack-version(13)" />
+			<x:expect label="Greater than or equal to 11.7"
+				test="$x:saxon-version ge x:pack-version((11, 7))" />
+			<x:expect label="Less than 14.0" test="$x:saxon-version lt x:pack-version(14)" />
 			<x:expect
 				label="Lower uint32 should be zero on Saxon 10+ (two-part version numbers rather than four-part)"
 				test="
@@ -105,6 +105,31 @@
 				> the next major release will be 11.0, the next maintenance release 10.1.
 			-->
 
+			<x:scenario label="13">
+				<x:scenario label="Typical xsl:product-version">
+					<x:scenario label="major.0">
+						<x:call>
+							<x:param select="'HE 13.0'" />
+						</x:call>
+						<x:expect label="Extracted as major.minor.0.0" select="13, 0, 0, 0" />
+					</x:scenario>
+					
+					<x:scenario label="major.1+">
+						<x:call>
+							<x:param select="'HE 13.2'" />
+						</x:call>
+						<x:expect label="Extracted as major.minor.0.0" select="13, 2, 0, 0" />
+					</x:scenario>
+				</x:scenario>
+				
+				<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+					<x:call>
+						<x:param select="'SaxonJ-HE 13.0 from Saxonica (build 247217462)'" />
+					</x:call>
+					<x:expect label="Extracted" select="13, 0, 0, 0" />
+				</x:scenario>
+			</x:scenario>
+	
 			<x:scenario label="12">
 				<x:scenario label="Typical xsl:product-version">
 					<x:scenario label="major.0">
