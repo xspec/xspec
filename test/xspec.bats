@@ -451,6 +451,10 @@ load bats-helper
 }
 
 @test "CLI -e with no failures (XQuery)" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     myrun ../bin/xspec.sh -e -q ../tutorial/xquery-tutorial.xspec
     [ "$status" -eq 0 ]
     [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
@@ -1297,10 +1301,6 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
@@ -1446,6 +1446,10 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (XQuery)" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
     tutorial_copy="${work_dir}/tutorial ${RANDOM}"
@@ -1483,10 +1487,6 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     # Test with x:context[node()] #322
 
     # Use a fresh dir, to make the message line numbers predictable
@@ -1683,6 +1683,10 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (XQuery)" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     # Unset any preset args
     unset ANT_ARGS
 
@@ -1713,10 +1717,6 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     # Unset any preset args
     unset ANT_ARGS
 
@@ -2067,6 +2067,10 @@ load bats-helper
 }
 
 @test "Ant verbose test.type (XQuery)" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -2090,10 +2094,6 @@ load bats-helper
 #
 
 @test "Ant for Schematron with various properties except catalog and xspec.fail" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     build_xml="${work_dir}/build ${RANDOM}.xml"
 
     # For testing -Dxspec.project.dir
@@ -2994,6 +2994,10 @@ load bats-helper
 #
 
 @test "Default @xquery-version" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
 
     myrun cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
@@ -3497,6 +3501,10 @@ load bats-helper
 }
 
 @test "Override ID generation (XQuery)" {
+    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
+        skip "Saxon bug 7111"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \

@@ -36,10 +36,10 @@ if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F -- "-EE " > /de
     unset XSLT_SUPPORTS_THREADS
 fi
 
-export SAXON_BUG_4696_FIXED=1
+export SAXON_BUG_7111_FIXED=1
 case "${SAXON_VERSION}" in
-    "10.0" | "10.1" | "10.2")
-        unset SAXON_BUG_4696_FIXED
+    "13.0")
+        unset SAXON_BUG_7111_FIXED
         ;;
 esac
 
