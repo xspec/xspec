@@ -2564,12 +2564,12 @@ load bats-helper
         [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     else
         # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
-        # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
-        # from SAXON_HOME/lib/ subdirectory deliberately.
+        # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
+        # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
         [ "$status" -eq 1 ]
         assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
         assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
-        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver'$'\n'
+        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
     fi
 }
 
