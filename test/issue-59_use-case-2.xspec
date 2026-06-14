@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xspec-issue-7111-fixed?>
 <x:description query="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
 	query-at="issue-59_use-case-2.xqm" stylesheet="issue-59_use-case-2.xsl"
 	xmlns:issue-59="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
