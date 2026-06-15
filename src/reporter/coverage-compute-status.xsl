@@ -61,7 +61,6 @@
         | XSLT:package
 
         | XSLT:accept
-        | XSLT:accumulator
         | XSLT:attribute-set
         | XSLT:character-map
         | XSLT:decimal-format
@@ -118,8 +117,7 @@
 
     <!-- Ignore Element and All Descendants -->
     <xsl:template match="
-        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()
-        | XSLT:accumulator-rule/descendant-or-self::node()"
+        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()"
         as="xs:string"
         mode="coverage"
         priority="20">
@@ -129,7 +127,8 @@
     <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:assert[child::node()]
+        XSLT:accumulator
+        | XSLT:assert[child::node()]
         | XSLT:catch
         | XSLT:fallback
         | XSLT:map
@@ -137,6 +136,8 @@
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
+        | XSLT:on-empty[not(exists(@select))]
+        | XSLT:on-non-empty[not(exists(@select))]
         | XSLT:perform-sort
         | XSLT:otherwise
         | XSLT:try[not(exists(@select))]
@@ -231,29 +232,6 @@
         as="xs:string"
         mode="coverage">
         <xsl:sequence select="accumulator-before('category-based-on-trace-data')"/>
-    </xsl:template>
-
-    <!-- Element-Specific rule for XSLT:variable -->
-    <xsl:template match="XSLT:variable"
-        as="xs:string"
-        mode="coverage">
-        <xsl:choose>
-            <xsl:when test="accumulator-before('category-based-on-trace-data') eq 'hit'">
-                <xsl:sequence select="'hit'"/>
-            </xsl:when>
-            <xsl:when test="parent::XSLT:stylesheet or parent::XSLT:transform">
-                <!-- Global variables effectively follow the Use Trace Data rule. -->
-                <xsl:sequence select="'missed'"/>
-            </xsl:when>
-            <xsl:when test="following-sibling::*[not(self::XSLT:variable)]">
-                <xsl:apply-templates select="following-sibling::*[not(self::XSLT:variable)][1]"
-                    mode="#current"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <!-- Local variable with no following siblings except other local variables -->
-                <xsl:sequence select="'missed'"/>
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:template>
 
     <!-- Element-Specific rule for XSLT:merge-key -->
@@ -379,8 +357,6 @@
         | XSLT:merge-source
         | XSLT:non-matching-substring
         | XSLT:on-completion
-        | XSLT:on-empty
-        | XSLT:on-non-empty
         | XSLT:otherwise
         | XSLT:perform-sort[@select]
         | XSLT:perform-sort[XSLT:sort][count(*) = 1]

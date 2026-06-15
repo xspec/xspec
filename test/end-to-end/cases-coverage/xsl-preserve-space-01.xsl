@@ -3,7 +3,7 @@
   <!--
       xsl:preserve-space Coverage Test Case
   -->
-  <xsl:preserve-space elements="*" />
+  <xsl:preserve-space elements="*" />                                          <!-- Expected ignored -->
 
   <xsl:template match="xsl-preserve-space">
     <root>

@@ -3,7 +3,7 @@
   <!--
       xsl:strip-space Coverage Test Case
   -->
-  <xsl:strip-space elements="*" />
+  <xsl:strip-space elements="*" />                                             <!-- Expected ignored -->
 
   <xsl:template match="xsl-strip-space">
     <root>

@@ -9,7 +9,7 @@
 
     <xsl:if test="$number eq 0">
      '0 Supplied'
-    </xsl:if>
+    </xsl:if>                                                                  <!-- Expected unknown - '0 Supplied' -->
 
     <xsl:sequence select="$number * 2" />
   </xsl:function>

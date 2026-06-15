@@ -5,16 +5,16 @@
   -->
   <!-- character map does not do any mapping changes (confident that it is used in Saxon).
        But xspec doesn't do character-map without some additional effort (which isn't done here)-->
-  <xsl:character-map name="charMap01" use-character-maps="charMap01A">
-    <xsl:output-character character="0" string="0" />
-    <xsl:output-character character="&#xE003;" string="3" />
-  </xsl:character-map>
+  <xsl:character-map name="charMap01" use-character-maps="charMap01A">         <!-- Expected ignored -->
+    <xsl:output-character character="0" string="0" />                          <!-- Expected ignored -->
+    <xsl:output-character character="&#xE003;" string="3" />                   <!-- Expected ignored -->
+  </xsl:character-map>                                                         <!-- Expected ignored -->
   <!-- xsl:character-map included in one above -->
-  <xsl:character-map name="charMap01A">
-    <xsl:output-character character="1" string="1" />
-  </xsl:character-map>
+  <xsl:character-map name="charMap01A">                                        <!-- Expected ignored -->
+    <xsl:output-character character="1" string="1" />                          <!-- Expected ignored -->
+  </xsl:character-map>                                                         <!-- Expected ignored -->
 
-  <xsl:output use-character-maps="charMap01" method="xml" encoding="utf-8" />
+  <xsl:output use-character-maps="charMap01" method="xml" encoding="utf-8" />  <!-- Expected ignored -->
 
   <xsl:template match="xsl-character-map">
     <root>

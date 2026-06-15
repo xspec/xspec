@@ -37,7 +37,7 @@ The following list describes the rules used to determine the coverage status of 
 
 ## Saxon Version(s) Reflected in this Document
 
-12.4
+12.9
 
 ## xsl:accept
 
@@ -59,18 +59,18 @@ The following list describes the rules used to determine the coverage status of 
 | CHILDREN | xsl:accumulator-rule                       |
 | CONTENT  |                                            |
 | TRACE    | No                                         |
-| RULE     | Always Ignore                              |
+| RULE     | Use Descendant Data                        |
 
 ## xsl:accumulator-rule
 
-|          |                                    |
-| -------- | ---------------------------------- |
-| CATEGORY |                                    |
-| PARENT   | xsl:accumulator                    |
-| CHILDREN |                                    |
-| CONTENT  |                                    |
-| TRACE    | No                                 |
-| RULE     | Ignore Element and All Descendants |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:accumulator |
+| CHILDREN |                 |
+| CONTENT  |                 |
+| TRACE    | Yes             |
+| RULE     | Use Trace Data  |
 
 #### Comment
 
@@ -746,41 +746,35 @@ Tested as part of xsl:iterate.
 
 ## xsl:on-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-With the select attribute, XSpec trace indicates column 0.
-
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
 With a sequence constructor, the children are traced but the xsl:on-empty element is not.
-
-May change in the next release of Saxon due to this issue: https://saxonica.plan.io/issues/6428
 
 ## xsl:on-non-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-Column 0 in xspec trace. Not in Saxon trace.
-
-There is a Saxonica issue (https://saxonica.plan.io/issues/6428) that it outputs the contents of xsl:on-non-empty when the parent is actually empty if tracing is enabled.
-
-Suggest it is marked as 'unknown' including the children until the Saxon issue is fixed.
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
+With a sequence constructor, the children are traced but the xsl:on-non-empty element is not.
 
 ## xsl:otherwise
 
@@ -1120,18 +1114,12 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 | PARENT   |                         |
 | CHILDREN |                         |
 | CONTENT  |                         |
-| TRACE    | Sometimes               |
-| RULE     | Element Specific - TBD  |
+| TRACE    | Generally yes           |
+| RULE     | Use Trace Data          |
 
 #### Comment
 
-Note: optimization settings affect the tracing.
-
-There is a Saxonica issue (https://saxonica.plan.io/issues/6415) around xsl:variable.
-
-Global variables seem ok and could be done as Use Trace Data.
-
-With Non-global variables, it is difficult to assess and the best approach is probably to rely on the Saxon results.
+Note: optimization settings affect the tracing, and when Saxon optimizes the value, the element might not be traced.
 
 ## xsl:when
 

@@ -3,7 +3,7 @@
   <!--
       xsl:sort Coverage Test Case
   -->
-  <xsl:mode name="sortMode" />
+  <xsl:mode name="sortMode" />                                                 <!-- Expected ignored -->
   <xsl:template match="xsl-sort">
     <root>
       <!-- xsl:for-each child, using select attribute -->
@@ -55,7 +55,7 @@
               <xsl:value-of select="." />                                    <!-- Expected unknown -->
             </xsl:when>                                                      <!-- Expected unknown -->
             <xsl:otherwise>                                                  <!-- Expected unknown -->
-              <xsl:value-of select="." />
+              <xsl:value-of select="." />                                    <!-- Expected unknown -->
             </xsl:otherwise>                                                 <!-- Expected unknown -->
           </xsl:choose>
         </xsl:sort>
@@ -69,7 +69,7 @@
       <xsl:apply-templates mode="sortMode">
         <xsl:sort>
           <xsl:value-of>
-            <xsl:value-of select="." />
+            <xsl:value-of select="." />                                        <!-- Expected unknown -->
             <xsl:copy-of select="()" />                                        <!-- Expected unknown -->
           </xsl:value-of>
         </xsl:sort>

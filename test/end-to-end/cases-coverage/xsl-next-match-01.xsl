@@ -4,9 +4,9 @@
       xsl:next-match Coverage Test Case - See imported template as well
   -->
   <!-- Import stylesheet with lower priority template -->
-  <xsl:import href="xsl-next-match-01A.xsl" />
+  <xsl:import href="xsl-next-match-01A.xsl" />                                 <!-- Expected ignored -->
   <!-- Use a mode for matching -->
-  <xsl:mode name="nextMatch" />
+  <xsl:mode name="nextMatch" />                                                <!-- Expected ignored -->
   <!-- Variable with the node to be processed -->
   <xsl:variable name="nextMatchNodes">
     <node>content for built-in template</node>

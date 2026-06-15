@@ -75,8 +75,8 @@
 23: <span class="whitespace">           </span><span class="missed">&lt;xsl:template match="root" mode="csv:post-process"&gt;</span><span class="whitespace">                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 24: <span class="whitespace">               </span><span class="missed">&lt;csv&gt;</span><span class="whitespace">                                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 25: <span class="whitespace">                   </span><span class="missed">&lt;xsl:apply-templates mode="csv:post-process"/&gt;</span><span class="whitespace">              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-26: <span class="whitespace">               </span><span class="missed">&lt;/csv&gt;</span>
-27: <span class="whitespace">           </span><span class="missed">&lt;/xsl:template&gt;</span>
+26: <span class="whitespace">               </span><span class="missed">&lt;/csv&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+27: <span class="whitespace">           </span><span class="missed">&lt;/xsl:template&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 28: 
 29: <span class="whitespace">           </span><span class="comment">&lt;!-- add an extra attribute that uses the context item --&gt;</span>
 30: <span class="whitespace">           </span><span class="ignored">&lt;xsl:attribute-set name="csv:field-attributes"</span>
@@ -85,7 +85,7 @@
 33: <span class="ignored">                              select="if (. castable as xs:decimal)</span>
 34: <span class="ignored">                                      then 'numeric'</span>
 35: <span class="ignored">                                      else 'string'"/&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
-36: <span class="whitespace">           </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
+36: <span class="whitespace">           </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 37: 
 38: <span class="whitespace">           </span><span class="comment">&lt;!-- use semicolon not comma between fields --&gt;</span>
 39: <span class="whitespace">           </span><span class="hit">&lt;xsl:variable name="csv:field-separator"</span>
@@ -103,8 +103,8 @@
 51: <span class="hit">                                     then $norm-line</span>
 52: <span class="hit">                                     else ()"/&gt;</span>
 53: <span class="whitespace">           </span><span class="hit">&lt;/xsl:function&gt;</span>
-54: <span class="whitespace">       </span><span class="ignored">&lt;/xsl:override&gt;</span>
-55: <span class="whitespace">   </span><span class="ignored">&lt;/xsl:use-package&gt;</span>
+54: <span class="whitespace">       </span><span class="ignored">&lt;/xsl:override&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+55: <span class="whitespace">   </span><span class="ignored">&lt;/xsl:use-package&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 56: 
 57: <span class="whitespace">   </span><span class="comment">&lt;!-- example input "file"  --&gt;</span>
 58: <span class="whitespace">   </span><span class="hit">&lt;xsl:variable name="input" as="xs:string"&gt;</span>

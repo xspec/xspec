@@ -3,7 +3,7 @@
   <!--
       xsl:import Coverage Test Case (See imported stylesheet)
   -->
-  <xsl:import href="xsl-import-01A.xsl" />
+  <xsl:import href="xsl-import-01A.xsl" />                                     <!-- Expected ignored -->
   <xsl:template match="xsl-import">
     <root>
       <!-- Call template in imported stylesheet -->

@@ -79,11 +79,11 @@
 27: <span class="whitespace">        </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="whitespace">                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 28: <span class="whitespace">        </span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
 29: <span class="whitespace">          </span><span class="hit">&lt;node type="non-matching-substring"&gt;</span>
-30: <span class="whitespace">            </span><span class="hit">&lt;xsl:sequence select="string('No match')"/&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected unknown --&gt;</span>
+30: <span class="whitespace">            </span><span class="hit">&lt;xsl:sequence select="string('No match')"/&gt;</span>
 31: <span class="whitespace">          </span><span class="hit">&lt;/node&gt;</span>
 32: <span class="whitespace">        </span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
 33: <span class="whitespace">      </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
-34: <span class="whitespace">      </span>
+34: 
 35: <span class="whitespace">      </span><span class="comment">&lt;!-- Test cases for unknown status of xsl:matching-substring and xsl:non-matching-substring --&gt;</span>
 36: <span class="whitespace">      </span><span class="comment">&lt;!-- regex matches string so non-matching-substring not executed --&gt;</span>
 37: <span class="whitespace">      </span><span class="hit">&lt;node type="matching-substring executed unknown, non-matching-substring unexecuted unknown"&gt;</span>

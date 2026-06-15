@@ -23,8 +23,8 @@
            <xsl:template match="root" mode="csv:post-process">                 <!-- Expected miss -->
                <csv>                                                           <!-- Expected miss -->
                    <xsl:apply-templates mode="csv:post-process"/>              <!-- Expected miss -->
-               </csv>
-           </xsl:template>
+               </csv>                                                          <!-- Expected miss -->
+           </xsl:template>                                                     <!-- Expected miss -->
 
            <!-- add an extra attribute that uses the context item -->
            <xsl:attribute-set name="csv:field-attributes"
@@ -33,7 +33,7 @@
                               select="if (. castable as xs:decimal)
                                       then 'numeric'
                                       else 'string'"/>                         <!-- Expected ignored -->
-           </xsl:attribute-set>
+           </xsl:attribute-set>                                                <!-- Expected ignored -->
 
            <!-- use semicolon not comma between fields -->
            <xsl:variable name="csv:field-separator"
@@ -51,8 +51,8 @@
                                      then $norm-line
                                      else ()"/>
            </xsl:function>
-       </xsl:override>
-   </xsl:use-package>
+       </xsl:override>                                                         <!-- Expected ignored -->
+   </xsl:use-package>                                                          <!-- Expected ignored -->
 
    <!-- example input "file"  -->
    <xsl:variable name="input" as="xs:string">

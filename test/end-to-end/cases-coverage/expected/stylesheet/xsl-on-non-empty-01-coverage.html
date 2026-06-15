@@ -31,8 +31,8 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />15</th>
-               <th class="totals emphasis">missed<br />6</th>
+               <th class="totals">hit<br />17</th>
+               <th class="totals emphasis">missed<br />4</th>
                <th class="totals">unknown<br />0</th>
                <th class="totals">lines<br />35</th>
             </tr>
@@ -41,15 +41,15 @@
             <tr class="successful">
                <th><a href="#module1">xsl-on-non-empty-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">15</th>
-               <th class="totals">6</th>
+               <th class="totals">17</th>
+               <th class="totals">4</th>
                <th class="totals">0</th>
                <th class="totals">35</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-on-non-empty-01.xsl<span class="scenario-totals">hit: 15 / missed: 6 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-on-non-empty-01.xsl<span class="scenario-totals">hit: 17 / missed: 4 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -60,22 +60,22 @@
 08: <span class="whitespace">      </span><span class="comment">&lt;!-- Using select attribute --&gt;</span>
 09: <span class="whitespace">      </span><span class="hit">&lt;node type="on-non-empty"&gt;</span>
 10: <span class="whitespace">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">1</span><span class="hit">&lt;/xsl:text&gt;</span>
-11: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-non-empty select="'00'" /&gt;</span>
+11: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-non-empty select="'00'" /&gt;</span><span class="whitespace">                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 12: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
 13: <span class="whitespace">      </span><span class="comment">&lt;!-- Using sequence constructor --&gt;</span>
 14: <span class="whitespace">      </span><span class="hit">&lt;node type="on-non-empty"&gt;</span>
 15: <span class="whitespace">        </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">2</span><span class="hit">&lt;/xsl:text&gt;</span>
-16: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-non-empty&gt;</span>
+16: <span class="whitespace">        </span><span class="hit">&lt;xsl:on-non-empty&gt;</span>
 17: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">00</span><span class="hit">&lt;/xsl:text&gt;</span>
-18: <span class="whitespace">        </span><span class="missed">&lt;/xsl:on-non-empty&gt;</span>
+18: <span class="whitespace">        </span><span class="hit">&lt;/xsl:on-non-empty&gt;</span>
 19: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-20: <span class="whitespace">      </span><span class="comment">&lt;!-- NOT on-non-empty --&gt;</span><span class="comment">&lt;!-- Need to check if comments below affect the outcome - trace does. See https://saxonica.plan.io/issues/6428 --&gt;</span>
+20: <span class="whitespace">      </span><span class="comment">&lt;!-- NOT on-non-empty (intuitively, xsl:on-non-empty should be missed but Saxon traces the xsl:text) --&gt;</span>
 21: <span class="whitespace">      </span><span class="hit">&lt;node type="on-non-empty"&gt;</span>
-22: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-non-empty&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-23: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-24: <span class="whitespace">        </span><span class="missed">&lt;/xsl:on-non-empty&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+22: <span class="whitespace">        </span><span class="hit">&lt;xsl:on-non-empty&gt;</span>
+23: <span class="whitespace">          </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">300</span><span class="hit">&lt;/xsl:text&gt;</span>
+24: <span class="whitespace">        </span><span class="hit">&lt;/xsl:on-non-empty&gt;</span>
 25: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-26: <span class="whitespace">      </span><span class="comment">&lt;!-- NOT on-non-empty but static analysis cannot make that judgment --&gt;</span><span class="whitespace"> </span>
+26: <span class="whitespace">      </span><span class="comment">&lt;!-- NOT on-non-empty but static analysis cannot make that judgment --&gt;</span>
 27: <span class="whitespace">      </span><span class="hit">&lt;node type="on-non-empty"&gt;</span>
 28: <span class="whitespace">        </span><span class="hit">&lt;xsl:sequence select="@nonexistent-attribute" /&gt;</span>
 29: <span class="whitespace">        </span><span class="missed">&lt;xsl:on-non-empty&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
