@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-xspec-home-error-check.xpl">
+
+    <!--
+        These scenarios test xspec-home error checking in the absence of an XML Catalog
+        containing XSpec system identifiers. See also test/xqs/xspec-home-error-check.xspec.
+        
+        When running this test suite, make sure the XSpec catalog.xml file is not in use.
+
+        Note: XML Calabash picks up catalog.xml in the same directory as build.xml,
+        which causes failures when the test runs with either the main XSpec build.xml
+        file or Oxygen's Ant-based "Run XSpec Test" transformation scenario.
+    -->
+
+    <x:import href="xspec-home-error-check_import.xspec"/>
+    <x:scenario label="Running XSpec test for XSLT" catch="yes">
+        <x:call step="s:xslt-varying-xspec-home"/>
+        <x:like label="Check xspec-home empty and zero-length string"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XQuery" catch="yes">
+        <x:call step="s:xquery-varying-xspec-home"/>
+        <x:like label="Check xspec-home empty and zero-length string"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for XProc" catch="yes">
+        <x:call step="s:xproc-varying-xspec-home"/>
+        <x:like label="Check xspec-home empty and zero-length string"/>
+    </x:scenario>
+
+</x:description>

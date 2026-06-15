@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="do-nothing-xqs.sch"
+    xmlns:my="http://example.org/ns/my">
+    <!--
+        The Schematron schema uses an XQuery-based implementation of Schematron,
+        so the namespace binding xmlns:my=... must occur on x:description of the
+        test you execute. Otherwise, the compiled query raises an error,
+        [XPST0081] Namespace prefix not declared: my.
+    -->
+    <x:variable name="my:var" select="//my:section">
+        <my:section/>
+    </x:variable>
+</x:description>

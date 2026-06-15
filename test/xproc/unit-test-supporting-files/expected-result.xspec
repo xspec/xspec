@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc"
+  xmlns:s="x-urn:test:xproc:inputs-options-outputs" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  xproc="inputs-options-outputs.xpl">
+
+  <!-- Some of the x:expect elements in this file raise run-time errors or fail. The purpose of this file is to test
+      whether the x:expect element is compiled correctly. -->
+
+  <x:scenario label="Call a step">
+    <x:call step="s:inputs-options-outputs">
+      <x:input port="in1">in1 document</x:input>
+      <x:input port="in2">in2 document</x:input>
+      <x:input port="in3">in3 document</x:input>
+    </x:call>
+
+    <x:scenario label="x:expect[@port] without @test">
+      <x:expect port="out1" label="@href and no @select" href="external-file.xml"/>
+      <x:expect port="out1" label="@href and @select" href="external-file.xml"
+        select="//selected-element"/>
+      <x:expect port="out1" label="embedded nodes and no @select">
+        <child/>
+      </x:expect>
+      <x:expect port="out1" label="embedded nodes and @select" select="//selected-element">
+        <selected-element/>
+      </x:expect>
+      <x:expect port="out1" label="@select with no @href and no embedded nodes"
+        select="doc('my-catalog:/external-file.xml')//selected-element"/>
+      <x:expect port="out1" label="@select producing atomic value instead of node"
+        select="0"/>
+      <x:expect port="out1" label="@as only" as="empty-sequence()"/>
+    </x:scenario>
+
+    <x:scenario label="x:expect[@port] with @test">
+      <x:expect port="out1" test="//filter" label="@href and no @select" href="external-file.xml"/>
+      <x:expect port="out1" test="//filter" label="@href and @select" href="external-file.xml"
+        select="//selected-element"/>
+      <x:expect port="out1" test="//filter" label="embedded nodes and no @select">
+        <child/>
+      </x:expect>
+      <x:expect port="out1" test="//filter" label="embedded nodes and @select"
+        select="//selected-element">
+        <selected-element/>
+      </x:expect>
+      <x:expect port="out1" test="//filter" label="@select with no @href and no embedded nodes"
+        select="doc('my-catalog:/external-file.xml')//selected-element"/>
+      <x:expect port="out1" test="//filter" label="@as only" as="empty-sequence()"/>
+    </x:scenario>
+  </x:scenario>
+</x:description>

@@ -86,8 +86,12 @@
 
                   <xsl:variable name="is-function-call" as="xs:boolean"
                      select="($call, .)/@function => exists()" />
-                  <xsl:variable name="local-params" as="element(x:param)*">
-                     <xsl:for-each select="x:param">
+                  <xsl:variable name="local-params" as="element()*">
+                     <!-- Sequence type of this variable is:
+                        * For call to template or function: element(x:param)*
+                        * For call to step: element(x:input)*, element(x:option)*
+                     -->
+                     <xsl:for-each select="x:param | x:input | x:option">
                         <xsl:copy>
                            <xsl:if test="$is-function-call">
                               <xsl:attribute name="position" select="position()" />
@@ -99,12 +103,13 @@
 
                   <xsl:sequence
                      select="
-                        $call/x:param
+                        $call/(x:param | x:input | x:option)
                         [not(@name = $local-params/@name)]
+                        [not(@port = $local-params/@port)]
                         [not(@position = $local-params/@position)],
                         $local-params"/>
                </xsl:copy>
-               <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
+               <!-- TODO: Test that "x:call/(node() except (x:param | x:input | x:option))" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
@@ -127,7 +132,7 @@
          </xsl:message>
       </xsl:if>
 
-      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
+      <!-- Dispatch to a language-specific (XSLT, XQuery, or XProc) worker template -->
       <xsl:call-template name="x:compile-scenario">
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />

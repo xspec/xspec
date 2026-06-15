@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron-tvt-in-schema.sch" xml:base="schematron/">
+    <x:param name="Q{http://dmaus.name/ns/2023/schxslt}expand-text" select="true()"/>
+    <x:scenario label="When TVT is enabled during SchXslt2 transpiler process">
+        <x:context href="schematron-01.xml"/>
+        <x:scenario label="report text includes the expression result, i.e., 3">
+            <x:expect-report>3 sections</x:expect-report>
+        </x:scenario>
+    </x:scenario>
+</x:description>

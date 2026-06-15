@@ -59,18 +59,18 @@ The following list describes the rules used to determine the coverage status of 
 | CHILDREN | xsl:accumulator-rule                       |
 | CONTENT  |                                            |
 | TRACE    | No                                         |
-| RULE     | Always Ignore                              |
+| RULE     | Use Descendant Data                        |
 
 ## xsl:accumulator-rule
 
-|          |                                    |
-| -------- | ---------------------------------- |
-| CATEGORY |                                    |
-| PARENT   | xsl:accumulator                    |
-| CHILDREN |                                    |
-| CONTENT  |                                    |
-| TRACE    | No                                 |
-| RULE     | Ignore Element and All Descendants |
+|          |                 |
+| -------- | --------------- |
+| CATEGORY |                 |
+| PARENT   | xsl:accumulator |
+| CHILDREN |                 |
+| CONTENT  |                 |
+| TRACE    | Yes             |
+| RULE     | Use Trace Data  |
 
 #### Comment
 
@@ -746,41 +746,35 @@ Tested as part of xsl:iterate.
 
 ## xsl:on-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | No                     |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-With the select attribute, XSpec trace indicates column 0.
-
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
 With a sequence constructor, the children are traced but the xsl:on-empty element is not.
-
-May change in the next release of Saxon due to this issue: https://saxonica.plan.io/issues/6428
 
 ## xsl:on-non-empty
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                                                                     |
+| -------- | ------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                         |
+| PARENT   |                                                                     |
+| CHILDREN |                                                                     |
+| CONTENT  |                                                                     |
+| TRACE    | No                                                                  |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data. |
 
 #### Comment
 
-Column 0 in xspec trace. Not in Saxon trace.
-
-There is a Saxonica issue (https://saxonica.plan.io/issues/6428) that it outputs the contents of xsl:on-non-empty when the parent is actually empty if tracing is enabled.
-
-Suggest it is marked as 'unknown' including the children until the Saxon issue is fixed.
+With a `select` attribute the select expression may be traced, but the xsl:on-empty element is not.
+With a sequence constructor, the children are traced but the xsl:on-non-empty element is not.
 
 ## xsl:otherwise
 
@@ -1073,20 +1067,18 @@ Should this be marked as 'hit'? It isn't traced but it has to be executed (unles
 
 ## xsl:try
 
-|          |                        |
-| -------- | ---------------------- |
-| CATEGORY | Instruction            |
-| PARENT   |                        |
-| CHILDREN |                        |
-| CONTENT  |                        |
-| TRACE    | Partly                 |
-| RULE     | Element Specific - TBD |
+|          |                                                                                                                                     |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| CATEGORY | Instruction                                                                                                                         |
+| PARENT   |                                                                                                                                     |
+| CHILDREN |                                                                                                                                     |
+| CONTENT  |                                                                                                                                     |
+| TRACE    | Yes (on descendant if no select attribute)                                                                                          |
+| RULE     | Use Trace Data if select attribute. Otherwise, Use Descendant Data for descendants outside any xsl:catch and xsl:fallback children. |
 
 #### Comment
 
-With a select attribute, this element is traced, but the column number is wrong (7 and 0 occur in the xsl-try-01.xsl trace output). In all cases, the class is net.sf.saxon.expr.TryCatch.
-
-With a sequence constructor, xsl:try is not traced, but the first child is traced and has a class of net.sf.saxon.expr.TryCatch (the first child may also be traced in its own right as well). Other children are traced.
+The element can have a select attribute and a sequence constructor which contains `xsl:catch` and/or `xsl:fallback` so the rule test has to be that there isn't a select attribute, not that are child nodes.
 
 ## xsl:use-package
 

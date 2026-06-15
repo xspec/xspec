@@ -134,22 +134,14 @@
                   <x:call>
                      <x:param select="xs:double('0')" />
                   </x:call>
-                  <x:expect label="Numeric literal" test="
-                        $x:result = (
-                           (: https://saxonica.plan.io/issues/4866 :) '0.0e-1',
-                           (: BaseX 9.4.5                          :) '0.0e0'
-                        )" />
+                  <x:expect label="Numeric literal" select="'0.0e0'" />
                </x:scenario>
 
                <x:scenario label="-0">
                   <x:call>
                      <x:param select="xs:double('-0')" />
                   </x:call>
-                  <x:expect label="Numeric literal" test="
-                        $x:result = (
-                           (: https://saxonica.plan.io/issues/4866 :) '-0.0e-1',
-                           (: BaseX 9.4.5                          :) '-0.0e0'
-                        )" />
+                  <x:expect label="Numeric literal" select="'-0.0e0'" />
                </x:scenario>
 
                <x:scenario label="-1">

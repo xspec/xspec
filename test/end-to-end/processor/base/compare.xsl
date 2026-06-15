@@ -9,7 +9,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet is a basis for comparing the input document with the expected file.
+		This top-level stylesheet is a basis for comparing the input document with the expected file.
 			* Before comparing, the input document is normalized.
 		
 		Each processor must import this stylesheet and provide its own deserializer, normalizer and serializer.

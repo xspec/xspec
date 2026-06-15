@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="do-nothing-xqs.sch"
+    xmlns:my="http://example.org/ns/my">
+    <x:import href="../x-context_schematron.xspec"/>
+</x:description>

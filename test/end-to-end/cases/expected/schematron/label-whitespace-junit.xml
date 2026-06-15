@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="label-whitespace.xspec">
+   <testsuite name="x:like label with untrimmed whitespace"
+              tests="4"
+              failures="0">
+      <testcase name="in x:like/@label targeting x:scenario/@label matches scenario @label with untrimmed whitespace"
+                status="passed"/>
+      <testcase name="&#x9;&#xA;&#xD; My Scenario&#x9;&#xA;&#xD; with x:label&#x9;&#xA;&#xD;  matches scenario x:label with untrimmed whitespace"
+                status="passed"/>
+      <testcase name="in x:like/x:label targeting x:scenario/@label matches scenario @label with untrimmed whitespace"
+                status="passed"/>
+      <testcase name="&#x9;&#xA;&#xD; My Scenario&#x9;&#xA;&#xD; with x:label&#x9;&#xA;&#xD;  matches scenario x:label with untrimmed whitespace"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="x:like label with trimmed whitespace" tests="4" failures="0">
+      <testcase name="in x:like/@label targeting x:scenario/@label matches scenario @label with trimmed whitespace"
+                status="passed"/>
+      <testcase name="My Scenario&#x9;&#xA;&#xD; with x:label matches scenario x:label with trimmed whitespace"
+                status="passed"/>
+      <testcase name="in x:like/x:label targeting x:scenario/@label matches scenario @label with trimmed whitespace"
+                status="passed"/>
+      <testcase name="My Scenario&#x9;&#xA;&#xD; with x:label matches scenario x:label with trimmed whitespace"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="x:like label with normalized whitespace"
+              tests="4"
+              failures="0">
+      <testcase name="in x:like/@label targeting x:scenario/@label matches scenario @label with normalized whitespace"
+                status="passed"/>
+      <testcase name="My Scenario with x:label matches scenario x:label with normalized whitespace"
+                status="passed"/>
+      <testcase name="in x:like/x:label targeting x:scenario/@label matches scenario @label with normalized whitespace"
+                status="passed"/>
+      <testcase name="My Scenario with x:label matches scenario x:label with normalized whitespace"
+                status="passed"/>
+   </testsuite>
+</testsuites>

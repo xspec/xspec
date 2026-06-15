@@ -4,7 +4,7 @@ on:
     paths:
       - src/common/VERSION
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 

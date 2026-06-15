@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Similar to test/end-to-end/cases/focus-without-pending.xspec -->
+<x:description xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   xproc="../../cases/library-mirror.xpl">
+
+   <x:scenario label="Test @focus">
+
+      <x:call step="mirror:identity">
+         <x:input port="source" select="9"/>
+      </x:call>
+
+      <!--
+         Unfocused scenarios are pending because of the @focus in "Focused scenarios"
+      -->
+      <x:scenario label="an unfocused Success scenario must be Pending">
+         <x:expect port="xproc-result" label="it would return Success if it were not Pending"
+            test="true()"/>
+      </x:scenario>
+
+      <x:scenario label="an unfocused Failure scenario must be Pending">
+         <x:expect port="xproc-result" label="it would return Failure if it were not Pending"
+            test="false()"/>
+      </x:scenario>
+
+      <!--
+         Focused scenarios
+      -->
+      <x:scenario label="a focused Success scenario" focus="testing @focus of a Success scenario">
+         <x:expect port="xproc-result" label="must execute the test and return Success"
+            test="true()"/>
+      </x:scenario>
+
+      <x:scenario label="a focused Failure scenario" focus="testing @focus of a Failure scenario">
+         <x:expect port="xproc-result" label="must execute the test and return Failure"
+            test="false()"/>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>

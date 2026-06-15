@@ -5,7 +5,7 @@
              stylesheet="schut-to-xspec-test.sch.xsl">
    <x:param xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns=""
-            name="phase"
+            name="Q{http://dmaus.name/ns/2023/schxslt}phase"
             select="concat('P','1')"/>
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns=""

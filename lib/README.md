@@ -1,3 +1,9 @@
-## [`schxslt`](schxslt/)
+## [`schxslt2`](schxslt2/)
 
-Taken from `schxslt-*-xslt-only.zip` found in [SchXslt releases](https://github.com/schxslt/schxslt/releases).
+Downloaded `schxslt2-*.zip` from https://codeberg.org/SchXslt/schxslt2/releases
+and extracted all files.
+
+## [`XQS`](XQS/)
+
+Downloaded ZIP-file from https://github.com/AndrewSales/XQS/releases
+and deleted examples/, presentations/, and test/ directories.

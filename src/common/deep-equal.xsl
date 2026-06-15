@@ -4,6 +4,7 @@
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:wrap="urn:x-xspec:common:wrap"
                 exclude-result-prefixes="#all"
                 version="3.0">
 
@@ -15,6 +16,7 @@
 
    <!-- $flags
       w : Ignores descendant whitespace-only text nodes except the ones in <x:ws>
+      d : Does not wrap document nodes
       1 : Simulates XSLT version 1.0 -->
    <xsl:function name="deq:deep-equal" as="xs:boolean">
       <xsl:param name="seq1" as="item()*" />
@@ -72,9 +74,10 @@
                <xsl:sequence select="deq:deep-equal($seq1, $seq2, $flags)" />
             </xsl:when>
 
-            <xsl:when test="x:wrappable-sequence($seq1) and x:wrappable-sequence($seq2)">
-               <xsl:variable name="seq1doc" as="document-node()" select="x:wrap-nodes($seq1)" />
-               <xsl:variable name="seq2doc" as="document-node()" select="x:wrap-nodes($seq2)" />
+            <xsl:when test="wrap:wrappable-sequence($seq1) and wrap:wrappable-sequence($seq2)
+               and not(contains($flags, 'd'))">
+               <xsl:variable name="seq1doc" as="document-node()" select="wrap:wrap-nodes($seq1)" />
+               <xsl:variable name="seq2doc" as="document-node()" select="wrap:wrap-nodes($seq2)" />
 
                <xsl:choose>
                   <xsl:when

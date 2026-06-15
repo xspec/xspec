@@ -15,11 +15,16 @@
           <xsl:text>200</xsl:text>
         </xsl:on-empty>
       </node>
-      <!-- NOT on-empty-->
+      <!-- NOT on-empty, using select attribute-->
       <node type="on-empty">
         <xsl:text>300</xsl:text>
+        <xsl:on-empty select="300 idiv 2"/>                                    <!-- Expected miss -->
+      </node>
+      <!-- NOT on-empty, using sequence constructor -->
+      <node type="on-empty">
+        <xsl:text>400</xsl:text>
         <xsl:on-empty>                                                         <!-- Expected miss -->
-          <xsl:text>300</xsl:text>                                             <!-- Expected miss -->
+          <xsl:text>400</xsl:text>                                             <!-- Expected miss -->
         </xsl:on-empty>                                                        <!-- Expected miss -->
       </node>
     </root>

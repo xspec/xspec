@@ -20,3 +20,6 @@
 
 # XHTML can be formatted by XML editors including Oxygen
 *.xhtml
+
+# An HTML file that isn't supposed to be XML
+/test/xproc/cases/document-not-xhtml.html

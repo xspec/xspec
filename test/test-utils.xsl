@@ -74,4 +74,25 @@
 		 />
 	</xsl:function>
 
+	<!--
+		In an adaptive serialization of a map with keys Q{}base-uri and Q{}content-type
+		and no others, this function returns the serialization with the Q{}base-uri
+		entry first.
+		
+		Used for comparison against expected result file in end-to-end testing. The keys
+		that come up there are only those two, and this function is not intended as a
+		normalizer of map entry order for arbitrary maps.
+	-->
+	<xsl:function as="xs:string" name="x:base-uri-before-content-type">
+		<xsl:param as="xs:string" name="serialized-map"/>
+
+		<xsl:variable name="content-type-pattern" as="xs:string"
+			>(Q\{\}content-type:"[a-z/\+]+")</xsl:variable>
+		<xsl:variable name="base-uri-pattern" as="xs:string">(Q\{\}base-uri:"[^"]+")</xsl:variable>
+		<xsl:sequence select="
+				replace($serialized-map,
+				concat($content-type-pattern, '\s*,\s*', $base-uri-pattern),
+				'$2,$1'
+				)"/>
+	</xsl:function>
 </xsl:stylesheet>

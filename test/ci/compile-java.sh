@@ -2,7 +2,7 @@
 
 echo "Compile Java"
 
-if javac -version 2>&1 | grep -F ' 17.'; then
+if javac -version 2>&1 | grep -F ' 21.'; then
     echo "Skip compiling with incompatible JDK"
     exit
 fi

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.40?>
+<!-- https://codeberg.org/xmlcalabash/xmlcalabash3/issues/580 -->
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-input-port-default.xpl">
+
+   <x:scenario label="Default document is a document node with outermost element 'child'">
+      <x:call step="s:default-to-child-element"/>
+      <x:scenario label="Port-specific verification">
+         <x:expect label="using $x:result/*" port="xproc-result" result-type="document-node()"
+            test="$x:result/*"><child>...</child></x:expect>
+         <x:expect label="using /*" port="xproc-result" test="/*"><child>...</child></x:expect>
+         <x:expect label="using implicit context" port="xproc-result"
+            test="*"><child>...</child></x:expect>
+      </x:scenario>
+      <x:scenario label="Non-port-specific verification">
+         <x:expect label="using 'document' key" test="$x:result?ports?xproc-result?document"
+            select="/"><child>...</child></x:expect>
+      </x:scenario>
+   </x:scenario>
+</x:description>

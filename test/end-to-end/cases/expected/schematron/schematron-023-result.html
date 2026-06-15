@@ -106,28 +106,24 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:</p>
-                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"</span>
-                        <span class="xmlns">xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"</span>
-                        <span class="xmlns">xmlns:sch="http://purl.oclc.org/dsdl/schematron"</span>
-                        <span class="xmlns">xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"</span>
-                        <span class="xmlns">xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"</span>
-                        <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
-                        <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;
-   &lt;svrl:active-pattern documents="schematron-023-compiled.xsl" /&gt;
-   &lt;svrl:fired-rule context="/" /&gt;
+                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
+                        phase="#ALL"&gt;
+   &lt;svrl:active-pattern /&gt;
+   &lt;svrl:fired-rule context="/"
+                    document="schematron-023-compiled.xsl" /&gt;
    &lt;svrl:fired-rule context="title" /&gt;
-   &lt;svrl:failed-assert location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"
+   &lt;svrl:failed-assert id="a0002"
                        role="ERROR"
-                       id="a0002"
-                       test="following-sibling::p"&gt;
+                       test="following-sibling::p"
+                       location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"&gt;
       &lt;svrl:text&gt;
                 title must be followed by a paragraph
             &lt;/svrl:text&gt;
    &lt;/svrl:failed-assert&gt;
-   &lt;svrl:failed-assert location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"
+   &lt;svrl:failed-assert id="a0003"
                        role="WARN"
-                       id="a0003"
-                       test="string() ne upper-case(string())"&gt;
+                       test="string() ne upper-case(string())"
+                       location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"&gt;
       &lt;svrl:text&gt;
                 title should not be all upper case
             &lt;/svrl:text&gt;
@@ -177,19 +173,15 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:</p>
-                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"</span>
-                        <span class="xmlns">xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"</span>
-                        <span class="xmlns">xmlns:sch="http://purl.oclc.org/dsdl/schematron"</span>
-                        <span class="xmlns">xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"</span>
-                        <span class="xmlns">xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"</span>
-                        <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
-                        <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;
-   &lt;svrl:active-pattern documents="schematron-023-compiled.xsl" /&gt;
-   &lt;svrl:fired-rule context="/" /&gt;
-   &lt;svrl:failed-assert location="/"
+                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
+                        phase="#ALL"&gt;
+   &lt;svrl:active-pattern /&gt;
+   &lt;svrl:fired-rule context="/"
+                    document="schematron-023-compiled.xsl" /&gt;
+   &lt;svrl:failed-assert id="a0001"
                        role="FATAL"
-                       id="a0001"
-                       test="document"&gt;
+                       test="document"
+                       location="/"&gt;
       &lt;svrl:text&gt;
                 root element must be document
             &lt;/svrl:text&gt;

@@ -72,6 +72,15 @@
                   -->
                </xsl:when>
 
+               <xsl:when test="
+                  self::x:variable
+                  [local-name-from-QName($qname) eq 'context']/
+                  ancestor::x:description[exists(@query)][exists(@schematron)][exists(@original-xspec)]">
+                  <!-- Allow it in a test for XQuery that was generated from a test
+                     for a Schematron schema that targets the XQS implementation of
+                     Schematron. -->
+               </xsl:when>
+
                <xsl:otherwise>
                   <!-- Reject it -->
                   <xsl:message terminate="yes">

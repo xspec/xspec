@@ -19,7 +19,6 @@ First you need to set up the expected report files. This is a manual operation w
 1. The script executes the `cases/*.xspec` files, or the `cases-coverage/*.xspec` files if you supplied the `-Dcases.dir=cases-coverage` argument.
 
    In the `cases` or `cases-coverage` directory, two kinds of the report files are generated:
-
    - Original ones: `actual__/(query|schematron|stylesheet)/*.*`
    - Normalized ones: `expected/(query|schematron|stylesheet)/*.*`
 

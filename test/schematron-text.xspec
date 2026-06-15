@@ -41,7 +41,7 @@
         <!-- Note: The next x:expect element fails in skeleton implementation, which returns
             different SVRL markup. XSpec v3.0 no longer supports skeleton implementation. -->
         <x:expect label="using x:expect to verify node tree, not just string value"
-            test="//svrl:successful-report[@id = 'r001']/svrl:property-reference[@property = 'prop-data']"
+            test="$x:result//svrl:successful-report[@id = 'r001']/svrl:property-reference[@property = 'prop-data']"
             as="element(svrl:property-reference)">
             <svrl:property-reference property="prop-data">
                 <svrl:text>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -17,6 +17,8 @@
 				$node/ancestor::x:context/node()[not(self::x:param)]
 				| $node/ancestor::x:expect/node()[not(self::x:label)]
 				| $node/ancestor::x:param/node()
+				| $node/ancestor::x:input/node()[not(self::p:document)]
+				| $node/ancestor::x:option/node()[not(self::p:document)]
 				| $node/ancestor::x:variable/node()
 				)
 				)"

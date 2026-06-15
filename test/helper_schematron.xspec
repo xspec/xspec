@@ -4,6 +4,7 @@
 
 	<!-- Import the helper 'mirror' module -->
 	<x:helper stylesheet="mirror.xsl" />
+	<x:helper query="x-urn:test:mirror" query-at="mirror.xqm" />
 
 	<x:scenario label="Use the imported helper">
 		<!-- Set up the context using the helpers -->

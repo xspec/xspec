@@ -116,7 +116,7 @@
 		<xsl:variable as="xs:boolean" name="require-timestamp"
 			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
-		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
+		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet | @xproc)">
 			<xsl:sort select="name()" />
 
 			<xsl:variable as="xs:string" name="test-type">
@@ -124,6 +124,7 @@
 					<xsl:when test="name() = 'query'">q</xsl:when>
 					<xsl:when test="name() = 'schematron'">s</xsl:when>
 					<xsl:when test="name() = 'stylesheet'">t</xsl:when>
+					<xsl:when test="name() = 'xproc'">p</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
@@ -132,9 +133,9 @@
 					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
-							and ($x:saxon-version ne x:pack-version((12, 7)))">
+							and ($x:saxon-version lt x:pack-version((12, 7)))">
 						<!-- Why not Saxon 10 or 11: https://saxonica.plan.io/issues/6223 -->
-						<xsl:text>XSLT Code Coverage requires Saxon version 12.7</xsl:text>
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.7 or higher</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -209,33 +210,9 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($pis = 'require-saxon-bug-4483-fixed')
-							and ($x:saxon-version eq x:pack-version((10, 0)))">
-						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4621-fixed')
-							and
-							(
-							($x:saxon-version ge x:pack-version(10))
-							and
-							($x:saxon-version le x:pack-version((10, 1)))
-							)">
-						<xsl:text>Requires Saxon bug #4621 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4696-fixed')
-							and ($x:saxon-version ge x:pack-version((10, 0)))
-							and ($x:saxon-version le x:pack-version((10, 2)))">
-						<xsl:text>Requires Saxon bug #4696 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4835-fixed')
-							and ($x:saxon-version le x:pack-version((10, 3)))">
-						<xsl:text>Requires Saxon bug #4835 to have been fixed</xsl:text>
+						($test-type = ('p'))
+						and empty(environment-variable('XMLCALABASH3_JAR'))">
+						<xsl:text>Requires XML Calabash 3</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -290,6 +267,7 @@
 								'coverage-reporter',
 								'force-focus',
 								'html-reporter',
+								'schxslt2-transpiler',
 								'schematron-preprocessor-step1',
 								'schematron-preprocessor-step2',
 								'schematron-preprocessor-step3',

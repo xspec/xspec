@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec">
+	<t:scenario label="my scenario label">
+		<t:expect id="dummy-expect-id" label="my expect label" test="false()"
+			port="xproc-result"
+			result-type="item()"/>
+	</t:scenario>
+</t:description>

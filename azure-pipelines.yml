@@ -9,14 +9,14 @@ trigger:
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java8
-      javaVersion: 8
+      jobName: Win_Java17
+      javaVersion: 17
       testOxygen: false
 
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java17
-      javaVersion: 17
+      jobName: Win_Java21
+      javaVersion: 21
 
   - job: macOS
 
@@ -30,7 +30,7 @@ jobs:
     steps:
       - task: JavaToolInstaller@0
         inputs:
-          versionSpec: '8'
+          versionSpec: '17'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'PreInstalled'
       - script: >

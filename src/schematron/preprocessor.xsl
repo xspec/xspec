@@ -2,9 +2,9 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:variable name="sbu" select="resolve-uri('../../lib/', static-base-uri())" static="yes"/>
-	<xsl:variable as="map(xs:string, item())" name="x:schematron-preprocessor"
-	        select="
+	<xsl:variable name="sbu" select="resolve-uri('../../lib/', static-base-uri())" static="yes"
+		as="xs:anyURI"/>
+	<xsl:variable as="map(xs:string, item())" name="x:schematron-preprocessor" select="
 			(
 			map {
 				'name': 'skeleton',
@@ -21,6 +21,14 @@
 					resolve-uri('schxslt/2.0/expand.xsl', $sbu),
 					resolve-uri('schxslt/2.0/compile-for-svrl.xsl', $sbu)
 				]
+			},
+			map {
+				'name': 'schxslt2',
+				'stylesheets': [
+					'#none',
+					'#none',
+					resolve-uri('schxslt2/transpile.xsl', $sbu)
+				]
 			}
-			)[doc-available(?stylesheets?1)]" static="yes"/>
+			)[doc-available(?stylesheets?3)]" static="yes"/>
 </xsl:stylesheet>

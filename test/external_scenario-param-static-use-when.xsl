@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:param name="A" static="yes" as="xs:integer" select="0"/>
 	<xsl:param name="B" static="yes" as="xs:integer" select="0"/>
-	<xsl:param name="myp:default" static="no"
+	<xsl:param name="myp:default" static="no" as="item()?"
 		xmlns:myp="http://example.org/ns/my/param"/>
 
-	<xsl:template name="process-A-and-B">
+	<xsl:template name="process-A-and-B" as="xs:anyAtomicType+">
 		<xsl:context-item use="absent"/>
 		<xsl:call-template name="template-based-on-A"/>
 		<xsl:call-template name="template-based-on-B"/>

@@ -57,7 +57,7 @@ load bats-helper
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
     assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    [ "${lines[4]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file" ]
+    [ "${lines[4]}" = "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined" {
@@ -112,6 +112,24 @@ load bats-helper
     myrun ../bin/xspec.sh -t -q
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "-t and -q are mutually exclusive" ]
+}
+
+@test "invoking xspec with -p and -q prints error message" {
+    myrun ../bin/xspec.sh -p -q
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-p and -q are mutually exclusive" ]
+}
+
+@test "invoking xspec with -p and -t prints error message" {
+    myrun ../bin/xspec.sh -p -t
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-p and -t are mutually exclusive" ]
+}
+
+@test "invoking xspec with -p and -s prints error message" {
+    myrun ../bin/xspec.sh -p -s
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-p and -s are mutually exclusive" ]
 }
 
 #
@@ -218,6 +236,12 @@ load bats-helper
 
 @test "invoking xspec -c -s prints error message" {
     myrun ../bin/xspec.sh -c -s ../tutorial/schematron/demo-01.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "Coverage is supported only for XSLT" ]
+}
+
+@test "invoking xspec -c -p prints error message" {
+    myrun ../bin/xspec.sh -c -p ../tutorial/xproc-testing-demo.xspec
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "Coverage is supported only for XSLT" ]
 }
@@ -401,6 +425,19 @@ load bats-helper
     [ "${lines[24]}" = "*** Found a test failure" ]
 }
 
+@test "CLI -e with some failures (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -e -p some-failures/step.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[16]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[17]}" = "Report available at ${TEST_DIR}/step-result.html" ]
+    [ "${lines[19]}" = "*** Found a test failure" ]
+}
+
 #
 # CLI -e with no failures
 #
@@ -427,6 +464,19 @@ load bats-helper
     [ "${lines[21]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
     [ "${lines[22]}" = "Report available at ${TEST_DIR}/demo-01-result.html" ]
     [ "${lines[23]}" = "Done." ]
+}
+
+@test "CLI -e with no failures (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -e -p xproc/cases/one-input-no-option-one-output.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[13]}" = "Report available at ${TEST_DIR}/one-input-no-option-one-output-result.html" ]
+    [ "${lines[14]}" = "Done." ]
 }
 
 #
@@ -465,10 +515,10 @@ load bats-helper
 }
 
 #
-# XProc (Saxon)
+# XProc 1 (Saxon)
 #
 
-@test "XProc harness for Saxon (XSLT)" {
+@test "XProc 1 harness for Saxon (XSLT)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -493,7 +543,7 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 }
 
-@test "XProc harness for Saxon (XQuery)" {
+@test "XProc 1 harness for Saxon (XQuery)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -525,7 +575,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
 }
 
-@test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
+@test "XProc 1 harness for Saxon (XQuery with special characters in expression #1020)" {
     if [ -z "${XMLCALABASH_CP}" ]; then
         skip "XMLCALABASH_CP is not defined"
     fi
@@ -537,7 +587,679 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "3" ]
+    # Use assert_regex because of other text before the content of interest in XProc 1.
     assert_regex "${lines[2]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
+}
+
+#
+# XProc 3 (Saxon)
+#
+
+@test "XProc 3 harness with Saxon (XSLT)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+
+    # Run
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+}
+
+@test "XProc 3 harness with Saxon (XQuery)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+
+    # Run
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Run again (ndw/xmlcalabash1#322)
+    java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
+}
+
+@test "XProc 3 harness with Saxon (XQuery with special characters in expression #1020)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=issue-1020.xspec \
+        --output:result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "8" ]
+    [ "${lines[7]}" = "passed: 12 / pending: 0 / failed: 0 / total: 12" ]
+}
+
+@test "XProc 3 harness options" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-cases.xpl cases-dir=harness-cases/
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+#
+# Catalog file URI (XProc 3)
+#
+#     Test multiple 'catalog' command-line options with URIs (relative and absolute)
+#
+
+@test "XProc 3 harness with catalog file URI (XSLT)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_stylesheet.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xslt-test-result_${RANDOM}.html" \
+        ../src/xproc3/run-xslt.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "XProc 3 harness with catalog file URI (XQuery)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_query.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xquery-test-result_${RANDOM}.html" \
+        ../src/xproc3/run-xquery.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+@test "XProc 3 harness with catalog file URI (Schematron via XQS)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --catalog:"catalog/03/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-03_schematron-xqs.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "XProc 3 harness with catalog file URI (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_xproc.xspec" \
+        --output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result_${RANDOM}.html" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+}
+
+#
+# JUnit (XProc 3 - Saxon (XSLT))
+#
+
+@test "XProc 3 harness with Saxon (XSLT) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XSLT), using catalog, producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        --catalog:../catalog.xml \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XSLT), checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# JUnit (XProc 3 - Saxon (XQuery))
+#
+
+@test "XProc 3 harness with Saxon (XQuery) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with Saxon (XQuery), checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# JUnit (XProc 3 - BaseX (XQuery))
+#
+
+@test "XProc 3 harness with BaseX (XQuery) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/serialize-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/serialize-junit.xml"
+
+    # Run
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+}
+
+@test "XProc 3 harness with BaseX (XQuery), checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/serialize-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/serialize.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# XProc 3 support for Schematron testing using XQS
+#
+
+@test "XProc 3 support for Schematron testing using XQS" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH3_DIR}" ]; then
+        skip "XMLCALABASH3_DIR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xpl
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+#
+# JUnit (XProc 3 - BaseX (Schematron via XQS))
+#
+
+@test "XProc 3 harness with XQS (Schematron) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/schematron"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/schematron-xqs-demo-01-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/schematron-xqs-demo-01-junit.xml"
+
+    # Run
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/schematron-xqs-demo-01-junit.xml"
+}
+
+@test "XProc 3 harness with XQS (Schematron), checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/schematron-xqs-demo-01-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/schematron-xqs-demo-01-junit_${r}.xml"
+
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# Test cases for testing XProc steps
+#
+
+@test "Passing test cases for testing XProc steps" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    # Run series of tests, and return error messages if anything fails
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-cases.xpl
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+@test "Error cases for testing XProc steps" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    # Run series of tests, and indicate if anything does not raise the expected compiler error
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-error-cases.xpl error-phase=compiler
+
+    assert_regex "${output}" $'\n''--- Each test raised the expected error. ---'$'\n'
+
+    # Run series of tests, and indicate if anything does not raise the expected test runner error
+    myrun java -jar "${XMLCALABASH3_JAR}" xproc/run-xproc-error-cases.xpl error-phase=runner
+
+    assert_regex "${output}" $'\n''--- Each test raised the expected error. ---'$'\n'
+}
+
+#
+# JUnit (XProc 3 - XML Calabash (XProc))
+#
+
+@test "XProc 3 harness with XProc producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/xproc"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/tutorial_xproc-testing-demo-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/tutorial_xproc-testing-demo-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/xproc/tutorial_xproc-testing-demo-junit.xml"
+}
+
+@test "XProc 3 harness with XProc, checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/tutorial_xproc-testing-demo-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/tutorial_xproc-testing-demo-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
+# XML Calabash configuration in tests for XProc
+#   In XML Calabash v3.0.27 and later, the configuration takes effect.
+#   XML Calabash v3.0.25 (Oxygen 28.0) does not support passing in the
+#   configuration file, but the line numbering default in that version
+#   has the same effect, so the test case passes for a different reason.
+#
+
+@test "XML Calabash configuration for testing XProc (CLI)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # Test with a space in file name
+    export XMLCALABASH_CONFIG="file:${work_dir}/xml%20calabash%20config${r}.xml"
+    cp xproc/cases/xmlcalabash-config-example.xml "${work_dir}/xml calabash config${r}.xml"
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -p xproc/cases/validation-with-or-without-line-numbers.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 0 / pending: 0 / failed: 1 / total: 1" ]
+}
+
+@test "XML Calabash configuration for testing XProc (Ant)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${XMLCALABASH3_JAR}" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dxspec.xmlcalabash.config="${PWD}/xproc/cases/xmlcalabash-config-example.xml" \
+        -Dtest.type=p \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/xproc/cases/validation-with-or-without-line-numbers.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 14]}" = "     [xslt] passed: 0 / pending: 0 / failed: 1 / total: 1" ]
 }
 
 #
@@ -593,59 +1315,48 @@ load bats-helper
 }
 
 #
-# Schematron XSLTs provided externally (CLI)
+# Schematron XSLT provided externally (CLI)
 #
 #     Ant is tested by run-xspec-tests-ant.sh
 #
 
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
+@test "invoking xspec with Schematron XSLT provided externally uses provided XSLT for Schematron compile (CLI)" {
+    export SCHXSLT2_TRANSPILER="schematron/schematron-param-001-step3.xsl"
+
+    myrun ../bin/xspec.sh -s schematron-param-001.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 8 / pending: 0 / failed: 0 / total: 8" ]
+}
+
+#
+# Schematron running with XQS (CLI)
+#
+
+@test "invoking xspec with -s where schema being tested requires XQS (CLI)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
     fi
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
+    unset XQS_HOME_URI
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    unset BASEX_JAR
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[${#lines[@]} - 1]}" '.+Executing test for Schematron with XQS requires BASEX_JAR to be defined'
 }
 
-#
-# Skip Schematron Step (CLI)
-#
-
-# Ant is tested by schematron-xslt_skip-1.xspec
-@test "Skip Schematron Step 1 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE="#none"
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
+@test "invoking xspec with -s where schema being tested requires XQS and XQS_HOME_URI is set (CLI)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    export XQS_HOME_URI="file:${parent_dir_abs}/lib/XQS/"
+    myrun ../bin/xspec.sh -s xqs/phases-xqs.xspec
     [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-# Ant is tested by schematron-xslt_skip-2.xspec
-@test "Skip Schematron Step 2 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
-    export SCHEMATRON_XSLT_EXPAND="#none"
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-# Ant is tested by schematron-xslt_skip-1-2.xspec
-@test "Skip Schematron Step 1 and 2 (CLI)" {
-    export SCHEMATRON_XSLT_INCLUDE="#none"
-    export SCHEMATRON_XSLT_EXPAND="#none"
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
-
-    myrun ../bin/xspec.sh -s schematron-xslt.xspec
-    [ "$status" -eq 0 ]
-    [ "${lines[17]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
 #
@@ -1029,13 +1740,99 @@ load bats-helper
     # * Default clean.output.dir is false
     # * Default xspec.junit.enabled is false
     myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
-    [ "${#lines[@]}" = "6" ]
+    [ "${#lines[@]}" = "7" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
     [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
     [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
-    [ "${lines[5]}" = "demo-03_xml-to-properties.xml" ]
+    [ "${lines[5]}" = "demo-03_classify-schematron.xml" ]
+    [ "${lines[6]}" = "demo-03_xml-to-properties.xml" ]
+}
+
+@test "Ant with minimum properties (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Unset any preset args
+    unset ANT_ARGS
+
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp xqs/phases-xqs.* "${tutorial_copy}"
+
+    # Run
+    # * Should work without phase #168
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${tutorial_copy}/phases-xqs.xspec"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+
+    # Verify default output dir
+    # * Default clean.output.dir is false
+    # * Default xspec.junit.enabled is false
+    myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
+    [ "${#lines[@]}" = "6" ]
+    [ "${lines[0]}" = "phases-xqs-compiled.xq" ]
+    [ "${lines[1]}" = "phases-xqs-result.html" ]
+    [ "${lines[2]}" = "phases-xqs-result.xml" ]
+    [ "${lines[3]}" = "phases-xqs-sch-preprocessed.xspec" ]
+    [ "${lines[4]}" = "phases-xqs_classify-schematron.xml" ]
+    [ "${lines[5]}" = "phases-xqs_xml-to-properties.xml" ]
+}
+
+@test "Ant with minimum properties (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # Unset any preset args
+    unset ANT_ARGS
+
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/xproc/*demo.* "${tutorial_copy}"
+    cp ../tutorial/xproc/document.xml "${tutorial_copy}"
+
+    # Run
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${XMLCALABASH3_JAR}" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dtest.type=p \
+        -Dxspec.xml="${tutorial_copy}/xproc-testing-demo.xspec"
+
+    # Default xspec.fail is true
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 1 / total: 3'$'\n'
+    [ "${lines[${#lines[@]} - 4]}" = "BUILD FAILED" ]
+
+    # Verify default output dir
+    # * Default clean.output.dir is false
+    # * Default xspec.coverage.enabled is false
+    # * Default xspec.junit.enabled is false
+    myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "xproc-testing-demo-compiled.xsl" ]
+    [ "${lines[1]}" = "xproc-testing-demo-pipelines.xpl" ]
+    [ "${lines[2]}" = "xproc-testing-demo-result.html" ]
+    [ "${lines[3]}" = "xproc-testing-demo-result.xml" ]
+    [ "${lines[4]}" = "xproc-testing-demo_xml-to-properties.xml" ]
+
+    # HTML report file contains CSS inline
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${tutorial_copy}/xspec/xproc-testing-demo-result.html" \
+        -xsl:check-html-css.xsl
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
 }
 
 #
@@ -1079,6 +1876,41 @@ load bats-helper
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file path (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file path (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${XMLCALABASH3_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dtest.type=p \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1126,6 +1958,43 @@ load bats-helper
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dcatalog="test/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=s \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/catalog/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${XMLCALABASH3_JAR}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dtest.type=p \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -1316,6 +2185,51 @@ load bats-helper
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
+@test "CLI with -catalog file path (Schematron via XQS)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    mkdir -p "${space_dir}/03"
+    cp catalog/catalog-03* "${space_dir}"
+    cp catalog/03/* "${space_dir}/03"
+
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
+        -s \
+        "${space_dir}/catalog-03_schematron-xqs.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with -catalog file path (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/* "${space_dir}/01"
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -p \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        "${space_dir}/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+}
+
 #
 # Catalog file URI (CLI) (-catalog)
 #
@@ -1349,6 +2263,33 @@ load bats-helper
         catalog/catalog-01_schematron.xspec
     [ "$status" -eq 0 ]
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "CLI with -catalog file URI (Schematron via XQS)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
+    myrun ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
+        -s \
+        catalog/catalog-03_schematron-xqs.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Converting Schematron XSpec into XQuery XSpec..." ]
+    [ "${lines[12]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with -catalog file URI (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    myrun ../bin/xspec.sh -p \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_xproc.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -1411,6 +2352,28 @@ load bats-helper
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
+@test "CLI with XML_CATALOG file path (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
+        space_dir="${work_dir}/catalog${RANDOM}"
+    fi
+
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/* "${space_dir}/01"
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
+
+    myrun ../bin/xspec.sh -p "${space_dir}/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+}
+
 #
 # Catalog file URI (CLI) (XML_CATALOG)
 #
@@ -1442,6 +2405,19 @@ load bats-helper
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[25]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
+}
+
+@test "CLI with XML_CATALOG file URI (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    myrun ../bin/xspec.sh -p "catalog/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 #
@@ -1519,7 +2495,7 @@ load bats-helper
         # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
         # from SAXON_HOME/lib/ subdirectory deliberately.
         [ "$status" -eq 1 ]
-        assert_regex "${output}" $'\n''Creating Test Stylesheet\.\.\.'$'\n''Exception in thread '
+        assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
         assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
         assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver'$'\n'
     fi
@@ -1565,9 +2541,11 @@ load bats-helper
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
 
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog="${PWD}/saxon-custom-options/catalog-rewriteURI.xml" \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     [ "$status" -eq 0 ]
@@ -1587,9 +2565,11 @@ load bats-helper
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
 
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog="${PWD}/saxon-custom-options/catalog-rewriteURI.xml" \
         -Dtest.type=q \
         -Dxspec.properties="${xspec_properties}" \
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
@@ -1611,7 +2591,8 @@ load bats-helper
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
-    myrun ../bin/xspec.sh saxon-custom-options/test.xspec
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    myrun ../bin/xspec.sh -catalog saxon-custom-options/catalog-rewriteURI.xml saxon-custom-options/test.xspec
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
@@ -1625,7 +2606,8 @@ load bats-helper
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
-    myrun ../bin/xspec.sh -q saxon-custom-options/test.xspec
+    # Use of XML catalog demonstrates compatibility with RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later
+    myrun ../bin/xspec.sh -catalog saxon-custom-options/catalog-rewriteURI.xml -q saxon-custom-options/test.xspec
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 

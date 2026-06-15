@@ -15,6 +15,7 @@
             <node type="try/catch">300</node>
             <node type="try/catch" />
             <node type="try/catch">400</node>
+            <node type="try/catch">500</node>
          </root>
       </x:expect>
    </x:scenario>

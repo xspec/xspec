@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-saxon-bug-4696-fixed?>
 <x:description schematron="issue-396.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario focus="test this framework" label="above-mentioned">
 		<x:context>

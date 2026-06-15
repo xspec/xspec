@@ -4,24 +4,16 @@
        xsl:accumulator Test Case
   -->
   <!-- xsl:accumulator -->
-  <xsl:accumulator name="accumulatorTest" initial-value="0">                   <!-- Expected ignored -->
-    <xsl:accumulator-rule match="node">                                        <!-- Expected ignored -->
-      <xsl:value-of select="$value + 1" />                                     <!-- Expected ignored -->
-    </xsl:accumulator-rule>                                                    <!-- Expected ignored -->
-  </xsl:accumulator>                                                           <!-- Expected ignored -->
+  <xsl:accumulator name="accumulatorTest" initial-value="0">
+    <xsl:accumulator-rule match="node">
+      <xsl:value-of select="$value + 1" />
+    </xsl:accumulator-rule>
+  </xsl:accumulator>
   <!-- xsl:accumulator not used -->
-  <xsl:accumulator name="dummy01" initial-value="0">                           <!-- Expected ignored -->
-    <xsl:accumulator-rule match="node()" select="$value + 1" />                <!-- Expected ignored -->
-  </xsl:accumulator>                                                           <!-- Expected ignored -->
-  <!-- xsl:accumulator rules are higher priority than xsl:assert rule -->
-  <xsl:accumulator name="accumulatorVsAssert" initial-value="()">              <!-- Expected ignored -->
-    <xsl:accumulator-rule match="node">                                        <!-- Expected ignored -->
-      <xsl:assert test="true()">                                               <!-- Expected ignored -->
-        <xsl:text>cannot get here</xsl:text>                                   <!-- Expected ignored -->
-      </xsl:assert>                                                            <!-- Expected ignored -->
-    </xsl:accumulator-rule>                                                    <!-- Expected ignored -->
-  </xsl:accumulator>                                                           <!-- Expected ignored -->
- 
+  <xsl:accumulator name="dummy01" initial-value="0">                           <!-- Expected miss -->
+    <xsl:accumulator-rule match="node()" select="$value + 1" />                <!-- Expected miss -->
+  </xsl:accumulator>                                                           <!-- Expected miss -->
+
   <!-- xsl:mode for accumulator -->
   <xsl:mode use-accumulators="accumulatorTest" name="accumulator" />           <!-- Expected ignored -->
   <!-- Make accumulator applicable in default mode, too, so that

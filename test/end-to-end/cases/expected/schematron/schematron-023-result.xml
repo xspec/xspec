@@ -19,29 +19,23 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
-                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
-               <svrl:active-pattern documents="schematron-023-compiled.xsl"/>
-               <svrl:fired-rule context="/"/>
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+               <svrl:active-pattern/>
+               <svrl:fired-rule context="/" document="schematron-023-compiled.xsl"/>
                <svrl:fired-rule context="title"/>
-               <svrl:failed-assert location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"
+               <svrl:failed-assert id="a0003"
                                    role="WARN"
-                                   id="a0003"
-                                   test="string() ne upper-case(string())">
+                                   test="string() ne upper-case(string())"
+                                   location="/Q{}document[1]/Q{}section[1]/Q{}title[1]">
                   <svrl:text>
                 title should not be all upper case
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="p"/>
-               <svrl:successful-report location="/Q{}document[1]/Q{}section[1]/Q{}p[1]"
+               <svrl:successful-report id="a0004"
                                        role="WARN"
-                                       id="a0004"
-                                       test="string-length() lt 10">
+                                       test="string-length() lt 10"
+                                       location="/Q{}document[1]/Q{}section[1]/Q{}p[1]">
                   <svrl:text>
                 paragraph is less than 10 characters long
             </svrl:text>
@@ -72,28 +66,22 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
-                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
-               <svrl:active-pattern documents="schematron-023-compiled.xsl"/>
-               <svrl:fired-rule context="/"/>
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+               <svrl:active-pattern/>
+               <svrl:fired-rule context="/" document="schematron-023-compiled.xsl"/>
                <svrl:fired-rule context="title"/>
-               <svrl:failed-assert location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"
+               <svrl:failed-assert id="a0002"
                                    role="ERROR"
-                                   id="a0002"
-                                   test="following-sibling::p">
+                                   test="following-sibling::p"
+                                   location="/Q{}document[1]/Q{}section[1]/Q{}title[1]">
                   <svrl:text>
                 title must be followed by a paragraph
             </svrl:text>
                </svrl:failed-assert>
-               <svrl:failed-assert location="/Q{}document[1]/Q{}section[1]/Q{}title[1]"
+               <svrl:failed-assert id="a0003"
                                    role="WARN"
-                                   id="a0003"
-                                   test="string() ne upper-case(string())">
+                                   test="string() ne upper-case(string())"
+                                   location="/Q{}document[1]/Q{}section[1]/Q{}title[1]">
                   <svrl:text>
                 title should not be all upper case
             </svrl:text>
@@ -120,16 +108,10 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
-                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
-                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
-                                    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
-               <svrl:active-pattern documents="schematron-023-compiled.xsl"/>
-               <svrl:fired-rule context="/"/>
-               <svrl:failed-assert location="/" role="FATAL" id="a0001" test="document">
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+               <svrl:active-pattern/>
+               <svrl:fired-rule context="/" document="schematron-023-compiled.xsl"/>
+               <svrl:failed-assert id="a0001" role="FATAL" test="document" location="/">
                   <svrl:text>
                 root element must be document
             </svrl:text>

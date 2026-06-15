@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=The pipeline could not be compiled.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="bad-xproc-declaration.xpl">
+    <x:scenario label="Mistake in XProc file">
+        <x:call step="s:bad-xproc-declaration"/>
+        <x:expect label="should raise some kind of error"/>
+    </x:scenario>
+</x:description>

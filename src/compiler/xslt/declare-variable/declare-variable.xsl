@@ -58,8 +58,7 @@
 
          <xsl:choose>
             <xsl:when test="$temp-doc-uqname">
-               <xsl:variable name="selection" as="xs:string"
-                  select="(@select, '.'[current()/@href], 'node()')[1]" />
+               <xsl:variable name="selection" as="xs:string" select="x:selection-from-doc(current())"/>
                <xsl:attribute name="select">
                   <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {$selection} )</xsl:text>
                </xsl:attribute>
@@ -72,6 +71,20 @@
                   zero-length string under these attribute conditions.
                -->
                <xsl:attribute name="select" select="'()'" />
+            </xsl:when>
+
+            <xsl:when test="self::x:input[@select] or self::x:expect[@port][not(@test)][@select]">
+               <!--
+                  Wrap each wrappable node. We reach this condition in a test for XProc and
+                  the element uses @select alone. (Use of @select with @href or child nodes
+                  reaches the xsl:when block for $temp-doc-uqname.)
+
+                  Not adding use-when="$test-type eq 'xproc'" because this module is referenced
+                  from multiple top-level stylesheets, not all of which define $test-type.
+                  The match pattern is specific to XProc tests due to x:input and x:expect[@port].
+               -->
+               <xsl:variable name="selection" as="xs:string" select="x:selection-from-doc(current())"/>
+               <xsl:attribute name="select" select="$selection"/>
             </xsl:when>
 
             <xsl:otherwise>

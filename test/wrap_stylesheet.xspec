@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:items="x-urn:test:xspec-items"
+               xmlns:wrap="urn:x-xspec:common:wrap"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="items.xsl">
+
+   <!--
+       Function wrap:unwrap-text-nodes
+   -->
+   <t:scenario label="wrap:unwrap-text-nodes">
+      <t:call function="wrap:unwrap-text-nodes" />
+      
+      <t:scenario label="Document node containing only single text node">
+         <t:call>
+            <t:param select="$items:document-text"/>
+         </t:call>
+         <t:expect label="returns bare text node" select="$items:text"/>
+      </t:scenario>
+      
+      <t:scenario label="All nodes plus atomic value">
+         <t:call>
+            <t:param select="(
+               $items:document-text,
+               $items:all-nodes except $items:document-text,
+               $items:integer
+               )" />
+         </t:call>
+         <t:expect select="(
+            $items:text,
+            $items:all-nodes except $items:document-text,
+            $items:integer
+            )">
+            <t:label>returns the same sequence, except bare text node in place of document node
+               containing only single text node</t:label>
+         </t:expect>
+      </t:scenario>
+      
+      <t:scenario label="Empty sequence">
+         <t:call>
+            <t:param as="empty-sequence()" />
+         </t:call>
+         <t:expect label="Result is empty sequence" select="()" />         
+      </t:scenario>
+   </t:scenario>
+
+</t:description>

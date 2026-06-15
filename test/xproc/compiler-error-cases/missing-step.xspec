@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:scenario ('x:call/@step is missing at the point where step should be called'): x:call must specify a step to call.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../cases/library.xpl">
+    <x:scenario label="x:call/@step is missing">
+        <x:call>
+            <x:input port="source"/>
+        </x:call>
+        <x:scenario label="at the point where step should be called">
+            <x:call>
+                <x:input port="aux"/>
+            </x:call>
+            <x:expect label="Call step now" test="false()"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

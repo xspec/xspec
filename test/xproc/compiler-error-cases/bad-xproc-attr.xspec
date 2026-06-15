@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:description: Cannot find pipeline .../nonexistent.xpl.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="nonexistent.xpl">
+    <x:scenario label="Bad @xproc value"/>
+</x:description>

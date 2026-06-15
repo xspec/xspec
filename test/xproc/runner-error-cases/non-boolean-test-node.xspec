@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node.?>
+<x:description xproc="../cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Non-boolean @test (node) with no comparison factors">
+		<x:call step="mirror:identity">
+			<x:input port="source">
+				<foo/>
+			</x:input>
+		</x:call>
+		<x:expect port="xproc-result" test="$x:result treat as document-node()">
+			<x:label>should be error (even if child::x:label exists)</x:label>
+		</x:expect>
+	</x:scenario>
+
+</x:description>

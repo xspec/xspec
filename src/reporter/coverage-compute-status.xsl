@@ -61,7 +61,6 @@
         | XSLT:package
 
         | XSLT:accept
-        | XSLT:accumulator
         | XSLT:attribute-set
         | XSLT:character-map
         | XSLT:decimal-format
@@ -118,8 +117,7 @@
 
     <!-- Ignore Element and All Descendants -->
     <xsl:template match="
-        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()
-        | XSLT:accumulator-rule/descendant-or-self::node()"
+        XSLT:attribute-set/XSLT:attribute/descendant-or-self::node()"
         as="xs:string"
         mode="coverage"
         priority="20">
@@ -129,15 +127,20 @@
     <!-- Use Descendant Data -->
     <xsl:template
         match="
-        XSLT:assert[child::node()]
+        XSLT:accumulator
+        | XSLT:assert[child::node()]
+        | XSLT:catch
         | XSLT:fallback
         | XSLT:map
         | XSLT:map-entry
         | XSLT:matching-substring
         | XSLT:non-matching-substring
         | XSLT:on-completion
+        | XSLT:on-empty[not(exists(@select))]
+        | XSLT:on-non-empty[not(exists(@select))]
         | XSLT:perform-sort
         | XSLT:otherwise
+        | XSLT:try[not(exists(@select))]
         | XSLT:when
         | XSLT:where-populated"
         as="xs:string"
@@ -162,7 +165,24 @@
                     C. At end of loop, if condition A did not apply, the tentative status
                        becomes the status.
                 -->
-                <xsl:iterate select="descendant::node()">
+                <xsl:variable name="descendants" as="node()*">
+                    <xsl:choose>
+                        <xsl:when test="self::XSLT:try">
+                            <!--
+                                Special case for xsl:try: Not all descendants matter for the
+                                choice between missed and unknown. Consider only the children
+                                other than xsl:catch and xsl:fallback, and the descendants of
+                                those children.
+                            -->
+                            <xsl:sequence select="child::node()[not(self::XSLT:catch or self::XSLT:fallback)]/
+                                descendant-or-self::node()"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="descendant::node()"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+                <xsl:iterate select="$descendants">
                     <xsl:param name="tentative-status" as="xs:string" select="'unknown'" />
                     <xsl:on-completion>
                         <xsl:sequence select="$tentative-status" />
@@ -337,15 +357,12 @@
         | XSLT:merge-source
         | XSLT:non-matching-substring
         | XSLT:on-completion
-        | XSLT:on-empty
-        | XSLT:on-non-empty
         | XSLT:otherwise
         | XSLT:perform-sort[@select]
         | XSLT:perform-sort[XSLT:sort][count(*) = 1]
         | XSLT:sequence[empty(node())]
         | XSLT:sort
         | XSLT:template/XSLT:param[@select]
-        | XSLT:try
         | XSLT:when
         | XSLT:where-populated
         | XSLT:with-param"

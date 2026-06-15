@@ -14,7 +14,7 @@
 	<!--
 		When set, datetime is normalized to this value
 	-->
-	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" static="yes" />
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" />
 
 	<!--
 		Normalizes the title text
@@ -95,15 +95,34 @@
 				out: <p>Tested: 1 January 2000 at 00:00</p>
 	-->
 	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
-		mode="normalizer:normalize" use-when="exists($NORMALIZE-HTML-DATETIME)">
-		<!-- Format in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl -->
-		<xsl:variable as="xs:string" name="now"
-			select="format-dateTime($NORMALIZE-HTML-DATETIME, '[D] [MNn] [Y] at [H01]:[m01]')" />
+		mode="normalizer:normalize">
+		<xsl:variable name="schematron-test-via-XQS" as="xs:boolean"
+			select="boolean(../preceding-sibling::p/@data-schematron-implementation eq 'XQS')"/>
 
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
+		<xsl:analyze-string regex="^(Tested:) (.+)$" select=".">
 			<xsl:matching-substring>
-				<xsl:value-of select="regex-group(1), $now" />
+				<xsl:variable as="xs:string" name="datetime-string-to-use">
+					<xsl:choose>
+						<xsl:when test="exists($NORMALIZE-HTML-DATETIME)">
+							<!-- Use date/time as specified -->
+							<xsl:sequence
+								select="$NORMALIZE-HTML-DATETIME => local:format-like-html-report()"/>
+						</xsl:when>
+						<xsl:when test="$schematron-test-via-XQS">
+							<!-- Tests requiring XQS run with BaseX, so the Saxon -now option
+								does not take effect. -->
+							<xsl:sequence
+								select="'2000-01-01T00:00:00Z' => xs:dateTime() => local:format-like-html-report()"
+							/>
+						</xsl:when>
+						<xsl:otherwise>
+							<!-- No change -->
+							<xsl:sequence select="regex-group(2)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:value-of select="regex-group(1), $datetime-string-to-use" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
@@ -139,6 +158,31 @@
 	</xsl:template>
 
 	<!--
+		Normalizes base-uri property value within a map of document properties (XProc testing).
+		For simplicity, use only the filename and extension. Where the full base URI value is
+		significant, it is tested elsewhere.
+	-->
+	<xsl:template as="text()" match="span/text()[matches(., 'Q\{\}base-uri:')]"
+		mode="normalizer:normalize">
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri:")([^"]+)(")</xsl:variable>
+		<xsl:value-of>
+			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
+				regex="{$pattern}">
+				<xsl:matching-substring>
+					<xsl:sequence select="concat(
+						regex-group(1),
+						regex-group(2) => x:filename-and-extension(),
+						regex-group(3)
+						)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:sequence select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:value-of>
+	</xsl:template>
+
+	<!--
 		Normalizes SVRL in Schematron Result
 
 			Example (the "skeleton" Schematron implementation):
@@ -148,6 +192,10 @@
 			Example (SchXslt):
 				in:  <svrl:active-pattern documents="file:/.../demo-02-compiled.xsl"
 				out: <svrl:active-pattern documents="demo-02-compiled.xsl"
+
+			New in SchXslt2:
+				in:  <svrl:fired-rule document="file:/.../schematron-023-compiled.xsl"
+				out: <svrl:fired-rule document="schematron-023-compiled.xsl"
 	-->
 	<xsl:template as="text()" match="pre[contains-token(@class, 'svrl')]/text()"
 		mode="normalizer:normalize">
@@ -185,7 +233,7 @@
 				<xsl:variable as="xs:string" name="regex">
 					<xsl:text>
 						^
-						([ ]+(?:&lt;svrl:active-pattern[ ])?documents=")	<!-- group 1 -->
+						([ ]+(?:&lt;svrl:(?:active-pattern|fired-rule)[ ])?documents?=")	<!-- group 1 -->
 						(\S+?)												<!-- group 2 -->
 						("[ ]/>)											<!-- group 3 -->
 						$
@@ -249,6 +297,8 @@
 
 	<!--
 		Returns the SVRL creator name. Empty sequence if no SVRL.
+		This function distinguishes between skeleton and either SchXslt or SchXslt2.
+		It does not need to distinguish between SchXslt and SchXslt2.
 	-->
 	<xsl:function as="xs:string?" name="local:svrl-creator">
 		<xsl:param as="node()" name="context-node" />
@@ -272,6 +322,15 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
+	</xsl:function>
+
+	<!--
+		Formats xs:dateTime in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl
+	-->
+	<xsl:function name="local:format-like-html-report" as="xs:string">
+		<xsl:param name="string" as="xs:dateTime"/>
+		<xsl:sequence
+			select="format-dateTime($string, '[D] [MNn] [Y] at [H01]:[m01]')" />		
 	</xsl:function>
 
 	<!--

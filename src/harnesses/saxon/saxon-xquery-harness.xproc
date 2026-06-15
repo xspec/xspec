@@ -19,11 +19,10 @@
             version="1.0">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
-      <p><b>Primary input:</b> A XSpec test suite document.</p>
+      <p>This pipeline executes an XSpec test suite for XQuery with the Saxon embedded in XML Calabash 1.</p>
+      <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
-      <p>The dir where you unzipped the XSpec archive on your filesystem is passed
-        in the option 'xspec-home'.</p>
+      <p>'xspec-home' parameter: The directory where you unzipped the XSpec archive on your filesystem.</p>
    </p:documentation>
 
    <p:serialization port="result" indent="true" method="xhtml"
