@@ -1114,18 +1114,12 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 | PARENT   |                         |
 | CHILDREN |                         |
 | CONTENT  |                         |
-| TRACE    | Sometimes               |
-| RULE     | Element Specific - TBD  |
+| TRACE    | Generally yes           |
+| RULE     | Use Trace Data          |
 
 #### Comment
 
-Note: optimization settings affect the tracing.
-
-There is a Saxonica issue (https://saxonica.plan.io/issues/6415) around xsl:variable.
-
-Global variables seem ok and could be done as Use Trace Data.
-
-With Non-global variables, it is difficult to assess and the best approach is probably to rely on the Saxon results.
+Note: optimization settings affect the tracing, and when Saxon optimizes the value, the element might not be traced.
 
 ## xsl:when
 
