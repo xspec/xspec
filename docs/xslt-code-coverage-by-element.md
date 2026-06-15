@@ -37,7 +37,7 @@ The following list describes the rules used to determine the coverage status of 
 
 ## Saxon Version(s) Reflected in this Document
 
-12.4
+12.9
 
 ## xsl:accept
 

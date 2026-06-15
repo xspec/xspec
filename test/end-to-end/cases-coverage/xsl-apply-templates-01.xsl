@@ -21,7 +21,7 @@
     </node>
   </xsl:template>
 
-  <xsl:mode name="mode-without-explicit-template-with-xsl-mode" on-no-match="shallow-copy" />
+  <xsl:mode name="mode-without-explicit-template-with-xsl-mode" on-no-match="shallow-copy" /><!-- Expected ignored -->
 
   <xsl:template match="applyTemplateNode" mode="mode-with-matching-template">
     <node type="apply-templates-mode-with-matching-template">

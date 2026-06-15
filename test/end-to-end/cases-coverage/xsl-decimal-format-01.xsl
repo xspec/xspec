@@ -3,7 +3,7 @@
   <!--
       xsl:decimal-format Coverage Test Case
   -->
-  <xsl:decimal-format name="decFormat01" digit="?" />
+  <xsl:decimal-format name="decFormat01" digit="?" />                          <!-- Expected ignored -->
   <!-- Main template -->
   <xsl:template match="xsl-decimal-format">
     <root>

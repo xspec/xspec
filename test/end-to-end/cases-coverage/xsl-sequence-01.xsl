@@ -7,7 +7,7 @@
     <root>
       <!-- Using select attribute -->
       <node type="sequence">
-        <xsl:sequence select="'100'" />                                        <!-- Expected unknown -->
+        <xsl:sequence select="'100'" />
       </node>
       <!-- Using sequence constructor -->
       <node type="sequence">

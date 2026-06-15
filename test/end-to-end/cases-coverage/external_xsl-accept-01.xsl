@@ -14,7 +14,7 @@
                     package-version="*">                                       <!-- Expected ignored -->
        <xsl:accept component="function" names="csv:preprocess-field#1"
                    visibility="private" />                                     <!-- Expected ignored -->
-   </xsl:use-package>
+   </xsl:use-package>                                                          <!-- Expected ignored -->
 
    <!-- example input "file"  -->
    <xsl:variable name="input" as="xs:string">

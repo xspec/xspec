@@ -56,21 +56,21 @@
 04: <span class="comment">      xsl:attribute-set Coverage Test Case</span>
 05: <span class="comment">  --&gt;</span>
 06: <span class="whitespace">  </span><span class="comment">&lt;!-- Single attribute --&gt;</span>
-07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet01"&gt;</span>
-08: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr01"&gt;</span><span class="ignored">attr01</span><span class="ignored">&lt;/xsl:attribute&gt;</span>
-09: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
+07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet01"&gt;</span><span class="whitespace">                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+08: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr01"&gt;</span><span class="ignored">attr01</span><span class="ignored">&lt;/xsl:attribute&gt;</span><span class="whitespace">                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+09: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 10: <span class="whitespace">  </span><span class="comment">&lt;!-- Multiple attributes--&gt;</span>
-11: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet02"&gt;</span>
-12: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr02A"&gt;</span><span class="ignored">attr02A</span><span class="ignored">&lt;/xsl:attribute&gt;</span>
-13: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr02B"&gt;</span><span class="ignored">attr02B</span><span class="ignored">&lt;/xsl:attribute&gt;</span>
-14: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
+11: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet02"&gt;</span><span class="whitespace">                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+12: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr02A"&gt;</span><span class="ignored">attr02A</span><span class="ignored">&lt;/xsl:attribute&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+13: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr02B"&gt;</span><span class="ignored">attr02B</span><span class="ignored">&lt;/xsl:attribute&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+14: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 15: <span class="whitespace">  </span><span class="comment">&lt;!-- Including another attribute set --&gt;</span>
-16: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet03A" use-attribute-sets="attrSet03B"&gt;</span>
-17: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr03A"&gt;</span><span class="ignored">attr03A</span><span class="ignored">&lt;/xsl:attribute&gt;</span>
-18: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
-19: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet03B"&gt;</span>
-20: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr03B"&gt;</span><span class="ignored">attr03B</span><span class="ignored">&lt;/xsl:attribute&gt;</span>
-21: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span>
+16: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet03A" use-attribute-sets="attrSet03B"&gt;</span><span class="whitespace">        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+17: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr03A"&gt;</span><span class="ignored">attr03A</span><span class="ignored">&lt;/xsl:attribute&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+18: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+19: <span class="whitespace">  </span><span class="ignored">&lt;xsl:attribute-set name="attrSet03B"&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+20: <span class="whitespace">    </span><span class="ignored">&lt;xsl:attribute name="attr03B"&gt;</span><span class="ignored">attr03B</span><span class="ignored">&lt;/xsl:attribute&gt;</span><span class="whitespace">                      </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+21: <span class="whitespace">  </span><span class="ignored">&lt;/xsl:attribute-set&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 22: <span class="whitespace">  </span><span class="comment">&lt;!-- Main template --&gt;</span>
 23: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-attribute-set"&gt;</span>
 24: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>

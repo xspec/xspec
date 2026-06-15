@@ -4,7 +4,7 @@
   <!--
       xsl:namespace-alias Coverage Test Case
   -->
-  <xsl:namespace-alias stylesheet-prefix="myxslt" result-prefix="xsl" />
+  <xsl:namespace-alias stylesheet-prefix="myxslt" result-prefix="xsl" />       <!-- Expected ignored -->
 
   <xsl:template match="xsl-namespace-alias">
     <root>

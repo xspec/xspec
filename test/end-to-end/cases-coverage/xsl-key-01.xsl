@@ -4,7 +4,7 @@
       xsl:key Coverage Test Case
   -->
   <!-- xsl:key declaration -->
-  <xsl:key name="key01" match="node" use="@type" />
+  <xsl:key name="key01" match="node" use="@type" />                            <!-- Expected ignored -->
   <!-- Main template -->
   <xsl:template match="xsl-key">
     <root>

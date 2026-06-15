@@ -72,8 +72,8 @@
 04: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
 05: <span class="comment">      Test Coverage Report Statistics Test</span>
 06: <span class="comment">  --&gt;</span>
-07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsA.xsl" /&gt;</span>
-08: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsB.xsl" /&gt;</span>
+07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsA.xsl" /&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
+08: <span class="whitespace">  </span><span class="ignored">&lt;xsl:include href="coverage-statisticsB.xsl" /&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 09: 
 10: <span class="whitespace">  </span><span class="hit">&lt;xsl:template name="Template01"&gt;</span>
 11: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="param01" as="xs:integer" /&gt;</span>
@@ -84,7 +84,7 @@
 16: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
 17: <span class="whitespace">    </span><span class="comment">&lt;!-- Twenty Two --&gt;</span>
 18: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$param01 eq 22"&gt;</span>
-19: <span class="whitespace">      </span><span class="missed">&lt;result&gt;</span><span class="missed">Twenty  Two</span><span class="missed">&lt;/result&gt;</span>
+19: <span class="whitespace">      </span><span class="missed">&lt;result&gt;</span><span class="missed">Twenty  Two</span><span class="missed">&lt;/result&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 20: <span class="whitespace">    </span><span class="hit">&lt;/xsl:if&gt;</span>
 21: <span class="whitespace">    </span><span class="comment">&lt;!-- Thirty three --&gt;</span>
 22: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$param01 eq 33"&gt;</span>
@@ -107,7 +107,7 @@
 09: 
 10: <span class="whitespace">    </span><span class="hit">&lt;xsl:if test="$number eq 0"&gt;</span>
 11: <span class="unknown">     '0 Supplied'</span>
-12: <span class="unknown">    </span><span class="hit">&lt;/xsl:if&gt;</span>
+12: <span class="unknown">    </span><span class="hit">&lt;/xsl:if&gt;</span><span class="whitespace">                                                                  </span><span class="comment">&lt;!-- Expected unknown - '0 Supplied' --&gt;</span>
 13: 
 14: <span class="whitespace">    </span><span class="hit">&lt;xsl:sequence select="$number * 2" /&gt;</span>
 15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:function&gt;</span>

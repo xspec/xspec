@@ -27,11 +27,11 @@
         </xsl:matching-substring>                                              <!-- Expected miss -->
         <xsl:non-matching-substring>
           <node type="non-matching-substring">
-            <xsl:sequence select="string('No match')"/>                        <!-- Expected unknown -->
+            <xsl:sequence select="string('No match')"/>
           </node>
         </xsl:non-matching-substring>
       </xsl:analyze-string>
-      
+
       <!-- Test cases for unknown status of xsl:matching-substring and xsl:non-matching-substring -->
       <!-- regex matches string so non-matching-substring not executed -->
       <node type="matching-substring executed unknown, non-matching-substring unexecuted unknown">

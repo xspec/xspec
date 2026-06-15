@@ -84,15 +84,15 @@
       <!--Iterate param with multiline sequence constructor -->
       <xsl:iterate select="node">
         <xsl:param name="iterateParamDocNode01">
-          <xsl:text>1</xsl:text>
-          <xsl:choose>
-            <xsl:when test="1 eq 1">
-              <xsl:text>5</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
+          <xsl:text>1</xsl:text>                                               <!-- Expected miss -->
+          <xsl:choose>                                                         <!-- Expected miss -->
+            <xsl:when test="1 eq 1">                                           <!-- Expected miss -->
+              <xsl:text>5</xsl:text>                                           <!-- Expected miss -->
+            </xsl:when>                                                        <!-- Expected miss -->
+            <xsl:otherwise>                                                    <!-- Expected miss -->
               <xsl:text>99</xsl:text>                                          <!-- Expected miss -->
-            </xsl:otherwise>
-          </xsl:choose>
+            </xsl:otherwise>                                                   <!-- Expected miss -->
+          </xsl:choose>                                                        <!-- Expected miss -->
         </xsl:param>
         <xsl:param name="iterateParamAs01" as="xs:integer" select="15" />
         <node type="param - iterate">

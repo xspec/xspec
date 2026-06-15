@@ -3,7 +3,7 @@
   <!--
       xsl:global-context-item Coverage Test Case
   -->
-  <xsl:global-context-item use="required" as="item()" />
+  <xsl:global-context-item use="required" as="item()" />                       <!-- Expected ignored -->
   <!-- Put the context item in a global variable -->
   <xsl:variable name="globalVariable" select="." />
 

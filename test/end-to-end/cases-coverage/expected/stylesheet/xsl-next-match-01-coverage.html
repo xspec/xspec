@@ -64,9 +64,9 @@
 04: <span class="comment">      xsl:next-match Coverage Test Case - See imported template as well</span>
 05: <span class="comment">  --&gt;</span>
 06: <span class="whitespace">  </span><span class="comment">&lt;!-- Import stylesheet with lower priority template --&gt;</span>
-07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-next-match-01A.xsl" /&gt;</span>
+07: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-next-match-01A.xsl" /&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 08: <span class="whitespace">  </span><span class="comment">&lt;!-- Use a mode for matching --&gt;</span>
-09: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="nextMatch" /&gt;</span>
+09: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="nextMatch" /&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 10: <span class="whitespace">  </span><span class="comment">&lt;!-- Variable with the node to be processed --&gt;</span>
 11: <span class="whitespace">  </span><span class="hit">&lt;xsl:variable name="nextMatchNodes"&gt;</span>
 12: <span class="whitespace">    </span><span class="hit">&lt;node&gt;</span><span class="hit">content for built-in template</span><span class="hit">&lt;/node&gt;</span>

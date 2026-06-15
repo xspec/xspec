@@ -3,10 +3,10 @@
   <!--
       xsl:mode Coverage Test Case
   -->
-  <xsl:mode name="modeUsed" />
-  <xsl:mode on-multiple-match="fail" />
+  <xsl:mode name="modeUsed" />                                                 <!-- Expected ignored -->
+  <xsl:mode on-multiple-match="fail" />                                        <!-- Expected ignored -->
   <!-- Mode not used -->
-  <xsl:mode name="modeNotUsed" />
+  <xsl:mode name="modeNotUsed" />                                              <!-- Expected ignored -->
 
   <xsl:template match="xsl-mode">
       <root>
