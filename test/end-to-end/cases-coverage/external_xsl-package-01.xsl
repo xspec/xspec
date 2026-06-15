@@ -118,15 +118,15 @@
                 expand-text="yes">
         <xsl:variable name="string-body-pattern"
                     as="xs:string"
-                    select="'([^' || $csv:validated-quote || ']*)'"/>          <!-- Expected miss (optim inlined) -->
+                    select="'([^' || $csv:validated-quote || ']*)'"/>          <!-- Expected miss - actually used -->
         <xsl:variable name="quoted-value"
                     as="xs:string"
                     select="$csv:validated-quote
                             || $string-body-pattern
-                            || $csv:validated-quote"/>                         <!-- Expected miss (optim inlined) -->
+                            || $csv:validated-quote"/>                         <!-- Expected miss - actually used -->
         <xsl:variable name="unquoted-value"
                     as="xs:string"
-                    select="'(.+)'"/>                                          <!-- Expected miss (optim constant) -->
+                    select="'(.+)'"/>                                          <!-- Expected miss - actually used -->
 
         <field xsl:use-attribute-sets="csv:field-attributes">{
             csv:preprocess-field(

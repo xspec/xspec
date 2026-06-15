@@ -1114,12 +1114,12 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 | PARENT   |                         |
 | CHILDREN |                         |
 | CONTENT  |                         |
-| TRACE    | Sometimes               |
+| TRACE    | Generally yes           |
 | RULE     | Use Trace Data          |
 
 #### Comment
 
-Note: optimization settings affect whether local variables are traced, but the coverage should use the trace data.
+Note: optimization settings affect the tracing, and when Saxon optimizes the value it may not be traced.
 
 ## xsl:when
 

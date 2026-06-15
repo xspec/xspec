@@ -38,70 +38,23 @@
     <xsl:variable name="variableLocalAs01" as="text()">
       <xsl:text>500</xsl:text>
     </xsl:variable>
-    <xsl:variable name="variableLocalEmptySequence01" as="element()?" />       <!-- Expected miss (optim constant) -->
-    <xsl:variable name="variableLocalEmptyString01" />                         <!-- Expected miss (optim constant) -->
+    <xsl:variable name="variableLocalEmptySequence01" as="element()?" />       <!-- Expected miss - actually used -->
+    <xsl:variable name="variableLocalEmptyString01" />                         <!-- Expected miss - actually used -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalSelectUnused01" select="string(600)" />   <!-- Expected miss (optim unused) -->
+    <xsl:variable name="variableLocalSelectUnused01" select="string(600)" />   <!-- Expected miss -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalDocNodeUnused01">                         <!-- Expected miss (optim unused) -->
-      <xsl:text>70</xsl:text>                                                  <!-- Expected miss (optim unused) -->
-      <element>0</element>                                                     <!-- Expected miss (optim unused) -->
-    </xsl:variable>                                                            <!-- Expected miss (optim unused) -->
+    <xsl:variable name="variableLocalDocNodeUnused01">                         <!-- Expected miss -->
+      <xsl:text>70</xsl:text>                                                  <!-- Expected miss -->
+      <element>0</element>                                                     <!-- Expected miss -->
+    </xsl:variable>                                                            <!-- Expected miss -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalAsUnused01" as="text()">                  <!-- Expected miss (optim unused) -->
-      <xsl:text>700</xsl:text>                                                 <!-- Expected miss (optim unused) -->
-    </xsl:variable>                                                            <!-- Expected miss (optim unused) -->
+    <xsl:variable name="variableLocalAsUnused01" as="text()">                  <!-- Expected miss -->
+      <xsl:text>700</xsl:text>                                                 <!-- Expected miss -->
+    </xsl:variable>                                                            <!-- Expected miss -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /> <!-- Expected miss (optim constant) -->
+    <xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /> <!-- Expected miss -->
     <!-- Not used -->
-    <xsl:variable name="variableLocalEmptyStringUnused01" />                   <!-- Expected miss (optim constant) -->
-
-    <xsl:choose>
-      <xsl:when test="1 eq 2">                                                 <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalSelectNoEffect01" select="string(1600)" /><!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalDocNodeNoEffect01">                   <!-- Expected miss -->
-          <xsl:text>170</xsl:text>                                             <!-- Expected miss -->
-          <element>0</element>                                                 <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalasNoEffect01" as="text()">            <!-- Expected miss -->
-          <xsl:text>1700</xsl:text>                                            <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalEmptySequenceNoEffect01" as="element()?" /><!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalEmptyStringNoEffect01" />             <!-- Expected miss -->
-        <!-- No relevant following siblings; warning from Saxon -->
-        <xsl:variable name="variableLocalSeq" as="item()+"
-          select="($variableLocalSelectNoEffect01, $variableLocalDocNodeNoEffect01,
-          $variableLocalasNoEffect01, $variableLocalEmptySequenceNoEffect01,
-          $variableLocalEmptyStringNoEffect01)"/>                              <!-- Expected miss -->
-      </xsl:when>                                                              <!-- Expected miss -->
-      <xsl:otherwise>                                                          <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalSelectNoEffect02" select="string(1600)" /><!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalDocNodeNoEffect02">                   <!-- Expected miss -->
-          <xsl:text>170</xsl:text>                                             <!-- Expected miss -->
-          <element>0</element>                                                 <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalasNoEffect02" as="text()">            <!-- Expected miss -->
-          <xsl:text>1700</xsl:text>                                            <!-- Expected miss -->
-        </xsl:variable>                                                        <!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalEmptySequenceNoEffect02" as="element()?" /><!-- Expected miss -->
-        <!-- No relevant following siblings -->
-        <xsl:variable name="variableLocalEmptyStringNoEffect02" />             <!-- Expected miss -->
-        <!-- No relevant following siblings; warning from Saxon -->
-        <xsl:variable name="variableLocalSeq" as="item()+"
-          select="($variableLocalSelectNoEffect02, $variableLocalDocNodeNoEffect02,
-          $variableLocalasNoEffect02, $variableLocalEmptySequenceNoEffect02,
-          $variableLocalEmptyStringNoEffect02)"/>                              <!-- Expected miss -->
-      </xsl:otherwise>                                                         <!-- Expected miss -->
-    </xsl:choose>
+    <xsl:variable name="variableLocalEmptyStringUnused01" />                   <!-- Expected miss -->
 
     <root>
       <!-- Global variable used -->

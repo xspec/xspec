@@ -31,25 +31,25 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />43</th>
-               <th class="totals emphasis">missed<br />50</th>
+               <th class="totals">hit<br />42</th>
+               <th class="totals emphasis">missed<br />24</th>
                <th class="totals">unknown<br />0</th>
-               <th class="totals">lines<br />149</th>
+               <th class="totals">lines<br />102</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
                <th><a href="#module1">xsl-variable-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">43</th>
-               <th class="totals">50</th>
+               <th class="totals">42</th>
+               <th class="totals">24</th>
                <th class="totals">0</th>
-               <th class="totals">149</th>
+               <th class="totals">102</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-variable-01.xsl<span class="scenario-totals">hit: 43 / missed: 50 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-variable-01.xsl<span class="scenario-totals">hit: 42 / missed: 24 / unknown: 0</span></h2>
          <pre class="xspecCoverage">001: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 002: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -90,115 +90,68 @@
 038: <span class="whitespace">    </span><span class="hit">&lt;xsl:variable name="variableLocalAs01" as="text()"&gt;</span>
 039: <span class="whitespace">      </span><span class="hit">&lt;xsl:text&gt;</span><span class="hit">500</span><span class="hit">&lt;/xsl:text&gt;</span>
 040: <span class="whitespace">    </span><span class="hit">&lt;/xsl:variable&gt;</span>
-041: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequence01" as="element()?" /&gt;</span><span class="whitespace">       </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
-042: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyString01" /&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
+041: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequence01" as="element()?" /&gt;</span><span class="whitespace">       </span><span class="comment">&lt;!-- Expected miss - actually used --&gt;</span>
+042: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyString01" /&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss - actually used --&gt;</span>
 043: <span class="whitespace">    </span><span class="comment">&lt;!-- Not used --&gt;</span>
-044: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalSelectUnused01" select="string(600)" /&gt;</span><span class="whitespace">   </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
+044: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalSelectUnused01" select="string(600)" /&gt;</span><span class="whitespace">   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 045: <span class="whitespace">    </span><span class="comment">&lt;!-- Not used --&gt;</span>
-046: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeUnused01"&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
-047: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">70</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
-048: <span class="whitespace">      </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
-049: <span class="whitespace">    </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
+046: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeUnused01"&gt;</span><span class="whitespace">                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+047: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">70</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                  </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+048: <span class="whitespace">      </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="whitespace">                                                     </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+049: <span class="whitespace">    </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 050: <span class="whitespace">    </span><span class="comment">&lt;!-- Not used --&gt;</span>
-051: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalAsUnused01" as="text()"&gt;</span><span class="whitespace">                  </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
-052: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
-053: <span class="whitespace">    </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss (optim unused) --&gt;</span>
+051: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalAsUnused01" as="text()"&gt;</span><span class="whitespace">                  </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+052: <span class="whitespace">      </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+053: <span class="whitespace">    </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 054: <span class="whitespace">    </span><span class="comment">&lt;!-- Not used --&gt;</span>
-055: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
+055: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceUnused01" as="element()?" /&gt;</span><span class="whitespace"> </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 056: <span class="whitespace">    </span><span class="comment">&lt;!-- Not used --&gt;</span>
-057: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringUnused01" /&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
+057: <span class="whitespace">    </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringUnused01" /&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 058: 
-059: <span class="whitespace">    </span><span class="hit">&lt;xsl:choose&gt;</span>
-060: <span class="whitespace">      </span><span class="missed">&lt;xsl:when test="1 eq 2"&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-061: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-062: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalSelectNoEffect01" select="string(1600)" /&gt;</span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-063: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-064: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeNoEffect01"&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-065: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">170</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-066: <span class="whitespace">          </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-067: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-068: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-069: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalasNoEffect01" as="text()"&gt;</span><span class="whitespace">            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-070: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-071: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-072: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-073: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceNoEffect01" as="element()?" /&gt;</span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-074: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-075: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringNoEffect01" /&gt;</span><span class="whitespace">             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-076: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings; warning from Saxon --&gt;</span>
-077: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalSeq" as="item()+"</span>
-078: <span class="missed">          select="($variableLocalSelectNoEffect01, $variableLocalDocNodeNoEffect01,</span>
-079: <span class="missed">          $variableLocalasNoEffect01, $variableLocalEmptySequenceNoEffect01,</span>
-080: <span class="missed">          $variableLocalEmptyStringNoEffect01)"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-081: <span class="whitespace">      </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-082: <span class="whitespace">      </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-083: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-084: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalSelectNoEffect02" select="string(1600)" /&gt;</span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-085: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-086: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalDocNodeNoEffect02"&gt;</span><span class="whitespace">                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-087: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">170</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-088: <span class="whitespace">          </span><span class="missed">&lt;element&gt;</span><span class="missed">0</span><span class="missed">&lt;/element&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-089: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-090: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-091: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalasNoEffect02" as="text()"&gt;</span><span class="whitespace">            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-092: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1700</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-093: <span class="whitespace">        </span><span class="missed">&lt;/xsl:variable&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-094: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-095: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptySequenceNoEffect02" as="element()?" /&gt;</span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-096: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings --&gt;</span>
-097: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalEmptyStringNoEffect02" /&gt;</span><span class="whitespace">             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-098: <span class="whitespace">        </span><span class="comment">&lt;!-- No relevant following siblings; warning from Saxon --&gt;</span>
-099: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="variableLocalSeq" as="item()+"</span>
-100: <span class="missed">          select="($variableLocalSelectNoEffect02, $variableLocalDocNodeNoEffect02,</span>
-101: <span class="missed">          $variableLocalasNoEffect02, $variableLocalEmptySequenceNoEffect02,</span>
-102: <span class="missed">          $variableLocalEmptyStringNoEffect02)"/&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-103: <span class="whitespace">      </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-104: <span class="whitespace">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
-105: 
-106: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
-107: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
-108: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-109: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalSelect01" /&gt;</span>
-110: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-111: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
-112: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-113: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalDocNode01" /&gt;</span>
-114: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-115: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
-116: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-117: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalAs01" /&gt;</span>
-118: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-119: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
-120: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-121: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptySequence01)" /&gt;</span>
-122: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-123: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
-124: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
-125: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptyString01)" /&gt;</span>
-126: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-127: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
-128: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-129: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalSelect01" /&gt;</span>
-130: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-131: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
-132: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-133: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalDocNode01" /&gt;</span>
-134: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-135: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
-136: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-137: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalAs01" /&gt;</span>
-138: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-139: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
-140: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-141: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptySequence01)" /&gt;</span>
-142: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-143: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
-144: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
-145: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptyString01)" /&gt;</span>
-146: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
-147: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-148: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-149: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+059: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
+060: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
+061: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+062: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalSelect01" /&gt;</span>
+063: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+064: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
+065: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+066: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalDocNode01" /&gt;</span>
+067: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+068: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
+069: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+070: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableGlobalAs01" /&gt;</span>
+071: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+072: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
+073: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+074: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptySequence01)" /&gt;</span>
+075: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+076: <span class="whitespace">      </span><span class="comment">&lt;!-- Global variable used --&gt;</span>
+077: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - global"&gt;</span>
+078: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableGlobalEmptyString01)" /&gt;</span>
+079: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+080: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
+081: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+082: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalSelect01" /&gt;</span>
+083: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+084: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
+085: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+086: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalDocNode01" /&gt;</span>
+087: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+088: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
+089: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+090: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="$variableLocalAs01" /&gt;</span>
+091: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+092: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
+093: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+094: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptySequence01)" /&gt;</span>
+095: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+096: <span class="whitespace">      </span><span class="comment">&lt;!-- Local variable used --&gt;</span>
+097: <span class="whitespace">      </span><span class="hit">&lt;node type="variable - local"&gt;</span>
+098: <span class="whitespace">        </span><span class="hit">&lt;xsl:value-of select="count($variableLocalEmptyString01)" /&gt;</span>
+099: <span class="whitespace">      </span><span class="hit">&lt;/node&gt;</span>
+100: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+101: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+102: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
    </body>
 </html>

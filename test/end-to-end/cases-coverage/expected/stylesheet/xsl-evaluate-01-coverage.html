@@ -85,7 +85,7 @@
 33: <span class="whitespace">        </span><span class="hit">&lt;/xsl:for-each&gt;</span>
 34: 
 35: <span class="whitespace">        </span><span class="comment">&lt;!-- Circuitous ways to get $data/data[2] content --&gt;</span>
-36: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="index" select="2" /&gt;</span><span class="whitespace">                               </span><span class="comment">&lt;!-- Expected miss (optim constant) --&gt;</span>
+36: <span class="whitespace">        </span><span class="missed">&lt;xsl:variable name="index" select="2" /&gt;</span><span class="whitespace">                               </span><span class="comment">&lt;!-- Expected miss - actually used --&gt;</span>
 37: <span class="whitespace">        </span><span class="hit">&lt;xsl:variable name="evaluatedExpressionParamChild"&gt;</span>
 38: <span class="whitespace">          </span><span class="comment">&lt;!-- xsl:for-each, a descendant of xsl:evaluate and xsl:with-param, is traced --&gt;</span>
 39: <span class="whitespace">          </span><span class="hit">&lt;xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data"&gt;</span>
