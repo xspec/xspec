@@ -4,19 +4,19 @@
       xsl:attribute Coverage Test Case
   -->
   <!-- Single xsl:attribute in xsl:attribute-set -->
-  <xsl:attribute-set name="type">
-    <xsl:attribute name="type">attribute</xsl:attribute>
-  </xsl:attribute-set>
+  <xsl:attribute-set name="type">                                              <!-- Expected ignored -->
+    <xsl:attribute name="type">attribute</xsl:attribute>                       <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
 
   <!-- Two xsl:attribute in xsl:attribute-set -->
-  <xsl:attribute-set name="types">
-    <xsl:attribute name="type1">
-      <xsl:text>attribute1</xsl:text>
-    </xsl:attribute>
-    <xsl:attribute name="type2">
-      <xsl:text>attribute2</xsl:text>
-    </xsl:attribute>
-  </xsl:attribute-set>
+  <xsl:attribute-set name="types">                                             <!-- Expected ignored -->
+    <xsl:attribute name="type1">                                               <!-- Expected ignored -->
+      <xsl:text>attribute1</xsl:text>                                          <!-- Expected ignored -->
+    </xsl:attribute>                                                           <!-- Expected ignored -->
+    <xsl:attribute name="type2">                                               <!-- Expected ignored -->
+      <xsl:text>attribute2</xsl:text>                                          <!-- Expected ignored -->
+    </xsl:attribute>                                                           <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
 
   <xsl:template match="xsl-attribute">
     <root>

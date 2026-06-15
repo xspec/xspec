@@ -3,7 +3,7 @@
   <!--
       xsl:output Coverage Test Case
   -->
-  <xsl:output method="xml" />
+  <xsl:output method="xml" />                                                  <!-- Expected ignored -->
 
   <xsl:template match="xsl-output">
     <root>

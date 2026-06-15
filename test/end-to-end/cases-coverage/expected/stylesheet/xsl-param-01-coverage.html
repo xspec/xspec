@@ -136,15 +136,15 @@
 084: <span class="whitespace">      </span><span class="comment">&lt;!--Iterate param with multiline sequence constructor --&gt;</span>
 085: <span class="whitespace">      </span><span class="hit">&lt;xsl:iterate select="node"&gt;</span>
 086: <span class="whitespace">        </span><span class="hit">&lt;xsl:param name="iterateParamDocNode01"&gt;</span>
-087: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1</span><span class="missed">&lt;/xsl:text&gt;</span>
-088: <span class="whitespace">          </span><span class="missed">&lt;xsl:choose&gt;</span>
-089: <span class="whitespace">            </span><span class="missed">&lt;xsl:when test="1 eq 1"&gt;</span>
-090: <span class="whitespace">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">5</span><span class="missed">&lt;/xsl:text&gt;</span>
-091: <span class="whitespace">            </span><span class="missed">&lt;/xsl:when&gt;</span>
-092: <span class="whitespace">            </span><span class="missed">&lt;xsl:otherwise&gt;</span>
+087: <span class="whitespace">          </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">1</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                               </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+088: <span class="whitespace">          </span><span class="missed">&lt;xsl:choose&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+089: <span class="whitespace">            </span><span class="missed">&lt;xsl:when test="1 eq 1"&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+090: <span class="whitespace">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">5</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                           </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+091: <span class="whitespace">            </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+092: <span class="whitespace">            </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                    </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 093: <span class="whitespace">              </span><span class="missed">&lt;xsl:text&gt;</span><span class="missed">99</span><span class="missed">&lt;/xsl:text&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
-094: <span class="whitespace">            </span><span class="missed">&lt;/xsl:otherwise&gt;</span>
-095: <span class="whitespace">          </span><span class="missed">&lt;/xsl:choose&gt;</span>
+094: <span class="whitespace">            </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                   </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+095: <span class="whitespace">          </span><span class="missed">&lt;/xsl:choose&gt;</span><span class="whitespace">                                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
 096: <span class="whitespace">        </span><span class="hit">&lt;/xsl:param&gt;</span>
 097: <span class="whitespace">        </span><span class="hit">&lt;xsl:param name="iterateParamAs01" as="xs:integer" select="15" /&gt;</span>
 098: <span class="whitespace">        </span><span class="hit">&lt;node type="param - iterate"&gt;</span>

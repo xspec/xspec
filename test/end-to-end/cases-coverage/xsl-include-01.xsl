@@ -4,8 +4,8 @@
       xsl:include Coverage Test Case
   -->
   <!-- xsl:include -->
-  <xsl:include href="xsl-include-01A.xsl" />
-  <xsl:include href="xsl-include-01B.xsl" />
+  <xsl:include href="xsl-include-01A.xsl" />                                   <!-- Expected ignored -->
+  <xsl:include href="xsl-include-01B.xsl" />                                   <!-- Expected ignored -->
   <!-- Main template -->
   <xsl:template match="xsl-include">
     <root>

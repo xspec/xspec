@@ -4,9 +4,9 @@
       xsl:apply-imports Coverage Test Case (see xsl-apply-imports-01A.xsl as well)
   -->
   <!-- Import stylesheet -->
-  <xsl:import href="xsl-apply-imports-01A.xsl" />
+  <xsl:import href="xsl-apply-imports-01A.xsl" />                              <!-- Expected ignored -->
   <!-- xsl:mode for this test -->
-  <xsl:mode name="applyImportsMode" />
+  <xsl:mode name="applyImportsMode" />                                         <!-- Expected ignored -->
   <!-- Main Stylesheet-->
   <xsl:template match="xsl-apply-imports">
     <root>

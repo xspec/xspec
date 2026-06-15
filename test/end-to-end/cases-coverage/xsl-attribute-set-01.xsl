@@ -4,21 +4,21 @@
       xsl:attribute-set Coverage Test Case
   -->
   <!-- Single attribute -->
-  <xsl:attribute-set name="attrSet01">
-    <xsl:attribute name="attr01">attr01</xsl:attribute>
-  </xsl:attribute-set>
+  <xsl:attribute-set name="attrSet01">                                         <!-- Expected ignored -->
+    <xsl:attribute name="attr01">attr01</xsl:attribute>                        <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
   <!-- Multiple attributes-->
-  <xsl:attribute-set name="attrSet02">
-    <xsl:attribute name="attr02A">attr02A</xsl:attribute>
-    <xsl:attribute name="attr02B">attr02B</xsl:attribute>
-  </xsl:attribute-set>
+  <xsl:attribute-set name="attrSet02">                                         <!-- Expected ignored -->
+    <xsl:attribute name="attr02A">attr02A</xsl:attribute>                      <!-- Expected ignored -->
+    <xsl:attribute name="attr02B">attr02B</xsl:attribute>                      <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
   <!-- Including another attribute set -->
-  <xsl:attribute-set name="attrSet03A" use-attribute-sets="attrSet03B">
-    <xsl:attribute name="attr03A">attr03A</xsl:attribute>
-  </xsl:attribute-set>
-  <xsl:attribute-set name="attrSet03B">
-    <xsl:attribute name="attr03B">attr03B</xsl:attribute>
-  </xsl:attribute-set>
+  <xsl:attribute-set name="attrSet03A" use-attribute-sets="attrSet03B">        <!-- Expected ignored -->
+    <xsl:attribute name="attr03A">attr03A</xsl:attribute>                      <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
+  <xsl:attribute-set name="attrSet03B">                                        <!-- Expected ignored -->
+    <xsl:attribute name="attr03B">attr03B</xsl:attribute>                      <!-- Expected ignored -->
+  </xsl:attribute-set>                                                         <!-- Expected ignored -->
   <!-- Main template -->
   <xsl:template match="xsl-attribute-set">
     <root>

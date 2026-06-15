@@ -4,8 +4,8 @@
   <!--
       Test Coverage Report Statistics Test
   -->
-  <xsl:include href="coverage-statisticsA.xsl" />
-  <xsl:include href="coverage-statisticsB.xsl" />
+  <xsl:include href="coverage-statisticsA.xsl" />                              <!-- Expected ignored -->
+  <xsl:include href="coverage-statisticsB.xsl" />                              <!-- Expected ignored -->
 
   <xsl:template name="Template01">
     <xsl:param name="param01" as="xs:integer" />
@@ -16,7 +16,7 @@
     </xsl:if>
     <!-- Twenty Two -->
     <xsl:if test="$param01 eq 22">
-      <result>Twenty  Two</result>
+      <result>Twenty  Two</result>                                             <!-- Expected miss -->
     </xsl:if>
     <!-- Thirty three -->
     <xsl:if test="$param01 eq 33">

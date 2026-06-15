@@ -135,10 +135,10 @@
       <!-- xsl:iterate with xsl:on-completion not executed but unknown status -->
       <node type="iterate/on-completion unexecuted unknown">
         <xsl:iterate select="node">
-          <xsl:on-completion>                                                    <!-- Expected unknown -->
-            <xsl:where-populated>                                                <!-- Expected unknown -->
-            </xsl:where-populated>                                               <!-- Expected unknown -->
-          </xsl:on-completion>                                                   <!-- Expected unknown -->
+          <xsl:on-completion>                                                  <!-- Expected unknown -->
+            <xsl:where-populated>                                              <!-- Expected unknown -->
+            </xsl:where-populated>                                             <!-- Expected unknown -->
+          </xsl:on-completion>                                                 <!-- Expected unknown -->
           <xsl:if test=". &gt; 150">
             <xsl:break />
           </xsl:if>

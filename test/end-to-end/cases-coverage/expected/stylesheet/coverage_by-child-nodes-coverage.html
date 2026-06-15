@@ -34,7 +34,7 @@
                <th class="totals">hit<br />17</th>
                <th class="totals emphasis">missed<br />12</th>
                <th class="totals">unknown<br />0</th>
-               <th class="totals">lines<br />83</th>
+               <th class="totals">lines<br />72</th>
             </tr>
          </thead>
          <tbody>
@@ -44,7 +44,7 @@
                <th class="totals">17</th>
                <th class="totals">12</th>
                <th class="totals">0</th>
-               <th class="totals">83</th>
+               <th class="totals">72</th>
             </tr>
          </tbody>
       </table>
@@ -52,87 +52,76 @@
          <h2 class="successful">module: coverage_by-child-nodes.xsl<span class="scenario-totals">hit: 17 / missed: 12 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
-03: <span class="ignored">	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+03: <span class="ignored">xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
 04: 
-05: <span class="whitespace">	</span><span class="hit">&lt;xsl:template as="element(hit)+" name="test"&gt;</span>
-06: 
-07: <span class="whitespace">		</span><span class="comment">&lt;!--</span>
-08: <span class="comment">			'hit' or 'miss' of these nodes is determined by child nodes.</span>
-09: <span class="comment">		--&gt;</span>
-10: 
-11: <span class="whitespace">		</span><span class="comment">&lt;!--</span>
-12: <span class="comment">			xsl:for-each</span>
-13: <span class="comment">		--&gt;</span>
-14: 
-15: <span class="whitespace">		</span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
-16: <span class="whitespace">			</span><span class="hit">&lt;hit /&gt;</span>
-17: <span class="whitespace">		</span><span class="hit">&lt;/xsl:for-each&gt;</span>
-18: 
-19: <span class="whitespace">		</span><span class="missed">&lt;xsl:for-each select="()"&gt;</span>
-20: <span class="whitespace">			</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-21: <span class="whitespace">		</span><span class="missed">&lt;/xsl:for-each&gt;</span>
-22: 
-23: <span class="whitespace">		</span><span class="comment">&lt;!--</span>
-24: <span class="comment">			xsl:for-each-group</span>
-25: <span class="comment">		--&gt;</span>
-26: 
-27: <span class="whitespace">		</span><span class="hit">&lt;xsl:for-each-group group-by="." select="1"&gt;</span>
-28: <span class="whitespace">			</span><span class="hit">&lt;hit /&gt;</span>
-29: <span class="whitespace">		</span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
-30: 
-31: <span class="whitespace">		</span><span class="missed">&lt;xsl:for-each-group group-by="." select="()"&gt;</span>
-32: <span class="whitespace">			</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-33: <span class="whitespace">		</span><span class="missed">&lt;/xsl:for-each-group&gt;</span>
-34: 
-35: <span class="whitespace">		</span><span class="comment">&lt;!--</span>
-36: <span class="comment">			xsl:matching-substring</span>
-37: <span class="comment">			xsl:non-matching-substring</span>
-38: <span class="comment">		--&gt;</span>
-39: 
-40: <span class="whitespace">		</span><span class="hit">&lt;xsl:analyze-string regex="a" select="'a'"&gt;</span>
-41: <span class="whitespace">			</span><span class="hit">&lt;xsl:matching-substring&gt;</span>
-42: <span class="whitespace">				</span><span class="hit">&lt;hit /&gt;</span>
-43: <span class="whitespace">			</span><span class="hit">&lt;/xsl:matching-substring&gt;</span>
-44: <span class="whitespace">			</span><span class="missed">&lt;xsl:non-matching-substring&gt;</span>
-45: <span class="whitespace">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-46: <span class="whitespace">			</span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span>
-47: <span class="whitespace">		</span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
-48: 
-49: <span class="whitespace">		</span><span class="hit">&lt;xsl:analyze-string regex="b" select="'a'"&gt;</span>
-50: <span class="whitespace">			</span><span class="missed">&lt;xsl:matching-substring&gt;</span>
-51: <span class="whitespace">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-52: <span class="whitespace">			</span><span class="missed">&lt;/xsl:matching-substring&gt;</span>
-53: <span class="whitespace">			</span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
-54: <span class="whitespace">				</span><span class="hit">&lt;hit /&gt;</span>
-55: <span class="whitespace">			</span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
-56: <span class="whitespace">		</span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
-57: 
-58: <span class="whitespace">		</span><span class="comment">&lt;!--</span>
-59: <span class="comment">			xsl:otherwise</span>
-60: <span class="comment">			xsl:when</span>
-61: <span class="comment">		--&gt;</span>
+05: <span class="whitespace">  </span><span class="hit">&lt;xsl:template as="element(hit)+" name="test"&gt;</span>
+06: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+07: <span class="comment">        'hit' or 'miss' of these nodes is determined by child nodes.</span>
+08: <span class="comment">    --&gt;</span>
+09: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+10: <span class="comment">        xsl:for-each</span>
+11: <span class="comment">    --&gt;</span>
+12: <span class="whitespace">    </span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
+13: <span class="whitespace">      </span><span class="hit">&lt;hit /&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;/xsl:for-each&gt;</span>
+15: 
+16: <span class="whitespace">    </span><span class="missed">&lt;xsl:for-each select="()"&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+17: <span class="whitespace">      </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+18: <span class="whitespace">    </span><span class="missed">&lt;/xsl:for-each&gt;</span><span class="whitespace">                                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+19: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+20: <span class="comment">        xsl:for-each-group</span>
+21: <span class="comment">    --&gt;</span>
+22: <span class="whitespace">    </span><span class="hit">&lt;xsl:for-each-group group-by="." select="1"&gt;</span>
+23: <span class="whitespace">      </span><span class="hit">&lt;hit /&gt;</span>
+24: <span class="whitespace">    </span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
+25: 
+26: <span class="whitespace">    </span><span class="missed">&lt;xsl:for-each-group group-by="." select="()"&gt;</span><span class="whitespace">                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+27: <span class="whitespace">      </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+28: <span class="whitespace">    </span><span class="missed">&lt;/xsl:for-each-group&gt;</span><span class="whitespace">                                                      </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+29: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+30: <span class="comment">        xsl:matching-substring</span>
+31: <span class="comment">        xsl:non-matching-substring</span>
+32: <span class="comment">    --&gt;</span>
+33: <span class="whitespace">    </span><span class="hit">&lt;xsl:analyze-string regex="a" select="'a'"&gt;</span>
+34: <span class="whitespace">      </span><span class="hit">&lt;xsl:matching-substring&gt;</span>
+35: <span class="whitespace">        </span><span class="hit">&lt;hit /&gt;</span>
+36: <span class="whitespace">      </span><span class="hit">&lt;/xsl:matching-substring&gt;</span>
+37: <span class="whitespace">      </span><span class="missed">&lt;xsl:non-matching-substring&gt;</span><span class="whitespace">                                             </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+38: <span class="whitespace">        </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+39: <span class="whitespace">      </span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+40: <span class="whitespace">    </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+41: 
+42: <span class="whitespace">    </span><span class="hit">&lt;xsl:analyze-string regex="b" select="'a'"&gt;</span>
+43: <span class="whitespace">      </span><span class="missed">&lt;xsl:matching-substring&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+44: <span class="whitespace">        </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+45: <span class="whitespace">      </span><span class="missed">&lt;/xsl:matching-substring&gt;</span><span class="whitespace">                                                </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+46: <span class="whitespace">      </span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
+47: <span class="whitespace">        </span><span class="hit">&lt;hit /&gt;</span>
+48: <span class="whitespace">      </span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
+49: <span class="whitespace">    </span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+50: <span class="whitespace">    </span><span class="comment">&lt;!--</span>
+51: <span class="comment">        xsl:otherwise</span>
+52: <span class="comment">        xsl:when</span>
+53: <span class="comment">    --&gt;</span>
+54: <span class="whitespace">    </span><span class="hit">&lt;xsl:choose&gt;</span>
+55: <span class="whitespace">      </span><span class="hit">&lt;xsl:when test="1 lt 2"&gt;</span>
+56: <span class="whitespace">        </span><span class="hit">&lt;hit /&gt;</span>
+57: <span class="whitespace">      </span><span class="hit">&lt;/xsl:when&gt;</span>
+58: <span class="whitespace">      </span><span class="missed">&lt;xsl:otherwise&gt;</span><span class="whitespace">                                                          </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+59: <span class="whitespace">        </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+60: <span class="whitespace">      </span><span class="missed">&lt;/xsl:otherwise&gt;</span><span class="whitespace">                                                         </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+61: <span class="whitespace">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
 62: 
-63: <span class="whitespace">		</span><span class="hit">&lt;xsl:choose&gt;</span>
-64: <span class="whitespace">			</span><span class="hit">&lt;xsl:when test="1 lt 2"&gt;</span>
-65: <span class="whitespace">				</span><span class="hit">&lt;hit /&gt;</span>
-66: <span class="whitespace">			</span><span class="hit">&lt;/xsl:when&gt;</span>
-67: <span class="whitespace">			</span><span class="missed">&lt;xsl:otherwise&gt;</span>
-68: <span class="whitespace">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-69: <span class="whitespace">			</span><span class="missed">&lt;/xsl:otherwise&gt;</span>
-70: <span class="whitespace">		</span><span class="hit">&lt;/xsl:choose&gt;</span>
-71: 
-72: <span class="whitespace">		</span><span class="hit">&lt;xsl:choose&gt;</span>
-73: <span class="whitespace">			</span><span class="missed">&lt;xsl:when test="2 lt 1"&gt;</span>
-74: <span class="whitespace">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
-75: <span class="whitespace">			</span><span class="missed">&lt;/xsl:when&gt;</span>
-76: <span class="whitespace">			</span><span class="hit">&lt;xsl:otherwise&gt;</span>
-77: <span class="whitespace">				</span><span class="hit">&lt;hit /&gt;</span>
-78: <span class="whitespace">			</span><span class="hit">&lt;/xsl:otherwise&gt;</span>
-79: <span class="whitespace">		</span><span class="hit">&lt;/xsl:choose&gt;</span>
-80: <span class="whitespace">	</span><span class="hit">&lt;/xsl:template&gt;</span>
-81: 
-82: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
-83: </pre>
+63: <span class="whitespace">    </span><span class="hit">&lt;xsl:choose&gt;</span>
+64: <span class="whitespace">      </span><span class="missed">&lt;xsl:when test="2 lt 1"&gt;</span><span class="whitespace">                                                 </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+65: <span class="whitespace">        </span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span><span class="whitespace">                                        </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+66: <span class="whitespace">      </span><span class="missed">&lt;/xsl:when&gt;</span><span class="whitespace">                                                              </span><span class="comment">&lt;!-- Expected miss --&gt;</span>
+67: <span class="whitespace">      </span><span class="hit">&lt;xsl:otherwise&gt;</span>
+68: <span class="whitespace">        </span><span class="hit">&lt;hit /&gt;</span>
+69: <span class="whitespace">      </span><span class="hit">&lt;/xsl:otherwise&gt;</span>
+70: <span class="whitespace">    </span><span class="hit">&lt;/xsl:choose&gt;</span>
+71: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+72: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
    </body>
 </html>
