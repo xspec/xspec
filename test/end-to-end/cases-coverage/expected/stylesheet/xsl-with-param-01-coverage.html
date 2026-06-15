@@ -63,13 +63,13 @@
 003: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
 004: <span class="comment">      xsl:with-param Coverage Test Case (Quite complex because it covers xsl:iterate, xsl:call-template, xsl:apply-templates, xsl:apply-import, xsl:next-match and xsl:evaluate)</span>
 005: <span class="comment">  --&gt;</span>
-006: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-with-param-01A.xsl" /&gt;</span>
+006: <span class="whitespace">  </span><span class="ignored">&lt;xsl:import href="xsl-with-param-01A.xsl" /&gt;</span><span class="whitespace">                                 </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 007: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for apply-templates --&gt;</span>
-008: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamMode" /&gt;</span>
+008: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamMode" /&gt;</span><span class="whitespace">                                            </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 009: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for apply-imports --&gt;</span>
-010: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeAI" /&gt;</span>
+010: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeAI" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 011: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:mode for next-match --&gt;</span>
-012: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeNM" /&gt;</span>
+012: <span class="whitespace">  </span><span class="ignored">&lt;xsl:mode name="withParamModeNM" /&gt;</span><span class="whitespace">                                          </span><span class="comment">&lt;!-- Expected ignored --&gt;</span>
 013: 
 014: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-with-param"&gt;</span>
 015: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
