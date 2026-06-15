@@ -71,10 +71,11 @@
          <t:param name="reason-for-pending" as="empty-sequence()" />
          <t:param name="param-uqnames" as="empty-sequence()" />
       </t:call>
-      <t:expect label="is a template"
-                test="$t:result instance of element(xsl:template)"/>
-      <t:expect label="@test must be transformed to xsl:sequence/@select"
-                test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']">
+      <t:expect label="is a pair of templates"
+                result-type="element(xsl:template)+"
+                test="count($t:result) eq 2"/>
+      <t:expect label="@test must be transformed to calls to *-predicate template"
+                test="$t:result[1]/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']">
          <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-result"
                        as="item()*">
             <xsl:choose>
@@ -83,16 +84,25 @@
                </xsl:when>
                <xsl:when test="count($Q{{urn:x-xspec:compile:impl}}test-items) eq 1">
                   <xsl:for-each select="$Q{{urn:x-xspec:compile:impl}}test-items">
-                     <xsl:sequence select="false()"
-                                   version="3" />
+                     <xsl:call-template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-expect-id-predicate"/>
                   </xsl:for-each>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:sequence select="false()"
-                                version="3" />
+                  <xsl:call-template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-expect-id-predicate"/>
                </xsl:otherwise>
             </xsl:choose>
          </xsl:variable>
+      </t:expect>
+      <t:expect label="@test must also produce a template named *-predicate for evaluating @test"
+                test="$t:result[2]">
+         <xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+            name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-expect-id-predicate"
+            as="item()*">
+            <xsl:context-item use="optional" />
+            <xsl:sequence xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               select="false()"
+               version="3" />
+         </xsl:template>
       </t:expect>
       <t:expect label="@result-type must be transformed to result-type-mismatch variable"
          test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}result-type-mismatch']">
