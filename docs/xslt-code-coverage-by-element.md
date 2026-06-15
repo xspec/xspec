@@ -1119,7 +1119,7 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 
 #### Comment
 
-Note: optimization settings affect the tracing, and when Saxon optimizes the value it may not be traced.
+Note: optimization settings affect the tracing, and when Saxon optimizes the value, the element might not be traced.
 
 ## xsl:when
 
