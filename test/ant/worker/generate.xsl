@@ -232,15 +232,6 @@
 					</xsl:when>
 
 					<xsl:when test="
-						($test-type = ('q'))
-						and
-						($pis = 'require-xspec-issue-7111-fixed') 
-						and
-						($x:saxon-version eq x:pack-version((13, 0)))">
-						<xsl:text>Requires Saxon issue 7111 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
 						($pis = 'require-xspec-issue-7127-fixed')
 						and ($x:saxon-version eq x:pack-version((13, 0)))">
 						<xsl:text>Requires Saxon issue 7127 to have been fixed</xsl:text>

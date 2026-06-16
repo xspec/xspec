@@ -451,11 +451,7 @@ load bats-helper
 }
 
 @test "CLI -e with no failures (XQuery)" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
-    myrun ../bin/xspec.sh -e -q ../tutorial/xquery-tutorial.xspec
+    myrun ../bin/xspec.sh -e -q -catalog ../tutorial/catalog.xml ../tutorial/xquery-tutorial.xspec
     [ "$status" -eq 0 ]
     [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
     [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
@@ -1446,18 +1442,15 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (XQuery)" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
     tutorial_copy="${work_dir}/tutorial ${RANDOM}"
     mkdir "${tutorial_copy}"
     cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
+    cp ../tutorial/catalog.xml "${tutorial_copy}"
 
     # Run with absolute TEST_DIR
-    myrun ../bin/xspec.sh -q "${tutorial_copy}/xquery-tutorial.xspec"
+    myrun ../bin/xspec.sh -q -catalog "${tutorial_copy}/catalog.xml" "${tutorial_copy}/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
 
@@ -1474,7 +1467,7 @@ load bats-helper
     # Run with relative TEST_DIR
     cd "${work_dir}"
     export TEST_DIR="relative-test-dir ${RANDOM}"
-    myrun "${parent_dir_abs}/bin/xspec.sh" -q "${tutorial_copy}/xquery-tutorial.xspec"
+    myrun "${parent_dir_abs}/bin/xspec.sh" -q -catalog "${tutorial_copy}/catalog.xml" "${tutorial_copy}/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[10]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
 
@@ -1683,26 +1676,23 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (XQuery)" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
     # Unset any preset args
     unset ANT_ARGS
 
     # Use a fresh dir, to avoid a residue of default output dir
     tutorial_copy="${work_dir}/tutorial ${RANDOM}"
     mkdir "${tutorial_copy}"
-    cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
+    cp ../tutorial/namespaces/namespace-demo.xqm "${tutorial_copy}"
+    cp ../tutorial/namespaces/namespace-demo_query.xspec "${tutorial_copy}"
 
     # Run
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
-        -Dxspec.xml="${tutorial_copy}/xquery-tutorial.xspec"
+        -Dxspec.xml="${tutorial_copy}/namespace-demo_query.xspec"
     [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 6 / pending: 0 / failed: 0 / total: 6'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify default output dir
@@ -1710,10 +1700,10 @@ load bats-helper
     # * Default xspec.junit.enabled is false
     myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
     [ "${#lines[@]}" = "4" ]
-    [ "${lines[0]}" = "xquery-tutorial-compiled.xq" ]
-    [ "${lines[1]}" = "xquery-tutorial-result.html" ]
-    [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
-    [ "${lines[3]}" = "xquery-tutorial_xml-to-properties.xml" ]
+    [ "${lines[0]}" = "namespace-demo_query-compiled.xq" ]
+    [ "${lines[1]}" = "namespace-demo_query-result.html" ]
+    [ "${lines[2]}" = "namespace-demo_query-result.xml" ]
+    [ "${lines[3]}" = "namespace-demo_query_xml-to-properties.xml" ]
 }
 
 @test "Ant with minimum properties (Schematron)" {
@@ -2091,13 +2081,10 @@ load bats-helper
 }
 
 @test "Ant verbose test.type (XQuery)" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog=tutorial/catalog.xml \
         -Dtest.type=xquerY \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
@@ -3077,11 +3064,7 @@ load bats-helper
 #
 
 @test "Default @xquery-version" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
-    ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    ../bin/xspec.sh -q -catalog ../tutorial/catalog.xml ../tutorial/xquery-tutorial.xspec
 
     myrun cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
     [ "${lines[0]}" = 'xquery version "3.1";' ]
@@ -3584,13 +3567,10 @@ load bats-helper
 }
 
 @test "Override ID generation (XQuery)" {
-    if [ -z "${SAXON_BUG_7111_FIXED}" ]; then
-        skip "Saxon bug 7111"
-    fi
-
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
+        -Dcatalog=tutorial/catalog.xml \
         -Dtest.type=q \
         -Dxspec.xquery.compiler.xsl="${PWD}/override-id/compile-xquery-tests.xsl" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"

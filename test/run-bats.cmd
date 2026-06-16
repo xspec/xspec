@@ -27,9 +27,6 @@ set XSLT_SUPPORTS_THREADS=1
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
 if errorlevel 1 set XSLT_SUPPORTS_THREADS=
 
-set SAXON_BUG_7111_FIXED=1
-if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7111_FIXED=
-
 set SAXON_BUG_7123_FIXED=1
 if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7123_FIXED=
 
