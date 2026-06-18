@@ -3345,8 +3345,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"
@@ -3368,8 +3368,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"
@@ -3391,8 +3391,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"
