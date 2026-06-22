@@ -205,14 +205,14 @@
          => replace('(input|option)-[0-9a-f]+', '$1-ID')"/>
       <t:expect test="$result-simplified" as="xs:string">
          <t:label>Result text describes a map. The map keys are 'map-of-inputs' and
-            'map-of-options'. The 'map-of-inputs' value is a map with an entry for each input port.
-            The 'map-of-options' value is a map with an entry for each option. The values of the
-            inner entries are references to variables.</t:label>
+            'map-of-options' as QNames. The 'map-of-inputs' value is a map with an entry for each
+            input port. The 'map-of-options' value is a map with an entry for each option. The
+            values of the inner entries are references to variables.</t:label>
          <t:text>map{</t:text>
-         <t:text>'map-of-inputs':</t:text>
+         <t:text>QName('', 'map-of-inputs'):</t:text>
          <t:text>map{'source': wrap:unwrap-text-nodes($impl:input-ID), </t:text>
          <t:text>'aux': wrap:unwrap-text-nodes($impl:input-ID)},</t:text>
-         <t:text>'map-of-options':</t:text>
+         <t:text>QName('', 'map-of-options'):</t:text>
          <t:text>map{'ex:option1': $impl:option-ID, </t:text>
          <t:text>'ex:option2': $impl:option-ID}</t:text>
          <t:text>}</t:text>
