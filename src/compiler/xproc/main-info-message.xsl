@@ -10,14 +10,12 @@
       <text>
          <xsl:text> and </xsl:text>
       </text>
-      <text>
-         <xsl:text>XML Calabash</xsl:text>
-      </text>
+      <value-of select="{x:known-UQName('pf:system-property')}( map{{QName('', 'property'): '{x:known-UQName('p:product-name')}'}} )?result"/>
       <text>
          <xsl:text> </xsl:text>
       </text>
       <!-- pf:system-property() must be retrieved at run time -->
-      <value-of select="{x:known-UQName('pf:system-property')}( map{{'property': '{x:known-UQName('p:product-version')}'}} )?result"/>
+      <value-of select="{x:known-UQName('pf:system-property')}( map{{QName('', 'property'): '{x:known-UQName('p:product-version')}'}} )?result"/>
       
    </xsl:template>
    
