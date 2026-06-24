@@ -391,7 +391,7 @@
 	</case>
 
 	<case name="CLI -e with no failures (XQuery)">
-    call :run ..\bin\xspec.bat -e -q -catalog ..\tutorial\catalog.xml ..\tutorial\xquery-tutorial.xspec
+    call :run ..\bin\xspec.bat -e -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 0
     call :verify_line 10 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
     call :verify_line 11 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
@@ -1237,10 +1237,9 @@
     set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
     call :mkdir "%TUTORIAL_COPY%"
     call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\catalog.xml "%TUTORIAL_COPY%"
 
     rem Run with absolute TEST_DIR
-    call :run ..\bin\xspec.bat -q -catalog "%TUTORIAL_COPY%\catalog.xml" "%TUTORIAL_COPY%\xquery-tutorial.xspec"
+    call :run ..\bin\xspec.bat -q "%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
     call :verify_line 11 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
@@ -1257,7 +1256,7 @@
     rem Run with relative TEST_DIR
     cd /d "%WORK_DIR%"
     set "TEST_DIR=relative-test-dir %RANDOM%"
-    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -q -catalog "%TUTORIAL_COPY%\catalog.xml" "%TUTORIAL_COPY%\xquery-tutorial.xspec""
+    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -q "%TUTORIAL_COPY%\xquery-tutorial.xspec""
     call :verify_retval 0
     call :verify_line 11 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
@@ -1457,17 +1456,16 @@
     rem Use a fresh dir, to avoid a residue of default output dir
     set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
     call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\namespaces\namespace-demo.xqm "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\namespaces\namespace-demo_query.xspec "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
 
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
-        -Dxspec.xml="%TUTORIAL_COPY%\namespace-demo_query.xspec"
+        -Dxspec.xml="%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6"
+    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify default output dir
@@ -1475,10 +1473,10 @@
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 4
-    call :verify_line 1 x namespace-demo_query_xml-to-properties.xml
-    call :verify_line 2 x namespace-demo_query-compiled.xq
-    call :verify_line 3 x namespace-demo_query-result.html
-    call :verify_line 4 x namespace-demo_query-result.xml
+    call :verify_line 1 x xquery-tutorial_xml-to-properties.xml
+    call :verify_line 2 x xquery-tutorial-compiled.xq
+    call :verify_line 3 x xquery-tutorial-result.html
+    call :verify_line 4 x xquery-tutorial-result.xml
 	</case>
 
 	<case name="Ant with minimum properties (Schematron)">
@@ -1812,7 +1810,6 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
-        -Dcatalog=tutorial/catalog.xml ^
         -Dtest.type=xquerY ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -2660,7 +2657,7 @@
 	-->
 
 	<case name="Default @xquery-version">
-    call :run ..\bin\xspec.bat -q -catalog ..\tutorial\catalog.xml ..\tutorial\xquery-tutorial.xspec
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 0
 
     call :run type "%TEST_DIR%\xquery-tutorial-compiled.xq"
@@ -3165,7 +3162,6 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
-        -Dcatalog=tutorial/catalog.xml ^
         -Dtest.type=q ^
         -Dxspec.xquery.compiler.xsl="%CD%\override-id\compile-xquery-tests.xsl" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
