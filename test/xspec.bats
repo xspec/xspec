@@ -515,83 +515,6 @@ load bats-helper
 }
 
 #
-# XProc 1 (Saxon)
-#
-
-@test "XProc 1 harness for Saxon (XSLT)" {
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
-    fi
-
-    # HTML report file
-    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
-    mkdir -p "${actual_report_dir}"
-    actual_report="${actual_report_dir}/serialize-result.html"
-
-    # Run
-    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=end-to-end/cases/serialize.xspec \
-        -o result="file:${actual_report}" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xslt-harness.xproc
-
-    # Verify HTML report including #72
-    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
-        -s:"${actual_report}" \
-        -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-}
-
-@test "XProc 1 harness for Saxon (XQuery)" {
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
-    fi
-
-    # HTML report file
-    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
-    mkdir -p "${actual_report_dir}"
-    actual_report="${actual_report_dir}/serialize-result.html"
-
-    # Run
-    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=end-to-end/cases/serialize.xspec \
-        -o result="file:${actual_report}" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xquery-harness.xproc
-
-    # Verify HTML report including #72
-    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
-        -s:"${actual_report}" \
-        -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
-        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-
-    # Run again (ndw/xmlcalabash1#322)
-    java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=end-to-end/cases/serialize.xspec \
-        -o result="file:${actual_report}" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xquery-harness.xproc
-}
-
-@test "XProc 1 harness for Saxon (XQuery with special characters in expression #1020)" {
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
-    fi
-
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=issue-1020.xspec \
-        -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "3" ]
-    # Use assert_regex because of other text before the content of interest in XProc 1.
-    assert_regex "${lines[2]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
-}
-
-#
 # XProc 3 (Saxon)
 #
 
@@ -1525,110 +1448,24 @@ load bats-helper
 # XProc (BaseX)
 #
 
-@test "XProc harness for BaseX (standalone)" {
-    if [ -z "${BASEX_JAR}" ]; then
-        skip "BASEX_JAR is not defined"
-    fi
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
-    fi
-
-    # Output files
-    compiled_file="${work_dir}/compiled_${RANDOM}.xq"
-    expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
-
-    # Run (also test with special characters in expression #1020)
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=issue-1020.xspec \
-        -o result="file:${expected_report}" \
-        -p basex-jar="${BASEX_JAR}" \
-        -p compiled-file="file:${compiled_file}" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
-    [ "$status" -eq 0 ]
-    assert_regex "${lines[${#lines[@]} - 1]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
-
-    # Compiled file
-    [ -f "${compiled_file}" ]
-
-    # HTML report file should be created and its charset should be UTF-8 #72
-    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
-        -s:"${expected_report}" \
-        -xsl:check-html-charset.xsl
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "true" ]
-}
-
-@test "XProc harness for BaseX (server)" {
-    if [ -z "${BASEX_JAR}" ]; then
-        skip "BASEX_JAR is not defined"
-    fi
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
-    fi
-
-    # BaseX dir
-    basex_home=$(dirname -- "${BASEX_JAR}")
-
-    # Stop BaseX server, in case it's running
-    myrun "${basex_home}/bin/basexhttpstop"
-
-    # Set BaseX password
-    basex_password=${RANDOM}
-    "${basex_home}/bin/basex" -c"PASSWORD ${basex_password}"
-
-    # Start BaseX server
-    "${basex_home}/bin/basexhttp" -S
-
-    # Wait for the server to start up
-    sleep 5
-
-    # HTML report file
-    expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
-
-    # Run (also test with various types in report)
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=report-sequence.xspec \
-        -o result="file:${expected_report}" \
-        -p auth-method=Basic \
-        -p endpoint=http://localhost:8080/rest \
-        -p password="${basex_password}" \
-        -p username=admin \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/basex/basex-server-xquery-harness.xproc
-    [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "3" ]
-    assert_regex "${lines[2]}" '.+:passed: 128 / pending: 0 / failed: 0 / total: 128'
-
-    # HTML report file should be created and its charset should be UTF-8 #72
-    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
-        -s:"${expected_report}" \
-        -xsl:check-html-charset.xsl
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "true" ]
-
-    # Stop BaseX server
-    "${basex_home}/bin/basexhttpstop"
-}
-
 @test "BaseX with no-prefix.xspec" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=no-prefix.xspec \
-        -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
-        -p basex-jar="${BASEX_JAR}" \
-        -p compiled-file="file:${work_dir}/compiled_${RANDOM}.xq" \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=no-prefix.xspec \
+        --output:result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "3" ]
-    assert_regex "${lines[2]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
+    [ "${#lines[@]}" = "8" ]
+    assert_regex "${lines[7]}" 'passed: 10 / pending: 0 / failed: 0 / total: 10'
 }
 
 #
@@ -2981,31 +2818,36 @@ load bats-helper
 #
 
 @test "XSLT selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=issue-423/test.xspec \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=issue-423/test.xspec \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xslt.xpl
     [ "$status" -eq 1 ]
-    assert_regex "${lines[${#lines[@]} - 3]}" '.+err:XPDY0002:'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
+    assert_regex "${lines[${#lines[@]} - 1]}" '.+XPath error XPDY0002'
 }
 
+# Using BaseX because XML Calabash + Saxon produces a less specific error code
+# (see https://codeberg.org/xmlcalabash/xmlcalabash3/issues/743)
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_CP}" ]; then
-        skip "XMLCALABASH_CP is not defined"
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=issue-423/test.xspec \
-        -p xspec-home="file:${parent_dir_abs}/" \
-        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+        com.xmlcalabash.app.Main \
+        --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
+        --input:source=issue-423/test.xspec \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-xquery.xpl
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''.+[: ]XPDY0002[: ]'
-    assert_regex "${lines[${#lines[@]} - 1]}" '^\[main\] ERROR '
+    assert_regex "${output}" $'\n''.*\[XPDY0002\]'
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
