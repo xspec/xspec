@@ -2450,13 +2450,17 @@
 		#423
 	-->
 
+  <!--
+    XML Calabash output in Oxygen v28.1 environment doesn't include XPDY0002,
+    so look for message.
+  -->
 	<case ifdef="XMLCALABASH3_JAR" name="XSLT selecting nodes without context should be error (XProc) #423">
     call :run java -jar "%XMLCALABASH3_JAR%" ^
         --input:source=issue-423/test.xspec ^
         xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\xproc3\run-xslt.xpl
     call :verify_retval 1
-    call :verify_line -1 r "..*XPath error XPDY0002"
+    call :verify_line -1 r "..*: The context item is absent"
 	</case>
 
   <!--

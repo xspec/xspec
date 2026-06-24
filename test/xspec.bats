@@ -2817,6 +2817,8 @@ load bats-helper
 # #423
 #
 
+# XML Calabash output in Oxygen 28.1 environment doesn't include XPDY0002,
+# so look for message.
 @test "XSLT selecting nodes without context should be error (XProc) #423" {
     if [ -z "${XMLCALABASH3_JAR}" ]; then
         skip "XMLCALABASH3_JAR is not defined"
@@ -2827,7 +2829,7 @@ load bats-helper
         xspec-home="file:${parent_dir_abs}/" \
         ../src/xproc3/run-xslt.xpl
     [ "$status" -eq 1 ]
-    assert_regex "${lines[${#lines[@]} - 1]}" '.+XPath error XPDY0002'
+    assert_regex "${lines[${#lines[@]} - 1]}" '.+: The context item is absent'
 }
 
 # Using BaseX because XML Calabash + Saxon produces a less specific error code
