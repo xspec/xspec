@@ -112,9 +112,13 @@
 	<scenario label="Expect error in x:xspec-name()" shared="yes">
 		<expect label="Error (code)" select="QName('http://www.w3.org/2005/xqt-errors', 'XTTE0570')"
 			test="?err?code" />
+		<!--
+			Saxon 12 message: An empty sequence is not allowed as the value of variable $xspec-prefixes. Found while atomizing...
+			Saxon 13 message: An empty sequence is not allowed as the supplied value for variable $xspec-prefixes
+		-->
 		<expect label="Error (description)" test="
 				?err?description
-				=> starts-with('An empty sequence is not allowed as the value of variable $xspec-prefixes')"
+				=> matches('^An empty sequence is not allowed as the (value of|supplied value for) variable \$xspec-prefixes')"
 		 />
 	</scenario>
 

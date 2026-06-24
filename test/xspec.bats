@@ -1297,10 +1297,6 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
@@ -1483,10 +1479,6 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     # Test with x:context[node()] #322
 
     # Use a fresh dir, to make the message line numbers predictable
@@ -1713,10 +1705,6 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     # Unset any preset args
     unset ANT_ARGS
 
@@ -1842,6 +1830,10 @@ load bats-helper
 #
 
 @test "Ant with catalog file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1854,6 +1846,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1867,6 +1863,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1921,6 +1921,10 @@ load bats-helper
 #
 
 @test "Ant with catalog file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1934,6 +1938,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -1948,6 +1956,10 @@ load bats-helper
 }
 
 @test "Ant with catalog file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
@@ -2090,10 +2102,6 @@ load bats-helper
 #
 
 @test "Ant for Schematron with various properties except catalog and xspec.fail" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     build_xml="${work_dir}/build ${RANDOM}.xml"
 
     # For testing -Dxspec.project.dir
@@ -2130,6 +2138,10 @@ load bats-helper
 #
 
 @test "CLI with -catalog file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2148,6 +2160,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2167,6 +2183,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2237,6 +2257,10 @@ load bats-helper
 #
 
 @test "CLI with -catalog file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2246,6 +2270,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2256,6 +2284,10 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2299,6 +2331,10 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file path (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2317,6 +2353,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2335,6 +2375,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
         space_dir="${work_dir}/catalog${RANDOM}"
@@ -2381,6 +2425,10 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG file URI (XSLT)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
@@ -2390,6 +2438,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
@@ -2399,6 +2451,10 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (Schematron)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
     export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
@@ -2492,12 +2548,12 @@ load bats-helper
         [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
     else
         # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
-        # ClassNotFoundException for org.xmlresolver.Resolver is expected, as XMLResolver.org XML Resolver jar is missing
-        # from SAXON_HOME/lib/ subdirectory deliberately.
+        # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
+        # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
         [ "$status" -eq 1 ]
         assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
         assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
-        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver'$'\n'
+        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
     fi
 }
 
@@ -2953,6 +3009,10 @@ load bats-helper
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
+    fi
+
     # Should be error even when xspec.fail=false
     myrun ant \
         -buildfile ../build.xml \
@@ -2965,6 +3025,10 @@ load bats-helper
 }
 
 @test "XSLT selecting nodes without context should be error (CLI) #423" {
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
+    fi
+
     myrun ../bin/xspec.sh issue-423/test.xspec
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -2974,6 +3038,9 @@ load bats-helper
 @test "XSLT selecting nodes without context should be error (CLI -c) #423" {
     if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+    if [ -z "${SAXON_BUG_7123_FIXED}" ]; then
+        skip "Saxon bug 7123"
     fi
 
     myrun ../bin/xspec.sh -c issue-423/test.xspec
@@ -3258,7 +3325,7 @@ load bats-helper
     myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     [ "$status" -eq 0 ]
 
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
         [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
     elif [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
@@ -3267,7 +3334,7 @@ load bats-helper
     fi
 
     [ "${lines[6]}" = "Running Tests..." ]
-    assert_regex "${lines[7]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
+    assert_regex "${lines[7]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[0-9][0-9]*'
 }
 
 #
@@ -3275,8 +3342,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"
@@ -3298,8 +3365,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"
@@ -3321,8 +3388,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if [ "${SAXON_VERSION:0:3}" != "12." ]; then
-        skip "Always expect a deprecation warning on Saxon 10 or 11"
+    if [ "${SAXON_VERSION:0:3}" = "11." ]; then
+        skip "Always expect a deprecation warning on Saxon 11"
     fi
     if [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         skip "Always expect a deprecation warning on Saxon 12.3"

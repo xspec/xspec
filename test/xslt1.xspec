@@ -15,7 +15,7 @@
 				has xslt-version=2.0 or higher.</x:label>
 			<x:expect label="Comparing the text nodes with string" select="'12'" />
 			<x:expect label="Comparing the text nodes with double" select="xs:double('12')" />
-			<x:expect label="Comparing the text nodes with decimal" select="xs:decimal('12')" />
+			<x:expect label="Comparing the text nodes with decimal" select="xs:decimal('12.')" />
 			<x:expect label="Comparing the text nodes with integer" select="xs:integer('12')" />
 		</x:scenario>
 

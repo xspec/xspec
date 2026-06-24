@@ -49,12 +49,10 @@
 		<x:scenario label="Unexpected dynamic error occurs">
 			<!-- Fake a dynamic error by explicitly producing a map similar to
 				the one XSpec creates when a scenario with catch="yes" raises
-				a dynamic error. The map here avoids nonreproducible values
-				like the compiled test file's line/column numbers and location
-				in a temporary directory. -->
+				a dynamic error. -->
 			<x:call function="map:entry">
 				<x:param select="'err'"/>
-				<x:param select="map:entry('description','Error message')"/>
+				<x:param select="'some error map'"/>
 			</x:call>
 			<!--
 				@result-type prevents an error like this in Saxon or BaseX, respectively:

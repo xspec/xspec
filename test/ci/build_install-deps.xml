@@ -94,7 +94,7 @@
 			prefix="xmlresolverorg-xmlresolver_deleteonexit_"
 			property="xmlresolverorg-xmlresolver.zip" suffix=".zip" />
 		<download dest="${xmlresolverorg-xmlresolver.zip}"
-			src="https://github.com/xmlresolver/xmlresolver/releases/download/${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}/xmlresolver-${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}.zip" />
+			src="https://codeberg.org/xmlresolver/xmlresolver/releases/download/${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}/xmlresolver-${env.XMLRESOLVERORG_XMLRESOLVER_VERSION}.zip" />
 
 		<!--
 			Extract ZIP file

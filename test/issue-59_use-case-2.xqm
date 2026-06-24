@@ -1,5 +1,6 @@
-module namespace issue-59 = "https://github.com/xspec/xspec/issues/59#issuecomment-281689650";
+module namespace issue-59 = "x-urn:test:issue-59";
 
+(: Use case from https://github.com/xspec/xspec/issues/59#issuecomment-281689650 :)
 declare function issue-59:extract-local-name-and-namespace-from-lexical-qname(
 $lexical-qname as xs:string
 )
