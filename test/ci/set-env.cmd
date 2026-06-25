@@ -63,17 +63,6 @@ rem
 rem Depends on the archive file structure
 set "XMLRESOLVERORG_XMLRESOLVER_LIB=%XSPEC_TEST_DEPS%\xmlresolver-%XMLRESOLVERORG_XMLRESOLVER_VERSION%\lib"
 
-rem
-rem XML Calabash jar for XProc 1
-rem
-if defined XMLCALABASH_VERSION (
-    rem Depends on the archive file structure
-    set "XMLCALABASH_JAR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
-) else (
-    echo XML Calabash will not be installed
-    set XMLCALABASH_JAR=
-)
-
 if defined XMLCALABASH3_VERSION (
     rem Depends on the archive file structure
     set "XMLCALABASH3_DIR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%"
@@ -85,16 +74,6 @@ if defined XMLCALABASH3_VERSION if defined XMLCALABASH3_DIR (
     set "XMLCALABASH3_JAR=%XMLCALABASH3_DIR%\xmlcalabash-app-%XMLCALABASH3_VERSION%.jar"
 ) else (
     set XMLCALABASH3_JAR=
-)
-
-rem
-rem SLF4J directory
-rem
-if defined SLF4J_VERSION (
-    set "SLF4J_DIR=%XSPEC_TEST_DEPS%\slf4j-%SLF4J_VERSION%"
-) else (
-    echo SLF4J will not be installed
-    set SLF4J_DIR=
 )
 
 rem
@@ -115,13 +94,3 @@ rem
 
 rem XMLResolver.org XML Resolver
 set "XMLRESOLVERORG_XMLRESOLVER_CP=%XMLRESOLVERORG_XMLRESOLVER_LIB%\*"
-
-rem XML Calabash for XProc 1
-rem Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
-set XMLCALABASH_CP=
-if defined XMLCALABASH_JAR (
-    set "XMLCALABASH_CP=%XMLCALABASH_JAR%;%XMLRESOLVERORG_XMLRESOLVER_CP%"
-)
-if defined XMLCALABASH_CP if defined SLF4J_DIR (
-    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%SLF4J_DIR%\*;%~dp0slf4j-simple"
-)
