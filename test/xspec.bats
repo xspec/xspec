@@ -64,9 +64,8 @@ load bats-helper
     unset SAXON_CP
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    assert_regex "${lines[5]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[4]}" '^Usage: xspec '
 }
 
 @test "invoking xspec with -h prints version and usage and does so even when it is 11th argument" {
@@ -176,14 +175,33 @@ load bats-helper
 }
 
 #
-# SAXON_CP has precedence over SAXON_HOME
+# SAXON_CP and SAXON_HOME
 #
+
+@test "Either SAXON_CP or SAXON_HOME must be set" {
+    unset SAXON_CP
+    unset SAXON_HOME
+
+    myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "Neither SAXON_CP nor SAXON_HOME is set." ]
+}
 
 @test "SAXON_CP has precedence over SAXON_HOME" {
     export SAXON_HOME="${work_dir}/empty-saxon-home ${RANDOM}"
     mkdir "${SAXON_HOME}"
 
     ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+}
+
+@test "SAXON_HOME, if it is used, must contain Saxon jar" {
+    unset SAXON_CP
+    export SAXON_HOME="${work_dir}/saxon-home-used-but-no-jar ${RANDOM}"
+    mkdir "${SAXON_HOME}"
+
+    myrun ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "Saxon jar cannot be found in SAXON_HOME: ${SAXON_HOME}" ]
 }
 
 #
