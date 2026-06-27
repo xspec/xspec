@@ -21,10 +21,6 @@ echo "=== Print Saxon version"
 java -cp "${SAXON_JAR}" net.sf.saxon.Version
 
 echo
-echo "=== Check XML Calabash for XProc 1"
-java -cp "${XMLCALABASH_CP}:${SAXON_JAR}" com.xmlcalabash.drivers.Main 2> /dev/null
-
-echo
 echo "=== Check XML Calabash for XProc 3"
 java -jar "${XMLCALABASH3_JAR}" info version
 
@@ -39,13 +35,6 @@ ls -1 "${XMLRESOLVERORG_XMLRESOLVER_LIB}"/*
 echo
 echo "=== Check BaseX"
 java -cp "${BASEX_JAR}" org.basex.BaseX -h
-
-echo
-echo "=== Check BaseX server start and stop"
-basex_home=$(dirname -- "${BASEX_JAR}")
-"${basex_home}/bin/basexhttp" -S
-sleep 5
-"${basex_home}/bin/basexhttpstop"
 
 echo
 echo "=== Print Bats version"

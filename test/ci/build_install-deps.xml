@@ -107,65 +107,6 @@
 			src="${xmlresolverorg-xmlresolver.zip}" />
 	</target>
 
-	<target depends="slf4j" if="env.XMLCALABASH_VERSION" name="xml-calabash">
-		<echo message="Install XML Calabash ${env.XMLCALABASH_VERSION}" />
-
-		<!--
-			Download ZIP file
-		-->
-		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash_deleteonexit_"
-			property="xmlcalabash.zip" suffix=".zip" />
-		<download dest="${xmlcalabash.zip}"
-			src="https://github.com/ndw/xmlcalabash1/releases/download/${env.XMLCALABASH_VERSION}/xmlcalabash-${env.XMLCALABASH_VERSION}.zip" />
-
-		<!--
-			Extract ZIP file
-		-->
-		<dirname file="${env.XMLCALABASH_JAR}" property="xmlcalabash.jar.dir" />
-		<dirname file="${xmlcalabash.jar.dir}" property="xmlcalabash.unzip.dest" />
-		<unzip dest="${xmlcalabash.unzip.dest}" src="${xmlcalabash.zip}" />
-
-		<!--
-			Find and delete Saxon jar file in lib/ subdirectory
-		-->
-		<condition property="xmlcalabash.saxon.jar.count.ok">
-			<resourcecount count="1">
-				<fileset dir="${xmlcalabash.jar.dir}/lib/" id="xmlcalabash.saxon.jar"
-					includes="Saxon-HE-*.jar" />
-			</resourcecount>
-		</condition>
-		<fail message="Failed to identify Saxon jar in XML Calabash lib dir"
-			unless="xmlcalabash.saxon.jar.count.ok" />
-		<delete verbose="true">
-			<fileset refid="xmlcalabash.saxon.jar" />
-		</delete>
-
-		<!--
-			Find and delete XMLResolver.org XML Resolver file(s) in lib/ subdirectory
-		-->
-		<condition property="xmlcalabash.xmlresolverorg-xmlresolver.jar.count.ok">
-			<!--
-				There are one or two jar files:
-				- xmlresolver-[version].jar (always)
-				- xmlresolver-[version]-data.jar (not found in xmlcalabash-1.3.2-99.zip)
-			-->
-			<and>
-				<resourcecount count="1" when="ge">
-					<fileset dir="${xmlcalabash.jar.dir}/lib/"
-						id="xmlcalabash.xmlresolverorg-xmlresolver.jar" includes="xmlresolver-*.jar"
-					 />
-				</resourcecount>
-				<resourcecount count="2" refid="xmlcalabash.xmlresolverorg-xmlresolver.jar"
-					when="le" />
-			</and>
-		</condition>
-		<fail message="Failed to identify XMLResolver.org XML Resolver jar in XML Calabash lib dir"
-			unless="xmlcalabash.xmlresolverorg-xmlresolver.jar.count.ok" />
-		<delete verbose="true">
-			<fileset refid="xmlcalabash.xmlresolverorg-xmlresolver.jar" />
-		</delete>
-	</target>
-
 	<target if="env.XMLCALABASH3_VERSION" name="xml-calabash3">
 		<echo message="Install XML Calabash ${env.XMLCALABASH3_VERSION}" />
 		
@@ -219,19 +160,6 @@
 		</unzip>
 	</target>
 
-	<target if="env.SLF4J_VERSION" name="slf4j">
-		<echo message="Install SLF4J ${env.SLF4J_VERSION}" />
-
-		<mkdir dir="${env.SLF4J_DIR}" />
-
-		<!-- XML Calabash has slf4j-api jar file in its lib directory -->
-		<!--<download dest="${env.SLF4J_DIR}/slf4j-api.jar"
-			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/${env.SLF4J_VERSION}/slf4j-api-${env.SLF4J_VERSION}.jar" />-->
-		<download dest="${env.SLF4J_DIR}/slf4j-simple.jar"
-			src="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/${env.SLF4J_VERSION}/slf4j-simple-${env.SLF4J_VERSION}.jar"
-		 />
-	</target>
-
 	<target if="env.BASEX_VERSION" name="basex">
 		<echo message="Install BaseX ${env.BASEX_VERSION}" />
 
@@ -270,7 +198,6 @@
 			<antcall target="saxon" />
 			<antcall target="apache-xmlresolver" />
 			<antcall target="xmlresolverorg-xmlresolver" />
-			<antcall target="xml-calabash" />
 			<antcall target="xml-calabash3-basex" />
 			<antcall target="basex" />
 		</parallel>

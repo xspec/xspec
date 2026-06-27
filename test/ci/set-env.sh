@@ -83,17 +83,6 @@ export APACHE_XMLRESOLVER_JAR="${XSPEC_TEST_DEPS}/apache-xmlresolver-${APACHE_XM
 # Depends on the archive file structure
 export XMLRESOLVERORG_XMLRESOLVER_LIB="${XSPEC_TEST_DEPS}/xmlresolver-${XMLRESOLVERORG_XMLRESOLVER_VERSION}/lib"
 
-#
-# XML Calabash jar for XProc 1
-#
-if [ -n "${XMLCALABASH_VERSION}" ]; then
-    # Depends on the archive file structure
-    export XMLCALABASH_JAR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar"
-else
-    echo "XML Calabash will not be installed"
-    unset XMLCALABASH_JAR
-fi
-
 if [ -n "${XMLCALABASH3_VERSION}" ]; then
     # Depends on the archive file structure
     export XMLCALABASH3_DIR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}"
@@ -105,16 +94,6 @@ if [ -n "${XMLCALABASH3_VERSION}" ] && [ -n "${XMLCALABASH3_DIR}" ]; then
     export XMLCALABASH3_JAR="${XMLCALABASH3_DIR}/xmlcalabash-app-${XMLCALABASH3_VERSION}.jar"
 else
     unset XMLCALABASH3_JAR
-fi
-
-#
-# SLF4J directory
-#
-if [ -n "${SLF4J_VERSION}" ]; then
-    export SLF4J_DIR="${XSPEC_TEST_DEPS}/slf4j-${SLF4J_VERSION}"
-else
-    echo "SLF4J will not be installed"
-    unset SLF4J_DIR
 fi
 
 #
@@ -135,13 +114,3 @@ fi
 
 # XMLResolver.org XML Resolver
 export XMLRESOLVERORG_XMLRESOLVER_CP="${XMLRESOLVERORG_XMLRESOLVER_LIB}/*"
-
-# XML Calabash for XProc 1
-# Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
-unset XMLCALABASH_CP
-if [ -n "${XMLCALABASH_JAR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_JAR}:${XMLRESOLVERORG_XMLRESOLVER_CP}"
-fi
-if [ -n "${XMLCALABASH_CP}" ] && [ -n "${SLF4J_DIR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_CP}:${SLF4J_DIR}/*:${mydir}/slf4j-simple"
-fi
