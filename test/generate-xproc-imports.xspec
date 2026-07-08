@@ -15,7 +15,7 @@
             </x:expect>
             <x:expect label="for an internal library" test="ends-with(
                 $x:result[self::p:import]/@href,
-                '/src/compiler/xproc/wrap-standard-functions/wrap-standard-functions.xpl'
+                '/src/compiler/xproc/in-scope-steps/steps-for-test-runner.xpl'
                 )"/>
         </x:scenario>
         <x:scenario>
@@ -44,8 +44,6 @@
                     <p:import href="..."/>
                     <p:import href="..."/>
                     <p:import href="..."/>
-                    <p:declare-step xmlns:impl="urn:x-xspec:compile:impl" type="impl:step-runner"
-                        name="step-runner" version="3.1">...</p:declare-step>
                 </p:library>
             </x:expect>
         </x:scenario>
@@ -84,15 +82,5 @@
                 mode="generate-imports"/>
             <x:expect label="Nothing" as="empty-sequence()"/>
         </x:scenario>
-    </x:scenario>
-    <x:scenario label="Test for import-function-wrappers template">
-        <x:call template="import-function-wrappers"/>
-        <x:expect label="p:import element" as="element(p:import)">
-            <p:import href="..."/>
-        </x:expect>
-        <x:expect label="with resolved href" test="p:import/@href/string()" select="concat(
-            substring-before($x:xspec-uri,'/test/'),
-            '/src/compiler/xproc/wrap-standard-functions/wrap-standard-functions.xpl'
-            )"/>
     </x:scenario>
 </x:description>
