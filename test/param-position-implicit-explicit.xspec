@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+    xmlns:local="urn:x-xspec:compiler:base:compile:compile-child-scenarios-or-expects:local"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/compiler/compile-xquery-tests.xsl">
+
+    <x:scenario label="x:call[@function] whose parameters omit and then specify @position"
+        catch="yes">
+        <x:context mode="local:compile-scenarios-or-expects"
+            href="bad-position/mixed_explicit-implicit.xspec" select="//x:scenario"/>
+        <x:expect label="should raise a compiler error" result-type="map(*)"
+            test="$x:result?err?value/node()" as="text()"
+            >ERROR in x:call (under 'function-param positions (explicit one followed by implicit one)'): x:call uses @position on some but not all x:param.</x:expect>
+    </x:scenario>
+    <x:scenario label="x:call[@function] whose parameters specify and then omit @position"
+        catch="yes">
+        <x:context mode="local:compile-scenarios-or-expects"
+            href="bad-position/mixed_implicit-explicit.xspec" select="//x:scenario"/>
+        <x:expect label="should raise a compiler error" result-type="map(*)"
+            test="$x:result?err?value/node()" as="text()"
+            >ERROR in x:call (under 'function-param positions (implicit one followed by explicit one)'): x:call uses @position on some but not all x:param.</x:expect>
+    </x:scenario>
+</x:description>

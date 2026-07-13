@@ -81,6 +81,8 @@
       <xsl:variable name="new-call" as="element(x:call)?">
          <xsl:choose>
             <xsl:when test="x:call">
+               <xsl:sequence select="local:param-position-implicit-explicit-error(x:call)"/>
+
                <xsl:copy select="x:call">
                   <xsl:sequence select="($call, .) ! attribute()" />
 
@@ -186,6 +188,21 @@
          select="$owner/x:param/@position ! xs:integer(.)" />
       <xsl:for-each select="$positions[subsequence($positions, 1, position() - 1) = .][1]">
          <xsl:text expand-text="yes">Duplicate parameter position, {.}, used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- Raises an error if x:param/@position existence is mixed for an individual x:call -->
+   <xsl:function name="local:param-position-implicit-explicit-error" as="empty-sequence()">
+      <xsl:param name="owner" as="element(x:call)" />
+      <xsl:for-each select="$owner">
+         <xsl:if test="exists(x:param/@position) and exists(x:param[not(@position)])">
+            <xsl:message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message" expand-text="1"
+                     >{name(.)} uses @position on some but not all {name(x:param[1])}.</xsl:with-param>
+               </xsl:call-template>
+            </xsl:message>
+         </xsl:if>
       </xsl:for-each>
    </xsl:function>
 
