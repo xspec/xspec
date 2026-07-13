@@ -308,36 +308,6 @@ if not defined XSPEC_VERSION (
 )
 
 rem
-rem # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
-rem
-
-set USE_SAXON_HOME=
-
-if not defined SAXON_CP (
-    if not defined SAXON_HOME (
-        echo SAXON_CP and SAXON_HOME both not set!
-    ) else (
-        set USE_SAXON_HOME=1
-        for %%I in (
-            "%SAXON_HOME%\saxon9?e.jar"
-            "%SAXON_HOME%\saxon-?e-??.?*.jar"
-        ) do set "SAXON_CP=%%~I"
-    )
-)
-
-if defined USE_SAXON_HOME (
-    if not defined SAXON_CP (
-        call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
-    ) else (
-        if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
-            set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
-        )
-    )
-)
-
-set "CP=%SAXON_CP%;%XSPEC_HOME%\java"
-
-rem
 rem ##
 rem ## options ###################################################################
 rem ##
@@ -459,6 +429,35 @@ if defined WIN_EXTRA_OPTION (
     call :usage "Error: Extra option: %WIN_EXTRA_OPTION%"
     exit /b 1
 )
+
+rem
+rem # set SAXON_CP (either it has been set by the user, or set it from SAXON_HOME)
+rem
+
+set USE_SAXON_HOME=
+
+if not defined SAXON_CP (
+    if not defined SAXON_HOME (
+        echo Neither SAXON_CP nor SAXON_HOME is set.
+        exit /b 1
+    ) else (
+        set USE_SAXON_HOME=1
+        for %%I in ("%SAXON_HOME%\saxon-?e-??.?*.jar") do set "SAXON_CP=%%~I"
+    )
+)
+
+if defined USE_SAXON_HOME (
+    if not defined SAXON_CP (
+        call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
+        exit /b 1
+    ) else (
+        if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
+            set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+        )
+    )
+)
+
+set "CP=%SAXON_CP%;%XSPEC_HOME%\java"
 
 rem
 

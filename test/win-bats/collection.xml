@@ -17,9 +17,8 @@
     set SAXON_CP=
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 1 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 4 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
-    call :verify_line 6 r "Usage: xspec "
+    call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 5 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with -h prints version and usage and does so even when it is 11th argument">
@@ -128,8 +127,16 @@
 	</case>
 
 	<!--
-		SAXON_CP has precedence over SAXON_HOME
+		SAXON_CP and SAXON_HOME
 	-->
+
+	<case name="Either SAXON_CP or SAXON_HOME must be set">
+    set SAXON_CP=
+    set SAXON_HOME=
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 1 x "Neither SAXON_CP nor SAXON_HOME is set."
+	</case>
 
 	<case name="SAXON_CP has precedence over SAXON_HOME">
     set "SAXON_HOME=%WORK_DIR%\empty-saxon-home %RANDOM%"
@@ -137,6 +144,16 @@
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
+	</case>
+
+	<case name="SAXON_HOME, if it is used, must contain Saxon jar">
+    set SAXON_CP=
+    set "SAXON_HOME=%WORK_DIR%\saxon-home-used-but-no-jar %RANDOM%"
+    call :mkdir "%SAXON_HOME%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 1 x "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
 	</case>
 
 	<!--
