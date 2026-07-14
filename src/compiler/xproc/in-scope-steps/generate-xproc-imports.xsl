@@ -23,7 +23,7 @@
     <xsl:template name="generate-imports" as="node()+">
         <xsl:context-item as="document-node(element(x:description))" use="required"/>
         <xsl:comment>Import a library that the test runner uses</xsl:comment>
-        <p:import href="{resolve-uri('steps-for-test-runner.xpl')}"/>
+        <p:import href="{resolve-uri('../../../xproc3/xproc-testing/steps-for-test-runner.xpl')}"/>
         <xsl:sequence>
             <xsl:on-non-empty>
                 <xsl:comment select="
