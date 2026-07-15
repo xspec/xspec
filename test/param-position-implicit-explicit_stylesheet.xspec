@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../src/compiler/compile-xslt-tests.xsl">
+
+    <!-- Same scenarios, but operating in compiler for XSLT test -->
+    <x:import href="param-position-implicit-explicit.xspec"/>
+</x:description>
