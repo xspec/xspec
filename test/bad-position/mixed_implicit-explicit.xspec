@@ -3,6 +3,8 @@
 	xml:base="../" xmlns:my="http://example.org/ns/my"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<!-- This file is used in rnc.bats, param-position-implicit-explicit.xspec,
+		and param-position-implicit-explicit_stylesheet.xspec -->
 	<x:scenario label="function-param positions (implicit one followed by explicit one)">
 		<x:call function="my:subtract">
 			<x:param select="2" />

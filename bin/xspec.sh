@@ -208,37 +208,6 @@ if [ -z "${XSPEC_VERSION}" ]; then
     exit 1
 fi
 
-# set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
-
-unset USE_SAXON_HOME
-
-if test -z "$SAXON_CP"; then
-    if test -z "$SAXON_HOME"; then
-        echo "SAXON_CP and SAXON_HOME both not set!"
-        # die "SAXON_CP and SAXON_HOME both not set!"
-    else
-        USE_SAXON_HOME=1
-        for f in \
-            "${SAXON_HOME}"/saxon9?e.jar \
-            "${SAXON_HOME}"/saxon-?e-??.?*.jar; do
-            [ -f "${f}" ] && SAXON_CP="${f}"
-        done
-    fi
-fi
-
-if [ -n "${USE_SAXON_HOME}" ]; then
-    if [ -z "${SAXON_CP}" ]; then
-        echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
-        # die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
-    else
-        if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
-            SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar"
-        fi
-    fi
-fi
-
-CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
-
 ##
 ## options ###################################################################
 ##
@@ -376,6 +345,36 @@ if [ -n "$2" ]; then
     usage "Error: Extra option: $2"
     exit 1
 fi
+
+# set SAXON_CP (either it has been set by the user, or set it from SAXON_HOME)
+
+unset USE_SAXON_HOME
+
+if test -z "$SAXON_CP"; then
+    if test -z "$SAXON_HOME"; then
+        echo "Neither SAXON_CP nor SAXON_HOME is set."
+        exit 1
+    else
+        USE_SAXON_HOME=1
+        for f in \
+            "${SAXON_HOME}"/saxon-?e-??.?*.jar; do
+            [ -f "${f}" ] && SAXON_CP="${f}"
+        done
+    fi
+fi
+
+if [ -n "${USE_SAXON_HOME}" ]; then
+    if [ -z "${SAXON_CP}" ]; then
+        echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+        exit 1
+    else
+        if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
+            SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar"
+        fi
+    fi
+fi
+
+CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 
 ##
 ## files and dirs ############################################################
