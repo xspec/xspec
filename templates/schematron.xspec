@@ -2,7 +2,7 @@
 <!--
     * Update /x:description/@schematron which should point to the Schematron file being tested.
     * Write your test scenario.
-      See https://github.com/xspec/xspec/wiki/Writing-Scenarios-for-Schematron#writing-tests for details.
+      See https://github.com/xspec/xspec/wiki/Writing-Scenarios-for-Schematron for details.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     schematron="path/to/my-schematron.sch">
