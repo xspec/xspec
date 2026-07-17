@@ -214,7 +214,7 @@
         <x:like label="verify JSON content type"/>
         <x:expect label="the result is the boolean" port="xproc-result" select="true()"/>
     </x:scenario>
-    <x:scenario label="When source is an array" pending="min-xmlcalabash-version=3.0.31">
+    <x:scenario label="When source is an array">
         <x:call step="mirror:identity">
             <x:input port="source" select="[1, 2]" as="array(*)"/>
         </x:call>
