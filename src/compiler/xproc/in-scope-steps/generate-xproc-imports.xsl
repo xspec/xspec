@@ -16,7 +16,6 @@
     <xsl:template match="/" as="element(p:library)">
         <p:library version="3.1">
             <xsl:call-template name="generate-imports"/>
-            <xsl:call-template name="declare-step-runner"/>
         </p:library>
     </xsl:template>
 
@@ -24,7 +23,7 @@
     <xsl:template name="generate-imports" as="node()+">
         <xsl:context-item as="document-node(element(x:description))" use="required"/>
         <xsl:comment>Import a library that the test runner uses</xsl:comment>
-        <xsl:call-template name="import-function-wrappers"/>
+        <p:import href="{resolve-uri('../../../xproc3/xproc-testing/steps-for-test-runner.xpl')}"/>
         <xsl:sequence>
             <xsl:on-non-empty>
                 <xsl:comment select="
@@ -33,11 +32,6 @@
             </xsl:on-non-empty>
             <xsl:apply-templates select="x:description" mode="generate-imports"/>
         </xsl:sequence>
-    </xsl:template>
-
-    <xsl:template name="declare-step-runner" as="element(p:declare-step)">
-        <xsl:context-item use="absent"/>
-        <xsl:sequence select="doc(resolve-uri('../../../common/step-runner.xpl'))/*"/>
     </xsl:template>
 
     <xsl:template match="x:description" as="element(p:import)*" mode="generate-imports">
@@ -61,11 +55,4 @@
         <p:import href="{$resolved-xproc-attribute}"/>
     </xsl:template>
 
-    <xsl:template name="import-function-wrappers" as="element(p:import)">
-        <xsl:context-item use="absent"/>
-        <xsl:variable name="resolved-uri" select="
-                resolve-uri('../wrap-standard-functions/wrap-standard-functions.xpl')"
-            as="xs:anyURI"/>
-        <p:import href="{$resolved-uri}"/>
-    </xsl:template>
 </xsl:stylesheet>

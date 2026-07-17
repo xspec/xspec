@@ -15,7 +15,6 @@
         <p:declare-step version="3.1" xmlns:x="http://www.jenitennison.com/xslt/xspec">
             <xsl:call-template name="generate-imports"/>
             <xsl:call-template name="declare-ports"/>
-            <xsl:call-template name="declare-step-runner"/>
             <xsl:call-template name="declare-harness-step"/>
             <xsl:call-template name="execute-harness-step"/>
         </p:declare-step>

@@ -273,12 +273,12 @@
          required="yes"/>
       <xsl:value-of>
          <xsl:text>map{</xsl:text>
-         <xsl:text>'map-of-inputs':</xsl:text>
+         <xsl:text>QName('', 'map-of-inputs'):</xsl:text>
          <xsl:call-template name="input-map-text">
             <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
          </xsl:call-template>
          <xsl:text>,</xsl:text>
-         <xsl:text>'map-of-options':</xsl:text>
+         <xsl:text>QName('', 'map-of-options'):</xsl:text>
          <xsl:call-template name="option-map-text">
             <xsl:with-param name="parent-scenario" select="$parent-scenario"/>
          </xsl:call-template>

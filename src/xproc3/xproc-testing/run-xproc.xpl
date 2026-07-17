@@ -64,16 +64,10 @@
         <p:with-option name="template-name" select="'generate-pipeline'"/>
     </p:xslt>
 
-    <!-- Get the XSpec test suite back for use in the generated pipeline -->
-    <p:identity name="mydocument">
-        <p:with-input pipe="source@run-xproc"/>
-    </p:identity>
-
-    <!-- Call p:run with the generated pipeline, and it will
-        connect the source document to the p:run-input source port -->
+    <!-- Run the generated pipeline using p:run. -->
     <p:run name="run">
         <p:with-input pipe="@generate-pipeline"/>
-        <p:run-input port="xspec"/>
+        <p:run-input port="xspec" pipe="source@run-xproc"/>
         <p:output port="result" primary="true"/>
         <p:output port="junit" primary="false" sequence="true"/>
     </p:run>

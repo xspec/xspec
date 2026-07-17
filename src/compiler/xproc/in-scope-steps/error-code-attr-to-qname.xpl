@@ -21,7 +21,7 @@
         <p:variable name="in-scope-prefixes" select="in-scope-prefixes($this-error)" as="xs:string*"/>
         <p:variable name="code" select="string($this-error/@code)" as="xs:string"/>
         <p:variable name="tokenized" select="tokenize($code, ':')" as="xs:string*"/>
-        <!-- Empirically, XML Calabash (v3.0.38) seems to use only unprefixed and unprefixed names,
+        <!-- Empirically, XML Calabash (v3.0.38) seems to use only unprefixed and prefixed names,
             so not all the branches of the if/then/else clause come up in practice. -->
         <p:variable name="code-as-QName" as="xs:QName?" select="
             if ($code eq '')
