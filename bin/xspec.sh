@@ -52,11 +52,35 @@ die() {
 
 xslt-with-pipeline() {
     PIPELINES="${TEST_DIR}/${TARGET_FILE_NAME}-pipelines.xpl"
-    # Convey XML Calabash configuration file if XMLCALABASH_CONFIG has been set to a URI
-    if test -n "$XMLCALABASH_CONFIG"; then
-        XMLCALABASH_CONFIG_ARG="-Dcom.xmlcalabash.configuration=$XMLCALABASH_CONFIG"
+    XPROC_CONFIG_ARG=
+    if [ "${XPROC_PROCESSOR}" = "morganaxproc" ]; then
+        XPROC_PIPELINE_PROPERTY=com.xml_project.morganaxproc.pipeline
+        if test -n "$MORGANAXPROC_CONFIG"; then
+            XPROC_CONFIG_ARG="-Dcom.xml_project.morganaxproc.config=${MORGANAXPROC_CONFIG}"
+        fi
+        if test -z "${MORGANAXPROC_INIT}"; then
+            echo "ERROR: When XProc processor is set to 'morganaxproc', MORGANAXPROC_INIT must be set."
+            exit 1
+        else
+            if [ "${MORGANAXPROC_INIT}" = "saxon13" ]; then
+                STEP_FUNCTION_INIT_CLASS=com.xml_project.morganaxproc3.saxon13connector.RegisterXProcStepsAsFunctions
+            else
+                if [ "${MORGANAXPROC_INIT}" = "saxon12-3" ]; then
+                    # Recognize same shortcut as for -xslt-connector documented in https://www.xml-project.com/manual/ch02.html
+                    # although the fully qualified class name uses underscore, not hyphen.
+                    STEP_FUNCTION_INIT_CLASS=com.xml_project.morganaxproc3.saxon12_3connector.RegisterXProcStepsAsFunctions
+                else
+                    # Use environment variable value directly, accommodating future classes not known to XSpec yet.
+                    STEP_FUNCTION_INIT_CLASS=${MORGANAXPROC_INIT}
+                fi
+            fi
+        fi
     else
-        XMLCALABASH_CONFIG_ARG=
+        XPROC_PIPELINE_PROPERTY=com.xmlcalabash.pipelines
+        if test -n "$XMLCALABASH_CONFIG"; then
+            XPROC_CONFIG_ARG="-Dcom.xmlcalabash.configuration=${XMLCALABASH_CONFIG}"
+        fi
+        STEP_FUNCTION_INIT_CLASS=com.xmlcalabash.api.RegisterSaxonFunctions
     fi
 
     xslt \
@@ -68,10 +92,10 @@ xslt-with-pipeline() {
         -Dxspec.coverage.xml="${COVERAGE_XML}" \
         -Dxspec.home="${XSPEC_HOME}" \
         -Dxspec.xspecfile="${XSPEC}" \
-        -Dcom.xmlcalabash.pipelines="${PIPELINES}" \
-        ${XMLCALABASH_CONFIG_ARG:+"$XMLCALABASH_CONFIG_ARG"} \
-        -cp "$CP" net.sf.saxon.Transform \
-        -init:com.xmlcalabash.api.RegisterSaxonFunctions \
+        -D${XPROC_PIPELINE_PROPERTY}="${PIPELINES}" \
+        ${XPROC_CONFIG_ARG:+"$XPROC_CONFIG_ARG"} \
+        -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -init:"${STEP_FUNCTION_INIT_CLASS}" \
         ${CATALOG:+"$CATALOG"} "$@"
 }
 xslt() {
@@ -291,6 +315,11 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
         -catalog)
             shift
             XML_CATALOG="$1"
+            ;;
+        # Processor
+        -processor)
+            shift
+            XPROC_PROCESSOR="$1"
             ;;
         # Error on test failure
         -e)
