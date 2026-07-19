@@ -33,14 +33,14 @@
             parse-xml('&lt;document/&gt;'),
             parse-xml('&lt;document/&gt;')/*
             )"/>
-        <p:identity>
-            <p:with-input select="
-                for $j in (1 to count($opt))
-                return
-                  optinfo:option-one-node-type(map{'opt': $opt[$j]})?xproc-result">
+        <p:for-each>
+            <p:with-input select="1 to count($opt)">
                 <p:inline/>
             </p:with-input>
-        </p:identity>
+            <optinfo:option-one-node-type>
+                <p:with-option name="opt" select="$opt[p:iteration-position()]"/>
+            </optinfo:option-one-node-type>    
+        </p:for-each>
         <p:json-join/>
     </p:declare-step>
 
