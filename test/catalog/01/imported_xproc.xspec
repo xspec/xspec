@@ -46,7 +46,7 @@
 			</x:input>
 		</x:call>
 		<x:expect port="xproc-result" label="Found step defined in XProc helper file" test="px:load(
-			map{ 'href': '01/example.xml' => resolve-uri($x:xspec-uri)}
+			map{ QName('', 'href'): '01/example.xml' => resolve-uri($x:xspec-uri)}
 			)?result/root/title">
 			<title xml:base="relative/">Test catalog</title>
 		</x:expect>

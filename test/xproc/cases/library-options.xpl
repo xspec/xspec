@@ -14,11 +14,13 @@
         <optinfo:option-node-types name="node-type">
             <p:with-option name="opt" select="$opt"/>
         </optinfo:option-node-types>
-        <optinfo:option-property name="option-content-type" property-to-get="content-type">
+        <optinfo:option-property name="option-content-type">
             <p:with-option name="opt" select="$opt"/>
+            <p:with-option name="property-to-get" select="QName('', 'content-type')"/>
         </optinfo:option-property>
-        <optinfo:option-property name="option-base-uri" property-to-get="base-uri">
+        <optinfo:option-property name="option-base-uri">
             <p:with-option name="opt" select="$opt"/>
+            <p:with-option name="property-to-get" select="QName('', 'base-uri')"/>
         </optinfo:option-property>
         <p:identity>
             <p:with-input select="$opt">
