@@ -47,6 +47,10 @@
     </p:declare-step>
 
     <p:declare-step type="optinfo:option-one-node-type" name="one-node-type">
+        <!-- p:input is a workaround for https://codeberg.org/xmlcalabash/xmlcalabash3/issues/606
+            until Oxygen adopts version 3.0.41 or later -->
+        <p:input port="source" sequence="true"/>
+
         <p:output port="xproc-result"/>
         <p:option name="opt" as="item()" select="parse-xml('&lt;document/&gt;')"/>
         <p:choose>

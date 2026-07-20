@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test min-xmlcalabash-version=3.0.39?>
-<!--
-    Some version of XML Calabash after 3.0.38 and before 3.0.50 fixed
-    "XSLT error: Internal error: execution is deadlocked on 1 thread(s)."
--->
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:optinfo="x-urn:test:optinfo"
     xmlns:svg="http://www.w3.org/2000/svg" xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xproc="library-options.xpl">
