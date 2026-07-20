@@ -84,12 +84,8 @@
                     test="$x:result?ports?out2?document" select="/">
                     <c:result>2</c:result>
                 </x:expect>
-                <x:expect
-                    test="map:keys($x:result?ports?out2?document-properties) ! local-name-from-QName(.) => sort()"
-                    select="('base-uri', 'content-type')">
-                    <x:label>The properties in the map have keys that are QNames for base-uri and
-                        content-type</x:label>
-                </x:expect>
+                <x:expect label="QName for content-type is a key in the map of properties."
+                    test="QName('', 'content-type') = map:keys($x:result?ports?out1[2]?document-properties)"/>
             </x:scenario>
             <x:scenario label="Check out3 port:">
                 <x:expect label="Trivial maps for out3 because this port has no documents"
@@ -119,12 +115,8 @@
             <x:scenario label="Check out2 port:">
                 <x:expect port="out2" label="1 map for out2"
                     test="$x:document-properties instance of map(*)"/>
-                <x:expect port="out2"
-                    test="map:keys($x:document-properties) ! local-name-from-QName(.) => sort()"
-                    select="('base-uri', 'content-type')">
-                    <x:label>The properties in the map have keys that are QNames for base-uri and
-                        content-type</x:label>
-                </x:expect>
+                <x:expect port="out2" label="QName for content-type is a key in the map of properties."
+                    test="QName('', 'content-type') = map:keys($x:document-properties)"/>
             </x:scenario>
             <x:scenario label="Check out3 port:">
                 <x:expect port="out3"

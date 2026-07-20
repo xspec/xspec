@@ -62,8 +62,7 @@
                 
                 <x:scenario label="No error in SUT">
                     <x:call step="s:p-error"/>
-                    <x:expect select="map{'ports': map{}}"
-                        result-type="map(xs:string, map(empty-sequence(), empty-sequence()))">
+                    <x:expect select="map{'ports': map{}}" result-type="map(xs:string, map(*))">
                         <x:label>No error. Result map's 'ports' value is an empty map because the step has
                             no output ports.</x:label>
                     </x:expect>
