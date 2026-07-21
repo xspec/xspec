@@ -99,7 +99,16 @@
 			isn't used. Oxygen 28.1 version of XML Calabash (v3.0.38) doesn't bind it. Remove declaration
 			at least until Oxygen upgrades XML Calabash. -->
 		<xsl:variable name="fnerr" as="xs:string">\s+xmlns:fnerr="http://www\.w3\.org/2005/xqt-errors"</xsl:variable>
-		<xsl:value-of select="replace($stack-frames-removed, $fnerr, '')"/>
+		<!-- XML Calabash as of v3.0.50 no longer has ?uniqueid=3 or ?uniqueid-1 at the end of certain base-uri values.
+			Remove that portion at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="uniqueid" as="xs:string">\?uniqueid=[13]</xsl:variable>
+		<!-- XML Calabash as of v3.0.50 no longer has a base-uri document property for demo.xpl and demo-library.xpl.
+			Remove that portion at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="demo-pipeline" as="xs:string">Q\{\}base-uri:"demo(-library)?\.xpl",</xsl:variable>
+		<xsl:value-of select="$stack-frames-removed
+			=> replace($fnerr, '')
+			=> replace($uniqueid, '')
+			=> replace($demo-pipeline, '')"/>
 	</xsl:template>
 
 	<!--
