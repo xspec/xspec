@@ -86,6 +86,15 @@
             select="QName('x-urn:test:xproc:steplibrary', 'error-from-my-xproc-step')"/>
     </x:scenario>
 
+    <x:scenario label="If p:error uses error code in null namespace" catch="yes">
+        <x:call step="s:p-error-or-document">
+            <x:option name="error-msg" select="'Message'"/>
+        </x:call>
+        <x:expect label="the error code is still verifiable as QName"
+            test="$x:result?err?code treat as xs:QName"
+            select="QName('', 'error-from-my-xproc-step')"/>
+    </x:scenario>
+
     <x:scenario label="If error document has two @line values (requires XML Calabash v3.0.40),"
         catch="yes">
         <x:call step="s:line-num-in-cx-input-location"/>
