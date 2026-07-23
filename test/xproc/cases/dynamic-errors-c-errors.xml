@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:errors xmlns:c="http://www.w3.org/ns/xproc-step"
+    xmlns:cx="http://xmlcalabash.com/ns/extensions" 
+    xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:steplibrary">
+    <c:error name="s-p-error" type="p:error" code="s:error-from-my-xproc-step"
+        href="..." line="8" column="73">
+        <cx:input-location href="..."/>
+        <cx:message>...</cx:message>
+        <s:document>Something went wrong</s:document>
+        <cx:stack-trace>
+            <cx:stack-frame type="p:error" name="s-p-error"/>
+            <cx:stack-frame type="p:when" name="..."/>
+            <cx:stack-frame type="p:if" name="s-p-if"/>
+            <cx:stack-frame type="p:declare-step" name="s-p-error-step"/>
+            <cx:stack-frame type="p:group" name="..."/>
+        </cx:stack-trace>
+    </c:error>
+</c:errors>

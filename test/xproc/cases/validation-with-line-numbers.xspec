@@ -15,7 +15,10 @@
             <x:call>
                 <x:input port="source">
                     <p:document href="../compiler-error-cases/p-document-and-x-input-href.xspec"
-                        parameters="map{QName('http://xmlcalabash.com/ns/extensions','line-numbering'): true()}"
+                        parameters="map{
+                        QName('http://xmlcalabash.com/ns/extensions','line-numbering'): true(),
+                        QName('http://www.xml-project.com/morganaxproc','use-line-numbers'): true()
+                        }"
                     />
                 </x:input>
             </x:call>
@@ -26,7 +29,10 @@
             <x:call>
                 <x:input port="source">
                     <p:document href="../compiler-error-cases/p-document-and-x-input-href.xspec"
-                        parameters="map{'Q{http://xmlcalabash.com/ns/extensions}line-numbering': true()}"
+                        parameters="map{
+                        'Q{http://xmlcalabash.com/ns/extensions}line-numbering': true(),
+                        'Q{http://www.xml-project.com/morganaxproc}use-line-numbers': true()
+                        }"
                     />
                 </x:input>
             </x:call>

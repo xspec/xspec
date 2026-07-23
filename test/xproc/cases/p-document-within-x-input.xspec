@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
-    xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:pf="http://www.jenitennison.com/xslt/xspec/xproc/steps/wrap-standard-functions"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xproc="library-mirror.xpl">
 
     <x:import href="import-in-subdir/p-document-href-avt.xspec"/>
+    <x:variable name="xproc-processor"
+        select="pf:system-property(map{QName('', 'property'): 'p:product-name'})?result"/>
 
     <x:scenario label="x:input with child p:document elements">
         <x:call step="mirror:identity">
@@ -144,9 +148,10 @@
                         use-when="empty(p:system-property('p:episode'))"/>
                 </x:input>
             </x:call>
-            <x:expect label="takes effect" port="xproc-result">
-                <default/>
-            </x:expect>
+            <x:expect label="takes effect (skip for MorganaXProc; awaiting use-when fix)"
+                port="xproc-result"
+                test="deep-equal($x:result, parse-xml('&lt;default/&gt;')) or
+                    starts-with($xproc-processor, 'MorganaXProc-III')"/>
         </x:scenario>
     </x:scenario>
 
