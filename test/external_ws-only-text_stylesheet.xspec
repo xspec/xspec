@@ -23,7 +23,9 @@
 			<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 		</x:param>
 
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 
 		<x:scenario>
 			<x:label>So, in

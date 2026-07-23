@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @xproc.?>
+<description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns="http://www.jenitennison.com/xslt/xspec">
+    <scenario label="Missing @xproc value"/>
+</description>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+	stylesheet="namespace-demo.xsl"
+	xml:base="../tutorial/namespaces/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="namespace-demo_stylesheet.xspec" />
+</x:description>

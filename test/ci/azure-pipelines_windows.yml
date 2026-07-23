@@ -7,9 +7,6 @@ parameters:
   - name: javaVersion
     type: string
     default: ''
-  - name: testSaxon12
-    type: boolean
-    default: true
   - name: testOxygen
     type: boolean
     default: true
@@ -25,18 +22,8 @@ jobs:
       maxParallel: 0
 
       matrix:
-        ${{ if eq(parameters.testSaxon12, true) }}:
-          Saxon-12:
-            XSPEC_TEST_ENV: saxon-12
-
-        Saxon-11:
-          XSPEC_TEST_ENV: saxon-11
-
-        Saxon-10:
-          XSPEC_TEST_ENV: saxon-10
-
-        Saxon-9-9:
-          XSPEC_TEST_ENV: saxon-9-9
+        Saxon-12:
+          XSPEC_TEST_ENV: saxon-12
 
         ${{ if eq(parameters.testOxygen, true) }}:
           Oxygen:
@@ -67,6 +54,9 @@ jobs:
 
       - script: call test\end-to-end\run-e2e-tests.cmd -silent
         displayName: Execute XSpec end-to-end tests
+
+      - script: call test\end-to-end\run-e2e-coverage-tests.cmd -silent
+        displayName: Execute XSpec end-to-end coverage tests
 
       - script: call test\ci\maven-package.cmd --no-transfer-progress
         displayName: Maven package

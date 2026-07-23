@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="do-nothing.sch"
+	xmlns:items="x-urn:test:xspec-items"
+	xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:helper stylesheet="items.xsl" />
+
+	<x:scenario label="x:expect/@test can select multiple items">
+		<x:context as="node()+"
+				select="$items:all-nodes" />
+		<x:expect label="both node and atomic value"
+			test="$items:all-nodes, $items:integer"
+			select="$items:all-nodes, $items:integer" />
+		<x:expect label="nodes"
+			test="$items:all-nodes"
+			select="$items:all-nodes" />
+		<x:expect label="SVRL nodes, obtained relative to result document (.)"
+			test="./svrl:*"
+			select="$x:result" />
+		<x:expect label="Aside: confirm that result document contains multiple SVRL child nodes"
+			test="count(./svrl:*) gt 1" />
+		<x:expect label="atomic values"
+			test="$items:integer, $items:integer, true(), false()"
+			select="$items:integer, $items:integer, true(), false()" />
+		<x:expect label="sequence of multiple Boolean values (different from Boolean @test situation)"
+			test="( (1 eq 1), (1 eq 2) )"
+			select="true(), false()" />
+	</x:scenario>
+
+	<x:scenario label="x:expect/@test can select zero items">
+		<x:context as="item()+"
+				select="$items:all-nodes" />
+		<x:expect label="where @as indicates an empty sequence"
+			test="//svrl:failed-assert"
+			as="empty-sequence()" />
+		<x:expect label="where @select indicates an empty sequence"
+			test="//svrl:failed-assert"
+			select="()" />
+		<x:expect label="where @select evaluates to an empty sequence"
+			test="//svrl:failed-assert"
+			select="//svrl:failed-assert">
+			<svrl:schematron-output/>
+		</x:expect>
+	</x:scenario>
+
+</x:description>

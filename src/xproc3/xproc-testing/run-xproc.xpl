@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    name="run-xproc" type="x:run-xproc" version="3.1">
+
+    <p:documentation>
+        <p>This pipeline executes an XSpec test suite for XProc.</p>
+        <p><b>Primary input:</b> An XSpec test suite document.</p>
+        <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+        <p><b>Secondary output:</b> An optional formatted JUnit XSpec report.</p>
+        <p>'xspec-home' option: The directory where you unzipped the XSpec archive on your filesystem.</p>
+        <p>'force-focus' option: The value `#none` (case sensitive) removes focus from all the scenarios.</p>
+        <p>'html-report-theme' option: Color palette for HTML report, such as `blackwhite` (black on white),
+            `whiteblack` (white on black), or `classic` (earlier green/pink design). Defaults to `blackwhite`.</p>
+        <p>'inline-css' option: If 'true', the HTML report embeds CSS. Use 'true' when serializing to a file
+            that you want to be self-contained. If 'false', the HTML report links to external CSS files.
+            Use 'false' when you are processing the unserialized document within XProc or want a smaller file.
+            Defaults to 'true'.</p>
+        <p>'junit-enabled' option: Whether to output a JUnit report. Values are 'true' and 'false'. Defaults to 'false'.</p>
+    </p:documentation>
+
+    <p:import href="../harness-lib.xpl"/>
+
+    <p:input port="source" primary="true" sequence="false"/>
+    <p:output port="result"
+        serialization="map{
+        'indent':true(),
+        'method':'xhtml',
+        'encoding':'UTF-8',
+        'include-content-type':true(),
+        'omit-xml-declaration':false()
+        }"
+        primary="true"
+        pipe="result@run"/>
+    <p:output port="junit"
+        content-types="xml"
+        serialization="map{
+            'method':'xml'
+        }"
+        primary="false"
+        sequence="true"
+        pipe="junit@run"/>
+
+    <p:option name="xspec-home" as="xs:string?"/>
+    <p:option name="force-focus" as="xs:string?"/>
+    <p:option name="html-report-theme" as="xs:string" select="'default'"/>
+    <p:option name="inline-css" as="xs:string" values="('true','false')" select="'true'"/>
+    <p:option name="junit-enabled" as="xs:string" values="('true','false')" select="'false'"/>
+
+    <x:check-xspec-home>
+        <p:with-option name="xspec-home" select="$xspec-home"/>
+    </x:check-xspec-home>
+
+    <!-- Generate the pipeline we want to run. -->
+    <p:xslt name="generate-pipeline">
+        <p:with-input port="stylesheet" href="generate-pipeline.xsl"/>
+        <p:with-option name="parameters" select="map{
+            'xspec-home': $xspec-home,
+            'force-focus': $force-focus,
+            'html-report-theme': $html-report-theme,
+            'inline-css': $inline-css,
+            'junit-enabled': $junit-enabled
+            }"/>
+        <p:with-option name="template-name" select="'generate-pipeline'"/>
+    </p:xslt>
+
+    <!-- Run the generated pipeline using p:run. -->
+    <p:run name="run">
+        <p:with-input pipe="@generate-pipeline"/>
+        <p:run-input port="xspec" pipe="source@run-xproc"/>
+        <p:output port="result" primary="true"/>
+        <p:output port="junit" primary="false" sequence="true"/>
+    </p:run>
+
+</p:declare-step>

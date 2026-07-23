@@ -18,23 +18,23 @@ if not exist "%SAXON_JAR%" (
 
 rem Check capabilities
 set XSLT_SUPPORTS_COVERAGE=1
-if not "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,2%"=="9." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,3%"=="10." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION:~0,3%"=="11." set XSLT_SUPPORTS_COVERAGE=
+if "%SAXON_VERSION%"=="12.3" set XSLT_SUPPORTS_COVERAGE=
 
 set XSLT_SUPPORTS_THREADS=1
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" "-EE " > NUL
 if errorlevel 1 set XSLT_SUPPORTS_THREADS=
 
-set SAXON_BUG_4696_FIXED=1
-if "%SAXON_VERSION%"=="10.0" set SAXON_BUG_4696_FIXED=
-if "%SAXON_VERSION%"=="10.1" set SAXON_BUG_4696_FIXED=
-if "%SAXON_VERSION%"=="10.2" set SAXON_BUG_4696_FIXED=
+set SAXON_BUG_7123_FIXED=1
+if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7123_FIXED=
+
+set SAXON_BUG_7127_FIXED=1
+if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7127_FIXED=
 
 set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
 if "%XMLRESOLVERORG_XMLRESOLVER_VERSION%"=="4.5.0" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
-
-rem TODO: Stop skipping these tests once Oxygen picks up Saxon 12.4+
-set SAXON12_INITIAL_ISSUES_FIXED=1
-if "%SAXON_VERSION%"=="12.3" set SAXON12_INITIAL_ISSUES_FIXED=
 
 rem Unset Ant environment variables
 set ANT_ARGS=
@@ -50,9 +50,11 @@ set SAXON_HOME=
 set SCHEMATRON_XSLT_COMPILE=
 set SCHEMATRON_XSLT_EXPAND=
 set SCHEMATRON_XSLT_INCLUDE=
+set SCHXSLT2_TRANSPILER=
 set TEST_DIR=
 set XML_CATALOG=
 set XSPEC_HOME=
+set XSPEC_HTML_REPORT_THEME=
 
 rem Saxon path for Ant -lib command line option
 rem  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.

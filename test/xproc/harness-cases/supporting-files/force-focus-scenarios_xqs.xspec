@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Similar to test/end-to-end/cases/focus-without-pending.xspec -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   schematron="../../../xqs/do-nothing-xqs.sch">
+
+   <x:scenario label="Test @focus">
+
+      <x:context>
+         <document/>
+      </x:context>
+
+      <!--
+         Unfocused scenarios are pending because of the @focus in "Focused scenarios"
+      -->
+      <x:scenario label="an unfocused Success scenario must be Pending">
+         <x:expect label="it would return Success if it were not Pending"
+            test="true()"/>
+      </x:scenario>
+
+      <x:scenario label="an unfocused Failure scenario must be Pending">
+         <x:expect label="it would return Failure if it were not Pending"
+            test="false()"/>
+      </x:scenario>
+
+      <!--
+         Focused scenarios
+      -->
+      <x:scenario label="a focused Success scenario" focus="testing @focus of a Success scenario">
+         <x:expect label="must execute the test and return Success" test="true()"/>
+      </x:scenario>
+
+      <x:scenario label="a focused Failure scenario" focus="testing @focus of a Failure scenario">
+         <x:expect label="must execute the test and return Failure"
+            test="false()"/>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>

@@ -20,7 +20,7 @@
                         <documentTypeEntry-array>
                             <documentTypeEntry>
                                 <field name="documentTypeID">
-                                    <String>4/xspec-31cde537d99719a0049994a1da187ccd5a4b9763/xspec.framework/XSpec</String>
+                                    <String>4/xspec-4.0.3/xspec.framework/XSpec</String>
                                 </field>
                                 <field name="enable">
                                     <Boolean>false</Boolean>
@@ -62,6 +62,7 @@
             <file name="test/end-to-end/processor/html/compare.xsl"/>
             <file name="test/end-to-end/processor/junit/compare.xsl"/>
             <file name="test/end-to-end/processor/xml/compare.xsl"/>
+            <file name="src/compiler/compile-xproc-tests.xsl"/>
             <file name="src/compiler/compile-xquery-tests.xsl"/>
             <file name="src/compiler/compile-xslt-tests.xsl"/>
             <file name="src/reporter/coverage-report.xsl"/>
@@ -78,9 +79,6 @@
             <file name="test/end-to-end/processor/xml/normalize.xsl"/>
             <file name="src/common/runtime-utils.xsl"/>
             <file name="test/schematron/schematron-param-001-step3.xsl"/>
-            <file name="test/schematron/schematron-xslt_compile.xsl"/>
-            <file name="test/schematron/schematron-xslt_expand.xsl"/>
-            <file name="test/schematron/schematron-xslt_include.xsl"/>
             <file name="src/schematron/schut-to-xslt.xsl"/>
             <file name="src/schematron/schut-to-xspec.xsl"/>
             <file name="src/cli/terminate-on-test-failure.xsl"/>

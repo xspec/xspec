@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="document-node-boundaries.xspec">
+   <testsuite name="Input port has 2 document nodes with a total of 4 child nodes"
+              tests="19"
+              failures="7">
+      <testcase name="Verify number of nodes:  $my:two-docs has two" status="passed"/>
+      <testcase name="Verify number of nodes:  $my:merged-doc has one" status="passed"/>
+      <testcase name="Verify number of nodes:  $my:two-docs-wrong-boundary has two"
+                status="passed"/>
+      <testcase name="Verify number of nodes:  $my:each-child-node-wrapped has four"
+                status="passed"/>
+      <testcase name="x:expect syntax options for verifying multiple document nodes include @select with an XSpec variable"
+                status="passed"/>
+      <testcase name="x:expect syntax options for verifying multiple document nodes include @select to read external documents"
+                status="passed"/>
+      <testcase name="x:expect syntax options for verifying multiple document nodes include @href and @select, but select=(/, /) works here only because the documents&#xA;                    are the same"
+                status="passed"/>
+      <testcase name="x:expect syntax options for verifying multiple document nodes include embedded element-wrapped nodes and helper function"
+                status="passed"/>
+      <testcase name="x:input syntax options for multiple input documents include @select with an XSpec variable Success"
+                status="passed"/>
+      <testcase name="x:input syntax options for multiple input documents include @select to read external documents Success"
+                status="passed"/>
+      <testcase name="x:input syntax options for multiple input documents include @href and @select, but select=(/, /) works here only because the documents&#xA;                    are the same Success"
+                status="passed"/>
+      <testcase name="x:input syntax options for multiple input documents include embedded element-wrapped nodes and helper function Success"
+                status="passed"/>
+      <testcase name="When expected result is 1 merged document node Failure"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 2 document nodes with wrong boundaries Failure"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 2 document nodes with wrong boundaries For unambiguous report, compare individual document nodes."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 2 document nodes with wrong boundaries Same thing with embedded child nodes."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 4 document nodes with 1 child node each Failure"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 4 document nodes with 1 child node each For unambiguous report, compare individual document nodes."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="When expected result is 4 document nodes with 1 child node each Same thing with embedded child node."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+</testsuites>

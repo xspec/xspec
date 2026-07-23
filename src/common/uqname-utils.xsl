@@ -42,14 +42,26 @@
 				<xsl:when test="$prefix eq 'output'">
 					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'p'">
+					<xsl:sequence select="'http://www.w3.org/ns/xproc'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'pf'">
+					<xsl:sequence select="'http://www.jenitennison.com/xslt/xspec/xproc/steps/wrap-standard-functions'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'rep'">
 					<xsl:sequence select="$x:rep-namespace" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'saxon'">
 					<xsl:sequence select="$x:saxon-namespace" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'sn'">
+					<xsl:sequence select="$x:sn-namespace" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'svrl'">
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'wrap'">
+					<xsl:sequence select="$x:wrap-namespace" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'x'">
 					<xsl:sequence select="$x:xspec-namespace" />

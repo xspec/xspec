@@ -18,8 +18,17 @@ fi
 
 # Check capabilities
 export XSLT_SUPPORTS_COVERAGE=1
-if [ "${SAXON_VERSION:0:2}" != "9." ]; then
-    unset export XSLT_SUPPORTS_COVERAGE
+if [ "${SAXON_VERSION:0:2}" == "9." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION:0:3}" == "10." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION:0:3}" == "11." ]; then
+    unset XSLT_SUPPORTS_COVERAGE
+fi
+if [ "${SAXON_VERSION}" == "12.3" ]; then
+    unset XSLT_SUPPORTS_COVERAGE
 fi
 
 export XSLT_SUPPORTS_THREADS=1
@@ -27,10 +36,17 @@ if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F -- "-EE " > /de
     unset XSLT_SUPPORTS_THREADS
 fi
 
-export SAXON_BUG_4696_FIXED=1
+export SAXON_BUG_7123_FIXED=1
 case "${SAXON_VERSION}" in
-    "10.0" | "10.1" | "10.2")
-        unset SAXON_BUG_4696_FIXED
+    "13.0")
+        unset SAXON_BUG_7123_FIXED
+        ;;
+esac
+
+export SAXON_BUG_7127_FIXED=1
+case "${SAXON_VERSION}" in
+    "13.0")
+        unset SAXON_BUG_7127_FIXED
         ;;
 esac
 
@@ -40,12 +56,6 @@ case "${XMLRESOLVERORG_XMLRESOLVER_VERSION}" in
         unset XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED
         ;;
 esac
-
-# TODO: Stop skipping these tests once Oxygen picks up Saxon 12.4+
-export SAXON12_INITIAL_ISSUES_FIXED=1
-if [ "${SAXON_VERSION}" == "12.3" ]; then
-    unset SAXON12_INITIAL_ISSUES_FIXED
-fi
 
 # Unset JVM environment variables which make output line numbers unpredictable
 unset _JAVA_OPTIONS
@@ -65,9 +75,11 @@ unset SAXON_HOME
 unset SCHEMATRON_XSLT_COMPILE
 unset SCHEMATRON_XSLT_EXPAND
 unset SCHEMATRON_XSLT_INCLUDE
+unset SCHXSLT2_TRANSPILER
 unset TEST_DIR
 unset XML_CATALOG
 unset XSPEC_HOME
+unset XSPEC_HTML_REPORT_THEME
 
 # Saxon path for Ant -lib command line option
 #  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.

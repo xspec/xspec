@@ -5,8 +5,6 @@
 <x:description schematron="result-file-threshold.sch" stylesheet="../../mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:scenario label="Test how the actual result and the expected result are saved">
 		<x:call function="mirror:param-mirror">
 			<x:param>

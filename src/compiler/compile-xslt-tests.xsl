@@ -8,11 +8,14 @@
 
 
 <xsl:stylesheet xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
                 version="3.0">
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
+
+   <xsl:variable name="test-type" as="xs:string" select="'xslt'" static="yes"/>
 
    <!--
       Library modules
@@ -31,6 +34,7 @@
    -->
    <xsl:include href="base/main.xsl" />
    <xsl:include href="xslt/main.xsl" />
+   <xsl:include href="xslt/main-submodules.xsl" />
 
 </xsl:stylesheet>
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Calling a helper step in x:call'): Cannot find step Q{x-urn:tutorial:helper:ws-only-text:test-helper}remove-whitespace-only-text.?>
+<x:description xproc="test-target.xpl" xml:base="../../../tutorial/helper/ws-only-text/"
+	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:helper xproc="test-helper.xpl" />
+	<x:scenario label="Calling a helper step in x:call">
+		<x:call step="test-helper:remove-whitespace-only-text">
+			<x:input port="source" href="input.xml"/>
+		</x:call>
+		<x:expect label="doesn't find the step function" port="xproc-result" as="item()*"/>
+	</x:scenario>
+</x:description>

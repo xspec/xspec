@@ -18,7 +18,7 @@
 	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
 
 	<!--
-		Returns numeric literal of xs:decimal
+		Returns numeric literal of xs:decimal. For more information, see
 			https://www.w3.org/TR/xpath-31/#id-literals
 
 			Example:

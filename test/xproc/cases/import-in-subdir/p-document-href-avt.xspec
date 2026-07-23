@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+    xmlns:p="http://www.w3.org/ns/xproc" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xproc="../library-mirror.xpl">
+
+    <x:scenario label="Imported scenario in subdirectory, p:document/@href AVT expression,">
+        <x:scenario label="and directory adjustment in x:scenario/@xml:base" xml:base="../">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="{ concat('document','.xml') }"/>
+                </x:input>
+            </x:call>
+            <x:expect label="works" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="and directory adjustment in p:document/@xml:base">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="{ concat('document','.xml') }" xml:base="../"/>
+                </x:input>
+            </x:call>
+            <x:expect label="works" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="and directory adjustment in AVT expression">
+            <x:call step="mirror:identity">
+                <x:input port="source">
+                    <p:document href="{ concat('../','document','.xml') }"/>
+                </x:input>
+            </x:call>
+            <x:expect label="works" port="xproc-result">
+                <document/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="xml:base attribute">
+        <x:call step="mirror:identity">
+            <x:input port="source">
+                <p:document href="cases/document.xml" xml:base="../../"/>
+                <p:document href="../document.xml" xml:base="subdir/../"/>
+            </x:input>
+        </x:call>
+        <x:expect label="is resolved with respect to p:document element's base URI" port="xproc-result">
+            <document/>
+            <document/>
+        </x:expect>
+    </x:scenario>
+
+</x:description>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="text-node-01.xsl">
+   <x:scenario label="Text Node Coverage Test Case">
+      <x:context>
+         <root>
+            <text-node/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+            <node type="text">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

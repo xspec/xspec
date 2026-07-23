@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xqm"
+               schematron="do-nothing.sch"
+               stylesheet="do-nothing.xsl">
+
+   <!-- Test that x:like ignores @pending and x:pending on a
+      referenced scenario that does not have shared="yes" -->
+
+   <x:scenario label="Original location">
+      <x:call function="exactly-one">
+         <x:param>pending in original location</x:param>
+      </x:call>
+
+      <!--
+         x:pending
+      -->
+      <x:pending label="x:pending">
+         <x:scenario label="x:scenario[parent::x:pending] referenced by x:like">
+            <x:expect label="execute only at x:like location">execute at x:like location</x:expect>
+         </x:scenario>
+      </x:pending>
+
+      <!--
+         @pending
+      -->
+      <x:scenario label="x:scenario[@pending] referenced by x:like"
+         pending="@pending">
+         <x:expect label="execute only at x:like location">execute at x:like location</x:expect>
+      </x:scenario>
+   </x:scenario>
+
+   <!--
+      References via x:like
+   -->
+   <x:scenario label="x:like location">
+      <x:call function="exactly-one">
+         <x:param>execute at x:like location</x:param>
+      </x:call>
+      <x:like label="x:scenario[parent::x:pending] referenced by x:like"/>
+      <x:like label="x:scenario[@pending] referenced by x:like"/>
+   </x:scenario>
+</x:description>

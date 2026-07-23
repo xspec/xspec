@@ -22,6 +22,6 @@ export XSPEC_MAVEN_JAR="${mydir}/../../target/xspec-${maven_package_version}.jar
 
 ant \
     -buildfile "${mydir}/build_test-maven-jar.xml" \
-    -lib "${SAXON_JAR}" \
+    -lib "${SAXON_JAR}:${XMLRESOLVERORG_XMLRESOLVER_LIB}" \
     -lib "${XSPEC_MAVEN_JAR}" \
     "$@"

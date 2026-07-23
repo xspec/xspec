@@ -49,11 +49,8 @@ rem
 set "SAXON_JAR=%XSPEC_TEST_DEPS%\saxon-%SAXON_VERSION%"
 
 rem Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
-if "%SAXON_VERSION:~0,2%"=="9." (
-    set "SAXON_JAR=%SAXON_JAR%\saxon9he.jar"
-) else (
-    set "SAXON_JAR=%SAXON_JAR%\saxon-he-%SAXON_VERSION%.jar"
-)
+set "SAXON_JAR=%SAXON_JAR%\saxon-he-%SAXON_VERSION%.jar"
+
 
 rem
 rem Apache XML Resolver jar
@@ -66,34 +63,22 @@ rem
 rem Depends on the archive file structure
 set "XMLRESOLVERORG_XMLRESOLVER_LIB=%XSPEC_TEST_DEPS%\xmlresolver-%XMLRESOLVERORG_XMLRESOLVER_VERSION%\lib"
 
-rem
-rem XML Calabash jar
-rem
-if defined XMLCALABASH_VERSION (
+if defined XMLCALABASH3_VERSION (
     rem Depends on the archive file structure
-    set "XMLCALABASH_JAR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
+    set "XMLCALABASH3_DIR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH3_VERSION%"
 ) else (
-    echo XML Calabash will not be installed
-    set XMLCALABASH_JAR=
+    echo XML Calabash 3 will not be installed
+    set XMLCALABASH3_DIR=
 )
-
-rem
-rem SLF4J directory
-rem
-if defined SLF4J_VERSION (
-    set "SLF4J_DIR=%XSPEC_TEST_DEPS%\slf4j-%SLF4J_VERSION%"
+if defined XMLCALABASH3_VERSION if defined XMLCALABASH3_DIR (
+    set "XMLCALABASH3_JAR=%XMLCALABASH3_DIR%\xmlcalabash-app-%XMLCALABASH3_VERSION%.jar"
 ) else (
-    echo SLF4J will not be installed
-    set SLF4J_DIR=
+    set XMLCALABASH3_JAR=
 )
 
 rem
 rem BaseX
 rem
-
-rem BaseX 10 requires Java 11
-java -version 2>&1 | "%SYSTEMROOT%\system32\find" " 1.8." > NUL
-if not errorlevel 1 set BASEX_VERSION=
 
 if defined BASEX_VERSION (
     rem Depends on the archive file structure
@@ -109,13 +94,3 @@ rem
 
 rem XMLResolver.org XML Resolver
 set "XMLRESOLVERORG_XMLRESOLVER_CP=%XMLRESOLVERORG_XMLRESOLVER_LIB%\*"
-
-rem XML Calabash
-rem Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
-set XMLCALABASH_CP=
-if defined XMLCALABASH_JAR (
-    set "XMLCALABASH_CP=%XMLCALABASH_JAR%;%XMLRESOLVERORG_XMLRESOLVER_CP%"
-)
-if defined XMLCALABASH_CP if defined SLF4J_DIR (
-    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%SLF4J_DIR%\*;%~dp0slf4j-simple"
-)

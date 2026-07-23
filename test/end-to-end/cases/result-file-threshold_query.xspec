@@ -2,13 +2,7 @@
 <!--
 	Verify that /x:description/@result-file-threshold is ignored on XQuery.
 -->
-<?xspec-test compiler-saxon-config=${xspec.project.dir}/test/config-to-enable-xinclude.xml?>
 <x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" result-file-threshold="1"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<!-- Use XInclude instead of x:import, in order to exclude x:param which is not supported on
-		XQuery. -->
-	<xi:include href="result-file-threshold_default.xspec"
-		xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="element(/1/2)" />
-
+	<x:import href="result-file-threshold_default.xspec" />
 </x:description>

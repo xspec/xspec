@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:sopt="x-urn:test:xproc:steplibrary:options"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="Actionable @step is deeper">
+        <x:scenario label="Ancestor omits @step">
+            <x:call>
+                <x:option name="attrval" select="'child'"/>
+            </x:call>
+            <x:scenario label="and child scenario provides @step">
+                <x:call step="s:no-input-one-option-one-output"/>
+                <x:like label="root with attribute 'child'"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Ancestor provides @step but is overridden">
+            <x:call step="s:nonexistent">
+                <x:option name="attrval" select="'child'"/>
+            </x:call>
+            <x:scenario label="in child scenario">
+                <x:call step="s:no-input-one-option-one-output"/>
+                <x:like label="root with attribute 'child'"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Descendants have different @step values: ">
+            <x:call step="s:two-inputs-no-option-one-output">
+                <x:input port="in1">
+                    <primary/>
+                </x:input>
+            </x:call>
+            <x:scenario label="with same arity, names, and positions">
+                <x:call step="s:two-inputs-no-option-one-output-altcomp">
+                    <x:input port="in2">
+                        <secondary xml:id="ID2"/>
+                    </x:input>
+                </x:call>
+                <x:expect label="Result using altcomp attribute" port="xproc-result">
+                    <primary altcomp="ID2"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="with different number of input ports">
+                <x:call step="s:three-inputs-no-option-one-output">
+                    <x:input port="extra">
+                        <extra xml:id="extra-val"/>
+                    </x:input>
+                    <x:input port="in2">
+                        <secondary xml:id="ID2"/>
+                    </x:input>
+                </x:call>
+                <x:expect label="Result using extra input" port="xproc-result">
+                    <primary xml:id="ID2" extra="extra-val"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="with different input port names">
+                <x:call step="s:two-inputs-no-option-one-output-altname">
+                    <x:input port="IN2">
+                        <secondary xml:id="ID2"/>
+                    </x:input>
+                </x:call>
+                <x:expect label="Result based on in1 and IN2" port="xproc-result">
+                    <primary xml:id="ID2"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="with different input port positions">
+                <x:call step="s:two-inputs-no-option-one-output-altpos">
+                    <x:input port="in2">
+                        <secondary xml:id="ID2"/>
+                    </x:input>
+                </x:call>
+                <x:expect label="Result based on in2 as first argument" port="xproc-result">
+                    <primary altpos="ID2"/>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Actionable x:input is deeper">
+        <x:scenario label="Ancestor omits x:input">
+            <x:call step="s:one-input-no-option-one-output"/>
+            <x:scenario label="provided in child scenario">
+                <x:call>
+                    <x:input port="source">
+                        <root/>
+                    </x:input>
+                </x:call>
+                <x:like label="document with root"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Ancestor provides x:input that is overridden">
+            <x:call step="s:one-input-no-option-one-output">
+                <x:input port="source">
+                    <overridden/>
+                </x:input>
+            </x:call>
+            <x:scenario label="in child scenario">
+                <x:call>
+                    <x:input port="source">
+                        <root/>
+                    </x:input>
+                </x:call>
+                <x:like label="document with root"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Input inheritance without overrides">
+            <x:scenario label="Ancestor provides in1">
+                <x:call step="s:two-inputs-no-option-one-output">
+                    <x:input port="in1">
+                        <primary xml:id="ID1"/>
+                    </x:input>
+                </x:call>
+                <x:scenario label="and child scenario provides in2">
+                    <x:call>
+                        <x:input port="in2">
+                            <secondary xml:id="ID2"/>
+                        </x:input>
+                    </x:call>
+                    <x:like label="primary with ID2"/>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="Ancestor provides in2">
+                <x:call step="s:two-inputs-no-option-one-output">
+                    <x:input port="in2">
+                        <secondary xml:id="ID2"/>
+                    </x:input>
+                </x:call>
+                <x:scenario label="and child scenario provides in1">
+                    <x:call>
+                        <x:input port="in1">
+                            <primary xml:id="ID1"/>
+                        </x:input>
+                    </x:call>
+                    <x:like label="primary with ID2"/>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="Actionable x:option is deeper">
+        <x:scenario label="Ancestor omits x:option">
+            <x:call step="s:no-input-one-option-one-output"/>
+            <x:scenario label="provided in child scenario">
+                <x:call>
+                    <x:option name="attrval" select="'child'"/>
+                </x:call>
+                <x:like label="root with attribute 'child'"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Ancestor provides x:option that is overridden">
+            <x:call step="s:no-input-one-option-one-output">
+                <x:option name="attrval" select="'parent'"/>
+            </x:call>
+            <x:scenario label="in child scenario">
+                <x:call>
+                    <x:option name="attrval" select="'child'"/>
+                </x:call>
+                <x:like label="root with attribute 'child'"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Ancestor has one x:option element">
+            <x:call step="s:no-input-two-options-one-output">
+                <x:option name="sopt:attrval2" select="'val2'"/>
+            </x:call>
+            <x:scenario label="and child scenario has a non-overriding x:option">
+                <x:call>
+                    <x:option name="attrval1" select="'child'"/>
+                </x:call>
+                <x:like label="root with attributes 'child' and 'val2'"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="Ancestor has multiple x:option elements">
+            <x:call step="s:no-input-two-options-one-output">
+                <x:option name="attrval1" select="'parent'"/>
+                <x:option name="sopt:attrval2" select="'val2'"/>
+            </x:call>
+            <x:scenario label="and child scenario overrides one x:option">
+                <x:call>
+                    <x:option name="attrval1" select="'child'"/>
+                </x:call>
+                <x:like label="root with attributes 'child' and 'val2'"/>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- Shared scenarios -->
+    <x:scenario shared="yes" label="document with root">
+        <x:expect label="document with root" port="xproc-result">
+            <root/>
+        </x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="root with attribute 'child'">
+        <x:expect label="root with attribute 'child'" port="xproc-result">
+            <root attr="child"/>
+        </x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="root with attributes 'child' and 'val2'">
+        <x:expect label="root with attributes 'child' and 'val2'" port="xproc-result">
+            <root attr1="child" attr2="val2"/>
+        </x:expect>
+    </x:scenario>
+    <x:scenario shared="yes" label="primary with ID2">
+        <x:expect label="primary with ID2" port="xproc-result">
+            <primary xml:id="ID2"/>
+        </x:expect>
+    </x:scenario>
+</x:description>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:wrap="urn:x-xspec:common:wrap" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Scenarios for testing x:expect/@test. All x:expect must have @test, even when the same
 		expectation can be expressed without @test. -->
@@ -22,7 +23,7 @@
 							<x:param select="$items:comment" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="x:wrap-nodes($items:comment)" test="."
+							select="wrap:wrap-nodes($items:comment)" test="."
 						 />
 					</x:scenario>
 
@@ -31,7 +32,7 @@
 							<x:param select="$items:document" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="x:wrap-nodes($items:document)" test="."
+							select="wrap:wrap-nodes($items:document)" test="."
 						 />
 					</x:scenario>
 
@@ -40,7 +41,7 @@
 							<x:param select="$items:element" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="x:wrap-nodes($items:element)" test="."
+							select="wrap:wrap-nodes($items:element)" test="."
 						 />
 					</x:scenario>
 
@@ -49,7 +50,7 @@
 							<x:param select="$items:processing-instruction" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="x:wrap-nodes($items:processing-instruction)"
+							select="wrap:wrap-nodes($items:processing-instruction)"
 							test="." />
 					</x:scenario>
 
@@ -58,7 +59,7 @@
 							<x:param select="$items:text" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="x:wrap-nodes($items:text)" test="." />
+							select="wrap:wrap-nodes($items:text)" test="." />
 					</x:scenario>
 
 				</x:scenario>
@@ -92,7 +93,7 @@
 						<x:param select="$items:wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapped in document node, and context is set there"
-						select="x:wrap-nodes($items:wrappable-nodes)"
+						select="wrap:wrap-nodes($items:wrappable-nodes)"
 						test="." />
 				</x:scenario>
 

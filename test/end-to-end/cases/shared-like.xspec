@@ -8,7 +8,7 @@
 	</x:scenario>
 
 	<x:scenario label="Referenced shared scenario"
-		pending="This @pending is just to see how the current implementation behaves. At the moment, setting @pending=yes on a scenario appears to have no effect on the scenario where the corresponding x:like occurs."
+		pending="Setting @pending=yes on a scenario has no effect on the scenario where the corresponding x:like occurs."
 		shared="yes">
 		<x:like label="Shared scenario nested in a referenced shared scenario" />
 		<x:expect label="This referenced shared x:expect should fire only at x:like" test="true()"

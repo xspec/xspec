@@ -24,11 +24,13 @@
 			</xsl:if>
 		</xsl:message>
 
-		<!-- Tell the number of test cases -->
+		<!-- Tell the number of test cases;
+			on AppVeyor, run first 150 test cases only, to avoid timeouts -->
 		<xsl:call-template name="write">
 			<xsl:with-param name="text" xml:space="preserve">
 :get-num-cases
 	set NUM_CASES=<xsl:value-of select="$num-cases" />
+	if /i "%APPVEYOR%"=="True" set NUM_CASES=150
 	goto :EOF
 </xsl:with-param>
 		</xsl:call-template>

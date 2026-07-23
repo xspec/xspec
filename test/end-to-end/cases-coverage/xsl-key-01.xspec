@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-key-01.xsl">
+   <x:scenario label="xsl:key Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-key>
+              <node type="A">100</node>
+              <node type="B">200</node>
+              <node type="C">300</node>
+              <node type="D">400</node>
+            </xsl-key>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="key">200</node>
+            <node type="key">400</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

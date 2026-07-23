@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
+<x:description query="x-urn:test:issue-59"
 	query-at="issue-59_use-case-2.xqm" stylesheet="issue-59_use-case-2.xsl"
-	xmlns:issue-59="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
+	xmlns:issue-59="x-urn:test:issue-59"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario
@@ -20,8 +20,7 @@
 				<x:param as="xs:string" select="'issue-59:local'" />
 			</x:call>
 			<x:expect label="All the two attributes are picked up by @select" select="_dummy/@*">
-				<_dummy local-name="local"
-					namespace="https://github.com/xspec/xspec/issues/59#issuecomment-281689650" />
+				<_dummy local-name="local" namespace="x-urn:test:issue-59" />
 			</x:expect>
 		</x:scenario>
 	</x:scenario>

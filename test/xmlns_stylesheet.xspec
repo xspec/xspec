@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns="http://docbook.org/ns/docbook"
+	xmlns:t1="x-urn:test:mirror"
+	xmlns:t2="http://example.org/ns/my/ns2"
+	xmlns:tv1="http://example.org/ns/my/variable1"
+	xmlns:tv2="http://example.org/ns/my/variable2"
+	xmlns:tv2_alt="http://example.org/ns/my/variable2"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	stylesheet="xmlns.xsl">
+
+	<!-- Use x:import and one shared scenario to reuse code between XSLT and XQuery test -->
+	<x:import href="xmlns/xmlns.xspec"/>
+	<x:scenario label="XSLT only: Local namespace declarations in @test and @select" shared="yes">
+		<x:variable name="tv1:expected-element-local-name" select="'globalvar'"/>
+		<x:expect label="correctly uses local tv2 binding to find variable and xsd binding to evaluate expression."
+			test="local-name($tv2:globalvar) treat as xsd:string" xmlns:tv2="http://example.org/ns/my/variable1"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" select="$tv2:expected-element-local-name"/>
+		<t:expect label="even if reusing 'x' prefix" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+			test="local-name($x:globalvar)" xmlns:x="http://example.org/ns/my/variable1" select="'globalvar'"/>
+		<x:expect label="even if reusing 'xs' prefix"
+			test="local-name($xs:globalvar) treat as xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:xs="http://example.org/ns/my/variable1" select="'globalvar'"/>
+		<x:expect label="even if reusing 'xsl' prefix"
+			test="local-name($xsl:globalvar)" xmlns:xsl="http://example.org/ns/my/variable1" select="'globalvar'"/>
+	</x:scenario>
+
+	<!-- Scenarios related to x:import usage -->
+	<x:import href="xmlns-imported_stylesheet.xspec"/>
+
+	<!-- Code specific to XSLT, not XQuery -->
+
+	<x:param name="t1:paramElementA" as="element()">
+		<override/>
+	</x:param>
+	<x:param name="t1_alt:paramElementB" as="element()"
+		xmlns="http://example.org/ns/my/ns2" xmlns:t1_alt="x-urn:test:mirror">
+		<override/>
+	</x:param>
+
+	<x:scenario label="Global parameter">
+		<x:scenario label="relying on xmlns:...">
+			<x:scenario label="on x:description">
+				<x:call function="t1:get_global_paramElementA"/>
+				<x:expect label="correctly uses t1 binding to find parameter override"
+					test="local-name($x:result)" select="'override'"/>
+			</x:scenario>
+			<x:scenario label="on x:param">
+				<x:call function="t1:get_global_paramElementB"/>
+				<x:expect label="correctly uses t1_alt binding to find parameter override"
+					test="local-name($x:result)" select="'override'"/>
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="relying on default element namespace">
+			<x:scenario label="declared on x:description">
+				<x:call function="t1:get_global_paramElementA"/>
+				<x:expect label="correctly uses default namespace of x:description"
+					test="namespace-uri($x:result)" select="xs:anyURI('http://docbook.org/ns/docbook')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:param">
+				<x:call function="t1:get_global_paramElementB"/>
+				<x:expect label="correctly uses default namespace of x:param"
+					test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Template name, template parameter name, and template parameter user-content" xmlns:t2_alt="http://example.org/ns/my/shadowed">
+		<x:scenario label="relying on xmlns:...">
+			<x:scenario label="on x:description">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items"><t2:element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="on x:scenario"
+				xmlns:t1_alt="x-urn:test:mirror"
+				xmlns:t1_alt1="x-urn:test:mirror"
+				xmlns:t2_alt="http://example.org/ns/my/ns2">
+				<x:call template="t1_alt:param-mirror">
+					<x:param name="t1_alt1:param-items"><t2_alt:element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="on x:call" xmlns:t2_alt="http://example.org/ns/my/shadowed">
+				<x:call template="t1_alt:param-mirror"
+					xmlns:t1_alt="x-urn:test:mirror"
+					xmlns:t1_alt1="x-urn:test:mirror"
+					xmlns:t2_alt="http://example.org/ns/my/ns2">
+					<x:param name="t1_alt1:param-items"><t2_alt:element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="on x:call[@template]/x:param">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items" xmlns:t2_alt="http://example.org/ns/my/ns2">
+						<t2_alt:element/>
+					</x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="on template param user-content">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items">
+						<t2_alt:element xmlns:t2_alt="http://example.org/ns/my/ns2"/>
+					</x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="relying on default element namespace">
+			<x:scenario label="declared on x:description">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items"><element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://docbook.org/ns/docbook')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:scenario" xmlns="http://example.org/ns/my/ns2">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items"><element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:call">
+				<x:call template="t1:param-mirror" xmlns="http://example.org/ns/my/ns2">
+					<x:param name="t1:param-items"><t2element/></x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:call[@template]/x:param">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items" xmlns="http://example.org/ns/my/ns2">
+						<element/>
+					</x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="declared on template param user-content">
+				<x:call template="t1:param-mirror">
+					<x:param name="t1:param-items">
+						<element xmlns="http://example.org/ns/my/ns2"/>
+					</x:param>
+				</x:call>
+				<x:expect label="should work" test="namespace-uri($x:result)" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Mode name, template parameter name and content, and user content in x:context">
+		<x:scenario label="relying on xmlns:...">
+			<x:scenario label="on x:description">
+				<x:context mode="t1:get-namespaces">
+					<x:param name="t1:input"><t2:param-element/></x:param>
+					<t2:element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/ns2')"/>
+			</x:scenario>
+			<x:scenario label="on x:scenario" xmlns:t2="http://example.org/ns/my/scenario"
+				xmlns:t1_alt2="x-urn:test:mirror">
+				<x:context mode="t1_alt2:get-namespaces">
+					<x:param name="t1_alt2:input"><t2:param-element/></x:param>
+					<t2:element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/scenario')"/>
+			</x:scenario>
+			<x:scenario label="on x:context">
+				<x:context mode="t1_alt2:get-namespaces" xmlns:t1_alt2="x-urn:test:mirror"
+					xmlns:t2="http://example.org/ns/my/context">
+					<x:param name="t1_alt2:input"><t2:param-element/></x:param>
+					<t2:element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/context')"/>
+			</x:scenario>
+			<x:scenario label="on context user-content">
+				<x:context mode="t1_alt2:get-namespaces" xmlns:t1_alt2="x-urn:test:mirror">
+					<x:param name="t1_alt2:input"><t2:param-element xmlns:t2="http://example.org/ns/my/content"/></x:param>
+					<t2:element xmlns:t2="http://example.org/ns/my/content"/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/content')"/>
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="relying on default element namespace">
+			<x:scenario label="declared on x:description">
+				<x:context mode="t1:get-namespaces">
+					<x:param name="t1:input"><param-element/></x:param>
+					<element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://docbook.org/ns/docbook')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:scenario" xmlns="http://example.org/ns/my/scenario">
+				<x:context mode="t1:get-namespaces">
+					<x:param name="t1:input"><param-element/></x:param>
+					<element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/scenario')"/>
+			</x:scenario>
+			<x:scenario label="declared on x:context">
+				<x:context mode="t1:get-namespaces" xmlns="http://example.org/ns/my/context">
+					<x:param name="t1:input"><param-element/></x:param>
+					<element/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/context')"/>
+			</x:scenario>
+			<x:scenario label="declared on context user-content">
+				<x:context mode="t1:get-namespaces">
+					<x:param name="t1:input"><param-element xmlns="http://example.org/ns/my/content"/></x:param>
+					<element xmlns="http://example.org/ns/my/content"/>
+				</x:context>
+				<x:expect label="should work" select="xs:anyURI('http://example.org/ns/my/content')"/>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

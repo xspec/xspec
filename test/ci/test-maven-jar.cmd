@@ -20,6 +20,6 @@ set "XSPEC_MAVEN_JAR=%~dp0..\..\target\xspec-%MAVEN_PACKAGE_VERSION%.jar"
 
 call ant ^
     -buildfile "%~dp0build_test-maven-jar.xml" ^
-    -lib "%SAXON_JAR%" ^
+    -lib "%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_LIB%" ^
     -lib "%XSPEC_MAVEN_JAR%" ^
     %*

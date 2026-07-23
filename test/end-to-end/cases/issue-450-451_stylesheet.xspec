@@ -27,7 +27,9 @@
 
 	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
 	<x:scenario label="global-param containing curly brackets">
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 			test="$global-param" />
 	</x:scenario>

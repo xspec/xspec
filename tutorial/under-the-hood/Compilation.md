@@ -9,10 +9,11 @@
 - [Variables scope](#variables-scope)
 - [run-as=external](#run-asexternal)
 - [Scenario-level x:param scope](#scenario-level-xparam-scope)
+- [result-type attribute](#result-type-attribute)
 
 ## Introduction
 
-This page is an overview of how XSpec test suites are compiled into XSLT and XQuery. It shows examples of simple test suites along with their XSpec-generated stylesheets and queries. Some of these examples are in the [test directory](https://github.com/xspec/xspec/tree/master/test).
+This page is an overview of how XSpec test suites are compiled into XSLT and XQuery. It shows examples of simple test suites along with their XSpec-generated stylesheets and queries. Some of these examples are in the [test directory](https://github.com/xspec/xspec/tree/main/test).
 
 The generated stylesheets and queries are not shown in their entirety. In particular, the code generating parts of the final report has been removed, except in examples specifically intended to show how this is done. The root elements of test suites are omitted, and indentation and comments have been added where appropriate.
 
@@ -80,7 +81,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       <xsl:context-item use="absent"/>
       <!-- info message -->
       <xsl:message>
-         <xsl:text>Testing with </xsl:text>
+         <xsl:text>Testing with XSpec v... and </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-name')"/>
          <xsl:text> </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-version')"/>
@@ -223,9 +224,11 @@ result as parameter.
       <xsl:element name="label" namespace="http://www.jenitennison.com/xslt/xspec">
          <xsl:text>scenario</xsl:text>
       </xsl:element>
-      <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
-         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
-         <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
+      <xsl:element name="input-wrap" namespace="">
+         <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
+         </xsl:element>
       </xsl:element>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
          <xsl:sequence xmlns:my="http://example.org/ns/my"
@@ -239,7 +242,7 @@ result as parameter.
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
          <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result" select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
       </xsl:call-template>
-   </x:element>
+   </xsl:element>
 </xsl:template>
 
 <!-- generated from the x:expect element -->
@@ -251,11 +254,15 @@ result as parameter.
               required="yes"/>
    <xsl:message>expectations</xsl:message>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-..." select="()"><!--expected result--></xsl:variable>
+   <!-- flag if @result-type is present but $x:result is not the right type -->
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}result-type-mismatch"
+                 as="Q{http://www.w3.org/2001/XMLSchema}boolean"
+                 select="false()"/>
    <!-- wrap $x:result into a document node if possible -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-items" as="item()*">
       <xsl:choose>
-         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
-            <xsl:sequence select="Q{http://www.jenitennison.com/xslt/xspec}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
+         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{urn:x-xspec:common:wrap}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
+            <xsl:sequence select="Q{urn:x-xspec:common:wrap}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:sequence select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
@@ -265,6 +272,7 @@ result as parameter.
    <!-- evaluate the predicate with $x:result (or its wrapper document node) as context item if it is a single item; if not, evaluate the predicate without context item -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-result" as="item()*">
       <xsl:choose>
+         <xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch"><!--In case of data type mismatch, do not process @test--></xsl:when>
          <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
             <xsl:for-each select="$Q{urn:x-xspec:compile:impl}test-items">
                <xsl:sequence xmlns:my="http://example.org/ns/my"
@@ -288,11 +296,14 @@ result as parameter.
    <xsl:variable name="Q{urn:x-xspec:compile:impl}successful"
                  as="Q{http://www.w3.org/2001/XMLSchema}boolean">
       <xsl:choose>
+         <xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch">
+            <xsl:sequence select="false()"/>
+         </xsl:when>
          <xsl:when test="$Q{urn:x-xspec:compile:impl}boolean-test">
             <xsl:sequence select="$Q{urn:x-xspec:compile:impl}test-result => boolean()"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:message terminate="yes">ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).</xsl:message>
+            <xsl:message terminate="yes">ERROR in x:expect ('scenario expectations'): Non-boolean @test must be accompanied by @as, @href, @select, or child node.</xsl:message>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -333,16 +344,22 @@ $Q{http://www.jenitennison.com/xslt/xspec}result as item()*
 let $Q{urn:x-xspec:compile:impl}expect-... (: expected result :) := (
 ()
 )
+(: flag if @result-type is present but $x:result is not the right type :)
+let $local:result-type-mismatch as xs:boolean := false()
 let $local:test-items as item()* := $Q{http://www.jenitennison.com/xslt/xspec}result
 let $local:test-result as item()* (: evaluate the predicate :) := (
-$x:result = 1
+if ($local:result-type-mismatch)
+then ((: In case of data type mismatch, do not process @test :))
+else $x:result = 1
 )
 let $local:boolean-test as xs:boolean := ($local:test-result instance of xs:boolean)
 let $local:successful as xs:boolean (: did the test pass? :) := (
-if ($local:boolean-test) then
+if ($local:result-type-mismatch)
+then false()
+else if ($local:boolean-test) then
 boolean($local:test-result)
 else
-error((), 'x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).')
+error((), 'ERROR in x:expect ('scenario expectations'): Non-boolean @test must be accompanied by @as, @href, @select, or child node.')
 )
 return
 ... generate test result in the report ...
@@ -469,7 +486,7 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{urn:x-xspec:compile:impl}param-..."
                  select="'val1'"><!--$p1--></xsl:variable>
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+   <xsl:for-each select="$Q{http://www.jenitennison.com/xslt/xspec}context">
       <xsl:call-template name="Q{}t">
          <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
                          name="Q{}p1"
@@ -480,7 +497,7 @@ section "[Simple scenario](#simple-scenario)").
 
 <!-- "apply template rules on a node (with x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
+   <xsl:apply-templates select="$Q{http://www.jenitennison.com/xslt/xspec}context"/>
 </xsl:variable>
 ```
 
@@ -1155,7 +1172,7 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
                </xsl:map>
             </xsl:variable>
-            <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+            <xsl:for-each select="$Q{http://www.jenitennison.com/xslt/xspec}context">
                <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
                              as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)"
                              select="Q{http://www.w3.org/2005/xpath-functions/map}put($Q{urn:x-xspec:compile:impl}transform-options, 'global-context-item', .)"/>
@@ -1178,8 +1195,8 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
                   <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
                      ...
                   </xsl:if>
-                  <xsl:map-entry key="if ($Q{urn:x-xspec:compile:impl}context-... instance of node()) then 'source-node' else 'initial-match-selection'"
-                                 select="$Q{urn:x-xspec:compile:impl}context-..."/>
+                  <xsl:map-entry key="if ($Q{http://www.jenitennison.com/xslt/xspec}context instance of node()) then 'source-node' else 'initial-match-selection'"
+                                 select="$Q{http://www.jenitennison.com/xslt/xspec}context"/>
                </xsl:map>
             </xsl:variable>
             <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
@@ -1331,4 +1348,123 @@ outer scenario
 
 Formatting Report...
 ...
+```
+
+## `result-type` attribute
+
+The `@result-type` attribute of the `x:expect` element causes the corresponding generated template or function to check whether the actual result is an instance of the specified type. If not, a boolean variable whose local name is `result-type-mismatch` is false, and the template or function reacts in these ways:
+
+- Bypasses evaluating `@test`; look for `<xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch">` (XSLT) or `if ($local:result-type-mismatch)` (XQuery)
+- Fails the verification, even if the actual and expected results are deep-equal
+- Records an `instance of` XPath expression based on the `@result-type` value, and the HTML test result report shows this expression in the box labeled **Expecting**
+
+### Test suite
+
+This test suite adds a `@result-type` attribute to the `x:expect` element in "Simple suite".
+
+[`compilation-result-type.xspec`](compilation-result-type.xspec)
+
+```xml
+<x:expect label="expectations" test="$x:result = 1"
+   result-type="xs:integer"/>
+```
+
+### Compiled stylesheet
+
+```xml
+   <!-- generated from the x:expect element -->
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
+                 as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
+      <xsl:context-item use="absent"/>
+      <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+                 as="item()*"
+                 required="yes"/>
+      ...
+      <!-- flag if @result-type is present but $x:result is not the right type -->
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}result-type-mismatch"
+                    as="Q{http://www.w3.org/2001/XMLSchema}boolean"
+                    select="not($Q{http://www.jenitennison.com/xslt/xspec}result instance of Q{http://www.w3.org/2001/XMLSchema}integer)"/>
+      ...
+      <!-- evaluate the predicate with $x:result (or its wrapper document node) as context item if it is a single item; if not, evaluate the predicate without context item -->
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}test-result" as="item()*">
+         <xsl:choose>
+            <xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch"><!--In case of data type mismatch, do not process @test--></xsl:when>
+            <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
+               <xsl:for-each select="$Q{urn:x-xspec:compile:impl}test-items">
+                  <xsl:sequence xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                                select="$x:result = 1"
+                                version="3"/>
+               </xsl:for-each>
+            </xsl:when>
+            ...
+         </xsl:choose>
+      </xsl:variable>
+      ...
+      <!-- did the test pass? -->
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}successful"
+                    as="Q{http://www.w3.org/2001/XMLSchema}boolean">
+         <xsl:choose>
+            <xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch">
+               <xsl:sequence select="false()"/>
+            </xsl:when>
+            <xsl:when ...></xsl:when>
+            ...
+         </xsl:choose>
+      </xsl:variable>
+      ...
+      <!-- Reporting -->
+      <xsl:element name="test" namespace="http://www.jenitennison.com/xslt/xspec">
+         ...
+         <xsl:choose>
+            <xsl:when test="$Q{urn:x-xspec:compile:impl}result-type-mismatch">
+               <xsl:element name="expect-test-wrap" namespace="">
+                  <xsl:element name="x:expect" namespace="http://www.jenitennison.com/xslt/xspec">
+                     <xsl:namespace name="xs">http://www.w3.org/2001/XMLSchema</xsl:namespace>
+                     <xsl:attribute name="result-type" namespace="">$x:result instance of xs:integer</xsl:attribute>
+                  </xsl:element>
+               </xsl:element>
+            </xsl:when>
+            ...
+         </xsl:choose>
+         ...
+      </xsl:element>
+   </xsl:template>
+```
+
+### Compiled query
+
+```xquery
+(: generated from the x:expect element :)
+declare function local:scenario1-expect1(
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*
+) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
+{
+...
+(: flag if @result-type is present but $x:result is not the right type :)
+let $local:result-type-mismatch as xs:boolean := not($Q{http://www.jenitennison.com/xslt/xspec}result instance of Q{http://www.w3.org/2001/XMLSchema}integer)
+...
+let $local:test-result as item()* (: evaluate the predicate :) := (
+if ($local:result-type-mismatch)
+then ((: In case of data type mismatch, do not process @test :))
+else $x:result = 1
+)
+...
+let $local:successful as xs:boolean (: did the test pass? :) := (
+if ($local:result-type-mismatch)
+then false()
+else ...
+)
+return
+(: Reporting :)
+element { QName('http://www.jenitennison.com/xslt/xspec', 'test') } {
+...
+if ( $local:result-type-mismatch )
+then (element { QName('', 'expect-test-wrap') } {
+element { QName('http://www.jenitennison.com/xslt/xspec', 'x:expect') } {
+namespace { "xs" } { 'http://www.w3.org/2001/XMLSchema' },
+attribute { QName('', 'result-type') } { '$x:result instance of xs:integer' }
+}})
+else
+...
+};
 ```

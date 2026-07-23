@@ -11,6 +11,8 @@
 				</root>
 			</x:context>
 			<x:expect-report label="should work." id="prefixed"/>
+			<x:expect-report label="Location can use prefix."
+				location="//t1:element/parent::*"/>
 		</x:scenario>
 		<x:scenario label="on x:scenario" xmlns:my="http://example.org/ns/my">
 			<x:context>
@@ -19,6 +21,8 @@
 				</root>
 			</x:context>
 			<x:expect-report label="should work." id="prefixed"/>
+			<x:expect-report label="Location can use prefix."
+				location="//my:element/parent::*"/>
 		</x:scenario>
 		<x:scenario label="on x:context">
 			<x:context xmlns:my="http://example.org/ns/my">
@@ -27,6 +31,9 @@
 				</root>
 			</x:context>
 			<x:expect-report label="should work." id="prefixed"/>
+			<x:expect-report label="Location can use prefix."
+				location="//my:element/parent::*"
+				xmlns:my="http://example.org/ns/my"/>
 		</x:scenario>
 		<x:scenario label="in user content">
 			<x:context>
@@ -35,6 +42,9 @@
 				</root>
 			</x:context>
 			<x:expect-report label="should work." id="prefixed"/>
+			<x:expect-report label="Location can use prefix."
+				location="//my:element/parent::*"
+				xmlns:my="http://example.org/ns/my"/>
 		</x:scenario>
 	</x:scenario>
 	<x:scenario label="Context user content relying on default element namespace">

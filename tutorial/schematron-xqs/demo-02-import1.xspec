@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-02.sch">
+    <!-- The scenarios do not depend on whether the Schematron implementation is
+        XSLT-based or XQuery-based -->
+    <x:import href="../schematron/demo-02-import1.xspec"/>
+</x:description>
+    

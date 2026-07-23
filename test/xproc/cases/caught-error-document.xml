@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:errors xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:my="uri-without-colon"
+    xmlns:myc="http://example.com/uri-with-1-colon" xmlns:mycc="urn:example:uri-with-2-colons">
+    <!-- Error code is not in a namespace -->
+    <c:error code="code"/>
+    <c:error code="Q{}code"/>
+
+    <!-- Namespace URI has no colon -->
+    <c:error code="my:code"/>
+    <c:error code="prefix-bound-here:code" xmlns:prefix-bound-here="uri-without-colon"/>
+    <c:error code="Q{uri-without-colon}code"/>
+
+    <!-- Namespace URI has one colon -->
+    <c:error code="myc:code"/>
+    <c:error code="prefix-bound-here:code"
+        xmlns:prefix-bound-here="http://example.com/uri-with-1-colon"/>
+    <c:error code="Q{http://example.com/uri-with-1-colon}code"/>
+
+    <!-- Namespace URI has more than one colon -->
+    <c:error code="mycc:code"/>
+    <c:error code="prefix-bound-here:code"
+        xmlns:prefix-bound-here="urn:example:uri-with-2-colons"/>
+    <c:error code="Q{urn:example:uri-with-2-colons}code"/>
+
+    <!-- @code is missing, empty, or not an EQName -->
+    <c:error/>
+    <c:error code=""/>
+    <c:error code="arbitrary:content"/>
+    <c:error code="arbitrary:content:with:multiple:colons"/>
+    <c:error code="Q{arbitrary}:content"/>
+</c:errors>

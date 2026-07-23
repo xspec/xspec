@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns="http://docbook.org/ns/docbook"
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:t1="x-urn:test:mirror"
+	xmlns:t2="http://example.org/ns/my/ns2"
+	xmlns:tv1="http://example.org/ns/my/variable1"
+	xmlns:tv2="http://example.org/ns/my/variable2"
+	xmlns:tv2_alt="http://example.org/ns/my/variable2"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	query="x-urn:test:mirror"
+	query-at="mirror.xqm">
+
+	<!-- Use x:import and one shared scenario to reuse code between XSLT and XQuery test -->
+	<x:import href="xmlns/xmlns.xspec"/>
+	<x:scenario label="XSLT only: Local namespace declarations in @test and @select" shared="yes">
+		<x:expect label="Nothing to verify here for XQuery test" test="true()"/>
+	</x:scenario>
+
+	<!-- Scenarios related to x:import usage -->
+	<x:import href="xmlns-imported_xquery.xspec"/>
+	
+</x:description>

@@ -56,6 +56,7 @@
 		<attribute default="" name="force-focus" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="saxon-custom-options" />
+		<attribute default="" name="schxslt2-transpiler" />
 		<attribute default="" name="schematron-preprocessor-step1" />
 		<attribute default="" name="schematron-preprocessor-step2" />
 		<attribute default="" name="schematron-preprocessor-step3" />
@@ -64,6 +65,7 @@
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-coverage-url" />
+		<attribute default="" name="output-coveragedata-url" />
 		<attribute default="" name="output-junit-url" />
 
 		<element name="post-task" optional="yes" />
@@ -86,6 +88,10 @@
 			<local name="output-coverage-path" />
 			<makepath property="output-coverage-path" unless:blank="@{output-coverage-url}"
 				url="@{output-coverage-url}" />
+
+			<local name="output-coveragedata-path" />
+			<makepath property="output-coveragedata-path" unless:blank="@{output-coveragedata-url}"
+				url="@{output-coveragedata-url}" />
 
 			<local name="output-junit-path" />
 			<makepath property="output-junit-path" unless:blank="@{output-junit-url}"
@@ -132,6 +138,9 @@
 				<param name="xspec.force.focus" unless:blank="@{force-focus}" value="@{force-focus}" />
 				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
 					value="@{html-reporter}" />
+				<param name="xspec.schxslt2.transpiler"
+					unless:blank="@{schxslt2-transpiler}"
+					value="@{schxslt2-transpiler}" />
 				<param name="xspec.schematron.preprocessor.step1"
 					unless:blank="@{schematron-preprocessor-step1}"
 					value="@{schematron-preprocessor-step1}" />
@@ -149,6 +158,8 @@
 					name="xspec.result.html" />
 				<param if:set="output-coverage-path" location="${output-coverage-path}"
 					name="xspec.coverage.html" />
+				<param if:set="output-coveragedata-path" location="${output-coveragedata-path}"
+					name="xspec.coverage.xml" />
 				<param if:set="output-junit-path" location="${output-junit-path}"
 					name="xspec.result.junit" />
 			</antcall>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../src/common/user-content-utils.xsl"
+	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:helper stylesheet="test-utils.xsl" />
@@ -37,6 +38,114 @@
 					<x:call>
 						<x:param href="avt.xspec" select="//x:call[@function]/x:param/attribute()"
 						 />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="step-input">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+			
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input[1]/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input/p:document" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute of p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:input/p:document/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="step-option">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+			
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option[1]/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option/p:document" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+				
+				<x:scenario label="attribute of p:document child">
+					<x:call>
+						<x:param href="xproc/unit-test-supporting-files/user-content.xspec"
+							select="//x:call[@step]/x:option/p:document/attribute()" />
 					</x:call>
 					<x:expect label="False" select="false()" />
 				</x:scenario>
@@ -204,6 +313,20 @@
 					</x:call>
 					<x:expect label="True" select="true()" />
 				</x:scenario>
+
+				<x:scenario label="comment as sibling of x:expect/x:label">
+					<x:call>
+						<x:param href="user-content-utils/is-user-content.xspec" select="(//x:expect/x:label/preceding-sibling::comment())[1]" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="PI as sibling of x:expect/x:label">
+					<x:call>
+						<x:param href="user-content-utils/is-user-content.xspec" select="(//x:expect/x:label/preceding-sibling::processing-instruction())[1]" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
 			</x:scenario>
 
 			<x:scenario label="not user-content">
@@ -237,6 +360,20 @@
 					<x:call>
 						<x:param href="avt_stylesheet.xspec"
 							select="//x:context/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="comment as sibling of x:context/x:param">
+					<x:call>
+						<x:param href="user-content-utils/is-user-content.xspec" select="//x:context/x:param/preceding-sibling::comment()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+				
+				<x:scenario label="PI as sibling of x:context/x:param">
+					<x:call>
+						<x:param href="user-content-utils/is-user-content.xspec" select="//x:context/x:param/preceding-sibling::processing-instruction()" />
 					</x:call>
 					<x:expect label="True" select="true()" />
 				</x:scenario>

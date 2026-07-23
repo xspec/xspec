@@ -6,8 +6,8 @@
    <scenario id="scenario1" xspec="../../issue-50.xspec">
       <label>Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="xs:untypedAtomic">
             <x:param select="'0123'"/>
          </x:call>

@@ -9,8 +9,8 @@
              pending="testing @focus of a Success scenario">
       <label>Test @focus</label>
       <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+         <t:call xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  function="exactly-one">
             <t:param select="9"/>
          </t:call>
@@ -47,8 +47,8 @@
          <test id="scenario1-scenario4-expect1" successful="false">
             <label>must execute the test and return Failure</label>
             <expect-test-wrap xmlns="">
-               <t:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                         xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               <t:expect xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          test="$t:result instance of xs:string"/>
             </expect-test-wrap>
             <expect select="()"/>

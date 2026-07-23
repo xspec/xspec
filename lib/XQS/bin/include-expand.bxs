@@ -1,0 +1,9 @@
+<commands>
+<xquery>import module namespace ie = 'http://www.andrewsales.com/ns/xqs-include-expand' at
+'../include-expand.xqm';
+
+declare variable $schema external;
+
+ie:include-expand(doc($schema)/*)
+</xquery>
+</commands>

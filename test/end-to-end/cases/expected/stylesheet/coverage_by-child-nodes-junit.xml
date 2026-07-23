@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="coverage_by-child-nodes.xspec">
-   <testsuite name="Call template" tests="1" failures="1">
-      <testcase name="Don't care" status="failed">
-         <failure message="expect assertion failed">Expected Result: ()</failure>
-      </testcase>
-   </testsuite>
-</testsuites>

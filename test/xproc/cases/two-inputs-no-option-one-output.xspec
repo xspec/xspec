@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library.xpl">
+    <x:scenario label="Two inputs, no option, one output">
+        <x:scenario label="with inputs provided in order">
+            <x:call step="s:two-inputs-no-option-one-output">
+                <x:input port="in1">
+                    <primary xml:id="ID1"/>
+                </x:input>
+                <x:input port="in2">
+                    <secondary xml:id="ID2"/>
+                </x:input>
+            </x:call>
+            <x:like label="primary with ID2"/>
+        </x:scenario>
+        <x:scenario label="with inputs provided out of order">
+            <x:call step="s:two-inputs-no-option-one-output">
+                <x:input port="in2">
+                    <secondary xml:id="ID2"/>
+                </x:input>
+                <x:input port="in1">
+                    <primary xml:id="ID1"/>
+                </x:input>
+            </x:call>
+            <x:like label="primary with ID2"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario shared="yes" label="primary with ID2">
+        <x:expect label="primary with ID2" port="xproc-result">
+            <primary xml:id="ID2"/>
+        </x:expect>
+    </x:scenario>
+</x:description>

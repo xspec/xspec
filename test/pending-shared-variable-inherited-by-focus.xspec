@@ -7,7 +7,7 @@
 
 	<!--
 		This test is based on external_pending-scenario-param-inherited-by-focus.xspec, except that
-		the parameter is referenced via x:like.
+		it uses a variable instead of a parameter and it's referenced via x:like.
 	-->
 
 	<x:scenario label="Scenario variable" shared="yes">

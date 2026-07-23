@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test saxon-custom-options={x-urn:test:xspec-global-override}external-value_vs_global-variable=override {x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= {x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override?>
+<x:description query="x-urn:test:xspec-global-override" query-at="global-override.xqm" xmlns:g="x-urn:test:xspec-global-override" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Checks to see if value passed in to XSpec externally 
+		overrides value of global variable declared in SUT.
+	-->
+
+	<x:scenario label="External value">
+		<x:call function="g:variable-values"/>
+		<x:expect label="overrides default value of external variable"
+			test="$x:result[1]"
+			select="'override'" />
+		<x:expect label="even if external value is empty (interpreted as string)"
+			test="$x:result[2]"
+			select="''" />
+		<x:expect label="but has no effect on non-external variable"
+			test="$x:result[3]"
+			select="'default'" />
+	</x:scenario>
+</x:description>

@@ -9,15 +9,14 @@ trigger:
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java8
-      javaVersion: 8
-      testSaxon12: false
+      jobName: Win_Java17
+      javaVersion: 17
       testOxygen: false
 
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Win_Java17
-      javaVersion: 17
+      jobName: Win_Java21
+      javaVersion: 21
 
   - job: macOS
 
@@ -29,6 +28,11 @@ jobs:
       XSPEC_TEST_ENV: saxon-12
 
     steps:
+      - task: JavaToolInstaller@0
+        inputs:
+          versionSpec: '17'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'PreInstalled'
       - script: >
           source test/ci/npm-ci.sh
           && source test/ci/install-deps.sh

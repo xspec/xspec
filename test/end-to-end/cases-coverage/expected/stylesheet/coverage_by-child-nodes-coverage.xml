@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace xspec="../../coverage_by-child-nodes.xspec">
+   <compiled uri="coverage_by-child-nodes-compiled.xsl"/>
+   <module moduleId="0" uri="../../coverage_by-child-nodes.xsl"/>
+   <traceable traceableId="0"
+              class="net.sf.saxon.expr.instruct.NamedTemplate"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}template"/>
+   <hit lineNumber="5" columnNumber="48" moduleId="0" traceableId="0"/>
+   <traceable traceableId="1" class="net.sf.saxon.expr.CardinalityChecker"/>
+   <hit lineNumber="12" columnNumber="30" moduleId="0" traceableId="1"/>
+   <traceable traceableId="2" class="net.sf.saxon.expr.instruct.Block"/>
+   <hit lineNumber="12" columnNumber="30" moduleId="0" traceableId="2"/>
+   <traceable traceableId="3"
+              class="net.sf.saxon.expr.instruct.ForEach"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each"/>
+   <hit lineNumber="12" columnNumber="30" moduleId="0" traceableId="3"/>
+   <traceable traceableId="4" class="net.sf.saxon.expr.instruct.FixedElement"/>
+   <hit lineNumber="13" columnNumber="14" moduleId="0" traceableId="4"/>
+   <traceable traceableId="5"
+              class="net.sf.saxon.expr.instruct.ForEachGroup"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}for-each-group"/>
+   <hit lineNumber="22" columnNumber="49" moduleId="0" traceableId="5"/>
+   <hit lineNumber="23" columnNumber="14" moduleId="0" traceableId="4"/>
+   <traceable traceableId="6" class="net.sf.saxon.expr.ItemChecker"/>
+   <hit lineNumber="33" columnNumber="48" moduleId="0" traceableId="6"/>
+   <traceable traceableId="7"
+              class="net.sf.saxon.expr.instruct.AnalyzeString"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}analyze-string"/>
+   <hit lineNumber="33" columnNumber="48" moduleId="0" traceableId="7"/>
+   <hit lineNumber="35" columnNumber="16" moduleId="0" traceableId="4"/>
+   <hit lineNumber="42" columnNumber="48" moduleId="0" traceableId="6"/>
+   <hit lineNumber="42" columnNumber="48" moduleId="0" traceableId="7"/>
+   <hit lineNumber="47" columnNumber="16" moduleId="0" traceableId="4"/>
+   <traceable traceableId="8"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
+   <hit lineNumber="54" columnNumber="17" moduleId="0" traceableId="8"/>
+   <hit lineNumber="56" columnNumber="16" moduleId="0" traceableId="4"/>
+   <hit lineNumber="63" columnNumber="17" moduleId="0" traceableId="8"/>
+   <hit lineNumber="68" columnNumber="16" moduleId="0" traceableId="4"/>
+   <util utilId="0" uri="../../../../../src/common/report-sequence.xsl"/>
+   <util utilId="1" uri="../../../../../src/common/common-utils.xsl"/>
+   <util utilId="2" uri="../../../../../src/common/deep-equal.xsl"/>
+</trace>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-copy-of-01.xsl">
+   <x:scenario label="xsl:copy-of Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-copy-of>
+              <node>100</node>
+              <node>200</node>
+              <node>300</node>
+              <node>400</node>
+            </xsl-copy-of>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="copy-of">
+              <node>100</node>
+              <node>200</node>
+              <node>300</node>
+              <node>400</node>
+            </node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

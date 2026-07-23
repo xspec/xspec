@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+   xmlns:my="http://example.org/ns/my"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   stylesheet="compilation-simple-suite.xsl"
+   query="http://example.org/ns/my"
+   query-at="compilation-simple-suite.xqm">
+
+   <!-- Example in Compilation.md, under "result-type attribute" -->
+   <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
+
+   <x:scenario label="scenario">
+      <x:call function="my:f"/>
+      <x:expect label="expectations" test="$x:result = 1"
+         result-type="xs:integer"/>
+   </x:scenario>
+
+</x:description>

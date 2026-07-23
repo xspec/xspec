@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl"
+	query="x-urn:test:mirror"
+	query-at="mirror.xqm"
+	xmlns:items="x-urn:test:xspec-items"
+	xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Related tests where x:expect/@test selects multiple items:
+		issue-59_query.xspec, issue-59_stylesheet.xspec -->
+
+	<!-- Import the helper 'xspec-items' module.
+		XSLT should ignore query modules. XQuery should ignore stylesheets. -->
+	<x:helper query="x-urn:test:xspec-items" query-at="items.xqm" />
+	<x:helper stylesheet="items.xsl" />
+
+	<x:scenario label="x:expect/@test can select multiple items">
+		<x:call function="one-or-more">
+			<x:param as="item()+"
+				select="$items:all-nodes, $items:integer, true(), false()" />
+		</x:call>
+		<x:expect label="both node and atomic value"
+			test="$x:result[. instance of node() or . instance of xs:integer]"
+			select="$items:all-nodes, $items:integer" />
+		<x:expect label="nodes"
+			test="$x:result[. instance of node()]"
+			select="$items:all-nodes" />
+		<x:expect label="atomic values"
+			test="$x:result[. instance of xs:integer or . instance of xs:boolean]"
+			select="$items:integer, true(), false()" />
+		<x:expect label="sequence of multiple Boolean values (different from Boolean @test situation)"
+			test="$x:result[. instance of xs:boolean]"
+			select="true(), false()" />
+	</x:scenario>
+
+	<x:scenario label="x:expect/@test can select multiple nodes from a tree">
+		<x:call function="one-or-more">
+			<x:param as="element(a)">
+				<a>
+					<b>
+						<c/>
+					</b>
+					<wrapper>
+						<b>
+							<d/>
+						</b>
+					</wrapper>
+				</a>
+			</x:param>
+		</x:call>
+		<x:expect label="descendant 'b' elements from tree, now in a sequence"
+			test="$x:result//b"
+			as="element(b)+">
+			<b>
+				<c/>
+			</b>
+			<b>
+				<d/>
+			</b>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="x:expect/@test can select zero items">
+		<x:call function="one-or-more">
+			<x:param as="item()+"
+				select="$items:all-nodes, $items:integer, $items:integer, true(), false()" />
+		</x:call>
+		<x:expect label="where @as indicates an empty sequence"
+			test="$x:result[false()]"
+			as="empty-sequence()" />
+		<x:expect label="where @select indicates an empty sequence"
+			test="$x:result[false()]"
+			select="()" />
+		<x:expect label="where @select evaluates to an empty sequence"
+			test="$x:result[false()]"
+			select="/foo">
+			<bar/>
+		</x:expect>
+	</x:scenario>
+
+</x:description>

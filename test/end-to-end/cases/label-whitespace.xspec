@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
+	schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
+	xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Whitespace is not trimmed or normalized when
+		XSpec matches x:like with a scenario using label text.
+	-->
+
+	<x:scenario shared="yes">
+		<x:label>&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label&#x09;&#x0A;&#x0D;&#x20;</x:label>
+		<x:expect label="matches scenario x:label with untrimmed whitespace" select="'untrimmed'"/>
+	</x:scenario>
+
+	<x:scenario shared="yes"
+		label="&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label&#x09;&#x0A;&#x0D;&#x20;">
+		<x:expect label="matches scenario @label with untrimmed whitespace" select="'untrimmed'"/>
+	</x:scenario>
+
+	<x:scenario shared="yes">
+		<x:label>My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label</x:label>
+		<x:expect label="matches scenario x:label with trimmed whitespace" select="'trimmed'"/>
+	</x:scenario>
+	
+	<x:scenario shared="yes" label="My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label">
+		<x:expect label="matches scenario @label with trimmed whitespace" select="'trimmed'"/>
+	</x:scenario>
+
+	<x:scenario shared="yes">
+		<x:label>My Scenario with x:label</x:label>
+		<x:expect label="matches scenario x:label with normalized whitespace" select="'normalized'"/>
+	</x:scenario>
+	
+	<x:scenario shared="yes" label="My Scenario with @label">
+		<x:expect label="matches scenario @label with normalized whitespace" select="'normalized'"/>
+	</x:scenario>
+
+	<x:scenario label="x:like label with untrimmed whitespace">
+		<x:call function="string">
+			<x:param select="'untrimmed'"/>
+		</x:call>
+		<x:scenario label="in x:like/@label targeting x:scenario/@label">
+			<x:like
+				label="&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label&#x09;&#x0A;&#x0D;&#x20;"
+			/>
+		</x:scenario>
+		<x:scenario label="in x:like/@label targeting x:scenario/x:label">
+			<x:like
+				label="&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label&#x09;&#x0A;&#x0D;&#x20;"
+			/>
+		</x:scenario>
+		
+		<x:scenario label="in x:like/x:label targeting x:scenario/@label">
+			<x:like>
+				<x:label>&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label&#x09;&#x0A;&#x0D;&#x20;</x:label>
+			</x:like>
+		</x:scenario>
+		<x:scenario label="in x:like/x:label targeting x:scenario/x:label">
+			<x:like>
+				<x:label>&#x09;&#x0A;&#x0D;&#x20;My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label&#x09;&#x0A;&#x0D;&#x20;</x:label>
+			</x:like>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="x:like label with trimmed whitespace">
+		<x:call function="string">
+			<x:param select="'trimmed'"/>
+		</x:call>
+		<x:scenario label="in x:like/@label targeting x:scenario/@label">
+			<x:like
+				label="My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label"
+			/>
+		</x:scenario>
+		<x:scenario label="in x:like/@label targeting x:scenario/x:label">
+			<x:like
+				label="My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label"
+			/>
+		</x:scenario>
+		
+		<x:scenario label="in x:like/x:label targeting x:scenario/@label">
+			<x:like>
+				<x:label>My Scenario&#x09;&#x0A;&#x0D;&#x20;with @label</x:label>
+			</x:like>
+		</x:scenario>
+		<x:scenario label="in x:like/x:label targeting x:scenario/x:label">
+			<x:like>
+				<x:label>My Scenario&#x09;&#x0A;&#x0D;&#x20;with x:label</x:label>
+			</x:like>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="x:like label with normalized whitespace">
+		<x:call function="string">
+			<x:param select="'normalized'"/>
+		</x:call>
+		<x:scenario label="in x:like/@label targeting x:scenario/@label">
+			<x:like
+				label="My Scenario with @label"
+			/>
+		</x:scenario>
+		<x:scenario label="in x:like/@label targeting x:scenario/x:label">
+			<x:like
+				label="My Scenario with x:label"
+			/>
+		</x:scenario>
+		
+		<x:scenario label="in x:like/x:label targeting x:scenario/@label">
+			<x:like>
+				<x:label>My Scenario with @label</x:label>
+			</x:like>
+		</x:scenario>
+		<x:scenario label="in x:like/x:label targeting x:scenario/x:label">
+			<x:like>
+				<x:label>My Scenario with x:label</x:label>
+			</x:like>
+		</x:scenario>
+	</x:scenario>
+</x:description>

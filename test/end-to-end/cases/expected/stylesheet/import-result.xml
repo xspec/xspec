@@ -9,8 +9,8 @@
          <label>where a function returns 0</label>
          <input-wrap xmlns="">
             <t:call xmlns:mirror="x-urn:test:mirror"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="mirror:param-mirror">
                <t:param select="0"/>
             </t:call>
@@ -24,8 +24,8 @@
             <label>expecting x:integer in @test must be Success</label>
             <expect-test-wrap xmlns="">
                <t:expect xmlns:mirror="x-urn:test:mirror"
-                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          test="$t:result instance of xs:integer"/>
             </expect-test-wrap>
             <expect select="()"/>
@@ -38,8 +38,8 @@
             <label>expecting xs:string in @test must be Failure</label>
             <expect-test-wrap xmlns="">
                <t:expect xmlns:mirror="x-urn:test:mirror"
-                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          test="$t:result instance of xs:string"/>
             </expect-test-wrap>
             <expect select="()"/>
@@ -54,8 +54,8 @@
             <label>where a function returns 0</label>
             <input-wrap xmlns="">
                <t:call xmlns:mirror="x-urn:test:mirror"
-                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                        xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                        function="mirror:param-mirror">
                   <t:param select="0"/>
                </t:call>
@@ -69,8 +69,8 @@
                <label>expecting x:integer in @test must be Success</label>
                <expect-test-wrap xmlns="">
                   <t:expect xmlns:mirror="x-urn:test:mirror"
-                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
                             xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
                             test="$t:result instance of xs:integer"/>
                </expect-test-wrap>
                <expect select="()"/>
@@ -83,8 +83,8 @@
                <label>expecting xs:string in @test must be Failure</label>
                <expect-test-wrap xmlns="">
                   <t:expect xmlns:mirror="x-urn:test:mirror"
-                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
                             xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
                             test="$t:result instance of xs:string"/>
                </expect-test-wrap>
                <expect select="()"/>

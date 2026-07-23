@@ -17,21 +17,10 @@
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
-		   
-		   
-		 -->
-               <svrl:active-pattern document=""/>
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+               <svrl:active-pattern/>
                <svrl:fired-rule context="foo"/>
-               <svrl:successful-report test="bar" id="bar-exists" location="/foo[1]">
+               <svrl:successful-report id="bar-exists" test="bar" location="/Q{}foo[1]">
                   <svrl:text>Found bar</svrl:text>
                </svrl:successful-report>
             </svrl:schematron-output>
@@ -41,7 +30,7 @@
          <label>This expectation should be Success report bar-exists</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'bar-exists'])"/>
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, @ruleId, @patternId, @groupId)[1] = 'bar-exists'])"/>
          </expect-test-wrap>
          <expect select="()"/>
       </test>
@@ -49,7 +38,7 @@
          <label>This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[. = ''] report baz-exists</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'baz-exists'])"/>
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, @ruleId, @patternId, @groupId)[1] = 'baz-exists'])"/>
          </expect-test-wrap>
          <expect select="()"/>
       </test>

@@ -31,15 +31,15 @@
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:result of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be green."
+      <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:result of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be serialized as a match&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(green in 'classic')."
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:expect of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be green."
+      <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:expect of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be serialized as a match&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(green in 'classic')."
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
-      <testcase name="But the diff must not be affected by indentation. So... When a child node of an element is indented, the diff of the element must&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;not be affected. So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and x:expect of the report XML file with different indentation&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;length, &lt;foo&gt; must be green."
+      <testcase name="But the diff must not be affected by indentation. So... When a child node of an element is indented, the diff of the element must&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;not be affected. So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and x:expect of the report XML file with different indentation&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;length, &lt;foo&gt; must be serialized as a match (green in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;'classic')."
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -47,7 +47,7 @@
    <testsuite name="When x:expect has an element of '...',"
               tests="1"
               failures="1">
-      <testcase name="the corresponding nodes in [Result] with diff must be serialized in green.&#xA;&#x9;&#x9;&#x9;&#x9;(xspec/xspec#379)"
+      <testcase name="the corresponding nodes in [Result] with diff must be serialized as a match&#xA;&#x9;&#x9;&#x9;&#x9;(green in 'classic'). (xspec/xspec#379)"
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -93,7 +93,7 @@
       </testcase>
    </testsuite>
    <testsuite name="When the result contains attribute," tests="2" failures="2">
-      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) attributes must be serialized&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;as green=&#34;green&#34;. The name-match attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;palePink=&#34;solidPink&#34;. The orphan attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;solidPink=&#34;solidPink&#34; regardless of their values."
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) attributes must be serialized&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;as green=&#34;green&#34; ('classic'). The name-match attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;bold=&#34;whiteOnBlack&#34; ('blackwhite') or palePink=&#34;solidPink&#34; ('classic'). The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;orphan attributes must be serialized as whiteOnBlack=&#34;whiteOnBlack&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;('blackwhite') or solidPink=&#34;solidPink&#34; ('classic') regardless of their&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;values."
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>
@@ -105,7 +105,7 @@
    <testsuite name="When the result contains processing instructions,"
               tests="2"
               failures="2">
-      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?green green?&gt;. The name-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?palePink solidPink?&gt;. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;value-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?solidPink green?&gt;. The no-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?solidPink solidPink?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;regardless of their values."
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?green green?&gt; ('classic'). The name-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?bold whiteOnBlack?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;('blackwhite') or &lt;?palePink solidPink?&gt; ('classic'). The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;value-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?bold whiteOnBlack?&gt; ('blackwhite') or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;?solidPink green?&gt; ('classic'). The no-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?whiteOnBlack whiteOnBlack?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;('blackwhite') or &lt;?solidPink solidPink?&gt; ('classic') regardless of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;their values."
                 status="failed">
          <failure message="expect assertion failed"/>
       </testcase>

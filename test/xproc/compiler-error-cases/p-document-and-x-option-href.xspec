@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:option (named attrval): p:document cannot combine with other elements, @href, @select, @as, or significant text nodes.?>
+<x:description xmlns:p="http://www.w3.org/ns/xproc" xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/library.xpl">
+
+    <x:scenario label="In x:option[p:document], @href">
+        <x:call step="s:no-input-one-option-one-output">
+            <x:option name="attrval" href="uri">
+                <p:document href="uri"/>
+            </x:option>
+        </x:call>
+        <x:expect label="should raise an error" as="item()*"/>
+    </x:scenario>
+</x:description>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-fork-01.xsl">
+   <x:scenario label="xsl:fork Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-fork/>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>12</root>
+      </x:expect>
+   </x:scenario>
+</x:description>

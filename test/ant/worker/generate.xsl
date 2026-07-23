@@ -23,13 +23,11 @@
 
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
@@ -118,7 +116,7 @@
 		<xsl:variable as="xs:boolean" name="require-timestamp"
 			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
-		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
+		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet | @xproc)">
 			<xsl:sort select="name()" />
 
 			<xsl:variable as="xs:string" name="test-type">
@@ -126,6 +124,7 @@
 					<xsl:when test="name() = 'query'">q</xsl:when>
 					<xsl:when test="name() = 'schematron'">s</xsl:when>
 					<xsl:when test="name() = 'stylesheet'">t</xsl:when>
+					<xsl:when test="name() = 'xproc'">p</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
@@ -134,8 +133,14 @@
 					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
-							and ($x:saxon-version ge x:pack-version(10))">
-						<xsl:text>XSLT Code Coverage requires Saxon version less than 10 (xspec/xspec#852)</xsl:text>
+							and (
+							($x:saxon-version lt x:pack-version((12, 7)))
+							or
+							($x:saxon-version ge x:pack-version((13, 0)))
+							)">
+						<!-- Why not Saxon 10 or 11: https://saxonica.plan.io/issues/6223 -->
+						<!-- Why not Saxon 13: Have not updated end-to-end coverage tests yet -->
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.7 through 12.9</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -143,13 +148,6 @@
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($test-type eq 't')
-							and ($pis = 'require-xslt-to-support-hof')
-							and not($XSLT-SUPPORTS-HOF)">
-						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -174,17 +172,21 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($test-type eq 'q')
-							and ($pis = 'require-xquery-to-support-schema')
-							and not($XQUERY-SUPPORTS-SCHEMA)">
-						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
+						($test-type = ('s', 't'))
+						and ($pis = 'require-xslt-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XSLT processor to support XSLT 4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
 							($test-type eq 'q')
-							and ($pis = 'require-xquery-to-support-hof')
-							and not($XQUERY-SUPPORTS-HOF)">
-						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
+							and ($pis = 'require-xquery-to-support-schema')
+							and not($XQUERY-SUPPORTS-SCHEMA)">
+						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -202,72 +204,39 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($pis = 'require-saxon-bug-4315-fixed')
-							and ($x:saxon-version ge x:pack-version((9, 9)))
-							and ($x:saxon-version le x:pack-version((9, 9, 1, 6)))">
-						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
+						($test-type = ('q'))
+						and ($pis = 'require-xquery-to-support-v4')
+						and (
+							($x:saxon-version lt x:pack-version(12)) or
+							not(system-property('xsl:product-version') => matches('^[EP]E '))
+						)">
+						<!-- Requires EE or PE, version 12 and up -->
+						<xsl:text>Requires XQuery processor to support XQuery 4</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
-							($pis = 'require-saxon-bug-4376-fixed')
-							and ($x:saxon-version le x:pack-version((9, 9, 1, 5)))">
-						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4471-fixed')
-							and ($x:saxon-version lt x:pack-version((9, 9, 1, 7)))">
-						<xsl:text>Requires Saxon bug #4471 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4483-fixed')
-							and ($x:saxon-version eq x:pack-version((10, 0)))">
-						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4621-fixed')
-							and
-							(
-							(
-							($x:saxon-version ge x:pack-version(10))
-							and
-							($x:saxon-version le x:pack-version((10, 1)))
-							)
-							or
-							($x:saxon-version le x:pack-version((9, 9, 1, 7)))
-							)">
-						<xsl:text>Requires Saxon bug #4621 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4696-fixed')
-							and ($x:saxon-version ge x:pack-version((10, 0)))
-							and ($x:saxon-version le x:pack-version((10, 2)))">
-						<xsl:text>Requires Saxon bug #4696 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-saxon-bug-4835-fixed')
-							and ($x:saxon-version le x:pack-version((10, 3)))">
-						<xsl:text>Requires Saxon bug #4835 to have been fixed</xsl:text>
+						($test-type = ('p'))
+						and empty(environment-variable('XMLCALABASH3_JAR'))">
+						<xsl:text>Requires XML Calabash 3</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
-							(environment-variable('TRAVIS_OS_NAME') eq 'linux')
-							or
-							(
 							(environment-variable('GITHUB_ACTIONS') eq 'true')
 							and
 							(environment-variable('RUNNER_OS') eq 'macOS')
-							)
 							)">
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
+
+					<xsl:when test="
+						($pis = 'require-xspec-issue-7127-fixed')
+						and ($x:saxon-version eq x:pack-version((13, 0)))">
+						<xsl:text>Requires Saxon issue 7127 to have been fixed</xsl:text>
+					</xsl:when>
+
 				</xsl:choose>
 			</xsl:variable>
 
@@ -309,6 +278,7 @@
 								'coverage-reporter',
 								'force-focus',
 								'html-reporter',
+								'schxslt2-transpiler',
 								'schematron-preprocessor-step1',
 								'schematron-preprocessor-step2',
 								'schematron-preprocessor-step3',

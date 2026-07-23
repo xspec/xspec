@@ -48,21 +48,8 @@
          <label>Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
                </svrl:schematron-output>
             </content-wrap>
          </result>
@@ -149,21 +136,8 @@
          <label>Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous)</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl" phase="#ALL">
+                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
                </svrl:schematron-output>
             </content-wrap>
          </result>

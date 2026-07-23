@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test saxon-custom-options=--allowSyntaxExtensions:on?>
+<?xspec-test require-xslt-to-support-v4?>
+<x:description run-as="external"
+  stylesheet="xslt4.xsl"
+  xslt-version="4.0"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec">
+  <x:import href="xslt4.xspec" />
+</x:description>

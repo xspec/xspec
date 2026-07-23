@@ -85,7 +85,9 @@
       <input-wrap xmlns="">
          <x:context xmlns:mirror="x-urn:test:mirror"
                     xmlns:myv="http://example.org/ns/my/variable"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
       </input-wrap>
       <result select="()"/>
       <test id="scenario4-expect1" successful="true">

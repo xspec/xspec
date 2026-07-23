@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xml:id="xspec-uri_schematron"
+	schematron="xspec-uri.sch"
+	xmlns:local="x-urn:test:xspec-uri_schematron"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Note: /t:description/@xml:id is referenced in xspec-uri.sch -->
+
+	<t:scenario label="$x:xspec-uri in x:context user-content">
+		<t:context expand-text="1">
+			<context-child attr="{$t:xspec-uri}">{$t:xspec-uri}</context-child>
+		</t:context>
+		<t:expect-report id="context-child-attr-ok"/>
+		<t:expect-report id="context-child-text-ok"/>
+	</t:scenario>
+
+	<t:scenario label="$x:xspec-uri in x:context/@select">
+		<t:context select="$t:xspec-uri[. ne ''] => doc()" />
+		<t:expect-report id="context-select-ok"/>
+	</t:scenario>
+
+	<t:scenario label="Derived .xspec file's @original-xspec attribute">
+		<!-- Don't compute the derived .xspec file's URI from $x:xspec-uri
+			because run-xspec-tests-ant.* puts preprocessed files in a
+			temporary directory. However, the preprocessed .xsl and .xspec
+			files are together in that directory. -->
+		<t:variable name="local:sch-preproc-xspec-uri"
+			as="xs:string" select="$t:stylesheet-uri => replace('\.xsl$','.xspec')" />
+		<t:call function="xs:anyURI">
+			<t:param select="doc($local:sch-preproc-xspec-uri)/t:description/@original-xspec
+				=> exactly-one()" />
+		</t:call>
+		<t:expect label="should match $x:xspec-uri" select="$t:xspec-uri" />
+	</t:scenario>
+
+</t:description>

@@ -11,6 +11,7 @@
 		<x:expect>
 			<x:label>Ditto using x:label</x:label>
 		</x:expect>
+		<x:expect label="Ditto with @result-type that permits an empty sequence" result-type="item()?" />
 
 		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Failure" />
 		<x:expect label="Expecting empty sequence using @select should be Failure" select="()" />
@@ -26,6 +27,7 @@
 		<x:expect>
 			<x:label>Ditto using x:label</x:label>
 		</x:expect>
+		<x:expect label="Ditto with @result-type that permits an empty sequence" result-type="item()?" />
 
 		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Success" />
 		<x:expect label="Expecting empty sequence using @select should be Success" select="()" />

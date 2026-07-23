@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="22.0" xml:space="preserve">
+<serialized xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
 			<documentTypeDescriptor-array>
 				<documentTypeDescriptor>
+					<field name="webResources">
+						<null/>
+					</field>
 					<field name="extensionPatch">
 						<null/>
 					</field>
@@ -187,13 +190,13 @@
 								<field name="inputPorts">
 									<xprocInputPort-array>
 										<xprocInputPort>
-											<field name="portName">
-												<String>source</String>
-											</field>
 											<field name="urls">
 												<String-array>
 													<String>${currentFileURL}</String>
 												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
 											</field>
 										</xprocInputPort>
 									</xprocInputPort-array>
@@ -201,44 +204,82 @@
 								<field name="outputPorts">
 									<xprocOutputPort-array>
 										<xprocOutputPort>
-											<field name="portName">
-												<String>result</String>
-											</field>
 											<field name="url">
 												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
 											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
 										</xprocOutputPort>
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array/>
-								</field>
-								<field name="xprocParameters">
-									<xprocParameterPort-array>
-										<xprocParameterPort>
-											<field name="portName">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>inline-css</String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>parameters</String>
 											</field>
-											<field name="parameters">
-												<xprocParameter-array>
-													<xprocParameter>
-														<field name="namespaceURI">
-															<String></String>
-														</field>
-														<field name="localName">
-															<String>xspec-home</String>
-														</field>
-														<field name="value">
-															<String>${framework}/</String>
-														</field>
-													</xprocParameter>
-												</xprocParameter-array>
+											<field name="value">
+												<String>map{}</String>
 											</field>
-										</xprocParameterPort>
-									</xprocParameterPort-array>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -262,7 +303,7 @@
 									<null/>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/src/harnesses/saxon/saxon-xslt-harness.xproc</String>
+									<String>${framework}/src/xproc3/run-xslt.xpl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String></String>
@@ -316,7 +357,7 @@
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Add-on for Calabash XProc Engine</String>
+									<String>XML Calabash 3.X</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -326,13 +367,13 @@
 								<field name="inputPorts">
 									<xprocInputPort-array>
 										<xprocInputPort>
-											<field name="portName">
-												<String>source</String>
-											</field>
 											<field name="urls">
 												<String-array>
 													<String>${currentFileURL}</String>
 												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
 											</field>
 										</xprocInputPort>
 									</xprocInputPort-array>
@@ -340,44 +381,82 @@
 								<field name="outputPorts">
 									<xprocOutputPort-array>
 										<xprocOutputPort>
-											<field name="portName">
-												<String>result</String>
-											</field>
 											<field name="url">
 												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
 											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
 										</xprocOutputPort>
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array/>
-								</field>
-								<field name="xprocParameters">
-									<xprocParameterPort-array>
-										<xprocParameterPort>
-											<field name="portName">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>inline-css</String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
 												<String>parameters</String>
 											</field>
-											<field name="parameters">
-												<xprocParameter-array>
-													<xprocParameter>
-														<field name="namespaceURI">
-															<String></String>
-														</field>
-														<field name="localName">
-															<String>xspec-home</String>
-														</field>
-														<field name="value">
-															<String>${framework}/</String>
-														</field>
-													</xprocParameter>
-												</xprocParameter-array>
+											<field name="value">
+												<String>map{}</String>
 											</field>
-										</xprocParameterPort>
-									</xprocParameterPort-array>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -401,7 +480,7 @@
 									<null/>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/src/harnesses/saxon/saxon-xquery-harness.xproc</String>
+									<String>${framework}/src/xproc3/run-xquery.xpl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String></String>
@@ -455,7 +534,173 @@
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Add-on for Calabash XProc Engine</String>
+									<String>XML Calabash 3.X</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</xprocScenario>
+							<xprocScenario>
+								<field name="inputPorts">
+									<xprocInputPort-array>
+										<xprocInputPort>
+											<field name="urls">
+												<String-array>
+													<String>${currentFileURL}</String>
+												</String-array>
+											</field>
+											<field name="portName">
+												<String>source</String>
+											</field>
+										</xprocInputPort>
+									</xprocInputPort-array>
+								</field>
+								<field name="outputPorts">
+									<xprocOutputPort-array>
+										<xprocOutputPort>
+											<field name="url">
+												<String>${cfdu}/${cfn}-result.html</String>
+											</field>
+											<field name="showInSequenceView">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="portName">
+												<String>result</String>
+											</field>
+										</xprocOutputPort>
+									</xprocOutputPort-array>
+								</field>
+								<field name="xprocOptions">
+									<xprocOption-array>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>xspec-home</String>
+											</field>
+											<field name="value">
+												<String>${framework}/</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>force-focus</String>
+											</field>
+											<field name="value">
+												<String></String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>html-report-theme</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+										</xprocOption>
+										<xprocOption>
+											<field name="namespaceURI">
+												<String></String>
+											</field>
+											<field name="localName">
+												<String>inline-css</String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+										</xprocOption>
+									</xprocOption-array>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array/>
+								</field>
+								<field name="configFile">
+									<String></String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>XSpec for XProc using XProc</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<String>${framework}/src/xproc3/xproc-testing/run-xproc.xpl</String>
+								</field>
+								<field name="inputXMLURL">
+									<String></String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>XPROC</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfdu}/${cfn}-result.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>XML Calabash 3.X</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -478,7 +723,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
+												<String>Paths to catalog files that will be used in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${xmlCatalogFilesList}</String>
@@ -524,7 +769,7 @@
 												<String>clean.output.dir</String>
 											</field>
 											<field name="description">
-												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+												<String>Removes intermediate files. Set it to false if you want to inspect these files.</String>
 											</field>
 											<field name="value">
 												<String>true</String>
@@ -550,7 +795,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron)!substring(name(),1,1)),'t')[1])}</String>
+												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron,@xproc)!substring(name()!replace(.,'x',''),1,1)),'t')[1])}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -574,6 +819,29 @@
 											</field>
 											<field name="value">
 												<String>false</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.html.report.theme</String>
+											</field>
+											<field name="description">
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic.</String>
+											</field>
+											<field name="value">
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -663,6 +931,75 @@
 											</field>
 											<field name="description">
 												<String></String>
+											</field>
+											<field name="value">
+												<null/>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.basex.classpath</String>
+											</field>
+											<field name="description">
+												<String>Classpath for BaseX. Required to run XSpec tests for Schematron with XQS.</String>
+											</field>
+											<field name="value">
+												<String>${env(BASEX_JAR)}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xmlcalabash.classpath</String>
+											</field>
+											<field name="description">
+												<String>Classpath for XML Calabash. Required to run XSpec tests for XProc.</String>
+											</field>
+											<field name="value">
+												<String>${env(XMLCALABASH3_JAR)}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xmlcalabash.config</String>
+											</field>
+											<field name="description">
+												<String>URI for configuration file for XML Calabash. Used to run XSpec tests for XProc. Ignored for other languages.</String>
 											</field>
 											<field name="value">
 												<null/>
@@ -829,7 +1166,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
+												<String>Paths to catalog files that will be used in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${xmlCatalogFilesList}</String>
@@ -875,7 +1212,7 @@
 												<String>clean.output.dir</String>
 											</field>
 											<field name="description">
-												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+												<String>Removes intermediate files. Set it to false if you want to inspect these files.</String>
 											</field>
 											<field name="value">
 												<String>true</String>
@@ -971,6 +1308,29 @@
 											</field>
 											<field name="value">
 												<String>false</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.html.report.theme</String>
+											</field>
+											<field name="description">
+												<String>Color palette for HTML report, such as blackwhite, whiteblack, or classic.</String>
+											</field>
+											<field name="value">
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -1246,6 +1606,9 @@
 											<field name="validationSchema">
 												<null/>
 											</field>
+											<field name="validationAdvancedSettings">
+												<null/>
+											</field>
 										</validationUnit>
 										<validationUnit>
 											<field name="validationType">
@@ -1289,6 +1652,9 @@
 														<String>${framework}/src/schemas/xspec.sch</String>
 													</field>
 												</validationUnitSchema>
+											</field>
+											<field name="validationAdvancedSettings">
+												<null/>
 											</field>
 										</validationUnit>
 									</list>

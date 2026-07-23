@@ -12,7 +12,9 @@
 			<scenario-param-child-not-allowed />
 		</x:param>
 
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 
 		<x:expect label="In //x:scenario/x:param[node()][not(@href)], child node is used."
 			test="$scenario-param-no-href instance of element(scenario-param-child)" />

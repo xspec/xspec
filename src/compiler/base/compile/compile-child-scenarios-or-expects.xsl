@@ -81,13 +81,19 @@
       <xsl:variable name="new-call" as="element(x:call)?">
          <xsl:choose>
             <xsl:when test="x:call">
+               <xsl:sequence select="local:param-position-implicit-explicit-error(x:call)"/>
+
                <xsl:copy select="x:call">
                   <xsl:sequence select="($call, .) ! attribute()" />
 
                   <xsl:variable name="is-function-call" as="xs:boolean"
                      select="($call, .)/@function => exists()" />
-                  <xsl:variable name="local-params" as="element(x:param)*">
-                     <xsl:for-each select="x:param">
+                  <xsl:variable name="local-params" as="element()*">
+                     <!-- Sequence type of this variable is:
+                        * For call to template or function: element(x:param)*
+                        * For call to step: element(x:input)*, element(x:option)*
+                     -->
+                     <xsl:for-each select="x:param | x:input | x:option">
                         <xsl:copy>
                            <xsl:if test="$is-function-call">
                               <xsl:attribute name="position" select="position()" />
@@ -99,12 +105,13 @@
 
                   <xsl:sequence
                      select="
-                        $call/x:param
+                        $call/(x:param | x:input | x:option)
                         [not(@name = $local-params/@name)]
+                        [not(@port = $local-params/@port)]
                         [not(@position = $local-params/@position)],
                         $local-params"/>
                </xsl:copy>
-               <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
+               <!-- TODO: Test that "x:call/(node() except (x:param | x:input | x:option))" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
@@ -127,12 +134,13 @@
          </xsl:message>
       </xsl:if>
 
-      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
+      <!-- Dispatch to a language-specific (XSLT, XQuery, or XProc) worker template -->
       <xsl:call-template name="x:compile-scenario">
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
          <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
-         <xsl:with-param name="run-sut-now" select="empty($reason-for-pending) and x:expect" />
+         <xsl:with-param name="run-sut-now"
+            select="empty($reason-for-pending) and x:expect[empty(x:reason-for-pending(.))]" />
       </xsl:call-template>
    </xsl:template>
 
@@ -149,7 +157,6 @@
          <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
             <xsl:if test="empty($reason-for-pending)">
-               <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
             <xsl:sequence select="accumulator-before('stacked-vardecls-distinct-uqnames')" />
@@ -181,6 +188,21 @@
          select="$owner/x:param/@position ! xs:integer(.)" />
       <xsl:for-each select="$positions[subsequence($positions, 1, position() - 1) = .][1]">
          <xsl:text expand-text="yes">Duplicate parameter position, {.}, used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- Raises an error if x:param/@position existence is mixed for an individual x:call -->
+   <xsl:function name="local:param-position-implicit-explicit-error" as="empty-sequence()">
+      <xsl:param name="owner" as="element(x:call)" />
+      <xsl:for-each select="$owner">
+         <xsl:if test="exists(x:param/@position) and exists(x:param[not(@position)])">
+            <xsl:message terminate="yes">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="message" expand-text="1"
+                     >{name(.)} uses @position on some but not all {name(x:param[1])}.</xsl:with-param>
+               </xsl:call-template>
+            </xsl:message>
+         </xsl:if>
       </xsl:for-each>
    </xsl:function>
 

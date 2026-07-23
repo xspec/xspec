@@ -44,17 +44,19 @@
    -->
 
    <!-- Push and pop variable declaration elements based on node identity. Pending variable
-      declaration elements are considered as if they did not exist. -->
+      declaration elements are considered as if they did not exist. Treat <x:context> like a
+      variable here because <x:context> causes the compiler to generate $x:context.
+   -->
    <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
       <xsl:accumulator-rule
-         match="(x:scenario/x:param | x:scenario/x:variable)[x:reason-for-pending(.) => empty()]"
+         match="(x:scenario/x:param | x:scenario/x:variable | x:context)[x:reason-for-pending(.) => empty()]"
          select="
             (: Append this scenario-level variable declaration element :)
-            $value, (self::x:param | self::x:variable)" />
+            $value, (self::x:param | self::x:variable | self::x:context)" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             (: Remove child variable declaration elements of this scenario :)
-            $value except (child::x:param | child::x:variable)" />
+            $value except (child::x:param | child::x:variable | child::x:context)" />
    </xsl:accumulator>
 
    <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable).
@@ -64,7 +66,7 @@
          template for XQuery requires the order to be stable. -->
       <!-- No need to explicitly exclude pending variable declarations. They're already excluded
          from the 'stacked-vardecls' accumulator. -->
-      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
+      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable | x:context"
          select="
             x:distinct-strings-stable(
                accumulator-before('stacked-vardecls') ! x:variable-UQName(.)
@@ -104,21 +106,20 @@
 
    <!--
       Sub modules
-         '../base/' prefix in @href is a workaround for https://saxonica.plan.io/issues/4706
    -->
-   <xsl:include href="../base/catch/enter-sut.xsl" />
-   <xsl:include href="../base/combine/combine.xsl" />
-   <xsl:include href="../base/compile/compile-child-scenarios-or-expects.xsl" />
-   <xsl:include href="../base/compile/compile-expect.xsl" />
-   <xsl:include href="../base/compile/compile-scenario.xsl" />
-   <xsl:include href="../base/declare-variable/declare-variable.xsl" />
-   <xsl:include href="../base/initial-check/perform-initial-check.xsl" />
-   <xsl:include href="../base/invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
-   <xsl:include href="../base/invoke-compiled/threads.xsl" />
-   <xsl:include href="../base/report/report-test-attribute.xsl" />
-   <xsl:include href="../base/resolve-import/resolve-import.xsl" />
-   <xsl:include href="../base/util/compiler-eqname-utils.xsl" />
-   <xsl:include href="../base/util/compiler-misc-utils.xsl" />
-   <xsl:include href="../base/util/compiler-pending-utils.xsl" />
+   <xsl:include href="catch/enter-sut.xsl" />
+   <xsl:include href="combine/combine.xsl" />
+   <xsl:include href="compile/compile-child-scenarios-or-expects.xsl" />
+   <xsl:include href="compile/compile-expect.xsl" />
+   <xsl:include href="compile/compile-scenario.xsl" />
+   <xsl:include href="declare-variable/declare-variable.xsl" />
+   <xsl:include href="initial-check/perform-initial-check.xsl" />
+   <xsl:include href="invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
+   <xsl:include href="invoke-compiled/threads.xsl" />
+   <xsl:include href="report/report-test-attribute.xsl" />
+   <xsl:include href="resolve-import/resolve-import.xsl" />
+   <xsl:include href="util/compiler-eqname-utils.xsl" />
+   <xsl:include href="util/compiler-misc-utils.xsl" />
+   <xsl:include href="util/compiler-pending-utils.xsl" />
 
 </xsl:stylesheet>

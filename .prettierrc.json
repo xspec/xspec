@@ -9,10 +9,17 @@
       }
     },
     {
+      "files": ["*.properties"],
+      "options": {
+        "keySeparator": "="
+      }
+    },
+    {
       "files": ["*.yml"],
       "options": {
         "singleQuote": true
       }
     }
-  ]
+  ],
+  "plugins": ["prettier-plugin-properties"]
 }

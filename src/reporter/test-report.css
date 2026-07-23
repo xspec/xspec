@@ -5,6 +5,13 @@
 /*    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)             */
 /* ------------------------------------------------------------------------ */
 
+/****************************************************************************/
+/* NOTE: As of #2052, this file is only for backward compatibility of repos */
+/* that directly refer to this file. Newly generated XSpec reports use the  */
+/* combination of test-report-base.css and a color-specific CSS file, not   */
+/* this file.                                                               */
+/* ------------------------------------------------------------------------ */
+
 /* test */
 
 /* box model */
@@ -300,15 +307,15 @@ a:visited {
 	border: 0px none white;
 }
 
-a:active {
-	color: #6f6;
-	background: #606;
-	border: 0px none white;
-}
-
 a:hover {
 	color: #636;
 	background: #9f9;
+	border: 0px none white;
+}
+
+a:active {
+	color: #6f6;
+	background: #606;
 	border: 0px none white;
 }
 
@@ -378,7 +385,11 @@ a.img:active {
 	background-color: #fcc;
 }
 
-.whitespace {
+/*
+ * Whitespace notation in diffs in test result report,
+ * not literal whitespace characters in code coverage report.
+ */
+td > pre > .whitespace {
 	/*font-style: italic;*/
 	color: #999;
 	/*background: white;*/
@@ -392,8 +403,17 @@ a.img:active {
 	color: #c0c0c0;
 }
 
-.ignored {
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
 	font-style: italic;
+	color: #999;
+	background: white;
+}
+
+.unknown {
+	font-style: italic;
+	font-weight: bold;
 	color: #999;
 	background: white;
 }

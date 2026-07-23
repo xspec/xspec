@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/enable-text-location.xsl?>
 <x:description schematron="../src/schemas/xspec.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<x:param name="allow-foreign">true</x:param>
-	<x:param name="only-child-elements">false</x:param>
-	<x:param name="visit-text">true</x:param>
 
 	<x:scenario label="Whitespace-only text node">
 		<x:scenario label="XSLT and XQuery">
@@ -51,6 +46,67 @@
 				label="$scenario-param-span-element"
 				location="//x:scenario/x:param[@name eq 'scenario-param-span-element']/span/text()" />
 			<x:expect-assert count="1" />
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="x:expand-text in user content">
+		<x:scenario label="Generic user content">
+			<x:context href="tvt.xspec" />
+			<x:expect-not-assert id="user-element-expand-text"
+				label="user element with x:expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[1]"/>
+			<x:expect-assert id="user-element-expand-text"
+				label="user element with expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[2]"/>
+			<x:expect-assert id="user-element-expand-text"
+				label="user element with both x:expand-text and expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@*:expand-text=yes within user-content']//function-param-child[3]"/>
+			<x:expect-not-assert id="user-element-expand-text"
+				label="user element with neither x:expand-text nor expand-text"
+				location="//x:scenario[@label='function-param']//x:scenario[@label='@expand-text=yes on x:param']//function-param-child"/>
+		</x:scenario>
+		<x:scenario label="User content that happens to be XSLT">
+			<x:context href="tvt/detect-expand-text-user-content-xslt.xspec" />
+			<x:expect-assert id="user-element-expand-text" />
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="Ineffective pending and focus attributes">
+		<x:context href="schematron/xspec-sch-pending-focus.xspec"/>
+		<x:scenario label="Non-shared scenario">
+			<x:expect-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with pending and focus']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with pending but not focus']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with focus but not pending']"/>
+			<x:expect-not-report id="focused-pending-scenario"
+				location="//x:scenario[@label eq 'Non-shared scenario with neither pending nor focus']"/>
+		</x:scenario>
+		<x:scenario label="Shared scenario">
+			<x:scenario label="with both @focus and @pending">
+				<x:expect-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending and focus']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					label="(sch:rule for @focus shadows the one for @pending)"
+					location="//x:scenario[@label eq 'Shared scenario with pending and focus']"/>
+			</x:scenario>
+			<x:scenario label="with only @pending, not @focus">
+				<x:expect-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending but not focus']"/>
+				<x:expect-not-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with pending but not focus']"/>
+			</x:scenario>
+			<x:scenario label="with only @focus, not @pending">
+				<x:expect-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with focus but not pending']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with focus but not pending']"/>
+			</x:scenario>
+			<x:scenario label="with neither @focus nor @pending">
+				<x:expect-not-report id="focused-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with neither pending nor focus']"/>
+				<x:expect-not-report id="pending-shared-scenario"
+					location="//x:scenario[@label eq 'Shared scenario with neither pending nor focus']"/>
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 

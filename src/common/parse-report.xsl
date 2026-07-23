@@ -66,12 +66,32 @@
 	</xsl:function>
 
 	<!--
+		Returns x:expect/@result-type connected with the given x:test.
+		This attribute would be in the report only if it was the reason
+		for failure.
+	-->
+	<xsl:function as="attribute(result-type)?" name="x:result-type-attr">
+		<xsl:param as="element(x:test)" name="test-element" />
+		
+		<xsl:sequence select="$test-element/expect-test-wrap/x:expect/@result-type" />
+	</xsl:function>
+
+	<!--
 		Returns true if x:expect/@test was an xs:boolean at run time.
 	-->
 	<xsl:function as="xs:boolean" name="x:is-boolean-test">
 		<xsl:param as="element(x:test)" name="test-element" />
 
 		<xsl:sequence select="$test-element ! (empty(x:result) and x:test-attr(.))" />
+	</xsl:function>
+
+	<!--
+		Returns true if x:expect failed due to @result-type.
+	-->
+	<xsl:function as="xs:boolean" name="x:is-result-type-mismatch">
+		<xsl:param as="element(x:test)" name="test-element" />
+		
+		<xsl:sequence select="$test-element ! exists(x:result-type-attr(.))" />
 	</xsl:function>
 
 	<!--

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:call with neither @function nor @template">
+		<x:call function="true"/>
+		<x:scenario label="but inheriting one of those attributes from ancestor scenario">
+			<x:call />
+			<x:expect label="should compile successfully" test="true()" />
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="x:call with neither @function nor @template">
+		<x:call />
+		<x:scenario label="but inheriting one of those attributes from descendant scenario">
+			<x:call function="true" />
+			<x:expect label="should compile successfully" test="true()" />
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="x:call with neither @function nor @template, not even through inheritance">
+		<x:call />
+		<x:expect label="should be error" test="true()" />
+	</x:scenario>
+</x:description>

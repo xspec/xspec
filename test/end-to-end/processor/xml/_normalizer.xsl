@@ -2,6 +2,7 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:xml:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
+	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -18,11 +19,15 @@
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
 	<xsl:template as="attribute()" match="
-			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec')]
+			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec', 'xproc')]
 			| /x:report[not(@schematron)]/@stylesheet
 			| x:scenario/@xspec
 			| x:scenario/input-wrap/x:call/x:param/@href
+			| x:scenario/input-wrap/x:call/x:input/@href
+			| x:scenario/input-wrap/x:call/x:option/@href
 			| x:scenario/input-wrap/x:context/@href
+			| x:scenario/input-wrap/x:call/x:input/p:document/@xml:base
+			| x:scenario/input-wrap/x:call/x:option/p:document/@xml:base
 			|
 			/x:report[local:svrl-creator(.) eq 'skeleton']//x:scenario/x:result/content-wrap
 			/svrl:schematron-output/svrl:active-pattern/@document[string()]" mode="normalizer:normalize">
@@ -40,7 +45,10 @@
 			/x:report[@schematron]/@stylesheet
 			|
 			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
-			/svrl:schematron-output/svrl:active-pattern/@documents" mode="normalizer:normalize">
+			/svrl:schematron-output/svrl:active-pattern/@documents
+			|
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/descendant::svrl:fired-rule/@document" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="x:filename-and-extension(.)" />
 	</xsl:template>
@@ -56,6 +64,54 @@
 	</xsl:template>
 
 	<!--
+		Normalizes base-uri property value within a map of document properties (XProc testing).
+		For simplicity, use only the filename and extension. Where the full base URI value is
+		significant, it is tested elsewhere.
+
+		Same for "module" property value within a map of error information (XProc testing).
+	-->
+	<xsl:template as="text()" match="x:pseudo-map/text()[matches(., 'Q\{\}base-uri:|module&quot;:|href=&quot;')]"
+		mode="normalizer:normalize">
+		<xsl:variable name="pattern" as="xs:string">(Q\{\}base-uri|module"|href=")(:")?([^"]+)(")</xsl:variable>
+		<xsl:variable name="paths-normalized" as="xs:string+">
+			<xsl:analyze-string select="x:base-uri-before-content-type(.)"
+				regex="{$pattern}">
+				<xsl:matching-substring>
+					<xsl:sequence select="concat(
+						regex-group(1),
+						regex-group(2),
+						regex-group(3) => x:filename-and-extension(),
+						regex-group(4)
+						)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:sequence select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:variable>
+		<!-- Oxygen 28.1 version of XML Calabash (v3.0.38) uses fewer <cx:stack-frame>
+			elements in caught-error document than XML Calabash v3.0.45. Remove them at least
+			until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="stack-frames-removed" as="xs:string" select="
+			$paths-normalized => string-join()
+			=> replace('(&lt;cx:stack-trace&gt;)(.+)(&lt;/cx:stack-trace&gt;)', '$1$3', 's')"/>
+		<!-- XML Calabash as of v3.0.40 binds fnerr prefix in caught-error document, even when the prefix
+			isn't used. Oxygen 28.1 version of XML Calabash (v3.0.38) doesn't bind it. Remove declaration
+			at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="fnerr" as="xs:string">\s+xmlns:fnerr="http://www\.w3\.org/2005/xqt-errors"</xsl:variable>
+		<!-- XML Calabash as of v3.0.50 no longer has ?uniqueid=3 or ?uniqueid-1 at the end of certain base-uri values.
+			Remove that portion at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="uniqueid" as="xs:string">\?uniqueid=[13]</xsl:variable>
+		<!-- XML Calabash as of v3.0.50 no longer has a base-uri document property for demo.xpl and demo-library.xpl.
+			Remove that portion at least until Oxygen upgrades XML Calabash. -->
+		<xsl:variable name="demo-pipeline" as="xs:string">Q\{\}base-uri:"demo(-library)?\.xpl",</xsl:variable>
+		<xsl:value-of select="$stack-frames-removed
+			=> replace($fnerr, '')
+			=> replace($uniqueid, '')
+			=> replace($demo-pipeline, '')"/>
+	</xsl:template>
+
+	<!--
 		Normalizes x:timestamp
 	-->
 	<xsl:template as="attribute(at)" match="x:timestamp/@at[. castable as xs:dateTimeStamp]"
@@ -65,11 +121,26 @@
 	</xsl:template>
 
 	<!--
+		Normalizes date/time stamp in tests that call validate() in the XQS implementation
+		of Schematron. Such tests run with BaseX, so the Saxon -now option does not take effect.
+	-->
+	<xsl:template as="attribute(date)" match="
+		/x:report
+			[@schematron]
+			[descendant::x:call[@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate']]
+			/@date" mode="normalizer:normalize">
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="xs:dateTime('2000-01-01T00:00:00Z')" />
+	</xsl:template>
+
+	<!--
 		Private utility functions
 	-->
 
 	<!--
 		Returns the SVRL creator name. Empty sequence if no SVRL.
+		This function distinguishes between skeleton and either SchXslt or SchXslt2.
+		It does not need to distinguish between SchXslt and SchXslt2.
 	-->
 	<xsl:function as="xs:string?" name="local:svrl-creator">
 		<xsl:param as="node()" name="context-node" />

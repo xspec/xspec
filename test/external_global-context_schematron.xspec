@@ -2,8 +2,6 @@
 <x:description run-as="external" schematron="external_global-context.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:scenario label="Global context while validating">
 		<x:scenario label="foo">
 			<x:context>

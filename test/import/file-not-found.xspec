@@ -4,7 +4,9 @@
 	<x:import href="this.file.never.exists" />
 
 	<x:scenario label="Dummy scenario">
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 		<x:expect label="always successful" test="true()" />
 	</x:scenario>
 

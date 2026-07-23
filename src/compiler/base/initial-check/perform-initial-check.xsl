@@ -8,14 +8,16 @@
    <xsl:template name="x:perform-initial-check" as="empty-sequence()">
       <xsl:context-item as="document-node()" use="required" />
 
+      <xsl:call-template name="x:report-xspec-version"/>
+
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
-               <xsl:text>Saxon version 9.8 or less is not supported.</xsl:text>
+            <xsl:when test="$x:saxon-version lt x:pack-version((11, 0))">
+               <xsl:text>Saxon version 10 or earlier is not supported.</xsl:text>
             </xsl:when>
-            <xsl:when test="$x:saxon-version lt x:pack-version((10, 0))">
-               <xsl:text>Saxon version 9.9 is not recommended. Consider migrating to Saxon 10.</xsl:text>
-            </xsl:when>
+           <xsl:when test="$x:saxon-version lt x:pack-version((12, 4))">
+             <xsl:text>Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later.</xsl:text>
+           </xsl:when>
          </xsl:choose>
       </xsl:variable>
       <xsl:message>
@@ -47,4 +49,8 @@
       <xsl:call-template name="x:perform-initial-check-for-lang" />
    </xsl:template>
 
+   <xsl:template name="x:report-xspec-version" as="empty-sequence()">
+      <xsl:context-item use="absent"/>
+      <xsl:message>XSpec v<xsl:value-of select="$x:xspec-version"/></xsl:message>
+   </xsl:template>
 </xsl:stylesheet>

@@ -19,6 +19,19 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
+   <!--
+      Use $report-theme to select a color palette CSS file in this directory:
+      * test-report-colors-blackwhite.css  (black text on white background)
+      * test-report-colors-whiteblack.css  (white text on black background)
+      * test-report-colors-classic.css     (green for successes, pink for failures)
+      
+      The $report-theme value is expected to be the part of the filename
+      between 'test-report-colors-' and '.css'.
+   -->
+   <xsl:param name="report-theme" as="xs:string" select="'default'" />
+   <xsl:variable name="report-theme-to-use" as="xs:string"
+      select="if ($report-theme ne 'default') then $report-theme else 'blackwhite'"/>
+
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the test result report HTML, these Private Use Area characters should be considered
       as reserved by fmt:disable-escaping. -->
@@ -126,7 +139,10 @@
       <!-- Output attributes while performing comparison -->
       <xsl:for-each select="attribute()">
          <xsl:variable name="attribute-to-compare-with" as="attribute()?"
-            select="$node-to-compare-with/attribute()[node-name(.) eq node-name(current())]" />
+            select="(
+            $node-to-compare-with/attribute()[node-name(.) eq node-name(current())],
+            $node-to-compare-with/@x:attrs[string(.) = '...']
+            )[1]" />
 
          <!-- Attribute value adjusted for display -->
          <xsl:variable name="display-value" as="xs:string"
@@ -372,7 +388,7 @@
          else deq:deep-equal($node-to-compare-with, $node, 'w')" />
 
       <xsl:choose>
-         <xsl:when test="$equal">
+         <xsl:when test="$equal or $node-to-compare-with instance of attribute(x:attrs)">
             <xsl:sequence select="'same'"/>
          </xsl:when>
 
@@ -417,28 +433,37 @@
 
    <!-- Generates <style> or <link> for CSS.
       If you enable $inline, you must use fmt:disable-escaping character map in serialization. -->
-   <xsl:template name="fmt:load-css" as="element()">
+   <xsl:template name="fmt:load-css" as="element()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="inline" as="xs:boolean" required="yes" />
-      <xsl:param name="uri" as="xs:string?" required="yes" />
+      <xsl:param name="uri" as="xs:string*" required="yes" />
 
-      <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
+      <xsl:variable as="xs:string+" name="uri-or-default" select="
+            if (empty($uri)) then
+            (resolve-uri(concat('test-report-colors-', $report-theme-to-use, '.css')), resolve-uri('test-report-base.css'))
+            else
+               $uri" />
 
       <xsl:choose>
          <xsl:when test="$inline">
-            <xsl:variable name="css-string" as="xs:string" select="unparsed-text($uri)" />
-
-            <!-- Replace CR LF with LF -->
-            <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
-
             <style type="text/css">
-               <xsl:value-of select="fmt:disable-escaping($css-string)" />
+               <xsl:for-each select="$uri-or-default">
+                  <xsl:variable name="css-string" as="xs:string" select="unparsed-text(.)" />
+   
+                  <!-- Replace CR LF with LF -->
+                  <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
+   
+                  <xsl:text>&#xA;</xsl:text>
+                  <xsl:value-of select="fmt:disable-escaping($css-string)" />
+               </xsl:for-each>
             </style>
          </xsl:when>
 
          <xsl:otherwise>
-            <link rel="stylesheet" type="text/css" href="{$uri}"/>
+            <xsl:for-each select="$uri-or-default">
+               <link rel="stylesheet" type="text/css" href="{.}"/>   
+            </xsl:for-each>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>

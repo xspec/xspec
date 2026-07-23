@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <x:scenario label="Detect expand-text in user content that happens to be XSLT">
+        <x:context>
+            <xsl:text expand-text="yes">{ 1 + 1 }</xsl:text>
+        </x:context>
+    </x:scenario>
+</x:description>

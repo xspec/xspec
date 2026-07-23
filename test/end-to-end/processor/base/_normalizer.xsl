@@ -16,12 +16,15 @@
 				in:  input-uri='file:/path/to/xspec/src/reporter/format-xspec-report.xsl',
 				      base-uri='file:/path/to/xspec/test/end-to-end/cases/expected/stylesheet/coverage-tutorial-result.xml'
 				out: '../../../../../src/reporter/format-xspec-report.xsl'
+			
+			An input URI of file:///path/to/... with three slashes after file: produces the same output.
 	-->
 	<xsl:function as="xs:anyURI" name="normalizer:relative-uri">
 		<xsl:param as="xs:string" name="input-uri" />
 		<xsl:param as="xs:anyURI" name="base-uri" />
 
-		<xsl:variable as="xs:string+" name="input-tokens" select="tokenize($input-uri, '/')" />
+		<xsl:variable as="xs:string+" name="input-tokens"
+			select="$input-uri => replace('^file:///', 'file:/') => tokenize('/')" />
 		<xsl:variable as="xs:string+" name="base-tokens" select="tokenize($base-uri, '/')" />
 
 		<xsl:variable as="xs:integer" name="num-base-tokens" select="count($base-tokens)" />

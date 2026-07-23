@@ -25,6 +25,11 @@
       <!-- True if this XSpec is testing Schematron -->
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@original-xspec)" />
 
+      <!-- True if this XSpec is testing XProc. Assume a test suite doesn't have @xproc
+         along with either @original-xspec or @stylesheet, because XProc step scenarios
+         use x:call[@step], whereas XSLT and Schematron scenarios don't. -->
+      <xsl:variable name="is-xproc" as="xs:boolean" select="exists(@xproc)" />
+
       <!-- The compiled stylesheet element. -->
       <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="exclude-result-prefixes" select="'#all'" />
@@ -33,7 +38,7 @@
          <!-- Indent the following comment -->
          <xsl:text>&#10;   </xsl:text>
 
-         <xsl:if test="not($is-external)">
+         <xsl:if test="not($is-external) and not($is-xproc)">
             <xsl:comment> the tested stylesheet </xsl:comment>
             <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="href" select="@stylesheet" />
@@ -62,15 +67,17 @@
          </xsl:if>
 
          <!-- Absolute URI of .xsl file to be tested -->
-         <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
-            <xsl:value-of select="@stylesheet" />
-         </variable>
+         <xsl:if test="not($is-xproc)">
+            <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
+               <xsl:value-of select="@stylesheet" />
+            </variable>
+         </xsl:if>
 
-         <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
-         <xsl:variable name="xspec-master-uri" as="xs:anyURI"
+         <!-- Absolute URI of the top-level .xspec file (Original one if specified i.e. Schematron) -->
+         <xsl:variable name="xspec-top-level-uri" as="xs:anyURI"
             select="(@original-xspec, $initial-document-actual-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
-            <xsl:value-of select="$xspec-master-uri" />
+            <xsl:value-of select="$xspec-top-level-uri" />
          </variable>
 
          <!-- Let the compiled stylesheet know whether external or not -->
@@ -122,53 +129,29 @@
             </xsl:element>
 
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
-            <!-- Message content must be constructed at run time -->
             <message>
-               <text>
-                  <xsl:text>Testing with </xsl:text>
-               </text>
-               <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
-               <text>
-                  <xsl:text> </xsl:text>
-               </text>
-               <value-of select="system-property('{x:known-UQName('xsl:product-version')}')" />
+               <xsl:apply-templates select="." mode="info-message"/>   
             </message>
 
             <xsl:comment> set up the result document (the report) </xsl:comment>
             <!-- Use xsl:result-document/@format to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
             <xsl:element name="xsl:result-document" namespace="{$x:xsl-namespace}">
-               <xsl:choose>
-                  <xsl:when test="$x:saxon-version lt x:pack-version((9, 9, 1, 1))">
-                     <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
-
-                     <!-- Create a temp XSpec namespace node, because non-zero-length XSpec prefix
-                        is not always available here. Any non-zero-length non-xsl prefix will do,
-                        because the temp namespace node is only for the xsl:result-document element -->
-                     <xsl:variable name="temp-prefix" as="xs:string"
-                        select="'workaround-for-saxon-bug-4093'" />
-                     <xsl:namespace name="{$temp-prefix}" select="$x:xspec-namespace" />
-
-                     <xsl:attribute name="format"
-                        select="$temp-prefix || ':xml-report-serialization-parameters'" />
-                  </xsl:when>
-
-                  <xsl:otherwise>
-                     <!-- Escape curly braces because @format is AVT -->
-                     <xsl:attribute name="format"
-                        select="'Q{{' || $x:xspec-namespace || '}}xml-report-serialization-parameters'" />
-                  </xsl:otherwise>
-               </xsl:choose>
-
+               <!-- Escape curly braces because @format is AVT -->
+               <xsl:attribute name="format"
+                  select="'Q{{' || $x:xspec-namespace || '}}xml-report-serialization-parameters'" />
                <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
                   <xsl:attribute name="name" select="'report'" />
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
                   <xsl:variable name="attributes" as="attribute()+">
-                     <xsl:attribute name="xspec" select="$xspec-master-uri" />
+                     <xsl:attribute name="xspec" select="$xspec-top-level-uri" />
 
                      <!-- This @stylesheet is used by ../../reporter/coverage-report.xsl -->
                      <xsl:sequence select="@stylesheet" />
+
+                     <!-- @xproc is used by ../../reporter/format-xspec-report.xsl -->
+                     <xsl:sequence select="@xproc" />
 
                      <!-- Do not always copy @schematron.
                         @schematron may exist even when this running instance of XSpec is not
@@ -207,21 +190,5 @@
          <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
    </xsl:template>
-
-   <!--
-      Sub modules
-   -->
-   <xsl:include href="catch/try-catch.xsl" />
-   <xsl:include href="compile/compile-expect.xsl" />
-   <xsl:include href="compile/compile-helpers.xsl" />
-   <xsl:include href="compile/compile-scenario.xsl" />
-   <xsl:include href="declare-variable/declare-variable.xsl" />
-   <xsl:include href="external/transform-options.xsl" />
-   <xsl:include href="initial-check/perform-initial-check.xsl" />
-   <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
-   <xsl:include href="invoke-compiled/threads.xsl" />
-   <xsl:include href="measure-time/timestamp.xsl" />
-   <xsl:include href="node-constructor/node-constructor.xsl" />
-   <xsl:include href="report/report-utils.xsl" />
 
 </xsl:stylesheet>

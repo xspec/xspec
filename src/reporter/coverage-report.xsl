@@ -23,8 +23,11 @@
    <xsl:include href="../common/common-utils.xsl" />
    <xsl:include href="../common/deep-equal.xsl" />
    <xsl:include href="../common/namespace-vars.xsl" />
+   <xsl:include href="../common/uqname-utils.xsl" />
+   <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
+   <xsl:include href="coverage-compute-status.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
@@ -33,6 +36,7 @@
    <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
    <xsl:param name="report-css-uri" as="xs:string?" />
+   <!-- See also report-theme parameter, which is defined in format-utils.xsl -->
 
    <!-- @use-character-maps for inline CSS -->
    <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />
@@ -43,6 +47,35 @@
    <xsl:variable name="xspec-doc" as="document-node(element(x:description))"
       select="doc($xspec-uri)" />
 
+   <!-- Get the *-result.xml file. It contains the date/time the test was run. -->
+   <xsl:variable name="result-uri" as="xs:string"
+      select="replace(base-uri(), '-coverage\.xml', '-result.xml')" />
+   <xsl:variable name="result-doc" as="document-node(element(x:report))">
+      <xsl:choose>
+         <xsl:when test="doc-available($result-uri)">
+            <xsl:sequence select="doc($result-uri)"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <!-- End-to-end coverage tests don't have access to *-result.xml.
+               We could make the *-result.xml file available by modifying
+               <xsl:variable as="element(reports)" name="reports">
+               in test/end-to-end/ant/base/worker/generate.xsl, but then
+               we'd have many *-result.xml files to maintain with little benefit.
+               Instead, the end-to-end coverage HTML reports use the date from
+               mock-result.xml. -->
+            <xsl:variable name="mock-result-uri" as="xs:anyURI"
+               select="resolve-uri('../mock-result.xml', $xspec-uri)"/>
+            <xsl:sequence select="doc($mock-result-uri)"/>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:variable>
+
+   <xsl:accumulator name="computed-status" as="xs:string?" initial-value="()">
+      <xsl:accumulator-rule match="node()" phase="start">
+         <xsl:apply-templates select="." mode="coverage"/>
+      </xsl:accumulator-rule>
+   </xsl:accumulator>
+
    <xsl:variable name="stylesheet-uri" as="xs:anyURI"
       select="$xspec-doc/x:description/resolve-uri(@stylesheet, base-uri())" />
 
@@ -50,7 +83,7 @@
       select="$stylesheet-uri => doc() => local:collect-stylesheets()" />
 
    <xsl:key name="modules" match="module" use="@uri" />
-   <xsl:key name="constructs" match="construct" use="@constructType" />
+   <xsl:key name="traceables" match="traceable" use="@traceableId" />
    <xsl:key name="hits" match="hit" use="local:hits-key-value(@moduleId, @lineNumber, @columnNumber)" />
 
    <!--
@@ -67,6 +100,39 @@
    -->
    <xsl:mode name="coverage-report" on-multiple-match="fail" on-no-match="fail" />
 
+   <!-- Collect stats data in this variable for all modules. -->
+   <xsl:variable name="coverage-stats" as="element(module)*">
+      <!-- Collect from all stylesheet modules -->
+      <xsl:for-each select="$stylesheet-trees/xsl:*">
+         <!-- Produce local variables for stylesheet-lines and number-of-lines -->
+         <xsl:variable name="stylesheet-uri" as="xs:anyURI"
+            select="base-uri()" />
+         <xsl:variable name="stylesheet-string" as="xs:string"
+            select="unparsed-text($stylesheet-uri)" />
+         <xsl:variable name="stylesheet-lines" as="xs:string+"
+            select="local:split-lines($stylesheet-string)" />
+         <xsl:variable name="number-of-lines" as="xs:integer"
+            select="count($stylesheet-lines)" />
+         <xsl:variable name="module-id" as="xs:integer?"
+            select="accumulator-before('module-id-for-node')" />
+         <!-- Create module element with attributes that will be used later -->
+         <module uri="{$stylesheet-uri}" number-of-lines="{$number-of-lines}"
+            formatted-uri="{fmt:format-uri($stylesheet-uri)}" module-id="{$module-id}" xmlns="">
+            <xsl:if test="not(empty($module-id))">
+               <xsl:for-each select="
+                     doc($stylesheet-uri)/(
+                     descendant::node() except
+                     descendant::text()[normalize-space() = '' and not(parent::xsl:text)]
+                     )">
+                  <coverage xmlns="">
+                     <xsl:sequence select="accumulator-before('computed-status')"/>
+                  </coverage>
+               </xsl:for-each>
+            </xsl:if>
+         </module>
+      </xsl:for-each>
+   </xsl:variable>
+
    <xsl:template match="document-node(element(trace))" as="element(xhtml:html)"
       mode="coverage-report">
       <html>
@@ -79,20 +145,125 @@
                <xsl:with-param name="uri" select="$report-css-uri" />
             </xsl:call-template>
          </head>
-         <body>
+         <body id="coverageReport">
             <h1>Test Coverage Report</h1>
+            <div class="byline">
+               <xsl:text expand-text="yes">Generated by XSpec v{$x:xspec-version} using Saxon {system-property('xsl:product-version')}</xsl:text>
+            </div>
             <p>
-               <xsl:text>Stylesheet:  </xsl:text>
+               <xsl:choose>
+                  <xsl:when test="local-name($stylesheet-trees[1]/child::*) eq 'package'">
+                     <xsl:text>Package:  </xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text>Stylesheet:  </xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
                <a href="{$stylesheet-uri}">
                   <xsl:value-of select="fmt:format-uri($stylesheet-uri)" />
                </a>
             </p>
+            <p>
+               <xsl:text>XSpec: </xsl:text>
+               <a href="{$xspec-uri}">
+                  <xsl:value-of select="fmt:format-uri($xspec-uri)" />
+               </a>
+            </p>
+            <p>
+               <xsl:text>Tested: </xsl:text>
+               <xsl:value-of select="format-dateTime($result-doc/x:report/@date, '[D] [MNn] [Y] at [H01]:[m01]')" />
+            </p>
+            <!-- The Contents table -->
+            <h2>Contents</h2>
+            <xsl:call-template name="contents-table"/>
             <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="#current" />
          </body>
       </html>
    </xsl:template>
 
-   <xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="coverage-report">
+   <!-- Generate Contents table at top of coverage report -->
+   <!-- In production, always use the global $coverage-stats variable.
+      The template parameter is for unit testing this template. -->
+   <xsl:template name="contents-table" as="element(xhtml:table)">
+      <xsl:context-item use="absent"/>
+      <xsl:param name="coverage-stats" select="$coverage-stats"
+         as="element(module)*"/>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:68.75%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+            <col style="width:6.25%"/>
+         </colgroup>
+         <thead>
+            <tr>
+               <th/>
+               <th/>
+               <th colspan="3" class="totals nodesHead">nodes</th>
+               <th/>
+            </tr>
+            <tr>
+               <th/>
+               <th class="totals">used</th>
+               <th class="totals">
+                  <xsl:text>hit</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'hit'])"/>
+               </th>
+               <th class="totals emphasis">
+                  <xsl:text>missed</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'missed'])"/>
+               </th>
+               <th class="totals">
+                  <xsl:text>unknown</xsl:text>
+                  <br/>
+                  <xsl:value-of select="count($coverage-stats/coverage[. eq 'unknown'])"/>
+               </th>
+               <th class="totals">
+                  <xsl:text>lines</xsl:text>
+                  <br/>
+                  <xsl:value-of select="sum($coverage-stats/@number-of-lines)"/>
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+            <!-- Use the coverage-stats data -->
+            <xsl:for-each select="$coverage-stats">
+               <tr class="{if (@module-id eq '') then 'failed' else 'successful'}">
+                  <th>
+                     <a href="#module{position()}">
+                        <xsl:text expand-text="yes">module: {@formatted-uri}</xsl:text>
+                     </a>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="
+                           if (@module-id eq '') then
+                              'no'
+                           else
+                              'yes'"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'hit'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'missed'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="count(coverage[. eq 'unknown'])"/>
+                  </th>
+                  <th class="totals">
+                     <xsl:value-of select="@number-of-lines"/>
+                  </th>
+               </tr>
+            </xsl:for-each>
+         </tbody>
+      </table>
+   </xsl:template>
+
+   <xsl:template match="xsl:stylesheet | xsl:transform | xsl:package" as="element()+" mode="coverage-report">
       <xsl:variable name="stylesheet-uri" as="xs:anyURI"
          select="base-uri()" />
       <xsl:variable name="stylesheet-string" as="xs:string"
@@ -105,32 +276,36 @@
          select="string-length(xs:string($number-of-lines))" />
       <xsl:variable name="number-format" as="xs:string"
          select="string-join(for $i in 1 to $number-width return '0')" />
-      <xsl:variable name="module-id" as="xs:integer?">
-         <xsl:variable name="uri" as="xs:string"
-            select="if (starts-with($stylesheet-uri, '/'))
-                    then ('file:' || $stylesheet-uri)
-                    else $stylesheet-uri" />
-         <xsl:sequence select="key('modules', $uri, $trace)/@moduleId" />
-      </xsl:variable>
-      <h2>
-         <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
-      </h2>
-      <xsl:choose>
-         <xsl:when test="empty($module-id)">
-            <p><span class="missed">not used</span></p>
-         </xsl:when>
-         <xsl:otherwise>
-            <pre>
-               <xsl:value-of select="format-number(1, $number-format)" />
-               <xsl:text>: </xsl:text>
-               <xsl:call-template name="output-lines">
-                  <xsl:with-param name="stylesheet-lines" select="$stylesheet-lines" />
-                  <xsl:with-param name="number-format" select="$number-format" />
-                  <xsl:with-param name="module-id" select="$module-id" />
-               </xsl:call-template>
-            </pre>
-         </xsl:otherwise>
-      </xsl:choose>
+      <xsl:variable name="module-id" as="xs:integer?"
+         select="accumulator-before('module-id-for-node')"/>
+      <!-- div allows the :target CSS style to cover the heading and stylesheet lines -->
+      <div id="module{position()}">
+         <h2 class="{if (empty($module-id)) then 'failed' else 'successful'}">
+            <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}</xsl:text>
+            <span class="scenario-totals">
+               <xsl:variable name="main-module-stats" as="element(module)*"
+                  select="$coverage-stats[@uri eq $stylesheet-uri]"/>
+               <xsl:text expand-text="yes">hit: {count($main-module-stats/coverage[. eq 'hit'])} / </xsl:text>
+               <xsl:text expand-text="yes">missed: {count($main-module-stats/coverage[. eq 'missed'])} / </xsl:text>
+               <xsl:text expand-text="yes">unknown: {count($main-module-stats/coverage[. eq 'unknown'])}</xsl:text>
+            </span>
+         </h2>
+         <xsl:choose>
+            <xsl:when test="empty($module-id)">
+               <p><span class="missed">not used</span></p>
+            </xsl:when>
+            <xsl:otherwise>
+               <pre class="xspecCoverage">
+                  <xsl:value-of select="format-number(1, $number-format)" />
+                  <xsl:text>: </xsl:text>
+                  <xsl:call-template name="output-lines">
+                     <xsl:with-param name="stylesheet-lines" select="$stylesheet-lines" />
+                     <xsl:with-param name="number-format" select="$number-format" />
+                  </xsl:call-template>
+               </pre>
+            </xsl:otherwise>
+         </xsl:choose>
+      </div>
    </xsl:template>
 
    <xsl:variable name="attribute-regex" as="xs:string">
@@ -203,7 +378,6 @@
 
       <xsl:param name="stylesheet-lines" as="xs:string+" required="yes" />
       <xsl:param name="number-format" as="xs:string" required="yes" />
-      <xsl:param name="module-id" as="xs:integer" required="yes" />
 
       <xsl:variable name="outermost-element" as="element()" select="." />
 
@@ -255,8 +429,16 @@
                      $regex-group($groups('comment'))) or
                     ($node instance of processing-instruction() and
                      $regex-group($groups('pi')))" />
-         <xsl:variable name="coverage" as="xs:string"
-            select="if ($matches) then local:coverage($node, $module-id) else 'ignored'" />
+         <xsl:variable name="coverage" as="xs:string">
+            <xsl:choose>
+               <xsl:when test="$matches">
+                  <xsl:sequence select="$node/accumulator-before('computed-status')"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:sequence select="'ignored'"/>
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable>
          <xsl:for-each select="$construct-lines">
             <xsl:if test="position() != 1">
                <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
@@ -319,70 +501,6 @@
    </xsl:template>
 
    <!--
-      mode="coverage"
-   -->
-   <xsl:mode name="coverage" on-multiple-match="fail" on-no-match="fail" />
-
-   <xsl:template match="text()[normalize-space() = '' and not(parent::xsl:text)]" as="xs:string"
-      mode="coverage">ignored</xsl:template>
-
-   <xsl:template match="processing-instruction() | comment()" as="xs:string"
-      mode="coverage">ignored</xsl:template>
-
-   <!-- A hit on these nodes doesn't really count; you have to hit
-      their contents to hit them -->
-   <xsl:template
-      match="
-         xsl:for-each
-         | xsl:for-each-group
-         | xsl:matching-substring
-         | xsl:non-matching-substring
-         | xsl:otherwise
-         | xsl:when"
-      as="xs:string"
-      mode="coverage">
-      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
-
-      <xsl:variable name="hits-on-child-nodes" as="element(hit)*"
-         select="node() ! local:hits-on-node(., $module-id)" />
-      <xsl:choose>
-         <xsl:when test="exists($hits-on-child-nodes)">hit</xsl:when>
-         <xsl:otherwise>missed</xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
-   <xsl:template match="element() | text()" as="xs:string" mode="coverage">
-      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
-
-      <xsl:variable name="hits" as="element(hit)*"
-         select="local:hits-on-node(., $module-id)" />
-      <xsl:choose>
-         <xsl:when test="exists($hits)">hit</xsl:when>
-         <xsl:when test="self::text() and normalize-space() = '' and not(parent::xsl:text)">ignored</xsl:when>
-         <xsl:when test="self::xsl:variable">
-            <xsl:sequence select="local:coverage(following-sibling::*[not(self::xsl:variable)][1], $module-id)" />
-         </xsl:when>
-         <xsl:when test="ancestor::xsl:variable">
-            <xsl:sequence select="local:coverage(ancestor::xsl:variable[1], $module-id)" />
-         </xsl:when>
-         <xsl:when test="self::xsl:stylesheet or self::xsl:transform">ignored</xsl:when>
-         <xsl:when test="self::xsl:function or self::xsl:template">missed</xsl:when>
-         <!-- A node within a top-level non-XSLT element -->
-         <xsl:when test="empty(ancestor::xsl:*[parent::xsl:stylesheet or parent::xsl:transform])">ignored</xsl:when>
-         <xsl:when test="self::xsl:param">
-            <xsl:sequence select="local:coverage(parent::*, $module-id)" />
-         </xsl:when>
-         <xsl:when test="self::xsl:context-item">
-            <!-- Saxon does not seem to call enter() for xsl:context-item (xspec/xspec#1410) -->
-            <xsl:sequence select="local:coverage(parent::xsl:template, $module-id)" />
-         </xsl:when>
-         <xsl:otherwise>missed</xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
-   <xsl:template match="document-node()" as="xs:string" mode="coverage">ignored</xsl:template>
-
-   <!--
       Local functions
    -->
 
@@ -401,41 +519,15 @@
       </xsl:choose>
    </xsl:function>
 
-   <xsl:function name="local:coverage" as="xs:string">
-      <xsl:param name="node" as="node()" />
-      <xsl:param name="module-id" as="xs:integer" />
-
-      <xsl:variable name="coverage" as="xs:string+">
-         <xsl:apply-templates select="$node" mode="coverage">
-            <xsl:with-param name="module-id" tunnel="yes" select="$module-id" />
-         </xsl:apply-templates>
-      </xsl:variable>
-      <xsl:if test="count($coverage) > 1">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR: more than one coverage identified for:</xsl:text>
-            <xsl:sequence select="$node" />
-         </xsl:message>
-      </xsl:if>
-      <xsl:sequence select="$coverage[1]" />
-   </xsl:function>
-
    <xsl:function name="local:hits-on-node" as="element(hit)*">
       <xsl:param name="node" as="node()" />
-      <xsl:param name="module-id" as="xs:integer" />
 
       <xsl:for-each select="$node">
+         <xsl:variable name="module-id" as="xs:integer"
+            select="accumulator-before('module-id-for-node')"/>
          <xsl:variable name="hits" as="element(hit)*"
             select="local:hits-on-line-column($module-id, x:line-number(.), x:column-number(.))" />
-         <xsl:variable name="node-clark-name" as="xs:string"
-            select="'{' || namespace-uri() || '}' || local-name()" />
-         <xsl:for-each select="$hits">
-            <xsl:variable name="hit-construct-name" as="xs:string"
-               select="key('constructs', @constructType)/@name" />
-            <xsl:if test="($node-clark-name eq $hit-construct-name) or
-                          not(starts-with($hit-construct-name, '{'))">
-               <xsl:sequence select="." />
-            </xsl:if>
-         </xsl:for-each>
+         <xsl:sequence select="$hits" />
       </xsl:for-each>
    </xsl:function>
 

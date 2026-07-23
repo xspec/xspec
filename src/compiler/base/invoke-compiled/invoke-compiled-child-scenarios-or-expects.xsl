@@ -80,7 +80,6 @@
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
             <xsl:if test="x:reason-for-pending(.) => empty()">
-               <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
             <xsl:sequence select="accumulator-before('stacked-vardecls-distinct-uqnames')" />

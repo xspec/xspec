@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:eg="x-urn:tutorial:xproc:xproc-demo"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="step.xpl">
+
+  <x:scenario label="One Success test and two Failure tests">
+    <x:call step="eg:step">
+      <x:input port="source">
+        <a/>
+      </x:input>
+    </x:call>
+    <x:expect label="success" port="result"><a/></x:expect>
+    <x:expect label="a failure" port="result"><b/></x:expect>
+    <x:expect label="another failure" port="result"><c/></x:expect>
+  </x:scenario>
+
+</x:description>

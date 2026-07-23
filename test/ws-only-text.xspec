@@ -2,6 +2,8 @@
 <!--
 	xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
 	When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
+
+	For XProc adaptation of this test file, see test/xproc/cases/ws-only-text_xproc.xspec.
 -->
 <x:description preserve-space="pre" query="x-urn:test:mirror" query-at="mirror.xqm"
 	stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"

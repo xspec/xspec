@@ -8,8 +8,6 @@
 	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:variable as="node()" name="myv:node">
 		<element />
 	</x:variable>

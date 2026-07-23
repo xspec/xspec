@@ -2,7 +2,9 @@
 <x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xqm"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="x:context">
-		<x:context />
+		<x:context>
+			<foo />
+		</x:context>
 		<x:expect label="should be error" test="true()" />
 	</x:scenario>
 </x:description>

@@ -70,11 +70,7 @@ export PATH="${ant_bin}:${PATH}"
 SAXON_JAR="${XSPEC_TEST_DEPS}/saxon-${SAXON_VERSION}"
 
 # Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
-if [ "${SAXON_VERSION:0:2}" = "9." ]; then
-    export SAXON_JAR="${SAXON_JAR}/saxon9he.jar"
-else
-    export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
-fi
+export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
 
 #
 # Apache XML Resolver jar
@@ -87,35 +83,22 @@ export APACHE_XMLRESOLVER_JAR="${XSPEC_TEST_DEPS}/apache-xmlresolver-${APACHE_XM
 # Depends on the archive file structure
 export XMLRESOLVERORG_XMLRESOLVER_LIB="${XSPEC_TEST_DEPS}/xmlresolver-${XMLRESOLVERORG_XMLRESOLVER_VERSION}/lib"
 
-#
-# XML Calabash jar
-#
-if [ -n "${XMLCALABASH_VERSION}" ]; then
+if [ -n "${XMLCALABASH3_VERSION}" ]; then
     # Depends on the archive file structure
-    export XMLCALABASH_JAR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar"
+    export XMLCALABASH3_DIR="${XSPEC_TEST_DEPS}/xmlcalabash-${XMLCALABASH3_VERSION}"
 else
-    echo "XML Calabash will not be installed"
-    unset XMLCALABASH_JAR
+    echo "XML Calabash 3 will not be installed"
+    unset XMLCALABASH3_DIR
 fi
-
-#
-# SLF4J directory
-#
-if [ -n "${SLF4J_VERSION}" ]; then
-    export SLF4J_DIR="${XSPEC_TEST_DEPS}/slf4j-${SLF4J_VERSION}"
+if [ -n "${XMLCALABASH3_VERSION}" ] && [ -n "${XMLCALABASH3_DIR}" ]; then
+    export XMLCALABASH3_JAR="${XMLCALABASH3_DIR}/xmlcalabash-app-${XMLCALABASH3_VERSION}.jar"
 else
-    echo "SLF4J will not be installed"
-    unset SLF4J_DIR
+    unset XMLCALABASH3_JAR
 fi
 
 #
 # BaseX
 #
-
-# BaseX 10 requires Java 11
-if java -version 2>&1 | grep -F " 1.8." > /dev/null; then
-    unset BASEX_VERSION
-fi
 
 if [ -n "${BASEX_VERSION}" ]; then
     # Depends on the archive file structure
@@ -131,13 +114,3 @@ fi
 
 # XMLResolver.org XML Resolver
 export XMLRESOLVERORG_XMLRESOLVER_CP="${XMLRESOLVERORG_XMLRESOLVER_LIB}/*"
-
-# XML Calabash
-# Do not include Saxon jar. Excluding Saxon jar from this classpath makes it easy to test with Saxon commercial versions.
-unset XMLCALABASH_CP
-if [ -n "${XMLCALABASH_JAR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_JAR}:${XMLRESOLVERORG_XMLRESOLVER_CP}"
-fi
-if [ -n "${XMLCALABASH_CP}" ] && [ -n "${SLF4J_DIR}" ]; then
-    export XMLCALABASH_CP="${XMLCALABASH_CP}:${SLF4J_DIR}/*:${mydir}/slf4j-simple"
-fi

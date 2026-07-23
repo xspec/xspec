@@ -11,8 +11,8 @@
 	</xsl:template>
 
 	<xsl:template as="text()" match="trace">
-		<xsl:if test="empty(construct)">
-			<xsl:message select="'No construct!'" terminate="yes" />
+		<xsl:if test="empty(traceable)">
+			<xsl:message select="'No traceable!'" terminate="yes" />
 		</xsl:if>
 
 		<xsl:if test="empty(hit)">

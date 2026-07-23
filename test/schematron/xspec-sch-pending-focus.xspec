@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="">
+
+    <!--
+        This file is not runnable. It provides contexts for xspec-sch.xspec.
+    -->
+    <x:scenario label="Non-shared scenario with pending and focus"
+        pending="pending" focus="focus"/>
+    <x:scenario label="Non-shared scenario with pending but not focus"
+        pending="pending"/>
+    <x:scenario label="Non-shared scenario with focus but not pending"
+        focus="focus"/>
+    <x:scenario label="Non-shared scenario with neither pending nor focus"/>
+    
+    <x:scenario label="Shared scenario with pending and focus"
+        shared="yes" pending="pending" focus="focus"/>
+    <x:scenario label="Shared scenario with pending but not focus"
+        shared="yes" pending="pending"/>
+    <x:scenario label="Shared scenario with focus but not pending"
+        shared="yes" focus="focus"/>
+    <x:scenario label="Shared scenario with neither pending nor focus"
+        shared="yes" />
+    
+</x:description>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
+   xmlns:items="x-urn:test:xspec-items" xmlns:rep="urn:x-xspec:common:report-sequence"
+   xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <!--
+      The test target (../src/common/report-sequence.xsl or report-sequence.xqm) is included
+      implicitly by the XSpec compiler. You don't need to specify it in /x:description/@stylesheet
+      or @query-at.
+   -->
+   <!--
+      rep:report-sequence template (XSLT) or function (XQuery)
+      with maps and arrays having multiple entries
+   -->
+
+   <!-- XSLT implementation is a template while XQuery is a function. Wrap the template in a helper
+      function so that we can test both XSLT and XQuery unless xsl:result-document is involved. -->
+   <x:helper stylesheet="report-sequence_helper.xsl" />
+
+   <x:scenario label="rep:report-sequence">
+      <x:call function="rep:report-sequence">
+         <x:param position="2" select="'x:result'" />
+      </x:call>
+      <x:scenario label="Array">
+         <x:call>
+            <x:param name="sequence" select="['foo', 1, [2, 'bar']]" />
+         </x:call>
+         <!-- Whitespace in array serialization can vary by processor, so check the
+            content with whitespace removed. -->
+         <x:expect
+            test="$x:result/self::x:result/content-wrap/x:pseudo-array/string()
+            => replace('\s+', '')"
+            select="'[&quot;foo&quot;,1,[2,&quot;bar&quot;]]'">
+            <x:label>x:result selecting content-wrap containing pseudo-array
+               where pseudo-array content without space reflects the input
+            </x:label>
+         </x:expect>
+      </x:scenario>
+
+      <x:scenario label="Map">
+         <x:call>
+            <x:param name="sequence" select="
+               map {
+                  'foo': 1,
+                  2: 'bar'
+               }"/>
+         </x:call>
+         <x:expect
+            test="$x:result/content-wrap/x:pseudo-map/string()
+            => replace('\s+', '')
+            => matches('(map\{2:&quot;bar&quot;,&quot;foo&quot;:1\})|((map)?\{&quot;foo&quot;:1,2:&quot;bar&quot;\})')">
+            <x:label>x:result selecting content-wrap containing pseudo-map
+               where pseudo-map content without space reflects the input,
+               but the order of map entries and the presence of the word map can vary
+               by processor</x:label>
+         </x:expect>
+      </x:scenario>
+   </x:scenario>
+
+</x:description>

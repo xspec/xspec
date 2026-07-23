@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This file is an adaptation of test/ws-only-text.xspec.
+-->
+<x:description preserve-space="pre" xproc="library-mirror.xpl"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:p="http://www.w3.org/ns/xproc"
+	xmlns:ws-only-text="x-urn:test:ws-only-text" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:helper stylesheet="ws-only-text.xsl" />
+
+	<x:scenario
+		label="In x:input, whitespace-only text nodes in user-content are removed by default.">
+		<x:scenario>
+			<x:label>So, in
+				//x:call[@step]/x:input/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source">
+					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+				</x:input>
+			</x:call>
+			<x:expect port="xproc-result" label="whitespace-only text nodes are removed."
+				test="deep-equal($x:result, $ws-only-text:span-element-empty)" />
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					//x:call[@step]/x:input/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:input>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:span-element-wsot)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:call[@step]/x:input/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" href="ws-only-text.xml" />
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />
+			</x:scenario>
+
+			<x:scenario>
+				<!-- XProc-specific -->
+				<x:label>When x:input/p:document[@href] causes XML document to be loaded by
+					XProc processor instead of XSLT processor,</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source">
+						<p:document href="ws-only-text.xml" />
+					</x:input>
+				</x:call>
+				<x:expect port="xproc-result"
+					label="whitespace-only text nodes are kept (as in XSLT processor case)."
+					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />            	
+			</x:scenario>
+
+			<x:scenario>
+				<!-- XProc-specific -->
+				<x:label>When x:input/p:document[@href] causes HTML document to be loaded by
+					XProc processor instead of XSLT processor,</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source">
+						<p:document href="ws-only-text.html" />
+					</x:input>
+				</x:call>
+				<x:expect port="xproc-result"
+					label="whitespace-only text nodes are kept."
+					test="deep-equal(
+					$x:result//html:span/node(),
+					$ws-only-text:span-element-wsot/span/node()
+					)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					//x:call[@step]/x:input/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
+					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source">
+						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+					</x:input>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:pre-element-wsot)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:call[@step]/x:input/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source">
+						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+					</x:input>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:wsot)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="In x:option, whitespace-only text nodes in user-content are removed by default.">
+		<x:scenario>
+			<x:label>So, in
+				//x:call[@step]/x:option/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call step="mirror:option-value">
+				<x:option name="opt">
+					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+				</x:option>
+			</x:call>
+			<x:expect port="xproc-result" label="whitespace-only text nodes are removed."
+				test="deep-equal($x:result, $ws-only-text:span-element-empty)" />
+		</x:scenario>
+		
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					//x:call[@step]/x:option/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:option>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:span-element-wsot)" />
+			</x:scenario>
+			
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:call[@step]/x:option/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt" href="ws-only-text.xml" />
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />
+			</x:scenario>
+			
+			<x:scenario>
+				<!-- XProc-specific -->
+				<x:label>When x:option[@href][not(@select)] causes XML document to be loaded by
+					XProc processor instead of XSLT processor,</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt" href="ws-only-text.xml" />
+				</x:call>
+				<x:expect port="xproc-result"
+					label="whitespace-only text nodes are kept (as in XSLT processor case)."
+					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />            	
+			</x:scenario>
+
+			<x:scenario>
+				<!-- XProc-specific -->
+				<x:label>When x:option/p:document[@href] causes XML document to be loaded by
+					XProc processor instead of XSLT processor,</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt">
+						<p:document href="ws-only-text.xml"/>
+					</x:option>
+				</x:call>
+				<x:expect port="xproc-result"
+					label="whitespace-only text nodes are kept (as in XSLT processor case)."
+					test="deep-equal($x:result/node(), $ws-only-text:span-element-wsot/node())" />            	
+			</x:scenario>
+
+			<x:scenario>
+				<!-- XProc-specific -->
+				<x:label>When x:option/p:document[@href] causes HTML document to be loaded by
+					XProc processor instead of XSLT processor,</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt">
+						<p:document href="ws-only-text.html"/>
+					</x:option>
+				</x:call>
+				<x:expect port="xproc-result"
+					label="whitespace-only text nodes are kept."
+					test="deep-equal(
+					$x:result//html:span/node(),
+					$ws-only-text:span-element-wsot/span/node()
+					)" />            	
+			</x:scenario>
+			
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					//x:call[@step]/x:option/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
+					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt">
+						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+					</x:option>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:pre-element-wsot)" />
+			</x:scenario>
+			
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:call[@step]/x:option/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call step="mirror:option-value">
+					<x:option name="opt">
+						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+					</x:option>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $ws-only-text:wsot)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:variable name="myv:global-var-span-element">
+		<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+	</x:variable>
+	<x:variable name="myv:global-var-span-element-preserve" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:variable>
+	<x:variable href="ws-only-text.xml" name="myv:global-var-href" />
+	<x:variable name="myv:global-var-pre-element">
+		<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+	</x:variable>
+	<x:variable name="myv:global-var-x-text">
+		<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+	</x:variable>
+	<x:scenario
+		label="In global variable, whitespace-only text nodes in user-content are removed by default.">
+		<x:call step="mirror:option-value" />
+
+		<x:scenario>
+			<x:label>So, in
+				/x:description/x:variable/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:expect port="xproc-result" label="whitespace-only text nodes are removed."
+				test="deep-equal($myv:global-var-span-element, $ws-only-text:span-element-empty/node())" />
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					/x:description/x:variable/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:global-var-span-element-preserve, $ws-only-text:span-element-wsot/node())"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					/x:description/x:variable/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:global-var-href/node(), $ws-only-text:span-element-wsot/node())"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					/x:description/x:variable/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
+					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:global-var-pre-element, $ws-only-text:pre-element-wsot/node())"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					/x:description/x:variable/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:global-var-x-text, $ws-only-text:wsot/node())" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="In scenario-level variable, whitespace-only text nodes in user-content are removed by default.">
+		<x:call step="mirror:option-value" />
+		<x:variable name="myv:local-var-span-element">
+			<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+		</x:variable>
+		<x:variable name="myv:local-var-span-element-preserve" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:variable>
+		<x:variable href="ws-only-text.xml" name="myv:local-var-href" />
+		<x:variable name="myv:local-var-pre-element">
+			<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+		</x:variable>
+		<x:variable name="myv:local-var-x-text">
+			<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+		</x:variable>
+
+		<x:scenario>
+			<x:label>So, in
+				//x:scenario/x:variable/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:expect port="xproc-result" label="whitespace-only text nodes are removed."
+				test="deep-equal($myv:local-var-span-element, $ws-only-text:span-element-empty/node())" />
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					//x:scenario/x:variable/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:local-var-span-element-preserve, $ws-only-text:span-element-wsot/node())"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:scenario/x:variable/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:local-var-href/node(), $ws-only-text:span-element-wsot/node())"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					//x:scenario/x:variable/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
+					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:local-var-pre-element, $ws-only-text:pre-element-wsot/node())" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:scenario/x:variable/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:local-var-x-text, $ws-only-text:wsot/node())" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="In assertion, whitespace-only text nodes in user-content are removed by default.">
+		<x:scenario>
+			<x:label>So, in //x:expect/element()[namespace-uri() ne
+				'http://www.jenitennison.com/xslt/xspec'][not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source" select="$ws-only-text:span-element-empty" />
+			</x:call>
+			<x:expect port="xproc-result" label="whitespace-only text nodes are removed.">
+				<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					//x:expect/element()[namespace-uri() ne
+					'http://www.jenitennison.com/xslt/xspec'][ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" select="$ws-only-text:span-element-wsot" />
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept." xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:expect/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" select="$ws-only-text:span-element-wsot" />
+				</x:call>
+				<x:expect port="xproc-result" href="ws-only-text.xml" label="whitespace-only text nodes are kept."
+					select="node()" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					//x:expect/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.) =
+					(for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" select="$ws-only-text:pre-element-wsot" />
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept.">
+					<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:expect/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source" select="$ws-only-text:wsot" />
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept.">
+					<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In user-content,">
+		<x:scenario>
+			<x:label>@xml:space="preserve" takes effect on descendant whitespace-only text node.
+				So...</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source">
+					<p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;<span>&#x09;&#x0A;&#x0D;&#x20;</span></p>
+				</x:input>
+			</x:call>
+			<x:expect port="xproc-result" label="Child whitespace-only text nodes are kept."
+				test="deep-equal($x:result/child::p/(node() except span), $ws-only-text:wsot/node())" />
+			<x:expect port="xproc-result" label="Grandchild whitespace-only text nodes are kept."
+				test="deep-equal($x:result/child::p/span, $ws-only-text:span-element-wsot/span)" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>@xml:space="preserve" takes effect on whitespace-only text node even when the
+				text node appears immediately in user-content. (i.e. no parent element)
+				So...</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source" xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</x:input>
+			</x:call>
+			<x:expect port="xproc-result" label="Immediate whitespace-only text nodes are kept."
+				test="deep-equal($x:result, $ws-only-text:wsot)" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>For elements specified by @preserve-space, effect is only on child
+				whitespace-only text node. So...</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source">
+					<pre>&#x09;&#x0A;&#x0D;&#x20;<span>&#x09;&#x0A;&#x0D;&#x20;</span></pre>
+				</x:input>
+			</x:call>
+			<x:expect port="xproc-result"
+				test="deep-equal($x:result/child::pre/node(), ($ws-only-text:wsot/node(), $ws-only-text:span-element-empty/node()))">
+				<x:label>Child whitespace-only text nodes are kept, whereas grandchild
+					whitespace-only text nodes are removed.</x:label>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>x:text can be used side by side with other nodes. So...</x:label>
+			<x:call step="mirror:identity">
+				<x:input port="source">
+					<p>
+						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+					</p>
+				</x:input>
+			</x:call>
+			<x:expect port="xproc-result"
+				test="deep-equal($x:result/child::p/node(), ($ws-only-text:wsot/node(), $ws-only-text:span-element-empty/node()))">
+				<x:label>Whitespace-only text nodes created by x:text are kept, whereas those in
+					sibling nodes are removed.</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario xml:space="preserve">
+		<x:label>When @xml:space=preserve is specified at remote ancestor scenario,</x:label>
+		<x:scenario>
+			<x:label>its descendant scenarios inherit it.</x:label>
+			<x:scenario>
+				<x:label>So...</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:input>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are kept." test="deep-equal($x:result, $ws-only-text:span-element-wsot)" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario xml:space="default">
+			<x:label>its descendant scenarios can override it.</x:label>
+			<x:scenario>
+				<x:label>So...</x:label>
+				<x:call step="mirror:identity">
+					<x:input port="source">
+						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+					</x:input>
+				</x:call>
+				<x:expect port="xproc-result" label="whitespace-only text nodes are removed."
+					test="deep-equal($x:result, $ws-only-text:span-element-empty)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

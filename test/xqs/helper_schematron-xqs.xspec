@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="helper.sch" xmlns:items="x-urn:test:xspec-items"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+    <!-- This file's helper.sch schema uses queryBinding="xquery31",
+    	so the imported XSpec file uses the XQuery helpers and ignores
+    	the XSLT helpers. -->
+	<x:import href="../helper_schematron.xspec"/>
+
+</x:description>

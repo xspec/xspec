@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-with-param-01.xsl">
+   <x:scenario label="xsl:with-param Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-with-param>
+              <node>100</node>
+              <node>200</node>
+              <node>300</node>
+              <node>400</node>
+            </xsl-with-param>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="with-param - iterate">100</node>
+            <node type="with-param - iterate">200</node>
+            <node type="with-param - iterate">300</node>
+            <node type="with-param - iterate">400</node>
+            <node type="with-param - call-template">500</node>
+            <node type="with-param - apply-templates">600</node>
+            <node type="with-param - apply-templates">700</node>
+            <node type="with-param - apply-templates">800</node>
+            <node type="with-param - apply-templates">900</node>
+            <node type="with-param - apply-imports part 1">1000</node>
+            <node type="with-param - apply-imports part 2">1050</node>
+            <node type="with-param - apply-imports part 1">1100</node>
+            <node type="with-param - apply-imports part 2">1150</node>
+            <node type="with-param - apply-imports part 1">1200</node>
+            <node type="with-param - apply-imports part 2">1250</node>
+            <node type="with-param - apply-imports part 1">1300</node>
+            <node type="with-param - apply-imports part 2">1350</node>
+            <node type="with-param - next-match part 1">1400</node>
+            <node type="with-param - next-match part 2">1450</node>
+            <node type="with-param - next-match part 1">1500</node>
+            <node type="with-param - next-match part 2">1550</node>
+            <node type="with-param - next-match part 1">1600</node>
+            <node type="with-param - next-match part 2">1650</node>
+            <node type="with-param - next-match part 1">1700</node>
+            <node type="with-param - next-match part 2">1750</node>
+            <node type="with-param - evaluate">200</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

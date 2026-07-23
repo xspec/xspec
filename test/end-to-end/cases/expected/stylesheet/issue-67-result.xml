@@ -12,16 +12,16 @@
       </input-wrap>
       <result select="/*/namespace::*">
          <content-wrap xmlns="">
-            <pseudo-namespace-node xmlns:namespace-name="namespace-text"
-                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                   xmlns:namespace-name="namespace-text"/>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>must be Success</label>
          <expect select="/*/namespace::*">
             <content-wrap xmlns="">
-               <pseudo-namespace-node xmlns:namespace-name="namespace-text"
-                                      xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                      xmlns:namespace-name="namespace-text"/>
             </content-wrap>
          </expect>
       </test>
@@ -58,16 +58,16 @@
       </input-wrap>
       <result select="/*/namespace::*">
          <content-wrap xmlns="">
-            <pseudo-namespace-node xmlns:namespace-name="namespace-text"
-                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                   xmlns:namespace-name="namespace-text"/>
          </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="false">
          <label>must be Failure</label>
          <expect select="/*/namespace::*">
             <content-wrap xmlns="">
-               <pseudo-namespace-node xmlns:another-namespace-name="another-namespace-text"
-                                      xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                      xmlns:another-namespace-name="another-namespace-text"/>
             </content-wrap>
          </expect>
       </test>

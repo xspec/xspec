@@ -4,8 +4,6 @@
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:param name="allow-foreign">true</x:param>
-
 	<x:scenario label="Sleep for a period" shared="yes">
 		<x:context href="sleeper.xml" />
 		<x:expect-report id="slept-for-a-period" />

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
+	When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
+-->
 <!-- xmlns:myfn is for ensuring that namespace prefixes take effect in TVT -->
 <x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
@@ -14,9 +18,18 @@
 						<function-param-child x:expand-text="yes"
 							>}}{myfn:false()}{{</function-param-child>
 						<function-param-child expand-text="yes">}}{false()}{{</function-param-child>
+						<function-param-child x:expand-text="yes" expand-text="yes"
+							>}}{myfn:false()}{{</function-param-child>
 					</x:param>
 				</x:call>
 				<x:like label="user-content expect" />
+				<x:scenario label="element with both expand-text and x:expand-text">
+					<x:expect label="TVT is enabled" select="'}false{'"
+						test="$x:result[3]/string()" />
+					<x:expect label="@x:expand-text is discarded" test="empty($x:result//@x:expand-text)" />				
+					<x:expect label="@expand-text is kept" select="'yes'"
+						test="$x:result[3]/@expand-text/string()" />
+				</x:scenario>
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:param">

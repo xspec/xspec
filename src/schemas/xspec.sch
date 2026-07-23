@@ -8,7 +8,7 @@
 
 	<sch:ns prefix="x" uri="http://www.jenitennison.com/xslt/xspec" />
 
-	<sch:pattern>
+	<sch:pattern id="wsot-user-content">
 		<!-- When a whitespace-only text node is user-content and has no sibling nodes -->
 		<sch:rule
 			context="
@@ -82,4 +82,57 @@
 			</sqf:fix>
 		</sch:rule>
 	</sch:pattern>
+
+	<sch:pattern id="user-content">
+		<sch:rule context="*[x:is-user-content(.)]">
+			<sch:assert id="user-element-expand-text" role="warn" sqf:fix="sqf-rename-x-expand-text sqf-delete-expand-text"
+				test="empty(@expand-text)">Non-XSpec elements use x:expand-text, not expand-text, to control text value templates</sch:assert>
+			<sqf:fix id="sqf-rename-x-expand-text" use-when="not(./@x:expand-text)">
+				<!-- If element does not already have x:expand-text, rename expand-text to x:expand-text -->
+				<sqf:description>
+					<sqf:title>Rename @expand-text as @x:expand-text</sqf:title>
+				</sqf:description>
+				<sqf:replace match="@expand-text" node-type="attribute" target="x:expand-text"
+					select="string(.)"/>
+			</sqf:fix>
+			<sqf:fix id="sqf-delete-expand-text" use-when="exists(./@x:expand-text)">
+				<!-- If element already has x:expand-text, delete expand-text. Leave x:expand-text as is. -->
+				<sqf:description>
+					<sqf:title>Delete @expand-text</sqf:title>
+				</sqf:description>
+				<sqf:delete match="@expand-text"/>
+			</sqf:fix>
+		</sch:rule>
+	</sch:pattern>
+
+	<sch:pattern id="pending-focus">
+		<sch:rule context="x:scenario[@focus]">
+			<sch:report id="focused-pending-scenario" role="warn" sqf:fix="sqf-delete-pending sqf-delete-focus"
+				test="exists(@pending) and not(@shared = ('1', 'yes', 'true'))"
+				>@pending has no effect because @focus takes precedence</sch:report>
+			<sch:report id="focused-shared-scenario" role="warn" sqf:fix="sqf-delete-focus"
+				test="@shared = ('1', 'yes', 'true')">@focus has no effect on scenario with shared=<sch:value-of
+					select="@shared"/></sch:report>
+			<sqf:fix id="sqf-delete-focus">
+				<sqf:description>
+					<sqf:title>Delete @focus</sqf:title>
+				</sqf:description>
+				<sqf:delete match="@focus"/>
+			</sqf:fix>
+		</sch:rule>
+		<sch:rule context="x:scenario[@pending]">
+			<sch:report id="pending-shared-scenario" role="warn" sqf:fix="sqf-delete-pending"
+				test="@shared = ('1', 'yes', 'true')">@pending has no effect on scenario with shared=<sch:value-of
+					select="@shared"/></sch:report>
+		</sch:rule>
+	</sch:pattern>
+
+	<sqf:fixes>
+		<sqf:fix id="sqf-delete-pending">
+			<sqf:description>
+				<sqf:title>Delete @pending</sqf:title>
+			</sqf:description>
+			<sqf:delete match="@pending"/>
+		</sqf:fix>		
+	</sqf:fixes>
 </sch:schema>

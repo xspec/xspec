@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=The pipeline could not be compiled.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="../cases/input-port-use-when.xpl">
+
+    <x:scenario label="When x:input references a port where use-when is false">
+        <x:call step="s:input-port-with-use-when">
+            <x:input port="source">
+                <my-source/>
+            </x:input>
+            <x:input port="aux">
+                <document-at-aux-port/>
+            </x:input>
+            <x:input port="never-present">
+                <document>This x:input element causes the error</document>
+            </x:input>
+        </x:call>
+        <x:expect label="error" port="result">
+            <output aux-element="document-at-aux-port"/>
+        </x:expect>
+    </x:scenario>
+</x:description>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-message-02.xsl">
+   <x:scenario label="xsl:message Coverage Test Case">
+      <x:context>
+         <source>
+            <number>3</number>
+            <number>4</number>
+         </source>
+      </x:context>
+      <x:expect label="Success">truetrue</x:expect>
+   </x:scenario>
+</x:description>

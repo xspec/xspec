@@ -16,75 +16,79 @@
 		<div>
 			<h2 style="margin-top: 8mm">Changelog (not inclusive)</h2>
 			<div>
-				<h3>v3.0.0</h3>
+				<h3>v3.3.2</h3>
 				<ul>
-					<li>Initial development version of v3.0</li>
-					<li>Tested with Oxygen 26.0</li>
+					<li>Official release of v3.3. For features, see v3.3.1 listing below.</li>
+					<li>Tested with Saxon 12.9, 11.7, and 10.9.</li>
+					<li>Note: In your Oxygen settings, please configure Options > Preferences > Add-ons with the update site URL
+						https://xspec.io/editors/oxygen/oxygen-addon.xml instead of
+						https://github.com/xspec/xspec/raw/master/oxygen-addon.xml because the latter URL will
+						not continue to be updated.</li>
 				</ul>
 			</div>
 			<div>
-				<h3>v2.3.2</h3>
-				<ul>
-					<li>Official release of v2.3</li>
-				</ul>
-			</div>
-			<div>
-				<h3>v2.3.1</h3>
+				<h3>v3.3.1</h3>
 				<ul>
 					<li>Release Candidate of the stable release</li>
-					<li>fix(cli): properly detect <code>XSPEC_HOME</code> (<a
-							href="https://github.com/xspec/xspec/issues/1568">#1568</a>)</li>
-					<li>Saxon 9.9 is no longer recommended, though the <a
-							href="https://github.com/xspec/xspec/wiki/Code-Coverage">Code
-							Coverage</a> feature still <a
-							href="https://github.com/xspec/xspec/issues/852">requires 9.9</a>.</li>
-					<li>Tested with Saxon 10.9, 11.6 and 12.3</li>
-					<li>Tested with SchXslt 1.9.5</li>
-					<li>Tested with Oxygen 25.1</li>
-					<li>Tested with BaseX 10.7</li>
+					<li>You can execute an XSpec test for XSLT or XQuery using an XProc 3 pipeline (<a href="https://github.com/xspec/xspec/pull/2127"
+							>#2127</a>)</li>
+					<li>You can execute an XSpec test for a Schematron schema that has an XQuery-based queryBinding, using XQS as the Schematron implementation (<a href="https://github.com/xspec/xspec/pull/2157"
+							>#2157</a>)</li>
+					<li>In the x:expect element, the new, optional 'result-type' attribute describes the sequence type you expect for the actual result. XSpec checks the type before evaluating @test, so an unexpected type leads to an ordinary failure instead of a type error. (<a href="https://github.com/xspec/xspec/pull/2122"
+							>#2122</a>)</li>
+					<li>Tested with BaseX 12.0</li>
 				</ul>
 			</div>
 			<div>
-				<h3>v2.3.0</h3>
+				<h3>v3.2.2</h3>
 				<ul>
-					<li>Initial development version of v2.3</li>
-					<li>Removes Saxon 9.8 (and consequently Oxygen 20 and 21) support (<a
-							href="https://github.com/xspec/xspec/issues/1502">#1502</a>)</li>
-					<li>Minor refactoring and performance improvement</li>
+					<li>Official release of v3.2</li>
 				</ul>
 			</div>
 			<div>
-				<h3>v2.2.4</h3>
-				<ul>
-					<li>Official release of v2.2</li>
-					<li>Tested with Saxon 10.6</li>
-					<li>Tested with SchXslt 1.8.2</li>
-				</ul>
-			</div>
-			<div>
-				<h3>v2.2.3</h3>
+				<h3>v3.2.1</h3>
 				<ul>
 					<li>Release Candidate of the stable release</li>
-					<li>Tested with BaseX 9.6.1</li>
+					<li>Code coverage report includes Contents section with coverage statistics
+						(<a href="https://github.com/xspec/xspec/pull/2078">#2078</a>).</li>
+					<li>Tested with BaseX 11.7.</li>
 				</ul>
 			</div>
 			<div>
-				<h3>v2.2.2</h3>
+				<h3>v3.2.0</h3>
 				<ul>
-					<li>fix(schematron): handle location attribute not pointing to one node (<a
-							href="https://github.com/xspec/xspec/pull/1506">#1506</a>)</li>
+					<li>Test reports use black text on white background by default, improving accessibility.
+						Themes 'whiteblack' (white on black) and 'classic' (earlier green/pink design) are
+						also available. (<a href="https://github.com/xspec/xspec/pull/1822">#2055</a>)</li>
+					<li>Tests for Schematron can verify string values of Schematron properties
+						(<a href="https://github.com/xspec/xspec/pull/1822">#2045</a>).</li>
+					<li>Tested with BaseX 11.6</li>
+					<li>Tested with Oxygen 27.0.</li>
 				</ul>
 			</div>
 			<div>
-				<h3>v2.2.1</h3>
+				<h3>v3.1.3</h3>
 				<ul>
-					<li>feat: multi-threading (<a href="https://github.com/xspec/xspec/pull/1497"
-							>#1497</a>)</li>
-					<li>feat(xslt): context for function-call (<a
-							href="https://github.com/xspec/xspec/pull/1503">#1503</a>)</li>
-					<li>feat: <code>/x:description/@result-file-threshold</code> (<a
-							href="https://github.com/xspec/xspec/pull/1500">#1500</a>)</li>
-					<li>Fully tested with SchXslt 1.7.4</li>
+					<li>Fix for <a href="https://github.com/xspec/xspec-maven-plugin-1/">xspec/xspec-maven-plugin-1</a> and other uses
+						of XSpec from a .zip or .jar file</li>
+					<li>SchXslt 1.10.1 replaces 1.10 as the built-in Schematron implementation</li>
+				</ul>
+			</div>
+			<div>
+				<h3>v3.1.2</h3>
+				<ul>
+					<li>Official release of v3.1</li>
+				</ul>
+			</div>
+			<div>
+				<h3>v3.1.1</h3>
+				<ul>
+					<li>Release Candidate of the stable release</li>
+					<li>fix(report): XSLT code coverage reports for Saxon 12.4 have many bug fixes in the coverage status</li>
+					<li>feat(schematron): SchXslt 1.10 replaces 1.9.5 as the built-in Schematron implementation</li>
+					<li>Tested with Saxon 10.9, 11.6, and 12.5, except that detailed contents of XSLT code coverage reports are tested with Saxon 12.4</li>
+					<li>Tested with Oxygen 26.1</li>
+					<li>Tested with BaseX 11.3</li>
 				</ul>
 			</div>
 		</div>

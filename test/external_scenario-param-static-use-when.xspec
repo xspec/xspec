@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_scenario-param-static-use-when.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- This file runs as a test and is also referenced in transform-options.xspec -->
+
+	<x:param name="A" static="yes" as="xs:integer" select="-1"/>
+
+	<x:scenario label="Destination templates have @use-when depending on static parameter values">
+		<x:call template="process-A-and-B"/>
+		<x:scenario label="Description-level static param $A and">
+			<x:scenario label="non-overridden static param $B">
+				<x:expect label="String about negative $A and 0 for $B"
+					select="('$A is negative', 0)"/>
+			</x:scenario>
+			<x:scenario label="independent scenario-level static param $B" xml:id="inh-A-local-B">
+				<!-- xml:id and myp:default are for use in transform-options.xspec -->
+				<x:param name="B" static="true" as="xs:integer" select="-2"/>
+				<x:param name="myp:default" static="0" select="()"
+					xmlns:myp="http://example.org/ns/my/param"/>
+				<x:expect label="Strings about negative $A and $B"
+					select="('$A is negative', '$B is negative')"/>
+			</x:scenario>
+			<x:scenario label="dependent scenario-level static param $B">
+				<x:param name="B" static="yes" as="xs:integer" select="2 + $A"/>
+				<x:expect label="String about negative $A and 1 for $B"
+					select="('$A is negative', 1)"/>
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Scenario-level static param $A and">
+			<x:param name="A" static="yes" as="xs:integer" select="10"/>
+			<x:scenario label="non-overridden static param $B">
+				<x:expect label="10 for $A and 0 for $B"
+					select="(10, 0)"/>
+			</x:scenario>
+			<x:scenario label="independent scenario-level static param $B">
+				<x:param name="B" static="yes" as="xs:integer" select="-2"/>
+				<x:expect label="10 for $A and string about negative $B"
+					select="(10, '$B is negative')"/>
+			</x:scenario>
+			<x:scenario label="dependent scenario-level static param $B">
+				<x:param name="B" static="yes" as="xs:integer" select="1 + $A"/>
+				<x:expect label="10 for $A and 11 for $B"
+					select="(10, 11)"/>
+			</x:scenario>
+		</x:scenario>		
+	</x:scenario>
+</x:description>

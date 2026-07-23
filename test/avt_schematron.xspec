@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-saxon-bug-4696-fixed?>
 <!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
 <x:description schematron="avt.sch" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">

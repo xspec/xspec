@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="xsl-mode-01.xsl">
+   <x:scenario label="xsl:mode Coverage Test Case">
+      <x:context>
+         <root>
+            <xsl-mode>
+              <node/>
+            </xsl-mode>
+         </root>
+      </x:context>
+      <x:expect label="Success">
+         <root>
+            <node type="mode">100</node>
+         </root>
+      </x:expect>
+   </x:scenario>
+</x:description>

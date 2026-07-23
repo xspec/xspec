@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test min-xmlcalabash-version=3.0.33?>
+<x:description xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:p="http://www.w3.org/ns/xproc"
+    xmlns:s="x-urn:test:xproc:steplibrary" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xvrl="http://www.xproc.org/ns/xvrl" xproc="library-validation.xpl">
+
+    <x:scenario label="When x:input/p:document does not enable line numbers locally">
+        <x:call step="s:validate-with-relax-ng">
+            <x:input port="source">
+                <p:document href="../compiler-error-cases/p-document-and-x-input-href.xspec"/>
+            </x:input>
+            <x:input port="schema">
+                <p:document href="../../../src/schemas/xspec.rnc"/>
+            </x:input>
+            <x:option name="assert-valid" select="false()"/>
+        </x:call>
+        <x:expect port="xproc-report"
+            label="xrvl:location omits @line -- unless configuration file enables line numbers"
+            test="empty(//xvrl:location/@line)"/>
+    </x:scenario>
+</x:description>

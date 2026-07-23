@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-html-report-theme.xpl">
+
+    <!-- This file is imported by the html-report-theme.xspec files in
+        this directory and the test/xqs/ directory. -->
+
+    <x:scenario shared="yes" label="Check html-report-theme set to whiteblack">
+        <!-- x:call/@step must be inherited from an ancestor scenario. -->
+        <x:scenario label="with html-report-theme set to 'whiteblack'">
+            <x:call>
+                <x:option name="html-report-theme" select="'whiteblack'" as="xs:string"/>
+            </x:call>
+            <x:expect port="result"
+                label="produces report linking to test-report-colors-whiteblack.css"
+                test="exists(/h:html/h:head/h:link[@rel='stylesheet']
+                [ends-with(@href,'/test-report-colors-whiteblack.css')])"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

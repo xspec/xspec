@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="do-nothing.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Check $x:context value" shared="yes">
+		<x:expect label="$x:context is a document whose outermost element is foo"
+			test="$x:context instance of document-node(element(foo))" />
+	</x:scenario>
+
+	<x:scenario label="$x:context while validating, non-inherited context">
+		<x:scenario label="x:context without @select">
+			<x:context>
+				<foo />
+			</x:context>
+			<x:like label="Check $x:context value" />
+		</x:scenario>
+
+		<x:scenario label="x:context with @select pointing at outermost element">
+			<x:context select="/foo">
+				<foo />
+			</x:context>
+			<x:like label="Check $x:context value" />
+		</x:scenario>
+
+		<x:scenario label="x:context with @select pointing at inner element">
+			<x:context select="//foo">
+				<bar>
+					<foo />
+				</bar>
+			</x:context>
+			<x:like label="Check $x:context value" />
+		</x:scenario>
+
+	</x:scenario>
+
+	<x:scenario label="$x:context while validating, inherited context">
+		<x:scenario label="x:context without @select">
+			<x:context>
+				<foo />
+			</x:context>
+			<x:scenario label="and $x:context in child scenario">
+				<x:like label="Check $x:context value" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="x:context with @select pointing at outermost element">
+			<x:context select="/foo">
+				<foo />
+			</x:context>
+			<x:scenario label="and $x:context in child scenario">
+				<x:like label="Check $x:context value" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="x:context with @select pointing at inner element">
+			<x:context select="//foo">
+				<bar>
+					<foo />
+				</bar>
+			</x:context>
+			<x:scenario label="and $x:context in child scenario">
+				<x:like label="Check $x:context value" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

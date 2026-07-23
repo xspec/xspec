@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:sn="urn:x-xspec:schematron:select-node" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		Evaluates the given XPath expression in the context of the given source node, with the given
 		namespaces and in the given XSLT version compatibility mode.
 	-->
-	<xsl:function as="node()?" name="x:select-node">
+	<xsl:function as="node()?" name="sn:select-node">
 		<xsl:param as="node()" name="source-node" />
 		<xsl:param as="xs:string" name="expression" />
 		<xsl:param as="element(svrl:ns-prefix-in-attribute-values)*" name="namespaces" />
@@ -54,7 +54,7 @@
 	<!--
 		Returns the given sequence if it is one node, otherwise raises an error.
 	-->
-	<xsl:function as="node()" name="x:node-or-error">
+	<xsl:function as="node()" name="sn:node-or-error">
 		<xsl:param as="item()*" name="maybe-node" />
 		<xsl:param as="xs:string" name="expression" />
 		<xsl:param as="xs:string" name="error-owner" />

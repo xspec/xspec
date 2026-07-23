@@ -11,10 +11,6 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    ignore:
-      - dependency-name: net.sf.saxon:Saxon-HE
-        versions:
-          - '>= 10'
     commit-message:
       prefix: build
       include: scope

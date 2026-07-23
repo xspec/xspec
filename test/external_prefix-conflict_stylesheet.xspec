@@ -10,7 +10,9 @@
 			select="element(x:scenario-param-child)">
 			<x:scenario-param-child />
 		</t:param>
-		<t:context />
+		<t:context>
+			<foo />
+		</t:context>
 		<t:expect label="should work" select="'x:scenario-param-child'"
 			test="name($x:scenario-param)" />
 	</t:scenario>

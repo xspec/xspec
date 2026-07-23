@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test message=ERROR in x:call (under 'Calling a private step'): Cannot find step Q{x-urn:test:xproc:steplibrary}private-step.?>
+<x:description xmlns:s="x-urn:test:xproc:steplibrary"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="private-step.xpl">
+
+    <x:scenario label="Calling a private step">
+        <x:call step="s:private-step">
+            <x:input port="source">
+                <document/>
+            </x:input>
+        </x:call>
+        <x:expect label="should raise an error" port="result">
+            <my-source/>
+        </x:expect>
+    </x:scenario>
+</x:description>
