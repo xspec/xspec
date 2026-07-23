@@ -1,31 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-  width="500"
-  height="250"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
-   <style type="text/css">
-      .circle { fill: none; stroke: black; stroke-width: 10}
-      .circle1 { fill: none; stroke: white; stroke-width: 1}
-      .blur { fill: blue; font-family: serif; font-size: 145pt; font-weight: normal}
-      .x { fill: blue; font-family: serif; font-size: 180pt; font-weight: bold}
-   </style>
-  <filter id="blurMe">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
-  </filter>
-  <clipPath id="clip">
-      <circle cx="100" cy="120" r="50" />
-  </clipPath>
-  <clipPath id="arc">
-      <rect x="150" y="100" height="30" width="50" />
-  </clipPath>
-  <mask id="mask">
-      <circle cx="100" cy="120" r="50" />
-  </mask>
-  <text x="30" y="190" class="blur" filter="url(#blurMe)" clip-path="url(#mask)">X</text>
-  <text x="7" y="210" class="x" clip-path="url(#clip)">X</text>
-  <circle cx="100" cy="120" r="50" class="circle" />
-  <circle cx="250" cy="120" r="50" class="circle" />
-  <circle cx="175" cy="130" r="26" class="circle" clip-path="url(#arc)"/>
-  <rect x="30" y="110" height="20" width="20"/>
-  <rect x="300" y="110" height="20" width="20"/>
+   width="3.5in"
+   height="1.5in"
+   viewBox="0 0 88.9 38.1"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (1:1.3.2+202311252150+091e20ef0f)"
+   sodipodi:docname="xspec-logo-redrawn-magnified-sharpened.svg"
+   inkscape:export-filename="xspec-logo-redrawn-magnified-sharpened.png"
+   inkscape:export-xdpi="200"
+   inkscape:export-ydpi="200"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.7291667"
+     inkscape:cx="210.50602"
+     inkscape:cy="63.614457"
+     inkscape:window-width="1848"
+     inkscape:window-height="1016"
+     inkscape:window-x="1096"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4"
+       x="-0.049553411"
+       y="-0.047661553"
+       width="1.0991068"
+       height="1.0953231">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.68948019"
+         id="feGaussianBlur4" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4">
+      <circle
+         style="opacity:1;fill:none;stroke:#000000;stroke-width:2.1581;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+         id="circle5"
+         cx="92.363197"
+         cy="-4.7420783"
+         r="13.52595" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-7.590659,-14.913455)">
+    <rect
+       style="fill:#ffffff;stroke:none;stroke-width:1.53386;stroke-miterlimit:4.1"
+       id="rect1"
+       width="88.900002"
+       height="38.099998"
+       x="7.5906582"
+       y="14.913456" />
+    <text
+       xml:space="preserve"
+       style="font-size:47.625px;line-height:1.25;font-family:'Minion Pro';-inkscape-font-specification:'Minion Pro';text-align:center;text-decoration-color:#000000;word-spacing:0px;text-anchor:middle;mix-blend-mode:normal;fill:#3771c8;stroke-width:0.264583;-inkscape-stroke:none;filter:url(#filter4);stop-color:#000000"
+       x="29.86854"
+       y="51.161381"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.625px;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif';fill:#3771c8;stroke-width:0.264583"
+         x="29.86854"
+         y="51.161381">X</tspan></text>
+    <g
+       id="g6"
+       transform="matrix(1.061208,0,0,1.061208,-45.115184,40.776837)">
+      <circle
+         style="opacity:1;fill:#f9f9f9;stroke:none;stroke-width:2.1581;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+         id="circle6"
+         cx="70.858315"
+         cy="-6.4204001"
+         r="13.52595" />
+      <text
+         xml:space="preserve"
+         style="font-size:47.2051px;line-height:1.25;font-family:'Minion Pro';-inkscape-font-specification:'Minion Pro';text-align:center;text-decoration-color:#000000;word-spacing:0px;text-anchor:middle;fill:#3771c8;stroke-width:0.264583;-inkscape-stroke:none;stop-color:#000000"
+         x="92.151512"
+         y="12.455849"
+         id="text3"
+         clip-path="url(#clipPath4)"
+         transform="translate(-21.504885,-1.6783216)"><tspan
+           sodipodi:role="line"
+           id="tspan3"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.2051px;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif';fill:#3771c8;stroke-width:0.264583"
+           x="92.151512"
+           y="12.455849">X</tspan></text>
+    </g>
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:2.1581;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+       id="path1"
+       cx="30.080225"
+       cy="33.963455"
+       r="13.52595" />
+    <circle
+       style="fill:#f9f9f9;stroke:#000000;stroke-width:2.1581;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+       id="circle1"
+       cx="74.001099"
+       cy="33.963455"
+       r="13.52595" />
+    <path
+       style="font-variation-settings:normal;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.98431;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       d="m 39.86809,18.601276 c 2.697776,-0.564288 5.395496,-1.128563 8.224051,-1.132029 2.828556,-0.0035 5.787719,0.553879 8.746941,1.111235"
+       id="path2"
+       inkscape:path-effect="#path-effect2"
+       inkscape:original-d="m 39.86809,18.601276 c 2.697776,-0.564287 5.395496,-1.128563 8.093325,-1.692862 2.959282,0.557367 5.918445,1.114712 8.877667,1.672068"
+       transform="matrix(1.0340496,0,0,2.5154889,2.0466305,-15.814951)"
+       sodipodi:nodetypes="ccc" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.64773;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2"
+       width="3.7022696"
+       height="1.585603"
+       x="89.400795"
+       y="33.170654" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.64773;stroke-miterlimit:4.1;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="3.7022696"
+       height="1.585603"
+       x="10.978257"
+       y="33.170654" />
+  </g>
 </svg>
