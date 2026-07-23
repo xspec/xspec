@@ -14,11 +14,13 @@
         <optinfo:option-node-types name="node-type">
             <p:with-option name="opt" select="$opt"/>
         </optinfo:option-node-types>
-        <optinfo:option-property name="option-content-type" property-to-get="content-type">
+        <optinfo:option-property name="option-content-type">
             <p:with-option name="opt" select="$opt"/>
+            <p:with-option name="property-to-get" select="QName('', 'content-type')"/>
         </optinfo:option-property>
-        <optinfo:option-property name="option-base-uri" property-to-get="base-uri">
+        <optinfo:option-property name="option-base-uri">
             <p:with-option name="opt" select="$opt"/>
+            <p:with-option name="property-to-get" select="QName('', 'base-uri')"/>
         </optinfo:option-property>
         <p:identity>
             <p:with-input select="$opt">
@@ -33,18 +35,22 @@
             parse-xml('&lt;document/&gt;'),
             parse-xml('&lt;document/&gt;')/*
             )"/>
-        <p:identity>
-            <p:with-input select="
-                for $j in (1 to count($opt))
-                return
-                  optinfo:option-one-node-type(map{'opt': $opt[$j]})?xproc-result">
+        <p:for-each>
+            <p:with-input select="1 to count($opt)">
                 <p:inline/>
             </p:with-input>
-        </p:identity>
+            <optinfo:option-one-node-type>
+                <p:with-option name="opt" select="$opt[p:iteration-position()]"/>
+            </optinfo:option-one-node-type>    
+        </p:for-each>
         <p:json-join/>
     </p:declare-step>
 
     <p:declare-step type="optinfo:option-one-node-type" name="one-node-type">
+        <!-- p:input is a workaround for https://codeberg.org/xmlcalabash/xmlcalabash3/issues/606
+            until Oxygen adopts version 3.0.41 or later -->
+        <p:input port="source" sequence="true"/>
+
         <p:output port="xproc-result"/>
         <p:option name="opt" as="item()" select="parse-xml('&lt;document/&gt;')"/>
         <p:choose>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="x-urn:xspec:test:xspec-bat" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="x-urn:xspec:test:xspec-bat collection.xsd">
+
+	<case name="MorganaXProc-IIIee license is found">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine %MORGANAXPROC_HOME%/pipeline.xpl
+    call :verify_retval 0
+	</case>
+
+	<!--
+		run-xproc.xpl using MorganaXProc-IIIee
+	-->
+
+	<case name="XSpec test with no helper pipelines">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions=../src/xproc3/xproc-testing/steps-for-test-runner.xpl ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs=../catalog.xml ^
+        -input:source=../tutorial/xproc/xproc-testing-demo-library.xspec ^
+        -output:result="file:///%WORK_DIR:\=/%/xproc-testing-demo-library-result_%RANDOM%.html" ^
+        -xslt-message-prefix=""
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 2 / pending: 0 / failed: 1 / total: 3"
+	</case>
+
+	<case name="XSpec test with a helper pipeline">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;../tutorial/helper/ws-only-text/test-helper.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs=../catalog.xml ^
+        -input:source=xproc/cases/helper-step.xspec
+    call :verify_retval 0
+	</case>
+
+	<case name="XSpec test with a helper stylesheet">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs=../catalog.xml ^
+        -input:source=xproc/cases/helper-stylesheet.xspec
+    call :verify_retval 0
+	</case>
+
+	<case name="xspec-home option instead of catalog">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions=../src/xproc3/xproc-testing/steps-for-test-runner.xpl ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -input:source=../tutorial/xproc/xproc-testing-demo.xspec ^
+        -output:result="file:///%WORK_DIR:\=/%/xproc-testing-demo-result_%RANDOM%.html" ^
+        -xslt-message-prefix="" ^
+        -option:xspec-home="file:///%PARENT_DIR_ABS:\=/%/"
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 2 / pending: 0 / failed: 1 / total: 3"
+	</case>
+
+	<case name="XProc 3 harness with catalog file URI (XProc)">
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;catalog/01/helper.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs="catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml;../catalog.xml" ^
+        -input:source="%CD%\catalog\catalog-01_xproc.xspec" ^
+        -output:result="file:///%WORK_DIR:\=/%/catalog-file-path-xproc3-xproc-test-result_%RANDOM%.html" ^
+        -xslt-message-prefix=""
+    call :verify_retval 0
+    call :verify_line -1 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
+	</case>
+
+	<case name="Passing test cases for testing XProc steps">
+    rem Run series of tests, and return error messages if anything fails
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        xproc/run-xproc-cases.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;catalog/01/helper.xpl;../tutorial/helper/ws-only-text/test-helper.xpl;xproc/cases/library-mirror.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs="catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml;../catalog.xml" ^
+        -xslt-message-prefix=""
+    call :verify_retval 0
+    call :verify_line * r "--- Testing completed with no failures! ---"
+	</case>
+
+	<case ifdef="MORGANAXPROC_ERROR_CASES" name="Error cases for testing XProc steps (runner errors only)">
+    rem Run series of tests, and indicate if anything does not raise the expected test runner error
+    call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        xproc\run-xproc-error-cases.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -catalogs="catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml;../catalog.xml" ^
+        -xslt-message-prefix="" ^
+        -option:error-phase=runner
+    call :verify_retval 0
+    call :verify_line * r "--- Each test raised the expected error. ---"
+	</case>
+
+	<case name="XProc 3 harness with XProc producing JUnit report">
+        rem HTML report file
+        set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\xproc"
+        call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
+        set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\tutorial_xproc-testing-demo-result.html"
+        rem JUnit report file
+        set "ACTUAL_JUNIT_REPORT=%ACTUAL_REPORT_DIR%\tutorial_xproc-testing-demo-junit.xml"
+
+        rem Run
+        call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -input:source=end-to-end\cases\tutorial_xproc-testing-demo.xspec ^
+        -output:result="file:///%ACTUAL_REPORT:\=/%" ^
+        -output:junit="file:///%ACTUAL_JUNIT_REPORT:\=/%" ^
+        -option:xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        -option:junit-enabled=true
+        call :verify_retval 0
+        call :verify_line -1 x "Generating JUnit Report..."
+
+        rem Verify HTML report including #72
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%ACTUAL_REPORT%" ^
+        -xsl:end-to-end\processor\html\compare.xsl ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/xproc/tutorial_xproc-testing-demo-result.html" ^
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+        call :verify_retval 0
+
+        rem Verify that inline CSS uses > instead of &gt;
+        call :run %SYSTEMROOT%\system32\find "> h2:first-of-type" "%ACTUAL_REPORT%"
+        call :verify_line_count 3
+        call :verify_line  3 x "body > h2:first-of-type {"
+
+        rem Verify JUnit report
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%ACTUAL_JUNIT_REPORT%" ^
+        -xsl:end-to-end\processor\junit\compare.xsl ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/xproc/tutorial_xproc-testing-demo-junit.xml"
+        call :verify_retval 0
+	</case>
+
+	<case name="XProc 3 harness with XProc, checking no JUnit report">
+        rem Save the random value and use it for the files created so they can be checked
+        set RANDOM_TEST_VALUE=%RANDOM%
+        call :run java -cp %MORGANAXPROC_CP% com.xml_project.morganaxproc3.XProcEngine ^
+        ../src/xproc3/xproc-testing/run-xproc.xpl ^
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" ^
+        -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
+        -input:source=../tutorial/xproc/xproc-testing-demo.xspec ^
+        -output:result="file:///%WORK_DIR:\=/%/tutorial_xproc-testing-demo-result_%RANDOM_TEST_VALUE%.html" ^
+        -output:junit="file:///%WORK_DIR:\=/%/tutorial_xproc-testing-demo-junit_%RANDOM_TEST_VALUE%.xml" ^
+        -option:xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        -option:junit-enabled=false
+        call :verify_retval 0
+        call :verify_line -2 x "Formatting Report..."
+        call :verify_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-result_%RANDOM_TEST_VALUE%.html"
+        call :verify_not_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-junit_%RANDOM_TEST_VALUE%.xml"
+	</case>
+</collection>
