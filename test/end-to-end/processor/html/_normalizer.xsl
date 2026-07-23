@@ -171,7 +171,8 @@
 				<xsl:matching-substring>
 					<xsl:sequence select="concat(
 						regex-group(1),
-						regex-group(2) => x:filename-and-extension(),
+						regex-group(2) => x:filename-and-extension()
+							=> replace('\?uniqueid=1$', '' (: until Oxygen upgrades to XML Calabash 3.0.50+:)),
 						regex-group(3)
 						)"/>
 				</xsl:matching-substring>

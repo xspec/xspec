@@ -116,13 +116,13 @@
             </x:expect>
         </x:scenario>
         <x:scenario label="with @test that produces element nodes">
-            <x:expect port="xproc-result" test="$x:result/child::*" select="/*">
+            <x:expect port="xproc-result" test="($x:result[1]/child::*, $x:result[2]/child::*)" select="/*">
                 <x:label>the report shows the filtered output at that port vs. the expected result
                     and both sides say "XPath /element() from:"</x:label>
                 <wrong-output-document/>
                 <output-document/>
             </x:expect>
-            <x:expect port="xproc-result" test="$x:result/child::*">
+            <x:expect port="xproc-result" test="($x:result[1]/child::*, $x:result[2]/child::*)">
                 <x:label>Same thing without @select</x:label>
                 <wrong-output-document/>
                 <output-document/>

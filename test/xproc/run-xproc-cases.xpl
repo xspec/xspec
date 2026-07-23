@@ -20,8 +20,14 @@
 
     <p:option name="cases-dir" as="xs:anyURI" select="resolve-uri('cases/')"/>
 
+    <p:variable name="xproc-processor" as="xs:string" select="p:system-property('p:product-name')"/>
     <p:variable name="this-version" as="xs:string" select="p:system-property('p:product-version')"/>
-    <p:variable name="this-version-int" select="x:version-int($this-version)?result"/>
+    <x:version-int>
+        <p:with-input>
+            <p:inline>{ $this-version }</p:inline>
+        </p:with-input>
+    </x:version-int>
+    <p:variable name="this-version-int" select="xs:integer(.)"/>
     <p:variable name="min-version-marker" as="xs:string" select="'min-xmlcalabash-version='"/>
 
     <p:directory-list path="{$cases-dir}" max-depth="1" include-filter="\.xspec$"/>
@@ -31,27 +37,34 @@
         <p:with-input select="//c:file"/>
         <p:variable name="test-filename" select="/*/@name"/>
         <p:variable name="idx" select="p:iteration-position()"/>
+
         <p:load href="{$cases-dir}{$test-filename}" name="test-file"/>
         <p:variable as="xs:string?" name="min-version"
             select="processing-instruction(xspec-test)[starts-with(.,$min-version-marker)]/
             substring-after(.,$min-version-marker)"/>
-        <p:for-each>
-            <p:with-input select="/x:description"/>
+        <x:version-int>
+            <p:with-input>
+                <p:inline>{ ($min-version, '3.0.38')[1] }</p:inline>
+            </p:with-input>
+        </x:version-int>
+        <p:variable name="min-version-int" select="xs:integer(.)"/>
 
-            <p:choose>
-                <p:when test="exists($min-version) and
-                    (
-                        contains($min-version,'future') or
-                        $this-version-int lt x:version-int($min-version)?result
-                    )">
-                    <p:identity message="&#10;--- Case #{ $idx }: SKIPPING { $test-filename } ---">
-                        <p:with-input>
-                            <p:empty/>
-                        </p:with-input>
-                    </p:identity>
-                </p:when>
-                <p:otherwise>
-                    <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } ---" name="msg"/>
+        <p:choose>
+            <p:when test="exists($min-version) and
+                ($xproc-processor eq 'XML Calabash') and 
+                (
+                    contains($min-version,'future') or
+                    $this-version-int lt $min-version-int
+                )">
+                <p:identity message="&#10;--- Case #{ $idx }: SKIPPING { $test-filename } ---">
+                    <p:with-input>
+                        <p:empty/>
+                    </p:with-input>
+                </p:identity>
+            </p:when>
+            <p:otherwise>
+                <p:identity message="&#10;--- Case #{ $idx }: { $test-filename } ---" name="msg"/>
+                <p:try>
                     <x:run-xproc p:depends="msg">
                         <p:with-input pipe="result@test-file"/>
                         <p:with-option name="xspec-home" select="$xspec-home"/>
@@ -85,9 +98,12 @@
                             </p:inline>
                         </p:with-input>
                     </p:xslt>
-                </p:otherwise>
-            </p:choose>
-        </p:for-each>
+                    <p:catch>
+                        <p:identity message="{'Error when running ' || $test-filename}"/>
+                    </p:catch>
+                </p:try>
+            </p:otherwise>
+        </p:choose>
     </p:for-each>
     <p:wrap-sequence>
         <p:with-option name="wrapper" select="QName('','messages')"/>
