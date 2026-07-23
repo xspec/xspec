@@ -676,7 +676,7 @@ load bats-helper
         skip "BASEX_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --catalog:"catalog/03/catalog-public.xml" \
@@ -892,7 +892,7 @@ load bats-helper
     actual_junit_report="${actual_report_dir}/serialize-junit.xml"
 
     # Run
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/serialize.xspec \
@@ -937,7 +937,7 @@ load bats-helper
     # JUnit report file
     actual_junit_report="${work_dir}/serialize-junit_${r}.xml"
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/serialize.xspec \
@@ -968,14 +968,14 @@ load bats-helper
     fi
 
     # Run series of tests, and return error messages if anything fails
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         xqs/run-tests-with-basex.xpl
 
     assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         xqs/run-tests-with-basex.xpl test-dir=../../tutorial/schematron-xqs/
@@ -1003,7 +1003,7 @@ load bats-helper
     actual_junit_report="${actual_report_dir}/schematron-xqs-demo-01-junit.xml"
 
     # Run
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
@@ -1048,7 +1048,7 @@ load bats-helper
     # JUnit report file
     actual_junit_report="${work_dir}/schematron-xqs-demo-01-junit_${r}.xml"
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=end-to-end/cases/schematron-xqs-demo-01.xspec \
@@ -1474,7 +1474,7 @@ load bats-helper
         skip "XMLCALABASH3_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=no-prefix.xspec \
@@ -2860,7 +2860,7 @@ load bats-helper
         skip "BASEX_JAR is not defined"
     fi
 
-    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*" \
+    myrun java -cp "${XMLCALABASH3_JAR}:${XMLCALABASH3_DIR}/extra/*:${BASEX_JAR}" \
         com.xmlcalabash.app.Main \
         --configuration:../src/xproc3/schematron-xqs/xmlcalabash3-config.xml \
         --input:source=issue-423/test.xspec \
