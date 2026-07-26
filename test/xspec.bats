@@ -2006,7 +2006,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
@@ -2028,7 +2027,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -q \
@@ -2051,7 +2049,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -s \
@@ -2073,7 +2070,6 @@ load bats-helper
     cp catalog/catalog-03* "${space_dir}"
     cp catalog/03/* "${space_dir}/03"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
         -s \
@@ -2116,7 +2112,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
@@ -2129,7 +2124,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -q \
@@ -2143,7 +2137,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -s \
@@ -2156,7 +2149,6 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
         -s \
@@ -2199,7 +2191,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
@@ -2221,7 +2212,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
@@ -2243,7 +2233,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
@@ -2284,7 +2273,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
@@ -2297,7 +2285,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
@@ -2310,7 +2297,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
@@ -2338,7 +2324,6 @@ load bats-helper
 #
 
 @test "$x:xspec-uri with file imported via XML Catalog (XSLT)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_xspec-uri.xspec"
@@ -2347,7 +2332,6 @@ load bats-helper
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (XQuery)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_xspec-uri.xspec"
@@ -2356,7 +2340,6 @@ load bats-helper
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (Schematron)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_xspec-uri.xspec"
@@ -2419,7 +2402,6 @@ load bats-helper
 #
 
 @test "Catalog Saxon bug 3025 (CLI)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "${PWD}/catalog/02/catalog.xml" \
         catalog/catalog-02.xspec

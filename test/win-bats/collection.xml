@@ -1740,7 +1740,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1755,7 +1754,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -q ^
@@ -1771,7 +1769,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         -s ^
@@ -1787,7 +1784,6 @@
     call :copy catalog\catalog-03* "%SPACE_DIR%"
     call :copy catalog\03          "%SPACE_DIR%\03"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "catalog\03\catalog-public.xml;%SPACE_DIR%\03\catalog-rewriteURI.xml" ^
         -s ^
@@ -1819,7 +1815,6 @@
 	-->
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XSLT)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
@@ -1828,7 +1823,6 @@
 	</case>
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XQuery)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -1838,7 +1832,6 @@
 	</case>
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (Schematron)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -s ^
@@ -1848,7 +1841,6 @@
 	</case>
 
 	<case ifdef="BASEX_JAR" name="CLI with -catalog file URI (Schematron via XQS)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/03/catalog-public.xml;file:///%CD:\=/%/catalog/03/catalog-rewriteURI.xml" ^
         -s ^
@@ -1880,7 +1872,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01_stylesheet.xspec"
@@ -1895,7 +1886,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "%SPACE_DIR%\catalog-01_query.xspec"
@@ -1910,7 +1900,6 @@
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
@@ -1940,7 +1929,6 @@
 	-->
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XSLT)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "catalog\catalog-01_stylesheet.xspec"
@@ -1949,7 +1937,6 @@
 	</case>
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
@@ -1958,7 +1945,6 @@
 	</case>
 
 	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (Schematron)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
@@ -1982,7 +1968,6 @@
 	-->
 
 	<case name="$x:xspec-uri with file imported via XML Catalog (XSLT)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "catalog\catalog-01_xspec-uri.xspec"
@@ -1991,7 +1976,6 @@
 	</case>
 
 	<case name="$x:xspec-uri with file imported via XML Catalog (XQuery)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_xspec-uri.xspec"
@@ -2000,7 +1984,6 @@
 	</case>
 
 	<case name="$x:xspec-uri with file imported via XML Catalog (Schematron)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     set "XML_CATALOG=catalog\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_xspec-uri.xspec"
@@ -2060,7 +2043,6 @@
 	-->
 
 	<case name="Catalog Saxon bug 3025 (CLI)">
-    set "SAXON_CP=%SAXON_CP%;%APACHE_XMLRESOLVER_JAR%"
     call :run ..\bin\xspec.bat ^
         -catalog "%CD%\catalog\02\catalog.xml" ^
         catalog\catalog-02.xspec
