@@ -2349,24 +2349,14 @@ load bats-helper
 
 #
 # SAXON_HOME (CLI)
-#
-#     * Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.
-#     * Saxon 11 and later: XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
+#     Note: In Saxon 11 and later, XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
 #
 
-@test "invoking xspec using SAXON_HOME finds Saxon jar and Apache XML Resolver jar" {
+@test "invoking xspec using SAXON_HOME finds Saxon jar" {
     # Set up SAXON_HOME
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
-
-    # Apache XML Resolver
-    if [ "${SAXON_VERSION:0:3}" != "10." ]; then
-        unset APACHE_XMLRESOLVER_JAR
-    fi
-    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
-        cp "${APACHE_XMLRESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
-    fi
 
     # Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     unset SAXON_CP
@@ -2381,18 +2371,13 @@ load bats-helper
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
-    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
-        [ "$status" -eq 0 ]
-        [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
-    else
-        # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
-        # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
-        # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
-        [ "$status" -eq 1 ]
-        assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
-        assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
-        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
-    fi
+    # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
+    # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
+    # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
+    assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
+    assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
 }
 
 #
