@@ -2006,7 +2006,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         "${space_dir}/catalog-01_stylesheet.xspec"
@@ -2028,7 +2027,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -q \
@@ -2051,7 +2049,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
         -s \
@@ -2073,7 +2070,6 @@ load bats-helper
     cp catalog/catalog-03* "${space_dir}"
     cp catalog/03/* "${space_dir}/03"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "catalog/03/catalog-public.xml;${space_dir}/03/catalog-rewriteURI.xml" \
         -s \
@@ -2116,7 +2112,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
@@ -2129,7 +2124,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -q \
@@ -2143,7 +2137,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -s \
@@ -2156,7 +2149,6 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/03/catalog-public.xml;file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
         -s \
@@ -2199,7 +2191,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
@@ -2221,7 +2212,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
@@ -2243,7 +2233,6 @@ load bats-helper
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/* "${space_dir}/01"
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
@@ -2284,7 +2273,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
@@ -2297,7 +2285,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
@@ -2310,7 +2297,6 @@ load bats-helper
         skip "Saxon bug 7127"
     fi
 
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
@@ -2338,7 +2324,6 @@ load bats-helper
 #
 
 @test "$x:xspec-uri with file imported via XML Catalog (XSLT)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh "catalog/catalog-01_xspec-uri.xspec"
@@ -2347,7 +2332,6 @@ load bats-helper
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (XQuery)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -q "catalog/catalog-01_xspec-uri.xspec"
@@ -2356,7 +2340,6 @@ load bats-helper
 }
 
 @test "$x:xspec-uri with file imported via XML Catalog (Schematron)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     export XML_CATALOG="catalog/01/catalog-rewriteURI.xml"
 
     myrun ../bin/xspec.sh -s "catalog/catalog-01_xspec-uri.xspec"
@@ -2366,24 +2349,14 @@ load bats-helper
 
 #
 # SAXON_HOME (CLI)
-#
-#     * Saxon 10 and earlier: XSpec should find Apache XML Resolver jar (hardcoded as 'xml-resolver-1.2.jar') in same directory as Saxon jar file.
-#     * Saxon 11 and later: XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
+#     Note: In Saxon 11 and later, XSpec does not care about XMLResolver.org XML Resolver jar file location. XSpec user should make sure it's available.
 #
 
-@test "invoking xspec using SAXON_HOME finds Saxon jar and Apache XML Resolver jar" {
+@test "invoking xspec using SAXON_HOME finds Saxon jar" {
     # Set up SAXON_HOME
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}" "${SAXON_HOME}"
-
-    # Apache XML Resolver
-    if [ "${SAXON_VERSION:0:3}" != "10." ]; then
-        unset APACHE_XMLRESOLVER_JAR
-    fi
-    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
-        cp "${APACHE_XMLRESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
-    fi
 
     # Unset SAXON_CP, otherwise SAXON_HOME is ignored.
     unset SAXON_CP
@@ -2398,18 +2371,13 @@ load bats-helper
     myrun ../bin/xspec.sh \
         -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
         catalog/catalog-01_stylesheet.xspec
-    if [ -n "${APACHE_XMLRESOLVER_JAR}" ]; then
-        [ "$status" -eq 0 ]
-        [ "${lines[20]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
-    else
-        # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
-        # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
-        # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
-        [ "$status" -eq 1 ]
-        assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
-        assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
-        assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
-    fi
+    # If Java located net.sf.saxon.Transform.main, then it means CLI constructed SAXON_CP from SAXON_HOME successfully.
+    # ClassNotFoundException for org.xmlresolver.Resolver (Saxon 12) or org.xmlresolver.ResolverConfiguration (Saxon 13)
+    # is expected, as XMLResolver.org XML Resolver jar is missing from SAXON_HOME/lib/ subdirectory deliberately.
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''Creating Test Runner\.\.\.'$'\n''Exception in thread '
+    assert_regex "${output}" $'\n\t''at net\.sf\.saxon\.Transform\.main\('
+    assert_regex "${output}" $'\n''Caused by: java\.lang\.ClassNotFoundException: org\.xmlresolver\.Resolver(Configuration)?'$'\n'
 }
 
 #
@@ -2419,7 +2387,6 @@ load bats-helper
 #
 
 @test "Catalog Saxon bug 3025 (CLI)" {
-    export SAXON_CP="${SAXON_CP}:${APACHE_XMLRESOLVER_JAR}"
     myrun ../bin/xspec.sh \
         -catalog "${PWD}/catalog/02/catalog.xml" \
         catalog/catalog-02.xspec
