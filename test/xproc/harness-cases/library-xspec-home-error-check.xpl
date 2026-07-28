@@ -32,6 +32,15 @@
         </x:run-xproc>
     </p:declare-step>
 
+    <p:declare-step type="s:schematron-xslt-varying-xspec-home">
+        <p:import href="../../../src/xproc3/run-schematron.xpl"/>
+        <p:option name="xspec-home" as="xs:string?"/>
+        <x:run-schematron-xslt>
+            <p:with-input href="../../../tutorial/schematron/demo-01.xspec"/>
+            <p:with-option name="xspec-home" select="$xspec-home"/>
+        </x:run-schematron-xslt>
+    </p:declare-step>
+
     <!-- Schematron via XQS requires BaseX, so s:schematron-xqs-varying-xspec-home
         is used in test/xqs/xspec-home-error-check.xspec, not in
         test/xproc/xspec-home-error-check.xspec -->

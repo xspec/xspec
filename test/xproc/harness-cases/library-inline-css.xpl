@@ -6,31 +6,49 @@
     <p:declare-step type="s:xslt-varying-inline-css">
         <p:import href="../../../src/xproc3/run-xslt.xpl"/>
         <p:option name="inline-css" as="xs:string"/>
+        <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
         <p:output port="result"/>
         <x:run-xslt xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../../tutorial/escape-for-regex.xspec"/>
             <p:with-option name="inline-css" select="$inline-css"/>
+            <p:with-option name="html-report-theme" select="$html-report-theme"/>
         </x:run-xslt>
     </p:declare-step>
 
     <p:declare-step type="s:xquery-varying-inline-css">
         <p:import href="../../../src/xproc3/run-xquery.xpl"/>
         <p:option name="inline-css" as="xs:string"/>
+        <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
         <p:output port="result"/>
         <x:run-xquery xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../../tutorial/xquery-tutorial.xspec"/>
             <p:with-option name="inline-css" select="$inline-css"/>
+            <p:with-option name="html-report-theme" select="$html-report-theme"/>
         </x:run-xquery>
     </p:declare-step>
 
     <p:declare-step type="s:xproc-varying-inline-css">
         <p:import href="../../../src/xproc3/xproc-testing/run-xproc.xpl"/>
         <p:option name="inline-css" as="xs:string"/>
+        <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
         <p:output port="result"/>
         <x:run-xproc xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../../tutorial/xproc/xproc-testing-demo.xspec"/>
             <p:with-option name="inline-css" select="$inline-css"/>
+            <p:with-option name="html-report-theme" select="$html-report-theme"/>
         </x:run-xproc>
+    </p:declare-step>
+
+    <p:declare-step type="s:schematron-xslt-varying-inline-css">
+        <p:import href="../../../src/xproc3/run-schematron.xpl"/>
+        <p:option name="inline-css" as="xs:string"/>
+        <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
+        <p:output port="result"/>
+        <x:run-schematron-xslt xspec-home="{resolve-uri('../../../')}">
+            <p:with-input href="../../../tutorial/schematron/demo-01.xspec"/>
+            <p:with-option name="inline-css" select="$inline-css"/>
+            <p:with-option name="html-report-theme" select="$html-report-theme"/>
+        </x:run-schematron-xslt>
     </p:declare-step>
 
     <!-- Schematron via XQS requires BaseX, so s:schematron-xqs-varying-inline-css
@@ -38,10 +56,12 @@
     <p:declare-step type="s:schematron-xqs-varying-inline-css">
         <p:import href="../../../src/xproc3/schematron-xqs/run-schematron-xqs.xpl"/>
         <p:option name="inline-css" as="xs:string"/>
+        <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
         <p:output port="result"/>
         <x:run-schematron-xqs xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../../tutorial/schematron-xqs/demo-01.xspec"/>
             <p:with-option name="inline-css" select="$inline-css"/>
+            <p:with-option name="html-report-theme" select="$html-report-theme"/>
         </x:run-schematron-xqs>
     </p:declare-step>
 

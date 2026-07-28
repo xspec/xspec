@@ -33,6 +33,16 @@
         </x:run-xproc>
     </p:declare-step>
 
+    <p:declare-step type="s:schematron-xslt-varying-force-focus">
+        <p:import href="../../../src/xproc3/run-schematron.xpl"/>
+        <p:option name="force-focus" as="xs:string"/>
+        <p:output port="result"/>
+        <x:run-schematron-xslt xspec-home="{resolve-uri('../../../')}">
+            <p:with-input href="../../end-to-end/cases/focus-without-pending.xspec"/>
+            <p:with-option name="force-focus" select="$force-focus"/>
+        </x:run-schematron-xslt>
+    </p:declare-step>
+
     <!-- Schematron via XQS requires BaseX, so s:schematron-xqs-varying-force-focus
         is used in test/xqs/force-focus.xspec, not in test/xproc/force-focus.xspec -->
     <p:declare-step type="s:schematron-xqs-varying-force-focus">
