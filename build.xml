@@ -10,10 +10,10 @@
 <project name="xspec" default="xspec" xmlns:if="ant:if" xmlns:unless="ant:unless">
   <description><![CDATA[
     Usage:
-    
+
       * Command-line
           https://github.com/xspec/xspec/wiki/Running-with-Ant
-          
+
       * Oxygen XSLT transformation scenario
           https://github.com/xspec/xspec/wiki/Running-with-Oxygen
   ]]></description>
@@ -42,15 +42,33 @@
     Value is either file path or URI. Must not mix file path and URI. -->
 
   <!-- "xspec.xmlcalabash.classpath" property: Documented in Wiki. DO NOT RENAME.
-    Required for running XSpec tests for XProc. Irrelevant for other languages.
+    Required for running XSpec tests for XProc using XML Calabash. Irrelevant otherwise.
     No default value. The user must set this property to the location of
     their XML Calabash 3.x installation and any other classpath entries
     that are needed to execute the test suite. -->
 
   <!-- "xspec.xmlcalabash.config" property: Documented in Wiki. DO NOT RENAME.
-    Optional when running XSpec tests for XProc. Irrelevant for other languages.
+    Optional for running XSpec tests for XProc using XML Calabash. Irrelevant otherwise.
     No default value. The user must set this property to the URI of
     their XML Calabash 3.x configuration file. -->
+
+  <!-- "xspec.xproc.processor" property: Documented in Wiki. DO NOT RENAME.
+    Optional for running XSpec tests for XProc. Irrelevant otherwise.
+    Default is 'xmlcalabash'. To use MorganaXProc, the user must set this
+    property to 'morganaxproc'.
+    -->
+  <property name="xspec.xproc.processor" value="xmlcalabash" />
+
+  <!-- "xspec.morganaxproc.config" property: Documented in Wiki. DO NOT RENAME.
+    Optional for running XSpec tests for XProc using MorganaXProc. Irrelevant otherwise.
+    No default value. The user must set this property to the URI of
+    their MorganaXProc configuration file. -->
+
+  <!-- "xspec.morganaxproc.init" property: Documented in Wiki. DO NOT RENAME.
+    Required for running XSpec tests for XProc using MorganaXProc. Irrelevant otherwise.
+    No default value. Allowed values are saxon12-3, saxon13, and any fully
+    qualified class name of an initializer that MorganaXProc supports for
+    registering step functions with Saxon. -->
 
   <!-- File path of the original XSpec file specified by the user -->
   <property name="xspec.xspecfile.original" value="${xspec.xml}" />
@@ -185,7 +203,7 @@
   <!-- "xspec.basex.classpath" property: Documented in Wiki. DO NOT RENAME.
     Required for running XSpec tests for Schematron using XQS. Irrelevant
     for other languages. No default value.
-    
+
     The value should be ready to use as part of a Java classpath, including
     the location of the user's BaseX jar file and any other classpath entries
     that BaseX needs to execute the test suite. -->
@@ -268,11 +286,11 @@
         debugging a bit harder. Hence a fixed path. -->
       <property name="xspec.classify-schematron.temp"
         value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}_classify-schematron.xml" />
-      
+
       <saxon-xslt in="${xspec.xspecfile.original}"
         out="${xspec.classify-schematron.temp}"
         style="${xspec.project.dir}/src/schematron/get-query-binding-ant.xsl" />
-      
+
       <xmlproperty file="${xspec.classify-schematron.temp}" />
     </sequential>
   </macrodef>
@@ -291,7 +309,7 @@
     <classify-schematron if:true="${xspec.is.schematron}"/>
 
     <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
-    <property name="xspec.compiled.runner.without.ext" 
+    <property name="xspec.compiled.runner.without.ext"
       value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
     <condition property="xspec.compiled.runner"
       value="${xspec.compiled.runner.without.ext}.xq"
@@ -438,7 +456,7 @@
       fall back to running Saxon as Java app. -->
   <target name="schematron-xqs"
     if="${xspec.schematron.querylanguage.is.xquery}">
-    <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">    
+    <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">
       <classpath>
         <pathelement path="${java.class.path}" />
         <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
@@ -476,7 +494,7 @@
       <or>
         <istrue value="${xspec.is.xslt}"/>
         <istrue value="${xspec.schematron.querylanguage.is.xslt}"/>
-      </or>    
+      </or>
     </condition>
 
     <condition property="xspec.compiler.xsl"
@@ -541,7 +559,7 @@
       level="info" />
 
     <fail
-      message="Testing Schematron with XQS requires the xspec.basex.classpath property."
+      message="Testing Schematron with XQS requires the xspec.basex.classpath property"
       unless="xspec.basex.classpath" />
 
     <!-- In end-to-end test suite, if the first actual result to store under actual__/ is
@@ -631,16 +649,54 @@
     </java>
   </target>
 
-  <target name="run-xproc-test" depends="compile" if="${xspec.is.xproc}">
-    <echo message="Running Tests..."
-      level="info" />
+  <!-- Verifies properties related to tests for XProc -->
+  <target name="xproc-test-error-checking" depends="compile" if="${xspec.is.xproc}">
+    <condition property="xspec.xproc.processor.is.morganaxproc" else="false">
+      <equals arg1="${xspec.xproc.processor}" arg2="morganaxproc" />
+    </condition>
+    <condition property="xspec.xproc.processor.is.xmlcalabash" else="false">
+      <isfalse value="${xspec.xproc.processor.is.morganaxproc}" />
+    </condition>
 
-    <fail message="XProc testing requires the xspec.xmlcalabash.classpath property."
-      unless="xspec.xmlcalabash.classpath" />
+    <!-- Verify "xspec.xproc.processor" -->
+    <fail message="Invalid xspec.xproc.processor: '${xspec.xproc.processor}'. Use 'xmlcalabash' or 'morganaxproc'.">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${xspec.xproc.processor}" arg2="xmlcalabash" />
+            <equals arg1="${xspec.xproc.processor}" arg2="morganaxproc" />
+          </or>
+        </not>
+      </condition>
+    </fail>
 
-    <makeurl property="xspec.project.dir.url"
-      file="${xspec.project.dir}" />
+    <!-- Verify "xspec.xmlcalabash.classpath" -->
+    <fail message="XProc testing with XML Calabash requires the xspec.xmlcalabash.classpath property">
+      <condition>
+        <and>
+          <istrue value="${xspec.xproc.processor.is.xmlcalabash}" />
+          <not>
+            <isset property="xspec.xmlcalabash.classpath"/>
+          </not>
+        </and>
+      </condition>
+    </fail>
 
+    <!-- Verify "xspec.morganaxproc.init" -->
+    <fail message="XProc testing with MorganaXProc-III requires the xspec.morganaxproc.init property">
+      <condition>
+        <and>
+          <istrue value="${xspec.xproc.processor.is.morganaxproc}" />
+          <not>
+            <isset property="xspec.morganaxproc.init"/>
+          </not>
+        </and>
+      </condition>
+    </fail>
+  </target>
+
+  <!-- Generates pipeline that Saxon will use when invoking XProc processor -->
+  <target name="generate-pipeline-file" depends="xproc-test-error-checking" if="${xspec.is.xproc}">
     <property name="xspec.pipelines" location="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-pipelines.xpl"/>
     <saxon-xslt in="${xspec.xspecfile.original}"
       out="${xspec.pipelines}"
@@ -648,30 +704,69 @@
     <makeurl property="xspec.pipelines.url"
       file="${xspec.pipelines}"
       if:set="xspec.pipelines" />
+  </target>
 
+  <!-- Runs the compiled XSpec for XProc -->
+  <target name="run-xproc-test" depends="run-xproc-setup-xmlcalabash, run-xproc-setup-morganaxproc"
+    if="${xspec.is.xproc}">
+    <echo message="Running Tests..."
+      level="info" />
     <!-- Can't specify saxon.custom.options with <xslt> task so have to
       fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">
       <!-- System property for XProc -->
       <sysproperty key="com.xmlcalabash.pipelines"
-        value="${xspec.pipelines.url}"/>
-      <sysproperty key="com.xmlcalabash.configuration"
-        value="${xspec.xmlcalabash.config}" if:set="xspec.xmlcalabash.config"/>
-
+        value="${xspec.pipelines.url}" if:set="xspec.xproc.processor.is.xmlcalabash"/>
+      <sysproperty key="com.xml_project.morganaxproc.pipeline"
+        value="${xspec.pipelines.url}" if:set="xspec.xproc.processor.is.morganaxproc"/>
+      <sysproperty key="${xspec.xproc.config.key}"
+        value="${xspec.xproc.config.value}" if:set="xspec.xproc.config.key"/>
       <!-- XML Calabash must be on the classpath ahead of java.class.path. -->
+      <!-- xspec.morganaxproc.classpath might be redundant with -lib instructions.
+        Include it just in case, but don't document it unless we find that it serves a purpose. -->
       <classpath>
         <pathelement path="${xspec.xmlcalabash.classpath}" if:set="xspec.xmlcalabash.classpath"/>
+        <pathelement path="${xspec.morganaxproc.classpath}" if:set="xspec.morganaxproc.classpath"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
       </classpath>
-      <arg value="-init:com.xmlcalabash.api.RegisterSaxonFunctions" />
+      <arg value="-init:${xspec.step.function.init.class}" />
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xmlversion:${xspec.xml.version}" if:set="xspec.xml.version" />
       <arg value="-xsl:${xspec.compiled.runner}" />
-    </java>
+    </java>    
+  </target>
+
+  <!-- Define properties specific to running test for XProc using MorganaXProc-III -->
+  <target name="run-xproc-setup-morganaxproc" depends="generate-pipeline-file" if="${xspec.xproc.processor.is.morganaxproc}">
+    <condition property="xspec.step.function.init.class"
+      value="com.xml_project.morganaxproc3.saxon13connector.RegisterXProcStepsAsFunctions">
+      <equals arg1="${xspec.morganaxproc.init}" arg2="saxon13" />
+    </condition>
+    <condition property="xspec.step.function.init.class"
+      value="com.xml_project.morganaxproc3.saxon12_3connector.RegisterXProcStepsAsFunctions"
+      else="${xspec.morganaxproc.init}">
+      <equals arg1="${xspec.morganaxproc.init}" arg2="saxon12-3" />
+    </condition>
+
+    <property name="xspec.xproc.config.key"
+      value="com.xml_project.morganaxproc.config" if:set="xspec.morganaxproc.config"/>
+    <property name="xspec.xproc.config.value"
+      value="${xspec.morganaxproc.config}" if:set="xspec.morganaxproc.config"/>    
+  </target>
+
+  <!-- Define properties specific to running test for XProc using XML Calabash -->
+  <target name="run-xproc-setup-xmlcalabash" depends="generate-pipeline-file" if="${xspec.xproc.processor.is.xmlcalabash}">
+    <property name="xspec.step.function.init.class"
+      value="com.xmlcalabash.api.RegisterSaxonFunctions"/>
+    
+    <property name="xspec.xproc.config.key"
+        value="com.xmlcalabash.configuration" if:set="xspec.xmlcalabash.config"/>
+    <property name="xspec.xproc.config.value"
+      value="${xspec.xmlcalabash.config}" if:set="xspec.xmlcalabash.config"/>
   </target>
 
   <!-- Report: Test result HTML -->
