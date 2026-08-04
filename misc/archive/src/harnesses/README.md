@@ -141,7 +141,6 @@ The XSpec distribution has dedicated XProc 1 harnesses for BaseX, described next
    ```
 
    where:
-
    - `-jar` is the XML Calabash jar file
    - `-i source` is the input port with the XSpec test for XQuery to be executed
    - `-o result` is the output port where the HTML report will be stored
@@ -191,4 +190,5 @@ java -jar C:\xmlcalabash\xmlcalabash-1.2.5-99.jar ^
      -o result=tutorial/xquery-tutorial-result.html ^
      misc\archive\src\harnesses\basex\basex-server-xquery-harness.xproc
 ```
+
 (Note: For BaseX 10.0 and later, specify `localhost:8080` instead of `localhost:8984` in the commands above.)
