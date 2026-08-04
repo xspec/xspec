@@ -191,3 +191,4 @@ java -jar C:\xmlcalabash\xmlcalabash-1.2.5-99.jar ^
      -o result=tutorial/xquery-tutorial-result.html ^
      misc\archive\src\harnesses\basex\basex-server-xquery-harness.xproc
 ```
+(Note: For BaseX 10.0 and later, specify `localhost:8080` instead of `localhost:8984` in the commands above.)
