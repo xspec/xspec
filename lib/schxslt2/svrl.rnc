@@ -1,0 +1,259 @@
+# Extensible RELAX NG grammar for SVRL
+#
+# Copyright (c) by David Maus <dmaus@dmaus.name>
+#
+# This grammar aims to be equivalent to the offical SVRL grammar
+# published in the 2025 edition of ISO Schematron, section D3 pages
+# 29–31.
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use, copy,
+# modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+# BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+# ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+namespace noNamespace = ""
+default namespace svrl = "http://purl.oclc.org/dsdl/svrl"
+
+start =
+    svrl.schematron-output
+
+svrl.active-group =
+    element svrl:active-group {
+        svrl.active-group.attributes,
+        svrl.active-group.content
+    }
+
+svrl.active-group.attributes =
+    attribute id { xsd:NCName }?,
+    attribute documents { string }?,
+    attribute name { string }?,
+    attribute role { string }?
+
+svrl.active-group.content =
+    svrl.error*
+
+svrl.active-pattern =
+    element svrl:active-pattern {
+        svrl.active-pattern.attributes,
+        svrl.active-pattern.content
+    }
+
+svrl.active-pattern.attributes =
+    attribute id { xsd:NCName }?,
+    attribute documents { string }?,
+    attribute name { string }?,
+    attribute role { string }?
+
+svrl.active-pattern.content =
+    svrl.error*
+
+svrl.diagnostic-reference =
+    element svrl:diagnostic-reference {
+        svrl.diagnostic-reference.attributes,
+        svrl.diagnostic-reference.content
+    }
+
+svrl.diagnostic-reference.attributes =
+    attribute diagnostic { xsd:NMTOKEN },
+    attribute role { string }?
+
+svrl.diagnostic-reference.content =
+    svrl.text
+
+svrl.dir =
+    element svrl:dir {
+        svrl.dir.attributes,
+        svrl.dir.content
+    }
+
+svrl.dir.attributes =
+    attribute class { string }?,
+    attribute dir { string }?
+
+svrl.dir.content =
+    text
+
+svrl.emph =
+    element svrl:emph {
+        svrl.emph.attributes,
+        svrl.emph.content
+    }
+
+svrl.emph.attributes =
+    attribute class { string }?
+
+svrl.emph.content =
+    text
+
+svrl.error =
+    element svrl:error {
+        svrl.error.attributes,
+        svrl.error.content
+    }
+
+svrl.error.attributes =
+    attribute document { xsd:anyURI },
+    attribute location { string },
+    attribute code { string }?
+
+svrl.error.content =
+    ( foreign | svrl.dir | svrl.span | svrl.emph | text )*
+
+svrl.failed-assert =
+    element svrl:failed-assert {
+        svrl.failed-assert.attributes,
+        svrl.failed-assert.content
+    }
+
+svrl.failed-assert.attributes =
+    attribute id { xsd:NMTOKEN }?,
+    attribute location { string }?,
+    attribute test { string },
+    attribute role { string }?,
+    attribute flag { list { token+ } }?,
+    attribute severity { string }?
+
+svrl.failed-assert.content =
+    svrl.diagnostic-reference*,
+    svrl.property-reference*,
+    svrl.text
+
+svrl.fired-rule =
+    element svrl:fired-rule {
+        svrl.fired-rule.attributes,
+        svrl.fired-rule.content
+    }
+
+svrl.fired-rule.attributes =
+    attribute id { xsd:NCName }?,
+    attribute name { string }?,
+    attribute context { string }?,
+    attribute visit-each { string }?,
+    attribute role { string }?,
+    attribute flag { list { token+ } }?,
+    attribute document { xsd:anyURI }?
+
+svrl.fired-rule.content =
+    empty
+
+svrl.ns-prefix-in-attribute-values =
+    element svrl:ns-prefix-in-attribute-values {
+        svrl.ns-prefix-in-attribute-values.attributes,
+        svrl.ns-prefix-in-attribute-values.content
+    }
+
+svrl.ns-prefix-in-attribute-values.attributes =
+    attribute prefix { xsd:NMTOKEN },
+    attribute uri { xsd:anyURI }
+
+svrl.ns-prefix-in-attribute-values.content =
+    empty
+
+svrl.property-reference =
+    element svrl:property-reference {
+        svrl.property-reference.attributes,
+        svrl.property-reference.content
+    }
+
+svrl.property-reference.attributes =
+    attribute property { xsd:NMTOKEN },
+    attribute role { string }?,
+    attribute scheme { string }?
+
+svrl.property-reference.content =
+    svrl.text
+
+svrl.schematron-output =
+    element svrl:schematron-output {
+        svrl.schematron-output.attributes,
+        svrl.schematron-output.content
+    }
+
+svrl.schematron-output.attributes =
+    attribute title { string }?,
+    attribute phase { xsd:NMTOKEN }?,
+    attribute schemaVersion { string }?,
+    attribute schematronEdition { string }?
+
+svrl.schematron-output.content =
+    ( svrl.error+, svrl.text* )
+    |
+    (
+        svrl.error*,
+        svrl.text*,
+        svrl.ns-prefix-in-attribute-values*,
+        (
+            ( svrl.active-pattern | svrl.active-group ),
+            ( svrl.fired-rule, ( svrl.failed-assert | svrl.successful-report )* )*
+        )+
+    )
+
+svrl.span =
+    element svrl:span {
+        svrl.span.attributes,
+        svrl.span.content
+    }
+
+svrl.span.attributes =
+    attribute class { string }?
+
+svrl.span.content =
+    text
+
+svrl.successful-report =
+    element svrl:successful-report {
+        svrl.successful-report.attributes,
+        svrl.successful-report.content
+    }
+
+svrl.successful-report.attributes =
+    attribute id { xsd:NMTOKEN }?,
+    attribute location { string }?,
+    attribute test { string },
+    attribute role { string }?,
+    attribute flag { list { token+ } }?,
+    attribute severity { string }?
+
+svrl.successful-report.content =
+    svrl.diagnostic-reference*,
+    svrl.property-reference*,
+    svrl.text
+
+svrl.text =
+    element svrl:text {
+        svrl.text.attributes,
+        svrl.text.content
+    }
+
+svrl.text.attributes =
+    attribute xml:space { string }?,
+    attribute xml:lang { string }?,
+    attribute see { string }?,
+    attribute icon { string }?,
+    attribute fpi { string }?
+
+svrl.text.content =
+    ( foreign | svrl.dir | svrl.span | svrl.emph | text )*
+
+foreign =
+    element * - svrl:* {
+    ( attribute * { string } | foreign | text )*
+}
+
+foreign.attributes =
+    attribute * - ( xml:* | noNamespace:* ) { string }
