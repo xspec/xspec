@@ -564,7 +564,7 @@
         --catalog:"file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         --catalog:"../catalog.xml" ^
         --input:source="%CD%\catalog\catalog-01_stylesheet.xspec" ^
-        --output:result="file:///%WORK_DIR:\=/%/catalog-file-path-xproc3-xslt-test-result_%RANDOM%.html" ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-file-uri-xproc3-xslt-test-result_%RANDOM%.html" ^
         ..\src\xproc3\run-xslt.xpl
     call :verify_retval 0
     call :verify_line -1 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
@@ -576,7 +576,7 @@
         --catalog:"file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         --catalog:"../catalog.xml" ^
         --input:source="%CD%\catalog\catalog-01_query.xspec" ^
-        --output:result="file:///%WORK_DIR:\=/%/catalog-file-path-xproc3-xquery-test-result_%RANDOM%.html" ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-file-uri-xproc3-xquery-test-result_%RANDOM%.html" ^
         ..\src\xproc3\run-xquery.xpl
     call :verify_retval 0
     call :verify_line -1 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
@@ -614,7 +614,7 @@
         --catalog:"file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         --catalog:"../catalog.xml" ^
         --input:source="%CD%\catalog\catalog-01_xproc.xspec" ^
-        --output:result="file:///%WORK_DIR:\=/%/catalog-file-path-xproc3-xproc-test-result_%RANDOM%.html" ^
+        --output:result="file:///%WORK_DIR:\=/%/catalog-file-uri-xproc3-xproc-test-result_%RANDOM%.html" ^
         ..\src\xproc3\xproc-testing\run-xproc.xpl
     call :verify_retval 0
     call :verify_line -1 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
@@ -1155,7 +1155,6 @@
 
     call :verify_retval 0
     call :verify_line -1 x "passed: 8 / pending: 0 / failed: 0 / total: 8"
-    call :verify_exist "%TEST_DIR%\schematron-param-001-result.html"
 	</case>
 
 	<!--

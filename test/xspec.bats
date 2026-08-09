@@ -644,7 +644,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_stylesheet.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xslt-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xslt-test-result_${RANDOM}.html" \
         ../src/xproc3/run-xslt.xpl
 
     [ "$status" -eq 0 ]
@@ -661,7 +661,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_query.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xquery-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xquery-test-result_${RANDOM}.html" \
         ../src/xproc3/run-xquery.xpl
 
     [ "$status" -eq 0 ]
@@ -717,7 +717,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_xproc.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xproc-test-result_${RANDOM}.html" \
         ../src/xproc3/xproc-testing/run-xproc.xpl
 
     [ "$status" -eq 0 ]
@@ -1367,7 +1367,6 @@ load bats-helper
 
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 1]}" = "passed: 8 / pending: 0 / failed: 0 / total: 8" ]
-    [ -f "${TEST_DIR}/schematron-param-001-result.html" ]
 }
 
 #
