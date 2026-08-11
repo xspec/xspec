@@ -8,6 +8,261 @@
 	</case>
 
 	<!--
+		xspec.sh/xspec.bat using MorganaXProc-IIIee
+	-->
+
+	<case name="CLI -e with some failures (XProc)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    call :run ..\bin\xspec.bat -e -p some-failures\step.xspec
+    call :verify_line * r ".*MorganaXProc"
+    call :verify_retval 2
+    call :verify_line 17 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 18 x "Report available at %TEST_DIR%\step-result.html"
+    call :verify_line 20 x "*** Found a test failure"
+	</case>
+
+	<case name="CLI -e with no failures (XProc)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    call :run ..\bin\xspec.bat -e -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 14 x "Report available at %TEST_DIR%\one-input-no-option-one-output-result.html"
+    call :verify_line 15 x "Done."
+	</case>
+
+	<case name="-processor set to morganaxproc uses MorganaXProc (CLI)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set XPROC_PROCESSOR=
+    call :run ..\bin\xspec.bat -p -processor morganaxproc xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_line 8 r "Testing with .* and MorganaXProc"
+	</case>
+
+	<case name="-processor takes precedence over XPROC_PROCESSOR (CLI)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set XPROC_PROCESSOR=xmlcalabash
+    rem Also check that XMLCALABASH_CONFIG is ignored if processor in effect is not XML Calabash
+    set XMLCALABASH_CONFIG=nonexistent-file.xml
+    call :run ..\bin\xspec.bat -p -processor morganaxproc xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_line 8 r "Testing with .* and MorganaXProc"
+	</case>
+
+	<case name="MORGANAXPROC_INIT must be set (CLI)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set MORGANAXPROC_INIT=
+    call :run ..\bin\xspec.bat -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_line -3 x "ERROR: When XProc processor is set to 'morganaxproc', MORGANAXPROC_INIT must be set."
+	</case>
+
+	<!--
+		As of MorganaXProc-IIIee 1.8.15, the ...saxon13connector... class works with either Saxon 13.x
+		or Saxon 12.10. If these RegisterXProcStepsAsFunctions classes diverge between Saxon versions,
+		the following test case might need to be replaced or removed.
+	-->
+	<case name="MORGANAXPROC_INIT set to fully qualified class name (CLI)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set MORGANAXPROC_INIT=com.xml_project.morganaxproc3.saxon13connector.RegisterXProcStepsAsFunctions
+    call :run ..\bin\xspec.bat -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<!--
+		MorganaXProc configuration in tests for XProc
+	-->
+
+	<case name="MorganaXProc configuration for testing XProc (CLI)">
+    set R=%RANDOM%
+    rem Test with a space in file name
+    set "MORGANAXPROC_CONFIG=file:/%WORK_DIR:\=/%/morganaxproc%%20config%R%.xml"
+    call :copy xproc\cases\morganaxproc-config-example.xml "%WORK_DIR%\morganaxproc config%R%.xml"
+
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    call :run ..\bin\xspec.bat -p xproc\integ-test-supporting-files\load.xspec
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    rem Confirm that test raises error without the configuration file
+    set MORGANAXPROC_CONFIG=
+    call :run ..\bin\xspec.bat -p xproc\integ-test-supporting-files\load.xspec
+    call :verify_retval 2
+	</case>
+
+	<!--
+		Ant using MorganaXProc-IIIee
+	-->
+
+	<case ifdef="ANT-PENDING" name="MorganaXProc configuration for testing XProc (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.config="file:///%CD:\=/%/xproc/cases/xmlcalabash-config-example.xml" ^
+        -Dtest.type=p ^
+        -Dxspec.fail=false ^
+        -Dxspec.xml="%CD%\xproc\cases\validation-with-or-without-line-numbers.xspec"
+
+    call :verify_retval 0
+    call :verify_line -14 x "     [xslt] passed: 0 / pending: 0 / failed: 1 / total: 1"
+	</case>
+
+	<!--
+		Ant with minimum properties
+	-->
+
+	<case ifdef="ANT-PENDING" name="Ant with minimum properties (XProc)">
+    rem Unset any preset args
+    set ANT_ARGS=
+
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xproc\*demo.* "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xproc\document.xml "%TUTORIAL_COPY%"
+
+    rem Run
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dxspec.xml="%TUTORIAL_COPY%\xproc-testing-demo.xspec"
+
+    rem Default xspec.fail is true
+    call :verify_retval 1
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3"
+    call :verify_line -4 x "BUILD FAILED"
+
+    rem Verify default output dir
+    rem * Default clean.output.dir is false
+    rem * Default xspec.junit.enabled is false
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :verify_line_count 5
+    call :verify_line 1 x xproc-testing-demo_xml-to-properties.xml
+    call :verify_line 2 x xproc-testing-demo-compiled.xsl
+    call :verify_line 3 x xproc-testing-demo-pipelines.xpl
+    call :verify_line 4 x xproc-testing-demo-result.html
+    call :verify_line 5 x xproc-testing-demo-result.xml
+
+    rem HTML report file contains CSS inline
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -s:"%TUTORIAL_COPY%\xspec\xproc-testing-demo-result.html" ^
+        -xsl:check-html-css.xsl
+    call :verify_retval 0
+    call :verify_line 1 x "true"
+	</case>
+
+	<!--
+		Catalog file path (Ant)
+		
+			Test 'catalog' property containing multiple file paths (relative and absolute)
+	-->
+
+	<case ifdef="ANT-PENDING SAXON_BUG_7127_FIXED" name="Ant with catalog file path (XProc)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
+        -Dxspec.xml="%CD%\catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<!--
+		Catalog file URI (Ant)
+		
+			Test 'catalog' property containing multiple URIs (relative and absolute)
+	-->
+
+	<case ifdef="ANT-PENDING SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (XProc)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -lib "%APACHE_XMLRESOLVER_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dtest.type=p ^
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
+        -Dcatalog.is.uri=true ^
+        -Dxspec.xml="%CD%\catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
+	</case>
+
+	<!--
+		Catalog file path (CLI) (-catalog)
+		
+			Test -catalog specifying multiple file paths (relative and absolute)
+	-->
+
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file path (XProc)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    call :run ..\bin\xspec.bat -p ^
+        -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
+        "%SPACE_DIR%\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 25 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
+	</case>
+
+	<!--
+		Catalog file URI (CLI) (-catalog)
+
+			Test -catalog specifying multiple file URIs (absolute, no relative)
+	-->
+
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XProc)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    call :run ..\bin\xspec.bat -p ^
+        -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
+        catalog\catalog-01_xproc.xspec
+    call :verify_retval 0
+    call :verify_line 25 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
+	</case>
+
+	<!--
+		Catalog file path (CLI) (XML_CATALOG)
+		
+			Test XML_CATALOG containing multiple file paths (relative and absolute)
+	-->
+
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file path (XProc)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -p "%SPACE_DIR%\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 25 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
+	</case>
+
+	<!--
+		Catalog file URI (CLI) (XML_CATALOG)
+		
+			Test XML_CATALOG containing multiple file URIs (absolute, no relative)
+	-->
+
+	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XProc)">
+    set "SAXON_CP=%MORGANAXPROC_CP%"
+    set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -p "catalog\catalog-01_xproc.xspec"
+    call :verify_retval 0
+    call :verify_line 25 x "passed: 6 / pending: 0 / failed: 0 / total: 6"
+	</case>
+
+	<!--
 		run-xproc.xpl using MorganaXProc-IIIee
 	-->
 
@@ -154,4 +409,5 @@
         call :verify_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-result_%RANDOM_TEST_VALUE%.html"
         call :verify_not_exist "%WORK_DIR:\=/%/tutorial_xproc-testing-demo-junit_%RANDOM_TEST_VALUE%.xml"
 	</case>
+
 </collection>
