@@ -1013,6 +1013,28 @@
 	</case>
 
 	<!--
+		XPROC_PROCESSOR and -processor in tests for XProc
+			XML Calabash is the default. Cases that use MorganaXProc-III
+			are in morganaxproc.bats and collection-morganaxproc.xml.
+	-->
+
+	<case ifdef="XMLCALABASH3_JAR" name="XPROC_PROCESSOR set to xmlcalabash uses XML Calabash (CLI)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%"
+    set XPROC_PROCESSOR=xmlcalabash
+    call :run ..\bin\xspec.bat -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_line 8 r "Testing with .* and XML Calabash "
+	</case>
+
+	<case ifdef="XMLCALABASH3_JAR" name="-processor takes precedence over XPROC_PROCESSOR (CLI)">
+    set "SAXON_CP=%XMLCALABASH3_JAR%"
+    set XPROC_PROCESSOR=morganaxproc
+    rem Also check that MORGANAXPROC_CONFIG is ignored if processor in effect is not MorganaXProc
+    set MORGANAXPROC_CONFIG=nonexistent-file.xml
+    call :run ..\bin\xspec.bat -p -processor xmlcalabash xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_line 8 r "Testing with .* and XML Calabash "
+	</case>
+
+	<!--
 		Path containing special chars (CLI)
 	-->
 

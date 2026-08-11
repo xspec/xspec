@@ -1204,6 +1204,36 @@ load bats-helper
 }
 
 #
+# XPROC_PROCESSOR and -processor in tests for XProc
+#   XML Calabash is the default. Cases that use MorganaXProc-III
+#   are in morganaxproc.bats and collection-morganaxproc.xml.
+#
+
+@test "XPROC_PROCESSOR set to xmlcalabash uses XML Calabash (CLI)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    export XPROC_PROCESSOR=xmlcalabash
+    myrun ../bin/xspec.sh -p xproc/cases/one-input-no-option-one-output.xspec
+    assert_regex "${lines[7]}" '^Testing with .* and XML Calabash '
+}
+
+@test "-processor takes precedence over XPROC_PROCESSOR (CLI)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    export SAXON_CP="${XMLCALABASH3_JAR}"
+    export XPROC_PROCESSOR=morganaxproc
+    # Also check that MORGANAXPROC_CONFIG is ignored if processor in effect is not MorganaXProc
+    export MORGANAXPROC_CONFIG=nonexistent-file.xml
+    myrun ../bin/xspec.sh -p -processor xmlcalabash xproc/cases/one-input-no-option-one-output.xspec
+    assert_regex "${lines[7]}" '^Testing with .* and XML Calabash '
+}
+
+#
 # Path containing special chars (CLI)
 #
 
