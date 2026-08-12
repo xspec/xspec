@@ -67,6 +67,7 @@ load bats-helper
     export SAXON_CP="${MORGANAXPROC_CP}"
     unset XPROC_PROCESSOR
     myrun ../bin/xspec.sh -p -processor morganaxproc xproc/cases/one-input-no-option-one-output.xspec
+    [ "$status" -eq 0 ]
     assert_regex "${lines[7]}" '^Testing with .* and MorganaXProc'
 }
 
@@ -76,6 +77,7 @@ load bats-helper
     # Also check that XMLCALABASH_CONFIG is ignored if processor in effect is not XML Calabash
     export XMLCALABASH_CONFIG=nonexistent-file.xml
     myrun ../bin/xspec.sh -p -processor morganaxproc xproc/cases/one-input-no-option-one-output.xspec
+    [ "$status" -eq 0 ]
     assert_regex "${lines[7]}" '^Testing with .* and MorganaXProc'
 }
 
@@ -83,6 +85,7 @@ load bats-helper
     export SAXON_CP="${MORGANAXPROC_CP}"
     unset MORGANAXPROC_INIT
     myrun ../bin/xspec.sh -p xproc/cases/one-input-no-option-one-output.xspec
+    [ "$status" -eq 1 ]
     [ "${lines[${#lines[@]} - 1]}" = "ERROR: When XProc processor is set to 'morganaxproc', MORGANAXPROC_INIT must be set." ]
 }
 
@@ -119,8 +122,137 @@ load bats-helper
 }
 
 #
-# Ant using MorganaXProc-IIIee (TODO)
+# Ant using MorganaXProc-IIIee
 #
+
+@test "MorganaXProc configuration for testing XProc (Ant)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dxspec.morganaxproc.config="${PWD}/xproc/cases/morganaxproc-config-example.xml" \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/xproc/integ-test-supporting-files/load.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+#
+# xspec.xproc.processor in tests for XProc (Ant)
+#
+
+@test "xspec.xproc.processor set to morganaxproc uses MorganaXProc (Ant)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -Dxspec.xproc.processor=morganaxproc \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/xproc/cases/one-input-no-option-one-output.xspec"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[java\] Testing with .* and MorganaXProc'
+}
+
+#
+# Ant with minimum properties
+#
+
+@test "Ant with minimum properties (XProc)" {
+    # Unset any preset args
+    unset ANT_ARGS
+
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/xproc/*demo.* "${tutorial_copy}"
+    cp ../tutorial/xproc/document.xml "${tutorial_copy}"
+
+    # Run
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dtest.type=p \
+        -Dxspec.xml="${tutorial_copy}/xproc-testing-demo.xspec"
+
+    # Default xspec.fail is true
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 1 / total: 3'$'\n'
+    [ "${lines[${#lines[@]} - 4]}" = "BUILD FAILED" ]
+
+    # Verify default output dir
+    # * Default clean.output.dir is false
+    # * Default xspec.coverage.enabled is false
+    # * Default xspec.junit.enabled is false
+    myrun env LC_ALL=C ls "${tutorial_copy}/xspec"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "xproc-testing-demo-compiled.xsl" ]
+    [ "${lines[1]}" = "xproc-testing-demo-pipelines.xpl" ]
+    [ "${lines[2]}" = "xproc-testing-demo-result.html" ]
+    [ "${lines[3]}" = "xproc-testing-demo-result.xml" ]
+    [ "${lines[4]}" = "xproc-testing-demo_xml-to-properties.xml" ]
+
+    # HTML report file contains CSS inline
+    myrun java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${tutorial_copy}/xspec/xproc-testing-demo-result.html" \
+        -xsl:check-html-css.xsl
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
+}
+
+#
+# Catalog file path (Ant)
+#
+#     Test 'catalog' property containing multiple file paths (relative and absolute)
+#
+
+@test "Ant with catalog file path (XProc)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dtest.type=p \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
+
+#
+# Catalog file URI (Ant)
+#
+#     Test 'catalog' property containing multiple URIs (relative and absolute)
+#
+
+@test "Ant with catalog file URI (XProc)" {
+    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
+        skip "Saxon bug 7127"
+    fi
+
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "${APACHE_XMLRESOLVER_JAR}" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dtest.type=p \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_xproc.xspec"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+    [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
+}
 
 #
 # Catalog file path (CLI) (-catalog)
