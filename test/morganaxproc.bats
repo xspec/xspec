@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2030,SC2031
 
 #
 # Setup and teardown
@@ -35,7 +36,7 @@ load bats-helper
 #
 
 @test "MorganaXProc-IIIee license is found" {
-    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine ${MORGANAXPROC_HOME}/pipeline.xpl
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine "${MORGANAXPROC_HOME}"/pipeline.xpl
     [ "$status" -eq 0 ]
 }
 
@@ -204,4 +205,151 @@ load bats-helper
     myrun ../bin/xspec.sh -p "catalog/catalog-01_xproc.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[24]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+}
+
+#
+#     run-xproc.xpl using MorganaXProc-IIIee
+#
+
+@test "XSpec test with no helper pipelines" {
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -catalogs="../catalog.xml" \
+        -input:source=../tutorial/xproc/xproc-testing-demo-library.xspec \
+        -output:result="file:${work_dir}/xproc-testing-demo-library-result.html" \
+        -xslt-message-prefix=""
+    [ "$status" -eq 0 ]
+    [ "${lines[-1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
+}
+
+@test "XSpec test with a helper pipeline" {
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;../tutorial/helper/ws-only-text/test-helper.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -catalogs="../catalog.xml" \
+        -input:source=xproc/cases/helper-step.xspec \
+        -output:result="file:${work_dir}/helper-step-result.html" \
+        -xslt-message-prefix=""
+    [ "$status" -eq 0 ]
+    [ "${lines[-1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "XSpec test with a helper stylesheet" {
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -catalogs="../catalog.xml" \
+        -input:source=xproc/cases/helper-stylesheet.xspec \
+        -output:result="file:${work_dir}/helper-stylesheet-result.html" \
+        -xslt-message-prefix=""
+    [ "$status" -eq 0 ]
+    [ "${lines[-1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "xspec-home option instead of catalog" {
+    r=${RANDOM}
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -input:source=../tutorial/xproc/xproc-testing-demo.xspec \
+        -output:result="file:${work_dir}/xproc-testing-demo-result_${r}.html" \
+        -xslt-message-prefix="" \
+        -option:xspec-home="file:${parent_dir_abs}/"
+    [ "$status" -eq 0 ]
+    [ "${lines[-1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
+}
+
+@test "XProc 3 harness with catalog file URI (XProc)" {
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;catalog/01/helper.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -catalogs="catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml;../catalog.xml" \
+        -input:source="${PWD}/catalog/catalog-01_xproc.xspec" \
+        -output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result.html" \
+        -xslt-message-prefix=""
+    [ "$status" -eq 0 ]
+    [ "${lines[-1]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+}
+
+@test "Passing test cases for testing XProc steps" {
+    # Run series of tests, and return error messages if anything fails
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        xproc/run-xproc-cases.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;catalog/01/helper.xpl;../tutorial/helper/ws-only-text/test-helper.xpl;xproc/cases/library-mirror.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -catalogs="catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml;../catalog.xml" \
+        -xslt-message-prefix=""
+
+    assert_regex "${output}" $'\n''--- Testing completed with no failures! ---'$'\n'
+}
+
+@test "Error cases for testing XProc steps (runner errors only)" {
+    skip "MorganaXProc error cases"
+}
+
+@test "XProc 3 harness with XProc producing JUnit report" {
+    # This test case differs from analogous ones in xspec.bats by
+    # avoiding writing to the xspec project directory.
+    # Note: This test skips the "Verify HTML report including #72"
+    # portion, because comparing with the expected report fails
+    # when the actual HTML report is in a location that produces
+    # a different relative path.
+
+    r=${RANDOM}
+    # HTML report file
+    actual_html_report=${work_dir}/tutorial_xproc-testing-demo-result_${r}.html
+    # JUnit report file
+    actual_junit_report="${work_dir}/tutorial_xproc-testing-demo-junit_${r}.xml"
+
+    # Run
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        -output:result="file:${actual_html_report}" \
+        -output:junit="file:${actual_junit_report}" \
+        -option:xspec-home="file:${parent_dir_abs}/" \
+        -option:junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_html_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${PWD}/end-to-end/cases/expected/xproc/tutorial_xproc-testing-demo-junit.xml"
+}
+
+@test "XProc 3 harness with XProc, checking no JUnit report" {
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/tutorial_xproc-testing-demo-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/tutorial_xproc-testing-demo-junit_${r}.xml"
+
+    myrun java -cp "${MORGANAXPROC_CP}" com.xml_project.morganaxproc3.XProcEngine \
+        ../src/xproc3/xproc-testing/run-xproc.xpl \
+        -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" \
+        -xslt-connector="${MORGANAXPROC_XSLT_CONNECTOR}" \
+        -input:source=end-to-end/cases/tutorial_xproc-testing-demo.xspec \
+        -output:result="file:${actual_report}" \
+        -output:junit="file:${actual_junit_report}" \
+        -option:xspec-home="file:${parent_dir_abs}/" \
+        -option:junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
 }

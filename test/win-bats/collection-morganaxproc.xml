@@ -285,8 +285,11 @@
         -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl;../tutorial/helper/ws-only-text/test-helper.xpl" ^
         -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
         -catalogs=../catalog.xml ^
-        -input:source=xproc/cases/helper-step.xspec
+        -input:source=xproc/cases/helper-step.xspec ^
+        -output:result="file:///%WORK_DIR:\=/%/helper-step-result_%RANDOM%.html" ^
+        -xslt-message-prefix=""
     call :verify_retval 0
+    call :verify_line -1 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="XSpec test with a helper stylesheet">
@@ -295,8 +298,11 @@
         -xslt-functions="../src/xproc3/xproc-testing/steps-for-test-runner.xpl" ^
         -xslt-connector=%MORGANAXPROC_XSLT_CONNECTOR% ^
         -catalogs=../catalog.xml ^
-        -input:source=xproc/cases/helper-stylesheet.xspec
+        -input:source=xproc/cases/helper-stylesheet.xspec ^
+        -output:result="file:///%WORK_DIR:\=/%/helper-stylesheet-result_%RANDOM%.html" ^
+        -xslt-message-prefix=""
     call :verify_retval 0
+    call :verify_line -1 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="xspec-home option instead of catalog">
