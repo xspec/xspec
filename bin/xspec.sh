@@ -30,7 +30,7 @@ usage() {
     fi
     echo "XSpec v${XSPEC_VERSION}"
     echo
-    echo "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file"
+    echo "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-processor val|-e|-h] file"
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
@@ -40,6 +40,7 @@ usage() {
     echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
+    echo "  -processor val use xmlcalabash or morganaxproc for XProc"
     echo "  -e             treat failed tests as error"
     echo "  -h             display this help message"
 }
@@ -232,6 +233,8 @@ if [ -z "${XSPEC_VERSION}" ]; then
     exit 1
 fi
 
+unset PROCESSOR
+
 ##
 ## options ###################################################################
 ##
@@ -319,7 +322,7 @@ while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
         # Processor
         -processor)
             shift
-            XPROC_PROCESSOR="$1"
+            PROCESSOR="$1"
             ;;
         # Error on test failure
         -e)
@@ -362,6 +365,26 @@ fi
 # set XSLT if XQuery and XProc have not been set (XSLT is the default)
 if [ -z "$XQUERY" ] && [ -z "$XPROC" ]; then
     XSLT=1
+fi
+
+#
+# Processor choice isn't for all languages (check after setting default to XSLT).
+#
+if test -n "${XPROC}"; then
+    if test -n "${PROCESSOR}"; then
+        # -processor has higher precedence than environment variable
+        XPROC_PROCESSOR="${PROCESSOR}"
+    fi
+    if [ -n "${XPROC_PROCESSOR}" ] && [ "${XPROC_PROCESSOR}" != 'xmlcalabash' ] && [ "${XPROC_PROCESSOR}" != 'morganaxproc' ]; then
+        usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is ${XPROC_PROCESSOR}"
+        exit 1
+    fi
+# For #2320, a clause could go here for the 'else test -n "${XQUERY}";' case
+else
+    if [ -n "${PROCESSOR}${XPROC_PROCESSOR}" ]; then
+        usage "XProc -processor option is not supported for this test type"
+        exit 1
+    fi
 fi
 
 XSPEC=$1

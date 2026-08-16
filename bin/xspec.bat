@@ -52,7 +52,7 @@ rem ##
     )
     echo XSpec v%XSPEC_VERSION%
     echo:
-    echo Usage: xspec [-t^|-q^|-s^|-p^|-c^|-j^|-catalog file^|-e^|-h] file
+    echo Usage: xspec [-t^|-q^|-s^|-p^|-c^|-j^|-catalog file^|-processor val^|-e^|-h] file
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
@@ -62,6 +62,7 @@ rem ##
     echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
+    echo   -processor val use xmlcalabash or morganaxproc for XProc
     echo   -e             treat failed tests as error
     echo   -h             display this help message
     goto :EOF
@@ -150,6 +151,7 @@ rem ##
     set XSPEC=
     set CATALOG=
     set BASEX_CATALOG=
+    set PROCESSOR=
     set REPORT_THEME=default
     set ERROR_ON_TEST_FAILURE=
     goto :EOF
@@ -179,7 +181,7 @@ rem ##
         set "XML_CATALOG=%~2"
         shift
     ) else if "%WIN_ARGV%"=="-processor" (
-        set "XPROC_PROCESSOR=%~2"
+        set "PROCESSOR=%~2"
         shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
@@ -440,6 +442,22 @@ rem
 rem # set XSLT if XQuery and XProc have not been set (XSLT is the default)
 rem
 if not defined XSLT if not defined XQUERY if not defined XPROC set XSLT=1
+
+rem
+rem # Processor choice isn't for all languages (check after setting default to XSLT).
+rem
+
+rem # -processor has higher precedence than environment variable.
+if defined XPROC if defined PROCESSOR set "XPROC_PROCESSOR=%PROCESSOR%"
+if defined XPROC if defined XPROC_PROCESSOR if not "%XPROC_PROCESSOR%"=="xmlcalabash" if not "%XPROC_PROCESSOR%"=="morganaxproc" (
+    call :usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
+    exit /b 1
+)
+rem # For #2320, a clause could go here for the "if defined XQUERY..." cases
+if not defined XPROC if not ""=="%PROCESSOR%%XPROC_PROCESSOR%" (
+    call :usage "XProc -processor option is not supported for this test type"
+    exit /b 1
+)
 
 if not exist "%XSPEC%" (
     call :usage "Error: File not found."
