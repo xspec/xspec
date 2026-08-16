@@ -10,7 +10,7 @@
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
-    call :verify_line 5 x "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file"
+    call :verify_line 5 x "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-processor val|-e|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined">
@@ -1032,6 +1032,51 @@
     set MORGANAXPROC_CONFIG=nonexistent-file.xml
     call :run ..\bin\xspec.bat -p -processor xmlcalabash xproc\cases\one-input-no-option-one-output.xspec
     call :verify_line 8 r "Testing with .* and XML Calabash "
+	</case>
+
+	<case name="-processor value must be xmlcalabash or morganaxproc (CLI)">
+    set MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is bogus"
+    call :run ..\bin\xspec.bat -processor bogus -p mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+
+    set XPROC_PROCESSOR=bogus
+    call :run ..\bin\xspec.bat -p mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+	</case>
+
+	<case name="XPROC_PROCESSOR supported only in tests for XProc (CLI)">
+    set XPROC_PROCESSOR=xmlcalabash
+    set MSG="XProc -processor option is not supported for this test type" 
+
+    call :run ..\bin\xspec.bat -t mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+
+    call :run ..\bin\xspec.bat -q mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+
+    call :run ..\bin\xspec.bat -s mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+	</case>
+
+	<case name="-processor supported only in tests for XProc (CLI)">
+    set MSG="XProc -processor option is not supported for this test type" 
+
+    call :run ..\bin\xspec.bat -processor xmlcalabash -t mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+
+    call :run ..\bin\xspec.bat -processor xmlcalabash -q mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
+
+    call :run ..\bin\xspec.bat -processor xmlcalabash -s mytest.xspec
+    call :verify_retval 1
+    call :verify_line 1 x %MSG%
 	</case>
 
 	<!--

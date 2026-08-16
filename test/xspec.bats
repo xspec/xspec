@@ -57,7 +57,7 @@ load bats-helper
     myrun ../bin/xspec.sh
     [ "$status" -eq 1 ]
     assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    [ "${lines[4]}" = "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file" ]
+    [ "${lines[4]}" = "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-processor val|-e|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined" {
@@ -1231,6 +1231,51 @@ load bats-helper
     export MORGANAXPROC_CONFIG=nonexistent-file.xml
     myrun ../bin/xspec.sh -p -processor xmlcalabash xproc/cases/one-input-no-option-one-output.xspec
     assert_regex "${lines[7]}" '^Testing with .* and XML Calabash '
+}
+
+@test "-processor value must be xmlcalabash or morganaxproc (CLI)" {
+    MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is bogus"
+
+    myrun ../bin/xspec.sh -processor bogus -p mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+
+    export XPROC_PROCESSOR=bogus
+    myrun ../bin/xspec.sh -p mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+}
+
+@test "XPROC_PROCESSOR supported only in tests for XProc (CLI)" {
+    MSG="XProc -processor option is not supported for this test type"
+    export XPROC_PROCESSOR=xmlcalabash
+    myrun ../bin/xspec.sh -t mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+
+    myrun ../bin/xspec.sh -q mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+
+    myrun ../bin/xspec.sh -s mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+}
+
+@test "-processor supported only in tests for XProc (CLI)" {
+    MSG="XProc -processor option is not supported for this test type"
+
+    myrun ../bin/xspec.sh -processor xmlcalabash -t mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+
+    myrun ../bin/xspec.sh -processor xmlcalabash -q mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
+
+    myrun ../bin/xspec.sh -processor xmlcalabash -s mytest.xspec
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "${MSG}" ]
 }
 
 #
