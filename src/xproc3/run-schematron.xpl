@@ -3,8 +3,8 @@
             xmlns:x="http://www.jenitennison.com/xslt/xspec"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-            name="run-schematron-xslt"
-            type="x:run-schematron-xslt"
+            name="run-schematron"
+            type="x:run-schematron"
             version="3.1">
 
    <p:documentation>
@@ -25,6 +25,7 @@
    </p:documentation>
 
    <p:import href="harness-lib.xpl"/>
+   <p:import href="run-xslt.xpl"/>
 
    <p:input port="source" primary="true" sequence="false" content-types="application/xml"/>
    <p:output port="result"
@@ -36,7 +37,7 @@
          'omit-xml-declaration':false()
       }"
       primary="true"
-      pipe="result@format-report"/>
+      pipe="result@run-xslt"/>
    <p:output port="junit"
       content-types="xml"
       serialization="map{
@@ -44,7 +45,7 @@
       }"
       primary="false"
       sequence="true"
-      pipe="result@junit-report"/>
+      pipe="junit@run-xslt"/>
    <p:option name="xspec-home" as="xs:string?"/>
    <p:option name="force-focus" as="xs:string?"/>
    <p:option name="html-report-theme" as="xs:string" select="'default'"/>
@@ -77,7 +78,7 @@
                           else
                           'http://www.jenitennison.com/xslt/xspec/schut-to-xslt.xsl'"/>
 
-      <!-- actually compile the suite in a stylesheet -->
+      <!-- actually compile the schema into a stylesheet -->
       <p:xslt>
          <p:with-input port="source" pipe="source@convert-sch-to-xslt"/>
          <p:with-input port="stylesheet" href="{$compiler}"/>
@@ -91,7 +92,7 @@
    <p:declare-step type="x:schut-to-xspec" name="schut-to-xspec">
       <!-- the port declarations -->
       <p:input port="source" primary="true" content-types="application/xml" />
-      <p:output port="result" primary="true" content-types="application/xslt+xml" />
+      <p:output port="result" primary="true" content-types="application/xml" />
 
       <p:option name="xspec-home" as="xs:string?"/>
       <p:option name="stylesheet-uri" as="xs:string?"/>
@@ -111,7 +112,6 @@
                            'stylesheet-uri':$stylesheet-uri
                            }"/>
       </p:xslt>
-      <p:cast-content-type content-type="application/xslt+xml" />
    </p:declare-step>
 
 
@@ -128,49 +128,26 @@
    <!-- Currently need to store the document so that schut-to-xspec.xsl gets the file name
         because it wants to xsl:import it from filestore -->
    <p:file-create-tempfile delete-on-exit="true" />
-   <p:variable name="href-tempfile-uri" as="xs:anyURI" select="string(.)"/>
-   <p:store href="{string(.)}">
+   <p:variable name="sch_preprocessed_xsl" as="xs:anyURI" select="string(.)" />
+   <p:store href="{$sch_preprocessed_xsl}">
       <p:with-input pipe="result@schematron-xslt"/>
    </p:store>
-   <p:identity>
-      <p:with-input port="source" pipe="result-uri" />
-   </p:identity>
-   <p:variable name="sch_preprocessed_xsl" as="xs:string" select="." />
+   <p:sink />
 
    <!-- Converting Schematron XSpec into XSLT XSpec... -->
    <x:schut-to-xspec name="schematron-xspec">
-      <p:with-input port="source" pipe="@run-schematron-xslt" />
+      <p:with-input port="source" pipe="@run-schematron" />
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="stylesheet-uri" select="$sch_preprocessed_xsl"/>
    </x:schut-to-xspec>
 
-   <!-- compile the suite into a stylesheet -->
-   <x:compile-xslt name="compile" p:message="Creating Test Runner...">
-      <p:with-option name="xspec-home" select="$xspec-home"/>
-      <p:with-option name="force-focus" select="$force-focus"/>
-   </x:compile-xslt>
-   <p:cast-content-type content-type="application/xslt+xml" />
-
-   <!-- run it -->
-   <p:xslt name="run" template-name="x:main" message="&#10;Running Tests...">
-      <p:with-input port="source">
-         <p:empty/>
-      </p:with-input>
-      <p:with-input port="stylesheet" pipe="@compile"/>
-   </p:xslt>
-
-   <!-- format the report -->
-   <x:format-report p:message="&#10;Formatting Report..." name="format-report">
+   <!-- The rest of the process is the same as for running XSpec for XSLT,
+        so we call that step to avoid duplicating code here. -->
+   <x:run-xslt name="run-xslt">
       <p:with-option name="xspec-home" select="$xspec-home"/>
       <p:with-option name="force-focus" select="$force-focus"/>
       <p:with-option name="html-report-theme" select="$html-report-theme"/>
       <p:with-option name="inline-css" select="$inline-css"/>
-   </x:format-report>
-
-   <!-- produce the JUnit report if requested -->
-   <x:maybe-format-junit-report name="junit-report" p:depends="format-report">
-      <p:with-input port="source" pipe="result@run"/>
-      <p:with-option name="xspec-home" select="$xspec-home" />
-      <p:with-option name="junit-enabled" select="$junit-enabled" />
-   </x:maybe-format-junit-report>
+      <p:with-option name="junit-enabled" select="$junit-enabled"/>
+   </x:run-xslt>
 </p:declare-step>
