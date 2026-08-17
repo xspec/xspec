@@ -644,7 +644,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_stylesheet.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xslt-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xslt-test-result_${RANDOM}.html" \
         ../src/xproc3/run-xslt.xpl
 
     [ "$status" -eq 0 ]
@@ -661,11 +661,28 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_query.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xquery-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xquery-test-result_${RANDOM}.html" \
         ../src/xproc3/run-xquery.xpl
 
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 1]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+@test "XProc 3 harness with catalog file URI (Schematron)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --catalog:"catalog/01/catalog-public.xml" \
+        --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        --catalog:"../catalog.xml" \
+        --input:source="${PWD}/catalog/catalog-01_schematron.xspec" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-schematron-test-result_${RANDOM}.html" \
+        ../src/xproc3/run-schematron.xpl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 5 / pending: 0 / failed: 0 / total: 5" ]
 }
 
 @test "XProc 3 harness with catalog file URI (Schematron via XQS)" {
@@ -683,7 +700,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/03/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-03_schematron-xqs.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-schematron-xqs-test-result_${RANDOM}.html" \
         ../src/xproc3/schematron-xqs/run-schematron-xqs.xpl
 
     [ "$status" -eq 0 ]
@@ -700,7 +717,7 @@ load bats-helper
         --catalog:"file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         --catalog:"../catalog.xml" \
         --input:source="${PWD}/catalog/catalog-01_xproc.xspec" \
-        --output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result_${RANDOM}.html" \
+        --output:result="file:${work_dir}/catalog-file-uri-xproc3-xproc-test-result_${RANDOM}.html" \
         ../src/xproc3/xproc-testing/run-xproc.xpl
 
     [ "$status" -eq 0 ]
@@ -984,6 +1001,76 @@ load bats-helper
 }
 
 #
+# JUnit (XProc 3 - Schematron with XSLT)
+#
+
+@test "XProc 3 harness with SchXslt2 (Schematron) producing JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/schematron"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/focus-without-pending-result.html"
+    # JUnit report file
+    actual_junit_report="${actual_report_dir}/focus-without-pending-junit.xml"
+
+    # Run
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/focus-without-pending.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-schematron.xpl \
+        junit-enabled=true
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "Generating JUnit Report..." ]
+
+    # Verify HTML report including #72
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/focus-without-pending-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+
+    # Verify that inline CSS uses > instead of &gt;
+    myrun grep -F "> h2:first-of-type" "${actual_report}"
+    [ "${#lines[@]}" = "1" ]
+    [ "${lines[0]}" = "body > h2:first-of-type {" ]
+
+    # Verify JUnit report
+    java -cp "${SAXON_CP}" net.sf.saxon.Transform \
+        -s:"${actual_junit_report}" \
+        -xsl:end-to-end/processor/junit/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/schematron/focus-without-pending-junit.xml"
+}
+
+@test "XProc 3 harness with SchXslt2 (Schematron), checking no JUnit report" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    r=${RANDOM}
+    # HTML report file
+    actual_report="${work_dir}/focus-without-pending-result_${r}.html"
+    # JUnit report file
+    actual_junit_report="${work_dir}/focus-without-pending-junit_${r}.xml"
+
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=end-to-end/cases/focus-without-pending.xspec \
+        --output:result="file:${actual_report}" \
+        --output:junit="file:${actual_junit_report}" \
+        xspec-home="file:${parent_dir_abs}/" \
+        ../src/xproc3/run-schematron.xpl \
+        junit-enabled=false
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 2]}" = "Formatting Report..." ]
+    [ -f "${actual_report}" ]
+    [ ! -f "${actual_junit_report}" ]
+}
+
+#
 # JUnit (XProc 3 - BaseX (Schematron via XQS))
 #
 
@@ -1252,7 +1339,7 @@ load bats-helper
 }
 
 #
-# Schematron XSLT provided externally (CLI)
+# Schematron XSLT provided externally
 #
 #     Ant is tested by run-xspec-tests-ant.sh
 #
@@ -1263,6 +1350,23 @@ load bats-helper
     myrun ../bin/xspec.sh -s schematron-param-001.xspec
     [ "$status" -eq 0 ]
     [ "${lines[24]}" = "passed: 8 / pending: 0 / failed: 0 / total: 8" ]
+}
+
+@test "invoking xspec with Schematron XSLT provided externally uses provided XSLT for Schematron compile (XProc)" {
+    if [ -z "${XMLCALABASH3_JAR}" ]; then
+        skip "XMLCALABASH3_JAR is not defined"
+    fi
+
+    # Running schematron with xslt using xml-calabash
+    myrun java -jar "${XMLCALABASH3_JAR}" \
+        --input:source=schematron-param-001.xspec \
+        --output:result="file:${TEST_DIR}/schematron-param-001-result.html" \
+        ../src/xproc3/run-schematron.xpl \
+        xspec-home="file:${parent_dir_abs}/" \
+        schxslt2-transpiler=../../test/schematron/schematron-param-001-step3.xsl
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 8 / pending: 0 / failed: 0 / total: 8" ]
 }
 
 #

@@ -7,6 +7,9 @@
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xslt"
 		uri="run-xslt.xpl" />
 	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-schematron"
+		uri="run-schematron.xpl" />
+	
 	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xquery"
 		uri="run-xquery.xpl" />
 	
