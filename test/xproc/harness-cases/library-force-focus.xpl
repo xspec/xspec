@@ -37,10 +37,10 @@
         <p:import href="../../../src/xproc3/run-schematron.xpl"/>
         <p:option name="force-focus" as="xs:string"/>
         <p:output port="result"/>
-        <x:run-schematron-xslt xspec-home="{resolve-uri('../../../')}">
+        <x:run-schematron xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../end-to-end/cases/focus-without-pending.xspec"/>
             <p:with-option name="force-focus" select="$force-focus"/>
-        </x:run-schematron-xslt>
+        </x:run-schematron>
     </p:declare-step>
 
     <!-- Schematron via XQS requires BaseX, so s:schematron-xqs-varying-force-focus

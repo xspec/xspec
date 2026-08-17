@@ -44,11 +44,11 @@
         <p:option name="inline-css" as="xs:string"/>
         <p:option name="html-report-theme" select="'blackwhite'" as="xs:string"/>
         <p:output port="result"/>
-        <x:run-schematron-xslt xspec-home="{resolve-uri('../../../')}">
+        <x:run-schematron xspec-home="{resolve-uri('../../../')}">
             <p:with-input href="../../../tutorial/schematron/demo-01.xspec"/>
             <p:with-option name="inline-css" select="$inline-css"/>
             <p:with-option name="html-report-theme" select="$html-report-theme"/>
-        </x:run-schematron-xslt>
+        </x:run-schematron>
     </p:declare-step>
 
     <!-- Schematron via XQS requires BaseX, so s:schematron-xqs-varying-inline-css
