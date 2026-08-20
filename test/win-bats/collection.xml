@@ -1093,6 +1093,7 @@
     set "SAXON_CP=%XMLCALABASH3_JAR%"
     set XPROC_PROCESSOR=xmlcalabash
     call :run ..\bin\xspec.bat -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
     call :verify_line 8 r "Testing with .* and XML Calabash "
 	</case>
 
@@ -1102,6 +1103,7 @@
     rem Also check that MORGANAXPROC_CONFIG is ignored if processor in effect is not MorganaXProc
     set MORGANAXPROC_CONFIG=nonexistent-file.xml
     call :run ..\bin\xspec.bat -p -processor xmlcalabash xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
     call :verify_line 8 r "Testing with .* and XML Calabash "
 	</case>
 
@@ -1148,6 +1150,36 @@
     call :run ..\bin\xspec.bat -processor xmlcalabash -s mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
+	</case>
+
+	<!--
+		xspec.xproc.processor in tests for XProc (Ant)
+			XML Calabash is the default. Cases that use MorganaXProc-III
+			are in morganaxproc.bats and collection-morganaxproc.xml.
+	-->
+
+	<case ifdef="XMLCALABASH3_JAR" name="xspec.xproc.processor set to xmlcalabash uses XML Calabash (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dxspec.xproc.processor=xmlcalabash ^
+        -Dtest.type=p ^
+        -Dxspec.xml="%CD%\xproc\cases\one-input-no-option-one-output.xspec"
+    call :verify_retval 0
+    call :verify_line * r "     \[java\] Testing with .* and XML Calabash "
+	</case>
+
+    <case ifdef="XMLCALABASH3_JAR" name="xspec.xproc.processor value must be xmlcalabash or morganaxproc (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%XMLCALABASH3_JAR%" ^
+        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dxspec.xproc.processor=bogus ^
+        -Dtest.type=p ^
+        -Dxspec.xml="%CD%\xproc\cases\one-input-no-option-one-output.xspec"
+    call :verify_retval 1
+    call :verify_line -3 r "..* Invalid xspec\.xproc\.processor: 'bogus'. Use 'xmlcalabash' or 'morganaxproc'."
 	</case>
 
 	<!--
