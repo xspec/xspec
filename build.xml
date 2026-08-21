@@ -740,7 +740,7 @@
     </java>    
   </target>
 
-  <!-- Define properties specific to running test for XProc using MorganaXProc-III -->
+  <!-- Defines properties specific to running test for XProc using MorganaXProc-III -->
   <target name="run-xproc-setup-morganaxproc" depends="generate-pipeline-file" if="${xspec.xproc.processor.is.morganaxproc}">
     <condition property="xspec.step.function.init.class"
       value="com.xml_project.morganaxproc3.saxon13connector.RegisterXProcStepsAsFunctions">
@@ -758,7 +758,7 @@
       value="${xspec.morganaxproc.config}" if:set="xspec.morganaxproc.config"/>    
   </target>
 
-  <!-- Define properties specific to running test for XProc using XML Calabash -->
+  <!-- Defines properties specific to running test for XProc using XML Calabash -->
   <target name="run-xproc-setup-xmlcalabash" depends="generate-pipeline-file" if="${xspec.xproc.processor.is.xmlcalabash}">
     <property name="xspec.step.function.init.class"
       value="com.xmlcalabash.api.RegisterSaxonFunctions"/>
