@@ -26,10 +26,10 @@
   <!-- Current Stylesheet Template -->
   <xsl:template match="node" mode="applyImportsWithParamMode">
     <node type="apply-imports - top stylesheet">
-      <xsl:value-of select=". + number(200)" />
+      <xsl:value-of select=". + number(1000)" />
     </node>
     <xsl:apply-imports>
-      <xsl:with-param name="applyImportsParam01" select="200" />
+      <xsl:with-param name="applyImportsParam01" select="1000" />
     </xsl:apply-imports>
   </xsl:template>
 </xsl:stylesheet>
