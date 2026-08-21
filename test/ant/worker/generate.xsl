@@ -15,7 +15,7 @@
 
 	<xsl:output indent="yes" />
 
-	<!-- Absolute URI of directory where *.xspec files are located. Must ends with '/'. -->
+	<!-- Absolute URI of directory where *.xspec files are located. Must end with '/'. -->
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" required="yes" />
 
 	<!-- Query parameter for fn:collection() -->
@@ -136,11 +136,10 @@
 							and (
 							($x:saxon-version lt x:pack-version((12, 7)))
 							or
-							($x:saxon-version ge x:pack-version((13, 0)))
+							($x:saxon-version ge x:pack-version((14, 0)))
 							)">
 						<!-- Why not Saxon 10 or 11: https://saxonica.plan.io/issues/6223 -->
-						<!-- Why not Saxon 13: Have not updated end-to-end coverage tests yet -->
-						<xsl:text>XSLT Code Coverage requires Saxon version 12.7 through 12.9</xsl:text>
+						<xsl:text>XSLT Code Coverage requires Saxon version 12.7 through 13.x</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
