@@ -16,6 +16,10 @@
         <x:call step="s:xquery-varying-force-focus"/>
         <x:like label="Check force-focus set to #none and a scenario identifier"/>
     </x:scenario>
+    <x:scenario label="Running XSpec test for Schematron via XSLT">
+        <x:call step="s:schematron-xslt-varying-force-focus"/>
+        <x:like label="Check force-focus set to #none and a scenario identifier"/>
+    </x:scenario>
     <x:scenario label="Running XSpec test for XProc">
         <x:call step="s:xproc-varying-force-focus"/>
         <x:like label="Check force-focus set to #none and a scenario identifier"/>

@@ -4,6 +4,7 @@
 	<nextCatalog catalog="compiler/catalog.xml" />
 	<nextCatalog catalog="reporter/catalog.xml" />
 	<nextCatalog catalog="schemas/catalog.xml" />
+	<nextCatalog catalog="schematron/catalog.xml" />
 	<nextCatalog catalog="xproc3/catalog.xml" />
 	
 </catalog>

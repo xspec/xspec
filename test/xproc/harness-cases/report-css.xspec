@@ -3,7 +3,7 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-inline-css.xpl">
 
     <!--
-        These scenarios test the inline-css option of XProc 3 harnesses.
+        These scenarios test the inline-css and html-report-theme options of XProc 3 harnesses.
         For corresponding scenario using XQS, see test/xqs/report-css.xspec.
 
         For checking that inline CSS uses the ">" character, see Bats test cases
@@ -14,15 +14,19 @@
     <x:import href="report-css_import.xspec"/>
     <x:scenario label="Running XSpec test for XSLT">
         <x:call step="s:xslt-varying-inline-css"/>
-        <x:like label="Check inline-css true and false"/>
+        <x:like label="Check inline-css and html-report-theme options"/>
     </x:scenario>
     <x:scenario label="Running XSpec test for XQuery">
         <x:call step="s:xquery-varying-inline-css"/>
-        <x:like label="Check inline-css true and false"/>
+        <x:like label="Check inline-css and html-report-theme options"/>
+    </x:scenario>
+    <x:scenario label="Running XSpec test for Schematron via XSLT">
+        <x:call step="s:schematron-xslt-varying-inline-css"/>
+        <x:like label="Check inline-css and html-report-theme options"/>
     </x:scenario>
     <x:scenario label="Running XSpec test for XProc">
         <x:call step="s:xproc-varying-inline-css"/>
-        <x:like label="Check inline-css true and false"/>
+        <x:like label="Check inline-css and html-report-theme options"/>
     </x:scenario>
 
 </x:description>
