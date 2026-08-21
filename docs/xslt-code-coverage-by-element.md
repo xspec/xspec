@@ -28,7 +28,7 @@ The following list describes the rules used to determine the coverage status of 
 
 - **Always Ignore** - Mark node as 'ignored'. This rule is mainly for Declaration elements where Saxon does not produce trace output.
 - **Use Trace Data** - If the trace data has a "hit" element, mark node as a 'hit'. Otherwise, mark it as 'missed'.
-- **Use Trace, Descendant or Miss** - If the trace data has a "hit" element, mark node as a 'hit', If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. This is for elements that are traced on the element or a descendant. If there is no hit then it is missed.
+- **Use Trace, Descendant, or Miss** - If the trace data has a "hit" element, mark node as a 'hit'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as 'missed'. This rule is for elements that are traced on the element or a descendant.
 - **Use Parent Data** - If the trace data has a "hit" element for this node's parent, mark this node as a 'hit'. Otherwise, mark it as 'missed'. Rationale: This element is not traced in the XSpec trace file, but if it has been executed, then its parent is traced.
 - **Use Parent Status** - If this node's parent has 'hit' status based on its trace data and the rule it follows, mark this node as a 'hit'. Otherwise, mark it as 'missed'. This rule can differ from 'Use Parent Data' when the parent is not traced.
 - **Use Descendant Data** - If node has no children, mark it as 'unknown'. If the trace data has a "hit" element for a descendant of this node, then mark this node as a 'hit'. Otherwise, mark this node as either 'unknown' or 'missed', as follows: 'missed' if all executable descendants are traceable, else 'unknown'. An untraceable node is one that Saxon never traces, regardless of what the XSpec test covers. Non-executable descendants in this context are comments, processing instructions, and whitespace-only text nodes (except inside xsl:text). Rationale: This element is untraceable in the XSpec trace file, but if it has been executed, then any traceable executable descendants are traced. NOTE: the fact that `xsl:sequence` is untraceable might cause this rule to produce the wrong result.
@@ -98,7 +98,7 @@ Sequence constructor of xsl:accumulator-rule is not traced so any descendants ne
 | CONTENT      |                                             |
 | TRACE (12.9) | Yes                                         |
 | TRACE (13.0) | Yes (on descendant if sequence constructor) |
-| RULE         | Use Trace, Descendant or Miss               |
+| RULE         | Use Trace, Descendant, or Miss              |
 
 ## xsl:apply-templates
 
@@ -241,15 +241,15 @@ If xsl:catch has a select attribute, we don't know if it was executed.
 
 ## xsl:choose
 
-|              |                               |
-| ------------ | ----------------------------- |
-| CATEGORY     | Instruction                   |
-| PARENT       |                               |
-| CHILDREN     | xsl:otherwise, xsl:when       |
-| CONTENT      |                               |
-| TRACE (12.9) | Yes                           |
-| TRACE (13.0) | On element or descendant      |
-| RULE         | Use Trace, Descendant or Miss |
+|              |                                |
+| ------------ | ------------------------------ |
+| CATEGORY     | Instruction                    |
+| PARENT       |                                |
+| CHILDREN     | xsl:otherwise, xsl:when        |
+| CONTENT      |                                |
+| TRACE (12.9) | Yes                            |
+| TRACE (13.0) | On element or descendant       |
+| RULE         | Use Trace, Descendant, or Miss |
 
 ## xsl:comment
 
@@ -397,7 +397,7 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | CONTENT      |                                                |
 | TRACE (12.9) | Yes                                            |
 | TRACE (13.0) | On descendant                                  |
-| RULE         | Use Trace, Descendant or Miss                  |
+| RULE         | Use Trace, Descendant, or Miss                 |
 
 #### Comment
 
@@ -577,7 +577,7 @@ Tested as part of xsl:analyze-string.
 | CONTENT      |                                                  |
 | TRACE (12.9) | Yes                                              |
 | TRACE (13.0) | On descendant                                    |
-| RULE         | Use Trace, Descendant or Miss                    |
+| RULE         | Use Trace, Descendant, or Miss                   |
 
 #### Comment
 
@@ -710,7 +710,7 @@ Tested as part of xsl:iterate.
 | CONTENT      |                                             |
 | TRACE (12.9) | Yes                                         |
 | TRACE (13.0) | Yes (on descendant if sequence constructor) |
-| RULE         | Use Trace, Descendant or Miss               |
+| RULE         | Use Trace, Descendant, or Miss              |
 
 ## xsl:non-matching-substring
 
@@ -1106,26 +1106,26 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 
 ## xsl:value-of
 
-|              |                               |
-| ------------ | ----------------------------- |
-| CATEGORY     | Instruction                   |
-| PARENT       |                               |
-| CHILDREN     |                               |
-| CONTENT      |                               |
-| TRACE (12.9) | Yes                           |
-| TRACE (13.0) | On descendant                 |
-| RULE         | Use Trace, Descendant or Miss |
+|              |                                |
+| ------------ | ------------------------------ |
+| CATEGORY     | Instruction                    |
+| PARENT       |                                |
+| CHILDREN     |                                |
+| CONTENT      |                                |
+| TRACE (12.9) | Yes                            |
+| TRACE (13.0) | On descendant                  |
+| RULE         | Use Trace, Descendant, or Miss |
 
 ## xsl:variable
 
-|          |                               |
-| -------- | ----------------------------- |
-| CATEGORY | Declaration/Instruction       |
-| PARENT   |                               |
-| CHILDREN |                               |
-| CONTENT  |                               |
-| TRACE    | Sometimes                     |
-| RULE     | Use Trace, Descendant or Miss |
+|          |                                |
+| -------- | ------------------------------ |
+| CATEGORY | Declaration/Instruction        |
+| PARENT   |                                |
+| CHILDREN |                                |
+| CONTENT  |                                |
+| TRACE    | Sometimes                      |
+| RULE     | Use Trace, Descendant, or Miss |
 
 #### Comment
 
