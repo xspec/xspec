@@ -54,15 +54,15 @@
       </xsl:map>
     </xsl:variable>
     <!-- xsl:map with xsl:map-entry child using select attribute. A simple test case. -->
-    <xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)">
+    <xsl:variable name="map-variable02" as="map(xs:string, xs:decimal)">       <!-- Expected miss - actually used -->
       <xsl:map>                                                                <!-- Expected unknown -->
         <xsl:map-entry key="'Seven'" select="xs:decimal(700)" />               <!-- Expected unknown -->
       </xsl:map>                                                               <!-- Expected unknown -->
-    </xsl:variable>
+    </xsl:variable>                                                            <!-- Expected miss - actually used -->
     <!-- xsl:map-entry not inside a xsl:map. Using select attribute -->
-    <xsl:variable name="map-entry-variable01" as="map(xs:string, item())">
+    <xsl:variable name="map-entry-variable01" as="map(xs:string, item())">     <!-- Expected miss - actually used -->
       <xsl:map-entry key="'One'" select="100"/>                                <!-- Expected unknown -->
-    </xsl:variable>
+    </xsl:variable>                                                            <!-- Expected miss - actually used -->
     <!-- xsl:map-entry not inside a xsl:map. Using sequence constructor -->
     <xsl:variable name="map-entry-variable02" as="map(xs:string, item())">
       <xsl:map-entry key="'Three'">

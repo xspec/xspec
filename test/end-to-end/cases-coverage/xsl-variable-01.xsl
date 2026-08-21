@@ -30,7 +30,7 @@
   <xsl:variable name="variableGlobalEmptyStringUnused01" />                    <!-- Expected miss -->
 
   <xsl:template match="xsl-variable">
-    <xsl:variable name="variableLocalSelect01" select="string(400)" />
+    <xsl:variable name="variableLocalSelect01" select="string(400)" />         <!-- Expected miss - actually used -->
     <xsl:variable name="variableLocalDocNode01">
       <xsl:text>50</xsl:text>
       <element>0</element>

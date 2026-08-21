@@ -11,6 +11,7 @@
   <xsl:template match="xsl-apply-imports">
     <root>
       <xsl:apply-templates select="*" mode="applyImportsMode" />
+      <xsl:apply-templates select="*" mode="applyImportsWithParamMode" />
     </root>
   </xsl:template>
 
@@ -20,5 +21,15 @@
       <xsl:value-of select="." />
     </node>
     <xsl:apply-imports/>
+  </xsl:template>
+
+  <!-- Current Stylesheet Template -->
+  <xsl:template match="node" mode="applyImportsWithParamMode">
+    <node type="apply-imports - top stylesheet">
+      <xsl:value-of select=". + number(200)" />
+    </node>
+    <xsl:apply-imports>
+      <xsl:with-param name="applyImportsParam01" select="200" />
+    </xsl:apply-imports>
   </xsl:template>
 </xsl:stylesheet>
