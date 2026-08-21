@@ -17,19 +17,30 @@ if not exist "%SAXON_JAR%" (
 )
 
 if not defined MORGANAXPROC_CP (
-    echo MORGANAXPROC_CP is not found >&2
+    echo MORGANAXPROC_CP is not set >&2
     exit /b 1
 )
 
 if not defined MORGANAXPROC_HOME (
-    echo MORGANAXPROC_HOME is not found >&2
+    echo MORGANAXPROC_HOME is not set >&2
+    exit /b 1
+)
+
+if not defined MORGANAXPROC_INIT (
+    echo MORGANAXPROC_INIT is not set >&2
     exit /b 1
 )
 
 if not defined MORGANAXPROC_XSLT_CONNECTOR (
-    echo MORGANA_XPROC_XSLT_CONNECTOR is not found >&2
+    echo MORGANAXPROC_XSLT_CONNECTOR is not set >&2
     exit /b 1
 )
+
+
+set XPROC_PROCESSOR=morganaxproc
+
+set SAXON_BUG_7127_FIXED=1
+if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7127_FIXED=
 
 rem Unset Ant environment variables
 set ANT_ARGS=
@@ -39,6 +50,7 @@ rem Unset XMLResolver.org XML Resolver environment variable
 set XMLRESOLVER_PROPERTIES=
 
 rem Reset public environment variables
+set MORGANAXPROC_CONFIG=
 set "SAXON_CP=%SAXON_JAR%;%XMLRESOLVERORG_XMLRESOLVER_CP%"
 set SAXON_CUSTOM_OPTIONS=
 set SAXON_HOME=
@@ -46,6 +58,13 @@ set TEST_DIR=
 set XML_CATALOG=
 set XSPEC_HOME=
 set XSPEC_HTML_REPORT_THEME=
+
+rem Set a certain XML Resolver property that MorganaXProc-III needs.
+rem MorganaXProc-III normally sets it via xmlresolver.properties, but
+rem the run-bats machinery uses its own xmlresolver.properties file.
+rem Here, use an environment variable here so that the settings get pooled.
+rem Reference: https://www.xmlresolver.org/ResolverFeature/CLASSPATH_CATALOGS.html
+set XML_CATALOG_CLASSPATH_CATALOGS=false
 
 rem Saxon path for Ant -lib command line option
 rem  Note: Ant -lib command line option doesn't seem to accept classpath wildcards.
