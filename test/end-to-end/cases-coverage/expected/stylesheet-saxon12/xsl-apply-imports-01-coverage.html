@@ -31,33 +31,33 @@
             <tr>
                <th></th>
                <th class="totals">used</th>
-               <th class="totals">hit<br />10</th>
+               <th class="totals">hit<br />20</th>
                <th class="totals emphasis">missed<br />0</th>
                <th class="totals">unknown<br />0</th>
-               <th class="totals">lines<br />34</th>
+               <th class="totals">lines<br />53</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
                <th><a href="#module1">xsl-apply-imports-01.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">7</th>
+               <th class="totals">13</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">24</th>
+               <th class="totals">35</th>
             </tr>
             <tr class="successful">
                <th><a href="#module2">xsl-apply-imports-01A.xsl</a></th>
                <th class="totals">yes</th>
-               <th class="totals">3</th>
+               <th class="totals">7</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">10</th>
+               <th class="totals">18</th>
             </tr>
          </tbody>
       </table>
       <div id="module1">
-         <h2 class="successful">module: xsl-apply-imports-01.xsl<span class="scenario-totals">hit: 7 / missed: 0 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-apply-imports-01.xsl<span class="scenario-totals">hit: 13 / missed: 0 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: <span class="whitespace">  </span><span class="comment">&lt;!--</span>
@@ -71,20 +71,31 @@
 11: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="xsl-apply-imports"&gt;</span>
 12: <span class="whitespace">    </span><span class="hit">&lt;root&gt;</span>
 13: <span class="whitespace">      </span><span class="hit">&lt;xsl:apply-templates select="*" mode="applyImportsMode" /&gt;</span>
-14: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
-15: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-16: 
-17: <span class="whitespace">  </span><span class="comment">&lt;!-- Current Stylesheet Template --&gt;</span>
-18: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
-19: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - top stylesheet"&gt;</span>
-20: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
-21: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
-22: <span class="whitespace">    </span><span class="hit">&lt;xsl:apply-imports/&gt;</span>
-23: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-24: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+14: <span class="whitespace">      </span><span class="hit">&lt;xsl:apply-templates select="*" mode="applyImportsWithParamMode" /&gt;</span>
+15: <span class="whitespace">    </span><span class="hit">&lt;/root&gt;</span>
+16: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+17: 
+18: <span class="whitespace">  </span><span class="comment">&lt;!-- Current Stylesheet Template --&gt;</span>
+19: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsMode"&gt;</span>
+20: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - top stylesheet"&gt;</span>
+21: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
+22: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
+23: <span class="whitespace">    </span><span class="hit">&lt;xsl:apply-imports/&gt;</span>
+24: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+25: 
+26: <span class="whitespace">  </span><span class="comment">&lt;!-- Current Stylesheet Template --&gt;</span>
+27: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsWithParamMode"&gt;</span>
+28: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - top stylesheet"&gt;</span>
+29: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select=". + number(1000)" /&gt;</span>
+30: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
+31: <span class="whitespace">    </span><span class="hit">&lt;xsl:apply-imports&gt;</span>
+32: <span class="whitespace">      </span><span class="hit">&lt;xsl:with-param name="applyImportsParam01" select="1000" /&gt;</span>
+33: <span class="whitespace">    </span><span class="hit">&lt;/xsl:apply-imports&gt;</span>
+34: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+35: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
       <div id="module2">
-         <h2 class="successful">module: xsl-apply-imports-01A.xsl<span class="scenario-totals">hit: 3 / missed: 0 / unknown: 0</span></h2>
+         <h2 class="successful">module: xsl-apply-imports-01A.xsl<span class="scenario-totals">hit: 7 / missed: 0 / unknown: 0</span></h2>
          <pre class="xspecCoverage">01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
 02: <span class="ignored">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"&gt;</span>
 03: 
@@ -94,7 +105,15 @@
 07: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select="." /&gt;</span>
 08: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
 09: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
-10: <span class="whitespace"> </span><span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
+10: 
+11: <span class="whitespace">  </span><span class="comment">&lt;!-- xsl:apply-imports Template with xsl:param --&gt;</span>
+12: <span class="whitespace">  </span><span class="hit">&lt;xsl:template match="node" mode="applyImportsWithParamMode"&gt;</span>
+13: <span class="whitespace">    </span><span class="hit">&lt;xsl:param name="applyImportsParam01" /&gt;</span>
+14: <span class="whitespace">    </span><span class="hit">&lt;node type="apply-imports - import stylesheet"&gt;</span>
+15: <span class="whitespace">      </span><span class="hit">&lt;xsl:value-of select=". + number($applyImportsParam01)" /&gt;</span>
+16: <span class="whitespace">    </span><span class="hit">&lt;/node&gt;</span>
+17: <span class="whitespace">  </span><span class="hit">&lt;/xsl:template&gt;</span>
+18: <span class="ignored">&lt;/xsl:stylesheet&gt;</span></pre>
       </div>
    </body>
 </html>

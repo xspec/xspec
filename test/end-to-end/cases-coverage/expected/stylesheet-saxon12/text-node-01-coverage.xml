@@ -57,7 +57,7 @@
    <hit lineNumber="33" columnNumber="25" moduleId="0" traceableId="3"/>
    <hit lineNumber="34" columnNumber="37" moduleId="0" traceableId="4"/>
    <traceable traceableId="8" class="net.sf.saxon.expr.AtomicSequenceConverter"/>
-   <hit lineNumber="34" columnNumber="2" moduleId="0" traceableId="8"/>
+   <hit lineNumber="34" columnNumber="37" moduleId="0" traceableId="8"/>
    <hit lineNumber="36" columnNumber="25" moduleId="0" traceableId="1"/>
    <hit lineNumber="36" columnNumber="25" moduleId="0" traceableId="3"/>
    <hit lineNumber="37" columnNumber="41" moduleId="0" traceableId="4"/>

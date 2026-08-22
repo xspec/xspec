@@ -172,11 +172,17 @@
    <hit lineNumber="168" columnNumber="55" moduleId="0" traceableId="7"/>
    <hit lineNumber="149" columnNumber="45" moduleId="0" traceableId="8"/>
    <hit lineNumber="149" columnNumber="45" moduleId="0" traceableId="7"/>
-   <hit lineNumber="149" columnNumber="66" moduleId="0" traceableId="7"/>
+   <traceable traceableId="9"
+              class="net.sf.saxon.expr.instruct.Choose"
+              uqname="Q{http://www.w3.org/1999/XSL/Transform}if"/>
+   <hit lineNumber="149" columnNumber="71" moduleId="0" traceableId="9"/>
+   <hit lineNumber="149" columnNumber="71" moduleId="0" traceableId="7"/>
    <hit lineNumber="170" columnNumber="35" moduleId="0" traceableId="1"/>
    <hit lineNumber="170" columnNumber="35" moduleId="0" traceableId="6"/>
    <hit lineNumber="171" columnNumber="55" moduleId="0" traceableId="7"/>
    <hit lineNumber="150" columnNumber="45" moduleId="0" traceableId="8"/>
+   <hit lineNumber="150" columnNumber="45" moduleId="0" traceableId="7"/>
+   <hit lineNumber="150" columnNumber="71" moduleId="0" traceableId="9"/>
    <hit lineNumber="38" columnNumber="51" moduleId="0" traceableId="3"/>
    <hit lineNumber="176" columnNumber="40" moduleId="0" traceableId="4"/>
    <hit lineNumber="178" columnNumber="20" moduleId="0" traceableId="2"/>
@@ -223,11 +229,13 @@
    <hit lineNumber="207" columnNumber="35" moduleId="0" traceableId="6"/>
    <hit lineNumber="208" columnNumber="55" moduleId="0" traceableId="7"/>
    <hit lineNumber="188" columnNumber="20" moduleId="0" traceableId="7"/>
-   <hit lineNumber="188" columnNumber="41" moduleId="0" traceableId="7"/>
+   <hit lineNumber="188" columnNumber="46" moduleId="0" traceableId="9"/>
+   <hit lineNumber="188" columnNumber="46" moduleId="0" traceableId="7"/>
    <hit lineNumber="210" columnNumber="35" moduleId="0" traceableId="1"/>
    <hit lineNumber="210" columnNumber="35" moduleId="0" traceableId="6"/>
    <hit lineNumber="211" columnNumber="55" moduleId="0" traceableId="7"/>
    <hit lineNumber="190" columnNumber="20" moduleId="0" traceableId="7"/>
+   <hit lineNumber="190" columnNumber="46" moduleId="0" traceableId="9"/>
    <hit lineNumber="39" columnNumber="51" moduleId="0" traceableId="3"/>
    <hit lineNumber="216" columnNumber="40" moduleId="0" traceableId="4"/>
    <hit lineNumber="217" columnNumber="39" moduleId="0" traceableId="2"/>
@@ -247,9 +255,6 @@
    <hit lineNumber="224" columnNumber="10" moduleId="0" traceableId="8"/>
    <hit lineNumber="224" columnNumber="10" moduleId="0" traceableId="1"/>
    <hit lineNumber="224" columnNumber="10" moduleId="0" traceableId="7"/>
-   <traceable traceableId="9"
-              class="net.sf.saxon.expr.instruct.Choose"
-              uqname="Q{http://www.w3.org/1999/XSL/Transform}choose"/>
    <hit lineNumber="225" columnNumber="19" moduleId="0" traceableId="9"/>
    <hit lineNumber="227" columnNumber="21" moduleId="0" traceableId="7"/>
    <hit lineNumber="40" columnNumber="51" moduleId="0" traceableId="3"/>
