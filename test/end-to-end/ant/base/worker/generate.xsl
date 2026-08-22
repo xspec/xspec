@@ -13,6 +13,18 @@
 	<!-- Import: Some may be overridden -->
 	<xsl:import href="../../../../ant/worker/generate.xsl" />
 
+	<!-- For XSLT code coverage, store expected files in separate
+			folders by Saxon major version, e.g., stylesheet-saxon13. -->
+	<xsl:variable as="xs:string?" name="suffix-for-expected-report-folder">
+		<xsl:if test="(ends-with($XSPECFILES-DIR-URI, '/cases-coverage/'))">
+			<xsl:sequence select="
+				concat(
+					'-saxon',
+					system-property('xsl:product-version') => x:extract-version() => head()
+				)"/>			
+		</xsl:if>
+	</xsl:variable>
+
 	<!--
 		Overrides an imported named template
 		
@@ -35,7 +47,7 @@
 				=> resolve-uri($XSPECFILES-DIR-URI)" />
 		<xsl:variable as="xs:anyURI" name="expected-reports-dir-uri"
 			select="
-				('expected/' || name() || '/')
+				('expected/' || name() || $suffix-for-expected-report-folder || '/')
 				=> resolve-uri($XSPECFILES-DIR-URI)" />
 
 		<!-- Get the file name without extension. i.e. Get "foo" from "scheme://host/dir/foo.xspec" -->
