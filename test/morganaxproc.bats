@@ -353,7 +353,7 @@ load bats-helper
         -output:result="file:${work_dir}/xproc-testing-demo-library-result.html" \
         -xslt-message-prefix=""
     [ "$status" -eq 0 ]
-    [ "${lines[-1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
 }
 
 @test "XSpec test with a helper pipeline" {
@@ -366,7 +366,7 @@ load bats-helper
         -output:result="file:${work_dir}/helper-step-result.html" \
         -xslt-message-prefix=""
     [ "$status" -eq 0 ]
-    [ "${lines[-1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 @test "XSpec test with a helper stylesheet" {
@@ -379,7 +379,7 @@ load bats-helper
         -output:result="file:${work_dir}/helper-stylesheet-result.html" \
         -xslt-message-prefix=""
     [ "$status" -eq 0 ]
-    [ "${lines[-1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 @test "xspec-home option instead of catalog" {
@@ -393,7 +393,7 @@ load bats-helper
         -xslt-message-prefix="" \
         -option:xspec-home="file:${parent_dir_abs}/"
     [ "$status" -eq 0 ]
-    [ "${lines[-1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 2 / pending: 0 / failed: 1 / total: 3" ]
 }
 
 @test "XProc 3 harness with catalog file URI (XProc)" {
@@ -406,7 +406,7 @@ load bats-helper
         -output:result="file:${work_dir}/catalog-file-path-xproc3-xproc-test-result.html" \
         -xslt-message-prefix=""
     [ "$status" -eq 0 ]
-    [ "${lines[-1]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
+    [ "${lines[${#lines[@]} - 1]}" = "passed: 6 / pending: 0 / failed: 0 / total: 6" ]
 }
 
 @test "Passing test cases for testing XProc steps" {
