@@ -38,7 +38,7 @@ The following list describes the rules used to determine the coverage status of 
 
 ## Saxon Version(s) Reflected in this Document
 
-12.9 and 13.0
+12.7-12.10, 13.0
 
 ## xsl:accept
 
@@ -96,7 +96,7 @@ Sequence constructor of xsl:accumulator-rule is not traced so any descendants ne
 | PARENT       |                                             |
 | CHILDREN     | xsl:with-param                              |
 | CONTENT      |                                             |
-| TRACE (12.9) | Yes                                         |
+| TRACE (12.x) | Yes                                         |
 | TRACE (13.0) | Yes (on descendant if sequence constructor) |
 | RULE         | Use Trace, Descendant, or Miss              |
 
@@ -247,7 +247,7 @@ If xsl:catch has a select attribute, we don't know if it was executed.
 | PARENT       |                                |
 | CHILDREN     | xsl:otherwise, xsl:when        |
 | CONTENT      |                                |
-| TRACE (12.9) | Yes                            |
+| TRACE (12.x) | Yes                            |
 | TRACE (13.0) | On element or descendant       |
 | RULE         | Use Trace, Descendant, or Miss |
 
@@ -395,7 +395,7 @@ Although it seems more like a declaration than an instruction, it isn't a direct
 | PARENT       |                                                |
 | CHILDREN     | xsl:fallback, xsl:for-each-group, xsl:sequence |
 | CONTENT      |                                                |
-| TRACE (12.9) | Yes                                            |
+| TRACE (12.x) | Yes                                            |
 | TRACE (13.0) | On descendant                                  |
 | RULE         | Use Trace, Descendant, or Miss                 |
 
@@ -575,7 +575,7 @@ Tested as part of xsl:analyze-string.
 | PARENT       |                                                  |
 | CHILDREN     | xsl:fallback, xsl:merge-action, xsl:merge-source |
 | CONTENT      |                                                  |
-| TRACE (12.9) | Yes                                              |
+| TRACE (12.x) | Yes                                              |
 | TRACE (13.0) | On descendant                                    |
 | RULE         | Use Trace, Descendant, or Miss                   |
 
@@ -708,7 +708,7 @@ Tested as part of xsl:iterate.
 | PARENT       |                                             |
 | CHILDREN     | xsl:fallback, xsl:with-param                |
 | CONTENT      |                                             |
-| TRACE (12.9) | Yes                                         |
+| TRACE (12.x) | Yes                                         |
 | TRACE (13.0) | Yes (on descendant if sequence constructor) |
 | RULE         | Use Trace, Descendant, or Miss              |
 
@@ -1112,7 +1112,7 @@ Contents of the xsl:use-package are not included in the Test Coverage Report.
 | PARENT       |                                |
 | CHILDREN     |                                |
 | CONTENT      |                                |
-| TRACE (12.9) | Yes                            |
+| TRACE (12.x) | Yes                            |
 | TRACE (13.0) | On descendant                  |
 | RULE         | Use Trace, Descendant, or Miss |
 
