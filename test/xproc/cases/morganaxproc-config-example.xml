@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.xml-project.com/manual/ch02.html -->
+<morgana-config xmlns="http://www.xml-project.com/morganaxproc">
+  <mediatype-mapping>
+		<map file-extension="123" media-type="text/plain" />
+	</mediatype-mapping>
+</morgana-config>
