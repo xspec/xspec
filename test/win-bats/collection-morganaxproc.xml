@@ -34,6 +34,7 @@
     set "SAXON_CP=%MORGANAXPROC_CP%"
     set XPROC_PROCESSOR=
     call :run ..\bin\xspec.bat -p -processor morganaxproc xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
     call :verify_line 8 r "Testing with .* and MorganaXProc"
 	</case>
 
@@ -43,6 +44,7 @@
     rem Also check that XMLCALABASH_CONFIG is ignored if processor in effect is not XML Calabash
     set XMLCALABASH_CONFIG=nonexistent-file.xml
     call :run ..\bin\xspec.bat -p -processor morganaxproc xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 0
     call :verify_line 8 r "Testing with .* and MorganaXProc"
 	</case>
 
@@ -50,6 +52,7 @@
     set "SAXON_CP=%MORGANAXPROC_CP%"
     set MORGANAXPROC_INIT=
     call :run ..\bin\xspec.bat -p xproc\cases\one-input-no-option-one-output.xspec
+    call :verify_retval 1
     call :verify_line -3 x "ERROR: When XProc processor is set to 'morganaxproc', MORGANAXPROC_INIT must be set."
 	</case>
 
@@ -91,25 +94,42 @@
 		Ant using MorganaXProc-IIIee
 	-->
 
-	<case ifdef="ANT-PENDING" name="MorganaXProc configuration for testing XProc (Ant)">
+	<case name="MorganaXProc configuration for testing XProc (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%XMLCALABASH3_JAR%" ^
-        -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
-        -Dxspec.xmlcalabash.config="file:///%CD:\=/%/xproc/cases/xmlcalabash-config-example.xml" ^
+        -lib "%MORGANAXPROC_CP%" ^
+        -Dxspec.xproc.processor=%XPROC_PROCESSOR% ^
+        -Dxspec.morganaxproc.init=%MORGANAXPROC_INIT% ^
+        -Dxspec.morganaxproc.config="file:///%CD:\=/%/xproc/cases/morganaxproc-config-example.xml" ^
         -Dtest.type=p ^
-        -Dxspec.fail=false ^
-        -Dxspec.xml="%CD%\xproc\cases\validation-with-or-without-line-numbers.xspec"
+        -Dxspec.xml="%CD%\xproc\integ-test-supporting-files\load.xspec"
 
     call :verify_retval 0
-    call :verify_line -14 x "     [xslt] passed: 0 / pending: 0 / failed: 1 / total: 1"
+    call :verify_line -16 x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
+
+	<!--
+		xspec.xproc.processor in tests for XProc (Ant)
+	-->
+
+	<case name="xspec.xproc.processor set to morganaxproc uses MorganaXProc (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%MORGANAXPROC_CP%" ^
+        -Dxspec.xproc.processor=morganaxproc ^
+        -Dxspec.morganaxproc.init=%MORGANAXPROC_INIT% ^
+        -Dtest.type=p ^
+        -Dxspec.xml="%CD%\xproc\cases\one-input-no-option-one-output.xspec"
+    call :verify_retval 0
+    call :verify_line * r "     \[java\] Testing with .* and MorganaXProc"
+	</case>
+
 
 	<!--
 		Ant with minimum properties
 	-->
 
-	<case ifdef="ANT-PENDING" name="Ant with minimum properties (XProc)">
+	<case name="Ant with minimum properties (XProc)">
     rem Unset any preset args
     set ANT_ARGS=
 
@@ -122,8 +142,9 @@
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%XMLCALABASH3_JAR%" ^
-        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -lib "%MORGANAXPROC_CP%" ^
+        -Dxspec.xproc.processor=%XPROC_PROCESSOR% ^
+        -Dxspec.morganaxproc.init=%MORGANAXPROC_INIT% ^
         -Dtest.type=p ^
         -Dxspec.xml="%TUTORIAL_COPY%\xproc-testing-demo.xspec"
 
@@ -157,12 +178,13 @@
 			Test 'catalog' property containing multiple file paths (relative and absolute)
 	-->
 
-	<case ifdef="ANT-PENDING SAXON_BUG_7127_FIXED" name="Ant with catalog file path (XProc)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file path (XProc)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%XMLCALABASH3_JAR%" ^
+        -lib "%MORGANAXPROC_CP%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
-        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dxspec.xproc.processor=%XPROC_PROCESSOR% ^
+        -Dxspec.morganaxproc.init=%MORGANAXPROC_INIT% ^
         -Dtest.type=p ^
         -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-01_xproc.xspec"
@@ -177,12 +199,13 @@
 			Test 'catalog' property containing multiple URIs (relative and absolute)
 	-->
 
-	<case ifdef="ANT-PENDING SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (XProc)">
+	<case ifdef="SAXON_BUG_7127_FIXED" name="Ant with catalog file URI (XProc)">
     call :run ant ^
         -buildfile ..\build.xml ^
-        -lib "%XMLCALABASH3_JAR%" ^
+        -lib "%MORGANAXPROC_CP%" ^
         -lib "%APACHE_XMLRESOLVER_JAR%" ^
-        -Dxspec.xmlcalabash.classpath=%XMLCALABASH3_JAR% ^
+        -Dxspec.xproc.processor=%XPROC_PROCESSOR% ^
+        -Dxspec.morganaxproc.init=%MORGANAXPROC_INIT% ^
         -Dtest.type=p ^
         -Dcatalog="test/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -Dcatalog.is.uri=true ^
