@@ -11,4 +11,4 @@ See xspec/xspec#92, xspec/xspec#111, xspec/xspec#135 and xspec/xspec#524 for det
 
 Embedded in top-level `README.md`.
 [Release page for v2.3.2](https://github.com/xspec/xspec/releases/tag/v2.3.2) embeds similar PNG image from xspec/xspec#1766.
-Image created by @spemberton based on idea from @martian-a.
+Final image from anonymous person based on ideas from @spemberton and @martian-a.
