@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" xproc="library-inline-css.xpl">
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xproc="library-inline-css.xpl">
 
     <!-- This file is imported by the report-css.xspec files in
         this directory and the test/xqs/ directory. -->
 
-    <x:scenario shared="yes" label="Check inline-css true and false">
+    <x:scenario shared="yes" label="Check inline-css and html-report-theme options">
         <!-- x:call/@step must be inherited from an ancestor scenario. -->
-        <x:scenario label="with inline-css true">
+        <x:scenario label="with inline-css true, html-report-theme default">
             <x:call>
                 <x:option name="inline-css" select="'true'"/>
             </x:call>
@@ -16,7 +17,15 @@
             <x:expect port="result" label="and no link element" test="empty(/h:html/h:head/h:link)"
             />
         </x:scenario>
-        <x:scenario label="with inline-css false">
+        <x:scenario label="with inline-css true, html-report-theme whiteblack">
+            <x:call>
+                <x:option name="inline-css" select="'true'"/>
+                <x:option name="html-report-theme" select="'whiteblack'" as="xs:string"/>
+            </x:call>
+            <x:expect port="result" label="has text from whiteblack CSS file's comment in style"
+                test="contains(/h:html/h:head/h:style, 'test-report-colors-whiteblack.css')"/>
+        </x:scenario>
+        <x:scenario label="with inline-css false, html-report-theme default">
             <x:call>
                 <x:option name="inline-css" select="'false'"/>
             </x:call>
@@ -28,6 +37,16 @@
                 select="('test-report-colors-blackwhite.css', 'test-report-base.css')"/>
             <x:expect port="result" label="and no style element"
                 test="empty(/h:html/h:head/h:style[@type='text/css'])"/>
+        </x:scenario>
+        <x:scenario label="with inline-css false, html-report-theme whiteblack">
+            <x:call>
+                <x:option name="inline-css" select="'false'"/>
+                <x:option name="html-report-theme" select="'whiteblack'" as="xs:string"/>
+            </x:call>
+            <x:expect port="result" label="uses whiteblack CSS file for the theme" test="
+                /h:html/h:head/h:link[@rel='stylesheet'][@type='text/css']/@href
+                ! replace(., '^.*/', '')"
+                select="('test-report-colors-whiteblack.css', 'test-report-base.css')"/>
         </x:scenario>
     </x:scenario>
 </x:description>

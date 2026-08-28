@@ -22,6 +22,10 @@
         <x:call step="s:xquery-varying-xspec-home"/>
         <x:like label="Check xspec-home empty and zero-length string"/>
     </x:scenario>
+    <x:scenario label="Running XSpec test for Schematron via XSLT" catch="yes">
+        <x:call step="s:schematron-xslt-varying-xspec-home"/>
+        <x:like label="Check xspec-home empty and zero-length string"/>
+    </x:scenario>
     <x:scenario label="Running XSpec test for XProc" catch="yes">
         <x:call step="s:xproc-varying-xspec-home"/>
         <x:like label="Check xspec-home empty and zero-length string"/>

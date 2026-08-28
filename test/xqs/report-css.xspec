@@ -6,7 +6,7 @@
     <x:import href="report-css_import.xspec"/>
     <x:scenario label="Running XSpec test for Schematron via XQS">
         <x:call step="s:schematron-xqs-varying-inline-css"/>
-        <x:like label="Check inline-css true and false"/>
+        <x:like label="Check inline-css and html-report-theme options"/>
     </x:scenario>
 
 </x:description>
