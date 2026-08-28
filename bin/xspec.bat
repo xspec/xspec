@@ -52,7 +52,7 @@ rem ##
     )
     echo XSpec v%XSPEC_VERSION%
     echo:
-    echo Usage: xspec [-t^|-q^|-s^|-p^|-c^|-j^|-catalog file^|-e^|-h] file
+    echo Usage: xspec [-t^|-q^|-s^|-p^|-c^|-j^|-catalog file^|-processor val^|-e^|-h] file
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
@@ -62,6 +62,7 @@ rem ##
     echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
+    echo   -processor val use xmlcalabash or morganaxproc for XProc
     echo   -e             treat failed tests as error
     echo   -h             display this help message
     goto :EOF
@@ -77,10 +78,31 @@ rem ##
 
 :xslt-with-pipeline
     set "PIPELINES=%TEST_DIR%\%TARGET_FILE_NAME%-pipelines.xpl"
-    rem # Convey XML Calabash configuration file if XMLCALABASH_CONFIG has been set to a URI
-    set XMLCALABASH_CONFIG_ARG=
-    if defined XMLCALABASH_CONFIG (
-        set XMLCALABASH_CONFIG_ARG=-Dcom.xmlcalabash.configuration="%XMLCALABASH_CONFIG%"
+    set XPROC_CONFIG_ARG=
+    if "%XPROC_PROCESSOR%"=="morganaxproc" (
+        set XPROC_PIPELINE_PROPERTY=com.xml_project.morganaxproc.pipeline
+        if defined MORGANAXPROC_CONFIG (
+            set XPROC_CONFIG_ARG=-Dcom.xml_project.morganaxproc.config="%MORGANAXPROC_CONFIG%"
+        )
+        if not defined MORGANAXPROC_INIT (
+            echo ERROR: When XProc processor is set to 'morganaxproc', MORGANAXPROC_INIT must be set.
+            exit /b 1
+        ) else if "%MORGANAXPROC_INIT%"=="saxon13" (
+            set STEP_FUNCTION_INIT_CLASS=com.xml_project.morganaxproc3.saxon13connector.RegisterXProcStepsAsFunctions
+        ) else if "%MORGANAXPROC_INIT%"=="saxon12-3" (
+            rem Recognize same shortcut as for -xslt-connector documented in https://www.xml-project.com/manual/ch02.html
+            rem although the fully qualified class name uses underscore, not hyphen.
+            set STEP_FUNCTION_INIT_CLASS=com.xml_project.morganaxproc3.saxon12_3connector.RegisterXProcStepsAsFunctions
+        ) else (
+            rem Use environment variable value directly, accommodating future classes not known to XSpec yet.
+            set STEP_FUNCTION_INIT_CLASS=%MORGANAXPROC_INIT%
+        )
+    ) else (
+        set XPROC_PIPELINE_PROPERTY=com.xmlcalabash.pipelines
+        if defined XMLCALABASH_CONFIG (
+            set XPROC_CONFIG_ARG=-Dcom.xmlcalabash.configuration="%XMLCALABASH_CONFIG%"
+        )
+        set STEP_FUNCTION_INIT_CLASS=com.xmlcalabash.api.RegisterSaxonFunctions
     )
 
     java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
@@ -92,10 +114,10 @@ rem ##
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
         -Dxspec.home="%XSPEC_HOME%" ^
         -Dxspec.xspecfile="%XSPEC%" ^
-        -Dcom.xmlcalabash.pipelines="%PIPELINES%" ^
-        %XMLCALABASH_CONFIG_ARG% ^
-        -cp "%CP%" net.sf.saxon.Transform ^
-        -init:com.xmlcalabash.api.RegisterSaxonFunctions ^
+        -D%XPROC_PIPELINE_PROPERTY%="%PIPELINES%" ^
+        %XPROC_CONFIG_ARG% ^
+        -cp "%SAXON_CP%" net.sf.saxon.Transform ^
+        -init:%STEP_FUNCTION_INIT_CLASS% ^
         %CATALOG% %*
     goto :EOF
 
@@ -129,6 +151,7 @@ rem ##
     set XSPEC=
     set CATALOG=
     set BASEX_CATALOG=
+    set PROCESSOR=
     set REPORT_THEME=default
     set ERROR_ON_TEST_FAILURE=
     goto :EOF
@@ -156,6 +179,9 @@ rem ##
         set WIN_HELP=1
     ) else if "%WIN_ARGV%"=="-catalog" (
         set "XML_CATALOG=%~2"
+        shift
+    ) else if "%WIN_ARGV%"=="-processor" (
+        set "PROCESSOR=%~2"
         shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
@@ -416,6 +442,22 @@ rem
 rem # set XSLT if XQuery and XProc have not been set (XSLT is the default)
 rem
 if not defined XSLT if not defined XQUERY if not defined XPROC set XSLT=1
+
+rem
+rem # Processor choice isn't for all languages (check after setting default to XSLT).
+rem
+
+rem # -processor has higher precedence than environment variable.
+if defined XPROC if defined PROCESSOR set "XPROC_PROCESSOR=%PROCESSOR%"
+if defined XPROC if defined XPROC_PROCESSOR if not "%XPROC_PROCESSOR%"=="xmlcalabash" if not "%XPROC_PROCESSOR%"=="morganaxproc" (
+    call :usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
+    exit /b 1
+)
+rem # For #2320, a clause could go here for the "if defined XQUERY..." cases
+if not defined XPROC if not ""=="%PROCESSOR%%XPROC_PROCESSOR%" (
+    call :usage "XProc -processor option is not supported for this test type"
+    exit /b 1
+)
 
 if not exist "%XSPEC%" (
     call :usage "Error: File not found."
