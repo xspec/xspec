@@ -17,6 +17,10 @@
             <node type="apply-imports - import stylesheet">100</node>
             <node type="apply-imports - top stylesheet">200</node>
             <node type="apply-imports - import stylesheet">200</node>
+            <node type="apply-imports - top stylesheet">1100</node>
+            <node type="apply-imports - import stylesheet">1100</node>
+            <node type="apply-imports - top stylesheet">1200</node>
+            <node type="apply-imports - import stylesheet">1200</node>
          </root>
       </x:expect>
    </x:scenario>

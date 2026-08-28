@@ -37,6 +37,11 @@ import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.trace.Traceable;
 import net.sf.saxon.tree.AttributeLocation;
+/* XSpec issue #2377 - added as part of changes to getLocation */
+import net.sf.saxon.style.LiteralResultElement;
+import net.sf.saxon.style.XSLText;
+import net.sf.saxon.style.XSLSequence;
+import net.sf.saxon.style.XSLValueOf;
 
 /**
  * A Simple trace listener for XSLT that writes messages to XML file
@@ -149,7 +154,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
     }
   }
 
-  /**  
+  /**
    * Method that implements the output destination
    */
   public void setOutputDestination(Logger logger) {
@@ -197,7 +202,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
     }
     systemId = systemIdUri.normalize().toString();
     debugPrintf("%-17s: %s%n", "systemId (norm)", systemId);
-    
+
     boolean isUtil = false;
 
     if (systemId.startsWith(srcDir)) {
@@ -223,7 +228,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
           throw new RuntimeException(e);
         }
       }
-    } else if (xspecStylesheet == null && 
+    } else if (xspecStylesheet == null &&
                systemId.startsWith(ignoreDir)) {
       xspecStylesheet = systemId;
       debugPrintf("%-17s: %s%n", "xspecStylesheet", xspecStylesheet);
@@ -235,7 +240,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
       } catch(XMLStreamException e) {
         throw new RuntimeException(e);
       }
-    } 
+    }
 
     if (systemId != xspecStylesheet && !isUtil) {
       Integer moduleId;
@@ -329,6 +334,15 @@ public class XSLTCoverageTraceListener implements TraceListener {
     if (rawLocation instanceof XPathParser.NestedLocation) {
       Location container = ((XPathParser.NestedLocation)rawLocation).getContainingLocation();
       if (container instanceof AttributeLocation) {
+        return container;
+      }
+      /* XSpec issue #2377 - added this after columnNumber="2/9" reported for 'text-node-01' coverage test.
+       * Added 'import' statements as well.
+       */
+      if (container instanceof LiteralResultElement |
+          container instanceof XSLSequence |
+          container instanceof XSLText |
+          container instanceof XSLValueOf) {
         return container;
       }
     }

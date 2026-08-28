@@ -124,6 +124,33 @@
         <xsl:sequence select="'ignored'"/>
     </xsl:template>
 
+    <!-- Use Trace Data else Descendant Data else miss -->
+    <xsl:template
+        match="
+            XSLT:apply-imports
+            | XSLT:choose
+            | XSLT:fork
+            | XSLT:merge
+            | XSLT:next-match
+            | XSLT:value-of
+            | XSLT:variable"
+        as="xs:string"
+        mode="coverage">
+        <xsl:variable name="use-trace-data" as="xs:string" select="accumulator-before('category-based-on-trace-data')" />
+        <xsl:choose>
+            <xsl:when test="$use-trace-data = 'hit'">
+                <xsl:sequence select="'hit'"/>
+            </xsl:when>
+            <xsl:when test="descendant::node()/accumulator-before('category-based-on-trace-data') = 'hit'">
+                <!-- If at least one descendant is hit, mark as hit -->
+                <xsl:sequence select="'hit'"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="'missed'"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Use Descendant Data -->
     <xsl:template
         match="
@@ -209,8 +236,6 @@
     <!-- Use Parent Data (directly) -->
     <xsl:template match="
         XSLT:context-item (: xspec/xspec#1410 :)
-        | XSLT:merge-action
-        | XSLT:merge-source
         | XSLT:param[not(parent::XSLT:stylesheet or parent::XSLT:transform)]"
         as="xs:string"
         mode="coverage">
@@ -219,7 +244,9 @@
 
     <!-- Use Parent Status (computed) -->
     <xsl:template match="
-        XSLT:sort
+        XSLT:merge-action
+        | XSLT:merge-source
+        | XSLT:sort
         | XSLT:with-param"
         as="xs:string"
         mode="coverage"

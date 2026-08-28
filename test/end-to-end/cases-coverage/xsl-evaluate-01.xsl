@@ -39,7 +39,7 @@
           <xsl:evaluate xpath="'string(data[xs:integer($index)])'" context-item="$data">
             <xsl:with-param name="index">
               <xsl:for-each select="1">
-                <xsl:sequence select="$index"/>
+                <xsl:sequence select="$index"/>                                <!-- Expected unknown -->
               </xsl:for-each>
             </xsl:with-param>
             <xsl:with-param name="sortKey">parameter not used in evaluation</xsl:with-param>

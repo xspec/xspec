@@ -7,4 +7,12 @@
       <xsl:value-of select="." />
     </node>
   </xsl:template>
- </xsl:stylesheet>
+
+  <!-- xsl:apply-imports Template with xsl:param -->
+  <xsl:template match="node" mode="applyImportsWithParamMode">
+    <xsl:param name="applyImportsParam01" />
+    <node type="apply-imports - import stylesheet">
+      <xsl:value-of select=". + number($applyImportsParam01)" />
+    </node>
+  </xsl:template>
+</xsl:stylesheet>
