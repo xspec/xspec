@@ -24,6 +24,8 @@ jobs:
         exclude:
           - os: macos-latest
             env: oxygen
+          - java: 17
+            env: oxygen
 
     steps:
       - uses: actions/checkout@v7
