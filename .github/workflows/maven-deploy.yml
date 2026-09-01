@@ -27,8 +27,8 @@ jobs:
           java-version: 17
           distribution: temurin
           server-id: xspec-io.ossrh
-          server-username: NEXUS_USERNAME
-          server-password: NEXUS_PASSWORD
+          server-username-env-var: NEXUS_USERNAME
+          server-password-env-var: NEXUS_PASSWORD
 
       - name: Check Maven and Java versions
         run: mvn -v
