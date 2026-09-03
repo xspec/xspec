@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="xspec-test" basedir="." default="xspec-test.build"
+	 xmlns:if="ant:if"
+	 xmlns:unless="ant:unless">
+  <description>Build Docker image for testing XSpec.
+
+Targets that run Docker must be run as 'root' or as a member of the
+'docker' group.</description>
+
+  <dirname property="system.basedir" file="${ant.file.docker}" />
+
+  <pathconvert property="system.basedir.converted" dirsep="/">
+    <path location="${system.basedir}" />
+    <!-- Ant under cygwin uses a lowercase drive letter, which some
+   Java programs don't recognise as a drive letter, so
+   translate. -->
+    <map from="c:" to="C:" />
+    <map from="d:" to="D:" />
+    <map from="e:" to="E:" />
+  </pathconvert>
+
+  <pathconvert property="basedir.converted" dirsep="/">
+    <path location="${basedir}" />
+    <!-- Ant under cygwin uses a lowercase drive letter, which some
+   Java programs don't recognise as a drive letter, so
+   translate. -->
+    <map from="c:" to="C:" />
+    <map from="d:" to="D:" />
+    <map from="e:" to="E:" />
+  </pathconvert>
+
+  <!-- Local file of properties determining or describing local
+       configuration. -->
+  <property name="build.local.properties"
+      location="${basedir.converted}/build.local.properties" />
+  <property file="${build.local.properties}" />
+
+  <!-- XML file of properties determining or describing local
+       configuration. -->
+  <property name="build.properties.xml"
+      location="${basedir.converted}/properties.xml" />
+  <property file="${build.properties.xml}" />
+
+  <!-- File of properties determining or describing local
+       configuration. -->
+  <property name="build.properties"
+      location="${basedir.converted}/build.properties" />
+  <property file="${build.properties}" />
+
+  <tstamp>
+    <format property="timestamp" pattern="yyyyMMdd" />
+  </tstamp>
+
+  <!-- Local file of properties determining or describing system
+       configuration. -->
+  <property name="system.local.properties"
+      location="${system.basedir}/system.local.properties" />
+  <property file="${system.local.properties}" />
+  <!-- File of properties determining or describing system
+       configuration. -->
+  <property name="system.properties"
+      location="${system.basedir}/system.properties" />
+  <property file="${system.properties}" />
+
+  <!-- Environment variables as properties prefixed with 'env.'. -->
+  <property environment="env" />
+
+  <property name="force" value="false" />
+  <property name="verbose" value="false" />
+
+  <target name="xspec-test.dockerfile">
+    <copy file="${basedir}/xspec-test.dockerfile.in"
+	  tofile="${basedir}/xspec-test.dockerfile"
+	  overwrite="${force}"
+	  verbose="${verbose}">
+      <filterset begintoken="@@" endtoken="@@">
+	<filter token="HOME" value="${image.xspec-test.home}"/>
+	<filter token="ANT_VERSION" value="${test.ant.version}"/>
+	<filter token="BASEX_VERSION" value="${test.basex.version}"/>
+	<filter token="EXTRA_PACKAGES" value="${test.extra.packages}"/>
+	<filter token="SAXON_VERSION" value="${test.saxon.version}"/>
+	<filter token="SAXON_JAR" value="${test.saxon.home}/saxon9he.jar"/>
+	<filter token="XML_RESOLVER_JAR" value="${test.xml-resolver.jar}"/>
+	<filter token="XMLCALABASH_VERSION"
+		value="${test.xmlcalabash.version}"/>
+	<filter token="XSPEC_ISSUES_URL" value="${xspec.issues.url}"/>
+	<filter token="UID" value="${image.uid}"/>
+	<filter token="GID" value="${image.gid}"/>
+      </filterset>
+    </copy>
+  </target>
+
+  <target name="xspec-test.uptodate"
+	  description="Check whether 'xspec-test' image should be rebuilt">
+    <condition property="xspec-test.uptodate">
+      <and>
+	<uptodate targetfile="xspec-test.tstamp">
+	  <srcfiles dir="${basedir}"
+		    includes="xspec-test.dockerfile" />
+	</uptodate>
+	<not>
+	  <istrue value="${force}" />
+	</not>
+      </and>
+    </condition>
+  </target>
+
+  <target name="xspec-test.build"
+	  depends="xspec-test.dockerfile,
+		   xspec-test.uptodate"
+	  unless="xspec-test.uptodate"
+	  description="Build 'xspec-test' Docker image. [root]">
+    <exec executable="docker"
+	  failonerror="false">
+      <arg value="build" />
+      <arg value="-f" />
+      <arg value="xspec-test.dockerfile" />
+      <arg value="-t" />
+      <arg value="xspec/xspec-test" />
+      <arg value="-t" />
+      <arg value="xspec/xspec-test:${xspec.major}" />
+      <arg value="-t" />
+      <arg value="xspec/xspec-test:${xspec.major}.${xspec.minor}" />
+      <arg value="-t" />
+      <arg value="xspec/xspec-test:${xspec.major}.${xspec.minor}.${xspec.release}" />
+      <arg value="--label" />
+      <arg value="major=${xspec.major}" />
+      <arg value="--label" />
+      <arg value="minor=${xspec.minor}" />
+      <arg value="--label" />
+      <arg value="release=${xspec.release}" />
+      <arg value="--label" if:set="xspec-test.copyright" />
+      <arg value="copyright=${xspec-test.copyright}"
+	   if:set="xspec-test.copyright" />
+      <arg value="--no-cache" />
+      <arg value="--force-rm" />
+      <arg value="." />
+    </exec>
+    <!-- Record the ID of the image in the timestamp file. -->
+    <exec executable="docker"
+	  outputproperty="xspec-test.id"
+	  failonerror="true">
+      <arg value="inspect" />
+      <arg value="--format={{.Id}}" />
+      <arg value="xspec/xspec-test:${xspec-test.major}" />
+    </exec>
+    <echo message="'xspec-test' ID: ${xspec-test.id}" />
+    <echo message="${xspec-test.id}" file="${basedir}/xspec-test.tstamp" />
+  </target>
+
+</project>
