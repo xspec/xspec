@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="../xproc/cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:s="x-urn:test:step-using-xslt" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:helper xproc="step-using-xslt.xpl"/>
+	<x:scenario label="RECOGNIZE_URI_QUERY_PARAMETERS configuration property">
+		<x:scenario label="strip-space=yes and xinclude=yes, used in XProc helper">
+			<x:call step="mirror:identity">
+				<x:input port="source" select="'irrelevant'" />
+			</x:call>
+			<!-- In the the XProc test helper, p:xslt needs the Saxon options.
+				With MorganaXProc, if recognizeUriQueryParameters is false in the Saxon
+				configuration file to which the MorganaXProc configuration file points,
+				then the next x:expect fails. -->
+			<x:expect label="Whitespace-only text nodes are stripped by XProc helper"
+				test="s:file-string-value(map{
+					QName('', 'href'): 'catalog-01:/ws-only-text.xml?strip-space=yes;xinclude=yes'
+				})?xproc-result" select="'AB'"/>
+		</x:scenario>
+		<x:scenario label="strip-space=yes and xinclude=yes">
+			<x:call step="mirror:identity">
+				<!-- The XSLT test runner needs the Saxon options to execute x:input/@href. -->
+				<!-- Use of XML catalog demonstrates compatibility with
+					RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later -->
+				<x:input port="source" href="catalog-01:/ws-only-text.xml?strip-space=yes;xinclude=yes" />
+			</x:call>
+			<x:expect port="xproc-result" label="Whitespace-only text nodes are stripped" select="'AB'"
+				test="string($x:result)" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

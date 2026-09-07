@@ -122,6 +122,141 @@ load bats-helper
 }
 
 #
+# Saxon options when running test for XProc with MorganaXProc
+#
+
+@test "Saxon options needed by XSLT test runner (CLI)" {
+    export XML_CATALOG="saxon-custom-options/catalog-rewriteURI.xml"
+    export SAXON_CP="${MORGANAXPROC_CP}"
+    unset MORGANAXPROC_CONFIG
+    export SAXON_CUSTOM_OPTIONS=-config:saxon-custom-options/config.xml
+    myrun ../bin/xspec.sh -p saxon-custom-options/test_xproc.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "Saxon options needed by XProc test target (CLI)" {
+    export XML_CATALOG="saxon-custom-options/catalog-rewriteURI.xml"
+    export SAXON_CP="${MORGANAXPROC_CP}"
+    export MORGANAXPROC_CONFIG="saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml"
+    unset SAXON_CUSTOM_OPTIONS
+    myrun ../bin/xspec.sh -p saxon-custom-options/step-using-xslt.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "Saxon options needed by XProc test helper (CLI)" {
+    export XML_CATALOG="saxon-custom-options/catalog-rewriteURI.xml"
+    export SAXON_CP="${MORGANAXPROC_CP}"
+    export MORGANAXPROC_CONFIG="saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml"
+    unset SAXON_CUSTOM_OPTIONS
+    myrun ../bin/xspec.sh -p saxon-custom-options/xproc-helper-using-xslt.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Saxon options needed by XSLT test runner and XProc (CLI)" {
+    export XML_CATALOG="saxon-custom-options/catalog-rewriteURI.xml"
+    export SAXON_CP="${MORGANAXPROC_CP}"
+    export SAXON_CUSTOM_OPTIONS=-config:saxon-custom-options/config.xml
+
+    # XSLT test runner and XProc test helper use same value of Saxon option
+    export MORGANAXPROC_CONFIG="saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml"
+    myrun ../bin/xspec.sh -p saxon-custom-options/option-in-runner-and-xproc-helper.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    # XSLT test runner and XProc test helper use different values of Saxon option
+    export MORGANAXPROC_CONFIG="saxon-custom-options/morgana-config-noqueryparams-${XSPEC_TEST_ENV}.xml"
+    myrun ../bin/xspec.sh -p saxon-custom-options/option-in-runner-and-xproc-helper.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+}
+
+@test "Saxon options needed by XSLT test runner (Ant)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "$APACHE_XMLRESOLVER_JAR" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dcatalog=test/saxon-custom-options/catalog-rewriteURI.xml \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dsaxon.custom.options=-config:test/saxon-custom-options/config.xml \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/saxon-custom-options/test_xproc.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "Saxon options needed by XProc test target (Ant)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "$APACHE_XMLRESOLVER_JAR" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dcatalog=test/saxon-custom-options/catalog-rewriteURI.xml \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dxspec.morganaxproc.config="test/saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml" \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/saxon-custom-options/step-using-xslt.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "Saxon options needed by XProc test helper (Ant)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "$APACHE_XMLRESOLVER_JAR" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dcatalog=test/saxon-custom-options/catalog-rewriteURI.xml \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dxspec.morganaxproc.config="test/saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml" \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/saxon-custom-options/xproc-helper-using-xslt.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Saxon options needed by XSLT test runner and XProc (Ant)" {
+    # XSLT test runner and XProc test helper use same value of Saxon option
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "$APACHE_XMLRESOLVER_JAR" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dcatalog=test/saxon-custom-options/catalog-rewriteURI.xml \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dsaxon.custom.options=-config:test/saxon-custom-options/config.xml \
+        -Dxspec.morganaxproc.config="test/saxon-custom-options/morgana-config-${XSPEC_TEST_ENV}.xml" \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/saxon-custom-options/option-in-runner-and-xproc-helper.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    # XSLT test runner and XProc test helper use different values of Saxon option
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${MORGANAXPROC_CP}" \
+        -lib "$APACHE_XMLRESOLVER_JAR" \
+        -Dxspec.xproc.processor="${XPROC_PROCESSOR}" \
+        -Dcatalog=test/saxon-custom-options/catalog-rewriteURI.xml \
+        -Dxspec.morganaxproc.init=${MORGANAXPROC_INIT} \
+        -Dsaxon.custom.options=-config:test/saxon-custom-options/config.xml \
+        -Dxspec.morganaxproc.config="test/saxon-custom-options/morgana-config-noqueryparams-${XSPEC_TEST_ENV}.xml" \
+        -Dxspec.fail=false \
+        -Dtest.type=p \
+        -Dxspec.xml="${PWD}/saxon-custom-options/option-in-runner-and-xproc-helper.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 14]}" = "     [xslt] passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+}
+
+#
 # Ant using MorganaXProc-IIIee
 #
 

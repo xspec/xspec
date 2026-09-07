@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="../xproc/cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:s="x-urn:test:step-using-xslt" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:helper xproc="step-using-xslt.xpl"/>
+	<x:scenario label="RECOGNIZE_URI_QUERY_PARAMETERS configuration property">
+		<x:scenario label="strip-space=yes and xinclude=yes, used in XProc helper">
+			<x:call step="mirror:identity">
+				<x:input port="source" select="'irrelevant'" />
+			</x:call>
+			<!-- In the the XProc test helper, p:xslt needs the Saxon options. -->
+			<!-- Use of XML catalog demonstrates compatibility with
+					RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later -->
+			<x:expect label="Whitespace-only text nodes are stripped by XProc helper"
+				test="s:file-string-value(map{
+					QName('', 'href'): 'catalog-01:/ws-only-text.xml?strip-space=yes;xinclude=yes'
+				})?xproc-result" select="'AB'"/>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

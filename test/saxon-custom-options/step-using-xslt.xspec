@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="step-using-xslt.xpl" xmlns:s="x-urn:test:step-using-xslt"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="RECOGNIZE_URI_QUERY_PARAMETERS configuration property">
+		<x:scenario label="No query parameter">
+			<x:call step="s:file-string-value">
+				<x:option name="href" select="'ws-only-text.xml'" />
+			</x:call>
+			<x:expect port="xproc-result" label="Whitespace-only text nodes are not stripped"
+				select="'A B'"/>
+		</x:scenario>
+
+		<x:scenario label="strip-space=yes and xinclude=yes">
+			<!-- In the the XProc test target, p:xslt needs the Saxon options. -->
+			<x:call step="s:file-string-value">
+				<!-- Use of XML catalog demonstrates compatibility with
+					RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later -->
+				<x:option name="href" select="'catalog-01:/ws-only-text.xml?strip-space=yes;xinclude=yes'" />
+			</x:call>
+			<x:expect port="xproc-result" label="Whitespace-only text nodes are stripped" select="'AB'"/>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
