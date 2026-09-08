@@ -10,6 +10,10 @@ import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.value.Int64Value;
 import net.sf.saxon.value.SequenceType;
 
+/**
+ * Column number of location (see xspec/xspec#1443)
+ */
+
 public class ColumnNumber extends ExtensionFunctionDefinition {
 
 	@Override
