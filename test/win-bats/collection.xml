@@ -1895,6 +1895,7 @@
         -buildfile "%BUILD_XML%" ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dclean.output.dir=true ^
+        -Dxspec.result.html="%WORK_DIR%\some-test-report.html" ^
         -Dxspec.project.dir="%CD%\.." ^
         -Dxspec.properties="%CD%\schematron\schematron.properties" ^
         -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
@@ -1902,7 +1903,10 @@
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Verify that -Dxspec.dir was honored and the default output dir was not created
+    rem Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
+    call :verify_exist "%WORK_DIR%\some-test-report.html"
+
+    rem Verify that -Dxspec.dir (from stub.cmd) was honored and the default output dir was not created
     call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Verify clean.output.dir=true

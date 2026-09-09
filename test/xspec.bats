@@ -2190,6 +2190,7 @@ load bats-helper
         -buildfile "${build_xml}" \
         -lib "${SAXON_ANT_LIB}" \
         -Dclean.output.dir=true \
+        -Dxspec.result.html="${work_dir}/some-test-report.html" \
         -Dxspec.project.dir="${PWD}/.." \
         -Dxspec.properties="${PWD}/schematron/schematron.properties" \
         -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
@@ -2197,7 +2198,10 @@ load bats-helper
     assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 
-    # Verify that -Dxspec.dir was honored and the default output dir was not created
+    # Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
+    [ -f "${work_dir}/some-test-report.html" ]
+
+    # Verify that -Dxspec.dir (from setup()) was honored and the default output dir was not created
     assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Verify clean.output.dir=true
