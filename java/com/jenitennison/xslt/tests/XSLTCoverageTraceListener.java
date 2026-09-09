@@ -73,6 +73,10 @@ public class XSLTCoverageTraceListener implements TraceListener {
     return f.toURI();
   }
 
+  /**
+   * Class constructor
+   */
+
   public XSLTCoverageTraceListener() {
     System.out.println("****************************************");
   }

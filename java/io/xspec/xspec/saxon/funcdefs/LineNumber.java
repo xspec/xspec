@@ -10,6 +10,10 @@ import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.value.Int64Value;
 import net.sf.saxon.value.SequenceType;
 
+/**
+ * Line number of location (see xspec/xspec#795)
+ */
+
 public class LineNumber extends ExtensionFunctionDefinition {
 
 	@Override
