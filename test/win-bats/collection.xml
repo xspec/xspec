@@ -1803,7 +1803,7 @@
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Temporary catalog should not be created
+    rem -Dxspec.dir (from stub.cmd) was honored, but temporary catalog was not created
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
     call :verify_line 1 x escape-for-regex-compiled.xsl
@@ -1906,10 +1906,7 @@
     rem Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
     call :verify_exist "%WORK_DIR%\some-test-report.html"
 
-    rem Verify that -Dxspec.dir (from stub.cmd) was honored and the default output dir was not created
-    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
-
-    rem Verify clean.output.dir=true
+    rem Verify clean.output.dir=true (note that stub.cmd uses -Dxspec.dir="%TEST_DIR%", not default output dir)
     call :verify_leaf_dir_not_exist "%TEST_DIR%"
 	</case>
 

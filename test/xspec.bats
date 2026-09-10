@@ -2098,7 +2098,7 @@ load bats-helper
     assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 
-    # Temporary catalog should not be created
+    # -Dxspec.dir (from setup()) was honored, but temporary catalog was not created
     myrun ls "${TEST_DIR}"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
@@ -2201,10 +2201,7 @@ load bats-helper
     # Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
     [ -f "${work_dir}/some-test-report.html" ]
 
-    # Verify that -Dxspec.dir (from setup()) was honored and the default output dir was not created
-    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
-
-    # Verify clean.output.dir=true
+    # Verify clean.output.dir=true (note that setup() uses -Dxspec.dir=${TEST_DIR}, not default output dir)
     assert_leaf_dir_not_exist "${TEST_DIR}"
 }
 
