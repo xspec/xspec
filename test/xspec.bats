@@ -2180,11 +2180,6 @@ load bats-helper
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
 
-    # Use a fresh dir, to avoid a residue of default output dir
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
-
     # Run
     myrun ant \
         -buildfile "${build_xml}" \
@@ -2193,7 +2188,7 @@ load bats-helper
         -Dxspec.result.html="${work_dir}/some-test-report.html" \
         -Dxspec.project.dir="${PWD}/.." \
         -Dxspec.properties="${PWD}/schematron/schematron.properties" \
-        -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
