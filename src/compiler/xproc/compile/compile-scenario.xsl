@@ -65,7 +65,7 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
-      <xsl:if test="x:expect and empty($call)">
+      <xsl:if test="x:expect[not(@pending)] and empty($call) and empty($reason-for-pending)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
