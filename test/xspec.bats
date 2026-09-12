@@ -2098,7 +2098,7 @@ load bats-helper
     assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 
-    # Temporary catalog should not be created
+    # -Dxspec.dir (from setup()) was honored, but temporary catalog was not created
     myrun ls "${TEST_DIR}"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
@@ -2180,27 +2180,23 @@ load bats-helper
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
 
-    # Use a fresh dir, to avoid a residue of default output dir
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
-
     # Run
     myrun ant \
         -buildfile "${build_xml}" \
         -lib "${SAXON_ANT_LIB}" \
         -Dclean.output.dir=true \
+        -Dxspec.result.html="${work_dir}/some-test-report.html" \
         -Dxspec.project.dir="${PWD}/.." \
         -Dxspec.properties="${PWD}/schematron/schematron.properties" \
-        -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]} - 2]}" = "BUILD SUCCESSFUL" ]
 
-    # Verify that -Dxspec.dir was honored and the default output dir was not created
-    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
+    # Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
+    [ -f "${work_dir}/some-test-report.html" ]
 
-    # Verify clean.output.dir=true
+    # Verify clean.output.dir=true (note that setup() uses -Dxspec.dir=${TEST_DIR}, not default output dir)
     assert_leaf_dir_not_exist "${TEST_DIR}"
 }
 

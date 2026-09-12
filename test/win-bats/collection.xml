@@ -1803,7 +1803,7 @@
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Temporary catalog should not be created
+    rem -Dxspec.dir (from stub.cmd) was honored, but temporary catalog was not created
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
     call :verify_line 1 x escape-for-regex-compiled.xsl
@@ -1885,27 +1885,23 @@
     rem For testing -Dxspec.project.dir
     call :copy ..\build.xml "%BUILD_XML%"
 
-    rem Use a fresh dir, to avoid a residue of default output dir
-    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
-    call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
-
     rem Run
     call :run ant ^
         -buildfile "%BUILD_XML%" ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dclean.output.dir=true ^
+        -Dxspec.result.html="%WORK_DIR%\some-test-report.html" ^
         -Dxspec.project.dir="%CD%\.." ^
         -Dxspec.properties="%CD%\schematron\schematron.properties" ^
-        -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
+        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Verify that -Dxspec.dir was honored and the default output dir was not created
-    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
+    rem Verify xspec.result.html (language-agnostic; tested with Schematron for convenience)
+    call :verify_exist "%WORK_DIR%\some-test-report.html"
 
-    rem Verify clean.output.dir=true
+    rem Verify clean.output.dir=true (note that stub.cmd uses -Dxspec.dir="%TEST_DIR%", not default output dir)
     call :verify_leaf_dir_not_exist "%TEST_DIR%"
 	</case>
 
