@@ -20,10 +20,6 @@
    -->
 
    <xsl:param name="force-focus" as="xs:string?" />
-   <xsl:param name="is-external" as="xs:boolean"
-      select="$initial-document/x:description/@run-as = 'external'" />
-   <xsl:param name="measure-time" as="xs:boolean"
-      select="$initial-document/x:description/@measure-time => x:yes-no-synonym(false())" />
 
    <!--
       Global variables
@@ -38,6 +34,11 @@
 
    <xsl:variable name="initial-document-actual-uri" as="xs:anyURI"
       select="x:document-actual-uri($initial-document)" />
+
+   <xsl:variable name="is-external" as="xs:boolean"
+      select="$initial-document/x:description/@run-as = 'external'" />
+   <xsl:variable name="measure-time" as="xs:boolean"
+      select="$initial-document/x:description/@measure-time => x:yes-no-synonym(false())" />
 
    <!--
       Accumulators for scenario-level variable declarations (x:param and x:variable)
