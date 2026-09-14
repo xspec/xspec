@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		This file covers some of the no-error cases involving x:expect without action.
+		Related files, all under test/:
+		- xqs/pending-expect-without-action.xspec:              No-error case for Schematron via XQS
+		- xproc/cases/pending-expect-without-action.xspec:      No-error case for XProc
+		- error-compiling-scenario/expect-without-action.xspec: Error case for XSLT and, indirectly, Schematron via XSLT
+		- error-compiling-scenario/xquery_no-call.xspec:        Error case for XQuery and, indirectly, Schematron via XQS
+		- xproc/compiler-error-cases/missing-call.xspec:        Error case for XProc
+	-->
+	<x:scenario label="x:expect without action in pending scenario" pending="skip">
+		<x:expect label="should not raise an error" test="true()"/>
+	</x:scenario>
+	<x:scenario label="Pending x:expect without action">
+		<x:expect label="should not raise an error" test="true()" pending="skip"/>
+	</x:scenario>
+</x:description>

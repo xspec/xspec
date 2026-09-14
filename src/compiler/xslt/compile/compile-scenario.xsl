@@ -95,7 +95,7 @@
       <xsl:if test="$run-sut-now">
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
-      <xsl:if test="x:expect and empty($call) and empty($context)">
+      <xsl:if test="x:expect[not(@pending)] and empty($call) and empty($context) and empty($reason-for-pending)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
