@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- To test catalog and URI, every file URI in this XSpec file except @query-at must be "catalog-01:".
-	(Saxon 10.9 cannot resolve @query-at with a catalog, though Saxon 11.6 and 12.4 can.) -->
-<x:description query="x-urn:test:catalog-01" query-at="01/tested.xqm"
+<!-- To test catalog and URI, every file URI in this XSpec file must be "catalog-01:".
+	(Note: BaseX cannot resolve @query-at with a catalog as of v12.4.) -->
+<x:description query="x-urn:test:catalog-01" query-at="catalog-01:/tested.xqm"
 	xmlns:catalog-01-helper="x-urn:test:catalog-01:helper"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:helper query="x-urn:test:catalog-01:helper" query-at="01/helper.xqm"/>
+	<x:helper query="x-urn:test:catalog-01:helper" query-at="catalog-01:/helper.xqm"/>
 	<x:import href="catalog-01:/imported.xspec" />
 </x:description>
