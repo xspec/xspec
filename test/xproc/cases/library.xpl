@@ -26,16 +26,12 @@
     </p:declare-step>
 
     <p:declare-step type="s:output-port-sequence-true">
-        <p:documentation>This step can output up to 3 documents.</p:documentation>
+        <p:documentation>This step outputs a sequence of documents.</p:documentation>
         <p:output port="xproc-result" sequence="true"/>
         <p:option name="num" as="xs:integer" select="2"/>
         <p:for-each>
-            <p:with-input select="/wrapper/document[position() le $num]">
-                <wrapper>
-                    <document/>
-                    <document/>
-                    <document/>
-                </wrapper>
+            <p:with-input select="(1 to $num)">
+                <p:inline/>
             </p:with-input>
             <p:identity>
                 <p:with-input>
