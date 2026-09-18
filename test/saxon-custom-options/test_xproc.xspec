@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xproc="../xproc/cases/library-mirror.xpl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="RECOGNIZE_URI_QUERY_PARAMETERS configuration property">
+		<x:scenario label="No query parameter">
+			<x:call step="mirror:identity">
+				<x:input port="source" href="ws-only-text.xml" />
+			</x:call>
+			<x:expect port="xproc-result" label="Whitespace-only text nodes are not stripped"
+				select="'A B'" test="normalize-space($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="strip-space=yes and xinclude=yes">
+			<x:call step="mirror:identity">
+				<!-- The XSLT test runner needs the Saxon options to execute x:input/@href. -->
+				<!-- Use of XML catalog demonstrates compatibility with
+					RECOGNIZE_URI_QUERY_PARAMETERS in Saxon 11 and later -->
+				<x:input port="source" href="catalog-01:/ws-only-text.xml?strip-space=yes;xinclude=yes" />
+			</x:call>
+			<x:expect port="xproc-result" label="Whitespace-only text nodes are stripped" select="'AB'"
+				test="string($x:result)" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

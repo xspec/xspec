@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<morgana-config xmlns="http://www.xml-project.com/morganaxproc">
+  <xslt-config>config-noqueryparams.xml</xslt-config>
+  <xslt-connector>Saxon13</xslt-connector>
+</morgana-config>
