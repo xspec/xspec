@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:initial-check:perform-initial-check:local"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -10,16 +11,8 @@
 
       <xsl:call-template name="x:report-xspec-version"/>
 
-      <xsl:variable name="deprecation-warning" as="xs:string?">
-         <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((11, 0))">
-               <xsl:text>Saxon version 10 or earlier is not supported.</xsl:text>
-            </xsl:when>
-           <xsl:when test="$x:saxon-version lt x:pack-version((12, 4))">
-             <xsl:text>Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later.</xsl:text>
-           </xsl:when>
-         </xsl:choose>
-      </xsl:variable>
+      <xsl:variable name="deprecation-warning" as="xs:string?"
+         select="local:saxon-deprecation-warning($x:saxon-version)"/>
       <xsl:message>
          <xsl:choose>
             <xsl:when test="$deprecation-warning">
@@ -53,4 +46,10 @@
       <xsl:context-item use="absent"/>
       <xsl:message>XSpec v<xsl:value-of select="$x:xspec-version"/></xsl:message>
    </xsl:template>
+
+   <!--
+      Sub modules
+   -->
+   <xsl:include href="saxon-deprecation-warning.xsl" />
+
 </xsl:stylesheet>

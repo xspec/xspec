@@ -3369,7 +3369,7 @@ load bats-helper
     [ "$status" -eq 0 ]
 
     if [ "${SAXON_VERSION:0:3}" = "11." ]; then
-        [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
+        [ "${lines[4]}" = "WARNING: Saxon version 11 or earlier is not supported." ]
     elif [ "${SAXON_VERSION:0:4}" = "12.3" ]; then
         [ "${lines[4]}" = "WARNING: Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later." ]
     else
