@@ -8,18 +8,11 @@
 
   <x:scenario label="Tests for local:saxon-deprecation-warning function">
     <x:call function="local:saxon-deprecation-warning"/>
-    <x:scenario label="Version 10.9">
-      <x:call>
-        <x:param select="x:pack-version((10,9))"/>
-      </x:call>
-      <x:expect label="is not supported">Saxon version 10 or earlier is not supported.</x:expect>
-    </x:scenario>
     <x:scenario label="Version 11.7">
       <x:call>
         <x:param select="x:pack-version((11,7))"/>
       </x:call>
-      <x:expect
-        label="is not recommended">Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later.</x:expect>
+      <x:expect label="is not supported">Saxon version 11 or earlier is not supported.</x:expect>
     </x:scenario>
     <x:scenario label="Version 12.3">
       <x:call>
