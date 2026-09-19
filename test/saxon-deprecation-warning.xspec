@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:local="urn:x-xspec:compiler:base:initial-check:perform-initial-check:local"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  stylesheet="../src/compiler/base/initial-check/saxon-deprecation-warning.xsl">
+
+  <!-- x:pack-version is needed by the test and the local:saxon-deprecation-warning function -->
+  <x:helper stylesheet="../src/common/version-utils.xsl"/>
+
+  <x:scenario label="Tests for local:saxon-deprecation-warning function">
+    <x:call function="local:saxon-deprecation-warning"/>
+    <x:scenario label="Version 11.7">
+      <x:call>
+        <x:param select="x:pack-version((11,7))"/>
+      </x:call>
+      <x:expect label="is not supported">Saxon version 11 or earlier is not supported.</x:expect>
+    </x:scenario>
+    <x:scenario label="Version 12.3">
+      <x:call>
+        <x:param select="x:pack-version((12,3))"/>
+      </x:call>
+      <x:expect
+        label="is not recommended">Saxon version 12.3 or earlier is not recommended. Consider migrating to Saxon 12.4 or later.</x:expect>
+    </x:scenario>
+    <x:scenario label="Version 12.4">
+      <x:call>
+        <x:param select="x:pack-version((12,4))"/>
+      </x:call>
+      <x:expect label="issues no warning" select="()"/>
+    </x:scenario>
+    <x:scenario label="Version 13.0">
+      <x:call>
+        <x:param select="x:pack-version((13,0))"/>
+      </x:call>
+      <x:expect label="issues no warning" select="()"/>
+    </x:scenario>
+  </x:scenario>
+</x:description>
+
