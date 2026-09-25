@@ -101,7 +101,15 @@
                <xsl:with-param name="message" as="xs:string">
                   <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                      the user -->
-                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
+                  <xsl:choose>
+                     <xsl:when test="exists(/x:description/@original-xspec)">
+                        <!-- Original test was for Schematron, not XSLT -->
+                        <xsl:text expand-text="yes">Verification element is present without {x:xspec-name('context', .)}</xsl:text>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:text expand-text="yes">{x:xspec-name('expect', .)} is present without {x:xspec-name('call', .)} or {x:xspec-name('context', .)}</xsl:text>      
+                     </xsl:otherwise>
+                  </xsl:choose>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
