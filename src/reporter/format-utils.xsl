@@ -182,7 +182,7 @@
 
       <!-- Handle the child nodes or end this element -->
       <xsl:choose>
-         <xsl:when test="child::node()">
+         <xsl:when test="node()">
             <!-- Close the start tag of this element -->
             <xsl:text>&gt;</xsl:text>
 

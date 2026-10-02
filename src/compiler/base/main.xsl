@@ -56,7 +56,7 @@
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             (: Remove child variable declaration elements of this scenario :)
-            $value except (child::x:param | child::x:variable | child::x:context)" />
+            $value except (x:param | x:variable | x:context)" />
    </xsl:accumulator>
 
    <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable).

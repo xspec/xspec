@@ -152,7 +152,7 @@
             </div>
             <p>
                <xsl:choose>
-                  <xsl:when test="local-name($stylesheet-trees[1]/child::*) eq 'package'">
+                  <xsl:when test="local-name($stylesheet-trees[1]/*) eq 'package'">
                      <xsl:text>Package:  </xsl:text>
                   </xsl:when>
                   <xsl:otherwise>
@@ -485,7 +485,7 @@
                                  <xsl:sequence select="$node/following-sibling::node()[1]" />
                               </xsl:when>
                               <xsl:otherwise>
-                                 <xsl:sequence select="$node/parent::node()" />
+                                 <xsl:sequence select="$node/.." />
                               </xsl:otherwise>
                            </xsl:choose>
                         </xsl:otherwise>
