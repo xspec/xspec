@@ -269,7 +269,7 @@
             <xsl:sequence select="$node/text()[normalize-space() => not()]" />
          </xsl:if>
       </xsl:variable>
-      <xsl:sequence select="$node/node() except $ignorable-ws-only-text-nodes" />
+      <xsl:sequence select="$node/child::node() except $ignorable-ws-only-text-nodes" />
    </xsl:function>
 
    <xsl:function name="local:sort-named-nodes" as="node()*">

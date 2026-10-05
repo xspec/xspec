@@ -485,7 +485,7 @@
                                  <xsl:sequence select="$node/following-sibling::node()[1]" />
                               </xsl:when>
                               <xsl:otherwise>
-                                 <xsl:sequence select="$node/.." />
+                                 <xsl:sequence select="$node/parent::node()" />
                               </xsl:otherwise>
                            </xsl:choose>
                         </xsl:otherwise>

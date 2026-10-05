@@ -201,7 +201,7 @@
                                 other than xsl:catch and xsl:fallback, and the descendants of
                                 those children.
                             -->
-                            <xsl:sequence select="node()[not(self::XSLT:catch or self::XSLT:fallback)]/
+                            <xsl:sequence select="child::node()[not(self::XSLT:catch or self::XSLT:fallback)]/
                                 descendant-or-self::node()"/>
                         </xsl:when>
                         <xsl:otherwise>

@@ -51,7 +51,7 @@
                      
                      (: Local x:param. We can take all child::x:param, because the XSpec schema
                         forces x:param to be placed before x:call, x:context and x:expect. :)
-                     | x:param" />
+                     | child::x:param" />
 
                <!-- Remove overridden ones -->
                <xsl:variable name="stylesheet-effective-params" as="element(x:param)*" select="
