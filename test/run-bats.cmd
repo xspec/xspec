@@ -29,9 +29,12 @@ if errorlevel 1 set XSLT_SUPPORTS_THREADS=
 
 set SAXON_BUG_7123_FIXED=1
 if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7123_FIXED=
+if "%SAXON_VERSION%"=="13.1" set SAXON_BUG_7123_FIXED=
 
+rem 7127 is closed but underlying XSpec problem remains: https://saxonica.plan.io/issues/7308
 set SAXON_BUG_7127_FIXED=1
 if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7127_FIXED=
+if "%SAXON_VERSION%"=="13.1" set SAXON_BUG_7127_FIXED=
 
 rem BaseX: https://mailman.uni-konstanz.de/mailman3/hyperkitty/list/basex-talk@mailman.uni-konstanz.de/thread/S3QFB5L5KWFF427N2IWPR4EB3IPK6UC6/
 rem Saxon XQuery: https://saxonica.plan.io/issues/7127 (13.0) and https://saxonica.plan.io/issues/7308 (13.1)

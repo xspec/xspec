@@ -38,14 +38,15 @@ fi
 
 export SAXON_BUG_7123_FIXED=1
 case "${SAXON_VERSION}" in
-    "13.0")
+    "13.0" | "13.1")
         unset SAXON_BUG_7123_FIXED
         ;;
 esac
 
+# 7127 is closed but underlying XSpec problem remains: https://saxonica.plan.io/issues/7308
 export SAXON_BUG_7127_FIXED=1
 case "${SAXON_VERSION}" in
-    "13.0")
+    "13.0" | "13.1")
         unset SAXON_BUG_7127_FIXED
         ;;
 esac
