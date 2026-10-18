@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
    xmlns:p="http://www.w3.org/ns/xproc"
    xmlns:pf="http://www.jenitennison.com/xslt/xspec/xproc/steps/wrap-standard-functions"
-   xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
    
    <xsl:template match="x:description" mode="info-message" as="element()+">

@@ -152,7 +152,7 @@
             </div>
             <p>
                <xsl:choose>
-                  <xsl:when test="local-name($stylesheet-trees[1]/child::*) eq 'package'">
+                  <xsl:when test="local-name($stylesheet-trees[1]/*) eq 'package'">
                      <xsl:text>Package:  </xsl:text>
                   </xsl:when>
                   <xsl:otherwise>

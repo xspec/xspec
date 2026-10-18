@@ -64,7 +64,7 @@
             <xsl:when test="not(. instance of document-node())">
                <xsl:sequence select="."/>
             </xsl:when>
-            <xsl:when test="child::node() instance of text()">
+            <xsl:when test="node() instance of text()">
                <xsl:sequence select="text()"/>
             </xsl:when>
             <xsl:otherwise>
