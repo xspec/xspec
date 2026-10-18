@@ -3301,7 +3301,7 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="No x:call">
+	<case name="No x:call (XQuery)">
     call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_no-call.xspec
     call :verify_retval 2
     call :verify_line  6 x "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call"
