@@ -155,7 +155,7 @@
     <xsl:template
         match="
         XSLT:accumulator
-        | XSLT:assert[child::node()]
+        | XSLT:assert[node()]
         | XSLT:catch
         | XSLT:fallback
         | XSLT:map
@@ -174,7 +174,7 @@
         mode="coverage"
         name="use-descendant-data">
         <xsl:choose>
-            <xsl:when test="empty(child::node())">
+            <xsl:when test="empty(node())">
                 <xsl:sequence select="'unknown'"/>
             </xsl:when>
             <xsl:when test="descendant::node()/accumulator-before('category-based-on-trace-data') = 'hit'">

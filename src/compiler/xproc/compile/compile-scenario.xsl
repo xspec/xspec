@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
     xmlns:local="urn:x-xspec:compiler:xproc:compile:compile-scenarios:local"
-    xmlns:p="http://www.w3.org/ns/xproc" xmlns:wrap="urn:x-xspec:common:wrap"
+    xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"

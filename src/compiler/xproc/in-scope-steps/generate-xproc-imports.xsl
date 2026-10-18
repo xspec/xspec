@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:impl="urn:x-xspec:compile:impl" xmlns:p="http://www.w3.org/ns/xproc"
+<xsl:stylesheet xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#all" version="3.0">
 
