@@ -217,6 +217,15 @@
     file="${xspec.project.dir}" />
   <property name="xspec.xqs.home.uri" value="${xspec.project.dir.url}lib/XQS/" />
 
+  <!-- "xquery.processor" internal property. Defines the XQuery processor as 'saxon' or 'basex'.
+       This is only used if the value of 'xspec.xquery.processor' is valid. -->
+  <condition property="xquery.processor" value="basex" else="saxon">
+    <and>
+      <istrue value="${xspec.is.xquery}" />
+      <equals arg1="${xspec.xquery.processor}" arg2="basex" />
+    </and>
+  </condition>
+
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
   <macrodef name="saxon-xslt">
     <attribute name="in" />
@@ -530,6 +539,8 @@
       <xslt-elements>
         <param name="force-focus" expression="${xspec.force.focus}"
                if="xspec.force.focus" />
+        <param name="processor" expression="${xquery.processor}"
+               if="xspec.is.xquery" />
       </xslt-elements>
     </saxon-xslt>
   </target>
