@@ -2,6 +2,7 @@
 <?xspec-test compiler-saxon-config=${xspec.project.dir}/test/end-to-end/cases/xml-1-1_config_compiler.xml?>
 <?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/end-to-end/cases/xml-1-1_config_runtime.xml"?>
 <?xspec-test xml-version=1.1?>
+<?xspec-test xquery-requires-saxon?>
 <x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
