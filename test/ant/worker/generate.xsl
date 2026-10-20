@@ -205,11 +205,9 @@
 					<xsl:when test="
 						($test-type = ('q'))
 						and ($pis = 'require-xquery-to-support-v4')
-						and (
-							($x:saxon-version lt x:pack-version(12)) or
-							not(system-property('xsl:product-version') => matches('^[EP]E '))
-						)">
-						<!-- Requires EE or PE, version 12 and up -->
+						and (environment-variable('XQUERY_PROCESSOR') eq 'saxon')
+						and not(system-property('xsl:product-version') => matches('^[EP]E '))">
+						<!-- If Saxon, requires EE or PE -->
 						<xsl:text>Requires XQuery processor to support XQuery 4</xsl:text>
 					</xsl:when>
 
