@@ -798,9 +798,11 @@
                if="xspec.force.focus" />
         <param name="inline-css" expression="true" />
         <param name="report-theme" expression="${xspec.html.report.theme}"
-          if="xspec.html.report.theme" />
+               if="xspec.html.report.theme" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
                if="xspec.result.html.css.url" />
+        <param name="processor" expression="${xquery.processor}"
+               if="xspec.is.xquery" />
       </xslt-elements>
     </saxon-xslt>
   </target>

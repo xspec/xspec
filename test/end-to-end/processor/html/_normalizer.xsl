@@ -96,8 +96,9 @@
 	-->
 	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
 		mode="normalizer:normalize">
-		<xsl:variable name="schematron-test-via-XQS" as="xs:boolean"
-			select="boolean(../preceding-sibling::p/@data-schematron-implementation eq 'XQS')"/>
+		<xsl:variable name="normalize-datetime-manually" as="xs:boolean" select="
+				(../preceding-sibling::p/@data-schematron-implementation eq 'XQS') or
+				exists(../preceding-sibling::p/@data-xquery-processor)"/>
 
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^(Tested:) (.+)$" select=".">
@@ -109,8 +110,8 @@
 							<xsl:sequence
 								select="$NORMALIZE-HTML-DATETIME => local:format-like-html-report()"/>
 						</xsl:when>
-						<xsl:when test="$schematron-test-via-XQS">
-							<!-- Tests requiring XQS run with BaseX, so the Saxon -now option
+						<xsl:when test="$normalize-datetime-manually">
+							<!-- When tests don't run with Saxon, the Saxon -now option
 								does not take effect. -->
 							<xsl:sequence
 								select="'2000-01-01T00:00:00Z' => xs:dateTime() => local:format-like-html-report()"
@@ -126,6 +127,11 @@
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
+
+	<!-- Remove @data-xquery-processor so it doesn't interfere with comparison for tests
+		where Saxon and BaseX produce the same report. -->
+	<xsl:template as="empty-sequence()" match="
+		/html/body/p/@data-xquery-processor" mode="normalizer:normalize" />
 
 	<xsl:template as="text()"
 		match="/html/body/div[@class='byline']/text()"
