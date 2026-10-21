@@ -220,6 +220,31 @@
 					</xsl:when>
 
 					<xsl:when test="
+						($test-type ne 'q')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'saxon')">
+						<xsl:text>Restrict testing to XQuery</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type eq 'q')
+						and
+						($pis = 'xquery-requires-saxon')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'saxon')">
+						<xsl:text>Requires Saxon as XQuery processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type eq 'q')
+						and
+						($pis = 'xquery-requires-basex')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'basex')">
+						<xsl:text>Requires BaseX as XQuery processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
@@ -255,6 +280,10 @@
 					<run-xspec test-type="{$test-type}" xspec-file-url="{$xspec-file-uri}">
 						<xsl:if test="$enable-coverage">
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
+						</xsl:if>
+						<xsl:if test="environment-variable('XQUERY_PROCESSOR') ne 'saxon'">
+							<xsl:attribute name="xquery-processor"
+								select="environment-variable('XQUERY_PROCESSOR')"/>
 						</xsl:if>
 
 						<xsl:variable as="xs:string*" name="saxon-custom-options">
