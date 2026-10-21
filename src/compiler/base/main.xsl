@@ -25,6 +25,10 @@
    <xsl:param name="measure-time" as="xs:boolean"
       select="$initial-document/x:description/@measure-time => x:yes-no-synonym(false())" />
 
+   <!-- Name of the processor that will run the test suite e.g. saxon, xqs, basex.
+        This controls functionality based on the processor e.g. saxon PE/EE and basex support measure-time. -->
+   <xsl:param name="processor" as="xs:string?" select="'saxon'" />
+
    <!--
       Global variables
    -->
