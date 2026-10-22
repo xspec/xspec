@@ -61,7 +61,6 @@
 		<attribute default="" name="schematron-preprocessor-step2" />
 		<attribute default="" name="schematron-preprocessor-step3" />
 		<attribute default="" name="xml-version" />
-		<attribute default="" name="xquery-processor" />
 
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
@@ -152,7 +151,6 @@
 					unless:blank="@{schematron-preprocessor-step3}"
 					value="@{schematron-preprocessor-step3}" />
 				<param name="xspec.xml.version" unless:blank="@{xml-version}" value="@{xml-version}" />
-				<param name="xspec.xquery.processor" unless:blank="@{xquery-processor}" value="@{xquery-processor}" />
 
 				<param if:set="output-xml-path" location="${output-xml-path}"
 					name="xspec.result.xml" />
