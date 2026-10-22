@@ -220,6 +220,13 @@
 					</xsl:when>
 
 					<xsl:when test="
+						($test-type ne 'q')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'saxon')">
+						<xsl:text>Restrict testing to XQuery</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
