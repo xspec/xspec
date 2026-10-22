@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xquery-to-support-jref?>
 <?xspec-test require-xslt-to-support-jref?>
+<?xspec-test xquery-results-differ?>
 <x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
 	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
