@@ -191,6 +191,7 @@
 					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-jref')
+							and (environment-variable('XQUERY_PROCESSOR') eq 'saxon')
 							and not($XQUERY-SUPPORTS-JREF)">
 						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
 					</xsl:when>
