@@ -32,10 +32,15 @@
     This property name is vague. Use the alias property "xspec.xspecfile.original" for internal use. -->
 
   <!-- "saxon.custom.options" property: Documented in Wiki. DO NOT RENAME.
-    Optional command-line arguments passed to Saxon when running the tests.
-    For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
-    -outval:fatal -val:lax
-    No default value. This property is occasionally provided by the user. -->
+       Optional command-line arguments passed to Saxon when running the tests.
+       For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
+       -outval:fatal -val:lax
+       No default value. This property is occasionally provided by the user. -->
+
+  <!-- "basex.custom.options" property: Documented in Wiki. DO NOT RENAME.
+       Optional command-line arguments passed to BaseX when running XQuery tests.
+       For example, -w -O XINCLUDE=true
+       No default value. This property is occasionally provided by the user. -->
 
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
     One or more XML catalog files. Separated by semicolons (;).
@@ -222,8 +227,34 @@
   <condition property="xquery.processor" value="basex" else="saxon">
     <and>
       <istrue value="${xspec.is.xquery}" />
-      <equals arg1="${xspec.xquery.processor}" arg2="basex" />
+      <equals arg1="${xspec.xquery.processor}" arg2="basex" casesensitive="no" />
     </and>
+  </condition>
+  <condition property="xquery.processor.use.default" value="false" else="true">
+    <or>
+      <istrue value="${xspec.is.schematron}" />
+      <istrue value="${xspec.is.xslt}" />
+      <istrue value="${xspec.is.xproc}" />
+      <and>
+        <istrue value="${xspec.is.xquery}" />
+        <isset property="xspec.xquery.processor" />
+      </and>
+    </or>
+  </condition>
+  <condition property="xspec.xquery.processor.is.basex">
+    <and>
+      <istrue value="${xspec.is.xquery}" />
+      <equals arg1="${xspec.xquery.processor}" arg2="basex" casesensitive="no" />
+    </and>
+  </condition>
+  <condition property="xspec.xquery.processor.is.saxon">
+    <or>
+    <and>
+      <istrue value="${xspec.is.xquery}" />
+      <equals arg1="${xspec.xquery.processor}" arg2="saxon" casesensitive="no" />
+    </and>
+    <istrue value="${xquery.processor.use.default}" />
+    </or>
   </condition>
 
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
@@ -347,6 +378,27 @@
         <and>
           <istrue value="${xspec.coverage.enabled}" />
           <isfalse value="${xspec.is.xslt}" />
+        </and>
+      </condition>
+    </fail>
+
+    <!-- Verify "xspec.xquery.processor" and "test.type" -->
+    <fail message="xspec.xquery.processor is supported only with test.type of 'q'">
+      <condition>
+        <and>
+          <isset property="xspec.xquery.processor" />
+          <isfalse value="${xspec.is.xquery}" />
+        </and>
+      </condition>
+    </fail>
+
+    <!-- Verify "xspec.xquery.processor" -->
+    <fail message="Invalid xspec.xquery.processor: '${xspec.xquery.processor}'">
+      <condition>
+        <and>
+          <isset property="xspec.xquery.processor" />
+          <isfalse value="${xspec.xquery.processor.is.saxon}" />
+          <isfalse value="${xspec.xquery.processor.is.basex}" />
         </and>
       </condition>
     </fail>
@@ -545,8 +597,8 @@
     </saxon-xslt>
   </target>
 
-  <!-- Runs the compiled XSpec for XQuery -->
-  <target name="run-xquery-test" depends="compile" if="${xspec.is.xquery}">
+  <!-- Runs the compiled XSpec for XQuery using Saxon -->
+  <target name="run-xquery-test-with-saxon" depends="compile" if="${xspec.xquery.processor.is.saxon}">
     <echo message="Running Tests..."
           level="info" />
 
@@ -565,7 +617,39 @@
     </java>
   </target>
 
-  <target name="run-xquery-test-with-basex" depends="compile, schematron-xqs" if="${xspec.schematron.querylanguage.is.xquery}">
+  <!-- Runs the compiled XSpec for XQuery using BaseX -->
+  <target name="run-xquery-test-with-basex" depends="compile" if="${xspec.xquery.processor.is.basex}">
+    <echo message="Running Tests..."
+          level="info" />
+
+    <!-- In end-to-end test suite, if the first actual result to store under actual__/ is
+         coming from BaseX, the directory location might not exist. In that case, create it. -->
+    <dirname property="xspec.result.dir" file="${xspec.result.xml}"/>
+    <retry retrycount="2" retrydelay="1000">
+      <mkdir dir="${xspec.result.dir}" />
+    </retry>
+
+    <java classname="org.basex.BaseX" fork="true" failonerror="true">
+      <classpath>
+        <pathelement path="${xspec.basex.classpath}" if:set="xspec.basex.classpath"/>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
+      </classpath>
+      <arg line="${basex.custom.options}" if:set="basex.custom.options" />
+      <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
+      <arg value="-ODTD=true" if:set="xspec.catalog.files" />
+
+      <!-- Serialization parameters needed for end-to-end test suite and non-harmful outside that context. -->
+      <arg value="-somit-xml-declaration=no"/>
+      <arg value="-sindent=yes"/>
+      <arg value="-sindents=3"/>
+
+      <arg value="-o${xspec.result.xml}" />
+      <arg value="-Q${xspec.compiled.runner}" />
+    </java>
+  </target>
+
+  <target name="run-schematron-test-with-basex" depends="compile, schematron-xqs" if="${xspec.schematron.querylanguage.is.xquery}">
     <echo message="Running Tests..."
       level="info" />
 
@@ -782,7 +866,7 @@
 
   <!-- Report: Test result HTML -->
   <target name="report-html"
-          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test, run-xproc-test">
+          depends="run-xquery-test-with-saxon, run-xquery-test-with-basex, run-schematron-test-with-basex, run-xslt-test, run-xproc-test">
 
     <makeurl property="xspec.result.html.css.url"
              file="${xspec.result.html.css}"
@@ -798,7 +882,7 @@
                if="xspec.force.focus" />
         <param name="inline-css" expression="true" />
         <param name="report-theme" expression="${xspec.html.report.theme}"
-               if="xspec.html.report.theme" />
+          if="xspec.html.report.theme" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
                if="xspec.result.html.css.url" />
         <param name="processor" expression="${xquery.processor}"
@@ -839,7 +923,7 @@
 
   <!-- Report: JUnit -->
   <target name="report-junit"
-          depends="run-xquery-test, run-xquery-test-with-basex, run-xslt-test, run-xproc-test"
+          depends="run-xquery-test-with-saxon, run-xquery-test-with-basex, run-schematron-test-with-basex, run-xslt-test, run-xproc-test"
           if="${xspec.junit.enabled}">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.junit}"
