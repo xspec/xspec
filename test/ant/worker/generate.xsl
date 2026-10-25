@@ -263,6 +263,10 @@
 						<xsl:if test="$enable-coverage">
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
 						</xsl:if>
+						<xsl:if test="environment-variable('XQUERY_PROCESSOR') ne 'saxon'">
+							<xsl:attribute name="xquery-processor"
+								select="environment-variable('XQUERY_PROCESSOR')"/>
+						</xsl:if>
 
 						<xsl:variable as="xs:string*" name="saxon-custom-options">
 							<xsl:if test="$NOW">
