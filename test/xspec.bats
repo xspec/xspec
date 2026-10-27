@@ -1323,13 +1323,13 @@ load bats-helper
 }
 
 @test "-processor value must be xmlcalabash or morganaxproc (CLI)" {
-    MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is bogus"
+    MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
 
-    myrun ../bin/xspec.sh -processor bogus -p mytest.xspec
+    myrun ../bin/xspec.sh -processor basex -p mytest.xspec
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "${MSG}" ]
 
-    export XPROC_PROCESSOR=bogus
+    export XPROC_PROCESSOR=basex
     myrun ../bin/xspec.sh -p mytest.xspec
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "${MSG}" ]
@@ -1402,6 +1402,126 @@ load bats-helper
         -Dxspec.xml="${PWD}/xproc/cases/one-input-no-option-one-output.xspec"
     [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".+ Invalid xspec\.xproc\.processor: 'bogus'. Use 'xmlcalabash' or 'morganaxproc'."
+}
+
+#
+# Test with XQuery processor set in argument or property (XQuery)
+# Runs with BaseX when testing environment is basex.
+#
+
+# TODO: Add "CLI with -processor (XQuery)" case here
+
+@test "Ant with xspec.xquery.processor (XQuery)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type="q" \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
+        -Dxspec.xml="${PWD}/xquery-processor/${XQUERY_PROCESSOR}.xspec"
+
+    [ "$status" -eq 0 ] 
+    [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+
+    # Default set of files
+    myrun env LC_ALL=C ls "${TEST_DIR}"
+    [ "${#lines[@]}" = "4" ]
+    [ "${lines[0]}" = "${XQUERY_PROCESSOR}-compiled.xq" ]
+    [ "${lines[1]}" = "${XQUERY_PROCESSOR}-result.html" ]
+    [ "${lines[2]}" = "${XQUERY_PROCESSOR}-result.xml" ]
+    [ "${lines[3]}" = "${XQUERY_PROCESSOR}_xml-to-properties.xml" ]
+}
+
+#
+# Test with XQuery processor not set (XQuery with Saxon)
+# "Ant with no xspec.xquery.processor (XQuery with Saxon)" is tested by run-xspec-tests-ant.cmd
+#
+
+@test "CLI with no processor value (XQuery with Saxon)" {
+    unset XQUERY_PROCESSOR
+    myrun ../bin/xspec.sh -q transform.xspec
+
+    [ "$status" -eq 0 ] 
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+#
+# CLI - Test with XQUERY_PROCESSOR set
+# "CLI with XQUERY_PROCESSOR ignored" for languages other than XQuery is tested by
+#   test cases that see XQUERY_PROCESSOR coming from testing environment, such as
+#   "invoking xspec without TEST_DIR set externally (Schematron)".
+#
+
+# TODO: Add "CLI with XQUERY_PROCESSOR (XQuery)" case here
+
+#
+# Error Tests - XQuery with invalid 'processor' value
+#
+
+# TODO: Add "CLI with -processor bogus (XQuery)" case here
+
+@test "Ant with xspec.xquery.processor bogus (XQuery)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type="q" \
+        -Dxspec.xquery.processor="bogus" \
+        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
+
+    [ "$status" -eq 1 ] 
+    assert_regex "${lines[${#lines[@]} - 3]}" ".*Invalid xspec\.xquery\.processor: 'bogus'\. Use 'saxon' or 'basex'\."
+}
+
+#
+# Error Tests - 'processor' not allowed for the test type (value of file name and processor are not used)
+#
+
+@test "Ant with xspec.xquery.processor for default test type (XSLT)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dxspec.xquery.processor="saxon" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+
+    [ "$status" -eq 1 ] 
+    assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+}
+
+@test "Ant with xspec.xquery.processor for wrong test type (XSLT)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type="t" \
+        -Dxspec.xquery.processor="saxon" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+
+    [ "$status" -eq 1 ] 
+    assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+}
+
+@test "Ant with xspec.xquery.processor for wrong test type (Schematron)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type="s" \
+        -Dxspec.xquery.processor="saxon" \
+        -Dxspec.xml="${PWD}/../tutorial/schematron-xqs/demo-03.xspec"
+
+    [ "$status" -eq 1 ] 
+    assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+}
+
+@test "Ant with xspec.xquery.processor for wrong test type (XProc)" {
+    myrun ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_ANT_LIB}" \
+        -Dtest.type="p" \
+        -Dxspec.xquery.processor="saxon" \
+        -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
+        -Dxspec.xml="${PWD}/../tutorial/xproc/xproc-testing-demo.xspec"
+
+    [ "$status" -eq 1 ] 
+    assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 }
 
 #
