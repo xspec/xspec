@@ -20,12 +20,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         java: [17, 21]
-        env: [saxon-13, saxon-12, oxygen]
+        env: [saxon-13, saxon-12, oxygen, basex]
         exclude:
           - os: macos-latest
             env: oxygen
           - java: 17
             env: oxygen
+          - os: macos-latest
+            env: basex
+          - java: 17
+            env: basex
 
     steps:
       - uses: actions/checkout@v7

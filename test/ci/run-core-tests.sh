@@ -1,7 +1,7 @@
 #! /bin/bash
 
 echo "Execute Bats unit tests"
-./test/run-bats.sh --tap || exit
+./test/run-bats.sh --tap --filter "${FILTER}" || exit
 
 echo "Execute XSpec unit tests"
 ./test/run-xspec-tests-ant.sh -silent || exit
