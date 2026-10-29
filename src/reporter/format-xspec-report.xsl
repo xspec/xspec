@@ -34,6 +34,9 @@
    <xsl:param name="report-css-uri" as="xs:string?" />
    <!-- See also report-theme parameter, which is defined in format-utils.xsl -->
 
+   <!-- Processor that ran the test suite (e.g., saxon, xqs, basex), passed from Ant. -->
+   <xsl:param name="processor" as="xs:string?" />
+
    <!-- @use-character-maps for inline CSS -->
    <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />
 
@@ -242,14 +245,21 @@
          <p>
             <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
 
-            <!-- If test used XQS, provide data that tells end-to-end test suite to
-               normalize date/time stamp. Such tests run with BaseX, so the Saxon
-               -now option does not take effect. --> 
-            <xsl:if test="
+            <!-- If test is known not to have run with Saxon (i.e., XQS, BaseX), provide data that
+               tells end-to-end test suite to normalize date/time stamp. The Saxon -now option does
+               not take effect. -->
+            <xsl:choose>
+               <xsl:when test="
                   ($attr-name eq 'schematron') and
                   exists(/x:report//x:call[@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate'])">
-               <xsl:attribute name="data-schematron-implementation" select="'XQS'"/>
-            </xsl:if>
+                  <xsl:attribute name="data-schematron-implementation" select="'XQS'"/>
+               </xsl:when>
+               <xsl:when test="
+                  ($attr-name eq 'query') and
+                  ($processor ne 'saxon')">
+                  <xsl:attribute name="data-xquery-processor" select="$processor"/>
+               </xsl:when>               
+            </xsl:choose>
 
             <xsl:value-of select="$label($attr-name)"/>
 

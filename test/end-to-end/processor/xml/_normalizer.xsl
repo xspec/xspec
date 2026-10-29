@@ -121,17 +121,26 @@
 	</xsl:template>
 
 	<!--
-		Normalizes date/time stamp in tests that call validate() in the XQS implementation
-		of Schematron. Such tests run with BaseX, so the Saxon -now option does not take effect.
+		Normalizes date/time stamp in tests that don't run with Saxon, because
+		the Saxon -now option does not take effect.
 	-->
 	<xsl:template as="attribute(date)" match="
 		/x:report
 			[@schematron]
 			[descendant::x:call[@function eq 'Q{http://www.andrewsales.com/ns/xqs}validate']]
+			/@date
+		|
+		/x:report
+			[@processor ne 'saxon']
 			/@date" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="xs:dateTime('2000-01-01T00:00:00Z')" />
 	</xsl:template>
+
+	<!-- Remove @processor so it doesn't interfere with comparison for tests
+		where Saxon and BaseX produce the same report. -->
+	<xsl:template as="empty-sequence()" match="
+			/x:report/@processor" mode="normalizer:normalize"/> 
 
 	<!--
 		Private utility functions
