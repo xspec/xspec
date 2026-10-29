@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test saxon-custom-options={x-urn:test:xspec-global-override}external-value_vs_global-variable=override {x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= {x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override?>
+<?xspec-test xquery-requires-saxon?>
 <x:description query="x-urn:test:xspec-global-override" query-at="global-override.xqm" xmlns:g="x-urn:test:xspec-global-override" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
