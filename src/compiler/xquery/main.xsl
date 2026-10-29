@@ -136,6 +136,9 @@
                   <xsl:if test="exists($query-at)">
                      <xsl:attribute name="query-at" select="$query-at" />
                   </xsl:if>
+                  <xsl:if test="$processor ne 'saxon'">
+                     <xsl:attribute name="processor" select="$processor" />   
+                  </xsl:if>
                </xsl:otherwise>
             </xsl:choose>
          </xsl:with-param>
