@@ -2899,7 +2899,9 @@ load bats-helper
 @test "Boolean @test with @as (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/as.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[\] ] ERROR in x:expect \('Boolean @test with @as should be error'\):"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Boolean @test with @as should be error'\):"
+    # In the regex above, the [^0-9] expression matches either space (Saxon) or bracket (BaseX) but using [\] ]
+    # doesn't seem to work on Ubuntu. So, just check that the error code uses the right number, e.g., not FOER00001.
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2913,7 +2915,7 @@ load bats-helper
 @test "Boolean @test with child node (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/child-node.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[\] ] ERROR in x:expect \('Boolean @test with child node should be error'\):"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Boolean @test with child node should be error'\):"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2927,7 +2929,7 @@ load bats-helper
 @test "Boolean @test with @href (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/href.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[\] ] ERROR in x:expect \('Boolean @test with @href should be error'\):"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Boolean @test with @href should be error'\):"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2941,7 +2943,7 @@ load bats-helper
 @test "Boolean @test with @select (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/boolean-test/select.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[\] ] ERROR in x:expect \('Boolean @test with @select should be error'\):"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Boolean @test with @select should be error'\):"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2959,7 +2961,7 @@ load bats-helper
 @test "Non-boolean @test (empty sequence) with no comparison factors (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/empty.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[ \]] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison.*"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison.*"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2973,7 +2975,7 @@ load bats-helper
 @test "Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[ \]] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison.*"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison.*"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -2987,7 +2989,7 @@ load bats-helper
 @test "Non-boolean @test (node) with no comparison factors (XQuery)" {
     myrun ../bin/xspec.sh -q bad-assertion/non-boolean-test/node.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${lines[8]}" "^.*FOER0000[ \]] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should.*"
+    assert_regex "${lines[8]}" "^.*FOER0000[^0-9] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should.*"
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
