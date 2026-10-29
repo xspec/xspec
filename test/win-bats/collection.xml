@@ -517,7 +517,7 @@
     call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_REPORT%" ^
         -xsl:end-to-end\processor\html\compare.xsl ^
-        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query-saxon/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     call :verify_retval 0
 
@@ -735,7 +735,7 @@
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_REPORT%" ^
         -xsl:end-to-end\processor\html\compare.xsl ^
-        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query-saxon/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
         call :verify_retval 0
 
@@ -743,7 +743,7 @@
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_JUNIT_REPORT%" ^
         -xsl:end-to-end\processor\junit\compare.xsl ^
-        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-junit.xml"
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query-saxon/serialize-junit.xml"
         call :verify_retval 0
 	</case>
 
@@ -791,7 +791,7 @@
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_REPORT%" ^
         -xsl:end-to-end\processor\html\compare.xsl ^
-        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query-saxon/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
         call :verify_retval 0
 
@@ -804,7 +804,7 @@
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform ^
         -s:"%ACTUAL_JUNIT_REPORT%" ^
         -xsl:end-to-end\processor\junit\compare.xsl ^
-        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-junit.xml"
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query-saxon/serialize-junit.xml"
         call :verify_retval 0
 	</case>
 

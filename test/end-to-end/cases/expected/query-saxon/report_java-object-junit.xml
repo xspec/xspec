@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="report_java-object.xspec">
+   <testsuite name="Java type" tests="1" failures="1">
+      <testcase name="[Result] must be an empty 'pseudo-other' element" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

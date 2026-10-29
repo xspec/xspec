@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="result-type-non-matches.xspec">
+   <testsuite name="Failures due to @result-type" tests="5" failures="5">
+      <testcase name="preventing evaluation of @test that would be boolean if it didn't raise an error"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="preventing evaluation of @test that would be non-boolean if it didn't raise an error"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="preventing evaluation of @test For comparison: boolean @test without @result-type"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: $x:result instance of element(ns:nonexistent)</failure>
+      </testcase>
+      <testcase name="with no @test and an explicit expected result" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="with no @test and expected result is implicitly an empty sequence)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="Failures because xs:integer is not an instance of xs:positiveInteger"
+              tests="3"
+              failures="3">
+      <testcase name="comparing actual result with expected result" status="failed">
+         <failure message="expect assertion failed">Expected Result: 1</failure>
+      </testcase>
+      <testcase name="with non-boolean @test" status="failed">
+         <failure message="expect assertion failed">Expected Result: 0</failure>
+      </testcase>
+      <testcase name="with boolean @test" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="Failures illustrating catch='yes' usage"
+              tests="2"
+              failures="2">
+      <testcase name="Expected dynamic error does not occur result-type prevents evaluation of @test"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: 'I expected an error.'</failure>
+      </testcase>
+      <testcase name="Unexpected dynamic error occurs result-type prevents evaluation of @test"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+   <testsuite name="Failures to check qualified name notation on Expected side of report"
+              tests="2"
+              failures="2">
+      <testcase name="when expect element uses prefix 't', report uses $t:result"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: 0</failure>
+      </testcase>
+      <testcase name="when expect element does not use a prefix, report uses $result"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: 0</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

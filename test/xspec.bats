@@ -587,7 +587,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query-saxon/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
     # Verify that inline CSS uses > instead of &gt;
@@ -856,14 +856,14 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query-saxon/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
     # Verify JUnit report
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_junit_report}" \
         -xsl:end-to-end/processor/junit/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query-saxon/serialize-junit.xml"
 }
 
 @test "XProc 3 harness with Saxon (XQuery), checking no JUnit report" {
@@ -925,7 +925,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query-saxon/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
 
     # Verify that inline CSS uses > instead of &gt;
@@ -937,7 +937,7 @@ load bats-helper
     java -cp "${SAXON_CP}" net.sf.saxon.Transform \
         -s:"${actual_junit_report}" \
         -xsl:end-to-end/processor/junit/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-junit.xml"
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query-saxon/serialize-junit.xml"
 }
 
 @test "XProc 3 harness with BaseX (XQuery), checking no JUnit report" {

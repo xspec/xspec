@@ -15,7 +15,7 @@
 
 	<!-- For XSLT code coverage, store expected files in separate
 			folders by Saxon major version, e.g., stylesheet-saxon13. -->
-	<xsl:variable as="xs:string?" name="suffix-for-expected-report-folder">
+	<xsl:variable as="xs:string?" name="coverage-dir-suffix">
 		<xsl:if test="(ends-with($XSPECFILES-DIR-URI, '/cases-coverage/'))">
 			<xsl:sequence select="
 				concat(
@@ -45,9 +45,36 @@
 			select="
 				('actual__/' || name() || '/')
 				=> resolve-uri($XSPECFILES-DIR-URI)" />
+		<xsl:variable as="xs:string?" name="xquery-processor-env"
+			select="environment-variable('XQUERY_PROCESSOR')"/>
+		<xsl:variable as="xs:string?" name="xquery-dir-suffix">
+			<xsl:choose>
+				<xsl:when test="name() ne 'query'">
+					<!-- no op -->
+				</xsl:when>
+				<xsl:when test="
+						exists(/processing-instruction(xspec-test)[. = 'xquery-results-differ'])
+						and ($xquery-processor-env ne '')">
+					<xsl:sequence select="concat('-', $xquery-processor-env)"/>
+				</xsl:when>
+				<xsl:when test="
+						exists(/processing-instruction(xspec-test)
+						[. = 'xquery-requires-' || $xquery-processor-env]
+						)
+						and ($xquery-processor-env ne '')">
+					<xsl:sequence select="concat('-', $xquery-processor-env)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:sequence select="'-common'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable as="xs:string?" name="dir-suffix"
+			select="($xquery-dir-suffix, $coverage-dir-suffix)[1]"/>
+
 		<xsl:variable as="xs:anyURI" name="expected-reports-dir-uri"
 			select="
-				('expected/' || name() || $suffix-for-expected-report-folder || '/')
+				('expected/' || name() || $dir-suffix || '/')
 				=> resolve-uri($XSPECFILES-DIR-URI)" />
 
 		<!-- Get the file name without extension. i.e. Get "foo" from "scheme://host/dir/foo.xspec" -->
