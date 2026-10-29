@@ -227,6 +227,24 @@
 					</xsl:when>
 
 					<xsl:when test="
+						($test-type eq 'q')
+						and
+						($pis = 'xquery-requires-saxon')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'saxon')">
+						<xsl:text>Requires Saxon as XQuery processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+						($test-type eq 'q')
+						and
+						($pis = 'xquery-requires-basex')
+						and
+						(environment-variable('XQUERY_PROCESSOR') ne 'basex')">
+						<xsl:text>Requires BaseX as XQuery processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
