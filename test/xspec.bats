@@ -2694,6 +2694,7 @@ load bats-helper
 
 @test "invoking xspec for xquery with SAXON_CUSTOM_OPTIONS" {
     # Test with a space in file name
+    # Case name uses xquery, not XQuery, so "basex" test environment skips this case
     saxon_config="${work_dir}/saxon config ${RANDOM}.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
 
@@ -3343,6 +3344,7 @@ load bats-helper
     myrun ../bin/xspec.sh -q ../tutorial/under-the-hood/compilation-variables-scope.xspec
     [ "$status" -eq 0 ]
     [ "${lines[6]}" = "Running Tests..." ]
+    # regular expressions use bracketed choice to accommodate Saxon and BaseX
     assert_regex "${lines[7]}" '.*value-[21]'
     assert_regex "${lines[8]}" '.*value-[32]'
     assert_regex "${lines[9]}" '.*value-[43]'
