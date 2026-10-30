@@ -32,15 +32,10 @@
     This property name is vague. Use the alias property "xspec.xspecfile.original" for internal use. -->
 
   <!-- "saxon.custom.options" property: Documented in Wiki. DO NOT RENAME.
-       Optional command-line arguments passed to Saxon when running the tests.
-       For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
-       -outval:fatal -val:lax
-       No default value. This property is occasionally provided by the user. -->
-
-  <!-- "basex.custom.options" property: Documented in Wiki. DO NOT RENAME.
-       Optional command-line arguments passed to BaseX when running XQuery tests.
-       For example, -w -O XINCLUDE=true
-       No default value. This property is occasionally provided by the user. -->
+    Optional command-line arguments passed to Saxon when running the tests.
+    For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
+    -outval:fatal -val:lax
+    No default value. This property is occasionally provided by the user. -->
 
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
     One or more XML catalog files. Separated by semicolons (;).
@@ -206,8 +201,8 @@
   </condition>
 
   <!-- "xspec.basex.classpath" property: Documented in Wiki. DO NOT RENAME.
-    Required for running XSpec tests for Schematron using XQS. Irrelevant
-    for other languages. No default value.
+    Required for running XSpec tests for either Schematron using XQS or XQuery.
+    Irrelevant otherwise. No default value.
 
     The value should be ready to use as part of a Java classpath, including
     the location of the user's BaseX jar file and any other classpath entries
@@ -227,7 +222,7 @@
   <condition property="xquery.processor" value="basex" else="saxon">
     <and>
       <istrue value="${xspec.is.xquery}" />
-      <equals arg1="${xspec.xquery.processor}" arg2="basex" casesensitive="no" />
+      <equals arg1="${xspec.xquery.processor}" arg2="basex" />
     </and>
   </condition>
   <condition property="xquery.processor.use.default" value="false" else="true">
@@ -244,14 +239,14 @@
   <condition property="xspec.xquery.processor.is.basex">
     <and>
       <istrue value="${xspec.is.xquery}" />
-      <equals arg1="${xspec.xquery.processor}" arg2="basex" casesensitive="no" />
+      <equals arg1="${xspec.xquery.processor}" arg2="basex" />
     </and>
   </condition>
   <condition property="xspec.xquery.processor.is.saxon">
     <or>
     <and>
       <istrue value="${xspec.is.xquery}" />
-      <equals arg1="${xspec.xquery.processor}" arg2="saxon" casesensitive="no" />
+      <equals arg1="${xspec.xquery.processor}" arg2="saxon" />
     </and>
     <istrue value="${xquery.processor.use.default}" />
     </or>
@@ -393,7 +388,7 @@
     </fail>
 
     <!-- Verify "xspec.xquery.processor" -->
-    <fail message="Invalid xspec.xquery.processor: '${xspec.xquery.processor}'">
+    <fail message="Invalid xspec.xquery.processor: '${xspec.xquery.processor}'. Use 'saxon' or 'basex'.">
       <condition>
         <and>
           <isset property="xspec.xquery.processor" />
@@ -622,6 +617,10 @@
     <echo message="Running Tests..."
           level="info" />
 
+    <fail
+      message="Testing XQuery with BaseX requires the xspec.basex.classpath property"
+      unless="xspec.basex.classpath" />
+
     <!-- In end-to-end test suite, if the first actual result to store under actual__/ is
          coming from BaseX, the directory location might not exist. In that case, create it. -->
     <dirname property="xspec.result.dir" file="${xspec.result.xml}"/>
@@ -635,7 +634,6 @@
         <pathelement path="${java.class.path}" />
         <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
       </classpath>
-      <arg line="${basex.custom.options}" if:set="basex.custom.options" />
       <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-ODTD=true" if:set="xspec.catalog.files" />
 
