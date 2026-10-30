@@ -1979,6 +1979,8 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=xquerY ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
@@ -3115,6 +3117,8 @@
         -logfile "%ANT_LOG%" ^
         -verbose ^
         -Dtest.type=q ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xml="%CD%\xspec-uri.xspec"
     call :verify_retval 0
     call :verify_exist "%ANT_LOG%"
@@ -3304,6 +3308,8 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xquery.compiler.xsl="%CD%\override-id\compile-xquery-tests.xsl" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_retval 0

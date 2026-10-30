@@ -2276,6 +2276,8 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=xquerY \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
 }
@@ -3542,6 +3544,8 @@ load bats-helper
         -lib "${SAXON_ANT_LIB}" \
         -logfile "${ant_log}" \
         -verbose \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
     [ -f "${ant_log}" ]
@@ -3731,6 +3735,8 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
         -Dtest.type=q \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xquery.compiler.xsl="${PWD}/override-id/compile-xquery-tests.xsl" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     [ "$status" -eq 0 ]
