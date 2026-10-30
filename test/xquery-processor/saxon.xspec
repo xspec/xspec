@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test xquery-requires-saxon?>
+<x:description query="x-urn:test:transform" query-at="transform.xqm"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xml:base="../">
+	<!-- Call a function that calls transform(), to test that Saxon is used -->
+	<x:import href="transform.xspec"/>
+</x:description>

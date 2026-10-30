@@ -400,10 +400,14 @@
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
                            <pre>&lt;<span class="inner-diff">test</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
-   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
+   &lt;<span class="inner-diff">elem1</span>&gt;
+      <span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;
+      <span class="diff">&lt;!--foo--&gt;</span>
+      &lt;?<span class="same">bar</span> <span class="same"></span>?&gt;
+   &lt;/elem2&gt;
 &lt;/test&gt;</pre>
                         </td>
                         <td>
@@ -411,7 +415,8 @@
                            <pre>&lt;<span class="inner-diff">test</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;
+   &lt;/elem2&gt;
 &lt;/test&gt;</pre>
                         </td>
                      </tr>
@@ -442,16 +447,21 @@
                            <pre>&lt;<span class="inner-diff">test</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;
+   &lt;/elem2&gt;
 &lt;/test&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
                            <pre>&lt;<span class="inner-diff">test</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
-   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
+   &lt;<span class="inner-diff">elem1</span>&gt;
+      <span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;
+      <span class="diff">&lt;!--foo--&gt;</span>
+      &lt;?<span class="same">bar</span> <span class="same"></span>?&gt;
+   &lt;/elem2&gt;
 &lt;/test&gt;</pre>
                         </td>
                      </tr>
@@ -1094,27 +1104,62 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="same">exact-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="same">node2</span> <span class="same">value2</span>?&gt;&lt;?<span class="same">node3</span> <span class="same"></span>?&gt;&lt;?<span class="same">node4</span> <span class="same"></span>?&gt;&lt;/exact-match&gt;
-&lt;<span class="inner-diff">name-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="inner-diff">node1</span> <span class="diff">value1</span>?&gt;&lt;?<span class="inner-diff">node2</span> <span class="diff">value2</span>?&gt;&lt;?<span class="inner-diff">node3</span> <span class="diff"></span>?&gt;&lt;?<span class="inner-diff">node4</span> <span class="diff">...</span>?&gt;&lt;/name-match&gt;
-&lt;<span class="inner-diff">value-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="diff">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="diff">node2</span> <span class="same">value2</span>?&gt;&lt;?<span class="diff">node3</span> <span class="same"></span>?&gt;&lt;?<span class="diff">node4</span> <span class="same"></span>?&gt;&lt;/value-match&gt;
+                           <pre>&lt;<span class="same">exact-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;
+   &lt;?<span class="same">node2</span> <span class="same">value2</span>?&gt;
+   &lt;?<span class="same">node3</span> <span class="same"></span>?&gt;
+   &lt;?<span class="same">node4</span> <span class="same"></span>?&gt;
+&lt;/exact-match&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="inner-diff">node1</span> <span class="diff">value1</span>?&gt;
+   &lt;?<span class="inner-diff">node2</span> <span class="diff">value2</span>?&gt;
+   &lt;?<span class="inner-diff">node3</span> <span class="diff"></span>?&gt;
+   &lt;?<span class="inner-diff">node4</span> <span class="diff">...</span>?&gt;
+&lt;/name-match&gt;
+&lt;<span class="inner-diff">value-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="diff">node1</span> <span class="same">value1</span>?&gt;
+   &lt;?<span class="diff">node2</span> <span class="same">value2</span>?&gt;
+   &lt;?<span class="diff">node3</span> <span class="same"></span>?&gt;
+   &lt;?<span class="diff">node4</span> <span class="same"></span>?&gt;
+&lt;/value-match&gt;
 &lt;<span class="inner-diff">no-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
-   &lt;<span class="inner-diff">different-kind</span>&gt;&lt;?<span class="diff">node1</span> <span class="diff">value1</span>?&gt;
+   &lt;<span class="inner-diff">different-kind</span>&gt;
+      &lt;?<span class="diff">node1</span> <span class="diff">value1</span>?&gt;
       &lt;<span class="diff">node2</span> /&gt;
       &lt;?<span class="diff">node3</span> <span class="diff"></span>?&gt;
       &lt;<span class="diff">node4</span> /&gt;
       &lt;<span class="diff">node5</span> /&gt;
    &lt;/different-kind&gt;
    &lt;<span class="inner-diff">orphan</span>&gt;
-      &lt;<span class="inner-diff">node1</span>&gt;&lt;?<span class="diff">node1-1</span> <span class="diff">value1-1</span>?&gt;&lt;?<span class="diff">node1-2</span> <span class="diff"></span>?&gt;&lt;?<span class="diff">node1-3</span> <span class="diff">...</span>?&gt;&lt;/node1&gt;
+      &lt;<span class="inner-diff">node1</span>&gt;
+         &lt;?<span class="diff">node1-1</span> <span class="diff">value1-1</span>?&gt;
+         &lt;?<span class="diff">node1-2</span> <span class="diff"></span>?&gt;
+         &lt;?<span class="diff">node1-3</span> <span class="diff">...</span>?&gt;
+      &lt;/node1&gt;
       &lt;<span class="inner-diff">node2</span> /&gt;
    &lt;/orphan&gt;
 &lt;/no-match&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="same">exact-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="same">node2</span> <span class="same">...</span>?&gt;&lt;?<span class="same">node3</span> <span class="same"></span>?&gt;&lt;?<span class="same">node4</span> <span class="same">...</span>?&gt;&lt;/exact-match&gt;
-&lt;<span class="inner-diff">name-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="inner-diff">node1</span> <span class="diff">VALUE1</span>?&gt;&lt;?<span class="inner-diff">node2</span> <span class="diff"></span>?&gt;&lt;?<span class="inner-diff">node3</span> <span class="diff">value3</span>?&gt;&lt;?<span class="inner-diff">node4</span> <span class="diff">value4</span>?&gt;&lt;/name-match&gt;
-&lt;<span class="inner-diff">value-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?<span class="diff">NODE1</span> <span class="same">value1</span>?&gt;&lt;?<span class="diff">NODE2</span> <span class="same">...</span>?&gt;&lt;?<span class="diff">NODE3</span> <span class="same"></span>?&gt;&lt;?<span class="diff">NODE4</span> <span class="same">...</span>?&gt;&lt;/value-match&gt;
+                           <pre>&lt;<span class="same">exact-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;
+   &lt;?<span class="same">node2</span> <span class="same">...</span>?&gt;
+   &lt;?<span class="same">node3</span> <span class="same"></span>?&gt;
+   &lt;?<span class="same">node4</span> <span class="same">...</span>?&gt;
+&lt;/exact-match&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="inner-diff">node1</span> <span class="diff">VALUE1</span>?&gt;
+   &lt;?<span class="inner-diff">node2</span> <span class="diff"></span>?&gt;
+   &lt;?<span class="inner-diff">node3</span> <span class="diff">value3</span>?&gt;
+   &lt;?<span class="inner-diff">node4</span> <span class="diff">value4</span>?&gt;
+&lt;/name-match&gt;
+&lt;<span class="inner-diff">value-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?<span class="diff">NODE1</span> <span class="same">value1</span>?&gt;
+   &lt;?<span class="diff">NODE2</span> <span class="same">...</span>?&gt;
+   &lt;?<span class="diff">NODE3</span> <span class="same"></span>?&gt;
+   &lt;?<span class="diff">NODE4</span> <span class="same">...</span>?&gt;
+&lt;/value-match&gt;
 &lt;<span class="inner-diff">no-match</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;<span class="inner-diff">different-kind</span>&gt;
       &lt;<span class="diff">node1</span> /&gt;
@@ -1125,7 +1170,11 @@
    &lt;/different-kind&gt;
    &lt;<span class="inner-diff">orphan</span>&gt;
       &lt;<span class="inner-diff">node1</span> /&gt;
-      &lt;<span class="inner-diff">node2</span>&gt;&lt;?<span class="diff">node2-1</span> <span class="diff">value2-1</span>?&gt;&lt;?<span class="diff">node2-2</span> <span class="diff"></span>?&gt;&lt;?<span class="diff">node2-3</span> <span class="diff">...</span>?&gt;&lt;/node2&gt;
+      &lt;<span class="inner-diff">node2</span>&gt;
+         &lt;?<span class="diff">node2-1</span> <span class="diff">value2-1</span>?&gt;
+         &lt;?<span class="diff">node2-2</span> <span class="diff"></span>?&gt;
+         &lt;?<span class="diff">node2-3</span> <span class="diff">...</span>?&gt;
+      &lt;/node2&gt;
    &lt;/orphan&gt;
 &lt;/no-match&gt;</pre>
                         </td>
@@ -1150,18 +1199,38 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:</p>
-                           <pre>&lt;exact-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ?&gt;&lt;/exact-match&gt;
-&lt;name-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ...?&gt;&lt;/name-match&gt;
-&lt;value-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ?&gt;&lt;/value-match&gt;
+                           <pre>&lt;exact-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?node1 value1?&gt;
+   &lt;?node2 value2?&gt;
+   &lt;?node3 ?&gt;
+   &lt;?node4 ?&gt;
+&lt;/exact-match&gt;
+&lt;name-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?node1 value1?&gt;
+   &lt;?node2 value2?&gt;
+   &lt;?node3 ?&gt;
+   &lt;?node4 ...?&gt;
+&lt;/name-match&gt;
+&lt;value-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;?node1 value1?&gt;
+   &lt;?node2 value2?&gt;
+   &lt;?node3 ?&gt;
+   &lt;?node4 ?&gt;
+&lt;/value-match&gt;
 &lt;no-match <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
-   &lt;different-kind&gt;&lt;?node1 value1?&gt;
+   &lt;different-kind&gt;
+      &lt;?node1 value1?&gt;
       &lt;node2 /&gt;
       &lt;?node3 ?&gt;
       &lt;node4 /&gt;
       &lt;node5 /&gt;
    &lt;/different-kind&gt;
    &lt;orphan&gt;
-      &lt;node1&gt;&lt;?node1-1 value1-1?&gt;&lt;?node1-2 ?&gt;&lt;?node1-3 ...?&gt;&lt;/node1&gt;
+      &lt;node1&gt;
+         &lt;?node1-1 value1-1?&gt;
+         &lt;?node1-2 ?&gt;
+         &lt;?node1-3 ...?&gt;
+      &lt;/node1&gt;
       &lt;node2 /&gt;
    &lt;/orphan&gt;
 &lt;/no-match&gt;</pre>

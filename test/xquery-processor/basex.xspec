@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test xquery-requires-basex?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
+	xmlns:string="http://basex.org/modules/string"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xml:base="../">
+		<x:scenario label="Call BaseX-specific function, string:soundex, to test BaseX is used">
+			<x:call function="string:soundex">
+				<x:param select="'Michael'" />
+			</x:call>
+			<x:expect label="Expected value M240" select="'M240'" />
+		</x:scenario>
+</x:description>

@@ -1107,13 +1107,13 @@
     call :verify_line 8 r "Testing with .* and XML Calabash "
 	</case>
 
-	<case name="-processor value must be xmlcalabash or morganaxproc (CLI)">
-    set MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is bogus"
-    call :run ..\bin\xspec.bat -processor bogus -p mytest.xspec
+	<case name="-processor value must be xmlcalabash or morganaxproc for XProc (CLI)">
+    set MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
+    call :run ..\bin\xspec.bat -processor basex -p mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
 
-    set XPROC_PROCESSOR=bogus
+    set XPROC_PROCESSOR=basex
     call :run ..\bin\xspec.bat -p mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
@@ -1121,7 +1121,7 @@
 
 	<case name="XPROC_PROCESSOR supported only in tests for XProc (CLI)">
     set XPROC_PROCESSOR=xmlcalabash
-    set MSG="XProc -processor option is not supported for this test type" 
+    set MSG="XProc -processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -t mytest.xspec
     call :verify_retval 1
@@ -1137,7 +1137,7 @@
 	</case>
 
 	<case name="-processor supported only in tests for XProc (CLI)">
-    set MSG="XProc -processor option is not supported for this test type" 
+    set MSG="XProc -processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -processor xmlcalabash -t mytest.xspec
     call :verify_retval 1
@@ -1170,7 +1170,7 @@
     call :verify_line * r "     \[java\] Testing with .* and XML Calabash "
 	</case>
 
-    <case ifdef="XMLCALABASH3_JAR" name="xspec.xproc.processor value must be xmlcalabash or morganaxproc (Ant)">
+	<case ifdef="XMLCALABASH3_JAR" name="xspec.xproc.processor value must be xmlcalabash or morganaxproc (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%XMLCALABASH3_JAR%" ^
@@ -1180,6 +1180,124 @@
         -Dxspec.xml="%CD%\xproc\cases\one-input-no-option-one-output.xspec"
     call :verify_retval 1
     call :verify_line -3 r "..* Invalid xspec\.xproc\.processor: 'bogus'. Use 'xmlcalabash' or 'morganaxproc'."
+	</case>
+
+	<!--
+		Test with XQuery processor set in argument or property (XQuery)
+		Runs with BaseX when testing environment is basex.
+	-->
+
+<!-- TODO: Add "CLI with -processor (XQuery)" case here -->
+
+	<case name="Ant with xspec.xquery.processor (XQuery)">
+    call :run ant ^
+        -buildfile=../build.xml ^
+        -lib "%SAXON_ANT_LIB%" ^
+        -Dtest.type="q" ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        -Dxspec.xml="%CD%\xquery-processor\%XQUERY_PROCESSOR%.xspec"
+
+    call :verify_retval 0
+    call :verify_line -16 x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    rem * Default set of files
+    call :run dir /b /o:n "%TEST_DIR%"
+    call :verify_line_count 4
+    call :verify_line 1 x %XQUERY_PROCESSOR%_xml-to-properties.xml
+    call :verify_line 2 x %XQUERY_PROCESSOR%-compiled.xq
+    call :verify_line 3 x %XQUERY_PROCESSOR%-result.html
+    call :verify_line 4 x %XQUERY_PROCESSOR%-result.xml
+	</case>
+
+	<!--
+		Test with XQuery processor not set (XQuery with Saxon)
+		"Ant with no xspec.xquery.processor (XQuery with Saxon)" is tested by run-xspec-tests-ant.cmd
+	-->
+ 	<case name="CLI with no processor value (XQuery with Saxon)">
+    set XQUERY_PROCESSOR=
+    call :run ..\bin\xspec.bat -q transform.xspec
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<!--
+		CLI - Test with XQUERY_PROCESSOR set
+			"CLI with XQUERY_PROCESSOR ignored" for languages other than XQuery is tested by
+			test cases that see XQUERY_PROCESSOR coming from testing environment, such as
+			"invoking xspec without TEST_DIR set externally (Schematron)".
+	-->
+
+<!-- TODO: Add "CLI with XQUERY_PROCESSOR (XQuery)" case here -->
+
+	<!--
+		Error Tests - XQuery with invalid 'processor' value
+	-->
+
+<!-- TODO: Add "CLI with -processor bogus (XQuery)" case here -->
+
+	<case name="Ant with xspec.xquery.processor bogus (XQuery)">
+    call :run ant ^
+    -buildfile=../build.xml ^
+    -lib "%SAXON_ANT_LIB%" ^
+    -Dtest.type="q" ^
+    -Dxspec.xquery.processor="bogus" ^
+    -Dxspec.xml="%CD%\../tutorial/xquery-tutorial.xspec"
+
+    call :verify_retval 1
+    call :verify_line -3 r ".* Invalid xspec\.xquery\.processor: 'bogus'\. Use 'saxon' or 'basex'\."
+	</case>
+
+	<!--
+		Error Tests - 'processor' not allowed for the test type (value of file name and processor are not used)
+	-->
+	<case name="Ant with xspec.xquery.processor for default test type (XSLT)">
+    call :run ant ^
+    -buildfile=../build.xml ^
+    -lib "%SAXON_ANT_LIB%" ^
+    -Dxspec.xquery.processor="saxon" ^
+    -Dxspec.xml="%CD%\../tutorial/escape-for-regex.xspec"
+
+    call :verify_retval 1
+    call :verify_line -3 r ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+	</case>
+
+	<case name="Ant with xspec.xquery.processor for wrong test type (XSLT)">
+    call :run ant ^
+    -buildfile=../build.xml ^
+    -lib "%SAXON_ANT_LIB%" ^
+    -Dtest.type="t" ^
+    -Dxspec.xquery.processor="saxon" ^
+    -Dxspec.xml="%CD%\../tutorial/escape-for-regex.xspec"
+
+    call :verify_retval 1
+    call :verify_line -3 r ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+	</case>
+
+	<case name="Ant with xspec.xquery.processor for wrong test type (Schematron)">
+    call :run ant ^
+    -buildfile=../build.xml ^
+    -lib "%SAXON_ANT_LIB%" ^
+    -Dtest.type="s" ^
+    -Dxspec.xquery.processor="saxon" ^
+    -Dxspec.xml="%CD%\../tutorial/schematron-xqs/demo-03.xspec"
+
+    call :verify_retval 1
+    call :verify_line -3 r ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
+	</case>
+
+	<case name="Ant with xspec.xquery.processor for wrong test type (XProc)">
+    call :run ant ^
+    -buildfile=../build.xml ^
+    -lib "%SAXON_ANT_LIB%" ^
+    -Dtest.type="p" ^
+    -Dxspec.xquery.processor="saxon" ^
+    -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
+    -Dxspec.xml="%CD%\../tutorial/xproc/xproc-testing-demo.xspec"
+
+    call :verify_retval 1
+    call :verify_line -3 r ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 	</case>
 
 	<!--
@@ -1861,6 +1979,8 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=xquerY ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
@@ -2997,6 +3117,8 @@
         -logfile "%ANT_LOG%" ^
         -verbose ^
         -Dtest.type=q ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xml="%CD%\xspec-uri.xspec"
     call :verify_retval 0
     call :verify_exist "%ANT_LOG%"
@@ -3186,6 +3308,8 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
         -Dtest.type=q ^
+        -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
+        -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xquery.compiler.xsl="%CD%\override-id\compile-xquery-tests.xsl" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_retval 0
