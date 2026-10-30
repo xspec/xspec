@@ -1420,7 +1420,7 @@ load bats-helper
         -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xml="${PWD}/xquery-processor/${XQUERY_PROCESSOR}.xspec"
 
-    [ "$status" -eq 0 ] 
+    [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 
     # Default set of files
@@ -1441,7 +1441,7 @@ load bats-helper
     unset XQUERY_PROCESSOR
     myrun ../bin/xspec.sh -q transform.xspec
 
-    [ "$status" -eq 0 ] 
+    [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
@@ -1468,7 +1468,7 @@ load bats-helper
         -Dxspec.xquery.processor="bogus" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
 
-    [ "$status" -eq 1 ] 
+    [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".*Invalid xspec\.xquery\.processor: 'bogus'\. Use 'saxon' or 'basex'\."
 }
 
@@ -1483,7 +1483,7 @@ load bats-helper
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
 
-    [ "$status" -eq 1 ] 
+    [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 }
 
@@ -1495,7 +1495,7 @@ load bats-helper
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
 
-    [ "$status" -eq 1 ] 
+    [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 }
 
@@ -1507,7 +1507,7 @@ load bats-helper
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xml="${PWD}/../tutorial/schematron-xqs/demo-03.xspec"
 
-    [ "$status" -eq 1 ] 
+    [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 }
 
@@ -1520,7 +1520,7 @@ load bats-helper
         -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
         -Dxspec.xml="${PWD}/../tutorial/xproc/xproc-testing-demo.xspec"
 
-    [ "$status" -eq 1 ] 
+    [ "$status" -eq 1 ]
     assert_regex "${lines[${#lines[@]} - 3]}" ".*xspec\.xquery\.processor is supported only with test\.type of 'q'"
 }
 

@@ -1121,7 +1121,7 @@
 
 	<case name="XPROC_PROCESSOR supported only in tests for XProc (CLI)">
     set XPROC_PROCESSOR=xmlcalabash
-    set MSG="XProc -processor option is not supported for this test type" 
+    set MSG="XProc -processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -t mytest.xspec
     call :verify_retval 1
@@ -1137,7 +1137,7 @@
 	</case>
 
 	<case name="-processor supported only in tests for XProc (CLI)">
-    set MSG="XProc -processor option is not supported for this test type" 
+    set MSG="XProc -processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -processor xmlcalabash -t mytest.xspec
     call :verify_retval 1
