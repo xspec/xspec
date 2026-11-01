@@ -249,6 +249,17 @@ rem
     )
     goto :EOF
 
+:verify_retval_not_0
+    if %RETVAL% NEQ 0 (
+        call :verified "Return value not: 0"
+    ) else (
+        call :failed "Return value is %RETVAL%. Not expected to be 0."
+        echo ---------- "%OUTPUT_RAW%"
+        type "%OUTPUT_RAW%"
+        echo ----------
+    )
+    goto :EOF
+
 :verify_line
     if defined DEBUG (
         echo *: %*
