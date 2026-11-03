@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test $x:context when it is unfocused by @focus on a non-inner scenario.
+	-->
+
+	<x:scenario focus="focus" label="Focused scenario" />
+
+	<x:scenario label="Unfocused scenario">
+		<x:context select="error() div 0 + $bogus:nonexistent" />
+		<x:variable name="user-variable" select="$x:context"/>
+		<x:expect
+			label="Unfocused x:context variable should not be instantiated, unless inherited by a focused scenario"
+			select="$x:context" />
+		<x:expect
+			label="Unfocused user variable should not cause x:context variable to be instantiated"
+			select="$user-variable" />
+	</x:scenario>
+
+</x:description>
