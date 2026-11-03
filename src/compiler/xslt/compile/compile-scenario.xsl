@@ -169,7 +169,7 @@
                         </xsl:with-param>
                      </xsl:call-template>
 
-                     <xsl:if test="self::x:context and empty($reason-for-pending)">
+                     <xsl:if test="self::x:context[x:reason-for-pending(.) => empty()]">
                         <!-- Set up context, still in document order with respect to x:variable siblings.
                              Pass $context through as tunnel parameter. -->
                         <xsl:call-template name="local:set-up-context">

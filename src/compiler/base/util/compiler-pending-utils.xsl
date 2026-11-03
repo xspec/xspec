@@ -39,7 +39,7 @@
             </xsl:when>
 
             <xsl:when test="
-                  $context-element[self::x:param | self::x:variable]
+                  $context-element[self::x:param | self::x:variable | self::x:context]
                   /following-sibling::element()
                   /descendant-or-self::x:scenario[@focus]">
                <!-- No reason for pending. @focus on a scenario who inherits variable declaration
