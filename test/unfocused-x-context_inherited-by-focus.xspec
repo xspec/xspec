@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test $x:context when it is unfocused by @focus on an inner scenario.
+	-->
+
+	<x:scenario label="Outer scenario">
+		<x:context select="/">
+			<element/>
+		</x:context>
+		<x:variable name="user-variable" select="$x:context"/>
+		<x:scenario focus="focus" label="Focused scenario that adds x:context/@mode">
+			<x:context mode="something"/>
+			<x:expect label="Unfocused x:context variable should be defined" test="$x:context"
+				select="/">
+				<element/>
+			</x:expect>
+			<x:expect label="Unfocused user variable should be defined" test="$user-variable"
+				select="/">
+				<element/>
+			</x:expect>
+		</x:scenario>
+		<x:scenario focus="focus" label="Focused scenario that changes the context document">
+			<x:context select="/">
+				<override/>
+			</x:context>
+			<x:expect label="Unfocused x:context variable should be defined" test="$x:context"
+				select="/">
+				<override/>
+			</x:expect>
+			<x:expect label="Unfocused user variable should be defined" test="$user-variable"
+				select="/">
+				<element/>
+			</x:expect>
+		</x:scenario>
+		<x:scenario focus="focus" label="Focused scenario without x:context">
+			<x:expect label="Unfocused x:context variable should be defined" test="$x:context"
+				select="/">
+				<element/>
+			</x:expect>
+			<x:expect label="Unfocused user variable should be defined" test="$user-variable"
+				select="/">
+				<element/>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario focus="focus in another scenario tree"
+		label="@focus on this scenario should not make $x:context pending"/>
+
+</x:description>
