@@ -50,6 +50,19 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+# BaseX: https://mailman.uni-konstanz.de/mailman3/hyperkitty/list/basex-talk@mailman.uni-konstanz.de/thread/S3QFB5L5KWFF427N2IWPR4EB3IPK6UC6/
+# Saxon XQuery: https://saxonica.plan.io/issues/7127 (13.0) and https://saxonica.plan.io/issues/7308 (13.1)
+export XQUERY_CATALOG_BUGS_FIXED=1
+if [ "${XQUERY_PROCESSOR}" == "saxon" ] && [ "${SAXON_VERSION}" == "13.0" ]; then
+    unset XQUERY_CATALOG_BUGS_FIXED
+fi
+if [ "${XQUERY_PROCESSOR}" == "saxon" ] && [ "${SAXON_VERSION}" == "13.1" ]; then
+    unset XQUERY_CATALOG_BUGS_FIXED
+fi
+if [ "${XQUERY_PROCESSOR}" == "basex" ] && [ "${BASEX_VERSION}" == "12.4" ]; then
+    unset XQUERY_CATALOG_BUGS_FIXED
+fi
+
 export XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
 case "${XMLRESOLVERORG_XMLRESOLVER_VERSION}" in
     "4.5.0")

@@ -62,7 +62,7 @@
          <label>when the expected result is a map</label>
          <expect select="/*">
             <content-wrap xmlns="">
-               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{}</pseudo-map>
+               <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">{}</pseudo-function>
             </content-wrap>
          </expect>
       </test>
