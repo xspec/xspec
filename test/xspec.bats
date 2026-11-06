@@ -2039,8 +2039,8 @@ load bats-helper
 }
 
 @test "Ant with catalog file path (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     myrun ant \
@@ -2049,6 +2049,8 @@ load bats-helper
         -lib "${APACHE_XMLRESOLVER_JAR}" \
         -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=q \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
@@ -2131,8 +2133,8 @@ load bats-helper
 }
 
 @test "Ant with catalog file URI (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     myrun ant \
@@ -2142,6 +2144,8 @@ load bats-helper
         -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dcatalog.is.uri=true \
         -Dtest.type=q \
+        -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
+        -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
