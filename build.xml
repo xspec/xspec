@@ -612,8 +612,25 @@
     </java>
   </target>
 
+  <target name="basex-indentation-option">
+    <!-- For targets that use BaseX, the indentation size option depends on the BaseX version.
+    End-to-end testing launch scripts pass in the xspec.internal.basex.version property.
+    This macro is a no-op for end-user workflows, which are not expected to pass in the
+    xspec.internal.basex.version property. -->
+    <condition property="basex.option.indents" if:set="xspec.internal.basex.version">
+      <!-- 12.4 is the only pre-13 BaseX version that the XSpec repo uses for testing, as of
+        the introduction of this target. -->
+      <equals arg1="${xspec.internal.basex.version}" arg2="12.4" />
+    </condition>
+    <condition property="basex.option.indent-unit" if:set="xspec.internal.basex.version">
+      <not>
+        <equals arg1="${xspec.internal.basex.version}" arg2="12.4" />
+      </not>
+    </condition>
+  </target>
+
   <!-- Runs the compiled XSpec for XQuery using BaseX -->
-  <target name="run-xquery-test-with-basex" depends="compile" if="${xspec.xquery.processor.is.basex}">
+  <target name="run-xquery-test-with-basex" depends="compile, basex-indentation-option" if="${xspec.xquery.processor.is.basex}">
     <echo message="Running Tests..."
           level="info" />
 
@@ -637,17 +654,18 @@
       <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-ODTD=true" if:set="xspec.catalog.files" />
 
-      <!-- Serialization parameters needed for end-to-end test suite and non-harmful outside that context. -->
-      <arg value="-somit-xml-declaration=no"/>
-      <arg value="-sindent=yes"/>
-      <arg value="-sindents=3"/>
+      <!-- Serialization parameters needed for end-to-end test suite. -->
+      <arg value="-somit-xml-declaration=no" if:set="xspec.internal.basex.version"/>
+      <arg value="-sindent=yes" if:set="xspec.internal.basex.version"/>
+      <arg value="-sindents=3" if:set="basex.option.indents"/>
+      <arg value="-sindent-unit=&#32;&#32;&#32;" if:set="basex.option.indent-unit"/>
 
       <arg value="-o${xspec.result.xml}" />
       <arg value="-Q${xspec.compiled.runner}" />
     </java>
   </target>
 
-  <target name="run-schematron-test-with-basex" depends="compile, schematron-xqs" if="${xspec.schematron.querylanguage.is.xquery}">
+  <target name="run-schematron-test-with-basex" depends="compile, schematron-xqs, basex-indentation-option" if="${xspec.schematron.querylanguage.is.xquery}">
     <echo message="Running Tests..."
       level="info" />
 
@@ -671,10 +689,11 @@
       <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-ODTD=true" if:set="xspec.catalog.files" />
 
-      <!-- Serialization parameters needed for end-to-end test suite and non-harmful outside that context. -->
-      <arg value="-somit-xml-declaration=no"/>
-      <arg value="-sindent=yes"/>
-      <arg value="-sindents=3"/>
+      <!-- Serialization parameters needed for end-to-end test suite. -->
+      <arg value="-somit-xml-declaration=no" if:set="xspec.internal.basex.version"/>
+      <arg value="-sindent=yes" if:set="xspec.internal.basex.version"/>
+      <arg value="-sindents=3" if:set="basex.option.indents"/>
+      <arg value="-sindent-unit=&#32;&#32;&#32;" if:set="basex.option.indent-unit"/>
 
       <arg value="-o${xspec.result.xml}" />
       <arg value="-Q${xspec.compiled.runner}" />
@@ -830,7 +849,7 @@
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xmlversion:${xspec.xml.version}" if:set="xspec.xml.version" />
       <arg value="-xsl:${xspec.compiled.runner}" />
-    </java>    
+    </java>
   </target>
 
   <!-- Defines properties specific to running test for XProc using MorganaXProc-III -->
@@ -848,14 +867,14 @@
     <property name="xspec.xproc.config.key"
       value="com.xml_project.morganaxproc.config" if:set="xspec.morganaxproc.config"/>
     <property name="xspec.xproc.config.value"
-      value="${xspec.morganaxproc.config}" if:set="xspec.morganaxproc.config"/>    
+      value="${xspec.morganaxproc.config}" if:set="xspec.morganaxproc.config"/>
   </target>
 
   <!-- Defines properties specific to running test for XProc using XML Calabash -->
   <target name="run-xproc-setup-xmlcalabash" depends="generate-pipeline-file" if="${xspec.xproc.processor.is.xmlcalabash}">
     <property name="xspec.step.function.init.class"
       value="com.xmlcalabash.api.RegisterSaxonFunctions"/>
-    
+
     <property name="xspec.xproc.config.key"
         value="com.xmlcalabash.configuration" if:set="xspec.xmlcalabash.config"/>
     <property name="xspec.xproc.config.value"
