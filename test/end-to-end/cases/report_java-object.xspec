@@ -8,7 +8,7 @@
 	<x:scenario label="Java type">
 		<x:call function="Q{java:java.lang.Runtime}getRuntime" />
 		<x:expect>
-			<x:label>[Result] must be an empty 'pseudo-other' element</x:label>
+			<x:label>[Result] must be an empty 'pseudo-other' element (Saxon) or a 'pseudo-function` element (BaseX)</x:label>
 		</x:expect>
 	</x:scenario>
 
