@@ -33,6 +33,13 @@ if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7123_FIXED=
 set SAXON_BUG_7127_FIXED=1
 if "%SAXON_VERSION%"=="13.0" set SAXON_BUG_7127_FIXED=
 
+rem BaseX: https://mailman.uni-konstanz.de/mailman3/hyperkitty/list/basex-talk@mailman.uni-konstanz.de/thread/S3QFB5L5KWFF427N2IWPR4EB3IPK6UC6/
+rem Saxon XQuery: https://saxonica.plan.io/issues/7127 (13.0) and https://saxonica.plan.io/issues/7308 (13.1)
+set XQUERY_CATALOG_BUGS_FIXED=1
+if "%XQUERY_PROCESSOR%"=="saxon" if "%SAXON_VERSION%"=="13.0" set XQUERY_CATALOG_BUGS_FIXED=
+if "%XQUERY_PROCESSOR%"=="saxon" if "%SAXON_VERSION%"=="13.1" set XQUERY_CATALOG_BUGS_FIXED=
+if "%XQUERY_PROCESSOR%"=="basex" if "%BASEX_VERSION%"=="12.4" set XQUERY_CATALOG_BUGS_FIXED=
+
 set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=1
 if "%XMLRESOLVERORG_XMLRESOLVER_VERSION%"=="4.5.0" set XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED=
 

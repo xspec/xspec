@@ -27,11 +27,15 @@
          <x:call xmlns:mirror="x-urn:test:mirror"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
-            <x:param><!--c--></x:param>
+            <x:param>
+               <!--c-->
+            </x:param>
          </x:call>
       </input-wrap>
       <result select="/comment()">
-         <content-wrap xmlns=""><!--c--></content-wrap>
+         <content-wrap xmlns="">
+            <!--c-->
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
          <label>Expect</label>
@@ -44,11 +48,15 @@
          <x:call xmlns:mirror="x-urn:test:mirror"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
-            <x:param><?p?></x:param>
+            <x:param>
+               <?p?>
+            </x:param>
          </x:call>
       </input-wrap>
       <result select="/processing-instruction()">
-         <content-wrap xmlns=""><?p?></content-wrap>
+         <content-wrap xmlns="">
+            <?p?>
+         </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="false">
          <label>Expect</label>
@@ -62,14 +70,18 @@
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
             <x:param>
-               <elem>t<!--c--><?p?></elem>
+               <elem>t<!--c-->
+                  <?p?>
+               </elem>
             </x:param>
          </x:call>
       </input-wrap>
       <result select="/element()">
          <content-wrap xmlns="">
             <elem xmlns:mirror="x-urn:test:mirror"
-                  xmlns:x="http://www.jenitennison.com/xslt/xspec">t<!--c--><?p?></elem>
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec">t<!--c-->
+               <?p?>
+            </elem>
          </content-wrap>
       </result>
       <test id="scenario4-expect1" successful="false">

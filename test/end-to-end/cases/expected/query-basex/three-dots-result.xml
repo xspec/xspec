@@ -597,18 +597,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="comment()"><!--comment--></x:param>
+               <x:param as="comment()">
+                  <!--comment-->
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/comment()">
-            <content-wrap xmlns=""><!--comment--></content-wrap>
+            <content-wrap xmlns="">
+               <!--comment-->
+            </content-wrap>
          </result>
          <test id="scenario6-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
             <expect select="/comment()">
-               <content-wrap xmlns=""><!--...--></content-wrap>
+               <content-wrap xmlns="">
+                  <!--...-->
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario6-scenario1-expect2" successful="true">
@@ -626,18 +632,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="comment()"><!----></x:param>
+               <x:param as="comment()">
+                  <!---->
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/comment()">
-            <content-wrap xmlns=""><!----></content-wrap>
+            <content-wrap xmlns="">
+               <!---->
+            </content-wrap>
          </result>
          <test id="scenario6-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
             <expect select="/comment()">
-               <content-wrap xmlns=""><!--...--></content-wrap>
+               <content-wrap xmlns="">
+                  <!--...-->
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -649,18 +661,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="comment()"><!--...--></x:param>
+               <x:param as="comment()">
+                  <!--...-->
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/comment()">
-            <content-wrap xmlns=""><!--...--></content-wrap>
+            <content-wrap xmlns="">
+               <!--...-->
+            </content-wrap>
          </result>
          <test id="scenario6-scenario3-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
             <expect select="/comment()">
-               <content-wrap xmlns=""><!--...--></content-wrap>
+               <content-wrap xmlns="">
+                  <!--...-->
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario6-scenario3-expect2" successful="true">
@@ -674,7 +692,9 @@
 				&lt;!--comment--&gt;
 				should be Failure</label>
             <expect select="/comment()">
-               <content-wrap xmlns=""><!--comment--></content-wrap>
+               <content-wrap xmlns="">
+                  <!--comment-->
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -689,18 +709,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="processing-instruction(pi)"><?pi data?></x:param>
+               <x:param as="processing-instruction(pi)">
+                  <?pi data?>
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/processing-instruction()">
-            <content-wrap xmlns=""><?pi data?></content-wrap>
+            <content-wrap xmlns="">
+               <?pi data?>
+            </content-wrap>
          </result>
          <test id="scenario7-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
             <expect select="/processing-instruction()">
-               <content-wrap xmlns=""><?pi ...?></content-wrap>
+               <content-wrap xmlns="">
+                  <?pi ...?>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario7-scenario1-expect2" successful="true">
@@ -718,18 +744,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="processing-instruction(pi)"><?pi?></x:param>
+               <x:param as="processing-instruction(pi)">
+                  <?pi?>
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/processing-instruction()">
-            <content-wrap xmlns=""><?pi?></content-wrap>
+            <content-wrap xmlns="">
+               <?pi?>
+            </content-wrap>
          </result>
          <test id="scenario7-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
             <expect select="/processing-instruction()">
-               <content-wrap xmlns=""><?pi ...?></content-wrap>
+               <content-wrap xmlns="">
+                  <?pi ...?>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -741,18 +773,24 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
+               <x:param as="processing-instruction(pi)">
+                  <?pi ...?>
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/processing-instruction()">
-            <content-wrap xmlns=""><?pi ...?></content-wrap>
+            <content-wrap xmlns="">
+               <?pi ...?>
+            </content-wrap>
          </result>
          <test id="scenario7-scenario3-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
             <expect select="/processing-instruction()">
-               <content-wrap xmlns=""><?pi ...?></content-wrap>
+               <content-wrap xmlns="">
+                  <?pi ...?>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario7-scenario3-expect2" successful="true">
@@ -766,7 +804,9 @@
 				&lt;?pi data?&gt;
 				should be Failure</label>
             <expect select="/processing-instruction()">
-               <content-wrap xmlns=""><?pi data?></content-wrap>
+               <content-wrap xmlns="">
+                  <?pi data?>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -781,13 +821,17 @@
             <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     function="exactly-one">
-               <x:param as="document-node()" select="/"><?pi?><!--comment-->
+               <x:param as="document-node()" select="/">
+                  <?pi?>
+                  <!--comment-->
                   <elem/>
                </x:param>
             </x:call>
          </input-wrap>
          <result select="/self::document-node()">
-            <content-wrap xmlns=""><?pi?><!--comment-->
+            <content-wrap xmlns="">
+               <?pi?>
+               <!--comment-->
                <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
                      xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
             </content-wrap>
@@ -913,7 +957,7 @@
          </input-wrap>
          <result select="/*/namespace::*">
             <content-wrap xmlns="">
-               <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:_1="namespace-uri"/>
             </content-wrap>
          </result>
          <test id="scenario9-scenario2-expect1" successful="true">
@@ -922,7 +966,7 @@
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
-                  <_0:pseudo-namespace-node xmlns="..." xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+                  <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:_1="..."/>
                </content-wrap>
             </expect>
          </test>

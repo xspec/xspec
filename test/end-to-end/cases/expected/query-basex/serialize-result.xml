@@ -16,7 +16,9 @@
             </x:call>
          </input-wrap>
          <result select="/comment()">
-            <content-wrap xmlns=""><!--comment-text--></content-wrap>
+            <content-wrap xmlns="">
+               <!--comment-text-->
+            </content-wrap>
          </result>
          <test id="scenario1-scenario1-expect1" successful="false">
             <label>[Result] with diff must be serialized as &lt;!-- --&gt;.</label>
@@ -41,7 +43,9 @@
             <label>[Expected Result] with diff must be serialized as
 					&lt;!-- --&gt;.</label>
             <expect select="/comment()">
-               <content-wrap xmlns=""><!--comment-text--></content-wrap>
+               <content-wrap xmlns="">
+                  <!--comment-text-->
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -132,10 +136,14 @@
                           function="Q{x-urn:test:mirror}param-mirror">
                      <x:param as="element(test)">
                         <test>
-                           <elem1><!--foo-->
+                           <elem1>
+                              <!--foo-->
                               <bar/>
                            </elem1>
-                           <elem2><!--foo--><?bar?></elem2>
+                           <elem2>
+                              <!--foo-->
+                              <?bar?>
+                           </elem2>
                         </test>
                      </x:param>
                   </x:call>
@@ -143,10 +151,14 @@
                <result select="/element()">
                   <content-wrap xmlns="">
                      <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                        <elem1><!--foo-->
+                        <elem1>
+                           <!--foo-->
                            <bar/>
                         </elem1>
-                        <elem2><!--foo--><?bar?></elem2>
+                        <elem2>
+                           <!--foo-->
+                           <?bar?>
+                        </elem2>
                      </test>
                   </content-wrap>
                </result>
@@ -158,7 +170,8 @@
                         <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
                            <elem1>foo<bar/>
                            </elem1>
-                           <elem2>foo<?bar?></elem2>
+                           <elem2>foo<?bar?>
+                           </elem2>
                         </test>
                      </content-wrap>
                   </expect>
@@ -175,7 +188,8 @@
                         <test>
                            <elem1>foo<bar/>
                            </elem1>
-                           <elem2>foo<?bar?></elem2>
+                           <elem2>foo<?bar?>
+                           </elem2>
                         </test>
                      </x:param>
                   </x:call>
@@ -185,7 +199,8 @@
                      <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
                         <elem1>foo<bar/>
                         </elem1>
-                        <elem2>foo<?bar?></elem2>
+                        <elem2>foo<?bar?>
+                        </elem2>
                      </test>
                   </content-wrap>
                </result>
@@ -195,10 +210,14 @@
                   <expect select="/element()">
                      <content-wrap xmlns="">
                         <test xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                           <elem1><!--foo-->
+                           <elem1>
+                              <!--foo-->
                               <bar/>
                            </elem1>
-                           <elem2><!--foo--><?bar?></elem2>
+                           <elem2>
+                              <!--foo-->
+                              <?bar?>
+                           </elem2>
                         </test>
                      </content-wrap>
                   </expect>
@@ -560,18 +579,38 @@
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="Q{x-urn:test:mirror}param-mirror">
             <x:param>
-               <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-               <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-               <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+               <exact-match>
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </exact-match>
+               <name-match>
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4 ...?>
+               </name-match>
+               <value-match>
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </value-match>
                <no-match>
-                  <different-kind><?node1 value1?>
+                  <different-kind>
+                     <?node1 value1?>
                      <node2/>
                      <?node3?>
                      <node4/>
                      <node5/>
                   </different-kind>
                   <orphan>
-                     <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                     <node1>
+                        <?node1-1 value1-1?>
+                        <?node1-2?>
+                        <?node1-3 ...?>
+                     </node1>
                      <node2/>
                   </orphan>
                </no-match>
@@ -582,18 +621,38 @@
          <label>both in [Result] and [Expected Result] with diff,</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-               <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-               <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+               <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </exact-match>
+               <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4 ...?>
+               </name-match>
+               <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </value-match>
                <no-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                  <different-kind><?node1 value1?>
+                  <different-kind>
+                     <?node1 value1?>
                      <node2/>
                      <?node3?>
                      <node4/>
                      <node5/>
                   </different-kind>
                   <orphan>
-                     <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                     <node1>
+                        <?node1-1 value1-1?>
+                        <?node1-2?>
+                        <?node1-3 ...?>
+                     </node1>
                      <node2/>
                   </orphan>
                </no-match>
@@ -612,9 +671,24 @@
 					their values.</label>
             <expect select="/element()">
                <content-wrap xmlns="">
-                  <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
-                  <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 VALUE1?><?node2?><?node3 value3?><?node4 value4?></name-match>
-                  <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?NODE1 value1?><?NODE2 ...?><?NODE3?><?NODE4 ...?></value-match>
+                  <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                     <?node1 value1?>
+                     <?node2 ...?>
+                     <?node3?>
+                     <?node4 ...?>
+                  </exact-match>
+                  <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                     <?node1 VALUE1?>
+                     <?node2?>
+                     <?node3 value3?>
+                     <?node4 value4?>
+                  </name-match>
+                  <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                     <?NODE1 value1?>
+                     <?NODE2 ...?>
+                     <?NODE3?>
+                     <?NODE4 ...?>
+                  </value-match>
                   <no-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
                      <different-kind>
                         <node1/>
@@ -625,7 +699,11 @@
                      </different-kind>
                      <orphan>
                         <node1/>
-                        <node2><?node2-1 value2-1?><?node2-2?><?node2-3 ...?></node2>
+                        <node2>
+                           <?node2-1 value2-1?>
+                           <?node2-2?>
+                           <?node2-3 ...?>
+                        </node2>
                      </orphan>
                   </no-match>
                </content-wrap>
@@ -636,18 +714,38 @@
          <label>in [Result] without diff,</label>
          <result select="/element()">
             <content-wrap xmlns="">
-               <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-               <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-               <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec"><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+               <exact-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </exact-match>
+               <name-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4 ...?>
+               </name-match>
+               <value-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <?node1 value1?>
+                  <?node2 value2?>
+                  <?node3?>
+                  <?node4?>
+               </value-match>
                <no-match xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                  <different-kind><?node1 value1?>
+                  <different-kind>
+                     <?node1 value1?>
                      <node2/>
                      <?node3?>
                      <node4/>
                      <node5/>
                   </different-kind>
                   <orphan>
-                     <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                     <node1>
+                        <?node1-1 value1-1?>
+                        <?node1-2?>
+                        <?node1-3 ...?>
+                     </node1>
                      <node2/>
                   </orphan>
                </no-match>
