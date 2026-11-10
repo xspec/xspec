@@ -256,7 +256,7 @@
 					</xsl:when>
 
 					<xsl:when test="
-						($pis = 'require-xspec-issue-7127-fixed')
+						($pis = 'require-saxon-issue-7127-fixed')
 						and ($x:saxon-version = (
 							x:pack-version((13, 0)),
 							x:pack-version((13, 1))
