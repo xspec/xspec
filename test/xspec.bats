@@ -1415,7 +1415,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
-        -Dtest.type="q" \
+        -Dtest.type=q \
         -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
         -Dxspec.xml="${PWD}/xquery-processor/${XQUERY_PROCESSOR}.xspec"
@@ -1464,7 +1464,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
-        -Dtest.type="q" \
+        -Dtest.type=q \
         -Dxspec.xquery.processor="bogus" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
 
@@ -1491,7 +1491,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
-        -Dtest.type="t" \
+        -Dtest.type=t \
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
 
@@ -1503,7 +1503,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
-        -Dtest.type="s" \
+        -Dtest.type=s \
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xml="${PWD}/../tutorial/schematron-xqs/demo-03.xspec"
 
@@ -1515,7 +1515,7 @@ load bats-helper
     myrun ant \
         -buildfile ../build.xml \
         -lib "${SAXON_ANT_LIB}" \
-        -Dtest.type="p" \
+        -Dtest.type=p \
         -Dxspec.xquery.processor="saxon" \
         -Dxspec.xmlcalabash.classpath="${XMLCALABASH3_JAR}" \
         -Dxspec.xml="${PWD}/../tutorial/xproc/xproc-testing-demo.xspec"

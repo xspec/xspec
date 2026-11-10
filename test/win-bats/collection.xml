@@ -1191,9 +1191,9 @@
 
 	<case name="Ant with xspec.xquery.processor (XQuery)">
     call :run ant ^
-        -buildfile=../build.xml ^
+        -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
-        -Dtest.type="q" ^
+        -Dtest.type=q ^
         -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
         -Dxspec.basex.classpath="%BASEX_JAR%" ^
         -Dxspec.xml="%CD%\xquery-processor\%XQUERY_PROCESSOR%.xspec"
@@ -1239,9 +1239,9 @@
 
 	<case name="Ant with xspec.xquery.processor bogus (XQuery)">
     call :run ant ^
-    -buildfile=../build.xml ^
+    -buildfile ..\build.xml ^
     -lib "%SAXON_ANT_LIB%" ^
-    -Dtest.type="q" ^
+    -Dtest.type=q ^
     -Dxspec.xquery.processor="bogus" ^
     -Dxspec.xml="%CD%\../tutorial/xquery-tutorial.xspec"
 
@@ -1254,7 +1254,7 @@
 	-->
 	<case name="Ant with xspec.xquery.processor for default test type (XSLT)">
     call :run ant ^
-    -buildfile=../build.xml ^
+    -buildfile ..\build.xml ^
     -lib "%SAXON_ANT_LIB%" ^
     -Dxspec.xquery.processor="saxon" ^
     -Dxspec.xml="%CD%\../tutorial/escape-for-regex.xspec"
@@ -1265,9 +1265,9 @@
 
 	<case name="Ant with xspec.xquery.processor for wrong test type (XSLT)">
     call :run ant ^
-    -buildfile=../build.xml ^
+    -buildfile ..\build.xml ^
     -lib "%SAXON_ANT_LIB%" ^
-    -Dtest.type="t" ^
+    -Dtest.type=t ^
     -Dxspec.xquery.processor="saxon" ^
     -Dxspec.xml="%CD%\../tutorial/escape-for-regex.xspec"
 
@@ -1277,9 +1277,9 @@
 
 	<case name="Ant with xspec.xquery.processor for wrong test type (Schematron)">
     call :run ant ^
-    -buildfile=../build.xml ^
+    -buildfile ..\build.xml ^
     -lib "%SAXON_ANT_LIB%" ^
-    -Dtest.type="s" ^
+    -Dtest.type=s ^
     -Dxspec.xquery.processor="saxon" ^
     -Dxspec.xml="%CD%\../tutorial/schematron-xqs/demo-03.xspec"
 
@@ -1289,9 +1289,9 @@
 
 	<case name="Ant with xspec.xquery.processor for wrong test type (XProc)">
     call :run ant ^
-    -buildfile=../build.xml ^
+    -buildfile ..\build.xml ^
     -lib "%SAXON_ANT_LIB%" ^
-    -Dtest.type="p" ^
+    -Dtest.type=p ^
     -Dxspec.xquery.processor="saxon" ^
     -Dxspec.xmlcalabash.classpath="%XMLCALABASH3_JAR%" ^
     -Dxspec.xml="%CD%\../tutorial/xproc/xproc-testing-demo.xspec"
