@@ -16,7 +16,7 @@
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
-         <label>[Result] must be an empty 'pseudo-other' element</label>
+         <label>[Result] must be an empty 'pseudo-other' element (Saxon) or a 'pseudo-function` element (BaseX)</label>
          <expect select="()"/>
       </test>
    </scenario>

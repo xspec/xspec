@@ -12,11 +12,11 @@
       </input-wrap>
       <result select="/*">
          <content-wrap xmlns="">
-            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">java:java.lang.Runtime#0</pseudo-function>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
-         <label>[Result] must be an empty 'pseudo-other' element</label>
+         <label>[Result] must be an empty 'pseudo-other' element (Saxon) or a 'pseudo-function` element (BaseX)</label>
          <expect select="()"/>
       </test>
    </scenario>
