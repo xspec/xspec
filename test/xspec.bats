@@ -3828,10 +3828,17 @@ load bats-helper
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:expect without action" {
+@test "x:expect without action (XSLT)" {
     myrun ../bin/xspec.sh error-compiling-scenario/expect-without-action.xspec
     [ "$status" -eq 1 ]
     [ "${lines[5]}" = "ERROR in x:scenario ('x:expect without action'): x:expect is present without x:call or x:context" ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:expect without action (Schematron via XSLT)" {
+    myrun ../bin/xspec.sh -s error-compiling-scenario/schematron_no-context.xspec
+    [ "$status" -ne 0 ]
+    [ "${lines[10]}" = "ERROR in x:scenario ('No x:context'): Verification element is present without x:context" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -3857,6 +3864,13 @@ load bats-helper
     myrun ../bin/xspec.sh -q error-compiling-scenario/xquery_no-call.xspec
     [ "$status" -ne 0 ]
     [ "${lines[5]}" = "ERROR in x:scenario ('No x:call'): x:expect is present without x:call" ]
+    [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "No x:context (Schematron via XQS)" {
+    myrun ../bin/xspec.sh -s error-compiling-scenario/schematron-xqs_no-context.xspec
+    [ "$status" -ne 0 ]
+    [ "${lines[8]}" = "ERROR in x:scenario ('No x:context'): Verification element is present without x:context" ]
     [ "${lines[${#lines[@]} - 1]}" = "*** Error compiling the test suite" ]
 }
 
