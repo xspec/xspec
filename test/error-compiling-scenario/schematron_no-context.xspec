@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="../do-nothing.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="No x:context">
+		<x:expect label="should be error" test="true()" />
+	</x:scenario>
+</x:description>

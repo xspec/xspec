@@ -3396,10 +3396,17 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="x:expect without action">
+	<case name="x:expect without action (XSLT)">
     call :run ..\bin\xspec.bat error-compiling-scenario\expect-without-action.xspec
     call :verify_retval 2
-    call :verify_line  6 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given"
+    call :verify_line  6 x "ERROR in x:scenario ('x:expect without action'): x:expect is present without x:call or x:context"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:expect without action (Schematron via XSLT)">
+    call :run ..\bin\xspec.bat -s error-compiling-scenario\schematron_no-context.xspec
+    call :verify_retval_not_0
+    call :verify_line 11 x "ERROR in x:scenario ('No x:context'): Verification element is present without x:context"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -3424,7 +3431,14 @@
 	<case name="No x:call (XQuery)">
     call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_no-call.xspec
     call :verify_retval_not_0
-    call :verify_line  6 x "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call"
+    call :verify_line  6 x "ERROR in x:scenario ('No x:call'): x:expect is present without x:call"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="No x:context (Schematron via XQS)">
+    call :run ..\bin\xspec.bat -s error-compiling-scenario\schematron-xqs_no-context.xspec
+    call :verify_retval_not_0
+    call :verify_line  9 x "ERROR in x:scenario ('No x:context'): Verification element is present without x:context"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
