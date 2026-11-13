@@ -43,7 +43,7 @@ div {
 ## because the node in question was matched by a previous rule in the
 ## current pattern.
 div {
-     svrl.fired-rule &= schxslt.suppressed-rule?
+     svrl.fired-rule |= schxslt.suppressed-rule?
 
      schxslt.suppressed-rule =
          element svrl:suppressed-rule {
@@ -62,8 +62,8 @@ div {
 ## assertions or reports that where skipped because their severity was
 ## below the severity threshold.
 div {
-    svrl.failed-assert &= schxslt.skipped-assert?
-    svrl.successful-report &= schxslt.skipped-report?
+    svrl.failed-assert |= schxslt.skipped-assert?
+    svrl.successful-report |= schxslt.skipped-report?
 
      schxslt.skipped-assert =
          element svrl:skipped-assert {
