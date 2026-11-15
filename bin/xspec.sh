@@ -511,10 +511,12 @@ echo
 
 # Init otherwise SC2154
 saxon_custom_options_array=()
+basex_custom_options_array=()
 
 # Split options taking quotes into account (like command arguments)
 # https://superuser.com/q/1066455
 declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
+declare -a "basex_custom_options_array=(${BASEX_CUSTOM_OPTIONS})"
 
 echo "Running Tests..."
 if test -n "$XSLT"; then
@@ -558,10 +560,10 @@ else
             if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
                 # XQuery with BaseX processor
                 if test -n "$XML_CATALOG"; then
-                    basex -OCATALOG="$XML_CATALOG" -ODTD=true -Q"$COMPILED" > "$RESULT" \
+                    basex -OCATALOG="$XML_CATALOG" -ODTD=true "${basex_custom_options_array[@]}" -Q"$COMPILED" > "$RESULT" \
                         || die "Error running the test suite"
                 else
-                    basex -Q"$COMPILED" > "$RESULT" \
+                    basex "${basex_custom_options_array[@]}" -Q"$COMPILED" > "$RESULT" \
                         || die "Error running the test suite"
                 fi
             else
