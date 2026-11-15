@@ -1428,6 +1428,23 @@ load bats-helper
 }
 
 #
+# BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
+# Ant with basex.custom.options is tested by run-xspec-tests-ant.cmd
+#
+
+@test "CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    export BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
+    myrun ../bin/xspec.sh -q -processor basex global-override-query.xspec
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+#
 # Test with XQuery processor not set (XQuery with Saxon)
 # "Ant with no xspec.xquery.processor (XQuery with Saxon)" is tested by run-xspec-tests-ant.cmd
 #

@@ -1204,6 +1204,18 @@
 	</case>
 
 	<!--
+		BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
+		Ant with basex.custom.options is tested by run-xspec-tests-ant.cmd
+	-->
+   <case name="CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" ifdef="BASEX_JAR">
+    set "BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
+    call :run ..\bin\xspec.bat -q -processor basex global-override-query.xspec
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+   </case>
+
+	<!--
 		Test with XQuery processor not set (XQuery with Saxon)
 		"Ant with no xspec.xquery.processor (XQuery with Saxon)" is tested by run-xspec-tests-ant.cmd
 	-->
