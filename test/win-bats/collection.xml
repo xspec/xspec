@@ -1825,6 +1825,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="Ant with catalog file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    )
+
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1833,6 +1837,7 @@
         -Dtest.type=q ^
         -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
         -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        %BASEX_TRUSTEXTERNAL_OPTION% ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
@@ -1900,6 +1905,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="Ant with catalog file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    )
+
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1909,6 +1918,7 @@
         -Dtest.type=q ^
         -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
         -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        %BASEX_TRUSTEXTERNAL_OPTION% ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
@@ -2099,6 +2109,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2174,6 +2188,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -2231,6 +2249,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2288,6 +2310,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"

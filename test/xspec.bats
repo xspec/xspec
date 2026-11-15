@@ -1437,7 +1437,7 @@ load bats-helper
         skip "BASEX_JAR is not defined"
     fi
 
-    export BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
+    export BASEX_CUSTOM_OPTIONS="-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
     myrun ../bin/xspec.sh -q -processor basex global-override-query.xspec
 
     [ "$status" -eq 0 ]
@@ -2097,6 +2097,9 @@ load bats-helper
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    fi
 
     myrun ant \
         -buildfile ../build.xml \
@@ -2106,6 +2109,7 @@ load bats-helper
         -Dtest.type=q \
         -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
+        ${BASEX_TRUSTEXTERNAL_OPTION:+"$BASEX_TRUSTEXTERNAL_OPTION"} \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
@@ -2191,6 +2195,9 @@ load bats-helper
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    fi
 
     myrun ant \
         -buildfile ../build.xml \
@@ -2201,6 +2208,7 @@ load bats-helper
         -Dtest.type=q \
         -Dxspec.xquery.processor="${XQUERY_PROCESSOR}" \
         -Dxspec.basex.classpath="${BASEX_JAR}" \
+        ${BASEX_TRUSTEXTERNAL_OPTION:+"$BASEX_TRUSTEXTERNAL_OPTION"} \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 16]}" = "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3" ]
@@ -2412,6 +2420,9 @@ load bats-helper
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    fi
 
     space_dir="${work_dir}/cat a log ${RANDOM}"
     if [ -z "${XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED}" ]; then
@@ -2518,6 +2529,9 @@ load bats-helper
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    fi
 
     myrun ../bin/xspec.sh \
         -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
@@ -2596,6 +2610,9 @@ load bats-helper
 @test "CLI with XML_CATALOG file path (XQuery)" {
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
+    fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
     fi
 
     space_dir="${work_dir}/cat a log ${RANDOM}"
@@ -2678,6 +2695,9 @@ load bats-helper
 @test "CLI with XML_CATALOG file URI (XQuery)" {
     if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
         skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
+    fi
+    if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+        export BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
     fi
 
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
