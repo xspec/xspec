@@ -56,6 +56,7 @@
 		<attribute default="" name="force-focus" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="saxon-custom-options" />
+		<attribute default="" name="basex-custom-options" />
 		<attribute default="" name="schxslt2-transpiler" />
 		<attribute default="" name="schematron-preprocessor-step1" />
 		<attribute default="" name="schematron-preprocessor-step2" />
@@ -128,6 +129,8 @@
 
 				<param name="saxon.custom.options" unless:blank="@{saxon-custom-options}"
 					value="@{saxon-custom-options}" />
+				<param name="basex.custom.options" unless:blank="@{basex-custom-options}"
+					value="@{basex-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
 				<param name="xspec.compiler.saxon.config" unless:blank="@{compiler-saxon-config}"
