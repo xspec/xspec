@@ -388,6 +388,9 @@ load bats-helper
     mkdir "${test_copy}"
     cp some-failures/schematron.* "${test_copy}"
 
+    # Also check that XPROC_PROCESSOR is ignored if test type is not XProc
+    export XPROC_PROCESSOR=xmlcalabash
+
     # Run
     myrun ../bin/xspec.sh -s "${test_copy}/schematron.xspec"
 
@@ -1323,7 +1326,7 @@ load bats-helper
 }
 
 @test "-processor value must be xmlcalabash or morganaxproc (CLI)" {
-    MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
+    MSG="The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is basex"
 
     myrun ../bin/xspec.sh -processor basex -p mytest.xspec
     [ "$status" -eq 1 ]
@@ -1335,30 +1338,11 @@ load bats-helper
     [ "${lines[0]}" = "${MSG}" ]
 }
 
-@test "XPROC_PROCESSOR supported only in tests for XProc (CLI)" {
-    MSG="XProc -processor option is not supported for this test type"
-    export XPROC_PROCESSOR=xmlcalabash
-    myrun ../bin/xspec.sh -t mytest.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "${MSG}" ]
-
-    myrun ../bin/xspec.sh -q mytest.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "${MSG}" ]
-
-    myrun ../bin/xspec.sh -s mytest.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "${MSG}" ]
-}
-
-@test "-processor supported only in tests for XProc (CLI)" {
-    MSG="XProc -processor option is not supported for this test type"
+@test "-processor supported only in tests for XProc or xquery (CLI)" {
+    # Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
+    MSG="-processor option is not supported for this test type"
 
     myrun ../bin/xspec.sh -processor xmlcalabash -t mytest.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "${MSG}" ]
-
-    myrun ../bin/xspec.sh -processor xmlcalabash -q mytest.xspec
     [ "$status" -eq 1 ]
     [ "${lines[0]}" = "${MSG}" ]
 
@@ -1409,7 +1393,18 @@ load bats-helper
 # Runs with BaseX when testing environment is basex.
 #
 
-# TODO: Add "CLI with -processor (XQuery)" case here
+@test "CLI with -processor (XQuery)" {
+    export XQP_FROM_TEST_ENV=${XQUERY_PROCESSOR}
+    export XQUERY_PROCESSOR=lower-precedence-than-processor
+
+    myrun ../bin/xspec.sh -q -processor "${XQP_FROM_TEST_ENV}" "xquery-processor/${XQP_FROM_TEST_ENV}.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+
+    # Not checking list of files. The "invoking xspec without TEST_DIR set externally (XQuery)"
+    # test case does that and picks up XQUERY_PROCESSOR from test environment.
+}
 
 @test "Ant with xspec.xquery.processor (XQuery)" {
     myrun ant \
@@ -1447,18 +1442,30 @@ load bats-helper
 
 #
 # CLI - Test with XQUERY_PROCESSOR set
-# "CLI with XQUERY_PROCESSOR ignored" for languages other than XQuery is tested by
+#   CLI ignoring XQUERY_PROCESSOR for languages other than XQuery is tested by
 #   test cases that see XQUERY_PROCESSOR coming from testing environment, such as
 #   "invoking xspec without TEST_DIR set externally (Schematron)".
 #
 
-# TODO: Add "CLI with XQUERY_PROCESSOR (XQuery)" case here
+@test "CLI with XQUERY_PROCESSOR (XQuery)" {
+    # XQUERY_PROCESSOR comes from testing environment
+    myrun ../bin/xspec.sh -q "xquery-processor/${XQUERY_PROCESSOR}.xspec"
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
 
 #
 # Error Tests - XQuery with invalid 'processor' value
 #
 
-# TODO: Add "CLI with -processor bogus (XQuery)" case here
+@test "CLI with -processor bogus (xquery)" {
+    # Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
+    myrun ../bin/xspec.sh -q -processor bogus ../tutorial/xquery-tutorial.xspec
+
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "The value of the -processor option must be saxon or basex for XQuery, but value is bogus" ]
+}
 
 @test "Ant with xspec.xquery.processor bogus (XQuery)" {
     myrun ant \
@@ -1474,7 +1481,38 @@ load bats-helper
 
 #
 # Error Tests - 'processor' not allowed for the test type (value of file name and processor are not used)
+#   (For XProc test type with wrong -processor value, see the
+#   "-processor value must be xmlcalabash or morganaxproc for XProc (CLI)" test case.)
 #
+
+@test "CLI with -processor for default test type (XSLT)" {
+    myrun ../bin/xspec.sh -processor saxon ../tutorial/escape-for-regex.xspec
+
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-processor option is not supported for this test type" ]
+}
+
+@test "CLI with -processor for wrong test type (XSLT)" {
+    myrun ../bin/xspec.sh -t -processor saxon ../tutorial/escape-for-regex.xspec
+
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-processor option is not supported for this test type" ]
+}
+
+@test "CLI with -processor for wrong test type (Schematron)" {
+    myrun ../bin/xspec.sh -s -processor saxon ../tutorial/schematron/demo-03.xspec
+
+    [ "$status" -eq 1 ]
+    [ "${lines[0]}" = "-processor option is not supported for this test type" ]
+}
+
+@test "CLI with BaseX processor but BASEX_JAR not defined" {
+    unset BASEX_JAR
+    myrun ../bin/xspec.sh -q -processor basex ../tutorial/xquery-tutorial.xspec
+
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "*** Executing test for XQuery with BaseX requires BASEX_JAR to be defined" ]
+}
 
 @test "Ant with xspec.xquery.processor for default test type (XSLT)" {
     myrun ant \
@@ -2354,8 +2392,8 @@ load bats-helper
 }
 
 @test "CLI with -catalog file path (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     space_dir="${work_dir}/cat a log ${RANDOM}"
@@ -2460,8 +2498,8 @@ load bats-helper
 }
 
 @test "CLI with -catalog file URI (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     myrun ../bin/xspec.sh \
@@ -2539,8 +2577,8 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file path (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     space_dir="${work_dir}/cat a log ${RANDOM}"
@@ -2621,8 +2659,8 @@ load bats-helper
 }
 
 @test "CLI with XML_CATALOG file URI (XQuery)" {
-    if [ -z "${SAXON_BUG_7127_FIXED}" ]; then
-        skip "Saxon bug 7127"
+    if [ -z "${XQUERY_CATALOG_BUGS_FIXED}" ]; then
+        skip "BaseX bug reported 2026-10-29 or Saxon bug 7127 or 7308"
     fi
 
     export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
@@ -3214,7 +3252,7 @@ load bats-helper
 @test "XQuery selecting nodes without context should be error (CLI) #423" {
     myrun ../bin/xspec.sh -q issue-423/test.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${output}" $'\n''  XPDY0002[: ]'
+    assert_regex "${output}" $'\n''.*XPDY0002.*'
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
@@ -3623,11 +3661,11 @@ load bats-helper
 
     myrun ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${output}" $'\n''  error-code-of-my-function-call-param.*on error\(\)'
+    assert_regex "${output}" $'\n''.*error-code-of-my-function-call-param.*on error\(\)'
 
     myrun ../bin/xspec.sh -q catch/error-in-variable.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${output}" $'\n''  error-code-of-my-variable.*on error\(\)'
+    assert_regex "${output}" $'\n''.*error-code-of-my-variable.*on error\(\)'
 
     myrun ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
     [ "$status" -ne 0 ]
@@ -3647,7 +3685,7 @@ load bats-helper
 @test "Error in SUT should not be caught by default (XQuery)" {
     myrun ../bin/xspec.sh -q catch/no-by-default.xspec
     [ "$status" -ne 0 ]
-    assert_regex "${output}" $'\n''  my-error-code.*on error\(\)'
+    assert_regex "${output}" $'\n''.*my-error-code.*on error\(\)'
 }
 
 #

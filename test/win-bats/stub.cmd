@@ -361,7 +361,7 @@ rem
     if %CASE_NUM% GTR %NUM_CASES% goto :EOF
 
     rem Failsafe
-    if %CASE_NUM% GEQ 280 (
+    if %CASE_NUM% GEQ 300 (
         call :failed "Too many test cases"
         goto :EOF
     )
