@@ -1122,7 +1122,8 @@
     call :verify_line 1 x %MSG%
 	</case>
 
-	<case name="-processor supported only in tests for XProc or XQuery (CLI)">
+	<case name="-processor supported only in tests for XProc or xquery (CLI)">
+    rem Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
     set MSG="-processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -processor xmlcalabash -t mytest.xspec
@@ -1233,7 +1234,8 @@
 		Error Tests - XQuery with invalid 'processor' value
 	-->
 
-	<case name="CLI with -processor bogus (XQuery)">
+	<case name="CLI with -processor bogus (xquery)">
+    rem Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
     call :run ..\bin\xspec.bat -q -processor bogus ..\tutorial\xquery-tutorial.xspec
 
     call :verify_retval 1

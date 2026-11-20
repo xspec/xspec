@@ -1338,7 +1338,8 @@ load bats-helper
     [ "${lines[0]}" = "${MSG}" ]
 }
 
-@test "-processor supported only in tests for XProc or XQuery (CLI)" {
+@test "-processor supported only in tests for XProc or xquery (CLI)" {
+    # Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
     MSG="-processor option is not supported for this test type"
 
     myrun ../bin/xspec.sh -processor xmlcalabash -t mytest.xspec
@@ -1458,7 +1459,8 @@ load bats-helper
 # Error Tests - XQuery with invalid 'processor' value
 #
 
-@test "CLI with -processor bogus (XQuery)" {
+@test "CLI with -processor bogus (xquery)" {
+    # Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
     myrun ../bin/xspec.sh -q -processor bogus ../tutorial/xquery-tutorial.xspec
 
     [ "$status" -eq 1 ]
