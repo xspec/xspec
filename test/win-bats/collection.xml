@@ -331,6 +331,9 @@
     call :mkdir "%TEST_COPY%"
     call :copy some-failures\schematron.* "%TEST_COPY%"
 
+    rem Also check that XPROC_PROCESSOR is ignored if test type is not XProc
+    set XPROC_PROCESSOR=xmlcalabash
+
     rem Run
     call :run ..\bin\xspec.bat -s "%TEST_COPY%\schematron.xspec"
 
@@ -1108,7 +1111,7 @@
 	</case>
 
 	<case name="-processor value must be xmlcalabash or morganaxproc for XProc (CLI)">
-    set MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
+    set MSG="The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is basex"
     call :run ..\bin\xspec.bat -processor basex -p mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
@@ -1119,31 +1122,11 @@
     call :verify_line 1 x %MSG%
 	</case>
 
-	<case name="XPROC_PROCESSOR supported only in tests for XProc (CLI)">
-    set XPROC_PROCESSOR=xmlcalabash
-    set MSG="XProc -processor option is not supported for this test type"
-
-    call :run ..\bin\xspec.bat -t mytest.xspec
-    call :verify_retval 1
-    call :verify_line 1 x %MSG%
-
-    call :run ..\bin\xspec.bat -q mytest.xspec
-    call :verify_retval 1
-    call :verify_line 1 x %MSG%
-
-    call :run ..\bin\xspec.bat -s mytest.xspec
-    call :verify_retval 1
-    call :verify_line 1 x %MSG%
-	</case>
-
-	<case name="-processor supported only in tests for XProc (CLI)">
-    set MSG="XProc -processor option is not supported for this test type"
+	<case name="-processor supported only in tests for XProc or xquery (CLI)">
+    rem Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
+    set MSG="-processor option is not supported for this test type"
 
     call :run ..\bin\xspec.bat -processor xmlcalabash -t mytest.xspec
-    call :verify_retval 1
-    call :verify_line 1 x %MSG%
-
-    call :run ..\bin\xspec.bat -processor xmlcalabash -q mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
 
@@ -1187,7 +1170,17 @@
 		Runs with BaseX when testing environment is basex.
 	-->
 
-<!-- TODO: Add "CLI with -processor (XQuery)" case here -->
+	<case name="CLI with -processor (XQuery)">
+    set XQP_FROM_TEST_ENV=%XQUERY_PROCESSOR%
+    set XQUERY_PROCESSOR=lower-precedence-than-processor
+    call :run ..\bin\xspec.bat -q -processor "%XQP_FROM_TEST_ENV%" "xquery-processor\%XQP_FROM_TEST_ENV%.xspec"
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    rem Not checking list of files. The "invoking xspec without TEST_DIR set externally (XQuery)"
+    rem test case does that and picks up XQUERY_PROCESSOR from test environment.
+	</case>
 
 	<case name="Ant with xspec.xquery.processor (XQuery)">
     call :run ant ^
@@ -1224,18 +1217,30 @@
 
 	<!--
 		CLI - Test with XQUERY_PROCESSOR set
-			"CLI with XQUERY_PROCESSOR ignored" for languages other than XQuery is tested by
+			CLI ignoring XQUERY_PROCESSOR for languages other than XQuery is tested by
 			test cases that see XQUERY_PROCESSOR coming from testing environment, such as
 			"invoking xspec without TEST_DIR set externally (Schematron)".
 	-->
 
-<!-- TODO: Add "CLI with XQUERY_PROCESSOR (XQuery)" case here -->
+	<case name="CLI with XQUERY_PROCESSOR (XQuery)">
+    rem XQUERY_PROCESSOR comes from testing environment
+    call :run ..\bin\xspec.bat -q "xquery-processor\%XQUERY_PROCESSOR%.xspec"
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
 
 	<!--
 		Error Tests - XQuery with invalid 'processor' value
 	-->
 
-<!-- TODO: Add "CLI with -processor bogus (XQuery)" case here -->
+	<case name="CLI with -processor bogus (xquery)">
+    rem Case name uses xquery, not XQuery, because "basex" test environment doesn't need this case
+    call :run ..\bin\xspec.bat -q -processor bogus ..\tutorial\xquery-tutorial.xspec
+
+    call :verify_retval 1
+    call :verify_line 1 x "The value of the -processor option must be saxon or basex for XQuery, but value is bogus"
+	</case>
 
 	<case name="Ant with xspec.xquery.processor bogus (XQuery)">
     call :run ant ^
@@ -1251,7 +1256,39 @@
 
 	<!--
 		Error Tests - 'processor' not allowed for the test type (value of file name and processor are not used)
+			(For XProc test type with wrong -processor value, see the
+			"-processor value must be xmlcalabash or morganaxproc for XProc (CLI)" test case.)
 	-->
+
+	<case name="CLI with -processor for default test type (XSLT)">
+    call :run ..\bin\xspec.bat -processor saxon ..\tutorial\escape-for-regex.xspec
+
+    call :verify_retval 1
+    call :verify_line 1 x "-processor option is not supported for this test type"
+	</case>
+
+	<case name="CLI with -processor for wrong test type (XSLT)">
+    call :run ..\bin\xspec.bat -t -processor saxon ..\tutorial\escape-for-regex.xspec
+
+    call :verify_retval 1
+    call :verify_line 1 x "-processor option is not supported for this test type"
+	</case>
+
+	<case name="CLI with -processor for wrong test type (Schematron)">
+    call :run ..\bin\xspec.bat -s -processor saxon ..\tutorial\schematron\demo-03.xspec
+
+    call :verify_retval 1
+    call :verify_line 1 x "-processor option is not supported for this test type"
+	</case>
+
+	<case name="CLI with BaseX processor but BASEX_JAR not defined">
+    set BASEX_JAR=
+    call :run ..\bin\xspec.bat -q -processor basex ..\tutorial\xquery-tutorial.xspec
+
+    call :verify_retval 1
+    call :verify_line 2 x "*** Executing test for XQuery with BaseX requires BASEX_JAR to be defined"
+	</case>
+
 	<case name="Ant with xspec.xquery.processor for default test type (XSLT)">
     call :run ant ^
     -buildfile ..\build.xml ^
@@ -2049,7 +2086,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file path (XQuery)">
+	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2124,7 +2161,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with -catalog file URI (XQuery)">
+	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file URI (XQuery)">
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -2181,7 +2218,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file path (XQuery)">
+	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file path (XQuery)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2238,7 +2275,7 @@
     call :verify_line 21 x "passed: 5 / pending: 0 / failed: 0 / total: 5"
 	</case>
 
-	<case ifdef="SAXON_BUG_7127_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
+	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
@@ -3197,11 +3234,11 @@
 
     call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
     call :verify_retval_not_0
-    call :verify_line * r ".*error-code-of-my-function-call-param.*on error()"
+    call :verify_line * r ".*error-code-of-my-function-call-param.*on error\(\)"
 
     call :run ..\bin\xspec.bat -q catch\error-in-variable.xspec
     call :verify_retval_not_0
-    call :verify_line * r ".*error-code-of-my-variable.*on error()"
+    call :verify_line * r ".*error-code-of-my-variable.*on error\(\)"
 
     call :run ..\bin\xspec.bat -q catch\static-error-in-compiled-test.xspec
     call :verify_retval_not_0
@@ -3221,7 +3258,7 @@
 	<case name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval_not_0
-    call :verify_line * r ".*my-error-code.*on error()"
+    call :verify_line * r ".*my-error-code.*on error\(\)"
 	</case>
 
 	<!--

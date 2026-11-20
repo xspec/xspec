@@ -34,13 +34,13 @@ usage() {
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
-    echo "  -q             test an XQuery module (mutually exclusive with -t, -s, and -p)"
+    echo "  -q             test an XQuery module, default processor is Saxon (mutually exclusive with -t, -s, and -p)"
     echo "  -s             test a Schematron schema (mutually exclusive with -t, -q, and -p)"
     echo "  -p             test an XProc step (mutually exclusive with -t, -q, and -s)"
     echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
-    echo "  -processor val use xmlcalabash or morganaxproc for XProc"
+    echo "  -processor val use saxon or basex for XQuery, xmlcalabash or morganaxproc for XProc"
     echo "  -e             treat failed tests as error"
     echo "  -h             display this help message"
 }
@@ -376,14 +376,25 @@ if test -n "${XPROC}"; then
         XPROC_PROCESSOR="${PROCESSOR}"
     fi
     if [ -n "${XPROC_PROCESSOR}" ] && [ "${XPROC_PROCESSOR}" != 'xmlcalabash' ] && [ "${XPROC_PROCESSOR}" != 'morganaxproc' ]; then
-        usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is ${XPROC_PROCESSOR}"
+        usage "The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is ${XPROC_PROCESSOR}"
         exit 1
     fi
-# For #2320, a clause could go here for the 'else test -n "${XQUERY}";' case
 else
-    if [ -n "${PROCESSOR}${XPROC_PROCESSOR}" ]; then
-        usage "XProc -processor option is not supported for this test type"
-        exit 1
+    if test -n "${XQUERY}"; then
+        if test -n "${PROCESSOR}"; then
+            # -processor has higher precedence than environment variable
+            XQUERY_PROCESSOR="${PROCESSOR}"
+        fi
+        if [ -n "${XQUERY_PROCESSOR}" ] && [ "${XQUERY_PROCESSOR}" != 'saxon' ] && [ "${XQUERY_PROCESSOR}" != 'basex' ]; then
+            usage "The value of the -processor option must be saxon or basex for XQuery, but value is ${XQUERY_PROCESSOR}"
+            exit 1
+        fi
+    else
+        # XQUERY_PROCESSOR or XPROC_PROCESSOR is ignored for wrong test type, but -processor is an error.
+        if [ -n "${PROCESSOR}" ]; then
+            usage "-processor option is not supported for this test type"
+            exit 1
+        fi
     fi
 fi
 
@@ -396,6 +407,15 @@ fi
 if [ -n "$2" ]; then
     usage "Error: Extra option: $2"
     exit 1
+fi
+
+# Set default XQuery processor, if -processor and XQUERY_PROCESSOR are missing
+if [ -n "${XQUERY}" ] && [ ! -n "${PROCESSOR}" ] && [ ! -n "${XQUERY_PROCESSOR}" ]; then
+    XQUERY_PROCESSOR="saxon"
+fi
+# If BaseX, check that BASEX_JAR is set
+if [ -n "${XQUERY}" ] && [ "${XQUERY_PROCESSOR}" = 'basex' ] && [ ! -n "${BASEX_JAR}" ]; then
+    die "Executing test for XQuery with BaseX requires BASEX_JAR to be defined"
 fi
 
 # set SAXON_CP (either it has been set by the user, or set it from SAXON_HOME)
@@ -481,6 +501,7 @@ fi
 echo "Creating Test Runner..."
 xslt -o:"$COMPILED" -s:"$XSPEC" \
     -xsl:"$XSPEC_HOME/src/compiler/$COMPILE_SHEET" \
+    processor="${PROCESSOR}" \
     || die "Error compiling the test suite"
 echo
 
@@ -534,9 +555,21 @@ else
                 || die "Error running the test suite"
         else
             # for XQuery
-            xquery "${saxon_custom_options_array[@]}" \
-                -o:"$RESULT" -q:"$COMPILED" \
-                || die "Error running the test suite"
+            if [ "${XQUERY_PROCESSOR}" = "basex" ]; then
+                # XQuery with BaseX processor
+                if test -n "$XML_CATALOG"; then
+                    basex -OCATALOG="$XML_CATALOG" -ODTD=true -Q"$COMPILED" > "$RESULT" \
+                        || die "Error running the test suite"
+                else
+                    basex -Q"$COMPILED" > "$RESULT" \
+                        || die "Error running the test suite"
+                fi
+            else
+                # XQuery with Saxon processor
+                xquery "${saxon_custom_options_array[@]}" \
+                    -o:"$RESULT" -q:"$COMPILED" \
+                    || die "Error running the test suite"
+            fi
         fi
     fi
 fi

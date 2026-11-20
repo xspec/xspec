@@ -56,13 +56,13 @@ rem ##
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
-    echo   -q             test an XQuery module (mutually exclusive with -t, -s, and -p)
+    echo   -q             test an XQuery module, default processor is Saxon (mutually exclusive with -t, -s, and -p)
     echo   -s             test a Schematron schema (mutually exclusive with -t, -q, and -p)
     echo   -p             test an XProc step (mutually exclusive with -t, -q, and -s)
     echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
-    echo   -processor val use xmlcalabash or morganaxproc for XProc
+    echo   -processor val use saxon or basex for XQuery, xmlcalabash or morganaxproc for XProc
     echo   -e             treat failed tests as error
     echo   -h             display this help message
     goto :EOF
@@ -226,7 +226,7 @@ rem ##
 :preprocess_schematron
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
     set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
-    
+
     set SCHUT_TO_XSLT_PARAMS=
     set SCHUT_TO_XSPEC_COMPAT=
     if defined SCHEMATRON_XSLT_INCLUDE (
@@ -259,7 +259,7 @@ rem ##
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xslt.xsl" ^
         %SCHUT_TO_XSLT_PARAMS% ^
         || ( call :die "Error converting Schematron into XSLT" & goto :win_main_error_exit )
-    
+
     echo:
     echo Converting Schematron XSpec into XSLT XSpec...
     call :xslt -o:"%SCH_PREPROCESSED_XSPEC%" ^
@@ -450,13 +450,20 @@ rem
 rem # -processor has higher precedence than environment variable.
 if defined XPROC if defined PROCESSOR set "XPROC_PROCESSOR=%PROCESSOR%"
 if defined XPROC if defined XPROC_PROCESSOR if not "%XPROC_PROCESSOR%"=="xmlcalabash" if not "%XPROC_PROCESSOR%"=="morganaxproc" (
-    call :usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
+    call :usage "The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
     exit /b 1
 )
-rem # For #2320, a clause could go here for the "if defined XQUERY..." cases
-if not defined XPROC if not ""=="%PROCESSOR%%XPROC_PROCESSOR%" (
-    call :usage "XProc -processor option is not supported for this test type"
+if defined XQUERY if defined PROCESSOR set "XQUERY_PROCESSOR=%PROCESSOR%"
+if defined XQUERY if defined XQUERY_PROCESSOR if not "%XQUERY_PROCESSOR%"=="saxon" if not "%XQUERY_PROCESSOR%"=="basex" (
+    call :usage "The value of the -processor option must be saxon or basex for XQuery, but value is %XQUERY_PROCESSOR%"
     exit /b 1
+)
+if defined PROCESSOR (
+    rem # XQUERY_PROCESSOR or XPROC_PROCESSOR is ignored for wrong test type, but -processor is an error.
+    if not ""=="%XSLT%%SCHEMATRON%" (
+      call :usage "-processor option is not supported for this test type"
+      exit /b 1
+    )
 )
 
 if not exist "%XSPEC%" (
@@ -470,6 +477,19 @@ rem
 if defined WIN_EXTRA_OPTION (
     call :usage "Error: Extra option: %WIN_EXTRA_OPTION%"
     exit /b 1
+)
+
+rem
+rem Set default XQuery processor, if -processor and XQUERY_PROCESSOR are missing
+rem
+if defined XQUERY if not defined PROCESSOR if not defined XQUERY_PROCESSOR set XQUERY_PROCESSOR=saxon
+rem
+rem If BaseX, check that BASEX_JAR is set
+rem
+if defined XQUERY (
+    if "%XQUERY_PROCESSOR%"=="basex" if not defined BASEX_JAR (
+        call :die "Executing test for XQuery with BaseX requires BASEX_JAR to be defined" & goto :win_main_error_exit
+    )
 )
 
 rem
@@ -553,6 +573,7 @@ if defined XSLT (
 echo Creating Test Runner...
 call :xslt -o:"%COMPILED%" -s:"%XSPEC%" ^
     -xsl:"%XSPEC_HOME%\src\compiler\%COMPILE_SHEET%" ^
+    processor=%PROCESSOR% ^
     || ( call :die "Error compiling the test suite" & goto :win_main_error_exit )
 echo:
 
@@ -602,7 +623,13 @@ if defined XSLT (
     rem
     rem # for XQuery
     rem
-    call :xquery %SAXON_CUSTOM_OPTIONS% ^
+    if "%XQUERY_PROCESSOR%" == "basex" (
+        rem echo XQuery with BaseX processor
+        call :basex %BASEX_CATALOG% -Q"%COMPILED%" > "%RESULT%" ^
+        || ( call :die "Error running the test suite" & goto :win_main_error_exit )
+    ) else (
+        rem echo XQuery with Saxon processor
+      call :xquery %SAXON_CUSTOM_OPTIONS% ^
         -o:"%RESULT%" -q:"%COMPILED%" ^
         || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
@@ -668,9 +695,9 @@ if defined ERROR_ON_TEST_FAILURE (
 echo Done.
 exit /b
 
-rem 
+rem
 rem Error exit ###################################################################
-rem 
+rem
 :win_main_error_exit
 if errorlevel 1 (
     exit /b %ERRORLEVEL%
