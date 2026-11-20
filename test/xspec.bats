@@ -1326,7 +1326,7 @@ load bats-helper
 }
 
 @test "-processor value must be xmlcalabash or morganaxproc (CLI)" {
-    MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
+    MSG="The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is basex"
 
     myrun ../bin/xspec.sh -processor basex -p mytest.xspec
     [ "$status" -eq 1 ]
@@ -1464,7 +1464,7 @@ load bats-helper
     myrun ../bin/xspec.sh -q -processor bogus ../tutorial/xquery-tutorial.xspec
 
     [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "-processor value must be saxon or basex for XQuery, but value is bogus" ]
+    [ "${lines[0]}" = "The value of the -processor option must be saxon or basex for XQuery, but value is bogus" ]
 }
 
 @test "Ant with xspec.xquery.processor bogus (XQuery)" {

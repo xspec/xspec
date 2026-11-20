@@ -450,12 +450,12 @@ rem
 rem # -processor has higher precedence than environment variable.
 if defined XPROC if defined PROCESSOR set "XPROC_PROCESSOR=%PROCESSOR%"
 if defined XPROC if defined XPROC_PROCESSOR if not "%XPROC_PROCESSOR%"=="xmlcalabash" if not "%XPROC_PROCESSOR%"=="morganaxproc" (
-    call :usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
+    call :usage "The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is %XPROC_PROCESSOR%"
     exit /b 1
 )
 if defined XQUERY if defined PROCESSOR set "XQUERY_PROCESSOR=%PROCESSOR%"
 if defined XQUERY if defined XQUERY_PROCESSOR if not "%XQUERY_PROCESSOR%"=="saxon" if not "%XQUERY_PROCESSOR%"=="basex" (
-    call :usage "-processor value must be saxon or basex for XQuery, but value is %XQUERY_PROCESSOR%"
+    call :usage "The value of the -processor option must be saxon or basex for XQuery, but value is %XQUERY_PROCESSOR%"
     exit /b 1
 )
 if defined PROCESSOR (

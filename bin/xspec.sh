@@ -376,7 +376,7 @@ if test -n "${XPROC}"; then
         XPROC_PROCESSOR="${PROCESSOR}"
     fi
     if [ -n "${XPROC_PROCESSOR}" ] && [ "${XPROC_PROCESSOR}" != 'xmlcalabash' ] && [ "${XPROC_PROCESSOR}" != 'morganaxproc' ]; then
-        usage "-processor value must be xmlcalabash or morganaxproc for XProc, but value is ${XPROC_PROCESSOR}"
+        usage "The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is ${XPROC_PROCESSOR}"
         exit 1
     fi
 else
@@ -386,7 +386,7 @@ else
             XQUERY_PROCESSOR="${PROCESSOR}"
         fi
         if [ -n "${XQUERY_PROCESSOR}" ] && [ "${XQUERY_PROCESSOR}" != 'saxon' ] && [ "${XQUERY_PROCESSOR}" != 'basex' ]; then
-            usage "-processor value must be saxon or basex for XQuery, but value is ${XQUERY_PROCESSOR}"
+            usage "The value of the -processor option must be saxon or basex for XQuery, but value is ${XQUERY_PROCESSOR}"
             exit 1
         fi
     else

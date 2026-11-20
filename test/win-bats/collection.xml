@@ -1111,7 +1111,7 @@
 	</case>
 
 	<case name="-processor value must be xmlcalabash or morganaxproc for XProc (CLI)">
-    set MSG="-processor value must be xmlcalabash or morganaxproc for XProc, but value is basex"
+    set MSG="The value of the -processor option must be xmlcalabash or morganaxproc for XProc, but value is basex"
     call :run ..\bin\xspec.bat -processor basex -p mytest.xspec
     call :verify_retval 1
     call :verify_line 1 x %MSG%
@@ -1239,7 +1239,7 @@
     call :run ..\bin\xspec.bat -q -processor bogus ..\tutorial\xquery-tutorial.xspec
 
     call :verify_retval 1
-    call :verify_line 1 x "-processor value must be saxon or basex for XQuery, but value is bogus"
+    call :verify_line 1 x "The value of the -processor option must be saxon or basex for XQuery, but value is bogus"
 	</case>
 
 	<case name="Ant with xspec.xquery.processor bogus (XQuery)">
