@@ -303,7 +303,7 @@
 								select="$saxon-custom-options" />
 						</xsl:if>
 
-						<xsl:variable as="xs:string*" name="basex-custom-options">							
+						<xsl:variable as="xs:string*" name="basex-custom-options">
 							<xsl:sequence select="
 								$pis[starts-with(., 'basex-custom-options=')]
 								/substring-after(., 'basex-custom-options=')" />
@@ -311,6 +311,16 @@
 						<xsl:if test="exists($basex-custom-options)">
 							<xsl:attribute name="basex-custom-options"
 								select="$basex-custom-options" />
+						</xsl:if>
+
+						<xsl:variable as="xs:string*" name="basex-global-options">
+							<xsl:sequence select="
+								$pis[starts-with(., 'basex-global-options=')]
+								/substring-after(., 'basex-global-options=')" />
+						</xsl:variable>
+						<xsl:if test="exists($basex-global-options)">
+							<xsl:attribute name="basex-global-options"
+								select="$basex-global-options" />
 						</xsl:if>
 
 						<xsl:for-each select="
