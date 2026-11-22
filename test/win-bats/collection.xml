@@ -1205,7 +1205,7 @@
 
 	<!--
 		BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
-		Ant with basex.custom.options is tested by run-xspec-tests-ant.cmd
+		Ant with basex.custom.options and basex.global.options is tested by run-xspec-tests-ant.cmd
 	-->
    <case name="CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" ifdef="BASEX_JAR">
     set "BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
@@ -1214,6 +1214,19 @@
     call :verify_retval 0
     call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
    </case>
+
+	<case name="CLI with org.basex.DBPATH (XQuery with BaseX)" ifdef="BASEX_JAR">
+    rem Make a fresh dir for databases, which BaseX wants to be writable
+    set "DB_DIR=%WORK_DIR%\basex-db-%RANDOM%"
+    call :mkdir "%DB_DIR%"
+
+    set BASEX_JVM=-Dorg.basex.DBPATH="%DB_DIR%"
+    set BASEX_CUSTOM_OPTIONS=-c"CREATE DB new-db "%CD%"\document.xml" -q"file:copy('%CD%/basex-db-testing/data/one-file','%DB_DIR%')"
+    call :run ..\bin\xspec.bat -q -processor basex basex-database-access.xspec
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+	</case>
 
 	<!--
 		Test with XQuery processor not set (XQuery with Saxon)

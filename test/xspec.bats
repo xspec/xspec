@@ -1429,7 +1429,7 @@ load bats-helper
 
 #
 # BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
-# Ant with basex.custom.options is tested by run-xspec-tests-ant.cmd
+# Ant with basex.custom.options and basex.global.options is tested by run-xspec-tests-ant.cmd
 #
 
 @test "CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" {
@@ -1439,6 +1439,24 @@ load bats-helper
 
     export BASEX_CUSTOM_OPTIONS="-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
     myrun ../bin/xspec.sh -q -processor basex global-override-query.xspec
+
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+@test "CLI with org.basex.DBPATH (XQuery with BaseX)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+
+    # Make a fresh dir for databases, which BaseX wants to be writable
+    db_dir="${work_dir}/basex-db-${RANDOM}"
+    mkdir "${db_dir}"
+
+    export BASEX_JVM="-Dorg.basex.DBPATH=${db_dir}"
+    export BASEX_CUSTOM_OPTIONS="-c\"CREATE DB new-db ${PWD}/document.xml\" -q\"file:copy('${PWD}/basex-db-testing/data/one-file','${db_dir}')\""
+
+    myrun ../bin/xspec.sh -q -processor basex basex-database-access.xspec
 
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]} - 3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
