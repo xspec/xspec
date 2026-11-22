@@ -42,6 +42,12 @@
     For example, -w -O XINCLUDE=true
     No default value. This property is occasionally provided by the user. -->
 
+  <!-- "basex.global.options" property: Documented in Wiki. DO NOT RENAME.
+    Optional command-line arguments for global options, set before launching
+    BaseX for running XQuery tests. Global options cannot be set after launch.
+    For example, -Dorg.basex.DBPATH="..."
+    No default value. This property is occasionally provided by the user. -->
+
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
     One or more XML catalog files. Separated by semicolons (;).
     Value is either file path or URI. Must not mix file path and URI. -->
@@ -651,6 +657,7 @@
     </retry>
 
     <java classname="org.basex.BaseX" fork="true" failonerror="true">
+      <jvmarg line="${basex.global.options}" if:set="basex.global.options" />
       <classpath>
         <pathelement path="${xspec.basex.classpath}" if:set="xspec.basex.classpath"/>
         <pathelement path="${java.class.path}" />
