@@ -1207,7 +1207,7 @@
 		BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
 		Ant with basex.custom.options and basex.global.options is tested by run-xspec-tests-ant.cmd
 	-->
-   <case name="CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" ifdef="BASEX_JAR">
+   <case name="CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" ifdef="XQUERY_PROCESSOR_IS_BASEX">
     set "BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
     call :run ..\bin\xspec.bat -q -processor basex global-override-query.xspec
 
@@ -1215,7 +1215,7 @@
     call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
    </case>
 
-	<case name="CLI with org.basex.DBPATH (XQuery with BaseX)" ifdef="BASEX_JAR">
+	<case name="CLI with org.basex.DBPATH (XQuery with BaseX)" ifdef="XQUERY_PROCESSOR_IS_BASEX">
     rem Make a fresh dir for databases, which BaseX wants to be writable
     set "DB_DIR=%WORK_DIR%\basex-db-%RANDOM%"
     call :mkdir "%DB_DIR%"
