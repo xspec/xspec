@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test xquery-requires-basex?>
+<?xspec-test basex-global-options=-Dorg.basex.DBPATH="${xspec-intermediate-dir}"?>
+<?xspec-test basex-custom-options=-c"CREATE DB new-db ${xspec.project.dir}/test/document.xml" -q"(file:copy('${xspec.project.dir}/test/basex-db-testing/data/one-file','${xspec-intermediate-dir}'), 'Copied database to ${xspec-intermediate-dir}')"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:db="http://basex.org/modules/db"
+	xmlns:file="http://expath.org/ns/file">
+
+	<x:scenario label="With a BaseX database in the previously set org.basex.dbpath location">
+		<x:scenario label="The BaseX db:list function">
+			<x:call function="db:list"/>
+			<x:expect label="lists the databases" test="sort($x:result)"
+				select="('new-db', 'one-file')"/>
+		</x:scenario>
+		<x:scenario label="The copied database">
+			<x:variable name="dbname" select="'one-file'"/>
+			<x:like label="read document from a database"/>
+		</x:scenario>
+		<x:scenario label="The newly created database">
+			<x:variable name="dbname" select="'new-db'"/>
+			<x:like label="read document from a database"/>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="read document from a database" shared="yes">
+		<x:scenario label="accessed with the collection function">
+			<x:call function="collection">
+				<x:param select="$dbname"/>
+			</x:call>
+			<x:expect label="returns the document in the database" select="/"
+				as="document-node(element(document))">
+				<document/>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+</x:description>

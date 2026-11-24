@@ -625,7 +625,7 @@ if defined XSLT (
     rem
     if "%XQUERY_PROCESSOR%" == "basex" (
         rem echo XQuery with BaseX processor
-        call :basex %BASEX_CATALOG% -Q"%COMPILED%" > "%RESULT%" ^
+        call :basex %BASEX_CATALOG% %BASEX_CUSTOM_OPTIONS% -Q"%COMPILED%" > "%RESULT%" ^
         || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     ) else (
         rem echo XQuery with Saxon processor

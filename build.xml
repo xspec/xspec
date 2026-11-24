@@ -37,6 +37,17 @@
     -outval:fatal -val:lax
     No default value. This property is occasionally provided by the user. -->
 
+  <!-- "basex.custom.options" property: Documented in Wiki. DO NOT RENAME.
+    Optional command-line arguments passed to BaseX when running XQuery tests.
+    For example, -w -O XINCLUDE=true
+    No default value. This property is occasionally provided by the user. -->
+
+  <!-- "basex.global.options" property: Documented in Wiki. DO NOT RENAME.
+    Optional command-line arguments for global options, set before launching
+    BaseX for running XQuery tests. Global options cannot be set after launch.
+    For example, -Dorg.basex.DBPATH="..."
+    No default value. This property is occasionally provided by the user. -->
+
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
     One or more XML catalog files. Separated by semicolons (;).
     Value is either file path or URI. Must not mix file path and URI. -->
@@ -646,11 +657,13 @@
     </retry>
 
     <java classname="org.basex.BaseX" fork="true" failonerror="true">
+      <jvmarg line="${basex.global.options}" if:set="basex.global.options" />
       <classpath>
         <pathelement path="${xspec.basex.classpath}" if:set="xspec.basex.classpath"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
       </classpath>
+      <arg line="${basex.custom.options}" if:set="basex.custom.options" />
       <arg value="-OCATALOG=${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-ODTD=true" if:set="xspec.catalog.files" />
 

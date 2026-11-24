@@ -1204,6 +1204,31 @@
 	</case>
 
 	<!--
+		BASEX_CUSTOM_OPTIONS (XQuery with BaseX)
+		Ant with basex.custom.options and basex.global.options is tested by run-xspec-tests-ant.cmd
+	-->
+   <case name="CLI with BASEX_CUSTOM_OPTIONS (XQuery with BaseX)" ifdef="XQUERY_PROCESSOR_IS_BASEX">
+    set "BASEX_CUSTOM_OPTIONS=-bQ{x-urn:test:xspec-global-override}external-value_vs_global-variable=override -bQ{x-urn:test:xspec-global-override}empty-external-value_vs_global-variable= -bQ{x-urn:test:xspec-global-override}non-external-value_vs_global-variable=override"
+    call :run ..\bin\xspec.bat -q -processor basex global-override-query.xspec
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+   </case>
+
+	<case name="CLI with org.basex.DBPATH (XQuery with BaseX)" ifdef="XQUERY_PROCESSOR_IS_BASEX">
+    rem Make a fresh dir for databases, which BaseX wants to be writable
+    set "DB_DIR=%WORK_DIR%\basex-db-%RANDOM%"
+    call :mkdir "%DB_DIR%"
+
+    set BASEX_JVM=-Dorg.basex.DBPATH="%DB_DIR%"
+    set BASEX_CUSTOM_OPTIONS=-c"CREATE DB new-db "%CD%"\document.xml" -q"file:copy('%CD%/basex-db-testing/data/one-file','%DB_DIR%')"
+    call :run ..\bin\xspec.bat -q -processor basex basex-database-access.xspec
+
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+	</case>
+
+	<!--
 		Test with XQuery processor not set (XQuery with Saxon)
 		"Ant with no xspec.xquery.processor (XQuery with Saxon)" is tested by run-xspec-tests-ant.cmd
 	-->
@@ -1813,6 +1838,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="Ant with catalog file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    )
+
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1821,6 +1850,7 @@
         -Dtest.type=q ^
         -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
         -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        %BASEX_TRUSTEXTERNAL_OPTION% ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
@@ -1888,6 +1918,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="Ant with catalog file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_TRUSTEXTERNAL_OPTION=-Dbasex.custom.options="-OTRUSTEXTERNAL=true"
+    )
+
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_ANT_LIB%" ^
@@ -1897,6 +1931,7 @@
         -Dtest.type=q ^
         -Dxspec.xquery.processor="%XQUERY_PROCESSOR%" ^
         -Dxspec.basex.classpath="%BASEX_JAR%" ^
+        %BASEX_TRUSTEXTERNAL_OPTION% ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
     call :verify_retval 0
     call :verify_line -16 x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
@@ -2087,6 +2122,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2162,6 +2201,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with -catalog file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     call :run ..\bin\xspec.bat ^
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         -q ^
@@ -2219,6 +2262,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file path (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     if not defined XMLRESOLVERORG_XMLRESOLVER_BUG_117_FIXED set "SPACE_DIR=%WORK_DIR%\catalog%RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
@@ -2276,6 +2323,10 @@
 	</case>
 
 	<case ifdef="XQUERY_CATALOG_BUGS_FIXED" name="CLI with XML_CATALOG file URI (XQuery)">
+    if "%XQUERY_PROCESSOR%"=="basex" (
+        set BASEX_CUSTOM_OPTIONS=-OTRUSTEXTERNAL=true
+    )
+
     set "XML_CATALOG=file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
